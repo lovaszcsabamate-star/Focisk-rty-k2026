@@ -30,8 +30,10 @@ A kimenet: `Fociskartyak2026.html`.
 
 ## Játékmódok
 
-- **Klasszikus mód:** meccsenként 52 véletlenszerű lap, öt lapos kéz, a kör győztese viszi a lapokat és választja a következő kategóriát.
-- **Penalties mód:** 11–11 különböző lap, 5 rendes párbaj, behozhatatlan előnynél korai befejezés, döntetlennél hirtelen halál. Ha mind a 11 lap döntetlennel elfogy, ugyanaz a két tizenegy külön-külön újrakeverődik.
+- **Klasszikus mód:** meccsenként 52 véletlenszerű lap, öt lapos kéz. A játékos és a gép körönként felváltva választ kategóriát; a kör győztese viszi a lapokat.
+- **Penalties mód:** 11–11 különböző lap, a kategóriaválasztás párbajonként felváltva történik. 5 rendes párbaj, behozhatatlan előnynél korai befejezés, döntetlennél hirtelen halál. Ha mind a 11 lap döntetlennel elfogy, ugyanaz a két tizenegy külön-külön újrakeverődik.
+
+Az eredményjelző mindkét módban futballközvetítés-stílusban mutatja az állást, valamint az aktuális vagy következő kategóriaválasztót.
 
 ## Kategóriák és hiányzó adatok
 
@@ -65,15 +67,20 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 | `js/penalties.js` | Penalties mód külön állapotgépe |
 | `js/data/players.js` | Adatszerződés, kategóriák, validáció |
 | `js/ai.js` | Hiányzó adatokat kerülő gépi ellenfél |
-| `js/ui.js` | Kártyák, eredményjelző, kísérletek, kapcsolók és reszponzív felület |
+| `js/ui.js` | Kártyák, alap eredményjelző, kísérletek, kapcsolók és reszponzív felület |
+| `js/ux.js` | Kártyakezelési és hozzáférhetőségi fejlesztések |
+| `js/matchday.js` | Futballmeccs-stílusú eredményjelző és frissített szabályszövegek |
+| `css/matchday.css` | Az új eredményjelző reszponzív megjelenése |
 | `js/main.js` | Játékmódválasztás és böngészős játékmenet |
 | `test/rules.test.mjs` | Célzott Penalties- és adatszabálytesztek |
+| `test/alternating-chooser.test.mjs` | A felváltva történő kategóriaválasztás regressziós tesztje |
 | `test/data.test.mjs` | A 440 személy / 464 klubregisztráció integritásellenőrzése |
 | `test/simulate.mjs` | Klasszikus mód tömeges szimulációja |
 
 ## Ellenőrzés
 
 ```bash
+npm run lint
 npm test
 npm run test:all
 npm run build
