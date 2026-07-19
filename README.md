@@ -1,119 +1,72 @@
-# Super Mega Fotbal 2026
+# Fociskártyák 2026
 
-A pub-style football comparison card game. The current build ships with a real
-**2025/26 Hungarian NB I / Fizz Liga** deck.
+Magyar nyelvű, lerobbant kocsmai hangulatú összehasonlító kártyajáték a 2025/26-os NB I valós játékosadataival. Az alkalmazás az eredeti keretrendszer nélkül, böngészőben futó ES-modulokkal működik.
 
-## Running it
+## Indítás
 
-The game uses ES modules, so serve the repository over HTTP rather than opening
-`index.html` directly from the filesystem.
+### Egy kattintással Windows alatt
+
+Kattints duplán a `JATEK_INDITASA.bat` fájlra. Az indító az alapértelmezett
+böngészőben megnyitja az önálló `Fociskartyak2026.html` játékfájlt; Python,
+Node.js és telepítés nem szükséges hozzá.
+
+Fontos, hogy a két fájl ugyanabban a kicsomagolt mappában maradjon.
+
+### Fejlesztői indítás
 
 ```bash
 npm start
 ```
 
-Then open `http://localhost:8901`.
+Ezután: `http://localhost:8901`. Az `index.html` fájlt nem érdemes közvetlenül megnyitni, mert a böngészők az ES-modulokat és a JSON-adatfájlt `file://` módban korlátozzák. Közvetlen megnyitáshoz a beépített adatokat tartalmazó `Fociskartyak2026.html` fájl való.
 
-Any static server also works, including VS Code Live Server or `npx serve`.
+Egyfájlos, megosztható változat:
 
-## The rules
-
-- One shared **52-card deck**; both sides hold five cards.
-- Each round, the chooser names an attribute and commits a card.
-- The opponent then chooses a card without seeing the committed card.
-- Higher wins, except **age, yellow cards and red cards**, where lower wins.
-- The winner takes both cards and any cards left in the tie pot.
-- The winner of the previous round chooses the next attribute.
-- After 26 rounds, the player with more cards wins.
-
-## Real NB I data
-
-The game automatically loads `data/players.json`.
-
-- `data/players.json` contains the balanced 52-card playable deck.
-- `data/validation.json` documents club quotas and statistic ranges.
-- The complete source database contains 440 unique players in the separately
-  generated `nb1_2025_26_webadatbazis_v2_8_complete.zip` package.
-
-The seven comparison attributes are:
-
-1. age at the end of the 2025/26 season;
-2. league appearances;
-3. league starts;
-4. league goals;
-5. yellow cards;
-6. red cards;
-7. a transparent 0–100 project game score.
-
-The playable deck has five cards from each of the top four clubs and four cards
-from each remaining club. Selection is spread across each club's score range,
-so the deck is varied rather than containing only the highest-rated players.
-
-The data comes from publicly displayed MLSZ Adatbank pages. No player photos,
-club crests, MLSZ logos, Transfermarkt market values or invented missing values
-are included. Position and nationality remain `Nincs adat` until a suitable,
-verified source is added.
-
-## Data contract
-
-`js/data/players.js` exports `MOCK_PLAYERS`, `ATTRIBUTES`,
-`ATTRIBUTE_BY_KEY` and `loadPlayers()`.
-
-```js
-{
-  id,
-  name,
-  club,
-  nation,
-  position,
-  stats: {
-    age,
-    appearances,
-    starts,
-    goals,
-    yellowCards,
-    redCards,
-    overallScore
-  }
-}
+```bash
+npm run build
 ```
 
-Every playable statistic must be a finite number. If the real JSON file is
-missing or invalid, the application falls back to a clearly fictional 52-card
-demo deck.
+A kimenet: `Fociskartyak2026.html`.
 
-## Project layout
+## Játékmódok
 
-| File | Role |
+- **Klasszikus mód:** meccsenként 52 véletlenszerű lap, öt lapos kéz, a kör győztese viszi a lapokat és választja a következő kategóriát.
+- **Penalties mód:** 11–11 különböző lap, 5 rendes párbaj, behozhatatlan előnynél korai befejezés, döntetlennél hirtelen halál. Ha mind a 11 lap döntetlennel elfogy, ugyanaz a két tizenegy külön-külön újrakeverődik.
+
+## Kategóriák és hiányzó adatok
+
+Az összehasonlítási kategóriákat a `js/data/players.js` definiálja. A három új/átalakított kategória:
+
+- **Fiatalabb játékos:** a pontos ISO születési dátumot hasonlítja; a későbbi dátum nyer.
+- **Több sárga lap:** a nagyobb 2025/26-os érték nyer.
+- **Több kiállítás:** az MLSZ-forrás egyetlen piroslap/kiállítás értékét használja. A külön második sárgás bontás ismeretlen marad, nem lesz automatikusan nulla.
+
+Az ismeretlen adat `null`, a felületen **Nincs adat**. Az ilyen lap az érintett kategóriában nem játszható ki. A nullás lapadat csak hitelesen ellenőrzött nulla esetén szerepel nullaként.
+
+## Adatok
+
+- `data/players.json`: 136 meglévő, egyedi játékos–klub kártya veszteségmentes egyesítése.
+- `data/validation.json`: klubeloszlás, ismert/hiányzó mezők és a hiányzó születési dátumú azonosítók.
+- Születési dátum: a projekt MLSZ-játékosoldal exportja, illetve ahol elérhető, a forráshivatkozással tárolt CC0 játékosprofil-snapshot.
+- Sárga és piros/kiállítás adatok: a kártyák 2025/26-os MLSZ Adatbank-adatsorai.
+
+## Fő fájlok
+
+| Fájl | Szerep |
 |---|---|
-| `data/players.json` | Real, playable NB I deck |
-| `data/validation.json` | Deck validation summary |
-| `js/data/players.js` | Attribute definitions, validation and deck loader |
-| `js/engine.js` | Game rules |
-| `js/ai.js` | Opponent logic |
-| `js/ui.js` | Rendering and art paths |
-| `js/main.js` | Game loop |
-| `test/simulate.mjs` | Headless game simulation |
+| `js/engine.js` | Klasszikus mód tiszta játékszabályai |
+| `js/penalties.js` | Penalties mód külön állapotgépe |
+| `js/data/players.js` | Adatszerződés, kategóriák, validáció |
+| `js/ai.js` | Hiányzó adatokat kerülő gépi ellenfél |
+| `js/ui.js` | Kártyák, eredményjelző, kísérletek, kapcsolók és reszponzív felület |
+| `js/main.js` | Játékmódválasztás és böngészős játékmenet |
+| `test/rules.test.mjs` | Célzott Penalties- és adatszabálytesztek |
+| `test/simulate.mjs` | Klasszikus mód tömeges szimulációja |
 
-## Art
-
-The pub background belongs at `assets/pub/background.png`. JPEG and WebP also
-work. Portraits are resolved from `assets/portraits/<player-id>.<ext>`; missing
-images use the existing CSS fallback.
-
-## Tests
+## Ellenőrzés
 
 ```bash
 npm test
+npm run test:all
+npm run build
 ```
-
-The simulation prefers `data/players.json`, checks that the deck has 52 unique
-cards, verifies all seven statistics and runs complete AI-versus-AI games.
-
-## Known gaps
-
-- Position and nationality are not yet populated.
-- No licensed player portraits or official club marks are bundled.
-- The legacy `pipeline/` folder targets an older Transfermarkt-based schema and
-  is not used by the bundled MLSZ deck.
-- No persistence between sessions.

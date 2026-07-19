@@ -1,15 +1,18 @@
 {
   "name": "super-mega-fotbal-2026",
-  "version": "0.1.0",
-  "description": "Pub football card game — proof of concept",
+  "version": "0.3.0",
+  "description": "Magyar NB I 2025/26 kocsmai fociskártya-játék",
   "type": "module",
   "private": true,
   "scripts": {
     "start": "python -m http.server 8901",
+    "build": "node scripts/build-standalone.mjs",
+    "build:standalone": "node scripts/build-standalone.mjs",
     "build:data": "node pipeline/build.mjs",
     "build:data:portraits": "node pipeline/build.mjs --portraits",
-    "test": "node test/simulate.mjs",
+    "lint": "node --check js/data/players.js && node --check js/engine.js && node --check js/penalties.js && node --check js/ai.js && node --check js/banter.js && node --check js/ui.js && node --check js/main.js",
+    "test": "node test/rules.test.mjs && node test/static.test.mjs && node test/simulate.mjs",
     "test:pipeline": "node pipeline/test/transform.test.mjs",
-    "test:all": "node pipeline/test/transform.test.mjs && node test/simulate.mjs"
+    "test:all": "node pipeline/test/transform.test.mjs && node test/rules.test.mjs && node test/static.test.mjs && node test/simulate.mjs"
   }
 }

@@ -48,7 +48,7 @@ body {
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 320px;
-  /* ART: assets/pub/background.png — replace the gradient below */
+  /* ART: assets/pub/background.jpg — replace the gradient below */
   background:
     radial-gradient(ellipse at 50% 10%, rgba(232,195,122,.10) 0%, transparent 55%),
     linear-gradient(180deg, var(--wood) 0%, var(--wood-dark) 100%);
@@ -94,7 +94,8 @@ body {
   flex: 1 1 auto;
   border-radius: 14px;
   background:
-    radial-gradient(ellipse at 50% 50%, var(--felt-light), var(--felt) 70%);
+    radial-gradient(ellipse at 50% 50%, rgba(42,81,66,.90), rgba(30,58,47,.84) 70%);
+  backdrop-filter: blur(1.5px);
   box-shadow: inset 0 0 60px rgba(0,0,0,.55), 0 4px 20px rgba(0,0,0,.4);
   border: 2px solid rgba(201,162,39,.25);
   display: flex;
@@ -143,6 +144,19 @@ body {
 
 .meta { color: var(--muted); font-size: 12px; }
 
+.hud-settings { display: flex; gap: 5px; }
+.icon-toggle {
+  border: 1px solid rgba(201,162,39,.3);
+  background: rgba(0,0,0,.28);
+  color: var(--cream);
+  border-radius: 14px;
+  padding: 4px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.icon-toggle:hover { border-color: var(--brass); }
+
 /* ── Cards ─────────────────────────────────────────────────────────────── */
 
 .card {
@@ -170,6 +184,9 @@ body {
 /* Not playable right now — but still readable, so no pointer-events: none. */
 .card--dim { filter: grayscale(.4) brightness(.82); }
 .card--dim.selectable:hover { filter: none; }
+.card--unavailable { filter: grayscale(1) brightness(.58); }
+.card--unavailable.selectable:hover { filter: grayscale(.7) brightness(.72); box-shadow: 0 3px 10px rgba(0,0,0,.5); }
+.card--empty { background: rgba(0,0,0,.2); border: 1px dashed rgba(201,162,39,.35); box-shadow: none; }
 
 /* Truly inert (cards sitting in the duel area). */
 .card.disabled { filter: grayscale(.5) brightness(.7); pointer-events: none; }
@@ -270,6 +287,8 @@ body {
   box-shadow: 0 0 0 1px rgba(0,0,0,.25);
 }
 .stat.active .stat__label { color: #4a3a12; font-weight: 600; }
+.stat--missing { opacity: .48; }
+.stat__value { text-align: right; margin-left: 5px; }
 
 /* Card back (opponent's hand) */
 .card--back {
@@ -335,6 +354,9 @@ body {
   transition: all .14s ease;
 }
 .attr-btn:hover { background: var(--brass); color: #2a1c12; transform: translateY(-2px); }
+.attr-btn:disabled,
+.attr-btn--disabled { cursor: not-allowed; opacity: .42; filter: grayscale(1); }
+.attr-btn:disabled:hover { background: rgba(0,0,0,.3); color: var(--cream); transform: none; }
 .attr-btn small { display: block; font-size: 9px; opacity: .65; font-weight: 400; }
 
 .picker-hint {
@@ -446,6 +468,7 @@ body {
   transition: transform .12s ease, filter .12s ease;
 }
 .btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.btn:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(1); transform: none; }
 .btn--ghost { background: transparent; color: var(--brass-light); border: 1px solid rgba(201,162,39,.45); }
 
 /* ── Card inspector ────────────────────────────────────────────────────── */
@@ -480,6 +503,14 @@ body {
 .inspector__nav:hover { background: var(--brass); color: #2a1c12; }
 
 .inspector__counter { font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+.inspector__details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
 .inspector__actions { display: flex; gap: 10px; }
 .inspector__hint { font-size: 11px; color: var(--muted); letter-spacing: .3px; }
 
@@ -564,27 +595,192 @@ body {
 .difficulty input:checked + span { color: var(--brass-light); font-weight: 700; }
 .difficulty label:has(input:checked) { background: rgba(201,162,39,.18); border-color: var(--brass); }
 
+/* ── Main menu & result screens ───────────────────────────────────────── */
+
+.eyebrow,
+.result-kicker {
+  color: var(--brass) !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 10px !important;
+  margin-bottom: 6px !important;
+}
+
+.mode-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+.mode-card { cursor: pointer; text-align: left; }
+.mode-card input { position: absolute; opacity: 0; }
+.mode-card span {
+  display: flex;
+  flex-direction: column;
+  min-height: 88px;
+  gap: 5px;
+  padding: 13px;
+  border: 1px solid rgba(201,162,39,.32);
+  border-radius: 9px;
+  background: rgba(0,0,0,.24);
+}
+.mode-card b { color: var(--brass-light); }
+.mode-card small { color: var(--muted); line-height: 1.4; }
+.mode-card input:checked + span { border-color: var(--brass); background: rgba(201,162,39,.14); box-shadow: 0 0 0 1px rgba(201,162,39,.24); }
+
+.menu-toggles { display: flex; justify-content: center; gap: 18px; margin: -7px 0 17px; color: var(--cream); font-size: 12px; }
+.menu-toggles label { cursor: pointer; }
+.menu-toggles input { accent-color: var(--brass); }
+
+.final-score {
+  font-family: var(--font-display);
+  font-size: 31px;
+  letter-spacing: 2px;
+  color: var(--cream);
+  margin: 14px 0;
+}
+.result-panel--win h1 { color: var(--win); }
+.result-panel--loss h1 { color: var(--lose); }
+.result-stats { display: grid; gap: 7px; margin: 16px 0 20px; }
+.result-stats div { display: flex; justify-content: space-between; gap: 18px; border-bottom: 1px solid rgba(201,162,39,.16); padding-bottom: 6px; font-size: 12px; }
+.result-stats dt { color: var(--muted); text-align: left; }
+.result-stats dd { color: var(--cream); text-align: right; }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ── Penalties mode ───────────────────────────────────────────────────── */
+
+.penalty-score {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 1.8px;
+  color: var(--brass-light);
+  white-space: nowrap;
+}
+
+#penalty-board {
+  width: min(660px, 100%);
+  display: grid;
+  gap: 4px;
+  padding: 6px 9px;
+  background: rgba(0,0,0,.28);
+  border: 1px solid rgba(201,162,39,.22);
+  border-radius: 8px;
+}
+#penalty-board[hidden] { display: none; }
+.attempt-row { display: grid; grid-template-columns: 66px 1fr; align-items: center; gap: 7px; }
+.attempt-row strong { font-size: 9px; letter-spacing: .8px; color: var(--muted); }
+.attempt-marks { display: grid; grid-template-columns: repeat(11, 1fr); gap: 3px; }
+.attempt {
+  display: grid;
+  place-items: center;
+  height: 20px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.attempt--win { background: rgba(70,145,83,.5); color: #dff6e3; }
+.attempt--loss { background: rgba(160,65,65,.52); color: #ffe0e0; }
+.attempt--tie { background: rgba(140,140,140,.34); color: #eee; }
+.attempt--empty { color: rgba(255,255,255,.28); background: rgba(0,0,0,.18); }
+
+#sudden-death-banner {
+  position: fixed;
+  z-index: 35;
+  inset: 42% 0 auto;
+  padding: 18px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 7vw, 72px);
+  letter-spacing: 5px;
+  color: #fff2d3;
+  background: linear-gradient(90deg, transparent, rgba(113,18,14,.95) 18%, rgba(113,18,14,.95) 82%, transparent);
+  text-shadow: 0 3px 12px #000;
+  animation: sudden-in 1.2s ease both;
+  pointer-events: none;
+}
+#sudden-death-banner[hidden] { display: none; }
+@keyframes sudden-in {
+  0% { opacity: 0; transform: scale(.7) rotate(-2deg); }
+  22%, 70% { opacity: 1; transform: scale(1.04) rotate(0); }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+
+.mode-penalties .zone { min-width: 0; }
+.mode-penalties .hand { max-width: calc(100% - 64px); overflow-x: auto; overflow-y: hidden; justify-content: flex-start; padding: 10px 4px 2px; scrollbar-width: thin; scrollbar-color: rgba(201,162,39,.45) transparent; }
+.mode-penalties #player-hand .card { --card-w: 94px; --card-h: 174px; }
+.mode-penalties #player-hand .card__portrait { height: 48px; }
+.mode-penalties #player-hand .card__name { font-size: 10px; }
+.mode-penalties #player-hand .stat { font-size: 7.5px; }
+.mode-penalties .hand.hand--opponent { max-width: calc(100% - 64px); min-height: 70px; padding-top: 2px; }
+.mode-penalties .hand--opponent .card { --card-w: 45px; --card-h: 65px; }
+.mode-penalties #felt { gap: 6px; }
+
+.penalty-intro h1 { font-size: 34px; }
+
 @media (max-width: 1100px) {
   #pub { grid-template-columns: 1fr 250px; }
   :root { --card-w: 112px; --card-h: 164px; }
+}
+
+@media (max-width: 900px) {
+  #pub { grid-template-columns: 1fr; }
+  #banter { display: none; }
+  #table { padding: 8px; gap: 5px; }
+  :root { --card-w: clamp(64px, 17vw, 112px); --card-h: clamp(128px, 30vw, 188px); }
+  .hand { gap: clamp(3px, 1vw, 8px); }
+  .card__portrait { height: clamp(38px, 8vw, 58px); }
+  .card__name { font-size: clamp(9px, 1.8vw, 13px); }
+  .stat { font-size: clamp(7px, 1.35vw, 8.5px); }
+  #felt { padding: 7px; }
+  .mode-penalties #player-hand .card { --card-w: 82px; --card-h: 150px; }
+}
+
+@media (max-width: 620px) {
+  #hud { display: grid; grid-template-columns: 1fr auto; gap: 4px 7px; }
+  #hud .title { display: none; }
+  .score-strip { gap: 5px; }
+  .score { padding: 3px 8px; }
+  .meta { font-size: 9px; text-align: left; }
+  .hud-settings { justify-content: flex-end; }
+  .icon-toggle { font-size: 0; width: 30px; height: 24px; padding: 2px; }
+  .icon-toggle::first-letter { font-size: 12px; }
+  .panel { margin: 8px; padding: 22px 16px; max-height: calc(100vh - 16px); overflow-y: auto; }
+  .panel h1 { font-size: 31px; }
+  .mode-picker { grid-template-columns: 1fr; }
+  .mode-card span { min-height: 0; }
+  .difficulty { flex-wrap: wrap; }
+  .menu-toggles { flex-direction: column; gap: 7px; }
+  .inspector__shell { gap: 3px; }
+  .inspector__nav { width: 28px; }
+  .inspector__details { font-size: 9px; }
+  #duel { gap: 9px; }
+  .versus { font-size: 18px; }
+  #verdict { font-size: 21px; }
+  .mode-penalties #player-hand .card { --card-w: 76px; --card-h: 140px; }
+  .mode-penalties .hand { max-width: calc(100% - 48px); }
+  #penalty-board { padding: 4px; }
+  .attempt-row { grid-template-columns: 48px 1fr; gap: 3px; }
+  .attempt { height: 17px; font-size: 9px; }
+  .penalty-score { font-size: 19px; }
 }
 
 /* Short viewports (laptops, browser with devtools open).
    The card gets NARROWER but stays reasonably tall, and the portrait gives up
    height first — shrinking the card uniformly left only ~38px for the stat
    list, i.e. one readable row at a time. The felt absorbs the difference. */
-@media (max-height: 860px) {
+@media (max-height: 860px) and (min-width: 901px) {
   :root { --card-w: 122px; --card-h: 208px; }
   .card__portrait { height: 58px; }
   .card__name { font-size: 13px; padding: 3px 6px 1px; }
   #duel { min-height: 0; }
 }
-@media (max-height: 700px) {
+@media (max-height: 700px) and (min-width: 901px) {
   :root { --card-w: 112px; --card-h: 186px; }
   .card__portrait { height: 48px; }
   .stat { font-size: 8.5px; padding: 1px 4px; }
 }
-@media (max-height: 620px) {
+@media (max-height: 620px) and (min-width: 901px) {
   :root { --card-w: 108px; --card-h: 176px; }
   .card__portrait { height: 44px; }
   .card__portrait::after { font-size: 18px; }

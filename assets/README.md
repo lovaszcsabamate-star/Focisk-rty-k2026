@@ -1,6 +1,6 @@
 # Art assets
 
-## → The pub background goes here: `assets/pub/background.png`
+## → The pub background goes here: `assets/pub/background.jpg`
 
 That's the one you asked about. `.jpg`, `.jpeg` and `.webp` work too — the game
 tries each extension in turn and uses the first that loads, so just drop the
@@ -24,7 +24,7 @@ Any of `.png` / `.jpg` / `.jpeg` / `.webp` works in every slot below.
 
 | Slot | Path | Size (suggested) | Notes |
 |---|---|---|---|
-| **Pub background** | **`pub/background.png`** | 1920 × 1080 | Sits behind everything, under an automatic dark scrim. Keep the centre-left uncluttered — the table sits there. |
+| **Pub background** | **`pub/background.jpg`** | 1920 × 1080 | Sits behind everything, under an automatic dark scrim. PNG, WebP and JPEG are supported. Keep the centre-left uncluttered — the table sits there. |
 | Player portrait | `portraits/<player-id>.png` | 600 × 340 | IDs are in `js/data/players.js` — `gk-01`, `df-07`, `fw-12`… Anchored top-centre, so keep the face in the upper third. Sized for the 300px-wide inspector view, then scaled down in hand. |
 | Card back | `cards/back.png` | 264 × 380 (2×) | Fills the whole card; used for the opponent's hand. |
 | Friend avatar | `friends/<speaker-id>.png` | 128 × 128 | IDs: `dermot`, `priya`, `gaz`. Rendered as a circle — keep content centred. |
