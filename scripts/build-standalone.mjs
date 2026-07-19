@@ -17,6 +17,7 @@ const moduleOrder = [
   'js/ui.js',
   'js/ux.js',
   'js/ux-fixes.js',
+  'js/matchday.js',
   'js/main.js',
 ];
 
@@ -31,7 +32,7 @@ const bundle = moduleOrder
 const payload = JSON.parse(read('data/players.json'));
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}`;
 
 const backgroundFiles = [
   ['assets/pub/background.webp', 'image/webp'],
@@ -48,8 +49,10 @@ if (backgroundFile) {
 const output = read('index.html')
   .replace('<link rel="stylesheet" href="css/style.css">', `<style>${css}</style>`)
   .replace('\n  <link rel="stylesheet" href="css/ux.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/matchday.css">', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
+  .replace('  <script type="module" src="js/matchday.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/main.js"></script>',
     `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson};</script>\n<script type="module">${safeBundle}</script>`
