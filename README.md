@@ -1,153 +1,119 @@
 # Super Mega Fotbal 2026
 
-A pub card game. You, three mates who won't shut up, and Barry — who reckons
-he's unbeatable at football top trumps.
-
-Proof of concept: playable end to end, no build step, no dependencies.
+A pub-style football comparison card game. The current build ships with a real
+**2025/26 Hungarian NB I / Fizz Liga** deck.
 
 ## Running it
 
-The game uses ES modules, so it needs to be served over HTTP — opening
-`index.html` from the filesystem will not work.
+The game uses ES modules, so serve the repository over HTTP rather than opening
+`index.html` directly from the filesystem.
 
+```bash
+npm start
 ```
-npm start          # python -m http.server 8901
-```
 
-then open <http://localhost:8901>.
+Then open `http://localhost:8901`.
 
-Any static server works (`npx serve`, VS Code Live Server, …).
+Any static server also works, including VS Code Live Server or `npx serve`.
 
 ## The rules
 
-- One shared **52-card deck**. Both sides draw from it; hands hold **5 cards**.
-- Each round one side names an **attribute**. Round 1's chooser is random;
-  after that, **the winner of the previous round chooses**.
-- The chooser commits their card *at the same time* as naming the attribute, so
-  neither side ever picks while looking at the other's card.
-- Higher value wins — **except red and yellow cards, where fewer wins.**
-- The winner takes **both cards** as victory points.
-- A **dead heat** leaves both cards on the table as a pot; whoever wins the next
-  round scoops the lot.
-- The deck runs out after 26 rounds. Most cards wins.
+- One shared **52-card deck**; both sides hold five cards.
+- Each round, the chooser names an attribute and commits a card.
+- The opponent then chooses a card without seeing the committed card.
+- Higher wins, except **age, yellow cards and red cards**, where lower wins.
+- The winner takes both cards and any cards left in the tie pot.
+- The winner of the previous round chooses the next attribute.
+- After 26 rounds, the player with more cards wins.
 
-Three difficulty settings ("Had a few" / "Regular" / "Card shark") vary how much
-random noise the AI applies to its judgement.
+## Real NB I data
 
-## Reading your cards
+The game automatically loads `data/players.json`.
 
-Cards in hand are small, so **click any card to open it full size** — all seven
-stats at readable type, with the round's attribute highlighted.
+- `data/players.json` contains the balanced 52-card playable deck.
+- `data/validation.json` documents club quotas and statistic ranges.
+- The complete source database contains 440 unique players in the separately
+  generated `nb1_2025_26_webadatbazis_v2_8_complete.zip` package.
 
-This works at *every* point in the round, not just when it's your turn to play,
-because deciding which attribute to call means reading your hand first.
+The seven comparison attributes are:
 
-| | |
-|---|---|
-| `←` `→` | page through the rest of your hand without closing |
-| `Enter` | play the card you're looking at (when it's your turn) |
-| `Esc` | back out |
+1. age at the end of the 2025/26 season;
+2. league appearances;
+3. league starts;
+4. league goals;
+5. yellow cards;
+6. red cards;
+7. a transparent 0–100 project game score.
 
-Paging is the point: you compare cards side by side at full size, then commit.
+The playable deck has five cards from each of the top four clubs and four cards
+from each remaining club. Selection is spread across each club's score range,
+so the deck is varied rather than containing only the highest-rated players.
 
-All seven stats fit on the card at normal window sizes. If the window is too
-short for them, the stat list scrolls (with a shadow at the edge showing
-there's more) rather than silently cutting rows off.
+The data comes from publicly displayed MLSZ Adatbank pages. No player photos,
+club crests, MLSZ logos, Transfermarkt market values or invented missing values
+are included. Position and nationality remain `Nincs adat` until a suitable,
+verified source is added.
 
-## Layout
+## Data contract
 
-| File | Role |
-|---|---|
-| `pipeline/` | Fetches real player data → `data/players.json`. See its README. |
-| `js/data/players.js` | Deck loader + attribute metadata + the fictional fallback deck. |
-| `js/engine.js` | Rules. Pure logic — no DOM, no timers. |
-| `js/ai.js` | Opponent. Percentile model + a sacrifice heuristic. |
-| `js/banter.js` | Pub dialogue, keyed by game event. |
-| `js/ui.js` | All DOM rendering. Owns every art path. |
-| `js/main.js` | Game loop, turn sequencing, AI pacing. |
-| `test/simulate.mjs` | Headless soak test. |
-
-## Adding art
-
-**The pub background goes at `assets/pub/background.png`** (`.jpg`, `.jpeg` and
-`.webp` also work — the first extension that loads wins). A dark scrim is
-composited over it automatically so the UI stays readable on any photo; tune it
-via `PUB_SCRIM` in `js/ui.js`.
-
-Everything else — portraits, card backs, friend avatars — follows the same
-pattern; names and sizes are in [`assets/README.md`](assets/README.md). Every
-slot probes for its file and only swaps it in once it loads, so missing art
-silently keeps the CSS fallback — **no code changes needed**. All paths live in
-the `ART` object at the top of `js/ui.js`.
-
-## Tests
-
-```
-npm run test:all      # pipeline transforms + 2000 full games AI-vs-AI
-npm test              # game engine only
-npm run test:pipeline # pipeline transforms only
-```
-
-The engine soak test asserts every game terminates, that all 52 cards are
-conserved with no duplicates across deck/hands/piles/pot, and that no hand is
-ever empty at the start of a round. It runs against `data/players.json` when
-that exists, otherwise the mock.
-
-The pipeline test runs the real parsing and selection code over gzipped CSV
-fixtures — see [`pipeline/README.md`](pipeline/README.md#tests) for what it
-does and doesn't prove.
-
-## Real player data
-
-```bash
-node pipeline/build.mjs
-```
-
-Builds `data/players.json` from public football data — **no API key needed** —
-and the game picks it up on the next reload. Full details in
-[`pipeline/README.md`](pipeline/README.md).
-
-Until you run it, the game plays a **fictional** demo deck: the stats are
-invented, and attaching invented numbers to real footballers would misrepresent
-real people. The title screen always says which deck you're on, so it's never
-ambiguous.
-
-Sources: height, market value, minutes, assists and cards come from
-[transfermarkt-datasets](https://github.com/dcaribou/transfermarkt-datasets);
-international caps from Wikidata. Market value is why a plain stats API won't
-do — no free API exposes it.
-
-`--portraits` also downloads player photos into `assets/portraits/`, filling
-the card art slots automatically. Your own art at the same id still wins.
-
-### The data contract
-
-`js/data/players.js` exports `MOCK_PLAYERS`, `ATTRIBUTES` and `loadPlayers()`.
-Any deck — real or mock — is a list of:
+`js/data/players.js` exports `MOCK_PLAYERS`, `ATTRIBUTES`,
+`ATTRIBUTE_BY_KEY` and `loadPlayers()`.
 
 ```js
-{ id, name, club, nation, position,
-  stats: { height, marketValue, redCards, yellowCards, caps, minutes, assists },
-  meta: { imageUrl, capsKnown, ... }        // optional
+{
+  id,
+  name,
+  club,
+  nation,
+  position,
+  stats: {
+    age,
+    appearances,
+    starts,
+    goals,
+    yellowCards,
+    redCards,
+    overallScore
+  }
 }
 ```
 
-`ATTRIBUTES` carries a `higherWins` flag per stat — the engine and the AI both
-read it, so adding or reversing a stat is a data change, not a code change.
-Player `id` doubles as the portrait filename.
+Every playable statistic must be a finite number. If the real JSON file is
+missing or invalid, the application falls back to a clearly fictional 52-card
+demo deck.
 
-The AI builds its percentile model from whichever deck is in play, so real data
-(with completely different ranges from the mock) needs no code changes.
+## Project layout
 
-## Known gaps (it's a PoC)
+| File | Role |
+|---|---|
+| `data/players.json` | Real, playable NB I deck |
+| `data/validation.json` | Deck validation summary |
+| `js/data/players.js` | Attribute definitions, validation and deck loader |
+| `js/engine.js` | Game rules |
+| `js/ai.js` | Opponent logic |
+| `js/ui.js` | Rendering and art paths |
+| `js/main.js` | Game loop |
+| `test/simulate.mjs` | Headless game simulation |
 
-- **The pipeline has never been run against the live dataset** — it was built
-  in an offline environment. Transform logic is fixture-tested; the upstream
-  column names are inferred from documentation. It fails loudly and specifically
-  if they differ.
-- International caps coverage is partial (Wikidata); unknown values are flagged
-  `capsKnown: false` rather than silently written as 0.
-- No sound, no card-deal animation beyond a simple fade.
-- The AI doesn't track which cards have already been played.
-- Banter is event-keyed, not stateful — the mates don't remember the game so far.
+## Art
+
+The pub background belongs at `assets/pub/background.png`. JPEG and WebP also
+work. Portraits are resolved from `assets/portraits/<player-id>.<ext>`; missing
+images use the existing CSS fallback.
+
+## Tests
+
+```bash
+npm test
+```
+
+The simulation prefers `data/players.json`, checks that the deck has 52 unique
+cards, verifies all seven statistics and runs complete AI-versus-AI games.
+
+## Known gaps
+
+- Position and nationality are not yet populated.
+- No licensed player portraits or official club marks are bundled.
+- The legacy `pipeline/` folder targets an older Transfermarkt-based schema and
+  is not used by the bundled MLSZ deck.
 - No persistence between sessions.
