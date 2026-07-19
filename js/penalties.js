@@ -106,7 +106,6 @@ export class PenaltyGame {
       this._finish('hirtelen halál', 'első eldőlt hirtelen halál-párbaj');
     }
 
-    if (!this.isOver) this.chooser = winner === 'tie' ? this.chooser : winner;
     this.lastResult = {
       round: this.duel,
       attribute: this.attribute,
@@ -146,6 +145,7 @@ export class PenaltyGame {
       reshuffled = true;
     }
 
+    this.chooser = this.chooser === HUMAN ? AI : HUMAN;
     this.duel += 1;
     this.phase = PHASE.CHOOSE_ATTRIBUTE;
     return { reshuffled, cycle: this.cycle };
