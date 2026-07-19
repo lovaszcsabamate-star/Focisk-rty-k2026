@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,19 +14,22 @@
     <main id="table">
 
       <header id="hud">
-        <div class="title">Super Mega Fotbal 2026</div>
+        <div class="title">Fociskártyák 2026</div>
         <div class="score-strip" id="hud-scores"></div>
         <div class="meta" id="hud-meta"></div>
+        <div class="hud-settings" id="hud-settings"></div>
       </header>
 
       <!-- Opponent: face-down hand + victory pile -->
       <section class="zone" id="opponent-zone">
-        <div class="pile" id="opponent-pile"><span class="pile__label">Barry's winnings</span></div>
+        <div class="pile" id="opponent-pile"><span class="pile__label">Gép nyereménye</span></div>
         <div class="hand hand--opponent" id="opponent-hand"></div>
       </section>
 
       <!-- The table itself -->
       <section id="felt">
+        <div id="sudden-death-banner" hidden></div>
+        <div id="penalty-board" hidden></div>
         <div id="pot-indicator"></div>
         <div id="prompt"></div>
         <div id="duel"></div>
@@ -36,15 +39,15 @@
 
       <!-- Player: hand + victory pile -->
       <section class="zone" id="player-zone">
-        <div class="pile" id="player-pile"><span class="pile__label">Your winnings</span></div>
+        <div class="pile" id="player-pile"><span class="pile__label">Megnyert lapok</span></div>
         <div class="hand" id="player-hand"></div>
       </section>
 
     </main>
 
-    <!-- Pub banter -->
+    <!-- Kocsmai kommentár -->
     <aside id="banter">
-      <h2>The Table</h2>
+      <h2>A hátsó asztal</h2>
       <div id="banter-feed"></div>
     </aside>
 

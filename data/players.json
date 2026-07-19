@@ -1,1 +1,4483 @@
-{"schemaVersion":"2.0","season":"2025/26","competition":"Fizz Liga (NB I)","generatedAt":"2026-07-19T18:00:00+02:00","source":"MLSZ Adatbank; derived game scores from the project database","statKeys":["age","appearances","starts","goals","yellowCards","redCards","overallScore"],"deckSize":52,"selectionMethod":"52-card balanced deck: five cards from each of the top four clubs and four from each other club, sampled across each club score range.","clubCardCounts":{"ETO FC":5,"Ferencvárosi TC":5,"Paksi FC":5,"DVSC":5,"ZTE FC":4,"Puskás Akadémia FC":4,"Újpest FC":4,"Kisvárda Master Good":4,"Nyíregyháza Spartacus FC":4,"MTK Budapest":4,"DVTK":4,"Kolorcity Kazincbarcika SC":4},"players":[{"id":"nb1-4e4f5773f0cd","name":"Benbouali Ahmed Nadhir","club":"ETO FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":26,"appearances":32,"starts":30,"goals":15,"yellowCards":4,"redCards":0,"overallScore":88}},{"id":"nb1-0d5856f6c638","name":"Gavric Zeljko","club":"ETO FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":28,"starts":23,"goals":6,"yellowCards":5,"redCards":0,"overallScore":64}},{"id":"nb1-f50e0bbc2943","name":"Anton Paul-Viorel","club":"ETO FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":35,"appearances":14,"starts":13,"goals":2,"yellowCards":0,"redCards":0,"overallScore":49}},{"id":"nb1-3228c4eed8dc","name":"Megyeri Balázs","club":"ETO FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":36,"appearances":10,"starts":10,"goals":0,"yellowCards":0,"redCards":0,"overallScore":41}},{"id":"nb1-3c933249d398","name":"Szép Márton","club":"ETO FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":18,"appearances":2,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":23}},{"id":"nb1-f71f93fef3da","name":"Gruber Zsombor","club":"Ferencvárosi TC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":29,"starts":17,"goals":9,"yellowCards":1,"redCards":0,"overallScore":74}},{"id":"nb1-0f7ebced98f4","name":"Nagy Barnabás Szabolcs","club":"Ferencvárosi TC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":29,"starts":24,"goals":2,"yellowCards":4,"redCards":0,"overallScore":58}},{"id":"nb1-bfb48986f714","name":"Ötvös Bence","club":"Ferencvárosi TC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":28,"appearances":19,"starts":10,"goals":3,"yellowCards":7,"redCards":0,"overallScore":45}},{"id":"nb1-446bec57246f","name":"Gróf Dávid Attila","club":"Ferencvárosi TC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":37,"appearances":12,"starts":12,"goals":0,"yellowCards":2,"redCards":1,"overallScore":36}},{"id":"nb1-888fb69b3ed2","name":"Sevikyan Edgar","club":"Ferencvárosi TC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":24,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":24}},{"id":"nb1-8378caea9bbf","name":"Hahn János Csaba","club":"Paksi FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":31,"appearances":28,"starts":23,"goals":11,"yellowCards":3,"redCards":0,"overallScore":79}},{"id":"nb1-16115bd7c08a","name":"Horváth Kevin","club":"Paksi FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":32,"starts":26,"goals":3,"yellowCards":5,"redCards":0,"overallScore":60}},{"id":"nb1-99f5c34441a0","name":"Papp Kristóf","club":"Paksi FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":33,"appearances":28,"starts":28,"goals":1,"yellowCards":10,"redCards":0,"overallScore":50}},{"id":"nb1-d6bfe3acf08d","name":"Szekszárdi Milán","club":"Paksi FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":15,"starts":10,"goals":0,"yellowCards":5,"redCards":0,"overallScore":35}},{"id":"nb1-35fb6a54d829","name":"Pesti Zoltán","club":"Paksi FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":23}},{"id":"nb1-d2b7e604be9d","name":"Dzsudzsák Balázs","club":"DVSC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":39,"appearances":33,"starts":32,"goals":6,"yellowCards":4,"redCards":0,"overallScore":76}},{"id":"nb1-cf21a2d9106f","name":"Szűcs Tamás","club":"DVSC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":31,"starts":31,"goals":3,"yellowCards":4,"redCards":1,"overallScore":56}},{"id":"nb1-89c5690fc8d1","name":"Vajda Botond","club":"DVSC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":22,"appearances":23,"starts":15,"goals":0,"yellowCards":2,"redCards":0,"overallScore":48}},{"id":"nb1-232751bffa85","name":"Hofmann Maximilian","club":"DVSC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":32,"appearances":9,"starts":7,"goals":0,"yellowCards":2,"redCards":0,"overallScore":35}},{"id":"nb1-575a09ebf626","name":"Szakál Dénes","club":"DVSC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":17,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":21}},{"id":"nb1-263fc043f910","name":"Skribek Alen Martin","club":"ZTE FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":29,"starts":28,"goals":10,"yellowCards":0,"redCards":0,"overallScore":80}},{"id":"nb1-9c2a528109ee","name":"Csonka András Mátyás","club":"ZTE FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":26,"appearances":29,"starts":24,"goals":1,"yellowCards":6,"redCards":0,"overallScore":54}},{"id":"nb1-e9c2b788895b","name":"Papp Csongor","club":"ZTE FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":9,"starts":7,"goals":0,"yellowCards":3,"redCards":0,"overallScore":29}},{"id":"nb1-50fd7361a98a","name":"Garai Zétény Péter","club":"ZTE FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":18,"appearances":1,"starts":1,"goals":0,"yellowCards":0,"redCards":0,"overallScore":22}},{"id":"nb1-56526d8f7ef7","name":"Lukács Dániel","club":"Puskás Akadémia FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":30,"appearances":33,"starts":33,"goals":17,"yellowCards":4,"redCards":0,"overallScore":91}},{"id":"nb1-9f0fa23b85ca","name":"D'Encarnacao Duarte Laros Michael","club":"Puskás Akadémia FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":29,"appearances":30,"starts":28,"goals":0,"yellowCards":5,"redCards":0,"overallScore":56}},{"id":"nb1-8c4a63ee7f39","name":"Magyar Zsolt János","club":"Puskás Akadémia FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":24,"appearances":12,"starts":4,"goals":1,"yellowCards":2,"redCards":0,"overallScore":37}},{"id":"nb1-f357fac0194c","name":"Ásványi Domonkos","club":"Puskás Akadémia FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":19,"appearances":1,"starts":1,"goals":0,"yellowCards":1,"redCards":0,"overallScore":21}},{"id":"nb1-8fd317c6d21b","name":"Matko Aljosa","club":"Újpest FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":26,"appearances":33,"starts":33,"goals":17,"yellowCards":3,"redCards":0,"overallScore":91}},{"id":"nb1-c8706f6c982e","name":"Brodic Fran","club":"Újpest FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":29,"appearances":19,"starts":9,"goals":1,"yellowCards":1,"redCards":0,"overallScore":50}},{"id":"nb1-8c93f7633c63","name":"Gradisar Nejc","club":"Újpest FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":23,"appearances":13,"starts":7,"goals":1,"yellowCards":1,"redCards":0,"overallScore":39}},{"id":"nb1-4797020f158d","name":"Katona Benedek László","club":"Újpest FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":18,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":22}},{"id":"nb1-634e0e27432f","name":"Bíró Bence Balázs","club":"Kisvárda Master Good","nation":"Nincs adat","position":"Nincs adat","stats":{"age":27,"appearances":31,"starts":28,"goals":7,"yellowCards":3,"redCards":0,"overallScore":73}},{"id":"nb1-fa00a4ac868d","name":"Chlumecky Martin","club":"Kisvárda Master Good","nation":"Nincs adat","position":"Nincs adat","stats":{"age":29,"appearances":29,"starts":28,"goals":2,"yellowCards":7,"redCards":0,"overallScore":56}},{"id":"nb1-6540a986095c","name":"Soltész Dominik István","club":"Kisvárda Master Good","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":19,"starts":14,"goals":0,"yellowCards":3,"redCards":0,"overallScore":43}},{"id":"nb1-1fad065b3f0e","name":"Osztrovka Maxim","club":"Kisvárda Master Good","nation":"Nincs adat","position":"Nincs adat","stats":{"age":19,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":22}},{"id":"nb1-f98d9cd1c649","name":"Nemanja Antonov","club":"Nyíregyháza Spartacus FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":31,"appearances":28,"starts":21,"goals":1,"yellowCards":3,"redCards":0,"overallScore":59}},{"id":"nb1-9309e1184ef9","name":"Temesvári Attila","club":"Nyíregyháza Spartacus FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":26,"starts":23,"goals":4,"yellowCards":5,"redCards":1,"overallScore":52}},{"id":"nb1-489f67cd7bfb","name":"Oláh Benjámin","club":"Nyíregyháza Spartacus FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":20,"appearances":12,"starts":0,"goals":1,"yellowCards":0,"redCards":0,"overallScore":38}},{"id":"nb1-17831da5b04f","name":"Vukk Zsombor","club":"Nyíregyháza Spartacus FC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":19,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":22}},{"id":"nb1-64a253ee4ea6","name":"Molnár Ádin","club":"MTK Budapest","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":32,"starts":29,"goals":10,"yellowCards":4,"redCards":0,"overallScore":76}},{"id":"nb1-82eb43b7f3b9","name":"Németh Hunor Vajk","club":"MTK Budapest","nation":"Nincs adat","position":"Nincs adat","stats":{"age":19,"appearances":29,"starts":20,"goals":4,"yellowCards":4,"redCards":1,"overallScore":54}},{"id":"nb1-1a9c95467df4","name":"Hegyi Krisztián","club":"MTK Budapest","nation":"Nincs adat","position":"Nincs adat","stats":{"age":23,"appearances":14,"starts":14,"goals":0,"yellowCards":0,"redCards":0,"overallScore":40}},{"id":"nb1-b5ef418f7436","name":"Vasiljevic Andrej","club":"MTK Budapest","nation":"Nincs adat","position":"Nincs adat","stats":{"age":16,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":21}},{"id":"nb1-0805bfe5d6fa","name":"Vallejo Minguez Alexander","club":"DVTK","nation":"Nincs adat","position":"Nincs adat","stats":{"age":34,"appearances":27,"starts":25,"goals":2,"yellowCards":4,"redCards":0,"overallScore":60}},{"id":"nb1-d3559b6e27a3","name":"Bényei Ágoston András","club":"DVTK","nation":"Nincs adat","position":"Nincs adat","stats":{"age":23,"appearances":25,"starts":12,"goals":1,"yellowCards":4,"redCards":0,"overallScore":50}},{"id":"nb1-ba488bcae995","name":"Komlósi Bence","club":"DVTK","nation":"Nincs adat","position":"Nincs adat","stats":{"age":20,"appearances":8,"starts":2,"goals":0,"yellowCards":1,"redCards":0,"overallScore":30}},{"id":"nb1-4320e9853a76","name":"Farkas Ruben Bálint","club":"DVTK","nation":"Nincs adat","position":"Nincs adat","stats":{"age":17,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":21}},{"id":"nb1-08ae611b5ae9","name":"Kártik Bálint József","club":"Kolorcity Kazincbarcika SC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":29,"appearances":32,"starts":31,"goals":4,"yellowCards":5,"redCards":0,"overallScore":66}},{"id":"nb1-dadac38232d5","name":"Slogar Martin","club":"Kolorcity Kazincbarcika SC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":25,"appearances":20,"starts":15,"goals":2,"yellowCards":5,"redCards":0,"overallScore":46}},{"id":"nb1-1c54b5f254e0","name":"Ikoba Eduvie Marho","club":"Kolorcity Kazincbarcika SC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":28,"appearances":10,"starts":4,"goals":0,"yellowCards":0,"redCards":0,"overallScore":37}},{"id":"nb1-4f9f1920006a","name":"Sebők Péter","club":"Kolorcity Kazincbarcika SC","nation":"Nincs adat","position":"Nincs adat","stats":{"age":21,"appearances":1,"starts":0,"goals":0,"yellowCards":0,"redCards":0,"overallScore":23}}],"databaseReference":"NB I 2025/26 v2.8.1 complete (440 unique players)"}
+{
+  "schemaVersion": 3,
+  "season": "2025/26",
+  "competition": "Fizz Liga (NB I)",
+  "generatedAt": "2026-07-19T17:22:40.030Z",
+  "source": "MLSZ Adatbank; exact birth dates additionally from the project MLSZ export and a cited CC0 player-profile snapshot",
+  "clubs": {
+    "DVSC": 36,
+    "DVTK": 4,
+    "ETO FC": 34,
+    "Ferencvárosi TC": 5,
+    "Kisvárda Master Good": 4,
+    "Kolorcity Kazincbarcika SC": 4,
+    "MTK Budapest": 4,
+    "Nyíregyháza Spartacus FC": 4,
+    "Paksi FC": 29,
+    "Puskás Akadémia FC": 4,
+    "Újpest FC": 4,
+    "ZTE FC": 4
+  },
+  "selection": {
+    "note": "Lossless union of the existing tracked 52-card deck and the latest 99-card ETO/Paks/DVSC working pool.",
+    "playableCards": 136,
+    "exactBirthDates": 74,
+    "missingBirthDates": 62,
+    "secondYellowBreakdownKnown": 0
+  },
+  "missingData": {
+    "birthDate": [
+      {
+        "id": "2025-26-dvsc-lang-adam",
+        "name": "LANG ÁDÁM",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-kocsis-dominik",
+        "name": "KOCSIS DOMINIK",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-barany-donat",
+        "name": "BÁRÁNY DONÁT",
+        "club": "DVSC"
+      },
+      {
+        "id": "nb1-cf21a2d9106f",
+        "name": "Szűcs Tamás",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-erdelyi-benedek-miklos",
+        "name": "ERDÉLYI BENEDEK MIKLÓS",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-regenyei-gergo",
+        "name": "REGENYEI GERGŐ",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-egri-imre",
+        "name": "EGRI IMRE",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-bodnar-balazs",
+        "name": "BODNÁR BALÁZS",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-tercza-gergo",
+        "name": "TERCZA GERGŐ",
+        "club": "DVSC"
+      },
+      {
+        "id": "nb1-575a09ebf626",
+        "name": "Szakál Dénes",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-cibla-florian",
+        "name": "CIBLA FLÓRIÁN",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-gordic-dorde",
+        "name": "GORDIC DORDE",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-dacosta-julien-joachim",
+        "name": "DACOSTA JULIEN JOACHIM",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-kulbachuk-viacheslav",
+        "name": "KULBACHUK VIACHESLAV",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-lopez-de-la-manzanara",
+        "name": "LOPEZ DE LA MANZANARA",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-djokic-dejan",
+        "name": "DJOKIC DEJAN",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-youga-christopher-amos",
+        "name": "YOUGA CHRISTOPHER AMOS",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-patai-david",
+        "name": "PATAI DÁVID",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-kusnyir-erik",
+        "name": "KUSNYIR ERIK",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-asztalos-noel",
+        "name": "ASZTALOS NOEL",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-odey-stephen-pius",
+        "name": "ODEY STEPHEN PIUS",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-dvsc-kohut-mate",
+        "name": "KOHUT MÁTÉ",
+        "club": "DVSC"
+      },
+      {
+        "id": "2025-26-paksi-fc-kinyik-akos",
+        "name": "KINYIK ÁKOS",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-windecker-jozsef",
+        "name": "WINDECKER JÓZSEF",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "nb1-99f5c34441a0",
+        "name": "Papp Kristóf",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-balogh-balazs",
+        "name": "BALOGH BALÁZS",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "nb1-d6bfe3acf08d",
+        "name": "Szekszárdi Milán",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-gyurkits-gergo",
+        "name": "GYURKITS GERGŐ",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-vas-gabor",
+        "name": "VAS GÁBOR",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "nb1-16115bd7c08a",
+        "name": "Horváth Kevin",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-gyetvan-mark",
+        "name": "GYETVÁN MÁRK",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-galambos-janos",
+        "name": "GALAMBOS JÁNOS",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-kovacsik-adam",
+        "name": "KOVÁCSIK ÁDÁM",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-lapu-andor",
+        "name": "LAPU ANDOR",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-debreceni-akos",
+        "name": "DEBRECENI ÁKOS",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-lenzser-bence",
+        "name": "LENZSÉR BENCE",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "nb1-35fb6a54d829",
+        "name": "Pesti Zoltán",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-mate-csaba",
+        "name": "MÁTÉ CSABA",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "2025-26-paksi-fc-tamas-oliver",
+        "name": "TAMÁS OLIVÉR",
+        "club": "Paksi FC"
+      },
+      {
+        "id": "nb1-9f0fa23b85ca",
+        "name": "D'Encarnacao Duarte Laros Michael",
+        "club": "Puskás Akadémia FC"
+      },
+      {
+        "id": "nb1-8c4a63ee7f39",
+        "name": "Magyar Zsolt János",
+        "club": "Puskás Akadémia FC"
+      },
+      {
+        "id": "nb1-f357fac0194c",
+        "name": "Ásványi Domonkos",
+        "club": "Puskás Akadémia FC"
+      },
+      {
+        "id": "nb1-8fd317c6d21b",
+        "name": "Matko Aljosa",
+        "club": "Újpest FC"
+      },
+      {
+        "id": "nb1-8c93f7633c63",
+        "name": "Gradisar Nejc",
+        "club": "Újpest FC"
+      },
+      {
+        "id": "nb1-4797020f158d",
+        "name": "Katona Benedek László",
+        "club": "Újpest FC"
+      },
+      {
+        "id": "nb1-634e0e27432f",
+        "name": "Bíró Bence Balázs",
+        "club": "Kisvárda Master Good"
+      },
+      {
+        "id": "nb1-fa00a4ac868d",
+        "name": "Chlumecky Martin",
+        "club": "Kisvárda Master Good"
+      },
+      {
+        "id": "nb1-6540a986095c",
+        "name": "Soltész Dominik István",
+        "club": "Kisvárda Master Good"
+      },
+      {
+        "id": "nb1-1fad065b3f0e",
+        "name": "Osztrovka Maxim",
+        "club": "Kisvárda Master Good"
+      },
+      {
+        "id": "nb1-f98d9cd1c649",
+        "name": "Nemanja Antonov",
+        "club": "Nyíregyháza Spartacus FC"
+      },
+      {
+        "id": "nb1-9309e1184ef9",
+        "name": "Temesvári Attila",
+        "club": "Nyíregyháza Spartacus FC"
+      },
+      {
+        "id": "nb1-489f67cd7bfb",
+        "name": "Oláh Benjámin",
+        "club": "Nyíregyháza Spartacus FC"
+      },
+      {
+        "id": "nb1-17831da5b04f",
+        "name": "Vukk Zsombor",
+        "club": "Nyíregyháza Spartacus FC"
+      },
+      {
+        "id": "nb1-64a253ee4ea6",
+        "name": "Molnár Ádin",
+        "club": "MTK Budapest"
+      },
+      {
+        "id": "nb1-1a9c95467df4",
+        "name": "Hegyi Krisztián",
+        "club": "MTK Budapest"
+      },
+      {
+        "id": "nb1-b5ef418f7436",
+        "name": "Vasiljevic Andrej",
+        "club": "MTK Budapest"
+      },
+      {
+        "id": "nb1-d3559b6e27a3",
+        "name": "Bényei Ágoston András",
+        "club": "DVTK"
+      },
+      {
+        "id": "nb1-4320e9853a76",
+        "name": "Farkas Ruben Bálint",
+        "club": "DVTK"
+      },
+      {
+        "id": "nb1-08ae611b5ae9",
+        "name": "Kártik Bálint József",
+        "club": "Kolorcity Kazincbarcika SC"
+      },
+      {
+        "id": "nb1-dadac38232d5",
+        "name": "Slogar Martin",
+        "club": "Kolorcity Kazincbarcika SC"
+      },
+      {
+        "id": "nb1-1c54b5f254e0",
+        "name": "Ikoba Eduvie Marho",
+        "club": "Kolorcity Kazincbarcika SC"
+      },
+      {
+        "id": "nb1-4f9f1920006a",
+        "name": "Sebők Péter",
+        "club": "Kolorcity Kazincbarcika SC"
+      }
+    ],
+    "secondYellowRedCards": "Nincs külön bontás a forrásban."
+  },
+  "players": [
+    {
+      "id": "nb1-d2b7e604be9d",
+      "name": "Dzsudzsák Balázs",
+      "club": "DVSC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 39,
+        "appearances": 33,
+        "starts": 32,
+        "goals": 6,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 76,
+        "squads": 33,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "d2b7e604be9d",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/12126.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-dvsc-dzsudzsak-balazs"
+        ],
+        "birthDateSource": "https://www.transfermarkt.com/balazs-dzsudzsak/profil/spieler/35004",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1986-12-23"
+    },
+    {
+      "id": "2025-26-dvsc-szecsi-mark",
+      "name": "SZÉCSI MÁRK",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 32,
+        "goals": 1,
+        "appearances": 21,
+        "starts": 9,
+        "squads": 28,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "1198281096f2",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/114966.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/mark-szecsi/profil/spieler/183198",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1994-05-22"
+    },
+    {
+      "id": "2025-26-dvsc-lang-adam",
+      "name": "LANG ÁDÁM",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 33,
+        "goals": 1,
+        "appearances": 30,
+        "starts": 29,
+        "squads": 30,
+        "yellowCards": 7,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "0065fd35f2b0",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/259568.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-palfi-donat",
+      "name": "PÁLFI DONÁT",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 26,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 21,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "34ded8ee156a",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/316884.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/donat-palfi/profil/spieler/524764",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2000-03-08"
+    },
+    {
+      "id": "2025-26-dvsc-kocsis-dominik",
+      "name": "KOCSIS DOMINIK",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 23,
+        "goals": 4,
+        "appearances": 29,
+        "starts": 28,
+        "squads": 29,
+        "yellowCards": 3,
+        "redCards": 1,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "meta": {
+        "personKey": "07e22812da3b",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/394070.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-barany-donat",
+      "name": "BÁRÁNY DONÁT",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 25,
+        "goals": 12,
+        "appearances": 25,
+        "starts": 21,
+        "squads": 26,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "bfecbf79e6e3",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/431627.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-batik-bence",
+      "name": "BATIK BENCE",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 32,
+        "goals": 1,
+        "appearances": 23,
+        "starts": 20,
+        "squads": 26,
+        "yellowCards": 9,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "da972013d3df",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/453910.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/bence-batik/profil/spieler/191745",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1993-11-08"
+    },
+    {
+      "id": "nb1-cf21a2d9106f",
+      "name": "Szűcs Tamás",
+      "club": "DVSC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 31,
+        "starts": 31,
+        "goals": 3,
+        "yellowCards": 4,
+        "redCards": 1,
+        "overallScore": 56,
+        "squads": 31,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "meta": {
+        "personKey": "cf21a2d9106f",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/459099.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-dvsc-szucs-tamas"
+        ],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-szuhodovszki-soma",
+      "name": "SZUHODOVSZKI SOMA",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 26,
+        "goals": 2,
+        "appearances": 23,
+        "starts": 16,
+        "squads": 32,
+        "yellowCards": 4,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "5276992799e1",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/507336.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/soma-szuhodovszki/profil/spieler/439341",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1999-12-30"
+    },
+    {
+      "id": "2025-26-dvsc-erdelyi-benedek-miklos",
+      "name": "ERDÉLYI BENEDEK MIKLÓS",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 12,
+        "starts": 12,
+        "squads": 19,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "9b45e82305cf",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/536006.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-regenyei-gergo",
+      "name": "REGENYEI GERGŐ",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 19,
+        "goals": 0,
+        "appearances": 1,
+        "starts": 0,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "bf3d1bead6ca",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/543063.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-egri-imre",
+      "name": "EGRI IMRE",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 18,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 2,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "7d3749ff46ff",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/547877.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-bodnar-balazs",
+      "name": "BODNÁR BALÁZS",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 19,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 2,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "a708da151eec",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/593955.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-tercza-gergo",
+      "name": "TERCZA GERGŐ",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 19,
+        "goals": 0,
+        "appearances": 8,
+        "starts": 1,
+        "squads": 25,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "23c8a4dc2ce4",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/601804.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "nb1-89c5690fc8d1",
+      "name": "Vajda Botond",
+      "club": "DVSC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 22,
+        "appearances": 23,
+        "starts": 15,
+        "goals": 0,
+        "yellowCards": 2,
+        "redCards": 0,
+        "overallScore": 48,
+        "squads": 28,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "89c5690fc8d1",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/668999.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-dvsc-vajda-botond"
+        ],
+        "birthDateSource": "https://www.transfermarkt.com/botond-vajda/profil/spieler/1013853",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2004-03-15"
+    },
+    {
+      "id": "nb1-575a09ebf626",
+      "name": "Szakál Dénes",
+      "club": "DVSC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 17,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 21,
+        "squads": 4,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "575a09ebf626",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/672061.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-dvsc-szakal-denes"
+        ],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-cibla-florian",
+      "name": "CIBLA FLÓRIÁN",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 5,
+        "appearances": 18,
+        "starts": 9,
+        "squads": 31,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "36be5719fdad",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/767406.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-mejias-garcia-josua-antonio",
+      "name": "MEJIAS GARCIA JOSUA ANTONIO",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 29,
+        "goals": 1,
+        "appearances": 28,
+        "starts": 27,
+        "squads": 31,
+        "yellowCards": 9,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "e1cea05e0e79",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497610.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/josua-mejias/profil/spieler/427683",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1998-06-09"
+    },
+    {
+      "id": "2025-26-dvsc-gordic-dorde",
+      "name": "GORDIC DORDE",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 3,
+        "appearances": 26,
+        "starts": 17,
+        "squads": 31,
+        "yellowCards": 5,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "117cc7a8d0da",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497611.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-dacosta-julien-joachim",
+      "name": "DACOSTA JULIEN JOACHIM",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 30,
+        "goals": 0,
+        "appearances": 13,
+        "starts": 11,
+        "squads": 23,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "70be395663c1",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497612.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-guerrero-aguilar-adrian",
+      "name": "GUERRERO AGUILAR ADRIAN",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 28,
+        "goals": 3,
+        "appearances": 23,
+        "starts": 18,
+        "squads": 26,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3acefc462765",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497656.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/adrian-guerrero/profil/spieler/282724",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1998-01-28"
+    },
+    {
+      "id": "2025-26-dvsc-bermejo-escribano-alex",
+      "name": "BERMEJO ESCRIBANO ALEX",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 27,
+        "goals": 0,
+        "appearances": 14,
+        "starts": 3,
+        "squads": 25,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "da3c31a72ac9",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497675.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/alex-bermejo/profil/spieler/473695",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1998-12-11"
+    },
+    {
+      "id": "2025-26-dvsc-kulbachuk-viacheslav",
+      "name": "KULBACHUK VIACHESLAV",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 1,
+        "appearances": 6,
+        "starts": 3,
+        "squads": 29,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "8afe15969f2a",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1291715.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-komaromi-gyorgy",
+      "name": "KOMÁROMI GYÖRGY",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 24,
+        "goals": 3,
+        "appearances": 23,
+        "starts": 4,
+        "squads": 31,
+        "yellowCards": 4,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "6f21e3f7a724",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/249750.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/gyorgy-komaromi/profil/spieler/616945",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2002-01-19"
+    },
+    {
+      "id": "2025-26-dvsc-lopez-de-la-manzanara",
+      "name": "LOPEZ DE LA MANZANARA",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 29,
+        "goals": 0,
+        "appearances": 16,
+        "starts": 0,
+        "squads": 29,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "1f765abb6f87",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497514.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-djokic-dejan",
+      "name": "DJOKIC DEJAN",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 25,
+        "goals": 0,
+        "appearances": 5,
+        "starts": 0,
+        "squads": 10,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "24215f022449",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1498229.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-youga-christopher-amos",
+      "name": "YOUGA CHRISTOPHER AMOS",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 33,
+        "goals": 2,
+        "appearances": 19,
+        "starts": 15,
+        "squads": 29,
+        "yellowCards": 7,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3085e2672bcc",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1492441.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "nb1-232751bffa85",
+      "name": "Hofmann Maximilian",
+      "club": "DVSC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 32,
+        "appearances": 9,
+        "starts": 7,
+        "goals": 0,
+        "yellowCards": 2,
+        "redCards": 0,
+        "overallScore": 35,
+        "squads": 18,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "232751bffa85",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1492479.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-dvsc-hofmann-maximilian"
+        ],
+        "birthDateSource": "https://www.transfermarkt.com/maximilian-hofmann/profil/spieler/131231",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1993-08-07"
+    },
+    {
+      "id": "2025-26-dvsc-sissoko-niama-pape",
+      "name": "SISSOKO NIAMA PAPE",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 7,
+        "starts": 0,
+        "squads": 13,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "4de850f7358c",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1498731.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/pape-sissoko/profil/spieler/1228320",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-12-16"
+    },
+    {
+      "id": "2025-26-dvsc-camarasa-ferrando-victor",
+      "name": "CAMARASA FERRANDO VICTOR",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 32,
+        "goals": 0,
+        "appearances": 5,
+        "starts": 0,
+        "squads": 16,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "c55343a574e8",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1501310.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/victor-camarasa/profil/spieler/263856",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1994-05-28"
+    },
+    {
+      "id": "2025-26-dvsc-patai-david",
+      "name": "PATAI DÁVID",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 19,
+        "goals": 0,
+        "appearances": 6,
+        "starts": 1,
+        "squads": 17,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "7e4da8ce7bd3",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/590557.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-kusnyir-erik",
+      "name": "KUSNYIR ERIK",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 26,
+        "goals": 1,
+        "appearances": 13,
+        "starts": 13,
+        "squads": 15,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "719670d22b23",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/804454.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-silue-dognimani-yacouba",
+      "name": "SILUE DOGNIMANI YACOUBA",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 24,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "f589380d221f",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1428711.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/yacouba-silue/profil/spieler/865300",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2002-01-01"
+    },
+    {
+      "id": "2025-26-dvsc-asztalos-noel",
+      "name": "ASZTALOS NOEL",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 17,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 4,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "96e384a4e020",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/616148.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-odey-stephen-pius",
+      "name": "ODEY STEPHEN PIUS",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 28,
+        "goals": 0,
+        "appearances": 1,
+        "starts": 0,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "9d9c474bde1d",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1558591.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-dvsc-kohut-mate",
+      "name": "KOHUT MÁTÉ",
+      "club": "DVSC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 1,
+        "starts": 0,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "e02e274f183a",
+        "clubId": "dvsc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/476830.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307004.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-eto-fc-vitalis-milan",
+      "name": "VITÁLIS MILÁN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 24,
+        "goals": 9,
+        "appearances": 31,
+        "starts": 31,
+        "squads": 31,
+        "yellowCards": 6,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "6c12cc7dc8f1",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/319173.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/319173.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2002-01-28"
+    },
+    {
+      "id": "2025-26-eto-fc-vingler-laszlo",
+      "name": "VINGLER LÁSZLÓ",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 16,
+        "starts": 8,
+        "squads": 20,
+        "yellowCards": 4,
+        "redCards": 1,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "meta": {
+        "personKey": "38532619f5f7",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/435560.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/435560.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-10-31"
+    },
+    {
+      "id": "2025-26-eto-fc-biro-barnabas",
+      "name": "BÍRÓ BARNABÁS",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 1,
+        "appearances": 16,
+        "starts": 11,
+        "squads": 32,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3944b131a5bf",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/448241.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/448241.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-01-06"
+    },
+    {
+      "id": "2025-26-eto-fc-herczeg-marcell",
+      "name": "HERCZEG MARCELL",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 19,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 4,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "6768e626c863",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/467603.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/467603.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2006-10-01"
+    },
+    {
+      "id": "2025-26-eto-fc-toth-rajmund",
+      "name": "TÓTH RAJMUND",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 22,
+        "goals": 0,
+        "appearances": 30,
+        "starts": 23,
+        "squads": 31,
+        "yellowCards": 7,
+        "redCards": 1,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "meta": {
+        "personKey": "4efc1a1d1d91",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/473734.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/473734.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2004-04-09"
+    },
+    {
+      "id": "2025-26-eto-fc-huszar-marcell-bela",
+      "name": "HUSZÁR MARCELL BÉLA",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 3,
+        "appearances": 14,
+        "starts": 0,
+        "squads": 30,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "1755418d9d79",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/534685.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/534685.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-05-07"
+    },
+    {
+      "id": "2025-26-eto-fc-tollar-imre-adrian",
+      "name": "TOLLÁR IMRE ADRIÁN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 4,
+        "starts": 1,
+        "squads": 12,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "4e9b9a0e28f4",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/534928.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/534928.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2006-02-23"
+    },
+    {
+      "id": "2025-26-eto-fc-decsy-adam",
+      "name": "DÉCSY ÁDÁM",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 19,
+        "goals": 0,
+        "appearances": 5,
+        "starts": 3,
+        "squads": 18,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "a7b288dfdc9b",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/561626.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/561626.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2007-04-22"
+    },
+    {
+      "id": "2025-26-eto-fc-brecska-daniel",
+      "name": "BRECSKA DÁNIEL",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 20,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "ccaa5196bd71",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/604178.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/604178.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2006-03-05"
+    },
+    {
+      "id": "2025-26-eto-fc-urblik-norbert",
+      "name": "URBLÍK NORBERT",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 22,
+        "goals": 0,
+        "appearances": 1,
+        "starts": 0,
+        "squads": 16,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3143540cc9ab",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1032184.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1032184.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2004-04-18"
+    },
+    {
+      "id": "2025-26-eto-fc-bumba-claudiu-vasile",
+      "name": "BUMBA CLAUDIU-VASILE",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 32,
+        "goals": 3,
+        "appearances": 31,
+        "starts": 23,
+        "squads": 32,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3e4da73d90a4",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1118576.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1118576.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1994-01-05"
+    },
+    {
+      "id": "2025-26-eto-fc-krpic-miljan",
+      "name": "KRPIC MILJAN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 23,
+        "goals": 1,
+        "appearances": 22,
+        "starts": 21,
+        "squads": 24,
+        "yellowCards": 6,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "55fed227ea7f",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1171826.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1171826.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2003-07-03"
+    },
+    {
+      "id": "nb1-0d5856f6c638",
+      "name": "Gavric Zeljko",
+      "club": "ETO FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 28,
+        "starts": 23,
+        "goals": 6,
+        "yellowCards": 5,
+        "redCards": 0,
+        "overallScore": 64,
+        "squads": 28,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "0d5856f6c638",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1220926.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-eto-fc-gavric-zeljko"
+        ],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1220926.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2000-12-05"
+    },
+    {
+      "id": "2025-26-eto-fc-pyshchur-oleksandr",
+      "name": "PYSHCHUR OLEKSANDR",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 2,
+        "appearances": 25,
+        "starts": 2,
+        "squads": 29,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3395a387b28d",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1286982.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1286982.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-01-24"
+    },
+    {
+      "id": "nb1-f50e0bbc2943",
+      "name": "Anton Paul-Viorel",
+      "club": "ETO FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 35,
+        "appearances": 14,
+        "starts": 13,
+        "goals": 2,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 49,
+        "squads": 20,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "f50e0bbc2943",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1358843.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-eto-fc-anton-paul-viorel"
+        ],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1358843.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1991-05-10"
+    },
+    {
+      "id": "2025-26-eto-fc-boldor-deian",
+      "name": "BOLDOR DEIAN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 31,
+        "goals": 1,
+        "appearances": 12,
+        "starts": 4,
+        "squads": 31,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "208edc5ff75d",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1365951.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1365951.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1995-02-03"
+    },
+    {
+      "id": "2025-26-eto-fc-petras-samuel",
+      "name": "PETRÁS SAMUEL",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 27,
+        "goals": 0,
+        "appearances": 23,
+        "starts": 23,
+        "squads": 33,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "ae3179493e5e",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1429051.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1429051.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1999-04-10"
+    },
+    {
+      "id": "2025-26-eto-fc-stefulj-daniel",
+      "name": "STEFULJ DANIEL",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 26,
+        "goals": 3,
+        "appearances": 32,
+        "starts": 31,
+        "squads": 32,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "2f8b7b3cd450",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1430429.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1430429.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1999-11-08"
+    },
+    {
+      "id": "2025-26-eto-fc-ouro-samsindin",
+      "name": "OURO SAMSINDIN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 26,
+        "goals": 1,
+        "appearances": 3,
+        "starts": 2,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "5317ad376ca1",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1430617.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1430617.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2000-03-02"
+    },
+    {
+      "id": "nb1-4e4f5773f0cd",
+      "name": "Benbouali Ahmed Nadhir",
+      "club": "ETO FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 26,
+        "appearances": 32,
+        "starts": 30,
+        "goals": 15,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 88,
+        "squads": 32,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "4e4f5773f0cd",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1431397.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-eto-fc-benbouali-ahmed-nadhir"
+        ],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1431397.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2000-04-17"
+    },
+    {
+      "id": "2025-26-eto-fc-njie-nfansu",
+      "name": "NJIE NFANSU",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 4,
+        "appearances": 25,
+        "starts": 10,
+        "squads": 29,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "a9415fba09f1",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1492375.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1492375.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-01-03"
+    },
+    {
+      "id": "2025-26-eto-fc-abrahamsson-nils-oscar-alexander",
+      "name": "ABRAHAMSSON NILS OSCAR ALEXANDER",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 26,
+        "goals": 0,
+        "appearances": 10,
+        "starts": 8,
+        "squads": 16,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "140fda0b6de6",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1496982.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1496982.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1999-08-07"
+    },
+    {
+      "id": "2025-26-eto-fc-zivkovic-jovan",
+      "name": "ZIVKOVIC JOVAN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 7,
+        "starts": 1,
+        "squads": 33,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "926fa71fa104",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497478.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1497478.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2006-05-23"
+    },
+    {
+      "id": "2025-26-eto-fc-csinger-mark",
+      "name": "CSINGER MÁRK",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 23,
+        "goals": 2,
+        "appearances": 31,
+        "starts": 30,
+        "squads": 32,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "5bfcee16c8b7",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/352055.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/352055.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2003-05-31"
+    },
+    {
+      "id": "2025-26-eto-fc-banati-kevin",
+      "name": "BÁNÁTI KEVIN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 3,
+        "appearances": 29,
+        "starts": 20,
+        "squads": 31,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "6103e77128bc",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/413650.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/413650.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-05-11"
+    },
+    {
+      "id": "2025-26-eto-fc-vladoiu-stefan-marinel",
+      "name": "VLADOIU STEFAN-MARINEL",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 27,
+        "goals": 0,
+        "appearances": 21,
+        "starts": 11,
+        "squads": 28,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "deb44d76bf3c",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1497966.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1497966.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1998-12-28"
+    },
+    {
+      "id": "nb1-3228c4eed8dc",
+      "name": "Megyeri Balázs",
+      "club": "ETO FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 36,
+        "appearances": 10,
+        "starts": 10,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 41,
+        "squads": 27,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3228c4eed8dc",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/251389.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-eto-fc-megyeri-balazs"
+        ],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/251389.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1990-03-31"
+    },
+    {
+      "id": "2025-26-eto-fc-schon-szabolcs-gergo",
+      "name": "SCHÖN SZABOLCS GERGŐ",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 25,
+        "goals": 6,
+        "appearances": 27,
+        "starts": 21,
+        "squads": 27,
+        "yellowCards": 6,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "9d42194b0742",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/363858.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/363858.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2000-09-27"
+    },
+    {
+      "id": "2025-26-eto-fc-miangue-senna",
+      "name": "MIANGUE SENNA",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 29,
+        "goals": 0,
+        "appearances": 9,
+        "starts": 3,
+        "squads": 22,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "7a1cee5a1478",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1528897.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1528897.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1997-02-05"
+    },
+    {
+      "id": "2025-26-eto-fc-kulcsar-martin",
+      "name": "KULCSÁR MARTIN",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "a05a96ebded5",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/467300.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/467300.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-07-05"
+    },
+    {
+      "id": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+      "name": "MASCOE LAWRENZO NATHANIEL",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "c6c03f37de87",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1419803.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1419803.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2005-02-11"
+    },
+    {
+      "id": "2025-26-eto-fc-sahli-ouijdi",
+      "name": "SAHLI OUIJDI",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 29,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "d289e3578daf",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1429469.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1429469.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1997-04-17"
+    },
+    {
+      "id": "nb1-3c933249d398",
+      "name": "Szép Márton",
+      "club": "ETO FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 18,
+        "appearances": 2,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 23,
+        "squads": 9,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3c933249d398",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/475801.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-eto-fc-szep-marton"
+        ],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/475801.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2007-07-26"
+    },
+    {
+      "id": "2025-26-eto-fc-szarka-bulcsu-janos",
+      "name": "SZARKA BULCSÚ JÁNOS",
+      "club": "ETO FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 18,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "77bc637b35f0",
+        "clubId": "eto-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/716321.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307001.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://adatbank.mlsz.hu/player/716321.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2008-02-22"
+    },
+    {
+      "id": "2025-26-paksi-fc-kinyik-akos",
+      "name": "KINYIK ÁKOS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 33,
+        "goals": 0,
+        "appearances": 14,
+        "starts": 13,
+        "squads": 17,
+        "yellowCards": 5,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "b3aceb1b549b",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/8439.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-szabo-janos",
+      "name": "SZABÓ JÁNOS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 37,
+        "goals": 1,
+        "appearances": 20,
+        "starts": 20,
+        "squads": 30,
+        "yellowCards": 1,
+        "redCards": 1,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "meta": {
+        "personKey": "84ad50b69280",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/29387.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/janos-szabo/profil/spieler/103079",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1989-07-11"
+    },
+    {
+      "id": "2025-26-paksi-fc-vecsei-balint-mate",
+      "name": "VÉCSEI BÁLINT MÁTÉ",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 33,
+        "goals": 1,
+        "appearances": 25,
+        "starts": 23,
+        "squads": 33,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "632be0a4caa2",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/104063.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/balint-vecsei/profil/spieler/151658",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1993-07-13"
+    },
+    {
+      "id": "2025-26-paksi-fc-windecker-jozsef",
+      "name": "WINDECKER JÓZSEF",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 33,
+        "goals": 5,
+        "appearances": 27,
+        "starts": 16,
+        "squads": 28,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "565f0f6c669b",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/115498.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "nb1-99f5c34441a0",
+      "name": "Papp Kristóf",
+      "club": "Paksi FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 33,
+        "appearances": 28,
+        "starts": 28,
+        "goals": 1,
+        "yellowCards": 10,
+        "redCards": 0,
+        "overallScore": 50,
+        "squads": 28,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "99f5c34441a0",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/152353.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-paksi-fc-papp-kristof"
+        ],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-silye-erik",
+      "name": "SILYE ERIK",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 30,
+        "goals": 2,
+        "appearances": 20,
+        "starts": 15,
+        "squads": 31,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "9500c5302695",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/163222.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/erik-silye/profil/spieler/402394",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1996-06-12"
+    },
+    {
+      "id": "2025-26-paksi-fc-balogh-balazs",
+      "name": "BALOGH BALÁZS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 36,
+        "goals": 1,
+        "appearances": 16,
+        "starts": 11,
+        "squads": 22,
+        "yellowCards": 6,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3aa98dcce2b9",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/251313.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-bode-daniel",
+      "name": "BÖDE DÁNIEL",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 39,
+        "goals": 10,
+        "appearances": 23,
+        "starts": 4,
+        "squads": 26,
+        "yellowCards": 3,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "82a7de0351fc",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/260136.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/daniel-bode/profil/spieler/93492",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1986-10-24"
+    },
+    {
+      "id": "2025-26-paksi-fc-toth-barna",
+      "name": "TÓTH BARNA",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 31,
+        "goals": 6,
+        "appearances": 25,
+        "starts": 17,
+        "squads": 29,
+        "yellowCards": 4,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "de111bed4aa4",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/266685.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/barna-toth/profil/spieler/423111",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1995-03-13"
+    },
+    {
+      "id": "2025-26-paksi-fc-hinora-kristof",
+      "name": "HINORA KRISTÓF",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 28,
+        "goals": 0,
+        "appearances": 14,
+        "starts": 11,
+        "squads": 30,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "41f814a867c6",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/294028.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/kristof-hinora/profil/spieler/427223",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1998-02-05"
+    },
+    {
+      "id": "2025-26-paksi-fc-szendrei-akos",
+      "name": "SZENDREI ÁKOS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 23,
+        "goals": 6,
+        "appearances": 20,
+        "starts": 14,
+        "squads": 26,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "f0a50926618a",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/314751.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/akos-szendrei/profil/spieler/699309",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2003-01-23"
+    },
+    {
+      "id": "nb1-d6bfe3acf08d",
+      "name": "Szekszárdi Milán",
+      "club": "Paksi FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 15,
+        "starts": 10,
+        "goals": 0,
+        "yellowCards": 5,
+        "redCards": 0,
+        "overallScore": 35,
+        "squads": 26,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "d6bfe3acf08d",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/319551.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-paksi-fc-szekszardi-milan"
+        ],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-gyurkits-gergo",
+      "name": "GYURKITS GERGŐ",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 24,
+        "goals": 6,
+        "appearances": 27,
+        "starts": 16,
+        "squads": 31,
+        "yellowCards": 6,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "08b00646b0f2",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/341776.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-vas-gabor",
+      "name": "VAS GÁBOR",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 22,
+        "goals": 0,
+        "appearances": 10,
+        "starts": 10,
+        "squads": 11,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "bdc65777a75f",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/366193.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "nb1-16115bd7c08a",
+      "name": "Horváth Kevin",
+      "club": "Paksi FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 32,
+        "starts": 26,
+        "goals": 3,
+        "yellowCards": 5,
+        "redCards": 0,
+        "overallScore": 60,
+        "squads": 32,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "16115bd7c08a",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/419353.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-paksi-fc-horvath-kevin"
+        ],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-simon-barnabas",
+      "name": "SIMON BARNABÁS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 22,
+        "goals": 0,
+        "appearances": 2,
+        "starts": 2,
+        "squads": 27,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "68ce2bb1133c",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/436343.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/barnabas-simon/profil/spieler/796234",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2004-02-13"
+    },
+    {
+      "id": "2025-26-paksi-fc-gyetvan-mark",
+      "name": "GYETVÁN MÁRK",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 0,
+        "appearances": 6,
+        "starts": 6,
+        "squads": 15,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3b3b5c3e303e",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/437134.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-zeke-mario",
+      "name": "ZEKE MÁRIÓ",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 25,
+        "goals": 1,
+        "appearances": 24,
+        "starts": 19,
+        "squads": 33,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "3f9b97d8cef6",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/460938.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/mario-zeke/profil/spieler/476090",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "2000-09-01"
+    },
+    {
+      "id": "nb1-8378caea9bbf",
+      "name": "Hahn János Csaba",
+      "club": "Paksi FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 31,
+        "appearances": 28,
+        "starts": 23,
+        "goals": 11,
+        "yellowCards": 3,
+        "redCards": 0,
+        "overallScore": 79,
+        "squads": 30,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "8378caea9bbf",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/578379.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-paksi-fc-hahn-janos-csaba"
+        ],
+        "birthDateSource": "https://www.transfermarkt.com/janos-hahn/profil/spieler/251116",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1995-03-15"
+    },
+    {
+      "id": "2025-26-paksi-fc-galambos-janos",
+      "name": "GALAMBOS JÁNOS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 18,
+        "goals": 1,
+        "appearances": 4,
+        "starts": 2,
+        "squads": 18,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "ba856df2b722",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/589145.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-kovacsik-adam",
+      "name": "KOVÁCSIK ÁDÁM",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 35,
+        "goals": 0,
+        "appearances": 25,
+        "starts": 25,
+        "squads": 32,
+        "yellowCards": 1,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "8b31a3ac69c5",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/709712.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-haraszti-zsolt",
+      "name": "HARASZTI ZSOLT",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 34,
+        "goals": 0,
+        "appearances": 8,
+        "starts": 2,
+        "squads": 15,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "ef76dddebb2a",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/710957.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/zsolt-haraszti/profil/spieler/150020",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1991-11-04"
+    },
+    {
+      "id": "2025-26-paksi-fc-lapu-andor",
+      "name": "LAPU ANDOR",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 21,
+        "goals": 0,
+        "appearances": 0,
+        "starts": 0,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "30f88df3236b",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/711644.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-adam-martin",
+      "name": "ÁDÁM MARTIN",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 31,
+        "goals": 2,
+        "appearances": 13,
+        "starts": 0,
+        "squads": 14,
+        "yellowCards": 2,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "55fa24750345",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/287633.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": "https://www.transfermarkt.com/martin-adam/profil/spieler/220635",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": "1994-11-06"
+    },
+    {
+      "id": "2025-26-paksi-fc-debreceni-akos",
+      "name": "DEBRECENI ÁKOS",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 23,
+        "goals": 0,
+        "appearances": 1,
+        "starts": 0,
+        "squads": 2,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "9fc65dd8968d",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/354313.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-lenzser-bence",
+      "name": "LENZSÉR BENCE",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 30,
+        "goals": 2,
+        "appearances": 19,
+        "starts": 19,
+        "squads": 19,
+        "yellowCards": 6,
+        "redCards": 1,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "meta": {
+        "personKey": "788c2d6c95d4",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/641827.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "nb1-35fb6a54d829",
+      "name": "Pesti Zoltán",
+      "club": "Paksi FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 23,
+        "squads": 7,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "35fb6a54d829",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/476290.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [
+          "2025-26-paksi-fc-pesti-zoltan"
+        ],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-mate-csaba",
+      "name": "MÁTÉ CSABA",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 20,
+        "goals": 0,
+        "appearances": 9,
+        "starts": 1,
+        "squads": 15,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "9b1603578345",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/586914.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "2025-26-paksi-fc-tamas-oliver",
+      "name": "TAMÁS OLIVÉR",
+      "club": "Paksi FC",
+      "nation": "",
+      "position": "",
+      "stats": {
+        "age": 25,
+        "goals": 0,
+        "appearances": 2,
+        "starts": 0,
+        "squads": 9,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "meta": {
+        "personKey": "2a4cb19625cb",
+        "clubId": "paksi-fc",
+        "imageUrl": null,
+        "sourceUrl": "https://adatbank.mlsz.hu/player/471017.html",
+        "rosterSourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307012.html",
+        "checkedAt": "2026-07-19",
+        "dataStatus": "partially_verified",
+        "previousIds": [],
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      },
+      "birthDate": null
+    },
+    {
+      "id": "nb1-f71f93fef3da",
+      "name": "Gruber Zsombor",
+      "club": "Ferencvárosi TC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 29,
+        "starts": 17,
+        "goals": 9,
+        "yellowCards": 1,
+        "redCards": 0,
+        "overallScore": 74,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2004-09-07",
+      "meta": {
+        "personKey": "f71f93fef3da",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/378090.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-0f7ebced98f4",
+      "name": "Nagy Barnabás Szabolcs",
+      "club": "Ferencvárosi TC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 29,
+        "starts": 24,
+        "goals": 2,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 58,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2000-09-05",
+      "meta": {
+        "personKey": "0f7ebced98f4",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/319046.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-bfb48986f714",
+      "name": "Ötvös Bence",
+      "club": "Ferencvárosi TC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 28,
+        "appearances": 19,
+        "starts": 10,
+        "goals": 3,
+        "yellowCards": 7,
+        "redCards": 0,
+        "overallScore": 45,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "1998-03-13",
+      "meta": {
+        "personKey": "bfb48986f714",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/581861.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-446bec57246f",
+      "name": "Gróf Dávid Attila",
+      "club": "Ferencvárosi TC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 37,
+        "appearances": 12,
+        "starts": 12,
+        "goals": 0,
+        "yellowCards": 2,
+        "redCards": 1,
+        "overallScore": 36,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "birthDate": "1989-04-17",
+      "meta": {
+        "personKey": "446bec57246f",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/38070.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-888fb69b3ed2",
+      "name": "Sevikyan Edgar",
+      "club": "Ferencvárosi TC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 24,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 24,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2001-08-08",
+      "meta": {
+        "personKey": "888fb69b3ed2",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1422018.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-263fc043f910",
+      "name": "Skribek Alen Martin",
+      "club": "ZTE FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 29,
+        "starts": 28,
+        "goals": 10,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 80,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2001-04-11",
+      "meta": {
+        "personKey": "263fc043f910",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/395809.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-9c2a528109ee",
+      "name": "Csonka András Mátyás",
+      "club": "ZTE FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 26,
+        "appearances": 29,
+        "starts": 24,
+        "goals": 1,
+        "yellowCards": 6,
+        "redCards": 0,
+        "overallScore": 54,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2000-05-01",
+      "meta": {
+        "personKey": "9c2a528109ee",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/230184.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-e9c2b788895b",
+      "name": "Papp Csongor",
+      "club": "ZTE FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 9,
+        "starts": 7,
+        "goals": 0,
+        "yellowCards": 3,
+        "redCards": 0,
+        "overallScore": 29,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2005-02-22",
+      "meta": {
+        "personKey": "e9c2b788895b",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/778110.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-50fd7361a98a",
+      "name": "Garai Zétény Péter",
+      "club": "ZTE FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 18,
+        "appearances": 1,
+        "starts": 1,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 22,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2007-11-21",
+      "meta": {
+        "personKey": "50fd7361a98a",
+        "birthDateSource": "https://adatbank.mlsz.hu/player/608072.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-56526d8f7ef7",
+      "name": "Lukács Dániel",
+      "club": "Puskás Akadémia FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 30,
+        "appearances": 33,
+        "starts": 33,
+        "goals": 17,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 91,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "1996-04-03",
+      "meta": {
+        "personKey": "56526d8f7ef7",
+        "birthDateSource": "https://www.transfermarkt.com/daniel-lukacs/profil/spieler/410170",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-9f0fa23b85ca",
+      "name": "D'Encarnacao Duarte Laros Michael",
+      "club": "Puskás Akadémia FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 29,
+        "appearances": 30,
+        "starts": 28,
+        "goals": 0,
+        "yellowCards": 5,
+        "redCards": 0,
+        "overallScore": 56,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "9f0fa23b85ca",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-8c4a63ee7f39",
+      "name": "Magyar Zsolt János",
+      "club": "Puskás Akadémia FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 24,
+        "appearances": 12,
+        "starts": 4,
+        "goals": 1,
+        "yellowCards": 2,
+        "redCards": 0,
+        "overallScore": 37,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "8c4a63ee7f39",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-f357fac0194c",
+      "name": "Ásványi Domonkos",
+      "club": "Puskás Akadémia FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 19,
+        "appearances": 1,
+        "starts": 1,
+        "goals": 0,
+        "yellowCards": 1,
+        "redCards": 0,
+        "overallScore": 21,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "f357fac0194c",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-8fd317c6d21b",
+      "name": "Matko Aljosa",
+      "club": "Újpest FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 26,
+        "appearances": 33,
+        "starts": 33,
+        "goals": 17,
+        "yellowCards": 3,
+        "redCards": 0,
+        "overallScore": 91,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "8fd317c6d21b",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-c8706f6c982e",
+      "name": "Brodic Fran",
+      "club": "Újpest FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 29,
+        "appearances": 19,
+        "starts": 9,
+        "goals": 1,
+        "yellowCards": 1,
+        "redCards": 0,
+        "overallScore": 50,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "1997-01-08",
+      "meta": {
+        "personKey": "c8706f6c982e",
+        "birthDateSource": "https://www.transfermarkt.com/fran-brodic/profil/spieler/226060",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-8c93f7633c63",
+      "name": "Gradisar Nejc",
+      "club": "Újpest FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 23,
+        "appearances": 13,
+        "starts": 7,
+        "goals": 1,
+        "yellowCards": 1,
+        "redCards": 0,
+        "overallScore": 39,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "8c93f7633c63",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-4797020f158d",
+      "name": "Katona Benedek László",
+      "club": "Újpest FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 18,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 22,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "4797020f158d",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-634e0e27432f",
+      "name": "Bíró Bence Balázs",
+      "club": "Kisvárda Master Good",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 27,
+        "appearances": 31,
+        "starts": 28,
+        "goals": 7,
+        "yellowCards": 3,
+        "redCards": 0,
+        "overallScore": 73,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "634e0e27432f",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-fa00a4ac868d",
+      "name": "Chlumecky Martin",
+      "club": "Kisvárda Master Good",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 29,
+        "appearances": 29,
+        "starts": 28,
+        "goals": 2,
+        "yellowCards": 7,
+        "redCards": 0,
+        "overallScore": 56,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "fa00a4ac868d",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-6540a986095c",
+      "name": "Soltész Dominik István",
+      "club": "Kisvárda Master Good",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 19,
+        "starts": 14,
+        "goals": 0,
+        "yellowCards": 3,
+        "redCards": 0,
+        "overallScore": 43,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "6540a986095c",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-1fad065b3f0e",
+      "name": "Osztrovka Maxim",
+      "club": "Kisvárda Master Good",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 19,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 22,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "1fad065b3f0e",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-f98d9cd1c649",
+      "name": "Nemanja Antonov",
+      "club": "Nyíregyháza Spartacus FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 31,
+        "appearances": 28,
+        "starts": 21,
+        "goals": 1,
+        "yellowCards": 3,
+        "redCards": 0,
+        "overallScore": 59,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "f98d9cd1c649",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-9309e1184ef9",
+      "name": "Temesvári Attila",
+      "club": "Nyíregyháza Spartacus FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 26,
+        "starts": 23,
+        "goals": 4,
+        "yellowCards": 5,
+        "redCards": 1,
+        "overallScore": 52,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "9309e1184ef9",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-489f67cd7bfb",
+      "name": "Oláh Benjámin",
+      "club": "Nyíregyháza Spartacus FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 20,
+        "appearances": 12,
+        "starts": 0,
+        "goals": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 38,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "489f67cd7bfb",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-17831da5b04f",
+      "name": "Vukk Zsombor",
+      "club": "Nyíregyháza Spartacus FC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 19,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 22,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "17831da5b04f",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-64a253ee4ea6",
+      "name": "Molnár Ádin",
+      "club": "MTK Budapest",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 32,
+        "starts": 29,
+        "goals": 10,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 76,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "64a253ee4ea6",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-82eb43b7f3b9",
+      "name": "Németh Hunor Vajk",
+      "club": "MTK Budapest",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 19,
+        "appearances": 29,
+        "starts": 20,
+        "goals": 4,
+        "yellowCards": 4,
+        "redCards": 1,
+        "overallScore": 54,
+        "secondYellowRedCards": null,
+        "totalDismissals": 1
+      },
+      "birthDate": "2007-03-16",
+      "meta": {
+        "personKey": "82eb43b7f3b9",
+        "birthDateSource": "https://www.transfermarkt.com/hunor-nemeth/profil/spieler/1123210",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-1a9c95467df4",
+      "name": "Hegyi Krisztián",
+      "club": "MTK Budapest",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 23,
+        "appearances": 14,
+        "starts": 14,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 40,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "1a9c95467df4",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-b5ef418f7436",
+      "name": "Vasiljevic Andrej",
+      "club": "MTK Budapest",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 16,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 21,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "b5ef418f7436",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-0805bfe5d6fa",
+      "name": "Vallejo Minguez Alexander",
+      "club": "DVTK",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 34,
+        "appearances": 27,
+        "starts": 25,
+        "goals": 2,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 60,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "1992-01-16",
+      "meta": {
+        "personKey": "0805bfe5d6fa",
+        "birthDateSource": "https://www.transfermarkt.com/alex-vallejo/profil/spieler/138934",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-d3559b6e27a3",
+      "name": "Bényei Ágoston András",
+      "club": "DVTK",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 23,
+        "appearances": 25,
+        "starts": 12,
+        "goals": 1,
+        "yellowCards": 4,
+        "redCards": 0,
+        "overallScore": 50,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "d3559b6e27a3",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-ba488bcae995",
+      "name": "Komlósi Bence",
+      "club": "DVTK",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 20,
+        "appearances": 8,
+        "starts": 2,
+        "goals": 0,
+        "yellowCards": 1,
+        "redCards": 0,
+        "overallScore": 30,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": "2005-09-01",
+      "meta": {
+        "personKey": "ba488bcae995",
+        "birthDateSource": "https://www.transfermarkt.com/bence-komlosi/profil/spieler/933218",
+        "birthDateSourceName": "Transfermarkt-derived CC0 snapshot (salimt/football-datasets)",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-4320e9853a76",
+      "name": "Farkas Ruben Bálint",
+      "club": "DVTK",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 17,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 21,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "4320e9853a76",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-08ae611b5ae9",
+      "name": "Kártik Bálint József",
+      "club": "Kolorcity Kazincbarcika SC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 29,
+        "appearances": 32,
+        "starts": 31,
+        "goals": 4,
+        "yellowCards": 5,
+        "redCards": 0,
+        "overallScore": 66,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "08ae611b5ae9",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-dadac38232d5",
+      "name": "Slogar Martin",
+      "club": "Kolorcity Kazincbarcika SC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 25,
+        "appearances": 20,
+        "starts": 15,
+        "goals": 2,
+        "yellowCards": 5,
+        "redCards": 0,
+        "overallScore": 46,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "dadac38232d5",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-1c54b5f254e0",
+      "name": "Ikoba Eduvie Marho",
+      "club": "Kolorcity Kazincbarcika SC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 28,
+        "appearances": 10,
+        "starts": 4,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 37,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "1c54b5f254e0",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    },
+    {
+      "id": "nb1-4f9f1920006a",
+      "name": "Sebők Péter",
+      "club": "Kolorcity Kazincbarcika SC",
+      "nation": "Nincs adat",
+      "position": "Nincs adat",
+      "stats": {
+        "age": 21,
+        "appearances": 1,
+        "starts": 0,
+        "goals": 0,
+        "yellowCards": 0,
+        "redCards": 0,
+        "overallScore": 23,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0
+      },
+      "birthDate": null,
+      "meta": {
+        "personKey": "4f9f1920006a",
+        "birthDateSource": null,
+        "birthDateSourceName": null,
+        "dismissalBreakdown": "source-does-not-separate-second-yellow"
+      }
+    }
+  ]
+}

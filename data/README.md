@@ -1,28 +1,24 @@
-# NB I 2025/26 game data
+# Játékosadatok
 
-This folder contains the real-player data used by **Super Mega Fotbal 2026**.
+Az alkalmazás a `players.json` fájlt tölti be. A jelenlegi 136 kártya a korábbi 52 lapos, 12 klubos pakli és a frissebb 99 lapos ETO FC–Paksi FC–DVSC állomány veszteségmentes egyesítése; az azonos játékos–klub rekordok nem duplázódnak.
 
-## Files
+## Új mezők
 
-- `players.json` — the balanced, playable 52-card deck loaded by the game.
-- `validation.json` — deck size, club distribution and statistic ranges.
+```js
+{
+  birthDate: "2002-01-28" | null,
+  stats: {
+    yellowCards: 4,
+    redCards: 0,
+    secondYellowRedCards: null,
+    totalDismissals: 0
+  }
+}
+```
 
-The complete source database contains 440 unique players and remains available in the separately generated `nb1_2025_26_webadatbazis_v2_8_complete.zip` package.
+- A `birthDate` csak pontos, forrással rendelkező dátum lehet.
+- A `yellowCards` és `redCards` a meglévő 2025/26-os MLSZ adatsorból származik.
+- A forrás nem választja külön az egyenes pirosat és a második sárga miatti kiállítást. Emiatt a `secondYellowRedCards` ismeretlen (`null`), a `totalDismissals` pedig az MLSZ egyetlen piroslap/kiállítás értékét veszi át.
+- Ismeretlen érték soha nem alakul automatikusan nullává.
 
-## Playable attributes
-
-1. Age at the end of the 2025/26 season — lower wins.
-2. League appearances — higher wins.
-3. League starts — higher wins.
-4. League goals — higher wins.
-5. Yellow cards — lower wins.
-6. Red cards — lower wins.
-7. Project game score, 0–100 — higher wins.
-
-The 52-card deck contains five players from each of the top four clubs and four players from each of the other eight clubs. Players are sampled across each club's score range instead of simply selecting the 52 highest-rated players.
-
-## Source and limitations
-
-The records were assembled from publicly displayed MLSZ Adatbank pages for the 2025/26 Fizz Liga season. The package does not contain player photos, club crests, MLSZ logos, Transfermarkt market values or invented missing statistics.
-
-`nation` and `position` are currently shown as `Nincs adat`, because those fields were not consistently available in the verified source set.
+A `validation.json` tartalmazza a pontos ismertérték-számokat és minden hiányzó születési dátumú kártya azonosítóját.

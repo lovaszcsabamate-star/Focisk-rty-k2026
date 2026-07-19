@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 import { Game, PHASE, HUMAN, AI } from '../js/engine.js';
 import { OpponentAI } from '../js/ai.js';
-import { MOCK_PLAYERS, ATTRIBUTES } from '../js/data/players.js';
+import { MOCK_PLAYERS, normaliseCard, validatePlayers } from '../js/data/players.js';
 
 const GAMES = Number(process.argv[2] ?? 2000);
 
@@ -26,7 +26,7 @@ if (fs.existsSync(REAL)) {
   const payload = JSON.parse(fs.readFileSync(REAL, 'utf8'));
   const cards = Array.isArray(payload) ? payload : payload.players;
   if (Array.isArray(cards) && cards.length >= 10) {
-    PLAYERS = cards;
+    PLAYERS = cards.map(normaliseCard);
     DECK_SOURCE = `data/players.json (${payload.season ?? 'real'})`;
   }
 }
@@ -42,20 +42,20 @@ const fail = msg => {
 
 // ── Static checks on the mock database ──────────────────────────────────────
 
-const DECK_SIZE = PLAYERS.length;
+const POOL_SIZE = PLAYERS.length;
+const DECK_SIZE = Math.min(52, POOL_SIZE - (POOL_SIZE % 2));
 
-console.log('Deck:');
-if (DECK_SIZE !== 52) fail(`expected 52 players, got ${DECK_SIZE}`);
-else console.log('  ✓ 52 players');
+console.log('Card pool:');
+if (POOL_SIZE < 52) fail(`expected at least 52 players, got ${POOL_SIZE}`);
+else console.log(`  ✓ ${POOL_SIZE} available players; ${DECK_SIZE} drawn per classic match`);
 
 const ids = new Set(PLAYERS.map(p => p.id));
 if (ids.size !== PLAYERS.length) fail('duplicate player ids');
 else console.log('  ✓ ids unique');
 
-const missing = PLAYERS.filter(p =>
-  ATTRIBUTES.some(a => typeof p.stats[a.key] !== 'number' || Number.isNaN(p.stats[a.key])));
-if (missing.length) fail(`players with missing/NaN stats: ${missing.map(p => p.id).join(', ')}`);
-else console.log('  ✓ every player has all 7 numeric stats');
+const dataProblems = validatePlayers(PLAYERS);
+if (dataProblems.length) fail(`invalid required player data: ${dataProblems.slice(0, 10).join('; ')}`);
+else console.log('  ✓ required stats valid; optional unknowns remain explicit');
 
 // ── Full-game simulation ────────────────────────────────────────────────────
 
@@ -68,6 +68,10 @@ const wins = { [HUMAN]: 0, [AI]: 0, tie: 0 };
 
 for (let g = 0; g < GAMES; g++) {
   const game = new Game({ players: PLAYERS });
+  if (game.players.length !== DECK_SIZE) {
+    fail(`game ${g}: drew ${game.players.length}, expected ${DECK_SIZE}`);
+    continue;
+  }
   let guard = 0;
 
   while (!game.isOver) {
@@ -99,7 +103,7 @@ for (let g = 0; g < GAMES; g++) {
     // Chooser names the attribute and commits a card.
     const chooser = game.chooser;
     const responder = chooser === HUMAN ? AI : HUMAN;
-    const { attribute, cardId } = bots[chooser].chooseAttribute(game.hands[chooser]);
+    const { attribute, cardId } = bots[chooser].chooseAttribute(game.hands[chooser], game.availableAttributeKeys());
     game.chooseAttribute(attribute, cardId);
 
     // Responder answers.
