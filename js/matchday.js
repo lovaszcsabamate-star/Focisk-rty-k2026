@@ -3,22 +3,22 @@
 import { UI, el } from './ui.js';
 import { AI, HUMAN, PHASE } from './engine.js';
 
-const previousClassicScores = UI.prototype._renderClassicScores;
-const previousPenaltyScores = UI.prototype._renderPenaltyScores;
-const previousShowOverlay = UI.prototype.showOverlay;
+const matchdayPreviousClassicScores = UI.prototype._renderClassicScores;
+const matchdayPreviousPenaltyScores = UI.prototype._renderPenaltyScores;
+const matchdayPreviousShowOverlay = UI.prototype.showOverlay;
 
-const sideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
-const otherSide = side => side === HUMAN ? AI : HUMAN;
+const matchdaySideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
+const matchdayOtherSide = side => side === HUMAN ? AI : HUMAN;
 
-function scoreboardStatus(game) {
+function matchdayScoreboardStatus(game) {
   if (game.phase === PHASE.GAME_OVER) return 'VÉGEREDMÉNY';
-  if (game.phase === PHASE.REVEAL) return `KÖVETKEZŐ VÁLASZTÓ: ${sideLabel(otherSide(game.chooser)).toUpperCase()}`;
-  return `KATEGÓRIÁT VÁLASZT: ${sideLabel(game.chooser).toUpperCase()}`;
+  if (game.phase === PHASE.REVEAL) return `KÖVETKEZŐ VÁLASZTÓ: ${matchdaySideLabel(matchdayOtherSide(game.chooser)).toUpperCase()}`;
+  return `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
 }
 
 UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human, ai) {
   const board = el('div', `match-scoreboard${game.mode === 'penalties' ? ' match-scoreboard--penalties' : ''}`);
-  const status = scoreboardStatus(game);
+  const status = matchdayScoreboardStatus(game);
   board.setAttribute('role', 'status');
   board.setAttribute('aria-live', 'polite');
   board.setAttribute('aria-label', `Játékos ${human}, Gép ${ai}. ${status.toLowerCase()}.`);
@@ -43,20 +43,20 @@ UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human
 };
 
 UI.prototype._renderClassicScores = function renderClassicMatchScore(game) {
-  previousClassicScores.call(this, game);
+  matchdayPreviousClassicScores.call(this, game);
   const { [HUMAN]: human, [AI]: ai } = game.scores;
   this.dom.hudScores.replaceChildren(this._renderMatchScoreboard(game, human, ai));
 };
 
 UI.prototype._renderPenaltyScores = function renderPenaltyMatchScore(game) {
-  previousPenaltyScores.call(this, game);
+  matchdayPreviousPenaltyScores.call(this, game);
   const human = game.scores[HUMAN];
   const ai = game.scores[AI];
   this.dom.hudScores.replaceChildren(this._renderMatchScoreboard(game, human, ai));
 };
 
 UI.prototype.showOverlay = function showAlternatingChooserRules(node) {
-  previousShowOverlay.call(this, node);
+  matchdayPreviousShowOverlay.call(this, node);
 
   const classicRules = node.querySelector?.('[data-rules="classic"]');
   if (classicRules) {
