@@ -8,17 +8,15 @@ export const REGULAR_DUELS = 5;
 
 export class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
-    if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE) {
-      throw new Error(`A Penalties módhoz legalább ${PENALTY_TEAM_SIZE} játékos kell.`);
+    if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE * 2) {
+      throw new Error(`A Penalties mód két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
     }
 
     this.mode = 'penalties';
     this.rng = rng;
     const pool = shuffle(players, rng);
     const humanTeam = pool.slice(0, PENALTY_TEAM_SIZE);
-    const aiTeam = players.length >= PENALTY_TEAM_SIZE * 2
-      ? pool.slice(PENALTY_TEAM_SIZE, PENALTY_TEAM_SIZE * 2)
-      : shuffle(players, rng).slice(0, PENALTY_TEAM_SIZE);
+    const aiTeam = pool.slice(PENALTY_TEAM_SIZE, PENALTY_TEAM_SIZE * 2);
 
     this.teams = { [HUMAN]: humanTeam, [AI]: aiTeam };
     this.hands = { [HUMAN]: shuffle(humanTeam, rng), [AI]: shuffle(aiTeam, rng) };

@@ -1,7 +1,9 @@
-# Data pipeline
+# Legacy data pipeline
 
-Builds `data/players.json` — the real 52-card deck — from public football data.
-**No API key, no signup.**
+This older experimental pipeline builds an unrelated top-five-league deck into
+`data/legacy-transfermarkt-deck.json`. It is retained for its tested CSV
+helpers, but it is not loaded by the NB I game and cannot overwrite the
+complete `data/players.json`. **No API key, no signup.**
 
 ```bash
 node pipeline/build.mjs              # build the deck
@@ -10,8 +12,8 @@ node pipeline/build.mjs --no-caps    # skip the Wikidata lookup (faster)
 node pipeline/build.mjs --refresh    # re-download, ignoring the cache
 ```
 
-Reload the game afterwards — it picks the file up automatically. Until then it
-plays the fictional mock deck, and the title screen says which one you're on.
+The NB I game database is built separately by
+`scripts/import-full-database.mjs`; this legacy output is for experiments only.
 
 > **This has never been run against the live dataset.** It was written and
 > tested in an environment with no network access. The transform logic is

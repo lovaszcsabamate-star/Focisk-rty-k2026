@@ -1,13 +1,13 @@
 /**
- * Builds data/players.json — the real 52-card deck.
+ * Builds a legacy, unrelated top-five-league 52-card deck for experiments.
  *
  *   node pipeline/build.mjs                 full run (downloads ~200MB, cached)
  *   node pipeline/build.mjs --no-caps       skip the Wikidata lookup
  *   node pipeline/build.mjs --portraits     also download player photos
  *   node pipeline/build.mjs --refresh       ignore the download cache
  *
- * The game falls back to the bundled mock deck if this file doesn't exist, so
- * it stays playable before you ever run this.
+ * This pipeline deliberately does not overwrite data/players.json, which is
+ * owned by scripts/import-full-database.mjs.
  */
 
 import fs from 'node:fs';
@@ -216,7 +216,7 @@ async function main() {
   // 8. Optional portraits --------------------------------------------------
   if (OPTS.portraits) await downloadPortraits(cards);
 
-  console.log(`\nDone. Reload the game — it picks up data/players.json automatically.\n`);
+  console.log(`\nDone. This legacy export is not loaded by the NB I game.\n`);
 }
 
 /** Print the stat ranges, so a bad build is obvious at a glance. */

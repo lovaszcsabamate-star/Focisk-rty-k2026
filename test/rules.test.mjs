@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 
 import { AI, HUMAN, PHASE, compare } from '../js/engine.js';
 import { PenaltyGame } from '../js/penalties.js';
-import { attributeValue, hasAttributeData, normaliseCard } from '../js/data/players.js';
+import {
+  attributeValue, calculateAge, hasAttributeData, normaliseCard, parseBirthDate, validatePlayers,
+} from '../js/data/players.js';
 
 const card = (index, overrides = {}) => normaliseCard({
   id: `test-${index}`,
@@ -32,6 +34,11 @@ const newGame = () => {
   game.chooser = HUMAN;
   return game;
 };
+
+assert.throws(
+  () => new PenaltyGame({ players: players.slice(0, 21), rng: fixedRng }),
+  /legalább 22 játékos/,
+);
 
 const duel = (game, humanGoals, aiGoals, { advance = true } = {}) => {
   const humanCard = game.hands[HUMAN][0];
@@ -63,6 +70,11 @@ const duel = (game, humanGoals, aiGoals, { advance = true } = {}) => {
   assert.equal(compare('birthDate', older, younger), AI);
 }
 
+// Calendar validation rejects rollover dates instead of silently normalising them.
+assert.equal(parseBirthDate('2026-02-29'), null);
+assert.equal(parseBirthDate('2024-02-29'), Date.UTC(2024, 1, 29));
+assert.equal(calculateAge('2000-12-31'), 25);
+
 // Verified zero is playable; unknown remains unavailable and is not coerced.
 {
   const zero = card(103, { stats: { totalDismissals: 0, redCards: 0, yellowCards: 0 } });
@@ -76,6 +88,30 @@ const duel = (game, humanGoals, aiGoals, { advance = true } = {}) => {
 // New disciplinary categories favour the larger number.
 assert.equal(compare('yellowCards', card(105, { stats: { yellowCards: 3 } }), card(106, { stats: { yellowCards: 1 } })), HUMAN);
 assert.equal(compare('totalDismissals', card(107, { stats: { totalDismissals: 2 } }), card(108, { stats: { totalDismissals: 1 } })), HUMAN);
+
+// MLSZ redCards is already a dismissal total; a detail field must not be added twice.
+{
+  const normalised = normaliseCard({
+    ...card(109),
+    stats: { ...card(109).stats, redCards: 2, secondYellowRedCards: 1, totalDismissals: null },
+  });
+  assert.equal(normalised.stats.totalDismissals, 2);
+}
+
+// A full-database card may have only the guaranteed goal total and remain valid.
+{
+  const partial = normaliseCard({
+    id: 'partial', name: 'Részleges Játékos', club: 'Teszt FC', birthDate: null,
+    stats: {
+      age: null, appearances: null, starts: null, goals: 0, squads: null,
+      yellowCards: null, redCards: null, secondYellowRedCards: null,
+      totalDismissals: null, overallScore: null,
+    },
+  });
+  assert.deepEqual(validatePlayers([partial]), []);
+  assert.equal(hasAttributeData(partial, 'goals'), true);
+  assert.equal(hasAttributeData(partial, 'appearances'), false);
+}
 
 // 3–0 is unreachable with only two regular duels left, so the match ends early.
 {
@@ -148,4 +184,4 @@ assert.equal(compare('totalDismissals', card(107, { stats: { totalDismissals: 2 
   assert.equal(rematch.used[HUMAN].length, 0);
 }
 
-console.log('✓ Célzott szabálytesztek: 9/9 sikeres');
+console.log('✓ Célzott szabály- és adatkezelési tesztek: sikeresek');
