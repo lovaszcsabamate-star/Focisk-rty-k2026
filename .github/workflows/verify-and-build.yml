@@ -5,9 +5,12 @@ on:
     branches:
       - main
       - ux/felhasznalobarat-jatekmenet
+    paths-ignore:
+      - Fociskartyak2026.html
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -29,11 +32,14 @@ jobs:
       - name: Szintaktikai ellenőrzés
         run: npm run lint
 
+      - name: Önálló HTML elkészítése
+        run: npm run build
+
       - name: Tesztek
         run: npm test
 
-      - name: Önálló HTML elkészítése
-        run: npm run build
+      - name: Formázási hibák ellenőrzése
+        run: git diff --check
 
       - name: Generált játékfájl mentése
         if: github.event_name == 'push'
@@ -45,5 +51,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add Fociskartyak2026.html
-          git commit -m "Önálló játékfájl frissítése"
+          git commit -m "Önálló játékfájl frissítése [skip ci]"
           git push
