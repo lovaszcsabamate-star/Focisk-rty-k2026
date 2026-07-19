@@ -1,4 +1,4 @@
-/** Pure rules for the unchanged classic game loop. */
+/** Pure rules for the classic game loop. */
 
 import { ATTRIBUTE_BY_KEY, ATTRIBUTES, attributeValue, hasAttributeData } from './data/players.js';
 
@@ -119,7 +119,6 @@ export class Game {
     } else {
       this.won[winner].push(...stake);
       this.pot = [];
-      this.chooser = winner;
     }
 
     this.lastResult = {
@@ -145,6 +144,7 @@ export class Game {
       this.phase = PHASE.GAME_OVER;
       return this;
     }
+    this.chooser = this.chooser === HUMAN ? AI : HUMAN;
     this.round += 1;
     this.phase = PHASE.CHOOSE_ATTRIBUTE;
     return this;
