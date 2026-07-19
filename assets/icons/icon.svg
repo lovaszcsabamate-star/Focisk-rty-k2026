@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Fociskártyák 2026 ikon</title>
+  <desc id="desc">Arany szegélyű zöld focipálya, középen focilabdával és két kártyával.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4b3020"/>
+      <stop offset="1" stop-color="#1c120c"/>
+    </linearGradient>
+    <linearGradient id="pitch" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2d7657"/>
+      <stop offset="1" stop-color="#163f31"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="15" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="25" y="25" width="462" height="462" rx="94" fill="none" stroke="#d5a93f" stroke-width="18"/>
+  <rect x="76" y="82" width="360" height="348" rx="44" fill="url(#pitch)" stroke="#f0dfbc" stroke-width="8" filter="url(#shadow)"/>
+  <path d="M256 86v340M80 256h352" stroke="#f0dfbc" stroke-width="7" opacity=".82"/>
+  <circle cx="256" cy="256" r="78" fill="none" stroke="#f0dfbc" stroke-width="7" opacity=".82"/>
+  <rect x="108" y="132" width="118" height="182" rx="18" fill="#e5d4ae" stroke="#d5a93f" stroke-width="8" transform="rotate(-12 167 223)"/>
+  <rect x="286" y="132" width="118" height="182" rx="18" fill="#e5d4ae" stroke="#d5a93f" stroke-width="8" transform="rotate(12 345 223)"/>
+  <circle cx="256" cy="273" r="76" fill="#f7f4ec" stroke="#171717" stroke-width="8" filter="url(#shadow)"/>
+  <polygon points="256,230 292,256 278,299 234,299 220,256" fill="#161616"/>
+  <path d="M256 230l-2-31M292 256l31-10M278 299l18 27M234 299l-18 27M220 256l-31-10" stroke="#161616" stroke-width="9" stroke-linecap="round"/>
+  <path d="M218 202l36-3 28 14 22 34 1 39-25 39-35 20-42-13-25-36-2-42 18-34z" fill="none" stroke="#161616" stroke-width="8"/>
+</svg>
