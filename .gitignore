@@ -1,0 +1,12 @@
+node_modules/
+.cache/
+*.log
+
+# Generated player data and downloaded portraits are not redistributed.
+data/players.json
+assets/portraits/*
+!assets/portraits/.gitkeep
+
+# Local operating-system files.
+.DS_Store
+Thumbs.db
