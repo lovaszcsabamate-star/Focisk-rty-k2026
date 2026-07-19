@@ -1532,7 +1532,7 @@ async function loadPlayers(url = 'data/players.json') {
 
 
 /* ===== js/engine.js ===== */
-/** Pure rules for the unchanged classic game loop. */
+/** Pure rules for the classic game loop. */
 
 
 const HAND_SIZE = 5;
@@ -1652,7 +1652,6 @@ class Game {
     } else {
       this.won[winner].push(...stake);
       this.pot = [];
-      this.chooser = winner;
     }
 
     this.lastResult = {
@@ -1678,6 +1677,7 @@ class Game {
       this.phase = PHASE.GAME_OVER;
       return this;
     }
+    this.chooser = this.chooser === HUMAN ? AI : HUMAN;
     this.round += 1;
     this.phase = PHASE.CHOOSE_ATTRIBUTE;
     return this;
