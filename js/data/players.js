@@ -13,28 +13,34 @@
  * @property {string} [position]
  * @property {string|null} birthDate Exact ISO date (YYYY-MM-DD), if verified.
  * @property {object} stats
- * @property {number} stats.age Preserved source age; display uses birthDate when known.
- * @property {number} stats.appearances
- * @property {number} stats.starts
+ * @property {number|null} stats.age Age at the end of the 2025/26 season.
+ * @property {number|null} stats.appearances
+ * @property {number|null} stats.starts
  * @property {number} stats.goals
  * @property {number|null} [stats.squads]
  * @property {number|null} [stats.overallScore]
- * @property {number} stats.yellowCards
- * @property {number} stats.redCards MLSZ red-card/kiállítás total.
+ * @property {number|null} stats.yellowCards
+ * @property {number|null} stats.redCards MLSZ red-card/kiállítás total.
  * @property {number|null} stats.secondYellowRedCards Separate detail, if a source provides it.
  * @property {number|null} stats.totalDismissals Game total.
  */
 
 const isFiniteNumber = value => typeof value === 'number' && Number.isFinite(value);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+export const SEASON_REFERENCE_DATE = new Date('2026-05-16T00:00:00Z');
 
 export function parseBirthDate(value) {
   if (typeof value !== 'string' || !ISO_DATE.test(value)) return null;
-  const time = Date.parse(`${value}T00:00:00Z`);
-  return Number.isFinite(time) ? time : null;
+  const [year, month, day] = value.split('-').map(Number);
+  const time = Date.UTC(year, month - 1, day);
+  const parsed = new Date(time);
+  if (parsed.getUTCFullYear() !== year
+    || parsed.getUTCMonth() !== month - 1
+    || parsed.getUTCDate() !== day) return null;
+  return time;
 }
 
-export function calculateAge(birthDate, reference = new Date()) {
+export function calculateAge(birthDate, reference = SEASON_REFERENCE_DATE) {
   const timestamp = parseBirthDate(birthDate);
   if (timestamp == null) return null;
   const born = new Date(timestamp);
@@ -59,17 +65,17 @@ export const ATTRIBUTES = [
     key: 'birthDate', label: 'Fiatalabb játékos', icon: '🎂', higherWins: true,
     hint: 'A fiatalabb nyer ↓', optional: true,
     format: (value, card) => {
-      const age = calculateAge(card?.birthDate);
+      const age = isFiniteNumber(card?.stats?.age) ? card.stats.age : calculateAge(card?.birthDate);
       return value == null ? 'Nincs adat' : `${age} év · ${formatDate(card.birthDate)}`;
     },
   },
-  { key: 'appearances', label: 'Mérkőzések', icon: '👕', higherWins: true, hint: 'A több nyer', format: value => `${value}` },
-  { key: 'starts', label: 'Kezdőként', icon: '▶', higherWins: true, hint: 'A több nyer', format: value => `${value}` },
+  { key: 'appearances', label: 'Mérkőzések', icon: '👕', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
+  { key: 'starts', label: 'Kezdőként', icon: '▶', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
   { key: 'goals', label: 'Gólok', icon: '⚽', higherWins: true, hint: 'A több nyer', format: value => `${value}` },
   { key: 'squads', label: 'Meccskeretben', icon: '📋', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
   { key: 'overallScore', label: 'Játékospontszám', icon: '★', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}/100` },
-  { key: 'yellowCards', label: 'Több sárga lap', icon: '🟨', higherWins: true, hint: 'A több nyer', format: value => `${value}` },
-  { key: 'totalDismissals', label: 'Több kiállítás', icon: '🟥', higherWins: true, hint: 'A több nyer', format: value => `${value}` },
+  { key: 'yellowCards', label: 'Több sárga lap', icon: '🟨', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
+  { key: 'totalDismissals', label: 'Több kiállítás', icon: '🟥', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
 ];
 
 export const ATTRIBUTE_BY_KEY = Object.fromEntries(ATTRIBUTES.map(attribute => [attribute.key, attribute]));
@@ -98,9 +104,9 @@ export function normaliseCard(card) {
   let totalDismissals = isFiniteNumber(stats.totalDismissals) ? stats.totalDismissals : null;
 
   if (totalDismissals == null && isFiniteNumber(stats.redCards)) {
-    // The MLSZ export used by the app exposes a single red-card/kiállítás count.
-    // Only add a second-yellow value when a source actually provides one.
-    totalDismissals = stats.redCards + (secondYellow ?? 0);
+    // The MLSZ field already represents the complete red-card/dismissal count.
+    // A separately supplied breakdown must provide totalDismissals explicitly.
+    totalDismissals = stats.redCards;
   }
 
   return {
@@ -150,13 +156,13 @@ const makeMockPlayer = index => {
 
 export const MOCK_PLAYERS = Array.from({ length: 52 }, (_, index) => makeMockPlayer(index));
 
-/** Validate required core data while allowing explicitly optional nulls. */
+/** Validate the complete pool while allowing source-declared optional nulls. */
 export function validatePlayers(cards) {
   const problems = [];
   const required = ATTRIBUTES.filter(attribute => !attribute.optional);
 
   cards.forEach((card, index) => {
-    if (!card?.id || !card?.name) problems.push(`card ${index}: missing id or name`);
+    if (!card?.id || !card?.name || !card?.club) problems.push(`card ${index}: missing id, name or club`);
     for (const attribute of required) {
       if (attributeValue(card, attribute.key) == null) {
         problems.push(`${card?.name ?? `card ${index}`}: ${attribute.key} is missing or invalid`);

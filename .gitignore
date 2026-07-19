@@ -4,6 +4,7 @@ node_modules/
 
 # Generated player data and downloaded portraits are not redistributed.
 data/players.json
+data/legacy-transfermarkt-deck.json
 assets/portraits/*
 !assets/portraits/.gitkeep
 

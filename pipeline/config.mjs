@@ -59,8 +59,8 @@ export const CONFIG = {
     batchSize: 150,
   },
 
-  /** Where the finished deck lands. The game fetches this at runtime. */
-  output: '../data/players.json',
+  /** Legacy output kept separate from the game's complete NB I database. */
+  output: '../data/legacy-transfermarkt-deck.json',
 
   /** Downloaded CSVs are cached here so re-runs are fast. */
   cacheDir: '.cache',
