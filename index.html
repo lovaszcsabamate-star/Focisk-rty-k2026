@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Mega Fotbal 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ART: assets/pub/background.png is applied to #pub by ui.js when present -->
+  <div id="pub">
+
+    <main id="table">
+
+      <header id="hud">
+        <div class="title">Super Mega Fotbal 2026</div>
+        <div class="score-strip" id="hud-scores"></div>
+        <div class="meta" id="hud-meta"></div>
+      </header>
+
+      <!-- Opponent: face-down hand + victory pile -->
+      <section class="zone" id="opponent-zone">
+        <div class="pile" id="opponent-pile"><span class="pile__label">Barry's winnings</span></div>
+        <div class="hand hand--opponent" id="opponent-hand"></div>
+      </section>
+
+      <!-- The table itself -->
+      <section id="felt">
+        <div id="pot-indicator"></div>
+        <div id="prompt"></div>
+        <div id="duel"></div>
+        <div id="verdict"></div>
+        <div id="attribute-picker"></div>
+      </section>
+
+      <!-- Player: hand + victory pile -->
+      <section class="zone" id="player-zone">
+        <div class="pile" id="player-pile"><span class="pile__label">Your winnings</span></div>
+        <div class="hand" id="player-hand"></div>
+      </section>
+
+    </main>
+
+    <!-- Pub banter -->
+    <aside id="banter">
+      <h2>The Table</h2>
+      <div id="banter-feed"></div>
+    </aside>
+
+  </div>
+
+  <div id="overlay" hidden>
+    <div class="panel" id="overlay-body"></div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

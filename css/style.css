@@ -1,0 +1,596 @@
+/* ==========================================================================
+   SUPER MEGA FOTBAL 2026 — pub card game
+   ART SLOTS are marked with  /* ART:  ... they currently render a CSS
+   fallback and expect a background-image drop-in later. See assets/README.md
+   ========================================================================== */
+
+:root {
+  --wood-dark:   #2a1c12;
+  --wood:        #3d2a1a;
+  --wood-light:  #5a3f28;
+  --felt:        #1e3a2f;
+  --felt-light:  #2a5142;
+  --brass:       #c9a227;
+  --brass-light: #e8c37a;
+  --cream:       #f2e6d0;
+  --muted:       #a08d72;
+  --win:         #6abf7a;
+  --lose:        #bf6a6a;
+  --tie:         #bfa76a;
+
+  --card-w: 132px;
+  /* Tall enough for all seven stat rows without scrolling. At 190px the list
+     was 48px short and the last three attributes were simply not visible. */
+  --card-h: 232px;
+  /* Card stock colour at the bottom of the face — the scroll-shadow covers
+     must match it to stay invisible. */
+  --card-paper: #ded0b4;
+
+  --font-display: 'Bebas Neue', 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+  --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--wood-dark);
+  color: var(--cream);
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ── Pub scene ─────────────────────────────────────────────────────────── */
+
+#pub {
+  position: relative;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  /* ART: assets/pub/background.png — replace the gradient below */
+  background:
+    radial-gradient(ellipse at 50% 10%, rgba(232,195,122,.10) 0%, transparent 55%),
+    linear-gradient(180deg, var(--wood) 0%, var(--wood-dark) 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Hanging lamp glow over the table */
+#pub::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 45% at 40% 45%, rgba(255, 210, 130, .13), transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Table ─────────────────────────────────────────────────────────────── */
+
+#table {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 20px;
+  gap: 8px;
+  min-width: 0;
+  /* The felt is the only flexible row — clamp the column so it, and not the
+     hands, absorbs any leftover or missing space. */
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#opponent-zone { flex: 0 0 auto; }
+
+#felt {
+  flex: 1 1 auto;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 50% 50%, var(--felt-light), var(--felt) 70%);
+  box-shadow: inset 0 0 60px rgba(0,0,0,.55), 0 4px 20px rgba(0,0,0,.4);
+  border: 2px solid rgba(201,162,39,.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  min-height: 0;
+  position: relative;
+}
+
+#player-zone { flex: 0 0 auto; }
+
+/* ── Header bar ────────────────────────────────────────────────────────── */
+
+#hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 4px;
+  flex: 0 0 auto;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: var(--brass-light);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.score-strip { display: flex; align-items: center; gap: 14px; font-size: 13px; }
+
+.score {
+  display: flex; align-items: center; gap: 7px;
+  padding: 4px 12px;
+  background: rgba(0,0,0,.3);
+  border: 1px solid rgba(201,162,39,.3);
+  border-radius: 20px;
+}
+.score b { font-family: var(--font-display); font-size: 20px; color: var(--brass-light); letter-spacing: 1px; }
+.score.leading { border-color: var(--brass); box-shadow: 0 0 12px rgba(201,162,39,.3); }
+
+.meta { color: var(--muted); font-size: 12px; }
+
+/* ── Cards ─────────────────────────────────────────────────────────────── */
+
+.card {
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: 9px;
+  position: relative;
+  flex: 0 0 auto;
+  background: linear-gradient(160deg, #f7f0e2 0%, #ded0b4 100%);
+  color: #241a12;
+  box-shadow: 0 3px 10px rgba(0,0,0,.5);
+  border: 1px solid rgba(0,0,0,.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.card.selectable { cursor: pointer; }
+.card.selectable:hover {
+  transform: translateY(-14px);
+  box-shadow: 0 12px 24px rgba(0,0,0,.6), 0 0 0 2px var(--brass);
+  z-index: 5;
+}
+/* Not playable right now — but still readable, so no pointer-events: none. */
+.card--dim { filter: grayscale(.4) brightness(.82); }
+.card--dim.selectable:hover { filter: none; }
+
+/* Truly inert (cards sitting in the duel area). */
+.card.disabled { filter: grayscale(.5) brightness(.7); pointer-events: none; }
+
+.card__portrait {
+  height: 74px;
+  flex: 0 0 auto;
+  /* ART: assets/portraits/<player-id>.png — set as background-image via JS */
+  background: linear-gradient(160deg, #6b7f8f, #3d4d59);
+  background-size: cover;
+  background-position: center top;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Fallback silhouette while no portrait art exists */
+.card__portrait::after {
+  content: attr(data-initials);
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.45);
+}
+.card__portrait.has-art::after { content: none; }
+
+.card__position {
+  position: absolute; top: 4px; left: 4px;
+  background: rgba(0,0,0,.6); color: var(--brass-light);
+  font-size: 9px; font-weight: 700; letter-spacing: .5px;
+  padding: 2px 5px; border-radius: 3px;
+}
+
+.card__name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: .6px;
+  padding: 4px 6px 1px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+/* One line only — "Rotterdam Zuid · Netherlands" wrapped to two and stole a
+   stat row's worth of height. */
+.card__club {
+  font-size: 8.5px; color: #6b5b45; padding: 0 6px 4px; letter-spacing: .3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* The stat list scrolls rather than being clipped.
+   `min-height: 0` is the load-bearing line: a flex item defaults to
+   min-height:auto, which refuses to shrink below its content, so the list
+   overflowed the card and `.card { overflow: hidden }` silently ate the last
+   rows on short viewports. */
+.card__stats {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;   /* don't scroll the page at the ends */
+  padding: 0 5px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(90,71,54,.45) transparent;
+}
+.card__stats::-webkit-scrollbar { width: 4px; }
+.card__stats::-webkit-scrollbar-track { background: transparent; }
+.card__stats::-webkit-scrollbar-thumb { background: rgba(90,71,54,.45); border-radius: 2px; }
+
+/* Scroll shadows, pure CSS — no JS measurement, so there's no layout-timing
+   race and it re-evaluates for free on resize.
+   How it works: the two `local` gradients scroll WITH the content and are the
+   card's own colour, so they sit on top of the `scroll`-attached shadows and
+   mask them when you're at that end of the list. Scroll away from an edge and
+   its cover moves off, revealing the shadow. Net effect: a shadow appears
+   exactly when there is more to see in that direction. */
+.card__stats {
+  background:
+    linear-gradient(var(--card-paper) 30%, rgba(222,208,180,0)) center top / 100% 14px no-repeat local,
+    linear-gradient(rgba(222,208,180,0), var(--card-paper) 70%) center bottom / 100% 14px no-repeat local,
+    radial-gradient(farthest-side at 50% 0,   rgba(60,40,20,.30), rgba(60,40,20,0)) center top / 100% 7px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, rgba(60,40,20,.30), rgba(60,40,20,0)) center bottom / 100% 7px no-repeat scroll;
+}
+
+.stat {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 9px;
+  padding: 1.5px 4px;
+  border-radius: 3px;
+  background: rgba(0,0,0,.045);
+}
+.stat__label { color: #5a4a36; letter-spacing: .2px; }
+.stat__value { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.stat.active {
+  background: var(--brass);
+  color: #2a1c12;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.25);
+}
+.stat.active .stat__label { color: #4a3a12; font-weight: 600; }
+
+/* Card back (opponent's hand) */
+.card--back {
+  /* ART: assets/cards/back.png */
+  background:
+    repeating-linear-gradient(45deg, #4a2f2f 0 8px, #3d2626 8px 16px),
+    linear-gradient(160deg, #5a3535, #3a2020);
+  background-size: cover;
+  border: 1px solid rgba(201,162,39,.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.card--back::after {
+  content: '⚽';
+  font-size: 30px;
+  opacity: .3;
+}
+
+/* Compact backs for the opponent's fan. The min-height override matters:
+   without it the row reserves a full-size card's height and pushes the player's
+   hand off the bottom of the viewport. Note the doubled class — the generic
+   `.hand` rule below sets min-height from --card-h and would otherwise win on
+   source order. */
+.hand.hand--opponent { min-height: 90px; }
+.hand--opponent .card { --card-w: 62px; --card-h: 90px; }
+
+/* Victory pile stacks */
+.pile {
+  width: 48px; height: 68px;
+  border-radius: 6px;
+  border: 1px dashed rgba(201,162,39,.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 20px; color: var(--brass-light);
+  background: rgba(0,0,0,.25);
+  position: relative;
+}
+.pile.filled { background: linear-gradient(160deg, #5a3535, #3a2020); border-style: solid; }
+.pile__label { position: absolute; bottom: -16px; font-size: 9px; color: var(--muted); font-family: var(--font-body); white-space: nowrap; }
+
+/* ── Felt centre: prompts, played cards, result ────────────────────────── */
+
+#prompt {
+  font-family: var(--font-display);
+  font-size: 19px;
+  letter-spacing: 1.4px;
+  color: var(--brass-light);
+  text-align: center;
+  text-transform: uppercase;
+  min-height: 24px;
+}
+#prompt .highlight { color: #fff; }
+
+#attribute-picker { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; max-width: 620px; }
+
+.attr-btn {
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 600;
+  padding: 7px 13px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,162,39,.45);
+  background: rgba(0,0,0,.3);
+  color: var(--cream);
+  cursor: pointer;
+  transition: all .14s ease;
+}
+.attr-btn:hover { background: var(--brass); color: #2a1c12; transform: translateY(-2px); }
+.attr-btn small { display: block; font-size: 9px; opacity: .65; font-weight: 400; }
+
+.picker-hint {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .3px;
+  margin-top: 2px;
+}
+
+#duel { display: flex; align-items: center; gap: 24px; min-height: 200px; }
+#duel:empty { display: none; }
+
+.duel-slot { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.duel-slot__who { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.duel-slot .card { animation: deal .28s ease-out; }
+.duel-slot.winner .card { box-shadow: 0 0 0 3px var(--win), 0 8px 22px rgba(0,0,0,.6); }
+.duel-slot.loser  .card { opacity: .62; }
+
+@keyframes deal {
+  from { transform: translateY(24px) scale(.9); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+.versus { font-family: var(--font-display); font-size: 26px; color: var(--brass); opacity: .7; }
+
+#verdict {
+  font-family: var(--font-display);
+  font-size: 26px; letter-spacing: 2px;
+  text-transform: uppercase;
+  min-height: 30px;
+  text-align: center;
+}
+#verdict.win  { color: var(--win); }
+#verdict.lose { color: var(--lose); }
+#verdict.tie  { color: var(--tie); }
+#verdict small { display: block; font-family: var(--font-body); font-size: 11px; letter-spacing: .3px; color: var(--muted); text-transform: none; margin-top: 2px; }
+
+#pot-indicator {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 11px; color: var(--tie);
+  border: 1px solid rgba(191,167,106,.4);
+  padding: 3px 9px; border-radius: 12px;
+  background: rgba(0,0,0,.35);
+}
+#pot-indicator:empty { display: none; }
+
+.hand { display: flex; gap: 8px; justify-content: center; align-items: flex-end; min-height: var(--card-h); }
+
+/* ── Banter sidebar ────────────────────────────────────────────────────── */
+
+#banter {
+  background: rgba(0,0,0,.32);
+  border-left: 1px solid rgba(201,162,39,.2);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#banter h2 {
+  font-family: var(--font-display); font-size: 15px; letter-spacing: 2px;
+  padding: 12px 14px 8px; color: var(--brass); text-transform: uppercase;
+  border-bottom: 1px solid rgba(201,162,39,.15);
+}
+
+#banter-feed {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,162,39,.35) transparent;
+}
+#banter-feed::-webkit-scrollbar { width: 6px; }
+#banter-feed::-webkit-scrollbar-thumb { background: rgba(201,162,39,.35); border-radius: 3px; }
+
+.bubble { display: flex; gap: 9px; animation: fadein .3s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+
+.avatar {
+  width: 32px; height: 32px; flex: 0 0 auto;
+  border-radius: 50%;
+  /* ART: assets/friends/<speaker-id>.png */
+  background-size: cover;
+  background-position: center;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 15px;
+  color: #1a1208;
+  border: 1px solid rgba(0,0,0,.35);
+}
+
+.bubble__body { min-width: 0; }
+.bubble__name { font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 2px; }
+.bubble__text { font-size: 12.5px; line-height: 1.45; color: #ded0b4; }
+
+/* ── Buttons & overlay ─────────────────────────────────────────────────── */
+
+.btn {
+  font-family: var(--font-display);
+  font-size: 16px; letter-spacing: 1.5px;
+  padding: 9px 26px;
+  border: none; border-radius: 6px;
+  background: var(--brass); color: #241a12;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--brass-light); border: 1px solid rgba(201,162,39,.45); }
+
+/* ── Card inspector ────────────────────────────────────────────────────── */
+
+#inspector {
+  position: fixed; inset: 0;
+  z-index: 40;
+  padding: 10px;
+  background: rgba(10, 6, 3, .82);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  animation: fadein .16s ease;
+}
+
+.inspector__shell {
+  display: flex; align-items: center; gap: 12px;
+  max-width: 100%; max-height: 100%;
+}
+
+.inspector__centre { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+.inspector__nav {
+  width: 44px; height: 64px;
+  font-size: 32px; line-height: 1;
+  background: rgba(0,0,0,.4);
+  color: var(--brass-light);
+  border: 1px solid rgba(201,162,39,.35);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .12s ease;
+}
+.inspector__nav:hover { background: var(--brass); color: #2a1c12; }
+
+.inspector__counter { font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+.inspector__actions { display: flex; gap: 10px; }
+.inspector__hint { font-size: 11px; color: var(--muted); letter-spacing: .3px; }
+
+/* The blown-up card: same markup, readable type.
+   Height is clamped to the viewport so the card can never push its own action
+   buttons off-screen — on a short window it shrinks and the stat list scrolls
+   instead. ~150px is reserved for the counter, buttons and hint below it. */
+.card--large {
+  --card-w: min(300px, 84vw);
+  --card-h: min(496px, calc(100vh - 150px));
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.75), 0 0 0 2px var(--brass);
+  animation: none;
+}
+/* The portrait yields height first, so the stats keep as much room as possible. */
+.card--large .card__portrait { height: clamp(56px, 22vh, 168px); }
+.card--large .card__portrait::after { font-size: 56px; }
+.card--large .card__position { font-size: 13px; padding: 4px 9px; top: 8px; left: 8px; }
+.card--large .card__name { font-size: 30px; padding: 10px 14px 2px; }
+.card--large .card__club { font-size: 14px; padding: 0 14px 8px; }
+.card--large .card__stats { padding: 0 12px 12px; gap: 3px; }
+.card--large .stat { font-size: 15px; padding: 6px 10px; border-radius: 5px; }
+.card--large .stat.active { box-shadow: 0 0 0 2px rgba(0,0,0,.3); }
+
+@media (max-height: 700px) {
+  .card--large { --card-w: min(232px, 84vw); }
+  .card--large .card__name { font-size: 23px; padding: 6px 12px 1px; }
+  .card--large .card__club { font-size: 12px; padding: 0 12px 5px; }
+  .card--large .stat { font-size: 12px; padding: 3.5px 8px; }
+  .card--large .card__portrait::after { font-size: 34px; }
+  .inspector__nav { height: 48px; width: 36px; font-size: 26px; }
+  .inspector__hint { display: none; }   /* keyboard hints cost a line we need */
+}
+
+#overlay {
+  position: fixed; inset: 0;
+  background: rgba(12,8,4,.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  backdrop-filter: blur(3px);
+}
+#overlay[hidden] { display: none; }
+
+.panel {
+  background: linear-gradient(160deg, var(--wood-light), var(--wood));
+  border: 1px solid rgba(201,162,39,.4);
+  border-radius: 12px;
+  padding: 30px 36px;
+  max-width: 520px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.7);
+}
+.panel h1 {
+  font-family: var(--font-display); font-size: 40px; letter-spacing: 3px;
+  color: var(--brass-light); text-transform: uppercase; line-height: 1;
+  margin-bottom: 6px;
+}
+.panel p { font-size: 13px; line-height: 1.6; color: var(--cream); margin-bottom: 14px; }
+.panel .rules { text-align: left; font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+.panel .rules b { color: var(--brass-light); }
+
+.deck-source {
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .3px;
+}
+.deck-source code {
+  background: rgba(0,0,0,.35);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--brass-light);
+  font-size: 10.5px;
+}
+
+.difficulty { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+.difficulty label {
+  padding: 7px 14px; border-radius: 6px; font-size: 12px; cursor: pointer;
+  border: 1px solid rgba(201,162,39,.35); color: var(--cream);
+}
+.difficulty input { display: none; }
+.difficulty input:checked + span { color: var(--brass-light); font-weight: 700; }
+.difficulty label:has(input:checked) { background: rgba(201,162,39,.18); border-color: var(--brass); }
+
+@media (max-width: 1100px) {
+  #pub { grid-template-columns: 1fr 250px; }
+  :root { --card-w: 112px; --card-h: 164px; }
+}
+
+/* Short viewports (laptops, browser with devtools open).
+   The card gets NARROWER but stays reasonably tall, and the portrait gives up
+   height first — shrinking the card uniformly left only ~38px for the stat
+   list, i.e. one readable row at a time. The felt absorbs the difference. */
+@media (max-height: 860px) {
+  :root { --card-w: 122px; --card-h: 208px; }
+  .card__portrait { height: 58px; }
+  .card__name { font-size: 13px; padding: 3px 6px 1px; }
+  #duel { min-height: 0; }
+}
+@media (max-height: 700px) {
+  :root { --card-w: 112px; --card-h: 186px; }
+  .card__portrait { height: 48px; }
+  .stat { font-size: 8.5px; padding: 1px 4px; }
+}
+@media (max-height: 620px) {
+  :root { --card-w: 108px; --card-h: 176px; }
+  .card__portrait { height: 44px; }
+  .card__portrait::after { font-size: 18px; }
+  .card__name { font-size: 12px; padding: 2px 5px 0; }
+  .card__club { font-size: 7.5px; padding: 0 5px 3px; }
+  .stat { font-size: 8px; padding: 1px 4px; }
+  .hand.hand--opponent { min-height: 66px; }
+  .hand--opponent .card { --card-w: 46px; --card-h: 66px; }
+}
