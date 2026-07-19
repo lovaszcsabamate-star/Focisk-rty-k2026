@@ -1,6 +1,18 @@
 # Fociskártyák 2026
 
-Magyar nyelvű, lerobbant kocsmai hangulatú összehasonlító kártyajáték a 2025/26-os NB I teljes, 440 egyedi játékosból álló adatbázisával. Az alkalmazás az eredeti keretrendszer nélkül, böngészőben futó ES-modulokkal működik.
+Magyar nyelvű, lerobbant kocsmai hangulatú összehasonlító kártyajáték a 2025/26-os NB I teljes, 440 egyedi játékosból álló adatbázisával. Az alkalmazás az eredeti keretrendszer nélkül, böngészőben futó ES-modulokkal működik, és mobiltelefonra telepíthető PWA-ként is használható.
+
+## Mobilos telepítés
+
+A GitHub Pages-verzió megnyitása után a játék saját **⬇ Telepítés** gombot jelenít meg mobilon.
+
+- **Android / Chrome:** koppints a Telepítés gombra, majd fogadd el az alkalmazástelepítést. Ha a böngésző nem jelenít meg automatikus ablakot, válaszd a menü **Alkalmazás telepítése** vagy **Hozzáadás a kezdőképernyőhöz** pontját.
+- **iPhone / Safari:** koppints a Megosztás gombra, majd válaszd a **Főképernyőhöz adás** lehetőséget.
+- A telepített játék saját ikonnal, teljes képernyőn indul, és az első sikeres betöltés után internetkapcsolat nélkül is használható.
+
+A közzétett mobiljáték alapértelmezett címe:
+
+`https://lovaszcsabamate-star.github.io/Focisk-rty-k2026/`
 
 ## Indítás
 
@@ -71,6 +83,11 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 | `js/ux.js` | Kártyakezelési és hozzáférhetőségi fejlesztések |
 | `js/matchday.js` | Futballmeccs-stílusú eredményjelző és frissített szabályszövegek |
 | `css/matchday.css` | Az új eredményjelző reszponzív megjelenése |
+| `manifest.webmanifest` | Mobilalkalmazás neve, megjelenése és ikonjai |
+| `sw.js` | Offline gyorsítótár és hálózati tartalék |
+| `js/pwa.js` | Telepítési gomb és Android/iPhone útmutató |
+| `css/pwa.css` | Telepítési felület mobilos stílusai |
+| `.github/workflows/deploy-pages.yml` | Automatikus GitHub Pages-közzététel és PNG ikonok létrehozása |
 | `js/main.js` | Játékmódválasztás és böngészős játékmenet |
 | `test/rules.test.mjs` | Célzott Penalties- és adatszabálytesztek |
 | `test/alternating-chooser.test.mjs` | A felváltva történő kategóriaválasztás regressziós tesztje |
