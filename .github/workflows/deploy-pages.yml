@@ -1,0 +1,79 @@
+name: Telepíthető mobiljáték közzététele
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - Fociskartyak2026.html
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Ellenőrzés és build
+        run: |
+          npm run lint
+          npm run build
+          npm test
+
+      - name: Mobilikonok elkészítése
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin
+          mkdir -p _site/assets/icons
+          rsvg-convert -w 192 -h 192 assets/icons/icon.svg -o _site/assets/icons/icon-192.png
+          rsvg-convert -w 512 -h 512 assets/icons/icon.svg -o _site/assets/icons/icon-512.png
+          rsvg-convert -w 512 -h 512 assets/icons/icon.svg -o _site/assets/icons/icon-maskable-512.png
+          rsvg-convert -w 180 -h 180 assets/icons/icon.svg -o _site/assets/icons/apple-touch-icon.png
+
+      - name: Webalkalmazás összeállítása
+        run: |
+          rsync -a ./ _site/ \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'node_modules' \
+            --exclude 'pipeline' \
+            --exclude 'scripts' \
+            --exclude 'test' \
+            --exclude 'package.json' \
+            --exclude 'package-lock.json'
+          touch _site/.nojekyll
+
+      - name: GitHub Pages beállítása
+        uses: actions/configure-pages@v5
+
+      - name: Közzétételi csomag feltöltése
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: GitHub Pages közzététele
+        id: deployment
+        uses: actions/deploy-pages@v4
