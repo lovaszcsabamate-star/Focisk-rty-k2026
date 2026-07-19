@@ -56,6 +56,8 @@ UI.prototype._renderPenaltyScores = function renderPenaltyMatchScore(game) {
 };
 
 UI.prototype.showOverlay = function showAlternatingChooserRules(node) {
+  previousShowOverlay.call(this, node);
+
   const classicRules = node.querySelector?.('[data-rules="classic"]');
   if (classicRules) {
     classicRules.innerHTML = '<b>Klasszikus szabály:</b> A két fél körönként felváltva választ kategóriát. A kör győztese viszi a két lapot és a döntetlenpaklit.';
@@ -65,6 +67,4 @@ UI.prototype.showOverlay = function showAlternatingChooserRules(node) {
   if (penaltyRules) {
     penaltyRules.innerHTML = '<b>Tizenegyes szabály:</b> A két fél párbajonként felváltva választ kategóriát. 11 lap, öt rendes párbaj, döntetlennél hirtelen halál; azonos értéknél nincs gól.';
   }
-
-  previousShowOverlay.call(this, node);
 };
