@@ -1,9 +1,9 @@
 import { UI } from './ui.js';
 import { ATTRIBUTE_BY_KEY, calculateAge } from './data/players.js';
 
-const birthDateAttribute = ATTRIBUTE_BY_KEY.birthDate;
-if (birthDateAttribute) {
-  birthDateAttribute.format = (_value, card) => {
+const uxFallbackBirthAttribute = ATTRIBUTE_BY_KEY.birthDate;
+if (uxFallbackBirthAttribute) {
+  uxFallbackBirthAttribute.format = (_value, card) => {
     const storedAge = card?.stats?.age;
     const age = typeof storedAge === 'number' && Number.isFinite(storedAge)
       ? storedAge
@@ -14,9 +14,9 @@ if (birthDateAttribute) {
   };
 }
 
-const originalRenderInspector = UI.prototype._renderInspector;
+const uxOriginalRenderInspector = UI.prototype._renderInspector;
 UI.prototype._renderInspector = function renderInspectorWithoutMissingDetails() {
-  originalRenderInspector.call(this);
+  uxOriginalRenderInspector.call(this);
   const details = document.querySelector('#inspector .inspector__details');
   if (!details) return;
   details.querySelectorAll('span').forEach(row => {
