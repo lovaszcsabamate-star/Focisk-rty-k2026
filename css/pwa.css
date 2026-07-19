@@ -1,0 +1,106 @@
+.pwa-install-button {
+  border-color: rgba(232, 195, 122, .72);
+  color: #f2e6d0;
+  background: linear-gradient(180deg, rgba(60, 45, 28, .96), rgba(23, 17, 12, .96));
+}
+
+.pwa-install-button:hover,
+.pwa-install-button:focus-visible {
+  border-color: #e8c37a;
+  box-shadow: 0 0 0 2px rgba(232, 195, 122, .2);
+}
+
+.pwa-install-guide {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: end center;
+  padding: 18px;
+  background: rgba(7, 5, 3, .76);
+  backdrop-filter: blur(7px);
+}
+
+.pwa-install-guide__panel {
+  position: relative;
+  width: min(100%, 430px);
+  max-height: min(82vh, 650px);
+  overflow: auto;
+  padding: 28px 22px 24px;
+  border: 1px solid rgba(232, 195, 122, .55);
+  border-radius: 22px 22px 12px 12px;
+  color: #f2e6d0;
+  background:
+    radial-gradient(circle at 50% 0, rgba(50, 97, 71, .44), transparent 52%),
+    linear-gradient(180deg, #2e2117, #17100b);
+  box-shadow: 0 -14px 55px rgba(0, 0, 0, .55);
+}
+
+.pwa-install-guide__panel h2 {
+  margin: 6px 0 12px;
+  text-align: center;
+  color: #e8c37a;
+  font-size: clamp(1.35rem, 5vw, 1.8rem);
+}
+
+.pwa-install-guide__panel p,
+.pwa-install-guide__panel li {
+  line-height: 1.55;
+}
+
+.pwa-install-guide__panel ol {
+  margin: 18px 0;
+  padding-left: 1.4rem;
+  color: #d9c8aa;
+}
+
+.pwa-install-guide__icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  border: 2px solid #e8c37a;
+  border-radius: 18px;
+  background: #1d4939;
+  font-size: 34px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, .35);
+}
+
+.pwa-install-guide__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  color: #f2e6d0;
+  background: rgba(255, 255, 255, .08);
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.pwa-install-guide__done {
+  width: 100%;
+}
+
+@media (min-width: 700px) {
+  .pwa-install-guide {
+    place-items: center;
+  }
+
+  .pwa-install-guide__panel {
+    border-radius: 18px;
+  }
+}
+
+@media (display-mode: standalone) {
+  .pwa-install-button {
+    display: none !important;
+  }
+
+  body {
+    overscroll-behavior-y: contain;
+  }
+}
