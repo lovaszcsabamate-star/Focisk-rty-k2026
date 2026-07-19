@@ -1,0 +1,49 @@
+name: Ellenőrzés és önálló build
+
+on:
+  push:
+    branches:
+      - main
+      - ux/felhasznalobarat-jatekmenet
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  verify-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Szintaktikai ellenőrzés
+        run: npm run lint
+
+      - name: Tesztek
+        run: npm test
+
+      - name: Önálló HTML elkészítése
+        run: npm run build
+
+      - name: Generált játékfájl mentése
+        if: github.event_name == 'push'
+        run: |
+          if git diff --quiet -- Fociskartyak2026.html; then
+            echo "Az önálló játékfájl naprakész."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Fociskartyak2026.html
+          git commit -m "Önálló játékfájl frissítése"
+          git push
