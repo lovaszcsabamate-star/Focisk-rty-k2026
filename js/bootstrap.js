@@ -53,6 +53,22 @@ function combineCorrections(parts) {
   };
 }
 
+function showFatalError(error) {
+  console.error('[bootstrap] Az alkalmazás nem indítható:', error);
+  const loading = document.querySelector('#app-loading');
+  if (!loading) return;
+  loading.hidden = false;
+  loading.innerHTML = `
+    <div class="app-loading__card app-loading__error" role="alert">
+      <span class="app-loading__ball" aria-hidden="true">⚠️</span>
+      <h1>A játék nem indult el</h1>
+      <p>Az adatok vagy a kezelőfelület betöltése megszakadt.</p>
+      <button class="btn" id="retry-load-btn" type="button">Újrapróbálás</button>
+    </div>
+  `;
+  loading.querySelector('#retry-load-btn')?.addEventListener('click', () => location.reload(), { once: true });
+}
+
 try {
   const [payload, rawParts, correctionParts, statPatchParts, directory] = await Promise.all([
     fetchJson(PLAYER_DATA_URL),
@@ -99,8 +115,10 @@ try {
       + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés`
     );
   }
-} catch (error) {
-  console.warn(`[bootstrap] Előzetes adatbetöltés sikertelen, a normál betöltő próbálkozik: ${error.message}`);
-}
 
-await import('./main.js');
+  await import('./main.js');
+  const loading = document.querySelector('#app-loading');
+  if (loading) loading.hidden = true;
+} catch (error) {
+  showFatalError(error);
+}
