@@ -1,0 +1,1 @@
+Ideiglenes CI-jelölő a teljes 12 klubos adatbázis lint, build, npm test és npm run test:all ellenőrzéséhez.
