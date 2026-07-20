@@ -11,7 +11,10 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-4-ujpest.json',
   'data/club-official-enrichment-5-other.json',
 ];
-const CLUB_CORRECTIONS_URL = 'data/club-official-corrections.json';
+const CLUB_CORRECTION_URLS = [
+  'data/club-official-corrections.json',
+  'data/club-official-corrections-2.json',
+];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
 async function fetchJson(url) {
@@ -32,17 +35,29 @@ function combineEnrichments(parts, directory) {
   };
 }
 
+function combineCorrections(parts) {
+  const valid = parts.filter(Boolean);
+  return {
+    schemaVersion: 1,
+    checkedAt: valid.at(-1)?.checkedAt ?? null,
+    addSources: valid.flatMap(part => part.addSources ?? []),
+    recordPatches: valid.flatMap(part => part.recordPatches ?? []),
+    excludeRecords: valid.flatMap(part => part.excludeRecords ?? []),
+    additions: valid.flatMap(part => part.additions ?? []),
+  };
+}
+
 try {
-  const [payload, rawParts, corrections, directory] = await Promise.all([
+  const [payload, rawParts, correctionParts, directory] = await Promise.all([
     fetchJson(PLAYER_DATA_URL),
     Promise.all(CLUB_ENRICHMENT_URLS.map(url => fetchJson(url).catch(error => {
       console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be (${url}): ${error.message}`);
       return null;
     }))),
-    fetchJson(CLUB_CORRECTIONS_URL).catch(error => {
-      console.warn(`[enrichment] A korrekciós réteg nem tölthető be: ${error.message}`);
+    Promise.all(CLUB_CORRECTION_URLS.map(url => fetchJson(url).catch(error => {
+      console.warn(`[enrichment] A korrekciós réteg nem tölthető be (${url}): ${error.message}`);
       return null;
-    }),
+    }))),
     fetchJson(CLUB_DIRECTORY_URL).catch(error => {
       console.warn(`[enrichment] A klubforrás-jegyzék nem tölthető be: ${error.message}`);
       return null;
@@ -50,6 +65,7 @@ try {
   ]);
 
   const combined = combineEnrichments(rawParts, directory);
+  const corrections = combineCorrections(correctionParts);
   const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
   const enrichedPayload = enrichment ? applyClubEnrichmentPayload(payload, enrichment) : payload;
   globalThis.__EMBEDDED_PLAYER_DATA__ = enrichedPayload;
