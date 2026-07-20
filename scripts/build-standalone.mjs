@@ -81,7 +81,7 @@ const enrichedPayload = applyClubEnrichmentPayload(basePayload, enrichment);
 const payload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}`;
 
 const backgroundFiles = [
   ['assets/pub/background.webp', 'image/webp'],
@@ -102,6 +102,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/opponents.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/pwa.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/mobile-experience.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/mobile-overlay-fix.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
