@@ -61,6 +61,7 @@ assert.match(clubEnrichment, /existing values always win/);
 assert.match(clubEnrichment, /enrichmentConflicts/);
 assert.match(clubEnrichment, /prepareClubEnrichment/);
 assert.match(clubEnrichment, /MISSING_TEXT_VALUES/);
+assert.match(clubEnrichment, /mergeVerifiedCorrection/);
 assert.match(serviceWorker, /data\/players\.json/);
 assert.match(serviceWorker, /data\/club-official-enrichment\.json/);
 assert.match(serviceWorker, /data\/club-official-corrections\.json/);
@@ -94,7 +95,7 @@ assert.match(launcher, /start "" "%GAME%"/);
 assert.match(standalone, /globalThis\.__EMBEDDED_PLAYER_DATA__/);
 assert.match(standalone, /clubOfficialEnrichment/);
 assert.match(standalone, /ABU FANI MOHAMMAD/);
-assert.match(standalone, /"addedPlayers":1/);
+assert.match(standalone, /"updatedExistingPlayers":1/);
 assert.doesNotMatch(standalone, /<script type="module" src=/);
 assert.doesNotMatch(standalone, /<link rel="stylesheet" href=/);
 
