@@ -16,6 +16,7 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-8-kisvarda-selected10.json',
   'data/club-official-enrichment-9-kisvarda-selected10.json',
   'data/club-official-enrichment-10-kisvarda-final8.json',
+  'data/club-official-enrichment-11-kisvarda-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
