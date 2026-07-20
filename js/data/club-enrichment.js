@@ -1,6 +1,6 @@
 /**
  * Non-destructive enrichment of the original MLSZ-based player database.
- * Official club pages may only fill missing fields; existing values always win.
+ * Official club pages may only fill missing fields; existing MLSZ values always win.
  */
 
 const isObject = value => value != null && typeof value === 'object' && !Array.isArray(value);
@@ -10,7 +10,13 @@ const MISSING_TEXT_VALUES = new Set([
 ]);
 const blank = value => value == null
   || (typeof value === 'string' && MISSING_TEXT_VALUES.has(value.trim().toLocaleLowerCase('hu-HU')));
-const usable = value => isFiniteNumber(value) || (typeof value === 'string' && !blank(value)) || value === false;
+const usable = value => isFiniteNumber(value)
+  || (typeof value === 'string' && !blank(value))
+  || typeof value === 'boolean';
+const comparable = value => {
+  if (Array.isArray(value) || isObject(value)) return JSON.stringify(value);
+  return value == null ? null : String(value).trim();
+};
 
 export function normaliseEnrichmentText(value) {
   return String(value ?? '')
@@ -29,7 +35,6 @@ const isSubset = (smaller, larger) => smaller.every(token => larger.includes(tok
 export function enrichmentNamesMatch(cardName, record = {}) {
   const cardTokens = [...new Set(nameTokens(cardName))];
   if (!cardTokens.length) return false;
-
   const candidates = [record.name, ...(Array.isArray(record.aliases) ? record.aliases : [])]
     .filter(value => typeof value === 'string' && value.trim());
 
@@ -44,21 +49,27 @@ export function enrichmentNamesMatch(cardName, record = {}) {
 
 const recordKey = record => [record?.sourceId, record?.clubId, normaliseEnrichmentText(record?.name)].join('|');
 const uniqueStrings = values => [...new Set(values.filter(value => typeof value === 'string' && value.trim()))];
+const countBy = (values, keyFn) => values.reduce((acc, value) => {
+  const key = keyFn(value);
+  if (key) acc[key] = (acc[key] ?? 0) + 1;
+  return acc;
+}, {});
 
-/** Apply auditable corrections without altering the original source snapshot. */
+/** Apply auditable corrections without altering any source snapshot. */
 export function prepareClubEnrichment(enrichment, corrections) {
-  if (!isObject(enrichment) || !isObject(corrections)) return enrichment;
-
+  if (!isObject(enrichment)) return enrichment;
+  const safeCorrections = isObject(corrections) ? corrections : {};
+  const rawRecords = Array.isArray(enrichment.records) ? enrichment.records : [];
   const excluded = new Map(
-    (Array.isArray(corrections.excludeRecords) ? corrections.excludeRecords : [])
+    (Array.isArray(safeCorrections.excludeRecords) ? safeCorrections.excludeRecords : [])
       .map(record => [recordKey(record), record])
   );
   const patches = new Map(
-    (Array.isArray(corrections.recordPatches) ? corrections.recordPatches : [])
+    (Array.isArray(safeCorrections.recordPatches) ? safeCorrections.recordPatches : [])
       .map(record => [recordKey(record), record])
   );
 
-  const records = (Array.isArray(enrichment.records) ? enrichment.records : [])
+  const records = rawRecords
     .filter(record => !excluded.has(recordKey(record)))
     .map(record => {
       const patch = patches.get(recordKey(record));
@@ -67,11 +78,12 @@ export function prepareClubEnrichment(enrichment, corrections) {
         ...record,
         ...patch,
         aliases: uniqueStrings([...(record.aliases ?? []), ...(patch.aliases ?? [])]),
+        meta: { ...(record.meta ?? {}), ...(patch.meta ?? {}) },
       };
     });
 
   const sourceMap = new Map();
-  for (const source of [...(enrichment.sources ?? []), ...(corrections.addSources ?? [])]) {
+  for (const source of [...(enrichment.sources ?? []), ...(safeCorrections.addSources ?? [])]) {
     if (source?.id) sourceMap.set(source.id, source);
   }
 
@@ -79,13 +91,15 @@ export function prepareClubEnrichment(enrichment, corrections) {
     ...enrichment,
     sources: [...sourceMap.values()],
     records,
-    additions: Array.isArray(corrections.additions) ? corrections.additions : [],
+    additions: Array.isArray(safeCorrections.additions) ? safeCorrections.additions : [],
     excludedRecords: [...excluded.values()],
+    rawRecordCountsByClub: countBy(rawRecords, record => record?.clubId),
+    eligibleRecordCountsByClub: countBy(records, record => record?.clubId),
     corrections: {
-      checkedAt: corrections.checkedAt ?? null,
+      checkedAt: safeCorrections.checkedAt ?? null,
       recordPatches: patches.size,
       excludedRecords: excluded.size,
-      additions: Array.isArray(corrections.additions) ? corrections.additions.length : 0,
+      additions: Array.isArray(safeCorrections.additions) ? safeCorrections.additions.length : 0,
     },
   };
 }
@@ -102,14 +116,50 @@ const sourceById = enrichment => new Map(
     .map(source => [source.id, source])
 );
 
-const comparable = value => value == null ? null : String(value).trim();
+const cloneCard = card => ({
+  ...card,
+  nation: blank(card?.nation) ? '' : card.nation.trim(),
+  position: blank(card?.position) ? '' : card.position.trim(),
+  birthDate: blank(card?.birthDate) ? null : card.birthDate,
+  clubs: Array.isArray(card?.clubs) ? [...card.clubs] : card?.clubs,
+  stats: { ...(card?.stats ?? {}) },
+  meta: {
+    ...(card?.meta ?? {}),
+    clubIds: Array.isArray(card?.meta?.clubIds) ? [...card.meta.clubIds] : card?.meta?.clubIds,
+    clubOfficial: { ...(card?.meta?.clubOfficial ?? {}) },
+    clubShirtNumbers: { ...(card?.meta?.clubShirtNumbers ?? {}) },
+  },
+});
+
+function addConflict(conflicts, field, kept, offered) {
+  if (comparable(kept) !== comparable(offered)) conflicts.push({ field, kept, offered });
+}
+
+function mergeOfficialMeta(meta, recordMeta, record, conflicts, appliedFields) {
+  if (!isObject(recordMeta)) return;
+  const official = { ...(meta.clubOfficial ?? {}) };
+  for (const [field, offered] of Object.entries(recordMeta)) {
+    if (!usable(offered)) continue;
+    const current = official[field];
+    if (!usable(current)) {
+      official[field] = offered;
+      appliedFields.push(`meta.${field}`);
+    } else {
+      addConflict(conflicts, `meta.${field}`, current, offered);
+    }
+  }
+  meta.clubOfficial = official;
+
+  const byClub = { ...(meta.clubOfficialByClub ?? {}) };
+  byClub[record.clubId] = { ...(byClub[record.clubId] ?? {}), ...recordMeta };
+  meta.clubOfficialByClub = byClub;
+}
 
 function mergeRecord(card, record, source) {
-  const stats = isObject(card.stats) ? { ...card.stats } : {};
-  const meta = isObject(card.meta) ? { ...card.meta } : {};
+  const stats = { ...(card.stats ?? {}) };
+  const meta = { ...(card.meta ?? {}) };
   const appliedFields = [];
   const conflicts = [];
-
   let position = blank(card.position) ? '' : card.position;
   let nation = blank(card.nation) ? '' : card.nation;
   let birthDate = blank(card.birthDate) ? null : card.birthDate;
@@ -117,51 +167,49 @@ function mergeRecord(card, record, source) {
   if (blank(position) && !blank(record.position)) {
     position = record.position;
     appliedFields.push('position');
-  } else if (!blank(record.position) && comparable(position) !== comparable(record.position)) {
-    conflicts.push({ field: 'position', kept: position, offered: record.position });
-  }
+  } else if (!blank(record.position)) addConflict(conflicts, 'position', position, record.position);
 
   if (blank(nation) && !blank(record.nation)) {
     nation = record.nation;
     appliedFields.push('nation');
-  } else if (!blank(record.nation) && comparable(nation) !== comparable(record.nation)) {
-    conflicts.push({ field: 'nation', kept: nation, offered: record.nation });
-  }
+  } else if (!blank(record.nation)) addConflict(conflicts, 'nation', nation, record.nation);
 
   if (blank(birthDate) && !blank(record.birthDate)) {
     birthDate = record.birthDate;
     appliedFields.push('birthDate');
-  } else if (!blank(record.birthDate) && comparable(birthDate) !== comparable(record.birthDate)) {
-    conflicts.push({ field: 'birthDate', kept: birthDate, offered: record.birthDate });
-  }
+  } else if (!blank(record.birthDate)) addConflict(conflicts, 'birthDate', birthDate, record.birthDate);
 
   if (!isFiniteNumber(stats.heightCm) && isFiniteNumber(record.heightCm)) {
     stats.heightCm = record.heightCm;
     appliedFields.push('heightCm');
-  } else if (isFiniteNumber(stats.heightCm) && isFiniteNumber(record.heightCm) && stats.heightCm !== record.heightCm) {
-    conflicts.push({ field: 'heightCm', kept: stats.heightCm, offered: record.heightCm });
-  }
+  } else if (isFiniteNumber(record.heightCm)) addConflict(conflicts, 'heightCm', stats.heightCm, record.heightCm);
 
   const registrationCount = Number(meta.registrationCount ?? cardClubIds(card).length ?? 1);
-  if (registrationCount <= 1 && !isFiniteNumber(stats.shirtNumber) && isFiniteNumber(record.shirtNumber)) {
-    stats.shirtNumber = record.shirtNumber;
-    appliedFields.push('shirtNumber');
-  } else if (registrationCount <= 1 && isFiniteNumber(stats.shirtNumber)
-    && isFiniteNumber(record.shirtNumber) && stats.shirtNumber !== record.shirtNumber) {
-    conflicts.push({ field: 'shirtNumber', kept: stats.shirtNumber, offered: record.shirtNumber });
+  if (isFiniteNumber(record.shirtNumber)) {
+    const shirtNumbers = { ...(meta.clubShirtNumbers ?? {}) };
+    if (!isFiniteNumber(shirtNumbers[record.clubId])) shirtNumbers[record.clubId] = record.shirtNumber;
+    else addConflict(conflicts, `clubShirtNumbers.${record.clubId}`, shirtNumbers[record.clubId], record.shirtNumber);
+    meta.clubShirtNumbers = shirtNumbers;
+
+    if (registrationCount <= 1 && !isFiniteNumber(stats.shirtNumber)) {
+      stats.shirtNumber = record.shirtNumber;
+      appliedFields.push('shirtNumber');
+    } else if (registrationCount <= 1) addConflict(conflicts, 'shirtNumber', stats.shirtNumber, record.shirtNumber);
   }
+
+  mergeOfficialMeta(meta, record.meta, record, conflicts, appliedFields);
 
   const sourceEntry = {
     sourceId: record.sourceId,
     sourceName: source?.name ?? null,
     sourceUrl: source?.url ?? null,
     checkedAt: source?.checkedAt ?? null,
+    season: source?.season ?? null,
     clubId: record.clubId,
     matchedName: record.name,
     fieldsApplied: appliedFields,
     inactiveSince: record.inactiveSince ?? null,
   };
-
   const officialSources = Array.isArray(meta.clubOfficialSources) ? [...meta.clubOfficialSources] : [];
   const sourceKey = `${sourceEntry.sourceId}|${sourceEntry.clubId}|${normaliseEnrichmentText(sourceEntry.matchedName)}`;
   const duplicateIndex = officialSources.findIndex(item =>
@@ -179,68 +227,44 @@ function mergeRecord(card, record, source) {
   }
   if (appliedFields.length) meta.dataStatus = meta.dataStatus === 'verified' ? 'verified' : 'partially_verified';
 
-  return {
-    card: { ...card, position, nation, birthDate, stats, meta },
-    appliedFields,
-    conflicts,
-  };
+  return { card: { ...card, position, nation, birthDate, stats, meta }, appliedFields, conflicts };
 }
 
 function matchRecord(cards, record) {
   const clubCandidates = cards
     .map((card, index) => ({ card, index }))
     .filter(({ card }) => cardClubIds(card).includes(record.clubId));
-
   const exact = clubCandidates.filter(({ card }) =>
     [record.name, ...(Array.isArray(record.aliases) ? record.aliases : [])]
       .some(name => sortedNameKey(card?.name) === sortedNameKey(name))
   );
   if (exact.length === 1) return exact[0].index;
   if (exact.length > 1) return null;
-
   const fuzzy = clubCandidates.filter(({ card }) => enrichmentNamesMatch(card?.name, record));
   return fuzzy.length === 1 ? fuzzy[0].index : null;
 }
 
-const cloneCard = card => ({
-  ...card,
-  nation: blank(card?.nation) ? '' : card.nation.trim(),
-  position: blank(card?.position) ? '' : card.position.trim(),
-  birthDate: blank(card?.birthDate) ? null : card.birthDate,
-  clubs: Array.isArray(card?.clubs) ? [...card.clubs] : card?.clubs,
-  stats: { ...(card?.stats ?? {}) },
-  meta: {
-    ...(card?.meta ?? {}),
-    clubIds: Array.isArray(card?.meta?.clubIds) ? [...card.meta.clubIds] : card?.meta?.clubIds,
-  },
-});
-
 function mergeVerifiedCorrection(card, correction) {
   const next = cloneCard(card);
   const appliedFields = [];
-
   for (const field of ['nation', 'position', 'birthDate']) {
     if (blank(next[field]) && usable(correction[field])) {
       next[field] = correction[field];
       appliedFields.push(field);
     }
   }
-
   for (const [field, offered] of Object.entries(correction.stats ?? {})) {
-    const current = next.stats[field];
-    if (!usable(current) && usable(offered)) {
+    if (!usable(next.stats[field]) && usable(offered)) {
       next.stats[field] = offered;
       appliedFields.push(field);
     }
   }
-
   for (const field of [
     'sourceUrl', 'rosterSourceUrl', 'checkedAt', 'dataStatus', 'imageUrl',
     'birthDateSource', 'birthDateSourceName', 'dismissalBreakdown',
   ]) {
     if (!usable(next.meta[field]) && usable(correction.meta?.[field])) next.meta[field] = correction.meta[field];
   }
-
   next.meta.officialCorrection = {
     checkedAt: correction.meta?.checkedAt ?? null,
     sourceIds: uniqueStrings(correction.meta?.additionSourceIds ?? []),
@@ -248,7 +272,6 @@ function mergeVerifiedCorrection(card, correction) {
     note: correction.meta?.sourceNotes ?? null,
   };
   if (appliedFields.length) next.meta.dataStatus = correction.meta?.dataStatus ?? 'verified';
-
   return { card: next, appliedFields };
 }
 
@@ -256,7 +279,6 @@ function appendAdditions(cards, additions) {
   const added = [];
   const updated = [];
   const skipped = [];
-
   for (const addition of Array.isArray(additions) ? additions : []) {
     if (!addition?.id || !addition?.name || !addition?.club || !addition?.meta?.clubId) {
       skipped.push({ id: addition?.id ?? null, name: addition?.name ?? null, reason: 'invalid-addition' });
@@ -279,7 +301,6 @@ function appendAdditions(cards, additions) {
     cards.push(card);
     added.push(card);
   }
-
   return { added, updated, skipped };
 }
 
@@ -297,16 +318,49 @@ const coverage = cards => ({
   nation: cards.filter(card => !blank(card?.nation)).length,
   heightCm: cards.filter(card => isFiniteNumber(card?.stats?.heightCm)).length,
   shirtNumber: cards.filter(card => isFiniteNumber(card?.stats?.shirtNumber)).length,
+  officialMetadata: cards.filter(card => Object.keys(card?.meta?.clubOfficial ?? {}).length > 0).length,
 });
 
 const selectionSummary = (cards, previous = {}) => ({
   ...previous,
   playableCards: cards.length,
   uniquePlayers: new Set(cards.map(card => card?.meta?.personKey ?? card?.id)).size,
-  registrationRecords: cards.reduce((sum, card) => sum + Math.max(1, Number(card?.meta?.registrationCount ?? cardClubIds(card).length ?? 1)), 0),
+  registrationRecords: cards.reduce((sum, card) => sum
+    + Math.max(1, Number(card?.meta?.registrationCount ?? cardClubIds(card).length ?? 1)), 0),
   multiClubPlayers: cards.filter(card => Number(card?.meta?.registrationCount ?? cardClubIds(card).length) > 1).length,
   completeGoalTotals: cards.filter(card => isFiniteNumber(card?.stats?.goals)).length,
 });
+
+function buildClubSummary(cards, enrichment, matchedByClub, unmatchedByClub) {
+  const directory = Array.isArray(enrichment.clubDirectory) ? enrichment.clubDirectory : [];
+  const directoryById = new Map(directory.map(club => [club.clubId, club]));
+  const sourceByClub = new Map((enrichment.sources ?? []).map(source => [source.clubId, source]));
+  const clubIds = new Set([
+    ...cards.flatMap(cardClubIds),
+    ...Object.keys(enrichment.rawRecordCountsByClub ?? {}),
+    ...directory.map(club => club.clubId),
+  ]);
+  const excludedByClub = countBy(enrichment.excludedRecords ?? [], record => record?.clubId);
+
+  return [...clubIds].sort().map(clubId => {
+    const directoryEntry = directoryById.get(clubId);
+    const source = sourceByClub.get(clubId);
+    const mlszCards = cards.filter(card => cardClubIds(card).includes(clubId)).length;
+    return {
+      clubId,
+      clubName: directoryEntry?.clubName ?? source?.clubName
+        ?? cards.find(card => cardClubIds(card).includes(clubId))?.club ?? clubId,
+      mlszCards,
+      officialRecords: enrichment.rawRecordCountsByClub?.[clubId] ?? 0,
+      eligibleRecords: enrichment.eligibleRecordCountsByClub?.[clubId] ?? 0,
+      matched: matchedByClub[clubId] ?? 0,
+      excluded: excludedByClub[clubId] ?? 0,
+      review: unmatchedByClub[clubId] ?? 0,
+      sourceStatus: directoryEntry?.status ?? null,
+      officialRosterUrl: directoryEntry?.officialRosterUrl ?? source?.url ?? null,
+    };
+  });
+}
 
 export function applyClubEnrichmentPayload(payload, enrichment) {
   const rawCards = Array.isArray(payload) ? payload : payload?.players;
@@ -318,27 +372,43 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
   const sources = sourceById(enrichment);
   const unmatchedRecords = [];
   const appliedFieldCounts = {};
+  const matchedByClub = {};
+  const unmatchedByClub = {};
   let matchedRecords = 0;
   let conflictCount = 0;
 
   for (const record of enrichment.records) {
     if (!record?.clubId || !record?.name || !record?.sourceId) {
       unmatchedRecords.push({ name: record?.name ?? null, clubId: record?.clubId ?? null, reason: 'invalid-record' });
+      if (record?.clubId) unmatchedByClub[record.clubId] = (unmatchedByClub[record.clubId] ?? 0) + 1;
       continue;
     }
     const index = matchRecord(cards, record);
     if (index == null) {
-      unmatchedRecords.push({ name: record.name, clubId: record.clubId, reason: 'no-unique-player-match' });
+      unmatchedRecords.push({
+        name: record.name,
+        clubId: record.clubId,
+        sourceId: record.sourceId,
+        reason: 'no-unique-player-match',
+      });
+      unmatchedByClub[record.clubId] = (unmatchedByClub[record.clubId] ?? 0) + 1;
       continue;
     }
     const merged = mergeRecord(cards[index], record, sources.get(record.sourceId));
     cards[index] = merged.card;
     matchedRecords += 1;
+    matchedByClub[record.clubId] = (matchedByClub[record.clubId] ?? 0) + 1;
     conflictCount += merged.conflicts.length;
     for (const field of merged.appliedFields) appliedFieldCounts[field] = (appliedFieldCounts[field] ?? 0) + 1;
   }
 
   const after = coverage(cards);
+  const fieldCoverage = Object.keys(after).map(field => ({
+    field,
+    before: before[field] ?? 0,
+    after: after[field] ?? 0,
+    added: (after[field] ?? 0) - (before[field] ?? 0),
+  }));
   const summary = {
     schemaVersion: enrichment.schemaVersion ?? null,
     season: enrichment.season ?? null,
@@ -356,11 +426,13 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
     appliedFieldCounts,
     coverageBefore: before,
     coverageAfter: after,
+    fieldCoverage,
+    clubSummary: buildClubSummary(cards, enrichment, matchedByClub, unmatchedByClub),
+    manualReview: unmatchedRecords,
     unmatched: unmatchedRecords,
   };
 
   if (Array.isArray(payload)) return cards;
-
   const { players: ignoredPlayers, ...basePayload } = payload;
   void ignoredPlayers;
   const clubCounts = { ...(isObject(payload.clubs) ? payload.clubs : {}) };
@@ -380,11 +452,15 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
     coverage: { ...(isObject(payload.coverage) ? payload.coverage : {}), ...after },
     source: {
       ...(isObject(payload.source) ? payload.source : {}),
+      officialClubDirectory: enrichment.clubDirectory ?? [],
       clubOfficialEnrichment: (enrichment.sources ?? []).map(source => ({
         id: source.id,
+        clubId: source.clubId,
+        clubName: source.clubName,
         name: source.name,
         url: source.url,
         checkedAt: source.checkedAt,
+        season: source.season ?? enrichment.season ?? null,
       })),
     },
     enrichment: summary,
