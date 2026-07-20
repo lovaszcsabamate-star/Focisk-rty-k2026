@@ -6,7 +6,9 @@ const mobile = fs.readFileSync(new URL('../mobil.html', import.meta.url), 'utf8'
 const mobileQr = fs.readFileSync(new URL('../assets/qr/mobil-eleres.svg', import.meta.url), 'utf8');
 const css = fs.readFileSync(new URL('../css/style.css', import.meta.url), 'utf8');
 const matchdayCss = fs.readFileSync(new URL('../css/matchday.css', import.meta.url), 'utf8');
+const mobileExperienceCss = fs.readFileSync(new URL('../css/mobile-experience.css', import.meta.url), 'utf8');
 const matchdayJs = fs.readFileSync(new URL('../js/matchday.js', import.meta.url), 'utf8');
+const mobileExperienceJs = fs.readFileSync(new URL('../js/mobile-experience.js', import.meta.url), 'utf8');
 const pwaCss = fs.readFileSync(new URL('../css/pwa.css', import.meta.url), 'utf8');
 const pwaJs = fs.readFileSync(new URL('../js/pwa.js', import.meta.url), 'utf8');
 const bootstrap = fs.readFileSync(new URL('../js/bootstrap.js', import.meta.url), 'utf8');
@@ -29,10 +31,11 @@ const launcher = fs.readFileSync(new URL('../JATEK_INDITASA.bat', import.meta.ur
 const standalone = fs.readFileSync(new URL('../Fociskartyak2026.html', import.meta.url), 'utf8');
 
 assert.match(html, /<html lang="hu">/);
-for (const id of ['hud-settings', 'penalty-board', 'sudden-death-banner', 'attribute-picker']) {
+for (const id of ['hud-settings', 'penalty-board', 'sudden-death-banner', 'attribute-picker', 'app-loading']) {
   assert.match(html, new RegExp(`id="${id}"`));
 }
 assert.match(html, /manifest\.webmanifest/);
+assert.match(html, /css\/mobile-experience\.css/);
 assert.match(html, /js\/bootstrap\.js/);
 assert.doesNotMatch(html, /<script type="module" src="js\/main\.js"><\/script>/);
 assert.match(mobile, /Játék indítása/);
@@ -47,6 +50,18 @@ assert.match(matchdayJs, /KÖVETKEZŐ VÁLASZTÓ/);
 assert.match(pwaCss, /\.pwa-install-guide/);
 assert.match(pwaJs, /beforeinstallprompt/);
 assert.match(pwaJs, /serviceWorker\.register/);
+
+assert.match(mobileExperienceCss, /safe-area-inset-top/);
+assert.match(mobileExperienceCss, /@media \(max-width: 320px\)/);
+assert.match(mobileExperienceCss, /prefers-reduced-motion/);
+assert.match(mobileExperienceCss, /\.setting-switch/);
+assert.match(mobileExperienceJs, /saved-match:v2/);
+assert.match(mobileExperienceJs, /writeSavedMatch/);
+assert.match(mobileExperienceJs, /hydrateGame/);
+assert.match(mobileExperienceJs, /Legjobb saját/);
+assert.match(mobileExperienceJs, /navigator\.vibrate/);
+assert.match(bootstrap, /showFatalError/);
+assert.match(bootstrap, /retry-load-btn/);
 
 for (const file of [
   'club-official-enrichment.json',
@@ -79,12 +94,16 @@ assert.match(clubEnrichment, /clubSummary/);
 assert.match(clubEnrichment, /manualReview/);
 assert.match(clubStatPatches, /clubOfficialStatsByClub/);
 assert.match(clubStatPatches, /multiClubMetadataOnly/);
-assert.match(serviceWorker, /fociskartyak-2026-v11/);
+assert.match(serviceWorker, /fociskartyak-2026-v12/);
+assert.match(serviceWorker, /mobile-experience\.css/);
+assert.match(serviceWorker, /mobile-experience\.js/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
 assert.match(buildScript, /officialStatPatches/);
 assert.match(buildScript, /clubSummary/);
+assert.match(buildScript, /mobile-experience\.css/);
+assert.match(buildScript, /mobile-experience\.js/);
 assert.match(workflow, /data\/enrichment-audit\.json/);
 
 assert.equal(directory.clubs.length, 12);
@@ -121,8 +140,13 @@ assert.ok(manifest.icons.some(icon => icon.sizes === '192x192'));
 assert.ok(manifest.icons.some(icon => icon.sizes === '512x512'));
 assert.match(main, /Klasszikus mód/);
 assert.match(main, /Penalties mód/);
+assert.match(main, /Játék folytatása/);
 assert.match(main, /Következő párbaj/);
 assert.match(main, /Vissza a főmenübe/);
+assert.match(main, /showPauseMenu/);
+assert.match(main, /showOnboarding/);
+assert.match(main, /resumeSavedMatch/);
+assert.match(main, /handleBackAction/);
 assert.match(launcher, /Fociskartyak2026\.html/);
 assert.match(launcher, /start "" "%GAME%"/);
 assert.match(standalone, /globalThis\.__EMBEDDED_PLAYER_DATA__/);
@@ -134,7 +158,8 @@ assert.match(standalone, /ARUTIUNIAN GEORGII/);
 assert.match(standalone, /"minutes":3161/);
 assert.match(standalone, /"updatedExistingPlayers":1/);
 assert.match(standalone, /"unmatchedRecords":0/);
+assert.match(standalone, /saved-match:v2/);
 assert.doesNotMatch(standalone, /<script type="module" src=/);
 assert.doesNotMatch(standalone, /<link rel="stylesheet" href=/);
 
-console.log('✓ Magyar, reszponzív, hivatalos klub- és szezonstatisztikákkal működő offline felületi szerződés: rendben');
+console.log('✓ Magyar, reszponzív, menthető és mobilbarát offline felületi szerződés: rendben');
