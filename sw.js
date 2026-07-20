@@ -1,4 +1,4 @@
-const PWA_CACHE = 'fociskartyak-2026-v12';
+const PWA_CACHE = 'fociskartyak-2026-v13';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const PWA_SHELL = [
   './css/opponents.css',
   './css/pwa.css',
   './css/mobile-experience.css',
+  './css/mobile-overlay-fix.css',
   './js/bootstrap.js',
   './js/data/club-enrichment.js',
   './js/data/club-stat-patches.js',
