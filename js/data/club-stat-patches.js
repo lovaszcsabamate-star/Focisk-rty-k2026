@@ -1,4 +1,7 @@
-import { enrichmentNamesMatch } from './club-enrichment.js';
+import {
+  enrichmentNamesMatch,
+  normaliseEnrichmentText,
+} from './club-enrichment.js';
 
 const isObject = value => value != null && typeof value === 'object' && !Array.isArray(value);
 const finite = value => typeof value === 'number' && Number.isFinite(value);
@@ -20,6 +23,10 @@ const cardClubIds = card => {
   return [card?.meta?.clubId].filter(Boolean);
 };
 
+const sortedNameKey = value => [...new Set(
+  normaliseEnrichmentText(value).split(' ').filter(Boolean)
+)].sort().join('|');
+
 const expandRows = payload => {
   if (!isObject(payload) || !Array.isArray(payload.fields) || !Array.isArray(payload.rows)) return [];
   return payload.rows.map(row => {
@@ -38,6 +45,25 @@ const expandRows = payload => {
 const patchCoverage = cards => Object.fromEntries(
   STAT_FIELDS.map(field => [field, cards.filter(card => finite(card?.stats?.[field])).length])
 );
+
+const matchRecord = (cards, record) => {
+  const candidates = cards
+    .map((card, index) => ({ card, index }))
+    .filter(({ card }) => cardClubIds(card).includes(record.clubId));
+  const offeredNames = [record.name, ...(Array.isArray(record.aliases) ? record.aliases : [])]
+    .filter(name => typeof name === 'string' && name.trim());
+  const exact = candidates.filter(({ card }) =>
+    offeredNames.some(name => sortedNameKey(card.name) === sortedNameKey(name))
+  );
+  if (exact.length === 1) return { match: exact[0], reason: null };
+  if (exact.length > 1) return { match: null, reason: 'ambiguous-exact-player-match' };
+  const fuzzy = candidates.filter(({ card }) => enrichmentNamesMatch(card.name, record));
+  if (fuzzy.length === 1) return { match: fuzzy[0], reason: null };
+  return {
+    match: null,
+    reason: fuzzy.length > 1 ? 'ambiguous-player-match' : 'no-unique-player-match',
+  };
+};
 
 export function applyOfficialStatPatches(payload, patchPayloads) {
   const rawCards = Array.isArray(payload) ? payload : payload?.players;
@@ -74,22 +100,18 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
       continue;
     }
 
-    const matches = cards
-      .map((card, index) => ({ card, index }))
-      .filter(({ card }) => cardClubIds(card).includes(record.clubId))
-      .filter(({ card }) => enrichmentNamesMatch(card.name, record));
-
-    if (matches.length !== 1) {
+    const matchResult = matchRecord(cards, record);
+    if (!matchResult.match) {
       unmatched.push({
         name: record.name,
         clubId: record.clubId,
         sourceId: record.sourceId,
-        reason: matches.length > 1 ? 'ambiguous-player-match' : 'no-unique-player-match',
+        reason: matchResult.reason,
       });
       continue;
     }
 
-    const { card, index } = matches[0];
+    const { card, index } = matchResult.match;
     const stats = { ...card.stats };
     const meta = { ...card.meta };
     const offeredStats = Object.fromEntries(
