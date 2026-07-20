@@ -1,6 +1,6 @@
 {
   "name": "super-mega-fotbal-2026",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Telepíthető magyar NB I 2025/26 kocsmai fociskártya-játék",
   "type": "module",
   "private": true,
@@ -15,7 +15,7 @@
     "import:full": "node scripts/import-full-database.mjs",
     "build:legacy-data": "node pipeline/build.mjs",
     "build:legacy-data:portraits": "node pipeline/build.mjs --portraits",
-    "lint": "node --check js/bootstrap.js && node --check js/data/club-enrichment.js && node --check js/data/club-stat-patches.js && node --check js/data/players.js && node --check js/engine.js && node --check js/penalties.js && node --check js/ai.js && node --check js/banter.js && node --check js/ui.js && node --check js/ux.js && node --check js/ux-fixes.js && node --check js/matchday.js && node --check js/opponents.js && node --check js/pwa.js && node --check sw.js && node --check js/main.js && node --check scripts/prepare-mobile.mjs",
+    "lint": "node --check js/bootstrap.js && node --check js/data/club-enrichment.js && node --check js/data/club-stat-patches.js && node --check js/data/players.js && node --check js/engine.js && node --check js/penalties.js && node --check js/ai.js && node --check js/banter.js && node --check js/ui.js && node --check js/ux.js && node --check js/ux-fixes.js && node --check js/matchday.js && node --check js/opponents.js && node --check js/pwa.js && node --check js/mobile-experience.js && node --check sw.js && node --check js/main.js && node --check scripts/prepare-mobile.mjs",
     "test": "node test/enrichment.test.mjs && node test/official-stat-patches.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/static.test.mjs && node test/simulate.mjs",
     "test:pipeline": "node pipeline/test/transform.test.mjs",
     "test:all": "node pipeline/test/transform.test.mjs && node test/enrichment.test.mjs && node test/official-stat-patches.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/static.test.mjs && node test/simulate.mjs"
