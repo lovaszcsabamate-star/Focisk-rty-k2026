@@ -18,10 +18,13 @@ assert.equal(enriched.players.length, payload.players.length);
 assert.deepEqual(enriched.players.map(card => card.id), payload.players.map(card => card.id));
 assert.equal(new Set(enriched.players.map(card => card.id)).size, payload.players.length);
 assert.ok(enriched.enrichment.matchedRecords >= 70, 'legalább 70 hivatalos klubrekordnak illeszkednie kell');
+assert.ok(enriched.coverage.birthDate > (payload.coverage.birthDate ?? 0));
 assert.ok(enriched.coverage.position > (payload.coverage.position ?? 0));
 assert.ok(enriched.coverage.nation > (payload.coverage.nation ?? 0));
 assert.ok(enriched.coverage.heightCm > (payload.coverage.heightCm ?? 0));
 assert.ok(enriched.coverage.shirtNumber > (payload.coverage.shirtNumber ?? 0));
+assert.equal(enriched.selection.exactBirthDates, enriched.coverage.birthDate);
+assert.equal(enriched.enrichment.coverageAfter.birthDate, enriched.coverage.birthDate);
 
 const find = (clubId, name) => enriched.players.find(card =>
   card?.meta?.clubIds?.includes(clubId) && enrichmentNamesMatch(card.name, { name })
