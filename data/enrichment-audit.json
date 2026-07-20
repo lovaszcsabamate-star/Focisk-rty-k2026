@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T20:03:06.019Z",
+  "generatedAt": "2026-07-20T21:08:55.641Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -12,6 +12,8 @@
     "data/club-official-enrichment-7-kisvarda-selected10.json",
     "data/club-official-enrichment-8-kisvarda-selected10.json",
     "data/club-official-enrichment-9-kisvarda-selected10.json",
+    "data/club-official-enrichment-10-kisvarda-final8.json",
+    "data/club-official-enrichment-11-kisvarda-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -20,6 +22,7 @@
     "data/club-official-stat-patches-kisvarda-selected10.json",
     "data/club-official-stat-patches-kisvarda-selected10-2.json",
     "data/club-official-stat-patches-kisvarda-selected10-3.json",
+    "data/club-official-stat-patches-kisvarda-final8.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -31,35 +34,35 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 295,
+    "exactBirthDates": 303,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 295,
-    "appearances": 173,
-    "starts": 173,
+    "birthDate": 303,
+    "appearances": 177,
+    "starts": 177,
     "goals": 440,
-    "squads": 137,
-    "yellowCards": 173,
-    "redCards": 173,
-    "totalDismissals": 173,
+    "squads": 144,
+    "yellowCards": 177,
+    "redCards": 177,
+    "totalDismissals": 177,
     "overallScore": 143,
-    "position": 334,
-    "nation": 184,
+    "position": 344,
+    "nation": 187,
     "heightCm": 57,
     "shirtNumber": 288,
-    "officialMetadata": 70,
+    "officialMetadata": 78,
     "minutes": 29,
-    "substituteAppearances": 33,
+    "substituteAppearances": 37,
     "assists": 29,
-    "secondYellowRedCards": 33
+    "secondYellowRedCards": 37
   },
   "fieldCoverage": [
     {
       "field": "birthDate",
       "before": 120,
-      "after": 295,
-      "added": 175
+      "after": 303,
+      "added": 183
     },
     {
       "field": "appearances",
@@ -112,14 +115,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 334,
-      "added": 334
+      "after": 344,
+      "added": 344
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 184,
-      "added": 184
+      "after": 187,
+      "added": 187
     },
     {
       "field": "heightCm",
@@ -136,28 +139,28 @@
     {
       "field": "officialMetadata",
       "before": 0,
-      "after": 70,
-      "added": 70
+      "after": 78,
+      "added": 78
     }
   ],
   "officialStatFieldCoverage": [
     {
       "field": "appearances",
       "before": 144,
-      "after": 173,
-      "added": 29
+      "after": 177,
+      "added": 33
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 173,
-      "added": 29
+      "after": 177,
+      "added": 33
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 137,
-      "added": 30
+      "after": 144,
+      "added": 37
     },
     {
       "field": "minutes",
@@ -168,8 +171,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 33,
-      "added": 33
+      "after": 37,
+      "added": 37
     },
     {
       "field": "goals",
@@ -186,26 +189,26 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 173,
-      "added": 29
+      "after": 177,
+      "added": 33
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 173,
-      "added": 29
+      "after": 177,
+      "added": 33
     },
     {
       "field": "secondYellowRedCards",
       "before": 0,
-      "after": 33,
-      "added": 33
+      "after": 37,
+      "added": 37
     },
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 173,
-      "added": 29
+      "after": 177,
+      "added": 33
     }
   ],
   "clubSummary": [
@@ -261,12 +264,12 @@
       "clubId": "kisvarda-master-good",
       "clubName": "Kisvárda Master Good",
       "mlszCards": 38,
-      "officialRecords": 61,
-      "eligibleRecords": 61,
-      "matched": 61,
+      "officialRecords": 71,
+      "eligibleRecords": 71,
+      "matched": 71,
       "excluded": 0,
       "review": 0,
-      "sourceStatus": "official-season-statistics-imported",
+      "sourceStatus": "complete-38-of-38-player-review",
       "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
     },
     {
@@ -362,19 +365,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 83,
+    "warningCount": 75,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 1642,
-    "exactBirthDates": 295,
+    "changeCount": 1743,
+    "exactBirthDates": 303,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T22:10:00+02:00",
-    "records": 387,
-    "matchedRecords": 387,
+    "generatedAt": "2026-07-20T23:10:00+02:00",
+    "records": 397,
+    "matchedRecords": 397,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -402,40 +405,40 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 333,
-      "nation": 183,
-      "birthDate": 174,
+      "position": 343,
+      "nation": 186,
+      "birthDate": 182,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
-      "meta.strongFoot": 30,
-      "meta.joinedAt": 40,
+      "meta.strongFoot": 32,
+      "meta.joinedAt": 46,
       "meta.joinedYearMonth": 1,
-      "meta.departedAt": 5,
+      "meta.departedAt": 6,
       "meta.nextClub": 1,
       "meta.officialSeasonAppearances": 1,
       "meta.officialSeasonGoals": 1,
       "meta.squadStatus": 14,
-      "meta.previousClub": 33,
+      "meta.previousClub": 39,
       "meta.loanFrom": 2,
-      "meta.loanStatus": 4,
+      "meta.loanStatus": 7,
       "meta.contractExtended": 4,
-      "meta.homegrown": 4,
+      "meta.homegrown": 6,
       "meta.returnedToClub": 1,
       "meta.firstTeamStatus": 2,
       "meta.academyPlayer": 1,
       "meta.seasonPlayerOfYear": 1,
       "meta.seasonClub": 19,
       "meta.currentClub": 5,
-      "meta.currentStatus": 28,
-      "meta.seasonStatus": 26,
+      "meta.currentStatus": 36,
+      "meta.seasonStatus": 34,
       "meta.professionalContractAt": 1,
       "meta.seasonShirtNumber": 27,
-      "meta.primaryPosition": 11,
+      "meta.primaryPosition": 16,
       "meta.contractEnd": 4,
       "meta.academyJoinedAt": 1,
       "meta.professionalRegistrationAt": 1,
-      "meta.birthPlace": 12,
+      "meta.birthPlace": 13,
       "meta.loanTo": 1,
       "meta.loanStart": 1,
       "meta.loanEnd": 1,
@@ -447,7 +450,9 @@
       "meta.citizenshipConfirmedAt": 1,
       "meta.signedAt": 1,
       "meta.contractExtensionAgreedAt": 1,
-      "meta.firstProfessionalContractAt": 2
+      "meta.firstProfessionalContractAt": 2,
+      "meta.loanClub": 1,
+      "meta.loanEndedAt": 2
     },
     "coverageBefore": {
       "birthDate": 120,
@@ -466,7 +471,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 295,
+      "birthDate": 303,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -475,18 +480,18 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 334,
-      "nation": 184,
+      "position": 344,
+      "nation": 187,
       "heightCm": 57,
       "shirtNumber": 288,
-      "officialMetadata": 70
+      "officialMetadata": 78
     },
     "fieldCoverage": [
       {
         "field": "birthDate",
         "before": 120,
-        "after": 295,
-        "added": 175
+        "after": 303,
+        "added": 183
       },
       {
         "field": "appearances",
@@ -539,14 +544,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 334,
-        "added": 334
+        "after": 344,
+        "added": 344
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 184,
-        "added": 184
+        "after": 187,
+        "added": 187
       },
       {
         "field": "heightCm",
@@ -563,8 +568,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 70,
-        "added": 70
+        "after": 78,
+        "added": 78
       }
     ],
     "clubSummary": [
@@ -620,12 +625,12 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 61,
-        "eligibleRecords": 61,
-        "matched": 61,
+        "officialRecords": 71,
+        "eligibleRecords": 71,
+        "matched": 71,
         "excluded": 0,
         "review": 0,
-        "sourceStatus": "official-season-statistics-imported",
+        "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
       },
       {
@@ -719,24 +724,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T22:15:00+02:00",
-    "records": 60,
-    "matchedRecords": 60,
+    "generatedAt": "2026-07-20T22:50:00+02:00",
+    "records": 68,
+    "matchedRecords": 68,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 1,
+    "multiClubMetadataOnly": 2,
     "appliedFieldCounts": {
-      "appearances": 29,
-      "starts": 29,
+      "appearances": 33,
+      "starts": 33,
       "minutes": 29,
-      "substituteAppearances": 33,
+      "substituteAppearances": 37,
       "assists": 29,
-      "yellowCards": 29,
-      "redCards": 29,
-      "secondYellowRedCards": 33,
-      "totalDismissals": 29,
-      "squads": 30
+      "yellowCards": 33,
+      "redCards": 33,
+      "secondYellowRedCards": 37,
+      "totalDismissals": 33,
+      "squads": 37
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -746,20 +751,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 173,
-        "added": 29
+        "after": 177,
+        "added": 33
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 173,
-        "added": 29
+        "after": 177,
+        "added": 33
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 137,
-        "added": 30
+        "after": 144,
+        "added": 37
       },
       {
         "field": "minutes",
@@ -770,8 +775,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 33,
-        "added": 33
+        "after": 37,
+        "added": 37
       },
       {
         "field": "goals",
@@ -788,26 +793,26 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 173,
-        "added": 29
+        "after": 177,
+        "added": 33
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 173,
-        "added": 29
+        "after": 177,
+        "added": 33
       },
       {
         "field": "secondYellowRedCards",
         "before": 0,
-        "after": 33,
-        "added": 33
+        "after": 37,
+        "added": 37
       },
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 173,
-        "added": 29
+        "after": 177,
+        "added": 33
       }
     ],
     "manualReview": [],
@@ -962,6 +967,39 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Papp Zsombor egyszer volt elsőcsapatos bajnoki keretben, pályára nem lépett."
+      },
+      {
+        "id": "mlsz-fizz-liga-kisvarda-final8-2025-26",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ Adatbank – a Kisvárda utolsó nyolc rekordjának végleges 2025/26-os Fizz Liga sorai",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/2/307003.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/1497409.html",
+          "https://adatbank.mlsz.hu/player/446755.html",
+          "https://adatbank.mlsz.hu/player/771410.html",
+          "https://adatbank.mlsz.hu/player/1292313.html",
+          "https://adatbank.mlsz.hu/player/714803.html",
+          "https://adatbank.mlsz.hu/player/532301.html",
+          "https://adatbank.mlsz.hu/player/1352118.html",
+          "https://adatbank.mlsz.hu/player/1291810.html",
+          "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+          "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+        ],
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "secondYellowRedCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Hrabina Alex, Jazsik Román, Raúl-Martin Stefan és Tarasz Veprik bajnoki pályára lépés nélkül voltak kerettagok."
       }
     ]
   },
