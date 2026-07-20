@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-07-20",
+  "policy": "A második auditkör a további nyolc klub névváltozatait és a 2025/26-os MLSZ-alapállományhoz nem kapcsolható, évadidegen vagy nem NB I-es profilokat kezeli. Új játékoskártyát nem hoz létre.",
+  "addSources": [],
+  "recordPatches": [
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Varazdat Harojan",
+      "aliases": ["HAROYAN VARAZDAT"],
+      "note": "A kluboldali keresztnév–vezetéknév sorrend az MLSZ HAROYAN VARAZDAT névformájához kapcsolva.",
+      "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/22/307010.html"
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Mihajlo Meszhi",
+      "aliases": ["MYHAILO MESKHI"],
+      "note": "A kluboldali átírás az MLSZ MYHAILO MESKHI névformájához kapcsolva.",
+      "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/22/307010.html"
+    }
+  ],
+  "excludeRecords": [
+    {
+      "sourceId": "paks-official-players-2026-07-20",
+      "clubId": "paksi-fc",
+      "name": "Májik Gergő",
+      "reason": "Az aktuális klubprofilhoz nem található egyedi Paksi FC-s 2025/26-os Fizz Liga-kártya az MLSZ-alapállományban; ezért évadidegen adatként nem illeszthető."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Szappanos Péter",
+      "reason": "Az aktuális Újpest-profil nem kapcsolható Újpest FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Markgráf Ákos",
+      "reason": "A profil 2026-os csatlakozást jelez, de az eredeti MLSZ-adatbázisban nincs igazolt Újpest FC-s 2025/26-os Fizz Liga-kártya."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Heitor",
+      "reason": "Az aktuális Újpest-profil nem kapcsolható Újpest FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Etienne Amenyido",
+      "reason": "Az aktuális Újpest-profil nem kapcsolható Újpest FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Muhamed Tijani",
+      "reason": "A játékos 2025/26-os MLSZ-kártyája más klubhoz kapcsolódik; az aktuális Újpest-profil nem írhatja át visszamenőleg a szezon klubstátuszát."
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Menyhárt Barnabás",
+      "reason": "Az MLSZ 2025/26-os adatlapja nem igazol KBSC-s Fizz Liga-kártyát; a játékos más klub alacsonyabb osztályú keretében szerepel."
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Dominik Mulac",
+      "reason": "A hivatalos bejelentés ellenére nem szerepel a végleges 2025/26-os MLSZ KBSC Fizz Liga-keretben, ezért nem illeszthető a játék adatbázisába."
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Szalai Bence",
+      "reason": "Az MLSZ 2025/26-os adatlap nem igazol KBSC-s Fizz Liga-regisztrációt; a névhez talált MLSZ-rekord alacsonyabb osztályú klubhoz tartozik.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1358550.html"
+    },
+    {
+      "sourceId": "zte-official-team-2026-07-20",
+      "clubId": "zte-fc",
+      "name": "Maxsuell Alegria",
+      "reason": "Az aktuális ZTE-profil nem kapcsolható ZTE FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "zte-official-team-2026-07-20",
+      "clubId": "zte-fc",
+      "name": "Marlon Santos",
+      "reason": "Az aktuális ZTE-profil nem kapcsolható ZTE FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    }
+  ],
+  "additions": []
+}
