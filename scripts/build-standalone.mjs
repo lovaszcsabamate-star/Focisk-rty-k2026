@@ -20,7 +20,10 @@ const enrichmentFiles = [
   'data/club-official-enrichment-4-ujpest.json',
   'data/club-official-enrichment-5-other.json',
 ];
-const correctionFile = 'data/club-official-corrections.json';
+const correctionFiles = [
+  'data/club-official-corrections.json',
+  'data/club-official-corrections-2.json',
+];
 const directoryFile = 'data/club-official-sources.json';
 
 const moduleOrder = [
@@ -47,6 +50,7 @@ const bundle = moduleOrder
   .join('\n');
 const basePayload = JSON.parse(read('data/players.json'));
 const enrichmentParts = enrichmentFiles.map(file => JSON.parse(read(file)));
+const correctionParts = correctionFiles.map(file => JSON.parse(read(file)));
 const directory = JSON.parse(read(directoryFile));
 const rawEnrichment = {
   ...enrichmentParts[0],
@@ -55,7 +59,14 @@ const rawEnrichment = {
   records: enrichmentParts.flatMap(part => part.records ?? []),
   clubDirectory: Array.isArray(directory?.clubs) ? directory.clubs : [],
 };
-const corrections = JSON.parse(read(correctionFile));
+const corrections = {
+  schemaVersion: 1,
+  checkedAt: correctionParts.at(-1)?.checkedAt ?? null,
+  addSources: correctionParts.flatMap(part => part.addSources ?? []),
+  recordPatches: correctionParts.flatMap(part => part.recordPatches ?? []),
+  excludeRecords: correctionParts.flatMap(part => part.excludeRecords ?? []),
+  additions: correctionParts.flatMap(part => part.additions ?? []),
+};
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
 const payload = applyClubEnrichmentPayload(basePayload, enrichment);
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
@@ -98,7 +109,7 @@ const conflicts = payload.players.flatMap(card =>
 const audit = {
   generatedAt: new Date().toISOString(),
   baseDataset: 'data/players.json',
-  sourceFiles: [...enrichmentFiles, correctionFile, directoryFile],
+  sourceFiles: [...enrichmentFiles, ...correctionFiles, directoryFile],
   playerCount: payload.players.length,
   registrationRecords: payload.selection?.registrationRecords ?? null,
   selection: payload.selection,
