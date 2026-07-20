@@ -1028,6 +1028,26 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Hrabina Alex, Jazsik Román, Raúl-Martin Stefan és Tarasz Veprik bajnoki pályára lépés nélkül voltak kerettagok."
+      },
+      {
+        "id": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több klubnál szereplő játékosoknál az MLSZ versenysor személy-szezon összesítés; a meglévő merge-réteg ezt csak klubforrásos metaadatként tárolja, nem írja felül a személy-szezon főstatisztikát."
       }
     ]
   },
@@ -1057,13 +1077,13 @@
   },
   "coverage": {
     "birthDate": 303,
-    "appearances": 177,
-    "starts": 177,
+    "appearances": 209,
+    "starts": 209,
     "goals": 440,
-    "squads": 144,
-    "yellowCards": 177,
-    "redCards": 177,
-    "totalDismissals": 177,
+    "squads": 181,
+    "yellowCards": 209,
+    "redCards": 209,
+    "totalDismissals": 209,
     "overallScore": 143,
     "position": 344,
     "nation": 187,
@@ -1071,7 +1091,7 @@
     "shirtNumber": 288,
     "officialMetadata": 78,
     "minutes": 29,
-    "substituteAppearances": 37,
+    "substituteAppearances": 75,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -4045,8 +4065,33 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 19,
+            "starts": 19,
+            "squads": 30,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Varga Ádám Gábor",
+            "fieldsApplied": [],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -6690,8 +6735,33 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 24,
+            "starts": 20,
+            "squads": 28,
+            "substituteAppearances": 4,
+            "goals": 10,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Acolatse Elton-Ofoi",
+            "fieldsApplied": [],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9485,7 +9555,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 15
+        "shirtNumber": 15,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "2856e20f48e9",
@@ -9547,8 +9618,35 @@
             "inactiveSince": null
           }
         ],
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 17,
+            "starts": 9,
+            "squads": 23,
+            "substituteAppearances": 8,
+            "goals": 2,
+            "yellowCards": 5,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Abu Fani Mohammad",
+            "fieldsApplied": [
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9563,16 +9661,17 @@
       "birthDate": "1999-01-04",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 3,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 10,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 7
+        "shirtNumber": 7,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "ac925c257574",
@@ -9612,8 +9711,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 3,
+            "starts": 0,
+            "squads": 10,
+            "substituteAppearances": 3,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Arzani Daniel",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9628,16 +9760,17 @@
       "birthDate": "1994-08-25",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 3,
+        "starts": 3,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 9,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 21
+        "shirtNumber": 21,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "e4ebb1e3363b",
@@ -9677,8 +9810,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 3,
+            "starts": 3,
+            "squads": 9,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Botka Endre",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9693,16 +9859,17 @@
       "birthDate": "2001-09-21",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 1,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 32
+        "shirtNumber": 32,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "daf16f0ad982",
@@ -9742,8 +9909,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 1,
+            "starts": 0,
+            "squads": 1,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Cirkovic Aleksandar",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9758,16 +9958,17 @@
       "birthDate": "1996-05-02",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 17,
+        "starts": 17,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 24,
+        "yellowCards": 2,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 1,
         "overallScore": null,
-        "shirtNumber": 27
+        "shirtNumber": 27,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "e2c5b45060db",
@@ -9807,8 +10008,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 17,
+            "starts": 17,
+            "squads": 24,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 2,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Cisse Ibrahim",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9823,16 +10057,17 @@
       "birthDate": "2002-05-07",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 11,
+        "starts": 8,
         "goals": 2,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 13,
+        "yellowCards": 1,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 1,
         "overallScore": null,
-        "shirtNumber": 17
+        "shirtNumber": 17,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "1c762ffe4edf",
@@ -9872,8 +10107,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 11,
+            "starts": 8,
+            "squads": 13,
+            "substituteAppearances": 3,
+            "goals": 2,
+            "yellowCards": 1,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Corbu Marius Dumitru",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9888,16 +10156,17 @@
       "birthDate": "1990-11-16",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 20,
+        "starts": 20,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 22,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 90
+        "shirtNumber": 90,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "01f59700b29b",
@@ -9937,8 +10206,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 20,
+            "starts": 20,
+            "squads": 22,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Dibusz Dénes",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -9953,16 +10255,17 @@
       "birthDate": "1997-02-02",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 6,
+        "starts": 6,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 9,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 3
+        "shirtNumber": 3,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "f1d89e4b24a6",
@@ -10002,8 +10305,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 6,
+            "starts": 6,
+            "squads": 9,
+            "substituteAppearances": 0,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Gartenmann Stefan",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10018,16 +10354,17 @@
       "birthDate": "2008-10-19",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 6,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 62
+        "shirtNumber": 62,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "33695d632c16",
@@ -10067,8 +10404,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 6,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Gólik Benjámin János",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10083,16 +10453,17 @@
       "birthDate": "1999-02-05",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 14,
+        "starts": 14,
         "goals": 3,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 14,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 4
+        "shirtNumber": 4,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "df398a0d367f",
@@ -10132,8 +10503,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 14,
+            "starts": 14,
+            "squads": 14,
+            "substituteAppearances": 0,
+            "goals": 3,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Gomez Mariano",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10151,13 +10555,14 @@
         "appearances": 12,
         "starts": 12,
         "goals": 0,
-        "squads": null,
+        "squads": 23,
         "yellowCards": 2,
         "redCards": 1,
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": 36,
-        "shirtNumber": 99
+        "shirtNumber": 99,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "446bec57246f",
@@ -10198,8 +10603,36 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 12,
+            "starts": 12,
+            "squads": 23,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 2,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Gróf Dávid Attila",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10217,13 +10650,14 @@
         "appearances": 29,
         "starts": 17,
         "goals": 9,
-        "squads": null,
+        "squads": 33,
         "yellowCards": 1,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 74,
-        "shirtNumber": 30
+        "shirtNumber": 30,
+        "substituteAppearances": 12
       },
       "meta": {
         "personKey": "f71f93fef3da",
@@ -10264,8 +10698,36 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 29,
+            "starts": 17,
+            "squads": 33,
+            "substituteAppearances": 12,
+            "goals": 9,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Gruber Zsombor",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10280,16 +10742,17 @@
       "birthDate": "2000-10-12",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 25,
+        "starts": 12,
         "goals": 7,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 75
+        "shirtNumber": 75,
+        "substituteAppearances": 13
       },
       "meta": {
         "personKey": "433c91c905bb",
@@ -10329,8 +10792,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 25,
+            "starts": 12,
+            "squads": 32,
+            "substituteAppearances": 13,
+            "goals": 7,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Joseph Lenny Alvin Pico",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10345,16 +10841,17 @@
       "birthDate": "1997-08-24",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 28,
+        "starts": 26,
         "goals": 5,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 31,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 36
+        "shirtNumber": 36,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "230c9fbc267c",
@@ -10394,8 +10891,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 28,
+            "starts": 26,
+            "squads": 31,
+            "substituteAppearances": 2,
+            "goals": 5,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Kanichowsky Gavriel Gilad",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10410,16 +10940,17 @@
       "birthDate": "1995-02-10",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 10,
+        "starts": 9,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 18,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 5
+        "shirtNumber": 5,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "53860421dd02",
@@ -10459,8 +10990,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 10,
+            "starts": 9,
+            "squads": 18,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Keita Naby Deco",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10475,16 +11039,17 @@
       "birthDate": "1999-08-08",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 12,
+        "starts": 11,
         "goals": 5,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 13,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 19
+        "shirtNumber": 19,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "42479beae397",
@@ -10524,8 +11089,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 12,
+            "starts": 11,
+            "squads": 13,
+            "substituteAppearances": 1,
+            "goals": 5,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Kovacevic Franko",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10540,16 +11138,17 @@
       "birthDate": "2006-03-29",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 2,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 10,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 71
+        "shirtNumber": 71,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "2156f3e78854",
@@ -10589,8 +11188,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 2,
+            "starts": 0,
+            "squads": 10,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Lakatos Csongor",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10605,16 +11237,17 @@
       "birthDate": "1996-01-23",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 14,
+        "starts": 9,
         "goals": 3,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 10
+        "shirtNumber": 10,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "7cc24ef4376c",
@@ -10654,8 +11287,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 14,
+            "starts": 9,
+            "squads": 32,
+            "substituteAppearances": 5,
+            "goals": 3,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Levi Jonathan Alberto",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10670,16 +11336,17 @@
       "birthDate": "2005-05-06",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 5,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 10,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 76
+        "shirtNumber": 76,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "6d42e33521f6",
@@ -10719,8 +11386,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 5,
+            "starts": 0,
+            "squads": 10,
+            "substituteAppearances": 5,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Lisztes Krisztián",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10735,16 +11435,17 @@
       "birthDate": "1997-08-08",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 12,
+        "starts": 11,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 31,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 20
+        "shirtNumber": 20,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "c5521bb1a14a",
@@ -10787,8 +11488,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 12,
+            "starts": 11,
+            "squads": 31,
+            "substituteAppearances": 1,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Lopes Cruz Carlos Eduardo",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10803,16 +11537,17 @@
       "birthDate": "2007-02-16",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 14,
+        "starts": 5,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 24,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 72
+        "shirtNumber": 72,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "93c8afbdc1cc",
@@ -10852,8 +11587,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 14,
+            "starts": 5,
+            "squads": 24,
+            "substituteAppearances": 9,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Madarász Ádám",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10868,16 +11636,17 @@
       "birthDate": "1996-01-01",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 4,
+        "starts": 2,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 8,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 80
+        "shirtNumber": 80,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "ad1ce13da977",
@@ -10917,8 +11686,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 4,
+            "starts": 2,
+            "squads": 8,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Maiga Digbo Gnampa Habib",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -10933,16 +11735,17 @@
       "birthDate": "2000-05-10",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 16,
+        "starts": 9,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 29,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 25
+        "shirtNumber": 25,
+        "substituteAppearances": 7
       },
       "meta": {
         "personKey": "26e52ef046d5",
@@ -10985,8 +11788,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 16,
+            "starts": 9,
+            "squads": 29,
+            "substituteAppearances": 7,
+            "goals": 1,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Makreckis Cebrails",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11004,13 +11840,14 @@
         "appearances": 29,
         "starts": 24,
         "goals": 2,
-        "squads": null,
+        "squads": 33,
         "yellowCards": 4,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 58,
-        "shirtNumber": 77
+        "shirtNumber": 77,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "0f7ebced98f4",
@@ -11051,8 +11888,36 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 29,
+            "starts": 24,
+            "squads": 33,
+            "substituteAppearances": 5,
+            "goals": 2,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Nagy Barnabás Szabolcs",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11067,16 +11932,17 @@
       "birthDate": "1995-04-23",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 15,
+        "starts": 7,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 23,
+        "yellowCards": 2,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 47
+        "shirtNumber": 47,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "e6c20bd7bd8e",
@@ -11116,8 +11982,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 15,
+            "starts": 7,
+            "squads": 23,
+            "substituteAppearances": 8,
+            "goals": 0,
+            "yellowCards": 2,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "O'Dowda Callum Joshua Ryan",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11135,13 +12034,14 @@
         "appearances": 19,
         "starts": 10,
         "goals": 3,
-        "squads": null,
+        "squads": 19,
         "yellowCards": 7,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 45,
-        "shirtNumber": 23
+        "shirtNumber": 23,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "bfb48986f714",
@@ -11182,8 +12082,36 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 19,
+            "starts": 10,
+            "squads": 19,
+            "substituteAppearances": 9,
+            "goals": 3,
+            "yellowCards": 7,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Ötvös Bence",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11198,16 +12126,17 @@
       "birthDate": "1992-05-21",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 10,
+        "starts": 4,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 15,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 8
+        "shirtNumber": 8,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "20799794640b",
@@ -11247,8 +12176,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 10,
+            "starts": 4,
+            "squads": 15,
+            "substituteAppearances": 6,
+            "goals": 1,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Pesic Aleksandar",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11263,16 +12225,17 @@
       "birthDate": "2006-10-01",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 8,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 63
+        "shirtNumber": 63,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "2c70f5160a52",
@@ -11312,8 +12275,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 8,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Radnóti Dániel István",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11328,16 +12324,17 @@
       "birthDate": "2000-09-09",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 29,
+        "starts": 29,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 28
+        "shirtNumber": 28,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "c2f5fd5b9325",
@@ -11377,8 +12374,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 29,
+            "starts": 29,
+            "squads": 33,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Raemaekers Toon",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11393,16 +12423,17 @@
       "birthDate": "1998-03-29",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 13,
+        "starts": 3,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 23,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 66
+        "shirtNumber": 66,
+        "substituteAppearances": 10
       },
       "meta": {
         "personKey": "30a9d08f66f7",
@@ -11442,8 +12473,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 13,
+            "starts": 3,
+            "squads": 23,
+            "substituteAppearances": 10,
+            "goals": 0,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Rodrigues Romao Julio",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11458,16 +12522,17 @@
       "birthDate": "1997-08-20",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 5,
+        "starts": 3,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 11,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 88
+        "shirtNumber": 88,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "3cde2a916ac4",
@@ -11507,8 +12572,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 5,
+            "starts": 3,
+            "squads": 11,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Rommens Philippe",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11526,13 +12624,14 @@
         "appearances": 1,
         "starts": 0,
         "goals": 0,
-        "squads": null,
+        "squads": 4,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 24,
-        "shirtNumber": 17
+        "shirtNumber": 17,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "888fb69b3ed2",
@@ -11573,8 +12672,36 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 1,
+            "starts": 0,
+            "squads": 4,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Sevikyan Edgar",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11589,16 +12716,17 @@
       "birthDate": "2000-06-09",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 32,
+        "starts": 27,
         "goals": 2,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 22
+        "shirtNumber": 22,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "dd03b70e0766",
@@ -11638,8 +12766,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 32,
+            "starts": 27,
+            "squads": 33,
+            "substituteAppearances": 5,
+            "goals": 2,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Szalai Gábor Sándor",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11654,16 +12815,17 @@
       "birthDate": "1989-02-07",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 29
+        "shirtNumber": 29,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "562eec7bf7c8",
@@ -11703,8 +12865,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 3,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Szécsi Gergő",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11719,16 +12914,17 @@
       "birthDate": "2005-10-23",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 14,
+        "starts": 11,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 17,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 64
+        "shirtNumber": 64,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "9bcaa22feb14",
@@ -11768,8 +12964,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 14,
+            "starts": 11,
+            "squads": 17,
+            "substituteAppearances": 3,
+            "goals": 1,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Tóth Alex László",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11784,16 +13013,17 @@
       "birthDate": "1994-10-25",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 17,
+        "starts": 14,
         "goals": 10,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 17,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 19
+        "shirtNumber": 19,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "536b9ebba33d",
@@ -11833,8 +13063,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 17,
+            "starts": 14,
+            "squads": 17,
+            "substituteAppearances": 3,
+            "goals": 10,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Varga Barnabás",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11849,16 +13112,17 @@
       "birthDate": "2001-02-22",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 21,
+        "starts": 8,
         "goals": 3,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 25,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 11
+        "shirtNumber": 11,
+        "substituteAppearances": 13
       },
       "meta": {
         "personKey": "eb53c2795252",
@@ -11898,8 +13162,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 21,
+            "starts": 8,
+            "squads": 25,
+            "substituteAppearances": 13,
+            "goals": 3,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Yusuf Bamidele Isa",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -11914,16 +13211,17 @@
       "birthDate": "1994-01-27",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 19,
+        "starts": 8,
         "goals": 2,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "shirtNumber": 16
+        "shirtNumber": 16,
+        "substituteAppearances": 11
       },
       "meta": {
         "personKey": "9aadfc7e1443",
@@ -11963,8 +13261,41 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 19,
+            "starts": 8,
+            "squads": 33,
+            "substituteAppearances": 11,
+            "goals": 2,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Zachariassen Kristoffer",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -12065,6 +13396,17 @@
             "totalDismissals": 0,
             "sourceId": "mlsz-fizz-liga-kisvarda-final8-2025-26",
             "squads": 17
+          },
+          "ferencvarosi-tc": {
+            "appearances": 13,
+            "starts": 4,
+            "squads": 17,
+            "substituteAppearances": 9,
+            "goals": 0,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -12102,6 +13444,18 @@
             "checkedAt": "2026-07-20",
             "season": "2025/26",
             "clubId": "kisvarda-master-good",
+            "matchedName": "Szabó Szilárd",
+            "fieldsApplied": [],
+            "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
             "matchedName": "Szabó Szilárd",
             "fieldsApplied": [],
             "correctedFields": []
@@ -12169,8 +13523,33 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "ferencvarosi-tc": {
+            "appearances": 30,
+            "starts": 26,
+            "squads": 31,
+            "substituteAppearances": 4,
+            "goals": 2,
+            "yellowCards": 6,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Osváth Attila",
+            "fieldsApplied": [],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -33005,24 +34384,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T22:50:00+02:00",
-    "records": 68,
-    "matchedRecords": 68,
+    "generatedAt": "2026-07-20T23:45:00+02:00",
+    "records": 110,
+    "matchedRecords": 110,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 2,
+    "multiClubMetadataOnly": 6,
     "appliedFieldCounts": {
-      "appearances": 33,
-      "starts": 33,
+      "appearances": 65,
+      "starts": 65,
       "minutes": 29,
-      "substituteAppearances": 37,
+      "substituteAppearances": 75,
       "assists": 29,
-      "yellowCards": 33,
-      "redCards": 33,
+      "yellowCards": 65,
+      "redCards": 65,
       "secondYellowRedCards": 37,
-      "totalDismissals": 33,
-      "squads": 37
+      "totalDismissals": 65,
+      "squads": 74
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -33032,20 +34411,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 144,
-        "added": 37
+        "after": 181,
+        "added": 74
       },
       {
         "field": "minutes",
@@ -33056,8 +34435,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 37,
-        "added": 37
+        "after": 75,
+        "added": 75
       },
       {
         "field": "goals",
@@ -33074,14 +34453,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "secondYellowRedCards",
@@ -33092,8 +34471,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       }
     ],
     "manualReview": [],
@@ -33281,6 +34660,26 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Hrabina Alex, Jazsik Román, Raúl-Martin Stefan és Tarasz Veprik bajnoki pályára lépés nélkül voltak kerettagok."
+      },
+      {
+        "id": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több klubnál szereplő játékosoknál az MLSZ versenysor személy-szezon összesítés; a meglévő merge-réteg ezt csak klubforrásos metaadatként tárolja, nem írja felül a személy-szezon főstatisztikát."
       }
     ]
   }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T21:08:55.641Z",
+  "generatedAt": "2026-07-20T21:48:23.076Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -23,6 +23,7 @@
     "data/club-official-stat-patches-kisvarda-selected10-2.json",
     "data/club-official-stat-patches-kisvarda-selected10-3.json",
     "data/club-official-stat-patches-kisvarda-final8.json",
+    "data/club-official-stat-patches-ferencvaros.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -39,13 +40,13 @@
   },
   "coverage": {
     "birthDate": 303,
-    "appearances": 177,
-    "starts": 177,
+    "appearances": 209,
+    "starts": 209,
     "goals": 440,
-    "squads": 144,
-    "yellowCards": 177,
-    "redCards": 177,
-    "totalDismissals": 177,
+    "squads": 181,
+    "yellowCards": 209,
+    "redCards": 209,
+    "totalDismissals": 209,
     "overallScore": 143,
     "position": 344,
     "nation": 187,
@@ -53,7 +54,7 @@
     "shirtNumber": 288,
     "officialMetadata": 78,
     "minutes": 29,
-    "substituteAppearances": 37,
+    "substituteAppearances": 75,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -147,20 +148,20 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 177,
-      "added": 33
+      "after": 209,
+      "added": 65
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 177,
-      "added": 33
+      "after": 209,
+      "added": 65
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 144,
-      "added": 37
+      "after": 181,
+      "added": 74
     },
     {
       "field": "minutes",
@@ -171,8 +172,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 37,
-      "added": 37
+      "after": 75,
+      "added": 75
     },
     {
       "field": "goals",
@@ -189,14 +190,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 177,
-      "added": 33
+      "after": 209,
+      "added": 65
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 177,
-      "added": 33
+      "after": 209,
+      "added": 65
     },
     {
       "field": "secondYellowRedCards",
@@ -207,8 +208,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 177,
-      "added": 33
+      "after": 209,
+      "added": 65
     }
   ],
   "clubSummary": [
@@ -368,7 +369,7 @@
     "warningCount": 75,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 1743,
+    "changeCount": 1978,
     "exactBirthDates": 303,
     "completeGoals": 440
   },
@@ -724,24 +725,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T22:50:00+02:00",
-    "records": 68,
-    "matchedRecords": 68,
+    "generatedAt": "2026-07-20T23:45:00+02:00",
+    "records": 110,
+    "matchedRecords": 110,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 2,
+    "multiClubMetadataOnly": 6,
     "appliedFieldCounts": {
-      "appearances": 33,
-      "starts": 33,
+      "appearances": 65,
+      "starts": 65,
       "minutes": 29,
-      "substituteAppearances": 37,
+      "substituteAppearances": 75,
       "assists": 29,
-      "yellowCards": 33,
-      "redCards": 33,
+      "yellowCards": 65,
+      "redCards": 65,
       "secondYellowRedCards": 37,
-      "totalDismissals": 33,
-      "squads": 37
+      "totalDismissals": 65,
+      "squads": 74
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -751,20 +752,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 144,
-        "added": 37
+        "after": 181,
+        "added": 74
       },
       {
         "field": "minutes",
@@ -775,8 +776,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 37,
-        "added": 37
+        "after": 75,
+        "added": 75
       },
       {
         "field": "goals",
@@ -793,14 +794,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       },
       {
         "field": "secondYellowRedCards",
@@ -811,8 +812,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 177,
-        "added": 33
+        "after": 209,
+        "added": 65
       }
     ],
     "manualReview": [],
@@ -1000,6 +1001,26 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Hrabina Alex, Jazsik Román, Raúl-Martin Stefan és Tarasz Veprik bajnoki pályára lépés nélkül voltak kerettagok."
+      },
+      {
+        "id": "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "MLSZ Adatbank – Ferencvárosi TC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307002.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több klubnál szereplő játékosoknál az MLSZ versenysor személy-szezon összesítés; a meglévő merge-réteg ezt csak klubforrásos metaadatként tárolja, nem írja felül a személy-szezon főstatisztikát."
       }
     ]
   },
