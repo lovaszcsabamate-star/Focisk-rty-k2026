@@ -42,6 +42,7 @@ const moduleOrder = [
   'js/ux.js',
   'js/ux-fixes.js',
   'js/matchday.js',
+  'js/opponents.js',
   'js/pwa.js',
   'js/main.js',
 ];
@@ -79,7 +80,7 @@ const enrichedPayload = applyClubEnrichmentPayload(basePayload, enrichment);
 const payload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/pwa.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}`;
 
 const backgroundFiles = [
   ['assets/pub/background.webp', 'image/webp'],
@@ -97,10 +98,12 @@ const output = read('index.html')
   .replace('<link rel="stylesheet" href="css/style.css">', `<style>${css}</style>`)
   .replace('\n  <link rel="stylesheet" href="css/ux.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/matchday.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/opponents.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/pwa.css">', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/matchday.js"></script>\n', '')
+  .replace('  <script type="module" src="js/opponents.js"></script>\n', '')
   .replace('  <script type="module" src="js/pwa.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
