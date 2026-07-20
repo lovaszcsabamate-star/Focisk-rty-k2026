@@ -36,6 +36,13 @@ jobs:
       - name: Önálló HTML és audit elkészítése
         run: npm run build
 
+      - name: Audit artefakt mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: four-club-enrichment-audit
+          path: data/enrichment-audit.json
+          if-no-files-found: error
+
       - name: Tesztek
         run: npm test
 
