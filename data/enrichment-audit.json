@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T12:01:50.641Z",
+  "generatedAt": "2026-07-20T12:47:28.982Z",
   "baseDataset": "data/players.json",
   "sourceFiles": [
     "data/club-official-enrichment.json",
@@ -11,6 +11,7 @@
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
+    "data/club-official-stat-patches-kisvarda.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -27,19 +28,23 @@
   },
   "coverage": {
     "birthDate": 265,
-    "appearances": 144,
-    "starts": 144,
+    "appearances": 169,
+    "starts": 169,
     "goals": 440,
     "squads": 107,
-    "yellowCards": 144,
-    "redCards": 144,
-    "totalDismissals": 144,
+    "yellowCards": 169,
+    "redCards": 169,
+    "totalDismissals": 169,
     "overallScore": 143,
     "position": 307,
     "nation": 170,
     "heightCm": 46,
     "shirtNumber": 261,
-    "officialMetadata": 41
+    "officialMetadata": 41,
+    "minutes": 29,
+    "substituteAppearances": 29,
+    "assists": 29,
+    "secondYellowRedCards": 29
   },
   "fieldCoverage": [
     {
@@ -127,6 +132,68 @@
       "added": 41
     }
   ],
+  "officialStatFieldCoverage": [
+    {
+      "field": "appearances",
+      "before": 144,
+      "after": 169,
+      "added": 25
+    },
+    {
+      "field": "starts",
+      "before": 144,
+      "after": 169,
+      "added": 25
+    },
+    {
+      "field": "minutes",
+      "before": 0,
+      "after": 29,
+      "added": 29
+    },
+    {
+      "field": "substituteAppearances",
+      "before": 0,
+      "after": 29,
+      "added": 29
+    },
+    {
+      "field": "goals",
+      "before": 440,
+      "after": 440,
+      "added": 0
+    },
+    {
+      "field": "assists",
+      "before": 0,
+      "after": 29,
+      "added": 29
+    },
+    {
+      "field": "yellowCards",
+      "before": 144,
+      "after": 169,
+      "added": 25
+    },
+    {
+      "field": "redCards",
+      "before": 144,
+      "after": 169,
+      "added": 25
+    },
+    {
+      "field": "secondYellowRedCards",
+      "before": 0,
+      "after": 29,
+      "added": 29
+    },
+    {
+      "field": "totalDismissals",
+      "before": 144,
+      "after": 169,
+      "added": 25
+    }
+  ],
   "clubSummary": [
     {
       "clubId": "dvsc",
@@ -185,8 +252,8 @@
       "matched": 1,
       "excluded": 0,
       "review": 0,
-      "sourceStatus": "official-news-profile-enrichment",
-      "officialRosterUrl": "https://kisvardafc.hu/"
+      "sourceStatus": "official-season-statistics-imported",
+      "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
     },
     {
       "clubId": "kolorcity-kazincbarcika-sc",
@@ -507,8 +574,8 @@
         "matched": 1,
         "excluded": 0,
         "review": 0,
-        "sourceStatus": "official-news-profile-enrichment",
-        "officialRosterUrl": "https://kisvardafc.hu/"
+        "sourceStatus": "official-season-statistics-imported",
+        "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
       },
       {
         "clubId": "kolorcity-kazincbarcika-sc",
@@ -597,6 +664,118 @@
     ],
     "manualReview": [],
     "unmatched": []
+  },
+  "officialStatPatches": {
+    "schemaVersion": 1,
+    "season": "2025/26",
+    "generatedAt": "2026-07-20T15:00:00+02:00",
+    "records": 30,
+    "matchedRecords": 30,
+    "unmatchedRecords": 0,
+    "conflictCount": 0,
+    "multiClubMetadataOnly": 1,
+    "appliedFieldCounts": {
+      "appearances": 25,
+      "starts": 25,
+      "minutes": 29,
+      "substituteAppearances": 29,
+      "assists": 29,
+      "yellowCards": 25,
+      "redCards": 25,
+      "secondYellowRedCards": 29,
+      "totalDismissals": 25
+    },
+    "fieldCoverage": [
+      {
+        "field": "appearances",
+        "before": 144,
+        "after": 169,
+        "added": 25
+      },
+      {
+        "field": "starts",
+        "before": 144,
+        "after": 169,
+        "added": 25
+      },
+      {
+        "field": "minutes",
+        "before": 0,
+        "after": 29,
+        "added": 29
+      },
+      {
+        "field": "substituteAppearances",
+        "before": 0,
+        "after": 29,
+        "added": 29
+      },
+      {
+        "field": "goals",
+        "before": 440,
+        "after": 440,
+        "added": 0
+      },
+      {
+        "field": "assists",
+        "before": 0,
+        "after": 29,
+        "added": 29
+      },
+      {
+        "field": "yellowCards",
+        "before": 144,
+        "after": 169,
+        "added": 25
+      },
+      {
+        "field": "redCards",
+        "before": 144,
+        "after": 169,
+        "added": 25
+      },
+      {
+        "field": "secondYellowRedCards",
+        "before": 0,
+        "after": 29,
+        "added": 29
+      },
+      {
+        "field": "totalDismissals",
+        "before": 144,
+        "after": 169,
+        "added": 25
+      }
+    ],
+    "manualReview": [],
+    "conflicts": [],
+    "sources": [
+      {
+        "id": "kisvarda-official-season-review-2025-26",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
+        "url": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+        "additionalUrls": [
+          "https://kisvardafc.hu/hir/het-talalathoz-negy-golpassz-is/9515",
+          "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+        ],
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "minutes",
+          "substituteAppearances",
+          "goals",
+          "assists",
+          "yellowCards",
+          "redCards",
+          "secondYellowRedCards",
+          "totalDismissals"
+        ]
+      }
+    ]
   },
   "exclusions": [
     {
