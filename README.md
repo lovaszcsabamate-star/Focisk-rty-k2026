@@ -69,17 +69,27 @@ A korábbi számított játékospontszám nem játékkategória, és nem jelenik
 ## Adatforrások és bővítés
 
 - `data/players.json`: az eredeti, MLSZ Adatbankra épülő személy–szezon adatbázis 440 egyedi játékossal és 464 játékos–klub regisztrációval.
-- `data/club-official-enrichment.json`: hivatalos kluboldali kiegészítő réteg. Első körben 86, a DVTK és a Ferencvárosi TC 2025/26-os idényéhez kötött keretrekordot tartalmaz.
-- `js/data/club-enrichment.js`: név- és klubazonosítással, felülírás nélkül illeszti a posztot, állampolgárságot, magasságot, mezszámot és hiányzó születési dátumot.
-- Az MLSZ-adat minden esetben elsődleges marad. A kluboldal csak üres mezőt tölthet ki; eltérés esetén az eredeti érték megmarad, az ütközés pedig a kártya metaadataiba kerül.
+- `data/club-official-enrichment.json`: változatlan, visszakövethető kluboldali forrásréteg 86 DVTK- és Ferencváros-keretrekorddal.
+- `data/club-official-corrections.json`: auditált korrekciós réteg. Három konkrét névformát kapcsol össze, kizárja a csak FTC II.-ben szereplő Tóth Zalán NB I-es illesztését, és a meglévő Abu Fani-rekordot egészíti ki az MLSZ játékosoldal hiányzó adataival.
+- `js/data/club-enrichment.js`: klub- és névazonosítással illeszti a forrásokat, megtartja az eredeti rekordazonosítókat, és csak hiányzó mezőt tölt ki.
+- Az MLSZ-adat minden esetben elsődleges marad. Meglévő értéket a kluboldali réteg nem ír felül; az esetleges eltérés forrással együtt a metaadatok közé kerül.
 - Többklubos játékosnál klubfüggetlen adat tölthető, klubspecifikus mezszám nem.
 - Minden kiegészítéshez forrásnév, forrás-URL és ellenőrzési dátum tartozik.
 
-A böngészős indításkor a `js/bootstrap.js` egyesíti az eredeti adatbázist és a kiegészítő réteget. Az önálló HTML összeállításakor ugyanezt a `scripts/build-standalone.mjs` végzi el, így a két változat ugyanazt az adatlogikát használja.
+A végleges audit eredménye:
+
+- 85/85 használható hivatalos keretrekord illeszkedett;
+- 0 illesztetlen rekord és 0 adatütközés maradt;
+- a játékosok száma változatlanul 440, az eredeti azonosítók és sorrend megmaradtak;
+- 194 pontos születési dátum, 84 poszt, 84 nemzetiség, 24 magasság és 75 mezszám érhető el;
+- Abu Fani meglévő MLSZ-rekordja 17 pályára lépéssel, 9 kezdéssel, 23 kerettagsággal, 5 sárga és 0 piros lappal egészült ki.
+
+A böngészős indításkor a `js/bootstrap.js` egyesíti az eredeti adatbázist, a kluboldali forrásréteget és az auditált korrekciókat. Az önálló HTML összeállításakor ugyanezt a `scripts/build-standalone.mjs` végzi el, így a két változat ugyanazt az adatlogikát használja.
 
 ## Hiányzó adatok
 
-- Az ismeretlen értékek `null` vagy üres szöveg formájában maradnak, és nem alakulnak automatikusan nullává vagy kitalált adattá.
+- Az ismeretlen értékek `null` vagy üres szöveg formájában maradnak, és nem alakulnak nullává vagy kitalált adattá.
+- A `Nincs adat`, `n/a`, kötőjel és hasonló szöveges helyőrzők valódi hiányértékké alakulnak.
 - Hiányzó érték helyén a kártya nem jelenít meg üres sort, `Nincs adat`, `NaN` vagy `Infinity` feliratot.
 - A kategóriaválasztó csak azokat a kategóriákat mutatja, amelyekhez az adott leosztásban mindkét oldalon van legalább egy használható kártya.
 - Az adott kategóriához hiányos kártya nem játszható ki.
@@ -96,8 +106,10 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 
 | Fájl | Szerep |
 |---|---|
-| `js/bootstrap.js` | Az MLSZ-alapadatbázis és a kluboldali kiegészítések egyesítése |
-| `js/data/club-enrichment.js` | Veszteségmentes illesztési és forráskezelési logika |
+| `js/bootstrap.js` | Az MLSZ-alapadatbázis, a klubforrások és a korrekciók egyesítése |
+| `data/club-official-enrichment.json` | Változatlan hivatalos kluboldali forrásrekordok |
+| `data/club-official-corrections.json` | Auditált névkorrekciók, kizárások és MLSZ-kiegészítések |
+| `js/data/club-enrichment.js` | Veszteségmentes illesztési, hiányérték- és forráskezelési logika |
 | `js/data/players.js` | Adatszerződés, normalizálás, kategóriakonfiguráció és automatikus engedélyezés |
 | `js/engine.js` | Klasszikus mód tiszta játékszabályai és irányhelyes összehasonlítás |
 | `js/penalties.js` | Penalties mód külön állapotgépe |
@@ -108,7 +120,7 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 | `manifest.webmanifest` | Mobilalkalmazás neve, megjelenése és ikonjai |
 | `sw.js` | Offline gyorsítótár és hálózati tartalék |
 | `js/main.js` | Játékmódválasztás és böngészős játékmenet |
-| `test/enrichment.test.mjs` | Kluboldali illesztés, felülírás-tilalom és lefedettség tesztje |
+| `test/enrichment.test.mjs` | Kluboldali illesztés, azonosító-megőrzés, kizárás és MLSZ-kiegészítés tesztje |
 | `test/data.test.mjs` | A 440 személy / 464 klubregisztráció integritásellenőrzése |
 
 ## Ellenőrzés
