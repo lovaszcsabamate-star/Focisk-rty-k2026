@@ -24,42 +24,21 @@
     ],
     "checkedAt": "2026-07-20",
     "season": "2025/26",
-    "fields": [
-      "appearances",
-      "starts",
-      "substituteAppearances",
-      "squads",
-      "goals",
-      "yellowCards",
-      "redCards",
-      "secondYellowRedCards",
-      "totalDismissals"
-    ],
-    "scope": "Kizárólag Fizz Liga 2025/26. Az appearances a kezdő és csereként pályára lépések összege; a squads ehhez hozzáadja a pályára nem lépő kispados kerettagságot."
+    "fields": ["appearances", "starts", "substituteAppearances", "goals", "yellowCards", "redCards", "secondYellowRedCards", "totalDismissals"],
+    "scope": "Kizárólag Fizz Liga 2025/26. Az appearances a kezdő és csereként pályára lépések összege. A kerettagság külön, auditálható korrekciós rétegben szerepel."
   },
-  "fields": [
-    "name",
-    "appearances",
-    "starts",
-    "substituteAppearances",
-    "squads",
-    "goals",
-    "yellowCards",
-    "redCards",
-    "secondYellowRedCards",
-    "totalDismissals"
-  ],
+  "fields": ["name", "appearances", "starts", "substituteAppearances", "goals", "yellowCards", "redCards", "secondYellowRedCards", "totalDismissals"],
   "rows": [
-    ["Abdullahi Kamal", 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    ["Ridwan Popoola", 28, 26, 2, 29, 1, 6, 0, 1, 1],
-    ["Aleksandar Jovicic", 20, 17, 3, 29, 2, 5, 0, 0, 0],
-    ["Bíró Bence", 31, 28, 3, 32, 7, 3, 0, 0, 0],
-    ["Martin Chlumecky", 29, 28, 1, 32, 2, 7, 0, 0, 0],
-    ["Branimir Cipetic", 29, 25, 4, 30, 4, 8, 0, 0, 0],
-    ["Stephen Adayilo", 1, 0, 1, 2, 0, 0, 0, 0, 0],
-    ["Nazar Koliada", 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    ["Kovács Marcell", 0, 0, 0, 32, 0, 0, 0, 0, 0],
-    ["Körmendi Kevin", 9, 0, 9, 18, 0, 1, 0, 0, 0]
+    ["Abdullahi Kamal", 0, 0, 0, 0, 0, 0, 0, 0],
+    ["Ridwan Popoola", 28, 26, 2, 1, 6, 0, 1, 1],
+    ["Aleksandar Jovicic", 20, 17, 3, 2, 5, 0, 0, 0],
+    ["Bíró Bence", 31, 28, 3, 7, 3, 0, 0, 0],
+    ["Martin Chlumecky", 29, 28, 1, 2, 7, 0, 0, 0],
+    ["Branimir Cipetic", 29, 25, 4, 4, 8, 0, 0, 0],
+    ["Stephen Adayilo", 1, 0, 1, 0, 0, 0, 0, 0],
+    ["Nazar Koliada", 0, 0, 0, 0, 0, 0, 0, 0],
+    ["Kovács Marcell", 0, 0, 0, 0, 0, 0, 0, 0],
+    ["Körmendi Kevin", 9, 0, 9, 0, 1, 0, 0, 0]
   ],
   "aliases": {
     "Ridwan Popoola": ["ABDULRASAQ RIDWAN POPOOLA"],
@@ -69,6 +48,6 @@
   "batch": {
     "id": "kisvarda-selected10-batch-1",
     "playerCount": 10,
-    "note": "A meglévő kluboldali perc- és gólpasszadatok elsődlegessége változatlan. Ez a réteg a végleges MLSZ Fizz Liga kerettagságot és a hiányzó nullákat igazolja."
+    "note": "A meglévő kluboldali perc- és gólpasszadatok elsődlegessége változatlan; ez a réteg a végleges MLSZ Fizz Liga pályára lépési és fegyelmi sorokat igazolja."
   }
 }
