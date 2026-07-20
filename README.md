@@ -68,23 +68,30 @@ A korábbi számított játékospontszám nem játékkategória, és nem jelenik
 
 ## Adatforrások és bővítés
 
-- `data/players.json`: az eredeti, MLSZ Adatbankra épülő személy–szezon adatbázis 440 egyedi játékossal és 464 játékos–klub regisztrációval.
-- `data/club-official-enrichment.json`: változatlan, visszakövethető kluboldali forrásréteg 86 DVTK- és Ferencváros-keretrekorddal.
-- `data/club-official-corrections.json`: auditált korrekciós réteg. Három konkrét névformát kapcsol össze, kizárja a csak FTC II.-ben szereplő Tóth Zalán NB I-es illesztését, és a meglévő Abu Fani-rekordot egészíti ki az MLSZ játékosoldal hiányzó adataival.
+- `data/players.json`: az eredeti, MLSZ Adatbankra épülő személy–szezon adatbázis 440 egyedi játékossal és 464 játékos–klub regisztrációval. Ez marad a kiinduló és elsődleges adatforrás.
+- `data/club-official-enrichment.json`: változatlan, visszakövethető kluboldali forrásréteg 86 DVTK- és Ferencvárosi TC-keretrekorddal.
+- `data/club-official-enrichment-2.json`: további 75, idényhez kötött DVSC- és MTK Budapest-keretrekord.
+- `data/club-official-corrections.json`: auditált névkapcsolások, MLSZ-alapú kizárások és mezőkorrekciók. Hét célzott rekordfolt, nyolc nem igazolható NB I-es klubrekord-kizárás, valamint Abu Fani meglévő MLSZ-kártyájának hiányzó szezonadatai találhatók benne.
+- `data/enrichment-audit.json`: minden buildkor újragenerált összesítő a rekorddarabszámokról, mezőlefedettségről, illesztetlen rekordokról és forrásütközésekről.
 - `js/data/club-enrichment.js`: klub- és névazonosítással illeszti a forrásokat, megtartja az eredeti rekordazonosítókat, és csak hiányzó mezőt tölt ki.
-- Az MLSZ-adat minden esetben elsődleges marad. Meglévő értéket a kluboldali réteg nem ír felül; az esetleges eltérés forrással együtt a metaadatok közé kerül.
+- Az MLSZ-adat minden esetben elsődleges marad. Meglévő értéket a kluboldali réteg nem ír felül; eltérő kluboldali érték csak dokumentáltan elutasítható vagy metaadatként megőrizhető.
 - Többklubos játékosnál klubfüggetlen adat tölthető, klubspecifikus mezszám nem.
 - Minden kiegészítéshez forrásnév, forrás-URL és ellenőrzési dátum tartozik.
 
-A végleges audit eredménye:
+A jelenlegi strukturált kluboldali bővítés a DVTK, a Ferencvárosi TC, a DVSC és az MTK Budapest 2025/26-os keretét fedi le. A többi klub játékoskártyái továbbra is az eredeti MLSZ-adatbázis alapján működnek; ellenőrizetlen vagy nem egyértelmű kluboldali adat nem került be.
 
-- 85/85 használható hivatalos keretrekord illeszkedett;
-- 0 illesztetlen rekord és 0 adatütközés maradt;
-- a játékosok száma változatlanul 440, az eredeti azonosítók és sorrend megmaradtak;
-- 194 pontos születési dátum, 84 poszt, 84 nemzetiség, 24 magasság és 75 mezszám érhető el;
-- Abu Fani meglévő MLSZ-rekordja 17 pályára lépéssel, 9 kezdéssel, 23 kerettagsággal, 5 sárga és 0 piros lappal egészült ki.
+### Végleges audit
 
-A böngészős indításkor a `js/bootstrap.js` egyesíti az eredeti adatbázist, a kluboldali forrásréteget és az auditált korrekciókat. Az önálló HTML összeállításakor ugyanezt a `scripts/build-standalone.mjs` végzi el, így a két változat ugyanazt az adatlogikát használja.
+- 161 nyers kluboldali rekordból 8, MLSZ alapján nem igazolható NB I-es rekordot kizárt a rendszer;
+- a megmaradó **153/153** hivatalos keretrekord egyedi MLSZ-kártyához illeszkedett;
+- **0 illesztetlen rekord** és **0 forrásütközés** maradt;
+- a játékosok száma változatlanul **440**, a **464** játékos–klub regisztráció, az eredeti azonosítók és a sorrend megmaradt;
+- **222** pontos születési dátum, **149** poszt, **149** nemzetiség, **27** magasság és **137** mezszám érhető el;
+- Abu Fani meglévő MLSZ-rekordja 17 pályára lépéssel, 9 kezdéssel, 23 kerettagsággal, 5 sárga és 0 piros lappal egészült ki;
+- Kulbachuk Viacheslav és Mejías Josua eltérő kluboldali születési dátuma helyett az MLSZ-ben szereplő érték maradt;
+- Bárány Donát és Álex Bermejo hibás vagy eltérő kluboldali dátuma nem került át.
+
+A böngészős indításkor a `js/bootstrap.js` egyesíti az eredeti adatbázist, a kluboldali forrásrétegeket és az auditált korrekciókat. Az önálló HTML összeállításakor ugyanezt a `scripts/build-standalone.mjs` végzi el, így a két változat ugyanazt az adatlogikát használja.
 
 ## Hiányzó adatok
 
@@ -107,8 +114,10 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 | Fájl | Szerep |
 |---|---|
 | `js/bootstrap.js` | Az MLSZ-alapadatbázis, a klubforrások és a korrekciók egyesítése |
-| `data/club-official-enrichment.json` | Változatlan hivatalos kluboldali forrásrekordok |
+| `data/club-official-enrichment.json` | DVTK- és Ferencváros-klubforrások |
+| `data/club-official-enrichment-2.json` | DVSC- és MTK-klubforrások |
 | `data/club-official-corrections.json` | Auditált névkorrekciók, kizárások és MLSZ-kiegészítések |
+| `data/enrichment-audit.json` | Automatikusan generált adatminőségi összesítő |
 | `js/data/club-enrichment.js` | Veszteségmentes illesztési, hiányérték- és forráskezelési logika |
 | `js/data/players.js` | Adatszerződés, normalizálás, kategóriakonfiguráció és automatikus engedélyezés |
 | `js/engine.js` | Klasszikus mód tiszta játékszabályai és irányhelyes összehasonlítás |
@@ -120,7 +129,7 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 | `manifest.webmanifest` | Mobilalkalmazás neve, megjelenése és ikonjai |
 | `sw.js` | Offline gyorsítótár és hálózati tartalék |
 | `js/main.js` | Játékmódválasztás és böngészős játékmenet |
-| `test/enrichment.test.mjs` | Kluboldali illesztés, azonosító-megőrzés, kizárás és MLSZ-kiegészítés tesztje |
+| `test/enrichment.test.mjs` | Kluboldali illesztés, azonosító-megőrzés, kizárások és MLSZ-kiegészítések tesztje |
 | `test/data.test.mjs` | A 440 személy / 464 klubregisztráció integritásellenőrzése |
 
 ## Ellenőrzés
@@ -131,6 +140,8 @@ npm test
 npm run test:all
 npm run build
 ```
+
+A GitHub Actions minden főági módosítás után sorrendben lefuttatja a szintaktikai ellenőrzést, elkészíti az önálló HTML-t és az auditot, futtatja a teszteket, majd csak siker esetén menti vissza a generált fájlokat.
 
 ## Jogi megjegyzés
 
