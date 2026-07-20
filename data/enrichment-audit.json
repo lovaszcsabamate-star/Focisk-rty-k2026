@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T17:54:22.755Z",
+  "generatedAt": "2026-07-20T19:03:14.299Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -10,11 +10,14 @@
     "data/club-official-enrichment-5-other.json",
     "data/club-official-enrichment-6-eto-puskas.json",
     "data/club-official-enrichment-7-kisvarda-selected10.json",
+    "data/club-official-enrichment-8-kisvarda-selected10.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
+    "data/club-official-corrections-4-kisvarda-selected10-2.json",
     "data/club-official-stat-patches-kisvarda.json",
     "data/club-official-stat-patches-kisvarda-selected10.json",
+    "data/club-official-stat-patches-kisvarda-selected10-2.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -26,24 +29,24 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 275,
+    "exactBirthDates": 285,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 275,
+    "birthDate": 285,
     "appearances": 172,
     "starts": 172,
     "goals": 440,
-    "squads": 117,
+    "squads": 127,
     "yellowCards": 172,
     "redCards": 172,
     "totalDismissals": 172,
     "overallScore": 143,
-    "position": 316,
-    "nation": 174,
-    "heightCm": 48,
-    "shirtNumber": 268,
-    "officialMetadata": 50,
+    "position": 324,
+    "nation": 181,
+    "heightCm": 52,
+    "shirtNumber": 278,
+    "officialMetadata": 60,
     "minutes": 29,
     "substituteAppearances": 32,
     "assists": 29,
@@ -53,8 +56,8 @@
     {
       "field": "birthDate",
       "before": 120,
-      "after": 275,
-      "added": 155
+      "after": 285,
+      "added": 165
     },
     {
       "field": "appearances",
@@ -107,32 +110,32 @@
     {
       "field": "position",
       "before": 0,
-      "after": 316,
-      "added": 316
+      "after": 324,
+      "added": 324
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 174,
-      "added": 174
+      "after": 181,
+      "added": 181
     },
     {
       "field": "heightCm",
       "before": 0,
-      "after": 48,
-      "added": 48
+      "after": 52,
+      "added": 52
     },
     {
       "field": "shirtNumber",
       "before": 0,
-      "after": 268,
-      "added": 268
+      "after": 278,
+      "added": 278
     },
     {
       "field": "officialMetadata",
       "before": 0,
-      "after": 50,
-      "added": 50
+      "after": 60,
+      "added": 60
     }
   ],
   "officialStatFieldCoverage": [
@@ -151,8 +154,8 @@
     {
       "field": "squads",
       "before": 107,
-      "after": 117,
-      "added": 10
+      "after": 127,
+      "added": 20
     },
     {
       "field": "minutes",
@@ -256,9 +259,9 @@
       "clubId": "kisvarda-master-good",
       "clubName": "Kisvárda Master Good",
       "mlszCards": 38,
-      "officialRecords": 31,
-      "eligibleRecords": 31,
-      "matched": 31,
+      "officialRecords": 51,
+      "eligibleRecords": 51,
+      "matched": 51,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "official-season-statistics-imported",
@@ -357,19 +360,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 103,
+    "warningCount": 93,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 1390,
-    "exactBirthDates": 275,
+    "changeCount": 1522,
+    "exactBirthDates": 285,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T20:00:00+02:00",
-    "records": 357,
-    "matchedRecords": 357,
+    "generatedAt": "2026-07-20T21:15:00+02:00",
+    "records": 377,
+    "matchedRecords": 377,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -397,44 +400,49 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 315,
-      "nation": 173,
-      "birthDate": 154,
-      "heightCm": 48,
-      "shirtNumber": 267,
-      "meta.captain": 2,
-      "meta.strongFoot": 21,
-      "meta.joinedAt": 27,
+      "position": 323,
+      "nation": 180,
+      "birthDate": 164,
+      "heightCm": 52,
+      "shirtNumber": 277,
+      "meta.captain": 3,
+      "meta.strongFoot": 25,
+      "meta.joinedAt": 34,
       "meta.joinedYearMonth": 1,
-      "meta.departedAt": 2,
+      "meta.departedAt": 5,
       "meta.nextClub": 1,
       "meta.officialSeasonAppearances": 1,
       "meta.officialSeasonGoals": 1,
       "meta.squadStatus": 14,
-      "meta.previousClub": 19,
+      "meta.previousClub": 27,
       "meta.loanFrom": 2,
-      "meta.loanStatus": 3,
-      "meta.contractExtended": 3,
+      "meta.loanStatus": 4,
+      "meta.contractExtended": 4,
       "meta.homegrown": 1,
       "meta.returnedToClub": 1,
       "meta.firstTeamStatus": 2,
       "meta.academyPlayer": 1,
       "meta.seasonPlayerOfYear": 1,
-      "meta.seasonClub": 10,
+      "meta.seasonClub": 18,
       "meta.currentClub": 4,
-      "meta.currentStatus": 8,
-      "meta.seasonStatus": 7,
+      "meta.currentStatus": 18,
+      "meta.seasonStatus": 16,
       "meta.professionalContractAt": 1,
-      "meta.seasonShirtNumber": 7,
-      "meta.primaryPosition": 2,
-      "meta.contractEnd": 2,
+      "meta.seasonShirtNumber": 17,
+      "meta.primaryPosition": 8,
+      "meta.contractEnd": 4,
       "meta.academyJoinedAt": 1,
       "meta.professionalRegistrationAt": 1,
-      "meta.birthPlace": 1,
+      "meta.birthPlace": 7,
       "meta.loanTo": 1,
       "meta.loanStart": 1,
       "meta.loanEnd": 1,
-      "meta.preferredSide": 1
+      "meta.preferredSide": 1,
+      "meta.secondNationality": 1,
+      "meta.loanStatusAtArrival": 1,
+      "meta.permanentFrom": 1,
+      "meta.secondaryPosition": 1,
+      "meta.citizenshipConfirmedAt": 1
     },
     "coverageBefore": {
       "birthDate": 120,
@@ -453,7 +461,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 275,
+      "birthDate": 285,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -462,18 +470,18 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 316,
-      "nation": 174,
-      "heightCm": 48,
-      "shirtNumber": 268,
-      "officialMetadata": 50
+      "position": 324,
+      "nation": 181,
+      "heightCm": 52,
+      "shirtNumber": 278,
+      "officialMetadata": 60
     },
     "fieldCoverage": [
       {
         "field": "birthDate",
         "before": 120,
-        "after": 275,
-        "added": 155
+        "after": 285,
+        "added": 165
       },
       {
         "field": "appearances",
@@ -526,32 +534,32 @@
       {
         "field": "position",
         "before": 0,
-        "after": 316,
-        "added": 316
+        "after": 324,
+        "added": 324
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 174,
-        "added": 174
+        "after": 181,
+        "added": 181
       },
       {
         "field": "heightCm",
         "before": 0,
-        "after": 48,
-        "added": 48
+        "after": 52,
+        "added": 52
       },
       {
         "field": "shirtNumber",
         "before": 0,
-        "after": 268,
-        "added": 268
+        "after": 278,
+        "added": 278
       },
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 50,
-        "added": 50
+        "after": 60,
+        "added": 60
       }
     ],
     "clubSummary": [
@@ -607,9 +615,9 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 31,
-        "eligibleRecords": 31,
-        "matched": 31,
+        "officialRecords": 51,
+        "eligibleRecords": 51,
+        "matched": 51,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "official-season-statistics-imported",
@@ -706,11 +714,12 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T20:05:00+02:00",
-    "records": 40,
-    "matchedRecords": 40,
+    "generatedAt": "2026-07-20T21:20:00+02:00",
+    "records": 50,
+    "matchedRecords": 50,
     "unmatchedRecords": 0,
     "conflictCount": 0,
+    "correctionCount": 2,
     "multiClubMetadataOnly": 1,
     "appliedFieldCounts": {
       "appearances": 28,
@@ -722,7 +731,11 @@
       "redCards": 28,
       "secondYellowRedCards": 32,
       "totalDismissals": 28,
-      "squads": 10
+      "squads": 20
+    },
+    "correctedFieldCounts": {
+      "starts": 1,
+      "substituteAppearances": 1
     },
     "fieldCoverage": [
       {
@@ -740,8 +753,8 @@
       {
         "field": "squads",
         "before": 107,
-        "after": 117,
-        "added": 10
+        "after": 127,
+        "added": 20
       },
       {
         "field": "minutes",
@@ -794,6 +807,26 @@
     ],
     "manualReview": [],
     "conflicts": [],
+    "corrections": [
+      {
+        "playerId": "nb1-7bc81b0db266",
+        "playerName": "MEŠANOVIĆ JASMIN",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "mlsz-fizz-liga-kisvarda-selected10-2-2025-26",
+        "field": "starts",
+        "previous": 22,
+        "corrected": 20
+      },
+      {
+        "playerId": "nb1-7bc81b0db266",
+        "playerName": "MEŠANOVIĆ JASMIN",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "mlsz-fizz-liga-kisvarda-selected10-2-2025-26",
+        "field": "substituteAppearances",
+        "previous": 0,
+        "corrected": 2
+      }
+    ],
     "sources": [
       {
         "id": "kisvarda-official-season-review-2025-26",
@@ -854,6 +887,41 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. Az appearances a kezdő és csereként pályára lépések összege; a squads ehhez hozzáadja a pályára nem lépő kispados kerettagságot."
+      },
+      {
+        "id": "mlsz-fizz-liga-kisvarda-selected10-2-2025-26",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ Adatbank – a második tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/281164.html",
+          "https://adatbank.mlsz.hu/player/1557690.html",
+          "https://adatbank.mlsz.hu/player/1432844.html",
+          "https://adatbank.mlsz.hu/player/1421848.html",
+          "https://adatbank.mlsz.hu/player/460616.html",
+          "https://adatbank.mlsz.hu/player/989051.html",
+          "https://adatbank.mlsz.hu/player/1219844.html",
+          "https://adatbank.mlsz.hu/player/94827.html",
+          "https://adatbank.mlsz.hu/player/222605.html",
+          "https://adatbank.mlsz.hu/player/708768.html",
+          "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+          "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+        ],
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "secondYellowRedCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. A kiállítástípusnál a Kisvárda hivatalos fegyelmi bontása egészíti ki az MLSZ összesített piroslap-oszlopát."
       }
     ]
   },
@@ -1017,5 +1085,25 @@
       "sourceUrl": "https://adatbank.mlsz.hu/player/463914.html"
     }
   ],
-  "conflicts": []
+  "conflicts": [],
+  "corrections": [
+    {
+      "playerId": "nb1-7bc81b0db266",
+      "playerName": "MEŠANOVIĆ JASMIN",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "mlsz-fizz-liga-kisvarda-selected10-2-2025-26",
+      "field": "starts",
+      "previous": 22,
+      "corrected": 20
+    },
+    {
+      "playerId": "nb1-7bc81b0db266",
+      "playerName": "MEŠANOVIĆ JASMIN",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "mlsz-fizz-liga-kisvarda-selected10-2-2025-26",
+      "field": "substituteAppearances",
+      "previous": 0,
+      "corrected": 2
+    }
+  ]
 }
