@@ -42,7 +42,7 @@ assert.equal(dibusz.stats.shirtNumber, 90);
 
 const acolatse = find('dvtk', 'Acolatse Elton');
 if (acolatse?.meta?.registrationCount > 1) {
-  assert.equal(acolatse.stats.shirtNumber, null, 'többklubos kártyán nincs klubspecifikus mezszám');
+  assert.equal(acolatse.stats.shirtNumber ?? null, null, 'többklubos kártyán nincs klubspecifikus mezszám');
 }
 
 const conflictPayload = {
