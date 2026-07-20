@@ -99,9 +99,11 @@ assert.ok(mbock);
 assert.equal(mbock.stats.appearances, 13);
 assert.equal(mbock.stats.minutes, 864);
 
-const solteszIstvan = find('Soltész István');
+const solteszIstvan = patched.players.find(card =>
+  card?.meta?.clubIds?.includes('kisvarda-master-good')
+  && card.name === 'SOLTÉSZ ISTVÁN ZOLTÁN'
+);
 assert.ok(solteszIstvan);
-assert.equal(solteszIstvan.name, 'SOLTÉSZ ISTVÁN ZOLTÁN');
 assert.equal(solteszIstvan.stats.minutes, 107);
 
 const conflictPayload = {
