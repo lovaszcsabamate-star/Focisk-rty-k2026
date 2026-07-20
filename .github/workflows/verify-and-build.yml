@@ -36,8 +36,11 @@ jobs:
       - name: Önálló HTML és audit elkészítése
         run: npm run build
 
-      - name: Tesztek
+      - name: Alkalmazástesztek
         run: npm test
+
+      - name: Teljes tesztcsomag
+        run: npm run test:all
 
       - name: Formázási hibák ellenőrzése
         run: git diff --check
