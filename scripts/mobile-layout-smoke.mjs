@@ -33,13 +33,28 @@ const failures = [];
 const measurements = [];
 
 for (const width of WIDTHS) {
-  const probeScript = `
+  const appFileName = `app-${width}.html`;
+  const appFile = path.join(temporaryDirectory, appFileName);
+  const app = original.replace(
+    '<body>',
+    '<body><script>try{localStorage.setItem("fociskartyak:onboarding-complete","true")}catch{}</script>',
+  );
+  fs.writeFileSync(appFile, app);
+
+  const harness = `<!doctype html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;padding:0;overflow:hidden;background:#111}
+#app{display:block;width:${width}px;height:${HEIGHT}px;border:0;margin:0}
+</style></head><body>
+<iframe id="app" src="${appFileName}"></iframe>
 <script>
-window.addEventListener('load', () => setTimeout(() => {
-  const doc = document.documentElement;
-  const body = document.body;
-  const viewport = window.innerWidth;
-  const candidates = [...document.querySelectorAll('.mobile-home, .onboarding-panel, #hud, #attribute-picker, button')];
+const frame = document.querySelector('#app');
+frame.addEventListener('load', () => setTimeout(() => {
+  const win = frame.contentWindow;
+  const doc = frame.contentDocument.documentElement;
+  const body = frame.contentDocument.body;
+  const viewport = win.innerWidth;
+  const candidates = [...frame.contentDocument.querySelectorAll('.mobile-home, .onboarding-panel, #hud, #attribute-picker, button')];
   const offscreen = candidates
     .map(node => ({ node, rect: node.getBoundingClientRect() }))
     .filter(({ rect }) => rect.width > 0 && (rect.left < -1 || rect.right > viewport + 1))
@@ -51,23 +66,21 @@ window.addEventListener('load', () => setTimeout(() => {
       width: Math.round(rect.width),
     }));
   const result = {
+    requestedWidth: ${width},
     viewport,
     documentWidth: Math.max(doc.scrollWidth, body.scrollWidth),
-    hasHome: Boolean(document.querySelector('.mobile-home')),
-    hasOnboarding: Boolean(document.querySelector('.onboarding-panel')),
-    hasLoadingError: Boolean(document.querySelector('.app-loading__error')),
-    loadingHidden: Boolean(document.querySelector('#app-loading')?.hidden),
+    hasHome: Boolean(frame.contentDocument.querySelector('.mobile-home')),
+    hasOnboarding: Boolean(frame.contentDocument.querySelector('.onboarding-panel')),
+    hasLoadingError: Boolean(frame.contentDocument.querySelector('.app-loading__error')),
+    loadingHidden: Boolean(frame.contentDocument.querySelector('#app-loading')?.hidden),
     offscreen,
   };
-  doc.setAttribute('data-layout-smoke', encodeURIComponent(JSON.stringify(result)));
-}, 1200));
-</script>`;
+  document.documentElement.setAttribute('data-layout-smoke', encodeURIComponent(JSON.stringify(result)));
+}, 1400));
+</script></body></html>`;
 
-  const instrumented = original
-    .replace('<body>', '<body><script>try{localStorage.setItem("fociskartyak:onboarding-complete","true")}catch{}</script>')
-    .replace('</body>', `${probeScript}</body>`);
-  const file = path.join(temporaryDirectory, `mobile-${width}.html`);
-  fs.writeFileSync(file, instrumented);
+  const harnessFile = path.join(temporaryDirectory, `harness-${width}.html`);
+  fs.writeFileSync(harnessFile, harness);
 
   const run = spawnSync(chrome, [
     '--headless=new',
@@ -75,11 +88,11 @@ window.addEventListener('load', () => setTimeout(() => {
     '--disable-gpu',
     '--disable-dev-shm-usage',
     '--allow-file-access-from-files',
-    `--window-size=${width},${HEIGHT}`,
+    '--window-size=600,1000',
     '--force-device-scale-factor=1',
-    '--virtual-time-budget=3500',
+    '--virtual-time-budget=4500',
     '--dump-dom',
-    `file://${file}`,
+    `file://${harnessFile}`,
   ], {
     encoding: 'utf8',
     maxBuffer: 30 * 1024 * 1024,
@@ -108,6 +121,7 @@ window.addEventListener('load', () => setTimeout(() => {
   const result = JSON.parse(decodeURIComponent(match[1]));
   const overflow = result.documentWidth - result.viewport;
   const widthFailures = [];
+  if (result.viewport !== width) widthFailures.push(`a mért viewport ${result.viewport}px a kért ${width}px helyett`);
   if (!result.hasHome && !result.hasOnboarding) widthFailures.push('nem jelent meg a mobilos kezdőképernyő');
   if (result.hasLoadingError) widthFailures.push('betöltési hibaképernyő jelent meg');
   if (!result.loadingHidden) widthFailures.push('a betöltőképernyő látható maradt');
@@ -116,7 +130,7 @@ window.addEventListener('load', () => setTimeout(() => {
   failures.push(...widthFailures.map(message => `${width}px: ${message}.`));
   measurements.push({ width, overflow, ...result, failures: widthFailures });
 
-  console.log(`✓ ${width}px: panel rendben, dokumentumszélesség ${result.documentWidth}px, kilógás ${Math.max(0, overflow)}px`);
+  console.log(`✓ ${width}px: mért viewport ${result.viewport}px, dokumentumszélesség ${result.documentWidth}px, kilógás ${Math.max(0, overflow)}px`);
 }
 
 fs.rmSync(temporaryDirectory, { recursive: true, force: true });
