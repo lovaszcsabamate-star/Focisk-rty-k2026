@@ -41,6 +41,7 @@ const PWA_SHELL = [
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',
+  './data/club-official-corrections-4-kisvarda-selected10-2.json',
   './data/club-official-stat-patches-kisvarda.json',
   './data/club-official-stat-patches-kisvarda-selected10.json',
   './data/club-official-stat-patches-kisvarda-selected10-2.json',
