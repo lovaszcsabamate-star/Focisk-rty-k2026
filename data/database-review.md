@@ -1,36 +1,36 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-20T19:03:14.299Z
+Generálva: 2026-07-20T20:03:06.019Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
-- Pontos születési dátum: **285/440**
-- Változásnapló-bejegyzések: **1522**
+- Pontos születési dátum: **295/440**
+- Változásnapló-bejegyzések: **1642**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
-- Figyelmeztetések: **93**
+- Figyelmeztetések: **83**
 
 ## Mezőlefedettség
 
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
-| birthDate | 285 | 155 |
-| nation | 181 | 259 |
-| position | 324 | 116 |
-| appearances | 172 | 268 |
-| starts | 172 | 268 |
+| birthDate | 295 | 145 |
+| nation | 184 | 256 |
+| position | 334 | 106 |
+| appearances | 173 | 267 |
+| starts | 173 | 267 |
 | minutes | 29 | 411 |
 | goals | 440 | 0 |
 | assists | 29 | 411 |
-| squads | 127 | 313 |
-| yellowCards | 172 | 268 |
-| redCards | 172 | 268 |
-| secondYellowRedCards | 32 | 408 |
-| totalDismissals | 172 | 268 |
-| heightCm | 52 | 388 |
-| shirtNumber | 278 | 162 |
+| squads | 137 | 303 |
+| yellowCards | 173 | 267 |
+| redCards | 173 | 267 |
+| secondYellowRedCards | 33 | 407 |
+| totalDismissals | 173 | 267 |
+| heightCm | 57 | 383 |
+| shirtNumber | 288 | 152 |
 
 ## Klubonkénti lefedettség
 
@@ -40,7 +40,7 @@ Generálva: 2026-07-20T19:03:14.299Z
 | DVTK | 45 | 44 | 44 | 44 | 5 | 0 | 0 |
 | ETO FC | 35 | 35 | 28 | 0 | 35 | 0 | 0 |
 | Ferencvárosi TC | 42 | 41 | 41 | 41 | 8 | 0 | 0 |
-| Kisvárda Master Good | 38 | 20 | 18 | 11 | 32 | 29 | 29 |
+| Kisvárda Master Good | 38 | 30 | 28 | 14 | 33 | 29 | 29 |
 | Kolorcity Kazincbarcika SC | 40 | 2 | 8 | 0 | 5 | 0 | 0 |
 | MTK Budapest | 36 | 32 | 32 | 32 | 6 | 0 | 0 |
 | Nyíregyháza Spartacus FC | 39 | 2 | 33 | 1 | 5 | 0 | 0 |

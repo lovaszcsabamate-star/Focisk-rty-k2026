@@ -66,12 +66,14 @@
           "data/club-official-enrichment-5-other.json",
           "data/club-official-enrichment-7-kisvarda-selected10.json",
           "data/club-official-enrichment-8-kisvarda-selected10.json",
+          "data/club-official-enrichment-9-kisvarda-selected10.json",
           "data/club-official-corrections-4-kisvarda-selected10-2.json",
           "data/club-official-stat-patches-kisvarda.json",
           "data/club-official-stat-patches-kisvarda-selected10.json",
-          "data/club-official-stat-patches-kisvarda-selected10-2.json"
+          "data/club-official-stat-patches-kisvarda-selected10-2.json",
+          "data/club-official-stat-patches-kisvarda-selected10-3.json"
         ],
-        "note": "A hivatalos 2025/26-os szezonértékelések mellett két, egyenként pontosan tíz játékosból álló Kisvárda-adatbővítési kör MLSZ-játékoslapjai, klubprofiljai, keretstátuszai, mezszámai és Fizz Liga kerettagsági adatai kerültek feldolgozásra. A pályára lépés és a kispados kerettagság külön mező marad; a bizonyított MLSZ-korrekciók név és mező szerint engedélyezettek."
+        "note": "A hivatalos 2025/26-os szezonértékelések mellett három, egyenként pontosan tíz játékosból álló Kisvárda-adatbővítési kör MLSZ-játékoslapjai, klubprofiljai, keretstátuszai, mezszámai és Fizz Liga kerettagsági adatai kerültek feldolgozásra. A pályára lépés és a pályára nem lépő kispados kerettagság külön mező marad; nem igazolt profiladat nem kerül következtetéssel kitöltésre."
       },
       {
         "clubId": "kolorcity-kazincbarcika-sc",
@@ -673,6 +675,96 @@
         "season": "2025/26"
       },
       {
+        "id": "kisvarda-popovics-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ és Kisvárda FC – Popovics Ilija játékosprofil",
+        "url": "https://adatbank.mlsz.hu/player/1109171.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-papp-zsombor-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC és MLSZ – Papp Zsombor játékosprofil",
+        "url": "https://kisvardafc.hu/hir/fiatal-kapust-szerzodtettunk/9178",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-olah-balint-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC – Oláh Bálint hivatalos bemutatása",
+        "url": "https://kisvardafc.hu/hir/ami-kesik-nem-mulik-olah-balint-kisvardan/8531",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-radmanovac-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC – Nikola Radmanovac hivatalos bemutatása",
+        "url": "https://kisvardafc.hu/hir/szerb-vedo-a-kinai-ligabol/9017",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-szor-levente-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ és Kisvárda FC – Szőr Levente játékosprofil és hosszabbítás",
+        "url": "https://adatbank.mlsz.hu/player/319823.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-osztrovka-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ és Kisvárda FC – Osztrovka Maxim játékosprofil",
+        "url": "https://adatbank.mlsz.hu/player/1171103.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-szikszai-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ és Kisvárda FC – Szikszai Hennagyij játékosprofil",
+        "url": "https://adatbank.mlsz.hu/player/1058876.html",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-soltesz-istvan-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC – Soltész István hivatalos bemutatása",
+        "url": "https://kisvardafc.hu/hir/csatlakozott-az-ikertestverehez/7600",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-soltesz-dominik-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC – Soltész Dominik hivatalos bemutatása",
+        "url": "https://kisvardafc.hu/hir/ballabas-szelso-a-kovetkezo-erkezo/7574",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
+        "id": "kisvarda-yordanov-profile-batch3",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "Kisvárda FC – Toniszlav Jordanov hivatalos bemutatása",
+        "url": "https://kisvardafc.hu/hir/bolgar-tamado-erkezett/8538",
+        "checkedAt": "2026-07-20",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -775,6 +867,41 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. A kiállítástípusnál a Kisvárda hivatalos fegyelmi bontása egészíti ki az MLSZ összesített piroslap-oszlopát."
+      },
+      {
+        "id": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/1109171.html",
+          "https://adatbank.mlsz.hu/player/590786.html",
+          "https://adatbank.mlsz.hu/player/696397.html",
+          "https://adatbank.mlsz.hu/player/1557586.html",
+          "https://adatbank.mlsz.hu/player/319823.html",
+          "https://adatbank.mlsz.hu/player/1171103.html",
+          "https://adatbank.mlsz.hu/player/1058876.html",
+          "https://adatbank.mlsz.hu/player/770939.html",
+          "https://adatbank.mlsz.hu/player/770940.html",
+          "https://adatbank.mlsz.hu/player/1497332.html",
+          "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+          "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+        ],
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "secondYellowRedCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Papp Zsombor egyszer volt elsőcsapatos bajnoki keretben, pályára nem lépett."
       }
     ]
   },
@@ -799,28 +926,28 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 285,
+    "exactBirthDates": 295,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 285,
-    "appearances": 172,
-    "starts": 172,
+    "birthDate": 295,
+    "appearances": 173,
+    "starts": 173,
     "goals": 440,
-    "squads": 127,
-    "yellowCards": 172,
-    "redCards": 172,
-    "totalDismissals": 172,
+    "squads": 137,
+    "yellowCards": 173,
+    "redCards": 173,
+    "totalDismissals": 173,
     "overallScore": 143,
-    "position": 324,
-    "nation": 181,
-    "heightCm": 52,
-    "shirtNumber": 278,
-    "officialMetadata": 60,
+    "position": 334,
+    "nation": 184,
+    "heightCm": 57,
+    "shirtNumber": 288,
+    "officialMetadata": 70,
     "minutes": 29,
-    "substituteAppearances": 32,
+    "substituteAppearances": 33,
     "assists": 29,
-    "secondYellowRedCards": 32
+    "secondYellowRedCards": 33
   },
   "missingData": {
     "note": "Az ismeretlen értékek nullként maradnak, és az adott kategóriában nem játszhatók.",
@@ -833,9 +960,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T21:15:00+02:00",
-    "records": 377,
-    "matchedRecords": 377,
+    "generatedAt": "2026-07-20T22:10:00+02:00",
+    "records": 387,
+    "matchedRecords": 387,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -863,40 +990,40 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 323,
-      "nation": 180,
-      "birthDate": 164,
-      "heightCm": 52,
-      "shirtNumber": 277,
+      "position": 333,
+      "nation": 183,
+      "birthDate": 174,
+      "heightCm": 57,
+      "shirtNumber": 287,
       "meta.captain": 3,
-      "meta.strongFoot": 25,
-      "meta.joinedAt": 34,
+      "meta.strongFoot": 30,
+      "meta.joinedAt": 40,
       "meta.joinedYearMonth": 1,
       "meta.departedAt": 5,
       "meta.nextClub": 1,
       "meta.officialSeasonAppearances": 1,
       "meta.officialSeasonGoals": 1,
       "meta.squadStatus": 14,
-      "meta.previousClub": 27,
+      "meta.previousClub": 33,
       "meta.loanFrom": 2,
       "meta.loanStatus": 4,
       "meta.contractExtended": 4,
-      "meta.homegrown": 1,
+      "meta.homegrown": 4,
       "meta.returnedToClub": 1,
       "meta.firstTeamStatus": 2,
       "meta.academyPlayer": 1,
       "meta.seasonPlayerOfYear": 1,
-      "meta.seasonClub": 18,
-      "meta.currentClub": 4,
-      "meta.currentStatus": 18,
-      "meta.seasonStatus": 16,
+      "meta.seasonClub": 19,
+      "meta.currentClub": 5,
+      "meta.currentStatus": 28,
+      "meta.seasonStatus": 26,
       "meta.professionalContractAt": 1,
-      "meta.seasonShirtNumber": 17,
-      "meta.primaryPosition": 8,
+      "meta.seasonShirtNumber": 27,
+      "meta.primaryPosition": 11,
       "meta.contractEnd": 4,
       "meta.academyJoinedAt": 1,
       "meta.professionalRegistrationAt": 1,
-      "meta.birthPlace": 7,
+      "meta.birthPlace": 12,
       "meta.loanTo": 1,
       "meta.loanStart": 1,
       "meta.loanEnd": 1,
@@ -904,8 +1031,11 @@
       "meta.secondNationality": 1,
       "meta.loanStatusAtArrival": 1,
       "meta.permanentFrom": 1,
-      "meta.secondaryPosition": 1,
-      "meta.citizenshipConfirmedAt": 1
+      "meta.secondaryPosition": 2,
+      "meta.citizenshipConfirmedAt": 1,
+      "meta.signedAt": 1,
+      "meta.contractExtensionAgreedAt": 1,
+      "meta.firstProfessionalContractAt": 2
     },
     "coverageBefore": {
       "birthDate": 120,
@@ -924,7 +1054,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 285,
+      "birthDate": 295,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -933,18 +1063,18 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 324,
-      "nation": 181,
-      "heightCm": 52,
-      "shirtNumber": 278,
-      "officialMetadata": 60
+      "position": 334,
+      "nation": 184,
+      "heightCm": 57,
+      "shirtNumber": 288,
+      "officialMetadata": 70
     },
     "fieldCoverage": [
       {
         "field": "birthDate",
         "before": 120,
-        "after": 285,
-        "added": 165
+        "after": 295,
+        "added": 175
       },
       {
         "field": "appearances",
@@ -997,32 +1127,32 @@
       {
         "field": "position",
         "before": 0,
-        "after": 324,
-        "added": 324
+        "after": 334,
+        "added": 334
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 181,
-        "added": 181
+        "after": 184,
+        "added": 184
       },
       {
         "field": "heightCm",
         "before": 0,
-        "after": 52,
-        "added": 52
+        "after": 57,
+        "added": 57
       },
       {
         "field": "shirtNumber",
         "before": 0,
-        "after": 278,
-        "added": 278
+        "after": 288,
+        "added": 288
       },
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 60,
-        "added": 60
+        "after": 70,
+        "added": 70
       }
     ],
     "clubSummary": [
@@ -1078,9 +1208,9 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 51,
-        "eligibleRecords": 51,
-        "matched": 51,
+        "officialRecords": 61,
+        "eligibleRecords": 61,
+        "matched": 61,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "official-season-statistics-imported",
@@ -15701,20 +15831,22 @@
       "clubs": [
         "Kisvárda Master Good"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Védő",
+      "birthDate": "1994-12-02",
       "stats": {
         "age": null,
         "appearances": 17,
         "starts": 17,
         "goals": 0,
-        "squads": null,
+        "squads": 27,
         "yellowCards": 2,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 188,
+        "shirtNumber": 50,
         "minutes": 1624,
         "substituteAppearances": 0,
         "assists": 2
@@ -15734,8 +15866,62 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "primaryPosition": "Belső védő",
+          "secondaryPosition": "Középpályás",
+          "birthPlace": "Miskolc",
+          "strongFoot": "bal",
+          "previousClub": "Budafoki MTE",
+          "joinedAt": "2025-06-16",
+          "seasonShirtNumber": 50,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 50
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "primaryPosition": "Belső védő",
+            "secondaryPosition": "Középpályás",
+            "birthPlace": "Miskolc",
+            "strongFoot": "bal",
+            "previousClub": "Budafoki MTE",
+            "joinedAt": "2025-06-16",
+            "seasonShirtNumber": 50,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-olah-balint-profile-batch3",
+            "sourceName": "Kisvárda FC – Oláh Bálint hivatalos bemutatása",
+            "sourceUrl": "https://kisvardafc.hu/hir/ami-kesik-nem-mulik-olah-balint-kisvardan/8531",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Oláh Bálint",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate",
+              "heightCm",
+              "shirtNumber",
+              "meta.primaryPosition",
+              "meta.secondaryPosition",
+              "meta.birthPlace",
+              "meta.strongFoot",
+              "meta.previousClub",
+              "meta.joinedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 17,
@@ -15748,7 +15934,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 27
           }
         },
         "officialStatSources": [
@@ -15776,9 +15963,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Oláh Bálint",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -15789,19 +16002,20 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Középpályás",
+      "birthDate": "2007-04-07",
       "stats": {
         "age": 19,
         "appearances": 1,
         "starts": 0,
         "goals": 0,
-        "squads": null,
+        "squads": 12,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": 22,
+        "shirtNumber": 66,
         "minutes": 13,
         "substituteAppearances": 1,
         "assists": 0
@@ -15823,8 +16037,48 @@
         "sourceDataConfidence": "medium",
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "retainedFromPreviousDeck": true,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "homegrown": true,
+          "firstProfessionalContractAt": "2024-01-16",
+          "seasonShirtNumber": 66,
+          "seasonStatus": "loaned-second-half",
+          "currentStatus": "returned-from-loan"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 66
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "homegrown": true,
+            "firstProfessionalContractAt": "2024-01-16",
+            "seasonShirtNumber": 66,
+            "seasonStatus": "loaned-second-half",
+            "currentStatus": "returned-from-loan"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-osztrovka-profile-batch3",
+            "sourceName": "MLSZ és Kisvárda FC – Osztrovka Maxim játékosprofil",
+            "sourceUrl": "https://adatbank.mlsz.hu/player/1171103.html",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Osztrovka Maxim",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "shirtNumber",
+              "meta.homegrown",
+              "meta.firstProfessionalContractAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 1,
@@ -15837,7 +16091,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 12
           }
         },
         "officialStatSources": [
@@ -15860,9 +16115,35 @@
               "secondYellowRedCards"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Osztrovka Maxim",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -15873,19 +16154,22 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Kapus",
+      "birthDate": "2007-03-17",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
-        "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "squads": 1,
+        "yellowCards": 0,
+        "redCards": 0,
+        "secondYellowRedCards": 0,
+        "totalDismissals": 0,
+        "overallScore": null,
+        "heightCm": 192,
+        "shirtNumber": 32,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "6cbcce5a2082",
@@ -15902,10 +16186,102 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficial": {
+          "previousClub": "Gyirmót FC Győr",
+          "joinedAt": "2026-02-16",
+          "seasonShirtNumber": 32,
+          "seasonStatus": "winter-arrival-first-team-bench-only",
+          "currentClub": "Kisvárda Master Good II.",
+          "currentStatus": "reserve-team"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 32
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "previousClub": "Gyirmót FC Győr",
+            "joinedAt": "2026-02-16",
+            "seasonShirtNumber": 32,
+            "seasonStatus": "winter-arrival-first-team-bench-only",
+            "currentClub": "Kisvárda Master Good II.",
+            "currentStatus": "reserve-team"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-papp-zsombor-profile-batch3",
+            "sourceName": "Kisvárda FC és MLSZ – Papp Zsombor játékosprofil",
+            "sourceUrl": "https://kisvardafc.hu/hir/fiatal-kapust-szerzodtettunk/9178",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Papp Zsombor",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "heightCm",
+              "shirtNumber",
+              "meta.previousClub",
+              "meta.joinedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentClub",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "kisvarda-master-good": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 1,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "secondYellowRedCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Papp Zsombor",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "secondYellowRedCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -16003,19 +16379,20 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Kapus",
+      "birthDate": "2005-11-30",
       "stats": {
         "age": null,
         "appearances": 33,
         "starts": 33,
         "goals": 0,
-        "squads": null,
+        "squads": 33,
         "yellowCards": 2,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "shirtNumber": 30,
         "minutes": 3161,
         "substituteAppearances": 0,
         "assists": 0
@@ -16035,8 +16412,45 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "seasonClub": "Kisvárda Master Good",
+          "seasonShirtNumber": 30,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 30
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "seasonClub": "Kisvárda Master Good",
+            "seasonShirtNumber": 30,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-popovics-profile-batch3",
+            "sourceName": "MLSZ és Kisvárda FC – Popovics Ilija játékosprofil",
+            "sourceUrl": "https://adatbank.mlsz.hu/player/1109171.html",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Popovics Ilija",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "shirtNumber",
+              "meta.seasonClub",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 33,
@@ -16049,7 +16463,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 33
           }
         },
         "officialStatSources": [
@@ -16077,9 +16492,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Popovics Ilija",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -16089,20 +16530,22 @@
       "clubs": [
         "Kisvárda Master Good"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "SRB",
+      "position": "Védő",
+      "birthDate": "1997-01-30",
       "stats": {
         "age": null,
         "appearances": 14,
         "starts": 14,
         "goals": 0,
-        "squads": null,
+        "squads": 15,
         "yellowCards": 1,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 189,
+        "shirtNumber": 26,
         "minutes": 1334,
         "substituteAppearances": 0,
         "assists": 1
@@ -16122,8 +16565,62 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "primaryPosition": "Belső védő",
+          "birthPlace": "Krusevac, Szerbia",
+          "strongFoot": "jobb",
+          "previousClub": "Qingdao Hainiu",
+          "signedAt": "2025-12-09",
+          "joinedAt": "2026-01-01",
+          "seasonShirtNumber": 26,
+          "seasonStatus": "winter-arrival",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 26
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "primaryPosition": "Belső védő",
+            "birthPlace": "Krusevac, Szerbia",
+            "strongFoot": "jobb",
+            "previousClub": "Qingdao Hainiu",
+            "signedAt": "2025-12-09",
+            "joinedAt": "2026-01-01",
+            "seasonShirtNumber": 26,
+            "seasonStatus": "winter-arrival",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-radmanovac-profile-batch3",
+            "sourceName": "Kisvárda FC – Nikola Radmanovac hivatalos bemutatása",
+            "sourceUrl": "https://kisvardafc.hu/hir/szerb-vedo-a-kinai-ligabol/9017",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Nikola Radmanovac",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate",
+              "heightCm",
+              "shirtNumber",
+              "meta.primaryPosition",
+              "meta.birthPlace",
+              "meta.strongFoot",
+              "meta.previousClub",
+              "meta.signedAt",
+              "meta.joinedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 14,
@@ -16136,7 +16633,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 15
           }
         },
         "officialStatSources": [
@@ -16164,9 +16662,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Nikola Radmanovac",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -16177,19 +16701,21 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Támadó",
+      "birthDate": "2000-11-29",
       "stats": {
         "age": 25,
         "appearances": 19,
         "starts": 14,
         "goals": 0,
-        "squads": null,
+        "squads": 23,
         "yellowCards": 3,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": 43,
+        "heightCm": 179,
+        "shirtNumber": 10,
         "minutes": 1286,
         "substituteAppearances": 5,
         "assists": 2
@@ -16211,8 +16737,58 @@
         "sourceDataConfidence": "medium",
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "retainedFromPreviousDeck": true,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "primaryPosition": "Szélső támadó",
+          "birthPlace": "Budapest",
+          "strongFoot": "bal",
+          "previousClub": "Gyirmót FC Győr",
+          "joinedAt": "2024-05-28",
+          "seasonShirtNumber": 10,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 10
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "primaryPosition": "Szélső támadó",
+            "birthPlace": "Budapest",
+            "strongFoot": "bal",
+            "previousClub": "Gyirmót FC Győr",
+            "joinedAt": "2024-05-28",
+            "seasonShirtNumber": 10,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-soltesz-dominik-profile-batch3",
+            "sourceName": "Kisvárda FC – Soltész Dominik hivatalos bemutatása",
+            "sourceUrl": "https://kisvardafc.hu/hir/ballabas-szelso-a-kovetkezo-erkezo/7574",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Soltész Dominik",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "heightCm",
+              "shirtNumber",
+              "meta.primaryPosition",
+              "meta.birthPlace",
+              "meta.strongFoot",
+              "meta.previousClub",
+              "meta.joinedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 19,
@@ -16225,7 +16801,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 23
           }
         },
         "officialStatSources": [
@@ -16248,9 +16825,35 @@
               "secondYellowRedCards"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Soltész Dominik",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -16261,19 +16864,20 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Középpályás",
+      "birthDate": "2000-11-29",
       "stats": {
         "age": null,
         "appearances": 5,
         "starts": 2,
         "goals": 0,
-        "squads": null,
+        "squads": 20,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "shirtNumber": 8,
         "minutes": 107,
         "substituteAppearances": 3,
         "assists": 0
@@ -16293,8 +16897,54 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "birthPlace": "Budapest",
+          "strongFoot": "jobb",
+          "previousClub": "Zalaegerszegi TE FC",
+          "joinedAt": "2024-06-24",
+          "seasonShirtNumber": 8,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 8
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "birthPlace": "Budapest",
+            "strongFoot": "jobb",
+            "previousClub": "Zalaegerszegi TE FC",
+            "joinedAt": "2024-06-24",
+            "seasonShirtNumber": 8,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-soltesz-istvan-profile-batch3",
+            "sourceName": "Kisvárda FC – Soltész István hivatalos bemutatása",
+            "sourceUrl": "https://kisvardafc.hu/hir/csatlakozott-az-ikertestverehez/7600",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Soltész István",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "shirtNumber",
+              "meta.birthPlace",
+              "meta.strongFoot",
+              "meta.previousClub",
+              "meta.joinedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 5,
@@ -16307,7 +16957,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 20
           }
         },
         "officialStatSources": [
@@ -16335,9 +16986,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Soltész István",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -16391,19 +17068,20 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Középpályás",
+      "birthDate": "2007-09-18",
       "stats": {
         "age": null,
         "appearances": 5,
         "starts": 3,
         "goals": 0,
-        "squads": null,
+        "squads": 18,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "shirtNumber": 96,
         "minutes": 199,
         "substituteAppearances": 2,
         "assists": 0
@@ -16423,8 +17101,48 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "homegrown": true,
+          "firstProfessionalContractAt": "2024-01-16",
+          "seasonShirtNumber": 96,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 96
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "homegrown": true,
+            "firstProfessionalContractAt": "2024-01-16",
+            "seasonShirtNumber": 96,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-szikszai-profile-batch3",
+            "sourceName": "MLSZ és Kisvárda FC – Szikszai Hennagyij játékosprofil",
+            "sourceUrl": "https://adatbank.mlsz.hu/player/1058876.html",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Szikszai Hennagyij",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "shirtNumber",
+              "meta.homegrown",
+              "meta.firstProfessionalContractAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 5,
@@ -16437,7 +17155,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 18
           }
         },
         "officialStatSources": [
@@ -16465,9 +17184,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Szikszai Hennagyij",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -16478,19 +17223,20 @@
         "Kisvárda Master Good"
       ],
       "nation": "",
-      "position": "",
-      "birthDate": null,
+      "position": "Középpályás",
+      "birthDate": "2001-01-14",
       "stats": {
         "age": null,
         "appearances": 19,
         "starts": 5,
         "goals": 2,
-        "squads": null,
+        "squads": 28,
         "yellowCards": 3,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "shirtNumber": 70,
         "minutes": 840,
         "substituteAppearances": 14,
         "assists": 1
@@ -16510,8 +17256,48 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "homegrown": true,
+          "contractExtensionAgreedAt": "2025-12-24",
+          "seasonShirtNumber": 70,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 70
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "homegrown": true,
+            "contractExtensionAgreedAt": "2025-12-24",
+            "seasonShirtNumber": 70,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-szor-levente-profile-batch3",
+            "sourceName": "MLSZ és Kisvárda FC – Szőr Levente játékosprofil és hosszabbítás",
+            "sourceUrl": "https://adatbank.mlsz.hu/player/319823.html",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Szőr Levente",
+            "fieldsApplied": [
+              "position",
+              "birthDate",
+              "shirtNumber",
+              "meta.homegrown",
+              "meta.contractExtensionAgreedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 19,
@@ -16524,7 +17310,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 28
           }
         },
         "officialStatSources": [
@@ -16552,9 +17339,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Szőr Levente",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -16607,20 +17420,22 @@
       "clubs": [
         "Kisvárda Master Good"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "BUL",
+      "position": "Támadó",
+      "birthDate": "1998-11-27",
       "stats": {
         "age": null,
         "appearances": 21,
         "starts": 11,
         "goals": 4,
-        "squads": null,
+        "squads": 31,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 180,
+        "shirtNumber": 99,
         "minutes": 1091,
         "substituteAppearances": 10,
         "assists": 2
@@ -16640,8 +17455,56 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
-        "clubOfficial": {},
-        "clubShirtNumbers": {},
+        "clubOfficial": {
+          "birthPlace": "Szevlievo, Bulgária",
+          "strongFoot": "jobb",
+          "previousClub": "Arda Kardzsali",
+          "joinedAt": "2025-06-21",
+          "seasonShirtNumber": 99,
+          "seasonStatus": "active",
+          "currentStatus": "active"
+        },
+        "clubShirtNumbers": {
+          "kisvarda-master-good": 99
+        },
+        "clubOfficialByClub": {
+          "kisvarda-master-good": {
+            "birthPlace": "Szevlievo, Bulgária",
+            "strongFoot": "jobb",
+            "previousClub": "Arda Kardzsali",
+            "joinedAt": "2025-06-21",
+            "seasonShirtNumber": 99,
+            "seasonStatus": "active",
+            "currentStatus": "active"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "kisvarda-yordanov-profile-batch3",
+            "sourceName": "Kisvárda FC – Toniszlav Jordanov hivatalos bemutatása",
+            "sourceUrl": "https://kisvardafc.hu/hir/bolgar-tamado-erkezett/8538",
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Toniszlav Jordanov",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate",
+              "heightCm",
+              "shirtNumber",
+              "meta.birthPlace",
+              "meta.strongFoot",
+              "meta.previousClub",
+              "meta.joinedAt",
+              "meta.seasonShirtNumber",
+              "meta.seasonStatus",
+              "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 21,
@@ -16654,7 +17517,8 @@
             "redCards": 0,
             "secondYellowRedCards": 0,
             "totalDismissals": 0,
-            "sourceId": "kisvarda-official-season-review-2025-26"
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "squads": 31
           }
         },
         "officialStatSources": [
@@ -16682,9 +17546,35 @@
               "totalDismissals"
             ],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+            "sourceName": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+            "additionalUrls": [
+              "https://adatbank.mlsz.hu/player/1109171.html",
+              "https://adatbank.mlsz.hu/player/590786.html",
+              "https://adatbank.mlsz.hu/player/696397.html",
+              "https://adatbank.mlsz.hu/player/1557586.html",
+              "https://adatbank.mlsz.hu/player/319823.html",
+              "https://adatbank.mlsz.hu/player/1171103.html",
+              "https://adatbank.mlsz.hu/player/1058876.html",
+              "https://adatbank.mlsz.hu/player/770939.html",
+              "https://adatbank.mlsz.hu/player/770940.html",
+              "https://adatbank.mlsz.hu/player/1497332.html",
+              "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+              "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+            ],
+            "checkedAt": "2026-07-20",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Toniszlav Jordanov",
+            "fieldsApplied": [
+              "squads"
+            ],
+            "correctedFields": []
           }
-        ],
-        "dataStatus": "partially_verified"
+        ]
       }
     },
     {
@@ -31360,24 +32250,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T21:20:00+02:00",
-    "records": 50,
-    "matchedRecords": 50,
+    "generatedAt": "2026-07-20T22:15:00+02:00",
+    "records": 60,
+    "matchedRecords": 60,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
     "multiClubMetadataOnly": 1,
     "appliedFieldCounts": {
-      "appearances": 28,
-      "starts": 28,
+      "appearances": 29,
+      "starts": 29,
       "minutes": 29,
-      "substituteAppearances": 32,
+      "substituteAppearances": 33,
       "assists": 29,
-      "yellowCards": 28,
-      "redCards": 28,
-      "secondYellowRedCards": 32,
-      "totalDismissals": 28,
-      "squads": 20
+      "yellowCards": 29,
+      "redCards": 29,
+      "secondYellowRedCards": 33,
+      "totalDismissals": 29,
+      "squads": 30
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -31387,20 +32277,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 172,
-        "added": 28
+        "after": 173,
+        "added": 29
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 172,
-        "added": 28
+        "after": 173,
+        "added": 29
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 127,
-        "added": 20
+        "after": 137,
+        "added": 30
       },
       {
         "field": "minutes",
@@ -31411,8 +32301,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 32,
-        "added": 32
+        "after": 33,
+        "added": 33
       },
       {
         "field": "goals",
@@ -31429,26 +32319,26 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 172,
-        "added": 28
+        "after": 173,
+        "added": 29
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 172,
-        "added": 28
+        "after": 173,
+        "added": 29
       },
       {
         "field": "secondYellowRedCards",
         "before": 0,
-        "after": 32,
-        "added": 32
+        "after": 33,
+        "added": 33
       },
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 172,
-        "added": 28
+        "after": 173,
+        "added": 29
       }
     ],
     "manualReview": [],
@@ -31568,6 +32458,41 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. A kiállítástípusnál a Kisvárda hivatalos fegyelmi bontása egészíti ki az MLSZ összesített piroslap-oszlopát."
+      },
+      {
+        "id": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/1109171.html",
+          "https://adatbank.mlsz.hu/player/590786.html",
+          "https://adatbank.mlsz.hu/player/696397.html",
+          "https://adatbank.mlsz.hu/player/1557586.html",
+          "https://adatbank.mlsz.hu/player/319823.html",
+          "https://adatbank.mlsz.hu/player/1171103.html",
+          "https://adatbank.mlsz.hu/player/1058876.html",
+          "https://adatbank.mlsz.hu/player/770939.html",
+          "https://adatbank.mlsz.hu/player/770940.html",
+          "https://adatbank.mlsz.hu/player/1497332.html",
+          "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+          "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+        ],
+        "checkedAt": "2026-07-20",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "secondYellowRedCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Papp Zsombor egyszer volt elsőcsapatos bajnoki keretben, pályára nem lépett."
       }
     ]
   }
