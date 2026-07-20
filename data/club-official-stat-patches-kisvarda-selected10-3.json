@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T22:15:00+02:00",
+  "source": {
+    "id": "mlsz-fizz-liga-kisvarda-selected10-3-2025-26",
+    "clubId": "kisvarda-master-good",
+    "clubName": "Kisvárda Master Good",
+    "name": "MLSZ Adatbank – a harmadik tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+    "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+    "additionalUrls": [
+      "https://adatbank.mlsz.hu/player/1109171.html",
+      "https://adatbank.mlsz.hu/player/590786.html",
+      "https://adatbank.mlsz.hu/player/696397.html",
+      "https://adatbank.mlsz.hu/player/1557586.html",
+      "https://adatbank.mlsz.hu/player/319823.html",
+      "https://adatbank.mlsz.hu/player/1171103.html",
+      "https://adatbank.mlsz.hu/player/1058876.html",
+      "https://adatbank.mlsz.hu/player/770939.html",
+      "https://adatbank.mlsz.hu/player/770940.html",
+      "https://adatbank.mlsz.hu/player/1497332.html",
+      "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+      "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+    ],
+    "checkedAt": "2026-07-20",
+    "season": "2025/26",
+    "fields": [
+      "appearances",
+      "starts",
+      "substituteAppearances",
+      "squads",
+      "goals",
+      "yellowCards",
+      "redCards",
+      "secondYellowRedCards",
+      "totalDismissals"
+    ],
+    "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Papp Zsombor egyszer volt elsőcsapatos bajnoki keretben, pályára nem lépett."
+  },
+  "fields": [
+    "name",
+    "appearances",
+    "starts",
+    "substituteAppearances",
+    "squads",
+    "goals",
+    "yellowCards",
+    "redCards",
+    "secondYellowRedCards",
+    "totalDismissals"
+  ],
+  "rows": [
+    ["Popovics Ilija", 33, 33, 0, 33, 0, 2, 0, 0, 0],
+    ["Papp Zsombor", 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    ["Oláh Bálint", 17, 17, 0, 27, 0, 2, 0, 0, 0],
+    ["Nikola Radmanovac", 14, 14, 0, 15, 0, 1, 0, 0, 0],
+    ["Szőr Levente", 19, 5, 14, 28, 2, 3, 0, 0, 0],
+    ["Osztrovka Maxim", 1, 0, 1, 12, 0, 0, 0, 0, 0],
+    ["Szikszai Hennagyij", 5, 3, 2, 18, 0, 0, 0, 0, 0],
+    ["Soltész István", 5, 2, 3, 20, 0, 0, 0, 0, 0],
+    ["Soltész Dominik", 19, 14, 5, 23, 0, 3, 0, 0, 0],
+    ["Toniszlav Jordanov", 21, 11, 10, 31, 4, 0, 0, 0, 0]
+  ],
+  "aliases": {
+    "Popovics Ilija": ["POPOVICS ILLYA", "Popovics Illya"],
+    "Oláh Bálint": ["OLÁH BÁLINT"],
+    "Nikola Radmanovac": ["RADMANOVAC NIKOLA"],
+    "Soltész István": ["SOLTÉSZ ISTVÁN ZOLTÁN"],
+    "Soltész Dominik": ["SOLTÉSZ DOMINIK ISTVÁN"],
+    "Toniszlav Jordanov": ["YORDANOV TONISLAV", "Tonislav Yordanov", "Toniszlav Yordanov"]
+  },
+  "batch": {
+    "id": "kisvarda-selected10-batch-3",
+    "playerCount": 10,
+    "note": "A korábban már betöltött pályára lépési adatok változatlanul maradnak; ez a réteg a végleges MLSZ-kerettagságot, Papp Zsombor elsőcsapatos nulláit és az addig hiányzó statisztikai nullákat igazolja."
+  }
+}

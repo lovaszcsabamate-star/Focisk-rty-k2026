@@ -50,12 +50,14 @@
         "data/club-official-enrichment-5-other.json",
         "data/club-official-enrichment-7-kisvarda-selected10.json",
         "data/club-official-enrichment-8-kisvarda-selected10.json",
+        "data/club-official-enrichment-9-kisvarda-selected10.json",
         "data/club-official-corrections-4-kisvarda-selected10-2.json",
         "data/club-official-stat-patches-kisvarda.json",
         "data/club-official-stat-patches-kisvarda-selected10.json",
-        "data/club-official-stat-patches-kisvarda-selected10-2.json"
+        "data/club-official-stat-patches-kisvarda-selected10-2.json",
+        "data/club-official-stat-patches-kisvarda-selected10-3.json"
       ],
-      "note": "A hivatalos 2025/26-os szezonértékelések mellett két, egyenként pontosan tíz játékosból álló Kisvárda-adatbővítési kör MLSZ-játékoslapjai, klubprofiljai, keretstátuszai, mezszámai és Fizz Liga kerettagsági adatai kerültek feldolgozásra. A pályára lépés és a kispados kerettagság külön mező marad; a bizonyított MLSZ-korrekciók név és mező szerint engedélyezettek."
+      "note": "A hivatalos 2025/26-os szezonértékelések mellett három, egyenként pontosan tíz játékosból álló Kisvárda-adatbővítési kör MLSZ-játékoslapjai, klubprofiljai, keretstátuszai, mezszámai és Fizz Liga kerettagsági adatai kerültek feldolgozásra. A pályára lépés és a pályára nem lépő kispados kerettagság külön mező marad; nem igazolt profiladat nem kerül következtetéssel kitöltésre."
     },
     {
       "clubId": "kolorcity-kazincbarcika-sc",
