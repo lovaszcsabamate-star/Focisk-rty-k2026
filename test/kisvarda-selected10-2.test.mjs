@@ -29,6 +29,7 @@ const correctionFiles = [
   '../data/club-official-corrections.json',
   '../data/club-official-corrections-2.json',
   '../data/club-official-corrections-3.json',
+  '../data/club-official-corrections-4-kisvarda-selected10-2.json',
 ];
 const statPatchFiles = [
   '../data/club-official-stat-patches-kisvarda.json',
@@ -145,7 +146,7 @@ assert.equal(matic.meta.clubOfficial.seasonStatus, 'departed-midseason-injured')
 const melnik = patched.players.find(player => player.id === 'nb1-b491c6bd8e82');
 assert.equal(melnik.meta.clubOfficial.birthPlace, 'Volodimir-Volinszkij, Ukrajna');
 assert.equal(melnik.meta.clubOfficial.strongFoot, 'jobb');
-assert.deepEqual(melnik.meta.clubOfficial.secondaryPositions, ['Szélső védő']);
+assert.equal(melnik.meta.clubOfficial.secondaryPosition, 'Szélső védő');
 
 for (const record of selectedEnrichment.records) {
   assert.ok(selectedIds.some(id => {
@@ -160,6 +161,7 @@ for (const record of selectedEnrichment.records) {
 
 for (const file of [
   'club-official-enrichment-8-kisvarda-selected10.json',
+  'club-official-corrections-4-kisvarda-selected10-2.json',
   'club-official-stat-patches-kisvarda-selected10-2.json',
 ]) {
   for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
