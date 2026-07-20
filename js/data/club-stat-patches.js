@@ -33,11 +33,15 @@ const expandRows = payload => {
   return payload.rows.map(row => {
     const record = Object.fromEntries(payload.fields.map((field, index) => [field, row[index]]));
     const { name, ...stats } = record;
+    const overrideFields = Array.isArray(payload.overrides?.[name])
+      ? payload.overrides[name].filter(field => STAT_FIELDS.includes(field))
+      : [];
     return {
       sourceId: payload.source?.id ?? null,
       clubId: payload.source?.clubId ?? null,
       name,
       aliases: payload.aliases?.[name] ?? [],
+      overrideFields,
       stats,
     };
   });
@@ -91,7 +95,9 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
   const before = patchCoverage(cards);
   const unmatched = [];
   const conflicts = [];
+  const corrections = [];
   const appliedFieldCounts = {};
+  const correctedFieldCounts = {};
   let matchedRecords = 0;
   let multiClubMetadataOnly = 0;
 
@@ -120,6 +126,7 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
     );
     const registrationCount = Number(meta.registrationCount ?? cardClubIds(card).length ?? 1);
     const appliedFields = [];
+    const correctedFields = [];
 
     meta.clubOfficialStatsByClub = {
       ...(meta.clubOfficialStatsByClub ?? {}),
@@ -137,6 +144,20 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
           stats[field] = offered;
           appliedFields.push(field);
           appliedFieldCounts[field] = (appliedFieldCounts[field] ?? 0) + 1;
+        } else if (current !== offered && record.overrideFields.includes(field)) {
+          stats[field] = offered;
+          appliedFields.push(field);
+          correctedFields.push(field);
+          correctedFieldCounts[field] = (correctedFieldCounts[field] ?? 0) + 1;
+          corrections.push({
+            playerId: card.id,
+            playerName: card.name,
+            clubId: record.clubId,
+            sourceId: record.sourceId,
+            field,
+            previous: current,
+            corrected: offered,
+          });
         } else if (current !== offered) {
           conflicts.push({
             playerId: card.id,
@@ -164,6 +185,7 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
       clubId: record.clubId,
       matchedName: record.name,
       fieldsApplied: appliedFields,
+      correctedFields,
     };
     const sourceKey = `${record.sourceId}|${record.clubId}|${record.name}`;
     const existingIndex = meta.officialStatSources.findIndex(item =>
@@ -192,11 +214,14 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
     matchedRecords,
     unmatchedRecords: unmatched.length,
     conflictCount: conflicts.length,
+    correctionCount: corrections.length,
     multiClubMetadataOnly,
     appliedFieldCounts,
+    correctedFieldCounts,
     fieldCoverage,
     manualReview: unmatched,
     conflicts,
+    corrections,
     sources,
   };
 
