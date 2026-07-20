@@ -30,6 +30,7 @@ const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kisvarda-selected10-2.json',
   'data/club-official-stat-patches-kisvarda-selected10-3.json',
   'data/club-official-stat-patches-kisvarda-final8.json',
+  'data/club-official-stat-patches-ferencvaros.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
