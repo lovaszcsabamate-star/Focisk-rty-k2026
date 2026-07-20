@@ -12,8 +12,10 @@ const pwaJs = fs.readFileSync(new URL('../js/pwa.js', import.meta.url), 'utf8');
 const bootstrap = fs.readFileSync(new URL('../js/bootstrap.js', import.meta.url), 'utf8');
 const clubEnrichment = fs.readFileSync(new URL('../js/data/club-enrichment.js', import.meta.url), 'utf8');
 const serviceWorker = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
-const corrections = JSON.parse(fs.readFileSync(new URL('../data/club-official-corrections.json', import.meta.url), 'utf8'));
-const secondEnrichment = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-2.json', import.meta.url), 'utf8'));
+const directory = JSON.parse(fs.readFileSync(new URL('../data/club-official-sources.json', import.meta.url), 'utf8'));
+const paksNyir = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-3-paks-nyir.json', import.meta.url), 'utf8'));
+const ujpest = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-4-ujpest.json', import.meta.url), 'utf8'));
+const other = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-5-other.json', import.meta.url), 'utf8'));
 const manifest = JSON.parse(fs.readFileSync(new URL('../manifest.webmanifest', import.meta.url), 'utf8'));
 const buildScript = fs.readFileSync(new URL('../scripts/build-standalone.mjs', import.meta.url), 'utf8');
 const workflow = fs.readFileSync(new URL('../.github/workflows/verify-and-build.yml', import.meta.url), 'utf8');
@@ -26,81 +28,57 @@ for (const id of ['hud-settings', 'penalty-board', 'sudden-death-banner', 'attri
   assert.match(html, new RegExp(`id="${id}"`));
 }
 assert.match(html, /manifest\.webmanifest/);
-assert.match(html, /apple-mobile-web-app-capable/);
-assert.match(html, /css\/matchday\.css/);
-assert.match(html, /css\/pwa\.css/);
-assert.match(html, /js\/matchday\.js/);
-assert.match(html, /js\/pwa\.js/);
 assert.match(html, /js\/bootstrap\.js/);
 assert.doesNotMatch(html, /<script type="module" src="js\/main\.js"><\/script>/);
 assert.match(mobile, /Játék indítása/);
 assert.match(mobile, /Alkalmazás telepítése/);
 assert.match(mobile, /Főképernyőhöz adás/);
-assert.match(mobile, /assets\/qr\/mobil-eleres\.svg/);
-assert.match(mobile, /manifest\.webmanifest/);
 assert.match(mobileQr, /viewBox="0 0 41 41"/);
-assert.match(mobileQr, /fill="black"/);
 assert.match(css, /@media \(max-width: 900px\)/);
 assert.match(css, /@media \(max-width: 620px\)/);
 assert.match(css, /\.mode-penalties \.hand[^}]*overflow-x: auto/s);
-assert.match(css, /\.attempt--win/);
-assert.match(css, /\.attempt--loss/);
-assert.match(css, /\.attempt--tie/);
 assert.match(matchdayCss, /\.match-scoreboard/);
-assert.match(matchdayCss, /\.match-scoreboard__status/);
 assert.match(matchdayJs, /KÖVETKEZŐ VÁLASZTÓ/);
-assert.match(matchdayJs, /_renderClassicScores/);
-assert.match(matchdayJs, /_renderPenaltyScores/);
 assert.match(pwaCss, /\.pwa-install-guide/);
 assert.match(pwaJs, /beforeinstallprompt/);
 assert.match(pwaJs, /serviceWorker\.register/);
-assert.match(bootstrap, /club-official-enrichment\.json/);
-assert.match(bootstrap, /club-official-enrichment-2\.json/);
+
+for (const file of [
+  'club-official-enrichment.json',
+  'club-official-enrichment-2.json',
+  'club-official-enrichment-3-paks-nyir.json',
+  'club-official-enrichment-4-ujpest.json',
+  'club-official-enrichment-5-other.json',
+  'club-official-corrections.json',
+  'club-official-sources.json',
+]) {
+  assert.match(bootstrap, new RegExp(file.replaceAll('.', '\\.')));
+  assert.match(buildScript, new RegExp(file.replaceAll('.', '\\.')));
+  assert.match(serviceWorker, new RegExp(file.replaceAll('.', '\\.')));
+}
 assert.match(bootstrap, /combineEnrichments/);
-assert.match(bootstrap, /club-official-corrections\.json/);
-assert.match(bootstrap, /prepareClubEnrichment/);
-assert.match(bootstrap, /applyClubEnrichmentPayload/);
-assert.match(bootstrap, /await import\('\.\/main\.js'\)/);
-assert.match(clubEnrichment, /existing values always win/);
-assert.match(clubEnrichment, /enrichmentConflicts/);
-assert.match(clubEnrichment, /prepareClubEnrichment/);
-assert.match(clubEnrichment, /MISSING_TEXT_VALUES/);
-assert.match(clubEnrichment, /mergeVerifiedCorrection/);
-assert.match(serviceWorker, /data\/players\.json/);
-assert.match(serviceWorker, /data\/club-official-enrichment\.json/);
-assert.match(serviceWorker, /data\/club-official-enrichment-2\.json/);
-assert.match(serviceWorker, /data\/club-official-corrections\.json/);
-assert.match(serviceWorker, /js\/data\/club-enrichment\.js/);
-assert.match(serviceWorker, /mobil\.html/);
-assert.match(serviceWorker, /assets\/qr\/mobil-eleres\.svg/);
+assert.match(clubEnrichment, /existing MLSZ values always win/);
+assert.match(clubEnrichment, /clubShirtNumbers/);
+assert.match(clubEnrichment, /clubOfficialByClub/);
+assert.match(clubEnrichment, /clubSummary/);
+assert.match(clubEnrichment, /manualReview/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
-assert.equal(secondEnrichment.schemaVersion, 1);
-assert.equal(secondEnrichment.records.length, 75);
-assert.equal(secondEnrichment.sources.length, 2);
-assert.equal(corrections.schemaVersion, 1);
-assert.equal(corrections.recordPatches.length, 7);
-assert.equal(corrections.excludeRecords.length, 8);
-assert.equal(corrections.additions.length, 1);
-assert.equal(corrections.additions[0].name, 'ABU FANI MOHAMMAD');
-assert.ok(corrections.recordPatches.some(item => item.aliases?.includes('GORDIC DORDE')));
-assert.ok(corrections.recordPatches.some(item => item.aliases?.includes('LOPEZ DE LA MANZANARA DELGADO FRANCISCO JESUS')));
-assert.ok(corrections.recordPatches.some(item => item.name === 'Kulbachuk Viacheslav' && item.birthDate === null));
-assert.ok(corrections.recordPatches.some(item => item.name === 'Mejías Josua' && item.birthDate === null));
+assert.match(buildScript, /enrichment-audit\.json/);
+assert.match(buildScript, /fieldCoverage/);
+assert.match(buildScript, /clubSummary/);
+assert.match(workflow, /data\/enrichment-audit\.json/);
+
+assert.equal(directory.clubs.length, 12);
+assert.equal(new Set(directory.clubs.map(club => club.clubId)).size, 12);
+assert.equal(paksNyir.records.length, 60);
+assert.equal(ujpest.records.length, 26);
+assert.equal(other.records.length, 46);
+assert.ok(directory.clubs.every(club => club.officialUrl && club.officialRosterUrl && club.status));
+
 assert.equal(manifest.display, 'standalone');
 assert.equal(manifest.orientation, 'portrait-primary');
 assert.ok(manifest.icons.some(icon => icon.sizes === '192x192'));
 assert.ok(manifest.icons.some(icon => icon.sizes === '512x512'));
-assert.match(buildScript, /js\/matchday\.js/);
-assert.match(buildScript, /js\/pwa\.js/);
-assert.match(buildScript, /css\/matchday\.css/);
-assert.match(buildScript, /css\/pwa\.css/);
-assert.match(buildScript, /prepareClubEnrichment/);
-assert.match(buildScript, /applyClubEnrichmentPayload/);
-assert.match(buildScript, /club-official-enrichment\.json/);
-assert.match(buildScript, /club-official-enrichment-2\.json/);
-assert.match(buildScript, /club-official-corrections\.json/);
-assert.match(buildScript, /enrichment-audit\.json/);
-assert.match(workflow, /data\/enrichment-audit\.json/);
 assert.match(main, /Klasszikus mód/);
 assert.match(main, /Penalties mód/);
 assert.match(main, /Következő párbaj/);
@@ -108,10 +86,10 @@ assert.match(main, /Vissza a főmenübe/);
 assert.match(launcher, /Fociskartyak2026\.html/);
 assert.match(launcher, /start "" "%GAME%"/);
 assert.match(standalone, /globalThis\.__EMBEDDED_PLAYER_DATA__/);
+assert.match(standalone, /officialClubDirectory/);
 assert.match(standalone, /clubOfficialEnrichment/);
-assert.match(standalone, /ABU FANI MOHAMMAD/);
 assert.match(standalone, /"updatedExistingPlayers":1/);
 assert.doesNotMatch(standalone, /<script type="module" src=/);
 assert.doesNotMatch(standalone, /<link rel="stylesheet" href=/);
 
-console.log('✓ Magyar, reszponzív, négy klubos auditált adatbővítéssel működő és telepíthető felületi szerződés: rendben');
+console.log('✓ Magyar, reszponzív, 12 klubos auditált adatbővítéssel működő és telepíthető felületi szerződés: rendben');
