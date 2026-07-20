@@ -1,4 +1,4 @@
-/** Create a dependency-free, single-file preview build. */
+/** Create a dependency-free, single-file preview build and enrichment audit. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -81,7 +81,30 @@ const output = read('index.html')
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
 fs.writeFileSync(outputPath, output);
+
+const conflicts = payload.players.flatMap(card =>
+  (Array.isArray(card?.meta?.enrichmentConflicts) ? card.meta.enrichmentConflicts : [])
+    .map(conflict => ({ playerId: card.id, playerName: card.name, ...conflict }))
+);
+const audit = {
+  generatedAt: new Date().toISOString(),
+  baseDataset: 'data/players.json',
+  sourceFiles: [
+    'data/club-official-enrichment.json',
+    'data/club-official-enrichment-2.json',
+    'data/club-official-corrections.json',
+  ],
+  playerCount: payload.players.length,
+  selection: payload.selection,
+  coverage: payload.coverage,
+  enrichment: payload.enrichment,
+  conflicts,
+};
+const auditPath = path.join(ROOT, 'data/enrichment-audit.json');
+fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
+
 console.log(`Elkészült: ${outputPath}`);
+console.log(`Audit: ${auditPath}`);
 console.log(`${payload.players.length} játékoskártya beágyazva.`);
 console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
 console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
