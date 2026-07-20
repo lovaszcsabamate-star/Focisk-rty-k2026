@@ -5,7 +5,11 @@
 
 const isObject = value => value != null && typeof value === 'object' && !Array.isArray(value);
 const isFiniteNumber = value => typeof value === 'number' && Number.isFinite(value);
-const blank = value => value == null || (typeof value === 'string' && value.trim() === '');
+const MISSING_TEXT_VALUES = new Set([
+  '', '-', '–', '—', 'n/a', 'n.a.', 'na', 'null', 'undefined', 'ismeretlen', 'nincs adat',
+]);
+const blank = value => value == null
+  || (typeof value === 'string' && MISSING_TEXT_VALUES.has(value.trim().toLocaleLowerCase('hu-HU')));
 
 export function normaliseEnrichmentText(value) {
   return String(value ?? '')
@@ -37,6 +41,54 @@ export function enrichmentNamesMatch(cardName, record = {}) {
   });
 }
 
+const recordKey = record => [record?.sourceId, record?.clubId, normaliseEnrichmentText(record?.name)].join('|');
+const uniqueStrings = values => [...new Set(values.filter(value => typeof value === 'string' && value.trim()))];
+
+/** Apply auditable corrections without altering the original source snapshot. */
+export function prepareClubEnrichment(enrichment, corrections) {
+  if (!isObject(enrichment) || !isObject(corrections)) return enrichment;
+
+  const excluded = new Map(
+    (Array.isArray(corrections.excludeRecords) ? corrections.excludeRecords : [])
+      .map(record => [recordKey(record), record])
+  );
+  const patches = new Map(
+    (Array.isArray(corrections.recordPatches) ? corrections.recordPatches : [])
+      .map(record => [recordKey(record), record])
+  );
+
+  const records = (Array.isArray(enrichment.records) ? enrichment.records : [])
+    .filter(record => !excluded.has(recordKey(record)))
+    .map(record => {
+      const patch = patches.get(recordKey(record));
+      if (!patch) return record;
+      return {
+        ...record,
+        ...patch,
+        aliases: uniqueStrings([...(record.aliases ?? []), ...(patch.aliases ?? [])]),
+      };
+    });
+
+  const sourceMap = new Map();
+  for (const source of [...(enrichment.sources ?? []), ...(corrections.addSources ?? [])]) {
+    if (source?.id) sourceMap.set(source.id, source);
+  }
+
+  return {
+    ...enrichment,
+    sources: [...sourceMap.values()],
+    records,
+    additions: Array.isArray(corrections.additions) ? corrections.additions : [],
+    excludedRecords: [...excluded.values()],
+    corrections: {
+      checkedAt: corrections.checkedAt ?? null,
+      recordPatches: patches.size,
+      excludedRecords: excluded.size,
+      additions: Array.isArray(corrections.additions) ? corrections.additions.length : 0,
+    },
+  };
+}
+
 const cardClubIds = card => {
   const ids = card?.meta?.clubIds;
   if (Array.isArray(ids) && ids.length) return ids;
@@ -57,9 +109,9 @@ function mergeRecord(card, record, source) {
   const appliedFields = [];
   const conflicts = [];
 
-  let position = typeof card.position === 'string' ? card.position : '';
-  let nation = typeof card.nation === 'string' ? card.nation : '';
-  let birthDate = card.birthDate ?? null;
+  let position = blank(card.position) ? '' : card.position;
+  let nation = blank(card.nation) ? '' : card.nation;
+  let birthDate = blank(card.birthDate) ? null : card.birthDate;
 
   if (blank(position) && !blank(record.position)) {
     position = record.position;
@@ -149,6 +201,39 @@ function matchRecord(cards, record) {
   return fuzzy.length === 1 ? fuzzy[0].index : null;
 }
 
+const cloneCard = card => ({
+  ...card,
+  clubs: Array.isArray(card?.clubs) ? [...card.clubs] : card?.clubs,
+  stats: { ...(card?.stats ?? {}) },
+  meta: {
+    ...(card?.meta ?? {}),
+    clubIds: Array.isArray(card?.meta?.clubIds) ? [...card.meta.clubIds] : card?.meta?.clubIds,
+  },
+});
+
+function appendAdditions(cards, additions) {
+  const added = [];
+  const skipped = [];
+
+  for (const addition of Array.isArray(additions) ? additions : []) {
+    if (!addition?.id || !addition?.name || !addition?.club || !addition?.meta?.clubId) {
+      skipped.push({ id: addition?.id ?? null, name: addition?.name ?? null, reason: 'invalid-addition' });
+      continue;
+    }
+    const duplicate = cards.some(card => card.id === addition.id
+      || (cardClubIds(card).includes(addition.meta.clubId) && enrichmentNamesMatch(card.name, addition)));
+    if (duplicate) {
+      skipped.push({ id: addition.id, name: addition.name, reason: 'already-present' });
+      continue;
+    }
+    const card = cloneCard(addition);
+    cards.push(card);
+    added.push(card);
+  }
+
+  return { added, skipped };
+}
+
 const coverage = cards => ({
   birthDate: cards.filter(card => !blank(card?.birthDate)).length,
   position: cards.filter(card => !blank(card?.position)).length,
@@ -157,13 +242,23 @@ const coverage = cards => ({
   shirtNumber: cards.filter(card => isFiniteNumber(card?.stats?.shirtNumber)).length,
 });
 
+const selectionSummary = (cards, previous = {}) => ({
+  ...previous,
+  playableCards: cards.length,
+  uniquePlayers: new Set(cards.map(card => card?.meta?.personKey ?? card?.id)).size,
+  registrationRecords: cards.reduce((sum, card) => sum + Math.max(1, Number(card?.meta?.registrationCount ?? cardClubIds(card).length ?? 1)), 0),
+  multiClubPlayers: cards.filter(card => Number(card?.meta?.registrationCount ?? cardClubIds(card).length) > 1).length,
+  completeGoalTotals: cards.filter(card => isFiniteNumber(card?.stats?.goals)).length,
+});
+
 export function applyClubEnrichmentPayload(payload, enrichment) {
   const rawCards = Array.isArray(payload) ? payload : payload?.players;
   if (!Array.isArray(rawCards) || !isObject(enrichment) || !Array.isArray(enrichment.records)) return payload;
 
-  const cards = rawCards.map(card => ({ ...card, stats: { ...(card?.stats ?? {}) }, meta: { ...(card?.meta ?? {}) } }));
-  const sources = sourceById(enrichment);
+  const cards = rawCards.map(cloneCard);
   const before = coverage(cards);
+  const additionResult = appendAdditions(cards, enrichment.additions);
+  const sources = sourceById(enrichment);
   const unmatchedRecords = [];
   const appliedFieldCounts = {};
   let matchedRecords = 0;
@@ -194,6 +289,10 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
     records: enrichment.records.length,
     matchedRecords,
     unmatchedRecords: unmatchedRecords.length,
+    excludedRecords: Array.isArray(enrichment.excludedRecords) ? enrichment.excludedRecords.length : 0,
+    additionsRequested: Array.isArray(enrichment.additions) ? enrichment.additions.length : 0,
+    addedPlayers: additionResult.added.length,
+    skippedAdditions: additionResult.skipped,
     conflictCount,
     appliedFieldCounts,
     coverageBefore: before,
@@ -205,10 +304,18 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
 
   const { players: ignoredPlayers, ...basePayload } = payload;
   void ignoredPlayers;
+  const clubCounts = { ...(isObject(payload.clubs) ? payload.clubs : {}) };
+  for (const card of additionResult.added) {
+    for (const clubName of Array.isArray(card.clubs) && card.clubs.length ? card.clubs : [card.club]) {
+      clubCounts[clubName] = (clubCounts[clubName] ?? 0) + 1;
+    }
+  }
+
   return {
     ...basePayload,
+    clubs: clubCounts,
     selection: {
-      ...(isObject(payload.selection) ? payload.selection : {}),
+      ...selectionSummary(cards, isObject(payload.selection) ? payload.selection : {}),
       exactBirthDates: after.birthDate,
     },
     coverage: { ...(isObject(payload.coverage) ? payload.coverage : {}), ...after },
