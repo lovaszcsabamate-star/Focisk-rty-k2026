@@ -62,29 +62,31 @@ A jelenlegi adatbázisból használható kategóriák:
 
 A fiatalabb és idősebb kategória a pontos születési dátumot hasonlítja, a kártyán azonban csak az egész éves életkor jelenik meg.
 
-A konfiguráció elő van készítve a magasság, piaci érték, játékperc, gólpassz, kanadai pont és 90 percre vetített mutatók fogadására is. Ezek csak akkor aktiválódnak, ha a későbbi adatbázisban elegendő valós adat áll rendelkezésre. A hatékonysági mutatók minimális játékideje központilag 90 perc.
+A konfiguráció elő van készítve a magasság, piaci érték, játékperc, gólpassz, kanadai pont és 90 percre vetített mutatók fogadására is. Ezek csak akkor aktiválódnak, ha az adatbázisban elegendő valós adat áll rendelkezésre. A hatékonysági mutatók minimális játékideje központilag 90 perc.
 
 A korábbi számított játékospontszám nem játékkategória, és nem jelenik meg a kártyákon.
 
+## Adatforrások és bővítés
+
+- `data/players.json`: az eredeti, MLSZ Adatbankra épülő személy–szezon adatbázis 440 egyedi játékossal és 464 játékos–klub regisztrációval.
+- `data/club-official-enrichment.json`: hivatalos kluboldali kiegészítő réteg. Első körben 86, a DVTK és a Ferencvárosi TC 2025/26-os idényéhez kötött keretrekordot tartalmaz.
+- `js/data/club-enrichment.js`: név- és klubazonosítással, felülírás nélkül illeszti a posztot, állampolgárságot, magasságot, mezszámot és hiányzó születési dátumot.
+- Az MLSZ-adat minden esetben elsődleges marad. A kluboldal csak üres mezőt tölthet ki; eltérés esetén az eredeti érték megmarad, az ütközés pedig a kártya metaadataiba kerül.
+- Többklubos játékosnál klubfüggetlen adat tölthető, klubspecifikus mezszám nem.
+- Minden kiegészítéshez forrásnév, forrás-URL és ellenőrzési dátum tartozik.
+
+A böngészős indításkor a `js/bootstrap.js` egyesíti az eredeti adatbázist és a kiegészítő réteget. Az önálló HTML összeállításakor ugyanezt a `scripts/build-standalone.mjs` végzi el, így a két változat ugyanazt az adatlogikát használja.
+
 ## Hiányzó adatok
 
-- Az ismeretlen értékek `null` formában maradnak, és nem alakulnak automatikusan nullává.
+- Az ismeretlen értékek `null` vagy üres szöveg formájában maradnak, és nem alakulnak automatikusan nullává vagy kitalált adattá.
 - Hiányzó érték helyén a kártya nem jelenít meg üres sort, `Nincs adat`, `NaN` vagy `Infinity` feliratot.
 - A kategóriaválasztó csak azokat a kategóriákat mutatja, amelyekhez az adott leosztásban mindkét oldalon van legalább egy használható kártya.
 - Az adott kategóriához hiányos kártya nem játszható ki.
 - A lebegőpontos mutatókat a rendszer a kategória beállított pontosságával hasonlítja, így a technikai kerekítési eltérés nem dönt el egy párbajt.
+- Játékperc, gólpassz és piaci érték továbbra sem kerül becsléssel vagy kitalált értékkel az adatbázisba.
 
-## Adatok
-
-- `data/players.json`: 440 egyedi játékos és 464 játékos–klub regisztráció személy–szezon szintű, duplikációmentes leképezése.
-- `data/validation.json`: klubtagságok, ismert és hiányzó mezők, valamint a hiányzó értékű kártyák azonosítói.
-- Születési dátum: 120 játékosnál ismert.
-- Mérkőzés, kezdés, sárga lap és kiállítás: 143 játékosnál ismert.
-- Gól: mind a 440 játékosnál ismert.
-- Kerettagság: 106 játékosnál ismert.
-- Játékperc, gólpassz, magasság és piaci érték a jelenlegi adatfájlban nem áll rendelkezésre, ezért ezekből nem készül kitalált vagy becsült statisztika.
-
-A teljes forrás újbóli, veszteségmentes importja:
+## Teljes forrás újbóli importja
 
 ```bash
 npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
@@ -94,9 +96,11 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 
 | Fájl | Szerep |
 |---|---|
+| `js/bootstrap.js` | Az MLSZ-alapadatbázis és a kluboldali kiegészítések egyesítése |
+| `js/data/club-enrichment.js` | Veszteségmentes illesztési és forráskezelési logika |
+| `js/data/players.js` | Adatszerződés, normalizálás, kategóriakonfiguráció és automatikus engedélyezés |
 | `js/engine.js` | Klasszikus mód tiszta játékszabályai és irányhelyes összehasonlítás |
 | `js/penalties.js` | Penalties mód külön állapotgépe |
-| `js/data/players.js` | Adatszerződés, normalizálás, központi kategóriakonfiguráció és automatikus engedélyezés |
 | `js/ai.js` | Hiányzó adatokat kerülő gépi ellenfél |
 | `js/ui.js` | Kártyák, kategóriaválasztó, eredményjelző és reszponzív felület |
 | `js/ux.js` | Kártyakezelési és hozzáférhetőségi fejlesztések |
@@ -104,11 +108,8 @@ npm run import:full -- --source-dir /a/kicsomagolt/adatbazis/helye
 | `manifest.webmanifest` | Mobilalkalmazás neve, megjelenése és ikonjai |
 | `sw.js` | Offline gyorsítótár és hálózati tartalék |
 | `js/main.js` | Játékmódválasztás és böngészős játékmenet |
-| `test/categories.test.mjs` | Kategóriák, irányok, számított értékek és normalizálás tesztjei |
-| `test/rules.test.mjs` | Penalties- és adatszabálytesztek |
-| `test/alternating-chooser.test.mjs` | Felváltva történő kategóriaválasztás regressziós tesztje |
+| `test/enrichment.test.mjs` | Kluboldali illesztés, felülírás-tilalom és lefedettség tesztje |
 | `test/data.test.mjs` | A 440 személy / 464 klubregisztráció integritásellenőrzése |
-| `test/simulate.mjs` | Klasszikus mód tömeges szimulációja |
 
 ## Ellenőrzés
 
@@ -118,3 +119,7 @@ npm test
 npm run test:all
 npm run build
 ```
+
+## Jogi megjegyzés
+
+A projekt prototípus- és kutatási célú. Nyilvánosan megjelenített MLSZ- és kluboldali tényadatokat használ, de nem tartalmaz játékosfotókat, klubcímereket, MLSZ-logót vagy Transfermarkt-piaci értéket. Nyilvános vagy kereskedelmi terjesztés előtt külön ellenőrizni kell a felhasználási feltételeket, az adatbázis-jogi kérdéseket, valamint a név- és képmáshasználatot.
