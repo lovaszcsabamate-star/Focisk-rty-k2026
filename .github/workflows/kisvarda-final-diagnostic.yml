@@ -1,0 +1,17 @@
+name: Kisvárda final diagnostic
+
+on:
+  push:
+    branches:
+      - data/kisvarda-final-2026-07-20
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Kisvárda 38/38 teszt
+        run: node test/kisvarda-complete.test.mjs
