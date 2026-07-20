@@ -1,7 +1,8 @@
-const PWA_CACHE = 'fociskartyak-2026-v2';
+const PWA_CACHE = 'fociskartyak-2026-v3';
 const PWA_SHELL = [
   './',
   './index.html',
+  './mobil.html',
   './manifest.webmanifest',
   './css/style.css',
   './css/ux.css',
@@ -19,7 +20,8 @@ const PWA_SHELL = [
   './js/pwa.js',
   './js/main.js',
   './data/players.json',
-  './assets/icons/icon.svg'
+  './assets/icons/icon.svg',
+  './assets/qr/mobil-eleres.svg'
 ];
 
 self.addEventListener('install', event => {
@@ -50,7 +52,7 @@ self.addEventListener('fetch', event => {
       fetch(request)
         .then(response => {
           const copy = response.clone();
-          caches.open(PWA_CACHE).then(cache => cache.put('./index.html', copy));
+          caches.open(PWA_CACHE).then(cache => cache.put(request, copy));
           return response;
         })
         .catch(async () => (await caches.match(request)) || (await caches.match('./index.html')))
