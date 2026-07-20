@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T20:00:00+02:00",
+  "batch": {
+    "id": "kisvarda-selected10-batch-1",
+    "playerCount": 10,
+    "playerIds": [
+      "nb1-8061aa670d1b",
+      "nb1-482c77bd9d65",
+      "nb1-3ec979342281",
+      "nb1-634e0e27432f",
+      "nb1-fa00a4ac868d",
+      "nb1-fe0b630e6a22",
+      "nb1-c41102009eb6",
+      "nb1-3f02cae67457",
+      "nb1-1f4f96815ad4",
+      "nb1-d41a8ab9b25c"
+    ],
+    "rule": "Kizárólag a kiválasztott tíz Kisvárda-játékos hiányzó, forrással igazolt mezőinek pótlása; meglévő ellenőrzött érték nem írható felül."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "primarySource": "MLSZ Adatbank",
+    "secondarySource": "Kisvárda FC hivatalos oldala",
+    "rule": "Az MLSZ adja a 2025/26-os Fizz Liga és regisztrációs alapot; a kluboldal az alapadatokat, posztot, státuszt és szerepkört egészíti ki. Bizonytalan adat null marad."
+  },
+  "sources": [
+    {
+      "id": "mlsz-player-abdullahi-kamal-1493495",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Abdullahi Kamal játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1493495.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "currentClub", "joinedAt", "previousClub", "seasonStatus"]
+    },
+    {
+      "id": "mlsz-player-ridwan-popoola-1493496",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Abdulrasaq Ridwan Popoola játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1493496.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub"]
+    },
+    {
+      "id": "mlsz-player-aleksandar-jovicic-1352176",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Aleksandar Jovicic játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1352176.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub"]
+    },
+    {
+      "id": "mlsz-player-biro-bence-224432",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Bíró Bence Balázs játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/224432.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub"]
+    },
+    {
+      "id": "mlsz-player-martin-chlumecky-1431601",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Martin Chlumecky játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1431601.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub"]
+    },
+    {
+      "id": "mlsz-player-branimir-cipetic-1358995",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Branimir Cipetic játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1358995.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub"]
+    },
+    {
+      "id": "mlsz-player-daniel-adayilo-1057005",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Daniel Stephen Adayilo játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1057005.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub", "departedAt", "currentClub", "currentStatus"]
+    },
+    {
+      "id": "mlsz-player-nazar-koliada-1291808",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Nazar Koliada játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1291808.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "academyJoinedAt", "professionalRegistrationAt", "previousClub", "currentClub"]
+    },
+    {
+      "id": "mlsz-player-kovacs-marcell-773929",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Kovács Marcell játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/773929.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "joinedAt", "previousClub"]
+    },
+    {
+      "id": "mlsz-player-kormendi-kevin-339292",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Körmendi Kevin játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/339292.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "loanTo", "loanStart", "loanEnd", "seasonStatus"]
+    },
+    {
+      "id": "kisvarda-current-roster-selected10-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC hivatalos keretoldal – kiválasztott játékosok posztja",
+      "url": "https://kisvardafc.hu/oldal/4/nb-ii",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["position", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-popoola-professional-contract-2025",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Ridwan Popoola első profi szerződése",
+      "url": "https://kisvardafc.hu/news/news/view?id=8305",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position", "shirtNumber", "professionalContractAt"]
+    },
+    {
+      "id": "kisvarda-popoola-departure-2026-selected10",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Ridwan Popoola távozása",
+      "url": "https://kisvardafc.hu/hir/ertekesitettuk-a-legios-jatekjogat/9573",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["departedAt", "currentClub", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-jovicic-signing-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Aleksandar Jovicic bemutatása",
+      "url": "https://kisvardafc.hu/hir/belso-vedot-szerzodtettunk/5966",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position", "heightCm"]
+    },
+    {
+      "id": "kisvarda-chlumecky-profile-extension",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Martin Chlumecky posztja és szerződéshosszabbítása",
+      "url": "https://kisvardafc.hu/hir/marad-a-cseh-vedo/9543",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position", "contractExtended", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-chlumecky-signing-positions",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Martin Chlumecky szerződtetése",
+      "url": "https://kisvardafc.hu/hir/uj-szerzemenyunk-mar-jatszott-ellenunk/7762",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["secondaryPositions"]
+    },
+    {
+      "id": "kisvarda-cipetic-dual-nationality-role",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Branimir Cipetic állampolgársága és posztja",
+      "url": "https://kisvardafc.hu/hir/vedonk-az-osz-csapataban/9056",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position"]
+    },
+    {
+      "id": "kisvarda-jovicic-cipetic-departure-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Aleksandar Jovicic és Branimir Cipetic távozása",
+      "url": "https://kisvardafc.hu/hir/szep-volt-jo-volt-ennyi-volt/9426",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["currentStatus", "seasonStatus", "contractEnd"]
+    },
+    {
+      "id": "kisvarda-biro-attacker-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Bíró Bence támadóként és házi gólkirályként",
+      "url": "https://kisvardafc.hu/hir/ez-mar-kijart-nekunk/9223",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["position"]
+    },
+    {
+      "id": "kisvarda-kovacs-marcell-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Kovács Marcell játékosprofil",
+      "url": "https://kisvardafc.hu/hir/hazatert-a-kapus/6594",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["position", "heightCm", "birthPlace"]
+    },
+    {
+      "id": "kisvarda-kormendi-loan-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Körmendi Kevin kölcsönadása",
+      "url": "https://kisvardafc.hu/hir/kormendi-kevin-tiszakecsken-folytatja/9069",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["position", "loanTo", "loanStatus", "seasonStatus"]
+    },
+    {
+      "id": "mlsz-kisvarda-shirt-numbers-selected10",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ jegyzőkönyvek – Kisvárda 2025/26-os mezszámok",
+      "url": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["shirtNumber"]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "mlsz-player-abdullahi-kamal-1493495", "clubId": "kisvarda-master-good", "name": "Abdullahi Kamal",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1493495.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "2007-01-16",
+      "meta": {"seasonClub": "Kisvárda Master Good", "currentClub": "Kisvárda Master Good II.", "currentStatus": "reserve-team", "seasonStatus": "first-team-bench-only", "previousClub": "Toplevel Football Academy", "joinedAt": "2025-02-26"}
+    },
+    {
+      "sourceId": "kisvarda-current-roster-selected10-2026", "clubId": "kisvarda-master-good", "name": "Abdullahi Kamal",
+      "sourceUrl": "https://kisvardafc.hu/oldal/4/nb-ii", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "position": "Középpályás"
+    },
+    {
+      "sourceId": "mlsz-player-ridwan-popoola-1493496", "clubId": "kisvarda-master-good", "name": "Abdulrasaq Ridwan Popoola", "aliases": ["Ridwan Popoola"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1493496.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "2006-11-14",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "Seamoriow Football Club", "joinedAt": "2025-02-26"}
+    },
+    {
+      "sourceId": "kisvarda-popoola-professional-contract-2025", "clubId": "kisvarda-master-good", "name": "Ridwan Popoola", "aliases": ["Abdulrasaq Ridwan Popoola"],
+      "sourceUrl": "https://kisvardafc.hu/news/news/view?id=8305", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "nation": "NGR", "position": "Középpályás", "shirtNumber": 6,
+      "meta": {"professionalContractAt": "2025-04-04", "seasonShirtNumber": 6}
+    },
+    {
+      "sourceId": "kisvarda-popoola-departure-2026-selected10", "clubId": "kisvarda-master-good", "name": "Ridwan Popoola", "aliases": ["Abdulrasaq Ridwan Popoola"],
+      "sourceUrl": "https://kisvardafc.hu/hir/ertekesitettuk-a-legios-jatekjogat/9573", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"departedAt": "2026-07-06", "currentClub": "Al Wasl", "currentStatus": "transferred"}
+    },
+    {
+      "sourceId": "mlsz-player-aleksandar-jovicic-1352176", "clubId": "kisvarda-master-good", "name": "Aleksandar Jovicic",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1352176.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "1995-07-18",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "HNK Gorica", "joinedAt": "2023-01-24"}
+    },
+    {
+      "sourceId": "kisvarda-jovicic-signing-profile", "clubId": "kisvarda-master-good", "name": "Aleksandar Jovicic",
+      "sourceUrl": "https://kisvardafc.hu/hir/belso-vedot-szerzodtettunk/5966", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "nation": "BIH", "position": "Védő", "heightCm": 189,
+      "meta": {"primaryPosition": "Középhátvéd"}
+    },
+    {
+      "sourceId": "kisvarda-jovicic-cipetic-departure-2026", "clubId": "kisvarda-master-good", "name": "Aleksandar Jovicic",
+      "sourceUrl": "https://kisvardafc.hu/hir/szep-volt-jo-volt-ennyi-volt/9426", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"currentStatus": "departed", "seasonStatus": "released-before-final-two-rounds", "contractEnd": "2026-06-30"}
+    },
+    {
+      "sourceId": "mlsz-kisvarda-shirt-numbers-selected10", "clubId": "kisvarda-master-good", "name": "Aleksandar Jovicic",
+      "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "shirtNumber": 3,
+      "meta": {"seasonShirtNumber": 3}
+    },
+    {
+      "sourceId": "mlsz-player-biro-bence-224432", "clubId": "kisvarda-master-good", "name": "Bíró Bence Balázs", "aliases": ["Bíró Bence"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/224432.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "1998-07-14",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "Szeged 2011", "joinedAt": "2024-07-03"}
+    },
+    {
+      "sourceId": "kisvarda-biro-attacker-2026", "clubId": "kisvarda-master-good", "name": "Bíró Bence", "aliases": ["Bíró Bence Balázs"],
+      "sourceUrl": "https://kisvardafc.hu/hir/ez-mar-kijart-nekunk/9223", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "position": "Támadó"
+    },
+    {
+      "sourceId": "mlsz-kisvarda-shirt-numbers-selected10", "clubId": "kisvarda-master-good", "name": "Bíró Bence", "aliases": ["Bíró Bence Balázs"],
+      "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "shirtNumber": 29,
+      "meta": {"seasonShirtNumber": 29}
+    },
+    {
+      "sourceId": "mlsz-player-martin-chlumecky-1431601", "clubId": "kisvarda-master-good", "name": "Martin Chlumecky",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1431601.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "1997-01-11",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "Podbeskidzie", "joinedAt": "2024-09-06"}
+    },
+    {
+      "sourceId": "kisvarda-chlumecky-profile-extension", "clubId": "kisvarda-master-good", "name": "Martin Chlumecky",
+      "sourceUrl": "https://kisvardafc.hu/hir/marad-a-cseh-vedo/9543", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "nation": "CZE", "position": "Védő",
+      "meta": {"contractExtended": true, "currentStatus": "active", "seasonStatus": "active"}
+    },
+    {
+      "sourceId": "kisvarda-chlumecky-signing-positions", "clubId": "kisvarda-master-good", "name": "Martin Chlumecky",
+      "sourceUrl": "https://kisvardafc.hu/hir/uj-szerzemenyunk-mar-jatszott-ellenunk/7762", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"primaryPosition": "Középhátvéd", "secondaryPositions": ["Balhátvéd"]}
+    },
+    {
+      "sourceId": "mlsz-kisvarda-shirt-numbers-selected10", "clubId": "kisvarda-master-good", "name": "Martin Chlumecky",
+      "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "shirtNumber": 5,
+      "meta": {"seasonShirtNumber": 5}
+    },
+    {
+      "sourceId": "mlsz-player-branimir-cipetic-1358995", "clubId": "kisvarda-master-good", "name": "Branimir Cipetic",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1358995.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "1995-05-24",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "NK Lokomotiva", "joinedAt": "2023-07-17"}
+    },
+    {
+      "sourceId": "kisvarda-cipetic-dual-nationality-role", "clubId": "kisvarda-master-good", "name": "Branimir Cipetic",
+      "sourceUrl": "https://kisvardafc.hu/hir/vedonk-az-osz-csapataban/9056", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "nation": "BIH / CRO", "position": "Védő"
+    },
+    {
+      "sourceId": "kisvarda-jovicic-cipetic-departure-2026", "clubId": "kisvarda-master-good", "name": "Branimir Cipetic",
+      "sourceUrl": "https://kisvardafc.hu/hir/szep-volt-jo-volt-ennyi-volt/9426", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"currentStatus": "departed", "seasonStatus": "released-before-final-two-rounds", "contractEnd": "2026-06-30"}
+    },
+    {
+      "sourceId": "mlsz-kisvarda-shirt-numbers-selected10", "clubId": "kisvarda-master-good", "name": "Branimir Cipetic",
+      "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "shirtNumber": 24,
+      "meta": {"seasonShirtNumber": 24}
+    },
+    {
+      "sourceId": "mlsz-player-daniel-adayilo-1057005", "clubId": "kisvarda-master-good", "name": "Daniel Stephen Adayilo", "aliases": ["Stephen Adayilo", "Adayilo Stephen"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1057005.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "2000-05-25",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "KFC Komárno", "joinedAt": "2025-08-25", "departedAt": "2026-02-19", "currentClub": "MFK Zvolen", "currentStatus": "transferred", "seasonStatus": "departed-midseason"}
+    },
+    {
+      "sourceId": "kisvarda-current-roster-selected10-2026", "clubId": "kisvarda-master-good", "name": "Daniel Stephen Adayilo", "aliases": ["Stephen Adayilo", "Adayilo Stephen"],
+      "sourceUrl": "https://kisvardafc.hu/oldal/4/nb-ii", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "position": "Védő"
+    },
+    {
+      "sourceId": "mlsz-player-nazar-koliada-1291808", "clubId": "kisvarda-master-good", "name": "Nazar Koliada",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1291808.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "2007-11-17",
+      "meta": {"seasonClub": "Kisvárda Master Good", "currentClub": "Kisvárda Master Good II.", "currentStatus": "reserve-team", "previousClub": "MFA Mukachevo", "academyJoinedAt": "2022-04-22", "professionalRegistrationAt": "2026-02-09"}
+    },
+    {
+      "sourceId": "kisvarda-current-roster-selected10-2026", "clubId": "kisvarda-master-good", "name": "Nazar Koliada",
+      "sourceUrl": "https://kisvardafc.hu/oldal/4/nb-ii", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "position": "Középpályás"
+    },
+    {
+      "sourceId": "mlsz-player-kovacs-marcell-773929", "clubId": "kisvarda-master-good", "name": "Kovács Marcell",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/773929.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "2003-02-09",
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "Soroksár SC", "joinedAt": "2023-07-25", "currentStatus": "active", "seasonStatus": "active"}
+    },
+    {
+      "sourceId": "kisvarda-kovacs-marcell-profile", "clubId": "kisvarda-master-good", "name": "Kovács Marcell",
+      "sourceUrl": "https://kisvardafc.hu/hir/hazatert-a-kapus/6594", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "position": "Kapus", "heightCm": 185,
+      "meta": {"birthPlace": "Nyíregyháza"}
+    },
+    {
+      "sourceId": "mlsz-kisvarda-shirt-numbers-selected10", "clubId": "kisvarda-master-good", "name": "Kovács Marcell",
+      "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "shirtNumber": 1,
+      "meta": {"seasonShirtNumber": 1}
+    },
+    {
+      "sourceId": "mlsz-player-kormendi-kevin-339292", "clubId": "kisvarda-master-good", "name": "Körmendi Kevin",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/339292.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "birthDate": "2001-06-30",
+      "meta": {"seasonClub": "Kisvárda Master Good", "loanTo": "Tiszakécskei LC", "loanStart": "2026-01-01", "loanEnd": "2026-06-30", "loanStatus": true, "seasonStatus": "loaned-second-half"}
+    },
+    {
+      "sourceId": "kisvarda-kormendi-loan-2026", "clubId": "kisvarda-master-good", "name": "Körmendi Kevin",
+      "sourceUrl": "https://kisvardafc.hu/hir/kormendi-kevin-tiszakecsken-folytatja/9069", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "position": "Védő",
+      "meta": {"preferredSide": "bal oldal", "seasonStatus": "loaned-second-half"}
+    },
+    {
+      "sourceId": "mlsz-kisvarda-shirt-numbers-selected10", "clubId": "kisvarda-master-good", "name": "Körmendi Kevin",
+      "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high", "shirtNumber": 18,
+      "meta": {"seasonShirtNumber": 18}
+    }
+  ]
+}

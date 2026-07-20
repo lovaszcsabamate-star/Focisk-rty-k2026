@@ -8,6 +8,7 @@ const finite = value => typeof value === 'number' && Number.isFinite(value);
 const STAT_FIELDS = [
   'appearances',
   'starts',
+  'squads',
   'minutes',
   'substituteAppearances',
   'goals',
