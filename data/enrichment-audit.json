@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T11:42:11.091Z",
+  "generatedAt": "2026-07-20T11:56:47.830Z",
   "baseDataset": "data/players.json",
   "sourceFiles": [
     "data/club-official-enrichment.json",
@@ -7,8 +7,10 @@
     "data/club-official-enrichment-3-paks-nyir.json",
     "data/club-official-enrichment-4-ujpest.json",
     "data/club-official-enrichment-5-other.json",
+    "data/club-official-enrichment-6-eto-puskas.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
+    "data/club-official-corrections-3.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -20,11 +22,11 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 242,
+    "exactBirthDates": 265,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 242,
+    "birthDate": 265,
     "appearances": 144,
     "starts": 144,
     "goals": 440,
@@ -33,18 +35,18 @@
     "redCards": 144,
     "totalDismissals": 144,
     "overallScore": 143,
-    "position": 255,
+    "position": 307,
     "nation": 170,
     "heightCm": 46,
-    "shirtNumber": 209,
+    "shirtNumber": 261,
     "officialMetadata": 41
   },
   "fieldCoverage": [
     {
       "field": "birthDate",
       "before": 120,
-      "after": 242,
-      "added": 122
+      "after": 265,
+      "added": 145
     },
     {
       "field": "appearances",
@@ -97,8 +99,8 @@
     {
       "field": "position",
       "before": 0,
-      "after": 255,
-      "added": 255
+      "after": 307,
+      "added": 307
     },
     {
       "field": "nation",
@@ -115,8 +117,8 @@
     {
       "field": "shirtNumber",
       "before": 0,
-      "after": 209,
-      "added": 209
+      "after": 261,
+      "added": 261
     },
     {
       "field": "officialMetadata",
@@ -154,13 +156,13 @@
       "clubId": "eto-fc",
       "clubName": "ETO FC",
       "mlszCards": 35,
-      "officialRecords": 0,
-      "eligibleRecords": 0,
-      "matched": 0,
+      "officialRecords": 28,
+      "eligibleRecords": 28,
+      "matched": 28,
       "excluded": 0,
       "review": 0,
-      "sourceStatus": "inspected-no-stable-text-roster",
-      "officialRosterUrl": "https://www.eto.hu/hu/roster?category=2"
+      "sourceStatus": "structured-season-roster-imported",
+      "officialRosterUrl": "https://www.eto.hu/hu/roster?category=1"
     },
     {
       "clubId": "ferencvarosi-tc",
@@ -238,12 +240,12 @@
       "clubId": "puskas-akademia-fc",
       "clubName": "Puskás Akadémia FC",
       "mlszCards": 34,
-      "officialRecords": 2,
-      "eligibleRecords": 2,
-      "matched": 2,
-      "excluded": 0,
+      "officialRecords": 32,
+      "eligibleRecords": 27,
+      "matched": 27,
+      "excluded": 5,
       "review": 0,
-      "sourceStatus": "official-team-and-academy-enrichment",
+      "sourceStatus": "official-roster-filtered-to-2025-26-mlsz-cards",
       "officialRosterUrl": "https://puskasakademia.hu/team/puskas-akademia-fc"
     },
     {
@@ -275,11 +277,11 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-20T12:30:00+02:00",
-    "records": 274,
-    "matchedRecords": 274,
+    "generatedAt": "2026-07-20T13:30:00+02:00",
+    "records": 327,
+    "matchedRecords": 327,
     "unmatchedRecords": 0,
-    "excludedRecords": 19,
+    "excludedRecords": 24,
     "correctionsRequested": 1,
     "addedPlayers": 0,
     "updatedExistingPlayers": 1,
@@ -305,11 +307,11 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 254,
+      "position": 306,
       "nation": 169,
-      "birthDate": 121,
+      "birthDate": 144,
       "heightCm": 46,
-      "shirtNumber": 208,
+      "shirtNumber": 260,
       "meta.captain": 2,
       "meta.strongFoot": 21,
       "meta.joinedAt": 19,
@@ -346,7 +348,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 242,
+      "birthDate": 265,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -355,18 +357,18 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 255,
+      "position": 307,
       "nation": 170,
       "heightCm": 46,
-      "shirtNumber": 209,
+      "shirtNumber": 261,
       "officialMetadata": 41
     },
     "fieldCoverage": [
       {
         "field": "birthDate",
         "before": 120,
-        "after": 242,
-        "added": 122
+        "after": 265,
+        "added": 145
       },
       {
         "field": "appearances",
@@ -419,8 +421,8 @@
       {
         "field": "position",
         "before": 0,
-        "after": 255,
-        "added": 255
+        "after": 307,
+        "added": 307
       },
       {
         "field": "nation",
@@ -437,8 +439,8 @@
       {
         "field": "shirtNumber",
         "before": 0,
-        "after": 209,
-        "added": 209
+        "after": 261,
+        "added": 261
       },
       {
         "field": "officialMetadata",
@@ -476,13 +478,13 @@
         "clubId": "eto-fc",
         "clubName": "ETO FC",
         "mlszCards": 35,
-        "officialRecords": 0,
-        "eligibleRecords": 0,
-        "matched": 0,
+        "officialRecords": 28,
+        "eligibleRecords": 28,
+        "matched": 28,
         "excluded": 0,
         "review": 0,
-        "sourceStatus": "inspected-no-stable-text-roster",
-        "officialRosterUrl": "https://www.eto.hu/hu/roster?category=2"
+        "sourceStatus": "structured-season-roster-imported",
+        "officialRosterUrl": "https://www.eto.hu/hu/roster?category=1"
       },
       {
         "clubId": "ferencvarosi-tc",
@@ -560,12 +562,12 @@
         "clubId": "puskas-akademia-fc",
         "clubName": "Puskás Akadémia FC",
         "mlszCards": 34,
-        "officialRecords": 2,
-        "eligibleRecords": 2,
-        "matched": 2,
-        "excluded": 0,
+        "officialRecords": 32,
+        "eligibleRecords": 27,
+        "matched": 27,
+        "excluded": 5,
         "review": 0,
-        "sourceStatus": "official-team-and-academy-enrichment",
+        "sourceStatus": "official-roster-filtered-to-2025-26-mlsz-cards",
         "officialRosterUrl": "https://puskasakademia.hu/team/puskas-akademia-fc"
       },
       {
@@ -719,6 +721,41 @@
       "clubId": "zte-fc",
       "name": "Marlon Santos",
       "reason": "Az aktuális ZTE-profil nem kapcsolható ZTE FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Bozó Mirkó",
+      "reason": "Az MLSZ 2025/26-os adatlapján Puskás Akadémia FC II. NB III-as szereplés igazolható, Puskás Fizz Liga elsőcsapatos rekord nem.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/647216.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Farkas Bendegúz",
+      "reason": "A születési dátum alapján az MLSZ FARKAS BENDEGÚZ BENCE rekordja azonosítható, aki a 2025/26-os Fizz Ligában a Nyíregyháza Spartacus FC játékosa volt, nem a Puskás Akadémiáé.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/396261.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Pál Barna",
+      "reason": "Az MLSZ 2025/26-os adatlapja az Aqvital FC Csákvár Merkantil Bank Liga-játékosaként tartja nyilván; Puskás Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/591485.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Brugger Dániel",
+      "reason": "A Puskás Akadémia 2026. július 7-én, a 2025/26-os idény lezárása után jelentette be új igazolásként; ezért nem kaphat visszamenőleg 2025/26-os Puskás-kártyaadatot.",
+      "sourceUrl": "https://puskasakademia.hu/"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Somfalvi Bence",
+      "reason": "Az MLSZ 2025/26-os adatlapja Soroksár SC- és Aqvital FC Csákvár-szereplést mutat a Merkantil Bank Ligában; Puskás Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/463914.html"
     }
   ],
   "conflicts": []
