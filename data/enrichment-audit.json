@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-07-20T09:25:07.925Z",
+  "baseDataset": "data/players.json",
+  "sourceFiles": [
+    "data/club-official-enrichment.json",
+    "data/club-official-enrichment-2.json",
+    "data/club-official-corrections.json"
+  ],
+  "playerCount": 440,
+  "selection": {
+    "note": "A teljes adatbázis személyenként egy kártyát tartalmaz; a klubváltók szezonösszesítése egyetlen, többklubos kártyán marad.",
+    "playableCards": 440,
+    "uniquePlayers": 440,
+    "registrationRecords": 464,
+    "multiClubPlayers": 24,
+    "completeGoalTotals": 440,
+    "exactBirthDates": 222,
+    "retainedExistingCards": 136
+  },
+  "coverage": {
+    "birthDate": 222,
+    "appearances": 144,
+    "starts": 144,
+    "goals": 440,
+    "squads": 107,
+    "yellowCards": 144,
+    "redCards": 144,
+    "totalDismissals": 144,
+    "overallScore": 143,
+    "position": 149,
+    "nation": 149,
+    "heightCm": 27,
+    "shirtNumber": 137
+  },
+  "enrichment": {
+    "schemaVersion": 1,
+    "season": "2025/26",
+    "generatedAt": "2026-07-20T11:15:00+02:00",
+    "records": 153,
+    "matchedRecords": 153,
+    "unmatchedRecords": 0,
+    "excludedRecords": 8,
+    "correctionsRequested": 1,
+    "addedPlayers": 0,
+    "updatedExistingPlayers": 1,
+    "updatedPlayers": [
+      {
+        "id": "nb1-2856e20f48e9",
+        "name": "ABU FANI MOHAMMAD",
+        "correctionId": "2025-26-ferencvarosi-tc-abu-fani-mohammad",
+        "fieldsApplied": [
+          "nation",
+          "position",
+          "birthDate",
+          "appearances",
+          "starts",
+          "squads",
+          "yellowCards",
+          "redCards",
+          "totalDismissals",
+          "shirtNumber"
+        ]
+      }
+    ],
+    "skippedCorrections": [],
+    "conflictCount": 0,
+    "appliedFieldCounts": {
+      "position": 148,
+      "nation": 148,
+      "birthDate": 101,
+      "heightCm": 27,
+      "shirtNumber": 136
+    },
+    "coverageBefore": {
+      "birthDate": 120,
+      "appearances": 143,
+      "starts": 143,
+      "goals": 440,
+      "squads": 106,
+      "yellowCards": 143,
+      "redCards": 143,
+      "totalDismissals": 143,
+      "overallScore": 143,
+      "position": 0,
+      "nation": 0,
+      "heightCm": 0,
+      "shirtNumber": 0
+    },
+    "coverageAfter": {
+      "birthDate": 222,
+      "appearances": 144,
+      "starts": 144,
+      "goals": 440,
+      "squads": 107,
+      "yellowCards": 144,
+      "redCards": 144,
+      "totalDismissals": 144,
+      "overallScore": 143,
+      "position": 149,
+      "nation": 149,
+      "heightCm": 27,
+      "shirtNumber": 137
+    },
+    "unmatched": []
+  },
+  "conflicts": []
+}
