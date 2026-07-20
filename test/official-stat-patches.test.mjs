@@ -57,16 +57,19 @@ assert.equal(patched.officialStatPatches.records, 30);
 assert.equal(patched.officialStatPatches.matchedRecords, 30);
 assert.equal(patched.officialStatPatches.unmatchedRecords, 0);
 assert.equal(patched.officialStatPatches.manualReview.length, 0);
-assert.equal(patched.officialStatPatches.multiClubMetadataOnly, 0);
+assert.equal(patched.officialStatPatches.conflictCount, 0);
+assert.equal(patched.officialStatPatches.multiClubMetadataOnly, 1);
 assert.equal(patched.source.officialClubStatPatches.length, 1);
 assert.equal(patched.source.officialClubStatPatches[0].clubId, 'kisvarda-master-good');
 
 const find = name => patched.players.find(card =>
-  card?.meta?.clubIds?.includes('kisvarda-master-good') && enrichmentNamesMatch(card.name, { name })
+  card?.meta?.clubIds?.includes('kisvarda-master-good')
+  && enrichmentNamesMatch(card.name, { name, aliases: statPatch.aliases?.[name] ?? [] })
 );
 
 const popovics = find('Popovics Ilija');
 assert.ok(popovics);
+assert.equal(popovics.name, 'POPOVICS ILLYA');
 assert.equal(popovics.stats.appearances, 33);
 assert.equal(popovics.stats.starts, 33);
 assert.equal(popovics.stats.minutes, 3161);
@@ -95,6 +98,11 @@ const mbock = find("Hianga’a Mbock");
 assert.ok(mbock);
 assert.equal(mbock.stats.appearances, 13);
 assert.equal(mbock.stats.minutes, 864);
+
+const solteszIstvan = find('Soltész István');
+assert.ok(solteszIstvan);
+assert.equal(solteszIstvan.name, 'SOLTÉSZ ISTVÁN ZOLTÁN');
+assert.equal(solteszIstvan.stats.minutes, 107);
 
 const conflictPayload = {
   players: [{
