@@ -150,6 +150,7 @@ function matchRecord(cards, record) {
 }
 
 const coverage = cards => ({
+  birthDate: cards.filter(card => !blank(card?.birthDate)).length,
   position: cards.filter(card => !blank(card?.position)).length,
   nation: cards.filter(card => !blank(card?.nation)).length,
   heightCm: cards.filter(card => isFiniteNumber(card?.stats?.heightCm)).length,
@@ -201,9 +202,15 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
   };
 
   if (Array.isArray(payload)) return cards;
+
+  const { players: ignoredPlayers, ...basePayload } = payload;
+  void ignoredPlayers;
   return {
-    ...payload,
-    players: cards,
+    ...basePayload,
+    selection: {
+      ...(isObject(payload.selection) ? payload.selection : {}),
+      exactBirthDates: after.birthDate,
+    },
     coverage: { ...(isObject(payload.coverage) ? payload.coverage : {}), ...after },
     source: {
       ...(isObject(payload.source) ? payload.source : {}),
@@ -215,5 +222,6 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
       })),
     },
     enrichment: summary,
+    players: cards,
   };
 }
