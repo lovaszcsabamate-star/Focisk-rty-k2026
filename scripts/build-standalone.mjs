@@ -31,7 +31,6 @@ const correctionFiles = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
-  'data/club-official-corrections-4-kisvarda-selected10.json',
 ];
 const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda.json',
