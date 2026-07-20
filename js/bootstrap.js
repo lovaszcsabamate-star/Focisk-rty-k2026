@@ -15,6 +15,7 @@ const CLUB_ENRICHMENT_URLS = [
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
+  'data/club-official-corrections-3.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
