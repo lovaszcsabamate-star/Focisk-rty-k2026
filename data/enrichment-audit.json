@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T10:04:52.183Z",
+  "generatedAt": "2026-07-20T10:05:31.373Z",
   "baseDataset": "data/players.json",
   "sourceFiles": [
     "data/club-official-enrichment.json",
@@ -8,6 +8,7 @@
     "data/club-official-enrichment-4-ujpest.json",
     "data/club-official-enrichment-5-other.json",
     "data/club-official-corrections.json",
+    "data/club-official-corrections-2.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -32,11 +33,11 @@
     "redCards": 144,
     "totalDismissals": 144,
     "overallScore": 143,
-    "position": 253,
+    "position": 255,
     "nation": 170,
     "heightCm": 46,
     "shirtNumber": 209,
-    "officialMetadata": 39
+    "officialMetadata": 41
   },
   "fieldCoverage": [
     {
@@ -96,8 +97,8 @@
     {
       "field": "position",
       "before": 0,
-      "after": 253,
-      "added": 253
+      "after": 255,
+      "added": 255
     },
     {
       "field": "nation",
@@ -120,8 +121,8 @@
     {
       "field": "officialMetadata",
       "before": 0,
-      "after": 39,
-      "added": 39
+      "after": 41,
+      "added": 41
     }
   ],
   "clubSummary": [
@@ -190,10 +191,10 @@
       "clubName": "Kolorcity Kazincbarcika SC",
       "mlszCards": 40,
       "officialRecords": 19,
-      "eligibleRecords": 19,
-      "matched": 14,
-      "excluded": 0,
-      "review": 5,
+      "eligibleRecords": 16,
+      "matched": 16,
+      "excluded": 3,
+      "review": 0,
       "sourceStatus": "official-roster-and-transfer-enrichment",
       "officialRosterUrl": "https://kbsc.hu/oldal/jatekoskeret"
     },
@@ -226,10 +227,10 @@
       "clubName": "Paksi FC",
       "mlszCards": 33,
       "officialRecords": 28,
-      "eligibleRecords": 28,
+      "eligibleRecords": 27,
       "matched": 27,
-      "excluded": 0,
-      "review": 1,
+      "excluded": 1,
+      "review": 0,
       "sourceStatus": "official-roster-enrichment",
       "officialRosterUrl": "https://paksifc.hu/jatekosok.php"
     },
@@ -250,10 +251,10 @@
       "clubName": "Újpest FC",
       "mlszCards": 41,
       "officialRecords": 26,
-      "eligibleRecords": 26,
+      "eligibleRecords": 21,
       "matched": 21,
-      "excluded": 0,
-      "review": 5,
+      "excluded": 5,
+      "review": 0,
       "sourceStatus": "official-profile-enrichment",
       "officialRosterUrl": "https://www.ujpestfc.hu/csapatok/csapat"
     },
@@ -262,102 +263,23 @@
       "clubName": "ZTE FC",
       "mlszCards": 43,
       "officialRecords": 24,
-      "eligibleRecords": 24,
+      "eligibleRecords": 22,
       "matched": 22,
-      "excluded": 0,
-      "review": 2,
+      "excluded": 2,
+      "review": 0,
       "sourceStatus": "official-profile-and-role-enrichment",
       "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
     }
   ],
-  "manualReview": [
-    {
-      "name": "Májik Gergő",
-      "clubId": "paksi-fc",
-      "sourceId": "paks-official-players-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Szappanos Péter",
-      "clubId": "ujpest-fc",
-      "sourceId": "ujpest-official-first-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Markgráf Ákos",
-      "clubId": "ujpest-fc",
-      "sourceId": "ujpest-official-first-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Heitor",
-      "clubId": "ujpest-fc",
-      "sourceId": "ujpest-official-first-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Etienne Amenyido",
-      "clubId": "ujpest-fc",
-      "sourceId": "ujpest-official-first-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Muhamed Tijani",
-      "clubId": "ujpest-fc",
-      "sourceId": "ujpest-official-first-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Varazdat Harojan",
-      "clubId": "kolorcity-kazincbarcika-sc",
-      "sourceId": "kbsc-official-squad-changes-2025",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Menyhárt Barnabás",
-      "clubId": "kolorcity-kazincbarcika-sc",
-      "sourceId": "kbsc-official-squad-changes-2025",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Mihajlo Meszhi",
-      "clubId": "kolorcity-kazincbarcika-sc",
-      "sourceId": "kbsc-official-squad-changes-2025",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Dominik Mulac",
-      "clubId": "kolorcity-kazincbarcika-sc",
-      "sourceId": "kbsc-official-squad-changes-2025",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Szalai Bence",
-      "clubId": "kolorcity-kazincbarcika-sc",
-      "sourceId": "kbsc-official-squad-changes-2025",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Maxsuell Alegria",
-      "clubId": "zte-fc",
-      "sourceId": "zte-official-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    },
-    {
-      "name": "Marlon Santos",
-      "clubId": "zte-fc",
-      "sourceId": "zte-official-team-2026-07-20",
-      "reason": "no-unique-player-match"
-    }
-  ],
+  "manualReview": [],
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
     "generatedAt": "2026-07-20T12:30:00+02:00",
-    "records": 285,
-    "matchedRecords": 272,
-    "unmatchedRecords": 13,
-    "excludedRecords": 8,
+    "records": 274,
+    "matchedRecords": 274,
+    "unmatchedRecords": 0,
+    "excludedRecords": 19,
     "correctionsRequested": 1,
     "addedPlayers": 0,
     "updatedExistingPlayers": 1,
@@ -383,7 +305,7 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 252,
+      "position": 254,
       "nation": 169,
       "birthDate": 121,
       "heightCm": 46,
@@ -396,8 +318,8 @@
       "meta.nextClub": 1,
       "meta.officialSeasonAppearances": 1,
       "meta.officialSeasonGoals": 1,
-      "meta.squadStatus": 12,
-      "meta.previousClub": 8,
+      "meta.squadStatus": 14,
+      "meta.previousClub": 10,
       "meta.loanFrom": 2,
       "meta.loanStatus": 2,
       "meta.contractExtended": 2,
@@ -433,11 +355,11 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 253,
+      "position": 255,
       "nation": 170,
       "heightCm": 46,
       "shirtNumber": 209,
-      "officialMetadata": 39
+      "officialMetadata": 41
     },
     "fieldCoverage": [
       {
@@ -497,8 +419,8 @@
       {
         "field": "position",
         "before": 0,
-        "after": 253,
-        "added": 253
+        "after": 255,
+        "added": 255
       },
       {
         "field": "nation",
@@ -521,8 +443,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 39,
-        "added": 39
+        "after": 41,
+        "added": 41
       }
     ],
     "clubSummary": [
@@ -591,10 +513,10 @@
         "clubName": "Kolorcity Kazincbarcika SC",
         "mlszCards": 40,
         "officialRecords": 19,
-        "eligibleRecords": 19,
-        "matched": 14,
-        "excluded": 0,
-        "review": 5,
+        "eligibleRecords": 16,
+        "matched": 16,
+        "excluded": 3,
+        "review": 0,
         "sourceStatus": "official-roster-and-transfer-enrichment",
         "officialRosterUrl": "https://kbsc.hu/oldal/jatekoskeret"
       },
@@ -627,10 +549,10 @@
         "clubName": "Paksi FC",
         "mlszCards": 33,
         "officialRecords": 28,
-        "eligibleRecords": 28,
+        "eligibleRecords": 27,
         "matched": 27,
-        "excluded": 0,
-        "review": 1,
+        "excluded": 1,
+        "review": 0,
         "sourceStatus": "official-roster-enrichment",
         "officialRosterUrl": "https://paksifc.hu/jatekosok.php"
       },
@@ -651,10 +573,10 @@
         "clubName": "Újpest FC",
         "mlszCards": 41,
         "officialRecords": 26,
-        "eligibleRecords": 26,
+        "eligibleRecords": 21,
         "matched": 21,
-        "excluded": 0,
-        "review": 5,
+        "excluded": 5,
+        "review": 0,
         "sourceStatus": "official-profile-enrichment",
         "officialRosterUrl": "https://www.ujpestfc.hu/csapatok/csapat"
       },
@@ -663,174 +585,16 @@
         "clubName": "ZTE FC",
         "mlszCards": 43,
         "officialRecords": 24,
-        "eligibleRecords": 24,
+        "eligibleRecords": 22,
         "matched": 22,
-        "excluded": 0,
-        "review": 2,
+        "excluded": 2,
+        "review": 0,
         "sourceStatus": "official-profile-and-role-enrichment",
         "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
       }
     ],
-    "manualReview": [
-      {
-        "name": "Májik Gergő",
-        "clubId": "paksi-fc",
-        "sourceId": "paks-official-players-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Szappanos Péter",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Markgráf Ákos",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Heitor",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Etienne Amenyido",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Muhamed Tijani",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Varazdat Harojan",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Menyhárt Barnabás",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Mihajlo Meszhi",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Dominik Mulac",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Szalai Bence",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Maxsuell Alegria",
-        "clubId": "zte-fc",
-        "sourceId": "zte-official-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Marlon Santos",
-        "clubId": "zte-fc",
-        "sourceId": "zte-official-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      }
-    ],
-    "unmatched": [
-      {
-        "name": "Májik Gergő",
-        "clubId": "paksi-fc",
-        "sourceId": "paks-official-players-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Szappanos Péter",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Markgráf Ákos",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Heitor",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Etienne Amenyido",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Muhamed Tijani",
-        "clubId": "ujpest-fc",
-        "sourceId": "ujpest-official-first-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Varazdat Harojan",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Menyhárt Barnabás",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Mihajlo Meszhi",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Dominik Mulac",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Szalai Bence",
-        "clubId": "kolorcity-kazincbarcika-sc",
-        "sourceId": "kbsc-official-squad-changes-2025",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Maxsuell Alegria",
-        "clubId": "zte-fc",
-        "sourceId": "zte-official-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      },
-      {
-        "name": "Marlon Santos",
-        "clubId": "zte-fc",
-        "sourceId": "zte-official-team-2026-07-20",
-        "reason": "no-unique-player-match"
-      }
-    ]
+    "manualReview": [],
+    "unmatched": []
   },
   "exclusions": [
     {
@@ -888,6 +652,73 @@
       "name": "Vázquez Erik",
       "reason": "Az MLSZ 2025/26-os adatlapja csak DVSC II. és utánpótlás-szereplést mutat; Fizz Liga-rekord nincs.",
       "sourceUrl": "https://adatbank.mlsz.hu/player/1499331.html"
+    },
+    {
+      "sourceId": "paks-official-players-2026-07-20",
+      "clubId": "paksi-fc",
+      "name": "Májik Gergő",
+      "reason": "Az aktuális klubprofilhoz nem található egyedi Paksi FC-s 2025/26-os Fizz Liga-kártya az MLSZ-alapállományban; ezért évadidegen adatként nem illeszthető."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Szappanos Péter",
+      "reason": "Az aktuális Újpest-profil nem kapcsolható Újpest FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Markgráf Ákos",
+      "reason": "A profil 2026-os csatlakozást jelez, de az eredeti MLSZ-adatbázisban nincs igazolt Újpest FC-s 2025/26-os Fizz Liga-kártya."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Heitor",
+      "reason": "Az aktuális Újpest-profil nem kapcsolható Újpest FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Etienne Amenyido",
+      "reason": "Az aktuális Újpest-profil nem kapcsolható Újpest FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "ujpest-official-first-team-2026-07-20",
+      "clubId": "ujpest-fc",
+      "name": "Muhamed Tijani",
+      "reason": "A játékos 2025/26-os MLSZ-kártyája más klubhoz kapcsolódik; az aktuális Újpest-profil nem írhatja át visszamenőleg a szezon klubstátuszát."
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Menyhárt Barnabás",
+      "reason": "Az MLSZ 2025/26-os adatlapja nem igazol KBSC-s Fizz Liga-kártyát; a játékos más klub alacsonyabb osztályú keretében szerepel."
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Dominik Mulac",
+      "reason": "A hivatalos bejelentés ellenére nem szerepel a végleges 2025/26-os MLSZ KBSC Fizz Liga-keretben, ezért nem illeszthető a játék adatbázisába."
+    },
+    {
+      "sourceId": "kbsc-official-squad-changes-2025",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "Szalai Bence",
+      "reason": "Az MLSZ 2025/26-os adatlap nem igazol KBSC-s Fizz Liga-regisztrációt; a névhez talált MLSZ-rekord alacsonyabb osztályú klubhoz tartozik.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1358550.html"
+    },
+    {
+      "sourceId": "zte-official-team-2026-07-20",
+      "clubId": "zte-fc",
+      "name": "Maxsuell Alegria",
+      "reason": "Az aktuális ZTE-profil nem kapcsolható ZTE FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
+    },
+    {
+      "sourceId": "zte-official-team-2026-07-20",
+      "clubId": "zte-fc",
+      "name": "Marlon Santos",
+      "reason": "Az aktuális ZTE-profil nem kapcsolható ZTE FC-s 2025/26-os MLSZ Fizz Liga-kártyához."
     }
   ],
   "conflicts": []
