@@ -1,0 +1,109 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js 22 beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Java 21 beállítása
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Android SDK beállítása
+        uses: android-actions/setup-android@v3
+
+      - name: Android 16 SDK telepítése
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+
+      - name: Függőségek telepítése
+        run: npm install
+
+      - name: JavaScript ellenőrzés
+        run: npm run lint
+
+      - name: Játékteszt futtatása
+        run: npm test
+
+      - name: Offline mobil webcsomag készítése
+        run: npm run mobile:prepare
+
+      - name: Android projekt létrehozása
+        run: npx cap add android
+
+      - name: Mobilcsomag szinkronizálása
+        run: npx cap sync android
+
+      - name: Álló tájolás beállítása
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          manifest = Path('android/app/src/main/AndroidManifest.xml')
+          text = manifest.read_text(encoding='utf-8')
+          if 'android:screenOrientation=' not in text:
+              text = text.replace(
+                  'android:configChanges=',
+                  'android:screenOrientation="portrait"\n            android:configChanges=',
+                  1,
+              )
+          manifest.write_text(text, encoding='utf-8')
+          PY
+
+      - name: APK összeállítása
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Letölthető fájl előkészítése
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-Android.apk
+          sha256sum dist/Fociskartyak2026-Android.apk > dist/Fociskartyak2026-Android.sha256
+
+      - name: APK mentése build-artifactként
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Android
+          path: |
+            dist/Fociskartyak2026-Android.apk
+            dist/Fociskartyak2026-Android.sha256
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Legfrissebb Android-kiadás közzététele
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete mobile-latest --cleanup-tag --yes || true
+          gh release create mobile-latest \
+            dist/Fociskartyak2026-Android.apk \
+            dist/Fociskartyak2026-Android.sha256 \
+            --target "$GITHUB_SHA" \
+            --title "Fociskártyák 2026 – Android" \
+            --notes "Telepíthető, offline Android tesztverzió. Az APK közvetlenül telepíthető Android-eszközre; a rendszer az ismeretlen forrásból származó alkalmazások engedélyezését kérheti."
