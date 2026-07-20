@@ -2105,19 +2105,30 @@ function shuffle(array, rng = Math.random) {
   return out;
 }
 
-/** Compare two verified values. Later birth date means younger. */
+const roundedForComparison = (value, precision) => {
+  if (!Number.isInteger(precision) || precision < 0) return value;
+  const factor = 10 ** precision;
+  return Math.round((value + Number.EPSILON) * factor) / factor;
+};
+
+/** Compare two verified values according to the category direction. */
 function compare(attributeKey, humanCard, aiCard) {
   const attribute = ATTRIBUTE_BY_KEY[attributeKey];
   if (!attribute) throw new Error(`Ismeretlen kategória: ${attributeKey}`);
 
-  const humanValue = attributeValue(humanCard, attributeKey);
-  const aiValue = attributeValue(aiCard, attributeKey);
-  if (humanValue == null || aiValue == null) {
+  const rawHumanValue = attributeValue(humanCard, attributeKey);
+  const rawAiValue = attributeValue(aiCard, attributeKey);
+  if (rawHumanValue == null || rawAiValue == null) {
     throw new Error(`A(z) ${attribute.label} kategóriához mindkét kártyán hiteles adat szükséges.`);
   }
+
+  const humanValue = roundedForComparison(rawHumanValue, attribute.precision);
+  const aiValue = roundedForComparison(rawAiValue, attribute.precision);
   if (humanValue === aiValue) return 'tie';
 
-  const humanAhead = attribute.higherWins ? humanValue > aiValue : humanValue < aiValue;
+  const humanAhead = ['higher', 'later'].includes(attribute.direction)
+    ? humanValue > aiValue
+    : humanValue < aiValue;
   return humanAhead ? HUMAN : AI;
 }
 
