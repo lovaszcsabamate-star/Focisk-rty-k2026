@@ -36,6 +36,20 @@ jobs:
       - name: Önálló HTML és audit elkészítése
         run: npm run build
 
+      - name: Ideiglenes ETO–Puskás audit mentése
+        if: github.event_name == 'pull_request'
+        run: |
+          cp data/enrichment-audit.json data/eto-puskas-debug-audit.json
+          if git diff --quiet -- data/eto-puskas-debug-audit.json; then
+            echo "Az ideiglenes audit már naprakész."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/eto-puskas-debug-audit.json
+            git commit -m "Ideiglenes ETO-Puskas audit [skip ci]"
+            git push
+          fi
+
       - name: Alkalmazástesztek
         run: npm test
 
