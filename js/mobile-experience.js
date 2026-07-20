@@ -142,6 +142,8 @@ export function installConnectivityBadge() {
 
 const directionLabel = attribute => {
   if (!attribute) return '';
+  if (attribute.key === 'birthDate') return 'kevesebb életkor a jobb';
+  if (attribute.key === 'birthDateOlder') return 'több életkor a jobb';
   return ['higher', 'later'].includes(attribute.direction) ? 'több a jobb' : 'kevesebb a jobb';
 };
 
@@ -163,6 +165,13 @@ const baseMethods = {
 
 UI.prototype._renderSettings = function renderMobileToolbar() {
   this.dom.hudSettings.replaceChildren();
+
+  if (!this._mobileClickSoundBound) {
+    this._mobileClickSoundBound = true;
+    document.addEventListener('click', event => {
+      if (event.target.closest?.('button:not(:disabled), [role="button"]')) this.playSound('click');
+    });
+  }
 
   const menu = el('button', 'icon-toggle mobile-menu-trigger', this.handlers.onPause ? '☰ Menü' : '⚙ Beállítások');
   menu.type = 'button';
