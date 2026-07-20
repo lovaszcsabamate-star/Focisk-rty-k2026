@@ -20,9 +20,9 @@ assert.equal(rawEnrichment.records.length, 86);
 assert.equal(enrichment.records.length, 85);
 assert.equal(enrichment.excludedRecords.length, 1);
 assert.equal(enrichment.additions.length, 1);
-assert.equal(enriched.players.length, payload.players.length + 1);
+assert.equal(enriched.players.length, payload.players.length);
 assert.deepEqual(
-  enriched.players.slice(0, payload.players.length).map(card => card.id),
+  enriched.players.map(card => card.id),
   payload.players.map(card => card.id),
   'az eredeti adatbázis sorrendje és azonosítói változatlanok maradnak',
 );
@@ -30,13 +30,21 @@ assert.equal(new Set(enriched.players.map(card => card.id)).size, enriched.playe
 assert.equal(enriched.enrichment.matchedRecords, enrichment.records.length);
 assert.equal(enriched.enrichment.unmatchedRecords, 0);
 assert.equal(enriched.enrichment.excludedRecords, 1);
-assert.equal(enriched.enrichment.addedPlayers, 1);
-assert.equal(enriched.enrichment.skippedAdditions.length, 0);
-assert.equal(enriched.selection.playableCards, payload.selection.playableCards + 1);
-assert.equal(enriched.selection.uniquePlayers, payload.selection.uniquePlayers + 1);
-assert.equal(enriched.selection.registrationRecords, payload.selection.registrationRecords + 1);
-assert.equal(enriched.clubs['Ferencvárosi TC'], payload.clubs['Ferencvárosi TC'] + 1);
+assert.equal(enriched.enrichment.addedPlayers, 0);
+assert.equal(enriched.enrichment.updatedExistingPlayers, 1);
+assert.equal(enriched.enrichment.updatedPlayers[0].name, 'ABU FANI MOHAMMAD');
+assert.equal(enriched.enrichment.skippedCorrections.length, 0);
+assert.equal(enriched.selection.playableCards, payload.selection.playableCards);
+assert.equal(enriched.selection.uniquePlayers, payload.selection.uniquePlayers);
+assert.equal(enriched.selection.registrationRecords, payload.selection.registrationRecords);
+assert.equal(enriched.clubs['Ferencvárosi TC'], payload.clubs['Ferencvárosi TC']);
 assert.ok(enriched.coverage.birthDate > (payload.coverage.birthDate ?? 0));
+assert.equal(enriched.coverage.appearances, (payload.coverage.appearances ?? 0) + 1);
+assert.equal(enriched.coverage.starts, (payload.coverage.starts ?? 0) + 1);
+assert.equal(enriched.coverage.squads, (payload.coverage.squads ?? 0) + 1);
+assert.equal(enriched.coverage.yellowCards, (payload.coverage.yellowCards ?? 0) + 1);
+assert.equal(enriched.coverage.redCards, (payload.coverage.redCards ?? 0) + 1);
+assert.equal(enriched.coverage.totalDismissals, (payload.coverage.totalDismissals ?? 0) + 1);
 assert.ok(enriched.coverage.position > 0);
 assert.ok(enriched.coverage.nation > 0);
 assert.ok(enriched.coverage.heightCm > 0);
@@ -81,6 +89,7 @@ assert.equal(cadu.stats.shirtNumber, 20);
 
 const abuFani = find('ferencvarosi-tc', 'ABU FANI MOHAMMAD');
 assert.ok(abuFani, 'Abu Fani igazolt MLSZ-rekord');
+assert.equal(abuFani.id, 'nb1-2856e20f48e9', 'az eredeti játékosazonosító megmarad');
 assert.equal(abuFani.position, 'Középpályás');
 assert.equal(abuFani.nation, 'ISR');
 assert.equal(abuFani.birthDate, '1998-04-27');
@@ -90,8 +99,10 @@ assert.equal(abuFani.stats.squads, 23);
 assert.equal(abuFani.stats.goals, 2);
 assert.equal(abuFani.stats.yellowCards, 5);
 assert.equal(abuFani.stats.redCards, 0);
+assert.equal(abuFani.stats.totalDismissals, 0);
 assert.equal(abuFani.stats.shirtNumber, 15);
 assert.equal(abuFani.meta.dataStatus, 'verified');
+assert.ok(abuFani.meta.officialCorrection.fieldsApplied.includes('appearances'));
 
 assert.equal(
   enriched.players.some(card => card?.meta?.clubIds?.includes('ferencvarosi-tc')
@@ -129,5 +140,5 @@ assert.equal(normaliseEnrichmentText("O'Dowda, Callum"), 'O DOWDA CALLUM');
 
 console.log(
   `✓ Kluboldali bővítés: ${enriched.enrichment.matchedRecords}/${enrichment.records.length} rekord illesztve, `
-  + `${enriched.enrichment.addedPlayers} igazolt játékos hozzáadva`,
+  + `${enriched.enrichment.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve`,
 );
