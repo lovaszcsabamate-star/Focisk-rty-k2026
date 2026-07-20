@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T12:29:37.140Z",
+  "generatedAt": "2026-07-20T12:31:31.942Z",
   "baseDataset": "data/players.json",
   "sourceFiles": [
     "data/club-official-enrichment.json",
@@ -28,23 +28,23 @@
   },
   "coverage": {
     "birthDate": 265,
-    "appearances": 168,
-    "starts": 168,
+    "appearances": 169,
+    "starts": 169,
     "goals": 440,
     "squads": 107,
-    "yellowCards": 168,
-    "redCards": 168,
-    "totalDismissals": 168,
+    "yellowCards": 169,
+    "redCards": 169,
+    "totalDismissals": 169,
     "overallScore": 143,
     "position": 307,
     "nation": 170,
     "heightCm": 46,
     "shirtNumber": 261,
     "officialMetadata": 41,
-    "minutes": 28,
-    "substituteAppearances": 28,
-    "assists": 28,
-    "secondYellowRedCards": 28
+    "minutes": 29,
+    "substituteAppearances": 29,
+    "assists": 29,
+    "secondYellowRedCards": 29
   },
   "fieldCoverage": [
     {
@@ -136,26 +136,26 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 168,
-      "added": 24
+      "after": 169,
+      "added": 25
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 168,
-      "added": 24
+      "after": 169,
+      "added": 25
     },
     {
       "field": "minutes",
       "before": 0,
-      "after": 28,
-      "added": 28
+      "after": 29,
+      "added": 29
     },
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 28,
-      "added": 28
+      "after": 29,
+      "added": 29
     },
     {
       "field": "goals",
@@ -166,32 +166,32 @@
     {
       "field": "assists",
       "before": 0,
-      "after": 28,
-      "added": 28
+      "after": 29,
+      "added": 29
     },
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 168,
-      "added": 24
+      "after": 169,
+      "added": 25
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 168,
-      "added": 24
+      "after": 169,
+      "added": 25
     },
     {
       "field": "secondYellowRedCards",
       "before": 0,
-      "after": 28,
-      "added": 28
+      "after": 29,
+      "added": 29
     },
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 168,
-      "added": 24
+      "after": 169,
+      "added": 25
     }
   ],
   "clubSummary": [
@@ -340,14 +340,7 @@
       "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
     }
   ],
-  "manualReview": [
-    {
-      "name": "Soltész István",
-      "clubId": "kisvarda-master-good",
-      "sourceId": "kisvarda-official-season-review-2025-26",
-      "reason": "ambiguous-player-match"
-    }
-  ],
+  "manualReview": [],
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
@@ -677,45 +670,45 @@
     "season": "2025/26",
     "generatedAt": "2026-07-20T15:00:00+02:00",
     "records": 30,
-    "matchedRecords": 29,
-    "unmatchedRecords": 1,
+    "matchedRecords": 30,
+    "unmatchedRecords": 0,
     "conflictCount": 0,
     "multiClubMetadataOnly": 1,
     "appliedFieldCounts": {
-      "appearances": 24,
-      "starts": 24,
-      "minutes": 28,
-      "substituteAppearances": 28,
-      "assists": 28,
-      "yellowCards": 24,
-      "redCards": 24,
-      "secondYellowRedCards": 28,
-      "totalDismissals": 24
+      "appearances": 25,
+      "starts": 25,
+      "minutes": 29,
+      "substituteAppearances": 29,
+      "assists": 29,
+      "yellowCards": 25,
+      "redCards": 25,
+      "secondYellowRedCards": 29,
+      "totalDismissals": 25
     },
     "fieldCoverage": [
       {
         "field": "appearances",
         "before": 144,
-        "after": 168,
-        "added": 24
+        "after": 169,
+        "added": 25
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 168,
-        "added": 24
+        "after": 169,
+        "added": 25
       },
       {
         "field": "minutes",
         "before": 0,
-        "after": 28,
-        "added": 28
+        "after": 29,
+        "added": 29
       },
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 28,
-        "added": 28
+        "after": 29,
+        "added": 29
       },
       {
         "field": "goals",
@@ -726,42 +719,35 @@
       {
         "field": "assists",
         "before": 0,
-        "after": 28,
-        "added": 28
+        "after": 29,
+        "added": 29
       },
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 168,
-        "added": 24
+        "after": 169,
+        "added": 25
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 168,
-        "added": 24
+        "after": 169,
+        "added": 25
       },
       {
         "field": "secondYellowRedCards",
         "before": 0,
-        "after": 28,
-        "added": 28
+        "after": 29,
+        "added": 29
       },
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 168,
-        "added": 24
+        "after": 169,
+        "added": 25
       }
     ],
-    "manualReview": [
-      {
-        "name": "Soltész István",
-        "clubId": "kisvarda-master-good",
-        "sourceId": "kisvarda-official-season-review-2025-26",
-        "reason": "ambiguous-player-match"
-      }
-    ],
+    "manualReview": [],
     "conflicts": [],
     "sources": [
       {
