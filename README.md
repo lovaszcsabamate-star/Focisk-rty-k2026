@@ -64,7 +64,7 @@ A rendszer az eredeti adatbázisban szereplő valamennyi klub hivatalos oldalát
 
 A teljes forrásjegyzék: `data/club-official-sources.json`.
 
-Az ETO hivatalos keretoldalát is ellenőriztük, de a vizsgálatkor nem adott stabilan feldolgozható szöveges játékoslistát. Emiatt az ETO játékosaihoz nem került becsült vagy bizonytalan klubadat.
+Az ETO hivatalos 2025/26-os első csapatos keretéből mind a 28 feldolgozott rekord illeszkedett. A Puskás Akadémia aktuális profiljai közül kizárólag a 2025/26-os MLSZ-kártyához egyértelműen kapcsolható adatok kerültek át.
 
 ## Kluboldali adatfájlok
 
@@ -72,9 +72,11 @@ Az ETO hivatalos keretoldalát is ellenőriztük, de a vizsgálatkor nem adott s
 - `data/club-official-enrichment-2.json` – DVSC és MTK Budapest;
 - `data/club-official-enrichment-3-paks-nyir.json` – Paks és Nyíregyháza;
 - `data/club-official-enrichment-4-ujpest.json` – Újpest hivatalos profilok;
-- `data/club-official-enrichment-5-other.json` – Kisvárda, KBSC, Puskás Akadémia, ZTE és az ETO-forrásellenőrzés;
+- `data/club-official-enrichment-5-other.json` – Kisvárda, KBSC, Puskás Akadémia és ZTE kiegészítő hivatalos adatai;
+- `data/club-official-enrichment-6-eto-puskas.json` – ETO 2025/26-os keret és Puskás hivatalos játékosprofilok;
 - `data/club-official-corrections.json` – első név-, dátum- és jogosultsági korrekciós réteg;
 - `data/club-official-corrections-2.json` – további névkapcsolások és évadszűrések;
+- `data/club-official-corrections-3.json` – Puskás névkapcsolások és 2025/26-os jogosultsági kizárások;
 - `data/enrichment-audit.json` – automatikus adatminőségi audit;
 - `data/official-data-report.md` – részletes végső beszámoló.
 
@@ -82,9 +84,9 @@ Az ETO hivatalos keretoldalát is ellenőriztük, de a vizsgálatkor nem adott s
 
 A jelenlegi ellenőrzött állapot:
 
-- **293** nyers hivatalos klubrekord;
-- **19** dokumentált, MLSZ vagy évad alapján kizárt rekord;
-- **274/274** használható hivatalos rekord sikeresen illesztve;
+- **351** nyers hivatalos klubrekord;
+- **24** dokumentált, MLSZ vagy évad alapján kizárt rekord;
+- **327/327** használható hivatalos rekord sikeresen illesztve;
 - **0** illesztetlen rekord;
 - **0** megmaradt forrásütközés;
 - **0** új vagy duplikált játékoskártya;
@@ -94,11 +96,11 @@ A jelenlegi ellenőrzött állapot:
 
 | Mező | Eredeti | Végleges | Új valós adat |
 |---|---:|---:|---:|
-| Pontos születési dátum | 120 | 242 | +122 |
-| Poszt | 0 | 255 | +255 |
+| Pontos születési dátum | 120 | 265 | +145 |
+| Poszt | 0 | 307 | +307 |
 | Nemzetiség | 0 | 170 | +170 |
 | Magasság | 0 | 46 | +46 |
-| Mezszám | 0 | 209 | +209 |
+| Mezszám | 0 | 261 | +261 |
 | További hivatalos klubmetaadat | 0 | 41 játékos | +41 játékos |
 
 A 46 magasságadat még nem elég kiegyensúlyozott a magasságkategória automatikus aktiválásához.
@@ -151,11 +153,11 @@ A GitHub Actions ezen felül futtatja a `git diff --check` formázási ellenőrz
 
 | Fájl | Szerep |
 |---|---|
-| `js/bootstrap.js` | Az MLSZ-alapadatok, öt enrichment réteg, két korrekciós réteg és a forrásjegyzék betöltése |
+| `js/bootstrap.js` | Az MLSZ-alapadatok, hat enrichment réteg, három korrekciós réteg és a forrásjegyzék betöltése |
 | `js/data/club-enrichment.js` | Veszteségmentes illesztés, névazonosítás, többklubos mezszám és audit |
 | `scripts/build-standalone.mjs` | Egyfájlos build és teljes audit létrehozása |
 | `sw.js` | Az összes adatfájl offline gyorsítótárazása |
-| `test/enrichment.test.mjs` | A 274/274 rekord, 440 azonosító, 464 regisztráció és 0 nyitott eltérés tesztje |
+| `test/enrichment.test.mjs` | A 327/327 rekord, 440 azonosító, 464 regisztráció és 0 nyitott eltérés tesztje |
 | `test/static.test.mjs` | Böngészős, önálló és offline integráció ellenőrzése |
 
 ## Jogi megjegyzés
