@@ -4,7 +4,10 @@ import {
 } from './data/club-enrichment.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
-const CLUB_ENRICHMENT_URL = 'data/club-official-enrichment.json';
+const CLUB_ENRICHMENT_URLS = [
+  'data/club-official-enrichment.json',
+  'data/club-official-enrichment-2.json',
+];
 const CLUB_CORRECTIONS_URL = 'data/club-official-corrections.json';
 
 async function fetchJson(url) {
@@ -13,20 +16,32 @@ async function fetchJson(url) {
   return response.json();
 }
 
+function combineEnrichments(parts) {
+  const valid = parts.filter(part => part && Array.isArray(part.records));
+  if (!valid.length) return null;
+  return {
+    ...valid[0],
+    generatedAt: valid.at(-1)?.generatedAt ?? valid[0].generatedAt,
+    sources: valid.flatMap(part => part.sources ?? []),
+    records: valid.flatMap(part => part.records ?? []),
+  };
+}
+
 try {
-  const [payload, rawEnrichment, corrections] = await Promise.all([
+  const [payload, rawParts, corrections] = await Promise.all([
     fetchJson(PLAYER_DATA_URL),
-    fetchJson(CLUB_ENRICHMENT_URL).catch(error => {
-      console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be: ${error.message}`);
+    Promise.all(CLUB_ENRICHMENT_URLS.map(url => fetchJson(url).catch(error => {
+      console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be (${url}): ${error.message}`);
       return null;
-    }),
+    }))),
     fetchJson(CLUB_CORRECTIONS_URL).catch(error => {
       console.warn(`[enrichment] A korrekciós réteg nem tölthető be: ${error.message}`);
       return null;
     }),
   ]);
 
-  const enrichment = rawEnrichment ? prepareClubEnrichment(rawEnrichment, corrections) : null;
+  const combined = combineEnrichments(rawParts);
+  const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
   const enrichedPayload = enrichment ? applyClubEnrichmentPayload(payload, enrichment) : payload;
   globalThis.__EMBEDDED_PLAYER_DATA__ = enrichedPayload;
 
