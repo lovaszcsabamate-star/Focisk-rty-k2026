@@ -1,4 +1,4 @@
-const PWA_CACHE = 'fociskartyak-2026-v3';
+const PWA_CACHE = 'fociskartyak-2026-v4';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const PWA_SHELL = [
   './css/ux.css',
   './css/matchday.css',
   './css/pwa.css',
+  './js/bootstrap.js',
+  './js/data/club-enrichment.js',
   './js/data/players.js',
   './js/engine.js',
   './js/penalties.js',
@@ -20,6 +22,7 @@ const PWA_SHELL = [
   './js/pwa.js',
   './js/main.js',
   './data/players.json',
+  './data/club-official-enrichment.json',
   './assets/icons/icon.svg',
   './assets/qr/mobil-eleres.svg'
 ];
