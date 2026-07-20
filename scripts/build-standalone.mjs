@@ -43,6 +43,7 @@ const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda-selected10-2.json',
   'data/club-official-stat-patches-kisvarda-selected10-3.json',
   'data/club-official-stat-patches-kisvarda-final8.json',
+  'data/club-official-stat-patches-ferencvaros.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
