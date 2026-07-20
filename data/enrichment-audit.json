@@ -1,6 +1,7 @@
 {
-  "generatedAt": "2026-07-20T17:14:09.091Z",
+  "generatedAt": "2026-07-20T17:26:18.834Z",
   "baseDataset": "data/players.json",
+  "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
     "data/club-official-enrichment.json",
     "data/club-official-enrichment-2.json",
@@ -204,7 +205,7 @@
       "matched": 36,
       "excluded": 7,
       "review": 0,
-      "sourceStatus": "structured-season-roster-imported",
+      "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
       "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
     },
     {
@@ -276,7 +277,7 @@
       "matched": 32,
       "excluded": 0,
       "review": 0,
-      "sourceStatus": "structured-season-roster-imported",
+      "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
       "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
     },
     {
@@ -341,6 +342,20 @@
     }
   ],
   "manualReview": [],
+  "databaseReview": {
+    "players": 440,
+    "uniqueIds": 440,
+    "uniquePersonKeys": 440,
+    "registrationRecords": 464,
+    "clubs": 12,
+    "errorCount": 0,
+    "warningCount": 112,
+    "duplicateCandidateCount": 0,
+    "conflictCount": 0,
+    "changeCount": 1259,
+    "exactBirthDates": 265,
+    "completeGoals": 440
+  },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
@@ -526,7 +541,7 @@
         "matched": 36,
         "excluded": 7,
         "review": 0,
-        "sourceStatus": "structured-season-roster-imported",
+        "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
         "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
       },
       {
@@ -598,7 +613,7 @@
         "matched": 32,
         "excluded": 0,
         "review": 0,
-        "sourceStatus": "structured-season-roster-imported",
+        "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
         "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
       },
       {
