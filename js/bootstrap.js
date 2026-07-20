@@ -1,7 +1,11 @@
-import { applyClubEnrichmentPayload } from './data/club-enrichment.js';
+import {
+  applyClubEnrichmentPayload,
+  prepareClubEnrichment,
+} from './data/club-enrichment.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
 const CLUB_ENRICHMENT_URL = 'data/club-official-enrichment.json';
+const CLUB_CORRECTIONS_URL = 'data/club-official-corrections.json';
 
 async function fetchJson(url) {
   const response = await fetch(url, { cache: 'no-cache' });
@@ -10,14 +14,19 @@ async function fetchJson(url) {
 }
 
 try {
-  const [payload, enrichment] = await Promise.all([
+  const [payload, rawEnrichment, corrections] = await Promise.all([
     fetchJson(PLAYER_DATA_URL),
     fetchJson(CLUB_ENRICHMENT_URL).catch(error => {
       console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be: ${error.message}`);
       return null;
     }),
+    fetchJson(CLUB_CORRECTIONS_URL).catch(error => {
+      console.warn(`[enrichment] A korrekciós réteg nem tölthető be: ${error.message}`);
+      return null;
+    }),
   ]);
 
+  const enrichment = rawEnrichment ? prepareClubEnrichment(rawEnrichment, corrections) : null;
   const enrichedPayload = enrichment ? applyClubEnrichmentPayload(payload, enrichment) : payload;
   globalThis.__EMBEDDED_PLAYER_DATA__ = enrichedPayload;
 
@@ -25,7 +34,8 @@ try {
     const summary = enrichedPayload.enrichment;
     console.info(
       `[enrichment] ${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
-      + `${summary.conflictCount} eltérés megőrizve felülírás nélkül`
+      + `${summary.addedPlayers} igazolt hiányzó játékos hozzáadva · `
+      + `${summary.unmatchedRecords} illesztetlen rekord · ${summary.conflictCount} megőrzött eltérés`
     );
   }
 } catch (error) {
