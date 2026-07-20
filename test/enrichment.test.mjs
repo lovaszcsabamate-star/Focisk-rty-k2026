@@ -26,8 +26,10 @@ const enriched = applyClubEnrichmentPayload(payload, enrichment);
 assert.equal(rawParts[0].records.length, 86);
 assert.equal(rawParts[1].records.length, 75);
 assert.equal(rawEnrichment.records.length, 161);
-assert.equal(enrichment.records.length, 160);
-assert.equal(enrichment.excludedRecords.length, 1);
+assert.equal(corrections.recordPatches.length, 5);
+assert.equal(corrections.excludeRecords.length, 8);
+assert.equal(enrichment.records.length, 153);
+assert.equal(enrichment.excludedRecords.length, 8);
 assert.equal(enrichment.additions.length, 1);
 assert.equal(enriched.players.length, payload.players.length);
 assert.deepEqual(
@@ -36,28 +38,29 @@ assert.deepEqual(
   'az eredeti adatbázis sorrendje és azonosítói változatlanok maradnak',
 );
 assert.equal(new Set(enriched.players.map(card => card.id)).size, enriched.players.length);
-assert.ok(enriched.enrichment.matchedRecords >= 145, 'a kluboldali rekordok döntő többségének illeszkednie kell');
-assert.ok(enriched.enrichment.unmatchedRecords <= 15, 'legfeljebb 15 rekord maradhat az első auditkörben');
-assert.equal(enriched.enrichment.excludedRecords, 1);
+assert.equal(enriched.enrichment.matchedRecords, 153);
+assert.equal(enriched.enrichment.unmatchedRecords, 0);
+assert.equal(enriched.enrichment.excludedRecords, 8);
 assert.equal(enriched.enrichment.addedPlayers, 0);
 assert.equal(enriched.enrichment.updatedExistingPlayers, 1);
 assert.equal(enriched.enrichment.updatedPlayers[0].name, 'ABU FANI MOHAMMAD');
 assert.equal(enriched.enrichment.skippedCorrections.length, 0);
+assert.ok(enriched.enrichment.conflictCount <= 2, 'legfeljebb két, felülírás nélkül megőrzött forráseltérés maradhat');
 assert.equal(enriched.selection.playableCards, payload.selection.playableCards);
 assert.equal(enriched.selection.uniquePlayers, payload.selection.uniquePlayers);
 assert.equal(enriched.selection.registrationRecords, payload.selection.registrationRecords);
 assert.equal(enriched.clubs['Ferencvárosi TC'], payload.clubs['Ferencvárosi TC']);
-assert.ok(enriched.coverage.birthDate > (payload.coverage.birthDate ?? 0));
+assert.equal(enriched.coverage.birthDate, 194);
 assert.equal(enriched.coverage.appearances, (payload.coverage.appearances ?? 0) + 1);
 assert.equal(enriched.coverage.starts, (payload.coverage.starts ?? 0) + 1);
 assert.equal(enriched.coverage.squads, (payload.coverage.squads ?? 0) + 1);
 assert.equal(enriched.coverage.yellowCards, (payload.coverage.yellowCards ?? 0) + 1);
 assert.equal(enriched.coverage.redCards, (payload.coverage.redCards ?? 0) + 1);
 assert.equal(enriched.coverage.totalDismissals, (payload.coverage.totalDismissals ?? 0) + 1);
-assert.ok(enriched.coverage.position >= 140);
-assert.ok(enriched.coverage.nation >= 140);
-assert.ok(enriched.coverage.heightCm >= 27);
-assert.ok(enriched.coverage.shirtNumber >= 125);
+assert.equal(enriched.coverage.position, 150);
+assert.equal(enriched.coverage.nation, 150);
+assert.equal(enriched.coverage.heightCm, 27);
+assert.equal(enriched.coverage.shirtNumber, 131);
 assert.equal(enriched.selection.exactBirthDates, enriched.coverage.birthDate);
 assert.equal(enriched.enrichment.coverageAfter.birthDate, enriched.coverage.birthDate);
 assert.equal(
@@ -80,6 +83,18 @@ const dibusz = find('ferencvarosi-tc', 'Dibusz Dénes');
 assert.ok(dibusz);
 assert.equal(dibusz.position, 'Kapus');
 assert.equal(dibusz.stats.shirtNumber, 90);
+
+const gordic = find('dvsc', 'GORDIC DORDE');
+assert.ok(gordic, 'Gordić Đorđe klubnév az MLSZ GORDIC DORDE rekordjához illeszkedik');
+assert.equal(gordic.position, 'Középpályás');
+assert.equal(gordic.nation, 'SRB');
+assert.equal(gordic.stats.shirtNumber, 14);
+
+const manzanara = find('dvsc', 'LOPEZ DE LA MANZANARA DELGADO FRANCISCO JESUS');
+assert.ok(manzanara, 'Manzanara rövid név az MLSZ teljes névformájához illeszkedik');
+assert.equal(manzanara.position, 'Középpályás');
+assert.equal(manzanara.nation, 'ESP');
+assert.equal(manzanara.stats.shirtNumber, 16);
 
 const barany = find('dvsc', 'Bárány Donát');
 assert.ok(barany);
@@ -112,11 +127,23 @@ assert.equal(abuFani.stats.squads, 23);
 assert.equal(abuFani.stats.yellowCards, 5);
 assert.equal(abuFani.stats.redCards, 0);
 
-assert.equal(
-  enriched.players.some(card => card?.meta?.clubIds?.includes('ferencvarosi-tc')
-    && enrichmentNamesMatch(card.name, { name: 'Tóth Zalán' })),
-  false,
-);
+for (const [clubId, name] of [
+  ['ferencvarosi-tc', 'Tóth Zalán'],
+  ['dvsc', 'Engedi Márk'],
+  ['dvsc', 'Gyenti Kristóf'],
+  ['dvsc', 'Hornyák Csaba'],
+  ['dvsc', 'Nwachukwu David'],
+  ['dvsc', 'Polozhyi Ivan'],
+  ['dvsc', 'Batai Tamás'],
+  ['dvsc', 'Vázquez Erik'],
+]) {
+  assert.equal(
+    enriched.players.some(card => card?.meta?.clubIds?.includes(clubId)
+      && enrichmentNamesMatch(card.name, { name })),
+    false,
+    `${name} nem kerülhet igazolatlan Fizz Liga-kártyaként az adatbázisba`,
+  );
+}
 
 const acolatse = find('dvtk', 'Acolatse Elton');
 if (acolatse?.meta?.registrationCount > 1) {
@@ -146,8 +173,6 @@ assert.equal(normaliseEnrichmentText("O'Dowda, Callum"), 'O DOWDA CALLUM');
 
 console.log(
   `✓ Kluboldali audit: ${enriched.enrichment.matchedRecords}/${enrichment.records.length} rekord illesztve, `
-  + `${enriched.enrichment.unmatchedRecords} további ellenőrzendő rekord`,
+  + `${enriched.enrichment.unmatchedRecords} illesztetlen rekord, `
+  + `${enriched.enrichment.conflictCount} felülírás nélkül megőrzött forráseltérés`,
 );
-if (enriched.enrichment.unmatchedRecords) {
-  console.log(JSON.stringify(enriched.enrichment.unmatched, null, 2));
-}
