@@ -1,4 +1,4 @@
-const PWA_CACHE = 'fociskartyak-2026-v17';
+const PWA_CACHE = 'fociskartyak-2026-v18';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -50,6 +50,7 @@ const PWA_SHELL = [
   './data/club-official-stat-patches-kisvarda-selected10-2.json',
   './data/club-official-stat-patches-kisvarda-selected10-3.json',
   './data/club-official-stat-patches-kisvarda-final8.json',
+  './data/club-official-stat-patches-ferencvaros.json',
   './data/club-official-sources.json',
   './assets/icons/icon.svg',
   './assets/qr/mobil-eleres.svg'
