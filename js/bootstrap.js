@@ -10,6 +10,7 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-3-paks-nyir.json',
   'data/club-official-enrichment-4-ujpest.json',
   'data/club-official-enrichment-5-other.json',
+  'data/club-official-enrichment-6-eto-puskas.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
