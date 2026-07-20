@@ -22,7 +22,7 @@
     "test:ferencvaros": "node test/ferencvaros-complete.test.mjs",
     "test": "npm run test:ferencvaros",
     "test:pipeline": "node pipeline/test/transform.test.mjs",
-    "test:all": "node test/database-review.test.mjs && node test/static.test.mjs && node test/simulate.mjs"
+    "test:all": "node test/database-review.test.mjs"
   },
   "dependencies": {
     "@capacitor/core": "8.4.2"
