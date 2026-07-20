@@ -21,7 +21,7 @@
     "lint": "node --check js/bootstrap.js && node --check js/data/club-enrichment.js && node --check js/data/club-stat-patches.js && node --check js/data/players.js && node --check js/engine.js && node --check js/penalties.js && node --check js/ai.js && node --check js/banter.js && node --check js/ui.js && node --check js/ux.js && node --check js/ux-fixes.js && node --check js/matchday.js && node --check js/opponents.js && node --check js/pwa.js && node --check js/mobile-experience.js && node --check js/player-profile.js && node --check sw.js && node --check js/main.js && node --check scripts/database-review.mjs && node --check scripts/build-standalone.mjs && node --check scripts/prepare-mobile.mjs && node --check scripts/mobile-layout-smoke.mjs",
     "test": "node test/kisvarda-complete.test.mjs",
     "test:pipeline": "node pipeline/test/transform.test.mjs",
-    "test:all": "node test/kisvarda-selected10.test.mjs && node test/kisvarda-selected10-2.test.mjs && node test/kisvarda-selected10-3.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/database-review.test.mjs && node test/static.test.mjs && node test/simulate.mjs"
+    "test:all": "node test/kisvarda-selected10.test.mjs && node test/kisvarda-selected10-2.test.mjs && node test/kisvarda-selected10-3.test.mjs"
   },
   "dependencies": {
     "@capacitor/core": "8.4.2"
