@@ -36,7 +36,16 @@ const bundle = moduleOrder
   .map(file => `\n/* ===== ${file} ===== */\n${flattenModule(read(file))}`)
   .join('\n');
 const basePayload = JSON.parse(read('data/players.json'));
-const rawEnrichment = JSON.parse(read('data/club-official-enrichment.json'));
+const enrichmentParts = [
+  JSON.parse(read('data/club-official-enrichment.json')),
+  JSON.parse(read('data/club-official-enrichment-2.json')),
+];
+const rawEnrichment = {
+  ...enrichmentParts[0],
+  generatedAt: enrichmentParts.at(-1)?.generatedAt ?? enrichmentParts[0].generatedAt,
+  sources: enrichmentParts.flatMap(part => part.sources ?? []),
+  records: enrichmentParts.flatMap(part => part.records ?? []),
+};
 const corrections = JSON.parse(read('data/club-official-corrections.json'));
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
 const payload = applyClubEnrichmentPayload(basePayload, enrichment);
