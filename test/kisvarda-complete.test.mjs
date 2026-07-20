@@ -14,6 +14,7 @@ const readText = relative => fs.readFileSync(new URL(relative, import.meta.url),
 const basePayload = readJson('../data/players.json');
 const directory = readJson('../data/club-official-sources.json');
 const finalEnrichment = readJson('../data/club-official-enrichment-10-kisvarda-final8.json');
+const positionCompletion = readJson('../data/club-official-enrichment-11-kisvarda-completion.json');
 const finalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const enrichmentFiles = [
   '../data/club-official-enrichment.json',
@@ -26,6 +27,7 @@ const enrichmentFiles = [
   '../data/club-official-enrichment-8-kisvarda-selected10.json',
   '../data/club-official-enrichment-9-kisvarda-selected10.json',
   '../data/club-official-enrichment-10-kisvarda-final8.json',
+  '../data/club-official-enrichment-11-kisvarda-completion.json',
 ];
 const correctionFiles = [
   '../data/club-official-corrections.json',
@@ -71,6 +73,8 @@ const clubStatsFor = player => Number(player.meta?.registrationCount ?? 1) > 1
 assert.equal(finalEnrichment.batch.playerCount, 8);
 assert.equal(finalEnrichment.batch.playerIds.length, 8);
 assert.equal(new Set(finalEnrichment.batch.playerIds).size, 8);
+assert.equal(positionCompletion.batch.playerCount, 2);
+assert.equal(positionCompletion.records.length, 2);
 assert.equal(finalStats.batch.playerCount, 8);
 assert.equal(finalStats.rows.length, 8);
 assert.equal(patched.players.length, 440);
@@ -132,11 +136,24 @@ for (const [id, values] of Object.entries(expected)) {
   ));
 }
 
-for (const record of finalEnrichment.records) {
-  assert.ok(finalEnrichment.batch.playerIds.some(id => {
+const medgyes = patched.players.find(player => player.id === 'nb1-5617f703b891');
+assert.equal(medgyes.position, 'Védő');
+assert.equal(medgyes.nation, 'HUN / SVK');
+assert.equal(medgyes.meta.clubOfficial.primaryPosition, 'Balhátvéd');
+assert.equal(medgyes.meta.clubOfficial.strongFoot, 'bal');
+
+const molnar = patched.players.find(player => player.id === 'nb1-e262cfc330c5');
+assert.equal(molnar.position, 'Támadó');
+assert.equal(molnar.meta.clubOfficial.primaryPosition, 'Támadó középpályás');
+
+for (const record of [...finalEnrichment.records, ...positionCompletion.records]) {
+  const allowedIds = record.sourceId.includes('position-completion')
+    ? positionCompletion.batch.playerIds
+    : finalEnrichment.batch.playerIds;
+  assert.ok(allowedIds.some(id => {
     const player = basePayload.players.find(item => item.id === id);
     return player && enrichmentNamesMatch(player.name, record);
-  }), `A lezáró nyolcason kívüli rekord került a csomagba: ${record.name}`);
+  }), `A lezáró csomagon kívüli rekord került be: ${record.name}`);
   assert.equal(record.checkedAt, '2026-07-20');
   assert.equal(record.season, '2025/26');
   assert.equal(record.confidence, 'high');
@@ -146,10 +163,12 @@ for (const record of finalEnrichment.records) {
 const kisvardaDirectory = directory.clubs.find(club => club.clubId === CLUB_ID);
 assert.equal(kisvardaDirectory.status, 'complete-38-of-38-player-review');
 assert.ok(kisvardaDirectory.recordFiles.includes('data/club-official-enrichment-10-kisvarda-final8.json'));
+assert.ok(kisvardaDirectory.recordFiles.includes('data/club-official-enrichment-11-kisvarda-completion.json'));
 assert.ok(kisvardaDirectory.recordFiles.includes('data/club-official-stat-patches-kisvarda-final8.json'));
 
 for (const file of [
   'club-official-enrichment-10-kisvarda-final8.json',
+  'club-official-enrichment-11-kisvarda-completion.json',
   'club-official-stat-patches-kisvarda-final8.json',
 ]) {
   for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
