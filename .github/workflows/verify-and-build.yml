@@ -50,6 +50,12 @@ jobs:
             git push
           fi
 
+      - name: Kisvárda statisztikai teszt
+        run: node test/official-stat-patches.test.mjs
+
+      - name: Statikus integrációs teszt
+        run: node test/static.test.mjs
+
       - name: Alkalmazástesztek
         run: npm test
 
