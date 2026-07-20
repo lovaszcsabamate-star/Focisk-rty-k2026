@@ -1,0 +1,39 @@
+/* Keep mobile overlay content inside the real #overlay-body panel. */
+
+@media (max-width: 900px) {
+  #overlay-body.panel {
+    width: min(760px, calc(100vw - 24px));
+    max-width: none;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    padding: 0;
+    overflow: hidden;
+  }
+
+  #overlay-body > * {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
+  #overlay-body > .mobile-home,
+  #overlay-body > .mobile-sheet,
+  #overlay-body > .confirm-panel,
+  #overlay-body > .onboarding-panel,
+  #overlay-body > .penalty-intro,
+  #overlay-body > .result-panel {
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  #overlay-body.panel {
+    width: calc(100vw - 16px);
+  }
+}
+
+@media (max-width: 320px) {
+  #overlay-body.panel {
+    width: calc(100vw - 8px);
+  }
+}

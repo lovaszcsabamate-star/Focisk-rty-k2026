@@ -36,6 +36,20 @@ jobs:
       - name: Önálló HTML és audit elkészítése
         run: npm run build
 
+      - name: Valódi Chrome mobilnézeti ellenőrzés
+        id: mobile_layout
+        continue-on-error: true
+        run: npm run test:mobile-layout
+
+      - name: Mobilnézeti riport mentése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-layout-report
+          path: mobile-layout-report.json
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Alkalmazástesztek
         run: npm test
 
@@ -44,6 +58,10 @@ jobs:
 
       - name: Formázási hibák ellenőrzése
         run: git diff --check
+
+      - name: Mobilnézeti eredmény érvényesítése
+        if: steps.mobile_layout.outcome == 'failure'
+        run: exit 1
 
       - name: Generált játékfájl és audit mentése
         if: github.event_name == 'push'
