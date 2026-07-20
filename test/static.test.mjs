@@ -11,12 +11,14 @@ const pwaCss = fs.readFileSync(new URL('../css/pwa.css', import.meta.url), 'utf8
 const pwaJs = fs.readFileSync(new URL('../js/pwa.js', import.meta.url), 'utf8');
 const bootstrap = fs.readFileSync(new URL('../js/bootstrap.js', import.meta.url), 'utf8');
 const clubEnrichment = fs.readFileSync(new URL('../js/data/club-enrichment.js', import.meta.url), 'utf8');
+const clubStatPatches = fs.readFileSync(new URL('../js/data/club-stat-patches.js', import.meta.url), 'utf8');
 const serviceWorker = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
 const directory = JSON.parse(fs.readFileSync(new URL('../data/club-official-sources.json', import.meta.url), 'utf8'));
 const paksNyir = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-3-paks-nyir.json', import.meta.url), 'utf8'));
 const ujpest = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-4-ujpest.json', import.meta.url), 'utf8'));
 const other = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-5-other.json', import.meta.url), 'utf8'));
 const etoPuskas = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-6-eto-puskas.json', import.meta.url), 'utf8'));
+const kisvardaStats = JSON.parse(fs.readFileSync(new URL('../data/club-official-stat-patches-kisvarda.json', import.meta.url), 'utf8'));
 const corrections2 = JSON.parse(fs.readFileSync(new URL('../data/club-official-corrections-2.json', import.meta.url), 'utf8'));
 const corrections3 = JSON.parse(fs.readFileSync(new URL('../data/club-official-corrections-3.json', import.meta.url), 'utf8'));
 const manifest = JSON.parse(fs.readFileSync(new URL('../manifest.webmanifest', import.meta.url), 'utf8'));
@@ -56,12 +58,18 @@ for (const file of [
   'club-official-corrections.json',
   'club-official-corrections-2.json',
   'club-official-corrections-3.json',
+  'club-official-stat-patches-kisvarda.json',
   'club-official-sources.json',
 ]) {
   assert.match(bootstrap, new RegExp(file.replaceAll('.', '\\.')));
   assert.match(buildScript, new RegExp(file.replaceAll('.', '\\.')));
   assert.match(serviceWorker, new RegExp(file.replaceAll('.', '\\.')));
 }
+assert.match(bootstrap, /club-stat-patches\.js/);
+assert.match(buildScript, /club-stat-patches\.js/);
+assert.match(serviceWorker, /club-stat-patches\.js/);
+assert.match(bootstrap, /applyOfficialStatPatches/);
+assert.match(buildScript, /applyOfficialStatPatches/);
 assert.match(bootstrap, /combineEnrichments/);
 assert.match(bootstrap, /combineCorrections/);
 assert.match(clubEnrichment, /existing MLSZ values always win/);
@@ -69,10 +77,13 @@ assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
 assert.match(clubEnrichment, /clubSummary/);
 assert.match(clubEnrichment, /manualReview/);
-assert.match(serviceWorker, /fociskartyak-2026-v10/);
+assert.match(clubStatPatches, /clubOfficialStatsByClub/);
+assert.match(clubStatPatches, /multiClubMetadataOnly/);
+assert.match(serviceWorker, /fociskartyak-2026-v11/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
-assert.match(buildScript, /fieldCoverage/);
+assert.match(buildScript, /officialStatFieldCoverage/);
+assert.match(buildScript, /officialStatPatches/);
 assert.match(buildScript, /clubSummary/);
 assert.match(workflow, /data\/enrichment-audit\.json/);
 
@@ -84,6 +95,13 @@ assert.equal(other.records.length, 46);
 assert.equal(etoPuskas.records.length, 58);
 assert.equal(etoPuskas.records.filter(record => record.clubId === 'eto-fc').length, 28);
 assert.equal(etoPuskas.records.filter(record => record.clubId === 'puskas-akademia-fc').length, 30);
+assert.equal(kisvardaStats.rows.length, 30);
+assert.deepEqual(kisvardaStats.fields, [
+  'name', 'appearances', 'starts', 'minutes', 'substituteAppearances',
+  'goals', 'assists', 'yellowCards', 'redCards', 'secondYellowRedCards', 'totalDismissals',
+]);
+assert.equal(kisvardaStats.source.clubId, 'kisvarda-master-good');
+assert.equal(kisvardaStats.source.additionalUrls.length, 2);
 assert.equal(corrections2.recordPatches.length, 2);
 assert.equal(corrections2.excludeRecords.length, 11);
 assert.equal(corrections3.recordPatches.length, 2);
@@ -92,6 +110,10 @@ assert.ok(corrections3.recordPatches.some(item => item.aliases?.includes('ARUTIU
 assert.ok(corrections3.recordPatches.some(item => item.aliases?.includes('DÁRDAI PÁL')));
 assert.ok(directory.clubs.every(club => club.officialUrl && club.officialRosterUrl && club.status));
 assert.equal(directory.clubs.find(club => club.clubId === 'eto-fc').status, 'structured-season-roster-imported');
+assert.equal(
+  directory.clubs.find(club => club.clubId === 'kisvarda-master-good').status,
+  'official-season-statistics-imported',
+);
 
 assert.equal(manifest.display, 'standalone');
 assert.equal(manifest.orientation, 'portrait-primary');
@@ -106,10 +128,13 @@ assert.match(launcher, /start "" "%GAME%"/);
 assert.match(standalone, /globalThis\.__EMBEDDED_PLAYER_DATA__/);
 assert.match(standalone, /officialClubDirectory/);
 assert.match(standalone, /clubOfficialEnrichment/);
+assert.match(standalone, /officialClubStatPatches/);
+assert.match(standalone, /officialStatPatches/);
 assert.match(standalone, /ARUTIUNIAN GEORGII/);
+assert.match(standalone, /"minutes":3161/);
 assert.match(standalone, /"updatedExistingPlayers":1/);
 assert.match(standalone, /"unmatchedRecords":0/);
 assert.doesNotMatch(standalone, /<script type="module" src=/);
 assert.doesNotMatch(standalone, /<link rel="stylesheet" href=/);
 
-console.log('✓ Magyar, reszponzív, 12 klubos auditált adatbővítéssel működő és telepíthető felületi szerződés: rendben');
+console.log('✓ Magyar, reszponzív, hivatalos klub- és szezonstatisztikákkal működő offline felületi szerződés: rendben');

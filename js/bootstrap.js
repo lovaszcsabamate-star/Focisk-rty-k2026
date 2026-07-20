@@ -2,6 +2,7 @@ import {
   applyClubEnrichmentPayload,
   prepareClubEnrichment,
 } from './data/club-enrichment.js';
+import { applyOfficialStatPatches } from './data/club-stat-patches.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
 const CLUB_ENRICHMENT_URLS = [
@@ -16,6 +17,9 @@ const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
+];
+const CLUB_STAT_PATCH_URLS = [
+  'data/club-official-stat-patches-kisvarda.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
@@ -50,7 +54,7 @@ function combineCorrections(parts) {
 }
 
 try {
-  const [payload, rawParts, correctionParts, directory] = await Promise.all([
+  const [payload, rawParts, correctionParts, statPatchParts, directory] = await Promise.all([
     fetchJson(PLAYER_DATA_URL),
     Promise.all(CLUB_ENRICHMENT_URLS.map(url => fetchJson(url).catch(error => {
       console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be (${url}): ${error.message}`);
@@ -58,6 +62,10 @@ try {
     }))),
     Promise.all(CLUB_CORRECTION_URLS.map(url => fetchJson(url).catch(error => {
       console.warn(`[enrichment] A korrekciós réteg nem tölthető be (${url}): ${error.message}`);
+      return null;
+    }))),
+    Promise.all(CLUB_STAT_PATCH_URLS.map(url => fetchJson(url).catch(error => {
+      console.warn(`[enrichment] A hivatalos klubstatisztika nem tölthető be (${url}): ${error.message}`);
       return null;
     }))),
     fetchJson(CLUB_DIRECTORY_URL).catch(error => {
@@ -70,10 +78,11 @@ try {
   const corrections = combineCorrections(correctionParts);
   const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
   const enrichedPayload = enrichment ? applyClubEnrichmentPayload(payload, enrichment) : payload;
-  globalThis.__EMBEDDED_PLAYER_DATA__ = enrichedPayload;
+  const finalPayload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
+  globalThis.__EMBEDDED_PLAYER_DATA__ = finalPayload;
 
-  if (enrichedPayload?.enrichment) {
-    const summary = enrichedPayload.enrichment;
+  if (finalPayload?.enrichment) {
+    const summary = finalPayload.enrichment;
     console.info(
       `[enrichment] ${summary.clubSummary?.length ?? 0} klub ellenőrizve · `
       + `${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
@@ -81,6 +90,13 @@ try {
       + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
       + `${summary.unmatchedRecords} kézi ellenőrzésre váró rekord · `
       + `${summary.conflictCount} megőrzött eltérés`
+    );
+  }
+  if (finalPayload?.officialStatPatches) {
+    const summary = finalPayload.officialStatPatches;
+    console.info(
+      `[official-stats] ${summary.matchedRecords}/${summary.records} hivatalos szezonstatisztika illesztve · `
+      + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés`
     );
   }
 } catch (error) {
