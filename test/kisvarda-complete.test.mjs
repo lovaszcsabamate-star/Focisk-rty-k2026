@@ -8,6 +8,7 @@ import {
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
 
+const CLUB_ID = 'kisvarda-master-good';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
 const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const basePayload = readJson('../data/players.json');
@@ -63,6 +64,9 @@ const enriched = applyClubEnrichmentPayload(
   prepareClubEnrichment(rawEnrichment, corrections),
 );
 const patched = applyOfficialStatPatches(enriched, statPatchParts);
+const clubStatsFor = player => Number(player.meta?.registrationCount ?? 1) > 1
+  ? player.meta?.clubOfficialStatsByClub?.[CLUB_ID]
+  : player.stats;
 
 assert.equal(finalEnrichment.batch.playerCount, 8);
 assert.equal(finalEnrichment.batch.playerIds.length, 8);
@@ -77,14 +81,14 @@ assert.equal(patched.enrichment.conflictCount, 0);
 assert.equal(patched.officialStatPatches.unmatchedRecords, 0);
 assert.equal(patched.officialStatPatches.conflictCount, 0);
 
-const kisvarda = patched.players.filter(player =>
-  player.meta?.clubIds?.includes('kisvarda-master-good')
-);
+const kisvarda = patched.players.filter(player => player.meta?.clubIds?.includes(CLUB_ID));
 assert.equal(kisvarda.length, 38, 'A Kisvárda adatbázisának 38 játékost kell tartalmaznia');
 
 for (const player of kisvarda) {
+  const stats = clubStatsFor(player);
   assert.match(player.birthDate, /^\d{4}-\d{2}-\d{2}$/, `${player.name}: hiányzó pontos születési dátum`);
   assert.ok(player.position && player.position !== 'Nincs adat', `${player.name}: hiányzó poszt`);
+  assert.ok(stats, `${player.name}: hiányzó Kisvárda-specifikus statisztika`);
   for (const field of [
     'appearances',
     'starts',
@@ -96,15 +100,15 @@ for (const player of kisvarda) {
     'secondYellowRedCards',
     'totalDismissals',
   ]) {
-    assert.equal(Number.isFinite(player.stats?.[field]), true, `${player.name}: hiányzó vagy hibás ${field}`);
-    assert.ok(player.stats[field] >= 0, `${player.name}: negatív ${field}`);
+    assert.equal(Number.isFinite(stats[field]), true, `${player.name}: hiányzó vagy hibás ${field}`);
+    assert.ok(stats[field] >= 0, `${player.name}: negatív ${field}`);
   }
   assert.equal(
-    player.stats.starts + player.stats.substituteAppearances,
-    player.stats.appearances,
+    stats.starts + stats.substituteAppearances,
+    stats.appearances,
     `${player.name}: a kezdés/csere bontás nem adja ki a pályára lépéseket`,
   );
-  assert.ok(player.stats.squads >= player.stats.appearances, `${player.name}: a kerettagság kisebb a pályára lépésnél`);
+  assert.ok(stats.squads >= stats.appearances, `${player.name}: a kerettagság kisebb a pályára lépésnél`);
   assert.ok(player.meta?.clubOfficialSources?.length > 0, `${player.name}: hiányzó klubforrás`);
   assert.ok(player.meta?.officialStatSources?.length > 0, `${player.name}: hiányzó MLSZ-statisztikai forrás`);
 }
@@ -123,13 +127,14 @@ const expected = {
 for (const [id, values] of Object.entries(expected)) {
   const player = patched.players.find(item => item.id === id);
   assert.ok(player, `Hiányzik a lezáró nyolcas játékosa: ${id}`);
+  const stats = clubStatsFor(player);
   assert.equal(player.birthDate, values.birthDate);
   assert.equal(player.position, values.position);
   if ('nation' in values) assert.equal(player.nation, values.nation);
-  assert.equal(player.stats.appearances, values.appearances);
-  assert.equal(player.stats.starts, values.starts);
-  assert.equal(player.stats.substituteAppearances, values.substitutes);
-  assert.equal(player.stats.squads, values.squads);
+  assert.equal(stats.appearances, values.appearances);
+  assert.equal(stats.starts, values.starts);
+  assert.equal(stats.substituteAppearances, values.substitutes);
+  assert.equal(stats.squads, values.squads);
   assert.ok(player.meta.clubOfficialSources.some(source => source.checkedAt === '2026-07-20'));
   assert.ok(player.meta.officialStatSources.some(source =>
     source.sourceId === 'mlsz-fizz-liga-kisvarda-final8-2025-26'
@@ -147,7 +152,7 @@ for (const record of finalEnrichment.records) {
   assert.match(record.sourceUrl, /^https:\/\//);
 }
 
-const kisvardaDirectory = directory.clubs.find(club => club.clubId === 'kisvarda-master-good');
+const kisvardaDirectory = directory.clubs.find(club => club.clubId === CLUB_ID);
 assert.equal(kisvardaDirectory.status, 'complete-38-of-38-player-review');
 assert.ok(kisvardaDirectory.recordFiles.includes('data/club-official-enrichment-10-kisvarda-final8.json'));
 assert.ok(kisvardaDirectory.recordFiles.includes('data/club-official-stat-patches-kisvarda-final8.json'));
