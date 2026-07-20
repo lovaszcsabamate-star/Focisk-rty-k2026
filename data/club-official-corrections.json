@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "checkedAt": "2026-07-20",
-  "policy": "A korrekciók csak konkrét, ellenőrzött néveltérést javítanak, téves NB I-es besorolást kizárnak, illetve MLSZ és hivatalos klubforrás által egyaránt igazolt hiányzó játékost adnak hozzá.",
+  "policy": "A korrekciók csak konkrét, ellenőrzött néveltérést javítanak, téves NB I-es besorolást kizárnak, illetve az MLSZ és hivatalos klubforrás által egyaránt igazolt hiányzó adatot egészítenek ki. Az eredeti játékosazonosító és minden már kitöltött MLSZ-érték megmarad.",
   "addSources": [
     {
       "id": "mlsz-player-1358618-abu-fani",
@@ -47,6 +47,26 @@
         "ABU FANI MOHAMMAD"
       ],
       "note": "A kluboldal Mohammed, az MLSZ Mohammad névformát használ."
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Gordić Đorđe",
+      "aliases": [
+        "GORDIC DORDE"
+      ],
+      "note": "A kluboldali délszláv írásmód az MLSZ ékezet nélküli névformájához kapcsolva.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1497611.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Manzanara Francisco",
+      "aliases": [
+        "LOPEZ DE LA MANZANARA DELGADO FRANCISCO JESUS"
+      ],
+      "note": "A kluboldali rövid név az MLSZ teljes névformájához kapcsolva.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1497514.html"
     }
   ],
   "excludeRecords": [
@@ -56,6 +76,55 @@
       "name": "Tóth Zalán",
       "reason": "Az MLSZ 2025/26-os adatlapja csak a Ferencvárosi TC II. NB III-as és kupaszerepléseit mutatja; Fizz Liga elsőcsapatos rekord nincs.",
       "sourceUrl": "https://adatbank.mlsz.hu/player/543832.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Engedi Márk",
+      "reason": "Az MLSZ 2025/26-ban a Karcagi SC Merkantil Bank Liga-játékosaként tartja nyilván; DVSC Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/580466.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Gyenti Kristóf",
+      "reason": "Az MLSZ 2025/26-os adatlapja csak DVSC II. NB III-as szereplést mutat; Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/495156.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Hornyák Csaba",
+      "reason": "Az MLSZ 2025/26-os adatlapja NB II-es és NB III-as szereplést mutat, de DVSC Fizz Liga-rekordot nem.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/507976.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Nwachukwu David",
+      "reason": "A játékos nem szerepel a végleges 2025/26-os MLSZ DVSC Fizz Liga-keretben, az MLSZ játékosoldalán nem igazolható 2025/26-os NB I-es szezonrekord.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1360298.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Polozhyi Ivan",
+      "reason": "A játékos nem szerepel a végleges 2025/26-os MLSZ DVSC Fizz Liga-keretben; csak korábbi idényhez köthető MLSZ-találat volt igazolható.",
+      "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/25/307004.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Batai Tamás",
+      "reason": "Az MLSZ 2025/26-os adatlapja csak DVSC II. és DEAC NB III-as szereplést mutat; Fizz Liga-rekord nincs. A kluboldali születési dátum is eltér az MLSZ-adattól.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/471227.html"
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-dvsc",
+      "clubId": "dvsc",
+      "name": "Vázquez Erik",
+      "reason": "Az MLSZ 2025/26-os adatlapja csak DVSC II. és utánpótlás-szereplést mutat; Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1499331.html"
     }
   ],
   "additions": [
@@ -103,7 +172,7 @@
         "birthDateSourceName": "MLSZ Adatbank",
         "dismissalBreakdown": "source-does-not-separate-second-yellow",
         "sourceDataset": "nb1-2025-26-official-corrections",
-        "sourceDatasetVersion": "1.0.0",
+        "sourceDatasetVersion": "1.1.0",
         "sourceDataStatus": "verified",
         "sourceDataConfidence": "high",
         "sourceNotes": "MLSZ Fizz Liga sor: 9 kezdés, 8 becserélés, 6 kispad = 17 pályára lépés és 23 kerettagság; 2 gól, 5 sárga lap, 0 piros lap. Poszt, mezszám és állampolgárság a hivatalos idénykeretből.",
