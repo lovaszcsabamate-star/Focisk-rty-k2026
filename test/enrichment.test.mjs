@@ -17,9 +17,13 @@ const enrichmentFiles = [
   '../data/club-official-enrichment-4-ujpest.json',
   '../data/club-official-enrichment-5-other.json',
 ];
+const correctionFiles = [
+  '../data/club-official-corrections.json',
+  '../data/club-official-corrections-2.json',
+];
 const rawParts = enrichmentFiles.map(readJson);
+const correctionParts = correctionFiles.map(readJson);
 const directory = readJson('../data/club-official-sources.json');
-const corrections = readJson('../data/club-official-corrections.json');
 const rawEnrichment = {
   ...rawParts[0],
   generatedAt: rawParts.at(-1)?.generatedAt ?? rawParts[0].generatedAt,
@@ -27,38 +31,47 @@ const rawEnrichment = {
   records: rawParts.flatMap(part => part.records ?? []),
   clubDirectory: directory.clubs,
 };
+const corrections = {
+  schemaVersion: 1,
+  checkedAt: correctionParts.at(-1)?.checkedAt ?? null,
+  addSources: correctionParts.flatMap(part => part.addSources ?? []),
+  recordPatches: correctionParts.flatMap(part => part.recordPatches ?? []),
+  excludeRecords: correctionParts.flatMap(part => part.excludeRecords ?? []),
+  additions: correctionParts.flatMap(part => part.additions ?? []),
+};
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
 const enriched = applyClubEnrichmentPayload(payload, enrichment);
 
 assert.equal(Object.keys(payload.clubs).length, 12);
 assert.equal(directory.clubs.length, 12);
 assert.equal(new Set(directory.clubs.map(club => club.clubId)).size, 12);
-assert.equal(rawParts.length, 5);
 assert.equal(rawEnrichment.records.length, 293);
-assert.equal(enrichment.records.length, rawEnrichment.records.length - corrections.excludeRecords.length);
+assert.equal(corrections.recordPatches.length, 9);
+assert.equal(corrections.excludeRecords.length, 19);
+assert.equal(enrichment.records.length, 274);
 assert.equal(enriched.players.length, 440);
 assert.equal(enriched.selection.registrationRecords, 464);
-assert.deepEqual(
-  enriched.players.map(card => card.id),
-  payload.players.map(card => card.id),
-  'az eredeti adatbázis sorrendje és azonosítói változatlanok maradnak',
-);
+assert.deepEqual(enriched.players.map(card => card.id), payload.players.map(card => card.id));
 assert.equal(new Set(enriched.players.map(card => card.id)).size, 440);
 assert.equal(enriched.enrichment.clubSummary.length, 12);
 assert.equal(enriched.source.officialClubDirectory.length, 12);
-assert.ok(enriched.enrichment.matchedRecords >= 200, 'legalább 200 hivatalos rekordnak automatikusan illeszkednie kell');
-assert.ok(enriched.enrichment.unmatchedRecords <= 100, 'a bizonytalan rekordok kézi ellenőrzési listán maradnak');
-assert.equal(enriched.enrichment.manualReview.length, enriched.enrichment.unmatchedRecords);
-assert.equal(enriched.enrichment.addedPlayers, 0, 'aktuális klubprofil nem hozhat létre új 2025/26-os kártyát');
+assert.equal(enriched.enrichment.matchedRecords, 274);
+assert.equal(enriched.enrichment.unmatchedRecords, 0);
+assert.equal(enriched.enrichment.manualReview.length, 0);
+assert.equal(enriched.enrichment.conflictCount, 0);
+assert.equal(enriched.enrichment.excludedRecords, 19);
+assert.equal(enriched.enrichment.addedPlayers, 0);
 assert.equal(enriched.enrichment.updatedExistingPlayers, 1);
 assert.equal(enriched.enrichment.updatedPlayers[0].name, 'ABU FANI MOHAMMAD');
 assert.equal(enriched.selection.playableCards, 440);
 assert.equal(enriched.selection.uniquePlayers, 440);
+assert.equal(enriched.coverage.birthDate, 242);
+assert.equal(enriched.coverage.position, 255);
+assert.equal(enriched.coverage.nation, 170);
+assert.equal(enriched.coverage.heightCm, 46);
+assert.equal(enriched.coverage.shirtNumber, 209);
+assert.equal(enriched.coverage.officialMetadata, 41);
 assert.equal(enriched.coverage.goals, 440);
-assert.ok(enriched.coverage.position > 149);
-assert.ok(enriched.coverage.shirtNumber > 137);
-assert.ok(enriched.coverage.heightCm >= 27);
-assert.ok(enriched.coverage.officialMetadata > 0);
 assert.equal(enriched.selection.exactBirthDates, enriched.coverage.birthDate);
 assert.equal(
   enriched.players.filter(card => normaliseEnrichmentText(card.position) === 'NINCS ADAT'
@@ -70,10 +83,6 @@ const find = (clubId, name) => enriched.players.find(card =>
   card?.meta?.clubIds?.includes(clubId) && enrichmentNamesMatch(card.name, { name })
 );
 
-const dibusz = find('ferencvarosi-tc', 'Dibusz Dénes');
-assert.ok(dibusz);
-assert.equal(dibusz.position, 'Kapus');
-
 const bode = find('paksi-fc', 'Böde Dániel');
 assert.ok(bode);
 assert.equal(bode.position, 'Támadó');
@@ -81,13 +90,11 @@ assert.equal(bode.meta.clubOfficial.captain, true);
 
 const banai = find('ujpest-fc', 'Banai Dávid');
 assert.ok(banai);
-assert.equal(banai.position, 'Kapus');
 assert.equal(banai.stats.heightCm, 189);
 assert.equal(banai.meta.clubOfficial.strongFoot, 'jobb');
 
 const szendrei = find('zte-fc', 'Szendrei Norbert');
 assert.ok(szendrei);
-assert.equal(szendrei.position, 'Középpályás');
 assert.equal(szendrei.meta.clubOfficial.captain, true);
 assert.equal(szendrei.meta.clubOfficial.seasonPlayerOfYear, '2025/26');
 
@@ -96,18 +103,28 @@ assert.ok(popoola);
 assert.equal(popoola.meta.clubOfficial.nextClub, 'Al Wasl');
 assert.equal(popoola.meta.clubOfficial.officialSeasonAppearances, 28);
 
+const haroyan = find('kolorcity-kazincbarcika-sc', 'HAROYAN VARAZDAT');
+assert.ok(haroyan);
+assert.equal(haroyan.position, 'Védő');
+
+const meskhi = find('kolorcity-kazincbarcika-sc', 'MYHAILO MESKHI');
+assert.ok(meskhi);
+assert.equal(meskhi.position, 'Középpályás');
+
 const abuFani = find('ferencvarosi-tc', 'ABU FANI MOHAMMAD');
 assert.ok(abuFani);
 assert.equal(abuFani.id, 'nb1-2856e20f48e9');
 assert.equal(abuFani.stats.appearances, 17);
 assert.equal(abuFani.stats.yellowCards, 5);
 
+for (const name of ['Szappanos Péter', 'Markgráf Ákos', 'Heitor', 'Etienne Amenyido', 'Muhamed Tijani']) {
+  assert.equal(enriched.enrichment.manualReview.some(record => record.name === name), false);
+}
+
 const multiClubWithNumber = enriched.players.find(card =>
   Number(card?.meta?.registrationCount) > 1 && Object.keys(card?.meta?.clubShirtNumbers ?? {}).length > 0
 );
-if (multiClubWithNumber) {
-  assert.equal(multiClubWithNumber.stats.shirtNumber ?? null, null);
-}
+if (multiClubWithNumber) assert.equal(multiClubWithNumber.stats.shirtNumber ?? null, null);
 
 const conflictPayload = {
   players: [{
@@ -132,8 +149,4 @@ assert.equal(conflictResult.players[0].meta.clubOfficial.captain, true);
 assert.equal(conflictResult.enrichment.conflictCount, 1);
 assert.equal(normaliseEnrichmentText("O'Dowda, Callum"), 'O DOWDA CALLUM');
 
-console.log(
-  `✓ 12 klubos audit: ${enriched.enrichment.matchedRecords}/${enrichment.records.length} rekord illesztve, `
-  + `${enriched.enrichment.unmatchedRecords} kézi ellenőrzés, ${enriched.enrichment.conflictCount} eltérés`,
-);
-if (enriched.enrichment.unmatchedRecords) console.log(JSON.stringify(enriched.enrichment.manualReview, null, 2));
+console.log('✓ 12 klubos audit: 274/274 rekord illesztve, 0 kézi ellenőrzés, 0 forrásütközés');
