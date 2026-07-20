@@ -24,6 +24,7 @@ const enrichmentFiles = [
 const correctionFiles = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
+  'data/club-official-corrections-3.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 
