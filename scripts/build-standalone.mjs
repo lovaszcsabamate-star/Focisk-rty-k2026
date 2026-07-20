@@ -8,6 +8,7 @@ import {
   applyClubEnrichmentPayload,
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
+import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -25,6 +26,9 @@ const correctionFiles = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
+];
+const statPatchFiles = [
+  'data/club-official-stat-patches-kisvarda.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 
@@ -53,6 +57,7 @@ const bundle = moduleOrder
 const basePayload = JSON.parse(read('data/players.json'));
 const enrichmentParts = enrichmentFiles.map(file => JSON.parse(read(file)));
 const correctionParts = correctionFiles.map(file => JSON.parse(read(file)));
+const statPatchParts = statPatchFiles.map(file => JSON.parse(read(file)));
 const directory = JSON.parse(read(directoryFile));
 const rawEnrichment = {
   ...enrichmentParts[0],
@@ -70,7 +75,8 @@ const corrections = {
   additions: correctionParts.flatMap(part => part.additions ?? []),
 };
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
-const payload = applyClubEnrichmentPayload(basePayload, enrichment);
+const enrichedPayload = applyClubEnrichmentPayload(basePayload, enrichment);
+const payload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
 let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/pwa.css')}`;
@@ -111,17 +117,22 @@ const conflicts = payload.players.flatMap(card =>
 const audit = {
   generatedAt: new Date().toISOString(),
   baseDataset: 'data/players.json',
-  sourceFiles: [...enrichmentFiles, ...correctionFiles, directoryFile],
+  sourceFiles: [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile],
   playerCount: payload.players.length,
   registrationRecords: payload.selection?.registrationRecords ?? null,
   selection: payload.selection,
   coverage: payload.coverage,
   fieldCoverage: payload.enrichment?.fieldCoverage ?? [],
+  officialStatFieldCoverage: payload.officialStatPatches?.fieldCoverage ?? [],
   clubSummary: payload.enrichment?.clubSummary ?? [],
-  manualReview: payload.enrichment?.manualReview ?? [],
+  manualReview: [
+    ...(payload.enrichment?.manualReview ?? []),
+    ...(payload.officialStatPatches?.manualReview ?? []),
+  ],
   enrichment: payload.enrichment,
+  officialStatPatches: payload.officialStatPatches,
   exclusions: enrichment.excludedRecords ?? [],
-  conflicts,
+  conflicts: [...conflicts, ...(payload.officialStatPatches?.conflicts ?? [])],
 };
 const auditPath = path.join(ROOT, 'data/enrichment-audit.json');
 fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
@@ -131,6 +142,7 @@ console.log(`Audit: ${auditPath}`);
 console.log(`${payload.players.length} játékoskártya és ${payload.selection?.registrationRecords ?? 0} klubregisztráció beágyazva.`);
 console.log(`${payload.enrichment?.clubSummary?.length ?? 0} klub hivatalos forrása ellenőrizve.`);
 console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
-console.log(`${payload.enrichment?.unmatchedRecords ?? 0} rekord kézi ellenőrzésre vár.`);
+console.log(`${payload.officialStatPatches?.matchedRecords ?? 0}/${payload.officialStatPatches?.records ?? 0} hivatalos szezonstatisztika illesztve.`);
+console.log(`${(payload.enrichment?.unmatchedRecords ?? 0) + (payload.officialStatPatches?.unmatchedRecords ?? 0)} rekord kézi ellenőrzésre vár.`);
 console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
 console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hozzáadva.`);
