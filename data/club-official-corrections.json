@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-07-20",
+  "policy": "A korrekciók csak konkrét, ellenőrzött néveltérést javítanak, téves NB I-es besorolást kizárnak, illetve MLSZ és hivatalos klubforrás által egyaránt igazolt hiányzó játékost adnak hozzá.",
+  "addSources": [
+    {
+      "id": "mlsz-player-1358618-abu-fani",
+      "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
+      "url": "https://adatbank.mlsz.hu/player/1358618.html",
+      "checkedAt": "2026-07-20",
+      "fields": [
+        "name",
+        "birthDate",
+        "appearances",
+        "starts",
+        "squads",
+        "goals",
+        "yellowCards",
+        "redCards"
+      ]
+    }
+  ],
+  "recordPatches": [
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-ftc",
+      "clubId": "ferencvarosi-tc",
+      "name": "Makreckis Cebrail",
+      "aliases": [
+        "MAKRECKIS CEBRAILS"
+      ],
+      "note": "A kluboldal Cebrail, az MLSZ Cebrails névformát használ."
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-ftc",
+      "clubId": "ferencvarosi-tc",
+      "name": "Cadu",
+      "aliases": [
+        "LOPES CRUZ CARLOS EDUARDO"
+      ],
+      "note": "A kluboldali becenév az MLSZ teljes játékosnevéhez kapcsolva."
+    },
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-ftc",
+      "clubId": "ferencvarosi-tc",
+      "name": "Abu Fani Mohammed",
+      "aliases": [
+        "ABU FANI MOHAMMAD"
+      ],
+      "note": "A kluboldal Mohammed, az MLSZ Mohammad névformát használ."
+    }
+  ],
+  "excludeRecords": [
+    {
+      "sourceId": "dvtk-official-nbi-2025-26-ftc",
+      "clubId": "ferencvarosi-tc",
+      "name": "Tóth Zalán",
+      "reason": "Az MLSZ 2025/26-os adatlapja csak a Ferencvárosi TC II. NB III-as és kupaszerepléseit mutatja; Fizz Liga elsőcsapatos rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/543832.html"
+    }
+  ],
+  "additions": [
+    {
+      "id": "2025-26-ferencvarosi-tc-abu-fani-mohammad",
+      "name": "ABU FANI MOHAMMAD",
+      "aliases": [
+        "Abu Fani Mohammed"
+      ],
+      "club": "Ferencvárosi TC",
+      "clubs": [
+        "Ferencvárosi TC"
+      ],
+      "nation": "ISR",
+      "position": "Középpályás",
+      "birthDate": "1998-04-27",
+      "stats": {
+        "age": null,
+        "appearances": 17,
+        "starts": 9,
+        "goals": 2,
+        "squads": 23,
+        "yellowCards": 5,
+        "redCards": 0,
+        "secondYellowRedCards": null,
+        "totalDismissals": 0,
+        "overallScore": null,
+        "heightCm": null,
+        "shirtNumber": 15
+      },
+      "meta": {
+        "personKey": "mlsz-1358618",
+        "clubId": "ferencvarosi-tc",
+        "clubIds": [
+          "ferencvarosi-tc"
+        ],
+        "registrationCount": 1,
+        "statsScope": "club-season",
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1358618.html",
+        "rosterSourceUrl": "https://www.dvtk.eu/index.php/78-csapat-Ferencvarosi_TC/615-NB_I_2025_2026-szezon/jatekosok",
+        "checkedAt": "2026-07-20",
+        "dataStatus": "verified",
+        "imageUrl": null,
+        "birthDateSource": "https://adatbank.mlsz.hu/player/1358618.html",
+        "birthDateSourceName": "MLSZ Adatbank",
+        "dismissalBreakdown": "source-does-not-separate-second-yellow",
+        "sourceDataset": "nb1-2025-26-official-corrections",
+        "sourceDatasetVersion": "1.0.0",
+        "sourceDataStatus": "verified",
+        "sourceDataConfidence": "high",
+        "sourceNotes": "MLSZ Fizz Liga sor: 9 kezdés, 8 becserélés, 6 kispad = 17 pályára lépés és 23 kerettagság; 2 gól, 5 sárga lap, 0 piros lap. Poszt, mezszám és állampolgárság a hivatalos idénykeretből.",
+        "retainedFromPreviousDeck": false,
+        "additionSourceIds": [
+          "mlsz-player-1358618-abu-fani",
+          "dvtk-official-nbi-2025-26-ftc"
+        ]
+      }
+    }
+  ]
+}
