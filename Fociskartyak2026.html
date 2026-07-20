@@ -1607,45 +1607,92 @@ body {
 <script type="module">
 /* ===== js/data/players.js ===== */
 /**
- * NB I card data contract and safe loader.
+ * NB I card data contract, normalisation and centrally configured comparison categories.
  *
- * Real card fields are never guessed. Optional values use `null`, which the
- * UI renders as „Nincs adat”, and cards missing a chosen statistic cannot be
- * played in that comparison.
- *
- * @typedef {object} PlayerCard
- * @property {string} id
- * @property {string} name
- * @property {string} club
- * @property {string} [nation]
- * @property {string} [position]
- * @property {string|null} birthDate Exact ISO date (YYYY-MM-DD), if verified.
- * @property {object} stats
- * @property {number|null} stats.age Age at the end of the 2025/26 season.
- * @property {number|null} stats.appearances
- * @property {number|null} stats.starts
- * @property {number} stats.goals
- * @property {number|null} [stats.squads]
- * @property {number|null} [stats.overallScore]
- * @property {number|null} stats.yellowCards
- * @property {number|null} stats.redCards MLSZ red-card/kiállítás total.
- * @property {number|null} stats.secondYellowRedCards Separate detail, if a source provides it.
- * @property {number|null} stats.totalDismissals Game total.
+ * Real card fields are never guessed. Unknown values stay `null`; categories are enabled
+ * only when the loaded database contains enough valid values, and cards without a valid
+ * value cannot be used in that comparison.
  */
 
-const isFiniteNumber = value => typeof value === 'number' && Number.isFinite(value);
+const PLACEHOLDER_VALUES = new Set([
+  '', '-', '–', '—', 'n/a', 'n.a.', 'na', 'null', 'undefined', 'ismeretlen', 'nincs adat',
+]);
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-const SEASON_REFERENCE_DATE = new Date('2026-05-16T00:00:00Z');
+const isFiniteNumber = value => typeof value === 'number' && Number.isFinite(value);
+const firstValid = values => values.find(value => value != null) ?? null;
 
-function parseBirthDate(value) {
-  if (typeof value !== 'string' || !ISO_DATE.test(value)) return null;
-  const [year, month, day] = value.split('-').map(Number);
+const SEASON_REFERENCE_DATE = new Date('2026-05-16T00:00:00Z');
+const MIN_MINUTES_FOR_RATE_STATS = 90;
+const MIN_CATEGORY_COVERAGE = 0.10;
+const CATEGORY_AVAILABILITY = {};
+
+function normaliseNumber(value) {
+  if (isFiniteNumber(value)) return value;
+  if (typeof value !== 'string') return null;
+
+  const raw = value.trim();
+  if (PLACEHOLDER_VALUES.has(raw.toLocaleLowerCase('hu-HU'))) return null;
+
+  let cleaned = raw
+    .replace(/\u00a0/g, ' ')
+    .replace(/\s+/g, '')
+    .replace(/[€$£¥₽₿]/g, '')
+    .replace(/(?:eur|huf|ft)$/i, '');
+
+  let multiplier = 1;
+  const suffix = cleaned.match(/(k|ezer|m|millió|million)$/i)?.[1]?.toLocaleLowerCase('hu-HU');
+  if (suffix) {
+    cleaned = cleaned.slice(0, -suffix.length);
+    multiplier = suffix === 'k' || suffix === 'ezer' ? 1_000 : 1_000_000;
+  }
+
+  const comma = cleaned.lastIndexOf(',');
+  const dot = cleaned.lastIndexOf('.');
+  if (comma !== -1 && dot !== -1) {
+    const decimalSeparator = comma > dot ? ',' : '.';
+    const thousandsSeparator = decimalSeparator === ',' ? /\./g : /,/g;
+    cleaned = cleaned.replace(thousandsSeparator, '').replace(decimalSeparator, '.');
+  } else if (comma !== -1) {
+    cleaned = cleaned.replace(',', '.');
+  } else if ((cleaned.match(/\./g) ?? []).length > 1) {
+    cleaned = cleaned.replace(/\./g, '');
+  }
+
+  const parsed = Number(cleaned);
+  return Number.isFinite(parsed) ? parsed * multiplier : null;
+}
+
+function validatedIsoDate(year, month, day) {
   const time = Date.UTC(year, month - 1, day);
   const parsed = new Date(time);
   if (parsed.getUTCFullYear() !== year
     || parsed.getUTCMonth() !== month - 1
     || parsed.getUTCDate() !== day) return null;
-  return time;
+  return `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+function normaliseDate(value) {
+  if (value instanceof Date && Number.isFinite(value.getTime())) {
+    return validatedIsoDate(value.getUTCFullYear(), value.getUTCMonth() + 1, value.getUTCDate());
+  }
+  if (typeof value !== 'string') return null;
+  const raw = value.trim();
+  if (PLACEHOLDER_VALUES.has(raw.toLocaleLowerCase('hu-HU'))) return null;
+
+  let match = raw.match(/^(\d{4})[-./](\d{1,2})[-./](\d{1,2})\.?$/);
+  if (match) return validatedIsoDate(Number(match[1]), Number(match[2]), Number(match[3]));
+
+  match = raw.match(/^(\d{1,2})[-./](\d{1,2})[-./](\d{4})\.?$/);
+  if (match) return validatedIsoDate(Number(match[3]), Number(match[2]), Number(match[1]));
+
+  return null;
+}
+
+function parseBirthDate(value) {
+  const iso = normaliseDate(value);
+  if (!iso || !ISO_DATE.test(iso)) return null;
+  const [year, month, day] = iso.split('-').map(Number);
+  return Date.UTC(year, month - 1, day);
 }
 
 function calculateAge(birthDate, reference = SEASON_REFERENCE_DATE) {
@@ -1659,40 +1706,227 @@ function calculateAge(birthDate, reference = SEASON_REFERENCE_DATE) {
   return age;
 }
 
-const formatDate = value => {
-  const timestamp = parseBirthDate(value);
-  if (timestamp == null) return 'Nincs adat';
-  return new Intl.DateTimeFormat('hu-HU', {
-    year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC',
-  }).format(new Date(timestamp));
+const integer = value => `${Math.round(value)}`;
+const decimal = value => value.toLocaleString('hu-HU', { maximumFractionDigits: 2 });
+const percent = value => `${decimal(value)}%`;
+const minutes = value => `${Math.round(value)} perc`;
+const centimetres = value => `${decimal(value)} cm`;
+const money = value => new Intl.NumberFormat('hu-HU', {
+  style: 'currency', currency: 'EUR', maximumFractionDigits: value >= 1_000_000 ? 1 : 0,
+}).format(value);
+
+const statValue = key => card => normaliseNumber(card?.stats?.[key]);
+const exactBirthDate = card => parseBirthDate(card?.birthDate);
+const safeRatio = (numerator, denominator, multiplier = 1) => {
+  if (!isFiniteNumber(numerator) || !isFiniteNumber(denominator) || denominator <= 0) return null;
+  const value = numerator / denominator * multiplier;
+  return Number.isFinite(value) ? value : null;
+};
+const ratePer90 = (card, numeratorKey) => {
+  const numerator = normaliseNumber(card?.stats?.[numeratorKey]);
+  const playedMinutes = normaliseNumber(card?.stats?.minutes);
+  if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS) return null;
+  return safeRatio(numerator, playedMinutes, 90);
+};
+const goalContributions = card => {
+  const goals = normaliseNumber(card?.stats?.goals);
+  const assists = normaliseNumber(card?.stats?.assists);
+  return goals == null || assists == null ? null : goals + assists;
+};
+const disciplinaryEvents = card => {
+  const yellows = normaliseNumber(card?.stats?.yellowCards);
+  const dismissals = normaliseNumber(card?.stats?.totalDismissals);
+  return yellows == null || dismissals == null ? null : yellows + dismissals;
 };
 
-/** Attribute metadata. All new disciplinary categories use the larger value. */
-const ATTRIBUTES = [
-  {
-    key: 'birthDate', label: 'Fiatalabb játékos', icon: '🎂', higherWins: true,
-    hint: 'A fiatalabb nyer ↓', optional: true,
-    format: (value, card) => {
-      const age = isFiniteNumber(card?.stats?.age) ? card.stats.age : calculateAge(card?.birthDate);
-      return value == null ? 'Nincs adat' : `${age} év · ${formatDate(card.birthDate)}`;
+const category = config => ({
+  optional: true,
+  precision: null,
+  enabledByDefault: false,
+  cardStatKey: config.key,
+  ...config,
+  higherWins: ['higher', 'later'].includes(config.direction),
+});
+
+/** Complete requested category catalogue. Unsupported categories stay disabled until data appears. */
+const ATTRIBUTE_DEFINITIONS = [
+  category({
+    key: 'birthDate', label: 'Fiatalabb játékos', shortLabel: 'Fiatalabb', cardLabel: 'Életkor',
+    icon: '🎂', group: 'Alapadatok', direction: 'later', hint: 'A fiatalabb nyer',
+    getValue: exactBirthDate, format: (value, card) => `${calculateAge(card.birthDate)} év`, enabledByDefault: true,
+  }),
+  category({
+    key: 'birthDateOlder', label: 'Idősebb játékos', shortLabel: 'Idősebb', cardLabel: 'Életkor',
+    icon: '🕰️', group: 'Alapadatok', direction: 'earlier', hint: 'Az idősebb nyer',
+    getValue: exactBirthDate, format: (value, card) => `${calculateAge(card.birthDate)} év`,
+    cardStatKey: 'birthDate', enabledByDefault: true,
+  }),
+  category({
+    key: 'heightCm', label: 'Magasabb játékos', shortLabel: 'Magasabb', cardLabel: 'Magasság',
+    icon: '📏', group: 'Alapadatok', direction: 'higher', hint: 'A magasabb nyer',
+    getValue: statValue('heightCm'), format: centimetres,
+  }),
+  category({
+    key: 'heightCmLower', label: 'Alacsonyabb játékos', shortLabel: 'Alacsonyabb', cardLabel: 'Magasság',
+    icon: '📐', group: 'Alapadatok', direction: 'lower', hint: 'Az alacsonyabb nyer',
+    getValue: statValue('heightCm'), format: centimetres, cardStatKey: 'heightCm',
+  }),
+  category({
+    key: 'marketValue', label: 'Magasabb piaci érték', shortLabel: 'Nagyobb érték', cardLabel: 'Piaci érték',
+    icon: '💶', group: 'Alapadatok', direction: 'higher', hint: 'A nagyobb érték nyer',
+    getValue: statValue('marketValue'), format: money,
+  }),
+  category({
+    key: 'marketValueLower', label: 'Alacsonyabb piaci érték', shortLabel: 'Kisebb érték', cardLabel: 'Piaci érték',
+    icon: '🪙', group: 'Alapadatok', direction: 'lower', hint: 'A kisebb érték nyer',
+    getValue: statValue('marketValue'), format: money, cardStatKey: 'marketValue',
+  }),
+  category({
+    key: 'appearances', label: 'Több mérkőzés', shortLabel: 'Mérkőzések', cardLabel: 'Mérkőzések',
+    icon: '👕', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('appearances'), format: integer, enabledByDefault: true,
+  }),
+  category({
+    key: 'starts', label: 'Több kezdés', shortLabel: 'Kezdések', cardLabel: 'Kezdőként',
+    icon: '▶', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('starts'), format: integer, enabledByDefault: true,
+  }),
+  category({
+    key: 'minutes', label: 'Több játékperc', shortLabel: 'Játékpercek', cardLabel: 'Játékperc',
+    icon: '⏱️', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('minutes'), format: minutes,
+  }),
+  category({
+    key: 'minutesPerAppearance', label: 'Több játékperc mérkőzésenként', shortLabel: 'Perc/meccs', cardLabel: 'Perc/meccs',
+    icon: '⌛', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer', precision: 2,
+    getValue: card => safeRatio(normaliseNumber(card?.stats?.minutes), normaliseNumber(card?.stats?.appearances)),
+    format: value => `${decimal(value)} perc`,
+  }),
+  category({
+    key: 'startRate', label: 'Magasabb kezdési arány', shortLabel: 'Kezdési arány', cardLabel: 'Kezdési arány',
+    icon: '📊', group: 'Pályára lépés', direction: 'higher', hint: 'A magasabb arány nyer', precision: 2,
+    getValue: card => {
+      const starts = normaliseNumber(card?.stats?.starts);
+      const appearances = normaliseNumber(card?.stats?.appearances);
+      if (starts == null || appearances == null || starts < 0 || appearances <= 0 || starts > appearances) return null;
+      return safeRatio(starts, appearances, 100);
     },
-  },
-  { key: 'appearances', label: 'Mérkőzések', icon: '👕', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
-  { key: 'starts', label: 'Kezdőként', icon: '▶', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
-  { key: 'goals', label: 'Gólok', icon: '⚽', higherWins: true, hint: 'A több nyer', format: value => `${value}` },
-  { key: 'squads', label: 'Meccskeretben', icon: '📋', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
-  { key: 'overallScore', label: 'Játékospontszám', icon: '★', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}/100` },
-  { key: 'yellowCards', label: 'Több sárga lap', icon: '🟨', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
-  { key: 'totalDismissals', label: 'Több kiállítás', icon: '🟥', higherWins: true, hint: 'A több nyer', optional: true, format: value => `${value}` },
+    format: percent, enabledByDefault: true,
+  }),
+  category({
+    key: 'goals', label: 'Több gól', shortLabel: 'Gólok', cardLabel: 'Gólok',
+    icon: '⚽', group: 'Támadás', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('goals'), format: integer, enabledByDefault: true, optional: false,
+  }),
+  category({
+    key: 'assists', label: 'Több gólpassz', shortLabel: 'Gólpasszok', cardLabel: 'Gólpasszok',
+    icon: '🅰️', group: 'Támadás', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('assists'), format: integer,
+  }),
+  category({
+    key: 'goalContributions', label: 'Több kanadai pont', shortLabel: 'Kanadai pont', cardLabel: 'Kanadai pont',
+    icon: '➕', group: 'Támadás', direction: 'higher', hint: 'A több nyer',
+    getValue: goalContributions, format: integer,
+  }),
+  category({
+    key: 'goalsPer90', label: 'Több gól 90 percenként', shortLabel: 'Gól/90', cardLabel: 'Gól/90',
+    icon: '🎯', group: 'Támadás', direction: 'higher', hint: 'A több nyer', precision: 2,
+    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS, getValue: card => ratePer90(card, 'goals'), format: decimal,
+  }),
+  category({
+    key: 'assistsPer90', label: 'Több gólpassz 90 percenként', shortLabel: 'Gólpassz/90', cardLabel: 'Gólpassz/90',
+    icon: '🧠', group: 'Támadás', direction: 'higher', hint: 'A több nyer', precision: 2,
+    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS, getValue: card => ratePer90(card, 'assists'), format: decimal,
+  }),
+  category({
+    key: 'goalContributionsPer90', label: 'Több kanadai pont 90 percenként', shortLabel: 'Pont/90', cardLabel: 'Pont/90',
+    icon: '🚀', group: 'Támadás', direction: 'higher', hint: 'A több nyer', precision: 2,
+    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
+    getValue: card => {
+      const contributions = goalContributions(card);
+      const playedMinutes = normaliseNumber(card?.stats?.minutes);
+      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS) return null;
+      return safeRatio(contributions, playedMinutes, 90);
+    },
+    format: decimal,
+  }),
+  category({
+    key: 'minutesPerGoal', label: 'Kevesebb játékperc egy gólhoz', shortLabel: 'Perc/gól', cardLabel: 'Perc/gól',
+    icon: '🥅', group: 'Támadás', direction: 'lower', hint: 'A kevesebb nyer', precision: 2,
+    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
+    getValue: card => {
+      const goals = normaliseNumber(card?.stats?.goals);
+      const playedMinutes = normaliseNumber(card?.stats?.minutes);
+      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS || goals == null || goals <= 0) return null;
+      return safeRatio(playedMinutes, goals);
+    },
+    format: minutes,
+  }),
+  category({
+    key: 'minutesPerGoalContribution', label: 'Kevesebb játékperc egy kanadai ponthoz', shortLabel: 'Perc/pont', cardLabel: 'Perc/pont',
+    icon: '⚡', group: 'Támadás', direction: 'lower', hint: 'A kevesebb nyer', precision: 2,
+    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
+    getValue: card => {
+      const contributions = goalContributions(card);
+      const playedMinutes = normaliseNumber(card?.stats?.minutes);
+      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS || contributions == null || contributions <= 0) return null;
+      return safeRatio(playedMinutes, contributions);
+    },
+    format: minutes,
+  }),
+  category({
+    key: 'squads', label: 'Több kerettagság', shortLabel: 'Kerettagság', cardLabel: 'Meccskeretben',
+    icon: '📋', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('squads'), format: integer, enabledByDefault: true,
+  }),
+  category({
+    key: 'yellowCards', label: 'Több sárga lap', shortLabel: 'Több sárga', cardLabel: 'Sárga lap',
+    icon: '🟨', group: 'Fegyelem', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('yellowCards'), format: integer, enabledByDefault: true,
+  }),
+  category({
+    key: 'yellowCardsFewest', label: 'Kevesebb sárga lap', shortLabel: 'Kevesebb sárga', cardLabel: 'Sárga lap',
+    icon: '🟨', group: 'Fegyelem', direction: 'lower', hint: 'A kevesebb nyer',
+    getValue: statValue('yellowCards'), format: integer, cardStatKey: 'yellowCards', enabledByDefault: true,
+  }),
+  category({
+    key: 'totalDismissals', label: 'Több kiállítás', shortLabel: 'Több kiállítás', cardLabel: 'Kiállítás',
+    icon: '🟥', group: 'Fegyelem', direction: 'higher', hint: 'A több nyer',
+    getValue: statValue('totalDismissals'), format: integer, enabledByDefault: true,
+  }),
+  category({
+    key: 'totalDismissalsFewest', label: 'Kevesebb kiállítás', shortLabel: 'Kevesebb kiállítás', cardLabel: 'Kiállítás',
+    icon: '🟥', group: 'Fegyelem', direction: 'lower', hint: 'A kevesebb nyer',
+    getValue: statValue('totalDismissals'), format: integer, cardStatKey: 'totalDismissals', enabledByDefault: true,
+  }),
+  category({
+    key: 'cardsPer90', label: 'Több lap 90 percenként', shortLabel: 'Lap/90', cardLabel: 'Lap/90',
+    icon: '🟨', group: 'Fegyelem', direction: 'higher', hint: 'A több nyer', precision: 2,
+    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
+    getValue: card => {
+      const cards = disciplinaryEvents(card);
+      const playedMinutes = normaliseNumber(card?.stats?.minutes);
+      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS) return null;
+      return safeRatio(cards, playedMinutes, 90);
+    },
+    format: decimal,
+  }),
+  category({
+    key: 'discipline', label: 'Fegyelmezettebb játékos', shortLabel: 'Fegyelmezettebb', cardLabel: 'Összes lap',
+    icon: '🕊️', group: 'Fegyelem', direction: 'lower', hint: 'A kevesebb lap nyer',
+    getValue: disciplinaryEvents, format: value => `${integer(value)} lap`, enabledByDefault: true,
+  }),
 ];
 
-const ATTRIBUTE_BY_KEY = Object.fromEntries(ATTRIBUTES.map(attribute => [attribute.key, attribute]));
+const ATTRIBUTE_BY_KEY = Object.fromEntries(ATTRIBUTE_DEFINITIONS.map(attribute => [attribute.key, attribute]));
+const ATTRIBUTES = ATTRIBUTE_DEFINITIONS.filter(attribute => attribute.enabledByDefault);
+const CARD_ATTRIBUTE_KEYS = ['birthDate', 'appearances', 'starts', 'goals', 'squads', 'yellowCards', 'totalDismissals'];
 
 /** Return a comparable primitive, or null for unknown/malformed data. */
 function attributeValue(card, attributeKey) {
-  if (!card || !ATTRIBUTE_BY_KEY[attributeKey]) return null;
-  if (attributeKey === 'birthDate') return parseBirthDate(card.birthDate);
-  const value = card.stats?.[attributeKey];
+  const attribute = ATTRIBUTE_BY_KEY[attributeKey];
+  if (!card || !attribute) return null;
+  const value = attribute.getValue(card);
   return isFiniteNumber(value) ? value : null;
 }
 
@@ -1700,29 +1934,69 @@ const hasAttributeData = (card, attributeKey) => attributeValue(card, attributeK
 
 function formatAttribute(card, attributeKey) {
   const attribute = ATTRIBUTE_BY_KEY[attributeKey];
-  if (!attribute) return 'Nincs adat';
+  if (!attribute) return '';
   const value = attributeValue(card, attributeKey);
-  return value == null ? 'Nincs adat' : attribute.format(value, card);
+  return value == null ? '' : attribute.format(value, card);
 }
 
-/** Backward-compatible normalisation for older tracked JSON payloads. */
-function normaliseCard(card) {
-  const stats = { ...card.stats };
-  const secondYellow = isFiniteNumber(stats.secondYellowRedCards) ? stats.secondYellowRedCards : null;
-  let totalDismissals = isFiniteNumber(stats.totalDismissals) ? stats.totalDismissals : null;
+function configureAttributes(cards, { minimumCoverage = MIN_CATEGORY_COVERAGE } = {}) {
+  const pool = Array.isArray(cards) ? cards : [];
+  const minimumKnown = Math.max(2, Math.ceil(pool.length * minimumCoverage));
+  const enabled = [];
 
-  if (totalDismissals == null && isFiniteNumber(stats.redCards)) {
-    // The MLSZ field already represents the complete red-card/dismissal count.
-    // A separately supplied breakdown must provide totalDismissals explicitly.
-    totalDismissals = stats.redCards;
+  for (const attribute of ATTRIBUTE_DEFINITIONS) {
+    const known = pool.filter(card => hasAttributeData(card, attribute.key)).length;
+    const coverage = pool.length ? known / pool.length : 0;
+    const active = known >= minimumKnown || (!attribute.optional && known === pool.length && known > 0);
+    const status = active ? (coverage < 0.5 ? 'experimental' : 'enabled') : 'disabled';
+    Object.assign(attribute, { enabled: active, knownValues: known, coverage, status });
+    CATEGORY_AVAILABILITY[attribute.key] = { enabled: active, knownValues: known, coverage, status };
+    if (active) enabled.push(attribute);
   }
+
+  ATTRIBUTES.splice(0, ATTRIBUTES.length, ...enabled);
+  return CATEGORY_AVAILABILITY;
+}
+
+const pickNumber = (...values) => firstValid(values.map(normaliseNumber));
+
+/** Backward-compatible normalisation for older and future enriched JSON payloads. */
+function normaliseCard(card = {}) {
+  const rawStats = card.stats && typeof card.stats === 'object' ? card.stats : {};
+  const stats = {
+    ...rawStats,
+    age: pickNumber(rawStats.age, card.age),
+    appearances: pickNumber(rawStats.appearances, rawStats.matches, rawStats.games, card.appearances),
+    starts: pickNumber(rawStats.starts, rawStats.startingAppearances, card.starts),
+    goals: pickNumber(rawStats.goals, card.goals),
+    squads: pickNumber(rawStats.squads, rawStats.matchdaySquads, card.squads),
+    minutes: pickNumber(rawStats.minutes, rawStats.playingMinutes, rawStats.minutesPlayed, card.minutes),
+    assists: pickNumber(rawStats.assists, rawStats.goalAssists, card.assists),
+    yellowCards: pickNumber(rawStats.yellowCards, rawStats.yellows, card.yellowCards),
+    redCards: pickNumber(rawStats.redCards, rawStats.dismissals, card.redCards),
+    secondYellowRedCards: pickNumber(rawStats.secondYellowRedCards, rawStats.secondYellowReds),
+    totalDismissals: pickNumber(rawStats.totalDismissals),
+    overallScore: pickNumber(rawStats.overallScore),
+    heightCm: pickNumber(rawStats.heightCm, rawStats.height, card.heightCm, card.height),
+    marketValue: pickNumber(rawStats.marketValue, rawStats.marketValueEur, card.marketValue, card.marketValueEur),
+    shirtNumber: pickNumber(rawStats.shirtNumber, rawStats.jerseyNumber, card.shirtNumber, card.jerseyNumber),
+  };
+
+  if (stats.totalDismissals == null && stats.redCards != null) {
+    // MLSZ redCards already represents the complete dismissal total; do not add breakdowns twice.
+    stats.totalDismissals = stats.redCards;
+  }
+
+  const birthDate = normaliseDate(card.birthDate ?? card.dateOfBirth);
+  const calculatedAge = calculateAge(birthDate);
+  if (calculatedAge != null) stats.age = calculatedAge;
 
   return {
     ...card,
-    birthDate: parseBirthDate(card.birthDate) == null ? null : card.birthDate,
-    nation: card.nation ?? '',
-    position: card.position ?? '',
-    stats: { ...stats, secondYellowRedCards: secondYellow, totalDismissals },
+    birthDate,
+    nation: typeof card.nation === 'string' ? card.nation : '',
+    position: typeof card.position === 'string' ? card.position : '',
+    stats,
   };
 }
 
@@ -1741,25 +2015,21 @@ const makeMockPlayer = index => {
   const birthMonth = String(1 + (index * 7) % 12).padStart(2, '0');
   const birthDay = String(1 + (index * 11) % 28).padStart(2, '0');
   const birthDate = `${birthYear}-${birthMonth}-${birthDay}`;
-  const age = calculateAge(birthDate);
-  const overallScore = Math.min(99, 30 + Math.round(
-    appearances * 0.8 + starts * 0.6 + goals * 2.2 - yellowCards * 0.5 - redCards * 4
-  ));
 
-  return {
+  return normaliseCard({
     id: `mock-${String(index + 1).padStart(2, '0')}`,
     name: `Próbajátékos ${String(index + 1).padStart(2, '0')}`,
     club: MOCK_CLUBS[index % MOCK_CLUBS.length],
     nation: 'Fiktív',
-    position: 'Nincs adat',
+    position: '',
     birthDate,
     stats: {
-      age, appearances, starts, goals, squads: appearances,
-      yellowCards, redCards, secondYellowRedCards: 0,
-      totalDismissals: redCards, overallScore,
+      appearances, starts, goals, squads: appearances,
+      yellowCards, redCards, secondYellowRedCards: null,
+      totalDismissals: redCards, overallScore: null,
     },
     meta: { fictional: true, imageUrl: null },
-  };
+  });
 };
 
 const MOCK_PLAYERS = Array.from({ length: 52 }, (_, index) => makeMockPlayer(index));
@@ -1767,14 +2037,11 @@ const MOCK_PLAYERS = Array.from({ length: 52 }, (_, index) => makeMockPlayer(ind
 /** Validate the complete pool while allowing source-declared optional nulls. */
 function validatePlayers(cards) {
   const problems = [];
-  const required = ATTRIBUTES.filter(attribute => !attribute.optional);
 
   cards.forEach((card, index) => {
     if (!card?.id || !card?.name || !card?.club) problems.push(`card ${index}: missing id, name or club`);
-    for (const attribute of required) {
-      if (attributeValue(card, attribute.key) == null) {
-        problems.push(`${card?.name ?? `card ${index}`}: ${attribute.key} is missing or invalid`);
-      }
+    if (attributeValue(card, 'goals') == null) {
+      problems.push(`${card?.name ?? `card ${index}`}: goals is missing or invalid`);
     }
   });
 
@@ -1800,10 +2067,12 @@ async function loadPlayers(url = 'data/players.json') {
     const cards = rawCards.map(normaliseCard);
     const problems = validatePlayers(cards);
     if (problems.length) throw new Error(`${problems.length} invalid card(s): ${problems.slice(0, 5).join('; ')}`);
+    configureAttributes(cards);
 
-    console.info(`[players] ${cards.length} valós NB I-játékos betöltve${payload.season ? ` · ${payload.season}` : ''}`);
+    console.info(`[players] ${cards.length} valós NB I-játékos betöltve · ${ATTRIBUTES.length} használható kategória${payload.season ? ` · ${payload.season}` : ''}`);
     return { players: cards, source: 'real', meta: Array.isArray(payload) ? null : payload };
   } catch (error) {
+    configureAttributes(MOCK_PLAYERS);
     console.info(`[players] Fiktív tartalékpakli használata: ${error.message}`);
     return { players: MOCK_PLAYERS, source: 'mock', meta: null };
   }
