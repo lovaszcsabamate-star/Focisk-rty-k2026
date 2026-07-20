@@ -16,6 +16,7 @@ const directory = JSON.parse(fs.readFileSync(new URL('../data/club-official-sour
 const paksNyir = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-3-paks-nyir.json', import.meta.url), 'utf8'));
 const ujpest = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-4-ujpest.json', import.meta.url), 'utf8'));
 const other = JSON.parse(fs.readFileSync(new URL('../data/club-official-enrichment-5-other.json', import.meta.url), 'utf8'));
+const corrections2 = JSON.parse(fs.readFileSync(new URL('../data/club-official-corrections-2.json', import.meta.url), 'utf8'));
 const manifest = JSON.parse(fs.readFileSync(new URL('../manifest.webmanifest', import.meta.url), 'utf8'));
 const buildScript = fs.readFileSync(new URL('../scripts/build-standalone.mjs', import.meta.url), 'utf8');
 const workflow = fs.readFileSync(new URL('../.github/workflows/verify-and-build.yml', import.meta.url), 'utf8');
@@ -50,6 +51,7 @@ for (const file of [
   'club-official-enrichment-4-ujpest.json',
   'club-official-enrichment-5-other.json',
   'club-official-corrections.json',
+  'club-official-corrections-2.json',
   'club-official-sources.json',
 ]) {
   assert.match(bootstrap, new RegExp(file.replaceAll('.', '\\.')));
@@ -57,6 +59,7 @@ for (const file of [
   assert.match(serviceWorker, new RegExp(file.replaceAll('.', '\\.')));
 }
 assert.match(bootstrap, /combineEnrichments/);
+assert.match(bootstrap, /combineCorrections/);
 assert.match(clubEnrichment, /existing MLSZ values always win/);
 assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
@@ -73,6 +76,8 @@ assert.equal(new Set(directory.clubs.map(club => club.clubId)).size, 12);
 assert.equal(paksNyir.records.length, 60);
 assert.equal(ujpest.records.length, 26);
 assert.equal(other.records.length, 46);
+assert.equal(corrections2.recordPatches.length, 2);
+assert.equal(corrections2.excludeRecords.length, 11);
 assert.ok(directory.clubs.every(club => club.officialUrl && club.officialRosterUrl && club.status));
 
 assert.equal(manifest.display, 'standalone');
@@ -89,6 +94,7 @@ assert.match(standalone, /globalThis\.__EMBEDDED_PLAYER_DATA__/);
 assert.match(standalone, /officialClubDirectory/);
 assert.match(standalone, /clubOfficialEnrichment/);
 assert.match(standalone, /"updatedExistingPlayers":1/);
+assert.match(standalone, /"unmatchedRecords":0/);
 assert.doesNotMatch(standalone, /<script type="module" src=/);
 assert.doesNotMatch(standalone, /<link rel="stylesheet" href=/);
 
