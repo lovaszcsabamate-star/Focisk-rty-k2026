@@ -34,7 +34,8 @@ try {
     const summary = enrichedPayload.enrichment;
     console.info(
       `[enrichment] ${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
-      + `${summary.addedPlayers} igazolt hiányzó játékos hozzáadva · `
+      + `${summary.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve · `
+      + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
       + `${summary.unmatchedRecords} illesztetlen rekord · ${summary.conflictCount} megőrzött eltérés`
     );
   }
