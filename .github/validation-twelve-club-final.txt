@@ -1,0 +1,1 @@
+Ideiglenes CI-jelölő a 12 klubos, MLSZ-elsődleges adatbázis végleges lint–build–teszt ellenőrzéséhez.
