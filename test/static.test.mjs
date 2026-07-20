@@ -110,6 +110,10 @@ assert.ok(corrections3.recordPatches.some(item => item.aliases?.includes('ARUTIU
 assert.ok(corrections3.recordPatches.some(item => item.aliases?.includes('DÁRDAI PÁL')));
 assert.ok(directory.clubs.every(club => club.officialUrl && club.officialRosterUrl && club.status));
 assert.equal(directory.clubs.find(club => club.clubId === 'eto-fc').status, 'structured-season-roster-imported');
+assert.equal(
+  directory.clubs.find(club => club.clubId === 'kisvarda-master-good').status,
+  'official-season-statistics-imported',
+);
 
 assert.equal(manifest.display, 'standalone');
 assert.equal(manifest.orientation, 'portrait-primary');
