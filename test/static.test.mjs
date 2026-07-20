@@ -124,7 +124,7 @@ assert.equal(corrections3.excludeRecords.length, 5);
 assert.ok(directory.clubs.every(club => club.officialUrl && club.officialRosterUrl && club.status));
 assert.equal(
   directory.clubs.find(club => club.clubId === 'kisvarda-master-good').status,
-  'official-season-statistics-and-two-selected-batches-imported',
+  'official-season-statistics-imported',
 );
 
 assert.equal(manifest.display, 'standalone');
