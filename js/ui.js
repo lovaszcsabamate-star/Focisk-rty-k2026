@@ -1,6 +1,8 @@
 /** DOM rendering shared by Classic and Penalties modes. */
 
-import { ATTRIBUTES, ATTRIBUTE_BY_KEY, formatAttribute, hasAttributeData } from './data/players.js';
+import {
+  ATTRIBUTES, ATTRIBUTE_BY_KEY, CARD_ATTRIBUTE_KEYS, formatAttribute, hasAttributeData,
+} from './data/players.js';
 import { HUMAN, AI } from './engine.js';
 
 const EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
@@ -38,7 +40,7 @@ function tryArt(node, candidates, loadedClass = 'has-art', overlay = null) {
 
 const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';
 const initials = name => name.split(' ').filter(Boolean).map(word => word[0]).join('').slice(0, 2).toUpperCase();
-const detailValue = value => typeof value === 'number' && Number.isFinite(value) ? String(value) : 'Nincs adat';
+const finiteDetail = value => typeof value === 'number' && Number.isFinite(value) ? String(value) : null;
 
 export class UI {
   constructor(handlers, settings = {}) {
@@ -46,24 +48,11 @@ export class UI {
     this.settings = { sounds: true, commentary: true, ...settings };
     this.mode = 'classic';
     this.dom = {
-      pub: $('#pub'),
-      hudScores: $('#hud-scores'),
-      hudMeta: $('#hud-meta'),
-      hudSettings: $('#hud-settings'),
-      opponentHand: $('#opponent-hand'),
-      opponentPile: $('#opponent-pile'),
-      playerHand: $('#player-hand'),
-      playerPile: $('#player-pile'),
-      prompt: $('#prompt'),
-      picker: $('#attribute-picker'),
-      duel: $('#duel'),
-      verdict: $('#verdict'),
-      pot: $('#pot-indicator'),
-      feed: $('#banter-feed'),
-      penaltyBoard: $('#penalty-board'),
-      suddenDeath: $('#sudden-death-banner'),
-      overlay: $('#overlay'),
-      overlayBody: $('#overlay-body'),
+      pub: $('#pub'), hudScores: $('#hud-scores'), hudMeta: $('#hud-meta'), hudSettings: $('#hud-settings'),
+      opponentHand: $('#opponent-hand'), opponentPile: $('#opponent-pile'), playerHand: $('#player-hand'),
+      playerPile: $('#player-pile'), prompt: $('#prompt'), picker: $('#attribute-picker'), duel: $('#duel'),
+      verdict: $('#verdict'), pot: $('#pot-indicator'), feed: $('#banter-feed'), penaltyBoard: $('#penalty-board'),
+      suddenDeath: $('#sudden-death-banner'), overlay: $('#overlay'), overlayBody: $('#overlay-body'),
     };
     tryArt(this.dom.pub, ART.pub(), 'has-art', PUB_SCRIM);
     this._renderSettings();
@@ -103,6 +92,22 @@ export class UI {
     this.dom.suddenDeath.hidden = true;
   }
 
+  _cardRows(card, activeAttributeKey) {
+    const rows = CARD_ATTRIBUTE_KEYS
+      .map(key => ATTRIBUTE_BY_KEY[key])
+      .filter(attribute => attribute && hasAttributeData(card, attribute.key));
+
+    if (!activeAttributeKey) return rows;
+    const active = ATTRIBUTE_BY_KEY[activeAttributeKey];
+    if (!active || !hasAttributeData(card, activeAttributeKey)) return rows;
+    const existingIndex = rows.findIndex(attribute => attribute.key === active.cardStatKey);
+    if (existingIndex >= 0) {
+      rows[existingIndex] = active;
+      return rows;
+    }
+    return [active, ...rows];
+  }
+
   renderCard(card, opts = {}) {
     if (opts.faceDown) {
       const back = el('div', 'card card--back');
@@ -121,14 +126,14 @@ export class UI {
     node.appendChild(el('div', 'card__club', [card.club, card.nation].filter(Boolean).join(' · ')));
 
     const stats = el('div', 'card__stats');
-    for (const attribute of ATTRIBUTES) {
-      const available = hasAttributeData(card, attribute.key);
-      const row = el('div', `stat${attribute.key === opts.activeAttribute ? ' active' : ''}${available ? '' : ' stat--missing'}`);
-      row.appendChild(el('span', 'stat__label', `${attribute.icon} ${attribute.label}`));
+    for (const attribute of this._cardRows(card, opts.activeAttribute)) {
+      const active = attribute.key === opts.activeAttribute;
+      const row = el('div', `stat${active ? ' active' : ''}`);
+      row.appendChild(el('span', 'stat__label', `${attribute.icon} ${attribute.cardLabel ?? attribute.shortLabel ?? attribute.label}`));
       row.appendChild(el('span', 'stat__value', formatAttribute(card, attribute.key)));
       stats.appendChild(row);
     }
-    node.appendChild(stats);
+    if (stats.childElementCount) node.appendChild(stats);
 
     if (opts.onClick) {
       node.classList.add('selectable');
@@ -137,7 +142,7 @@ export class UI {
     if (opts.dimmed) node.classList.add('card--dim');
     if (opts.unavailable) {
       node.classList.add('card--unavailable');
-      node.title = 'Ehhez a játékoshoz nincs adat a kiválasztott kategóriában.';
+      node.title = 'Ez a kártya nem használható a kiválasztott kategóriában.';
     }
     if (opts.large) node.classList.add('card--large');
     return node;
@@ -182,16 +187,19 @@ export class UI {
     centre.appendChild(this.renderCard(card, { activeAttribute: opts.attribute, large: true }));
     centre.appendChild(el('div', 'inspector__counter', `${index + 1}/${hand.length} kártya`));
 
-    const details = el('div', 'inspector__details');
-    details.append(
-      el('span', null, `🟥 Egyenes piros / MLSZ piros: ${detailValue(card.stats.redCards)}`),
-      el('span', null, `🟨🟥 Második sárga miatti kiállítás: ${detailValue(card.stats.secondYellowRedCards)}`),
-    );
-    centre.appendChild(details);
+    const detailLines = [
+      ['🟥 Egyenes piros / MLSZ piros', finiteDetail(card.stats.redCards)],
+      ['🟨🟥 Második sárga miatti kiállítás', finiteDetail(card.stats.secondYellowRedCards)],
+    ].filter(([, value]) => value != null);
+    if (detailLines.length) {
+      const details = el('div', 'inspector__details');
+      details.append(...detailLines.map(([label, value]) => el('span', null, `${label}: ${value}`)));
+      centre.appendChild(details);
+    }
 
     const actions = el('div', 'inspector__actions');
     if (opts.playable) {
-      const play = el('button', 'btn', canPlay ? 'Kijátszom ezt a lapot' : 'Nincs adat ehhez a kategóriához');
+      const play = el('button', 'btn', canPlay ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
       play.disabled = !canPlay;
       play.addEventListener('click', () => {
         if (!canPlay) return;
@@ -230,9 +238,7 @@ export class UI {
   }
 
   renderHands(game, { selectable = false, inspectAttribute = null } = {}) {
-    this.dom.opponentHand.replaceChildren(
-      ...game.hands[AI].map(() => this.renderCard(null, { faceDown: true }))
-    );
+    this.dom.opponentHand.replaceChildren(...game.hands[AI].map(() => this.renderCard(null, { faceDown: true })));
     const hand = game.hands[HUMAN];
     const attribute = game.attribute ?? inspectAttribute;
     this.dom.playerHand.replaceChildren(...hand.map((card, index) => {
@@ -242,9 +248,7 @@ export class UI {
         dimmed: !selectable || unavailable,
         unavailable,
         onClick: () => this.openInspector(hand, index, {
-          attribute,
-          playable: selectable,
-          onPlay: chosen => this.handlers.onCard(chosen),
+          attribute, playable: selectable, onPlay: chosen => this.handlers.onCard(chosen),
         }),
       });
     }));
@@ -257,10 +261,7 @@ export class UI {
 
   _renderClassicScores(game) {
     const { [HUMAN]: human, [AI]: ai } = game.scores;
-    this.dom.hudScores.replaceChildren(
-      this._scoreChip('Játékos', human, human > ai),
-      this._scoreChip('Gép', ai, ai > human),
-    );
+    this.dom.hudScores.replaceChildren(this._scoreChip('Játékos', human, human > ai), this._scoreChip('Gép', ai, ai > human));
     this.dom.hudMeta.textContent = `${game.round}. kör · ${game.deck.length} lap a pakliban`;
     this._renderPiles(human, ai);
     this.dom.pot.textContent = game.pot.length ? `🃏 ${game.pot.length} lap a döntetlenpakliban` : '';
@@ -269,8 +270,7 @@ export class UI {
   _renderPenaltyScores(game) {
     const human = game.scores[HUMAN];
     const ai = game.scores[AI];
-    const score = el('div', 'penalty-score', `JÁTÉKOS ${human}–${ai} GÉP`);
-    this.dom.hudScores.replaceChildren(score);
+    this.dom.hudScores.replaceChildren(el('div', 'penalty-score', `JÁTÉKOS ${human}–${ai} GÉP`));
     this.dom.hudMeta.textContent = game.suddenDeath
       ? `Hirtelen halál · ${game.log.length} lejátszott párbaj`
       : `Rendes párbajok: ${game.regularPlayed}/5 · hátra ${game.regularRemaining}`;
@@ -313,17 +313,18 @@ export class UI {
     this.dom.verdict.className = '';
     this.setPrompt('Te választasz kategóriát');
     const available = new Set(game.availableAttributeKeys());
+    const playableAttributes = ATTRIBUTES.filter(attribute => available.has(attribute.key));
 
-    this.dom.picker.replaceChildren(...ATTRIBUTES.map(attribute => {
-      const enabled = available.has(attribute.key);
-      const button = el('button', `attr-btn${enabled ? '' : ' attr-btn--disabled'}`);
-      button.disabled = !enabled;
+    this.dom.picker.replaceChildren(...playableAttributes.map(attribute => {
+      const button = el('button', 'attr-btn');
       button.appendChild(document.createTextNode(`${attribute.icon} ${attribute.label}`));
-      button.appendChild(el('small', null, enabled ? attribute.hint : 'Nincs adat ehhez a párbajhoz'));
+      button.appendChild(el('small', null, attribute.hint));
       button.addEventListener('click', () => this.handlers.onAttribute(attribute.key));
       return button;
     }));
-    this.dom.picker.appendChild(el('div', 'picker-hint', 'A halvány kategória most nem használható, mert valamelyik oldalon nincs hozzá hiteles adat.'));
+    if (!playableAttributes.length) {
+      this.dom.picker.appendChild(el('div', 'picker-hint', 'Ehhez a leosztáshoz nincs közös, hiteles összehasonlítási adat.'));
+    }
   }
 
   hideAttributePicker() { this.dom.picker.replaceChildren(); }
@@ -346,10 +347,7 @@ export class UI {
     this.dom.duel.replaceChildren(mine, el('div', 'versus', 'VS'), theirs);
   }
 
-  _emptySlot() {
-    const slot = el('div', 'card card--empty');
-    return slot;
-  }
+  _emptySlot() { return el('div', 'card card--empty'); }
 
   showVerdict(result, game) {
     const attribute = ATTRIBUTE_BY_KEY[result.attribute];
