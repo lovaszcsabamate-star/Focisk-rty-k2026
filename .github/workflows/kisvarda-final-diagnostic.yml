@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - data/kisvarda-final-2026-07-20
+  pull_request:
 
 jobs:
   test:
