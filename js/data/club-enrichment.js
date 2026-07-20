@@ -203,6 +203,9 @@ function matchRecord(cards, record) {
 
 const cloneCard = card => ({
   ...card,
+  nation: blank(card?.nation) ? '' : card.nation.trim(),
+  position: blank(card?.position) ? '' : card.position.trim(),
+  birthDate: blank(card?.birthDate) ? null : card.birthDate,
   clubs: Array.isArray(card?.clubs) ? [...card.clubs] : card?.clubs,
   stats: { ...(card?.stats ?? {}) },
   meta: {
