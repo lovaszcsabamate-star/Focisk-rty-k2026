@@ -44,14 +44,17 @@
       "clubName": "Kisvárda Master Good",
       "officialUrl": "https://kisvardafc.hu/",
       "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
-      "status": "official-season-statistics-imported",
+      "officialCurrentRosterUrl": "https://kisvardafc.hu/oldal/4/nb-ii",
+      "status": "official-season-statistics-and-two-selected-batches-imported",
       "recordFiles": [
         "data/club-official-enrichment-5-other.json",
         "data/club-official-enrichment-7-kisvarda-selected10.json",
+        "data/club-official-enrichment-8-kisvarda-selected10.json",
         "data/club-official-stat-patches-kisvarda.json",
-        "data/club-official-stat-patches-kisvarda-selected10.json"
+        "data/club-official-stat-patches-kisvarda-selected10.json",
+        "data/club-official-stat-patches-kisvarda-selected10-2.json"
       ],
-      "note": "A hivatalos 2025/26-os szezonértékelések mellett az első, pontosan tíz játékosból álló adatbővítési kör MLSZ-játékoslapjai, klubprofiljai, keretstátuszai, mezszámai és Fizz Liga kerettagsági adatai kerültek feldolgozásra. A pályára lépés és a kispados kerettagság külön mező marad."
+      "note": "A hivatalos 2025/26-os szezonértékelések mellett két, egyenként pontosan tíz játékosból álló Kisvárda-adatbővítési kör MLSZ-játékoslapjai, klubprofiljai, keretstátuszai, mezszámai és Fizz Liga kerettagsági adatai kerültek feldolgozásra. A pályára lépés és a kispados kerettagság külön mező marad; a bizonyított MLSZ-korrekciók név és mező szerint engedélyezettek."
     },
     {
       "clubId": "kolorcity-kazincbarcika-sc",
