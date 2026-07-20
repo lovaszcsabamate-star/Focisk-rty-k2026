@@ -36,6 +36,9 @@ jobs:
       - name: Önálló HTML és audit elkészítése
         run: npm run build
 
+      - name: Valódi Chrome mobilnézeti ellenőrzés
+        run: npm run test:mobile-layout
+
       - name: Alkalmazástesztek
         run: npm test
 
