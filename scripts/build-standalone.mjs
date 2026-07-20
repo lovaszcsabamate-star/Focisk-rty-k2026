@@ -4,7 +4,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { applyClubEnrichmentPayload } from '../js/data/club-enrichment.js';
+import {
+  applyClubEnrichmentPayload,
+  prepareClubEnrichment,
+} from '../js/data/club-enrichment.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -33,7 +36,9 @@ const bundle = moduleOrder
   .map(file => `\n/* ===== ${file} ===== */\n${flattenModule(read(file))}`)
   .join('\n');
 const basePayload = JSON.parse(read('data/players.json'));
-const enrichment = JSON.parse(read('data/club-official-enrichment.json'));
+const rawEnrichment = JSON.parse(read('data/club-official-enrichment.json'));
+const corrections = JSON.parse(read('data/club-official-corrections.json'));
+const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
 const payload = applyClubEnrichmentPayload(basePayload, enrichment);
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
@@ -69,4 +74,5 @@ const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
 fs.writeFileSync(outputPath, output);
 console.log(`Elkészült: ${outputPath}`);
 console.log(`${payload.players.length} játékoskártya beágyazva.`);
-console.log(`${payload.enrichment?.matchedRecords ?? 0} hivatalos klubrekord illesztve.`);
+console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
+console.log(`${payload.enrichment?.addedPlayers ?? 0} igazolt hiányzó játékos hozzáadva.`);
