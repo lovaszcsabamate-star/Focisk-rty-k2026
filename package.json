@@ -12,8 +12,8 @@
     "build:legacy-data": "node pipeline/build.mjs",
     "build:legacy-data:portraits": "node pipeline/build.mjs --portraits",
     "lint": "node --check js/bootstrap.js && node --check js/data/club-enrichment.js && node --check js/data/players.js && node --check js/engine.js && node --check js/penalties.js && node --check js/ai.js && node --check js/banter.js && node --check js/ui.js && node --check js/ux.js && node --check js/ux-fixes.js && node --check js/matchday.js && node --check js/pwa.js && node --check sw.js && node --check js/main.js",
-    "test": "node test/enrichment.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/static.test.mjs && node test/simulate.mjs",
+    "test": "node test/debug-eto-puskas.mjs && node test/enrichment.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/static.test.mjs && node test/simulate.mjs",
     "test:pipeline": "node pipeline/test/transform.test.mjs",
-    "test:all": "node pipeline/test/transform.test.mjs && node test/enrichment.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/static.test.mjs && node test/simulate.mjs"
+    "test:all": "node pipeline/test/transform.test.mjs && node test/debug-eto-puskas.mjs && node test/enrichment.test.mjs && node test/categories.test.mjs && node test/rules.test.mjs && node test/alternating-chooser.test.mjs && node test/data.test.mjs && node test/static.test.mjs && node test/simulate.mjs"
   }
 }
