@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const STANDALONE = path.join(ROOT, 'Fociskartyak2026.html');
+const REPORT = path.join(ROOT, 'mobile-layout-report.json');
 const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 900;
 
@@ -29,6 +30,7 @@ if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskart
 const original = fs.readFileSync(STANDALONE, 'utf8');
 const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'fociskartyak-layout-'));
 const failures = [];
+const measurements = [];
 
 for (const width of WIDTHS) {
   const probeScript = `
@@ -54,6 +56,7 @@ window.addEventListener('load', () => setTimeout(() => {
     hasHome: Boolean(document.querySelector('.mobile-home')),
     hasOnboarding: Boolean(document.querySelector('.onboarding-panel')),
     hasLoadingError: Boolean(document.querySelector('.app-loading__error')),
+    loadingHidden: Boolean(document.querySelector('#app-loading')?.hidden),
     offscreen,
   };
   doc.setAttribute('data-layout-smoke', encodeURIComponent(JSON.stringify(result)));
@@ -83,28 +86,45 @@ window.addEventListener('load', () => setTimeout(() => {
   });
 
   if (run.status !== 0) {
-    failures.push(`${width}px: a Chrome hibával leállt.`);
+    const failure = `${width}px: a Chrome hibával leállt.`;
+    failures.push(failure);
+    measurements.push({ width, failure, stderr: run.stderr.slice(-4000) });
     continue;
   }
 
   const match = run.stdout.match(/data-layout-smoke="([^"]+)"/);
   if (!match) {
-    failures.push(`${width}px: a játék nem adott megjelenítési mérési eredményt.`);
+    const failure = `${width}px: a játék nem adott megjelenítési mérési eredményt.`;
+    failures.push(failure);
+    measurements.push({
+      width,
+      failure,
+      stderr: run.stderr.slice(-4000),
+      domTail: run.stdout.slice(-4000),
+    });
     continue;
   }
 
   const result = JSON.parse(decodeURIComponent(match[1]));
   const overflow = result.documentWidth - result.viewport;
-  if (!result.hasHome && !result.hasOnboarding) failures.push(`${width}px: nem jelent meg a mobilos kezdőképernyő.`);
-  if (result.hasLoadingError) failures.push(`${width}px: betöltési hibaképernyő jelent meg.`);
-  if (overflow > 1) failures.push(`${width}px: ${overflow}px vízszintes dokumentum-kilógás.`);
-  if (result.offscreen.length) failures.push(`${width}px: képernyőn kívüli vezérlők: ${JSON.stringify(result.offscreen)}`);
+  const widthFailures = [];
+  if (!result.hasHome && !result.hasOnboarding) widthFailures.push('nem jelent meg a mobilos kezdőképernyő');
+  if (result.hasLoadingError) widthFailures.push('betöltési hibaképernyő jelent meg');
+  if (!result.loadingHidden) widthFailures.push('a betöltőképernyő látható maradt');
+  if (overflow > 1) widthFailures.push(`${overflow}px vízszintes dokumentum-kilógás`);
+  if (result.offscreen.length) widthFailures.push(`képernyőn kívüli vezérlők: ${JSON.stringify(result.offscreen)}`);
+  failures.push(...widthFailures.map(message => `${width}px: ${message}.`));
+  measurements.push({ width, overflow, ...result, failures: widthFailures });
 
   console.log(`✓ ${width}px: panel rendben, dokumentumszélesség ${result.documentWidth}px, kilógás ${Math.max(0, overflow)}px`);
 }
 
 fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+fs.writeFileSync(REPORT, `${JSON.stringify({ chrome, measurements, failures }, null, 2)}\n`);
 
-if (failures.length) throw new Error(`Mobilos megjelenítési hibák:\n- ${failures.join('\n- ')}`);
-
-console.log('✓ Valódi Chrome mobilnézeti ellenőrzés: rendben');
+if (failures.length) {
+  console.error(`Mobilos megjelenítési hibák:\n- ${failures.join('\n- ')}`);
+  process.exitCode = 1;
+} else {
+  console.log('✓ Valódi Chrome mobilnézeti ellenőrzés: rendben');
+}
