@@ -75,4 +75,5 @@ fs.writeFileSync(outputPath, output);
 console.log(`Elkészült: ${outputPath}`);
 console.log(`${payload.players.length} játékoskártya beágyazva.`);
 console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
-console.log(`${payload.enrichment?.addedPlayers ?? 0} igazolt hiányzó játékos hozzáadva.`);
+console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
+console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hozzáadva.`);
