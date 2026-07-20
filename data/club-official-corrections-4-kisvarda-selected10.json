@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-07-20",
+  "addSources": [
+    {
+      "id": "mlsz-fizz-liga-kisvarda-selected10-squads-2025-26",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – kiválasztott tíz játékos Fizz Liga kerettagsága",
+      "url": "https://adatbank.mlsz.hu/club/65/0/31362/10/307003.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["squads"],
+      "scope": "A Fizz Liga sor Összes oszlopa: kezdő + csere + pályára nem lépő kispad."
+    }
+  ],
+  "recordPatches": [],
+  "excludeRecords": [],
+  "additions": [
+    {
+      "id": "nb1-8061aa670d1b", "name": "ABDULLAHI KAMAL", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 1},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-482c77bd9d65", "name": "ABDULRASAQ RIDWAN POPOOLA", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 29},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-3ec979342281", "name": "ALEKSANDAR JOVICIC", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 29},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-634e0e27432f", "name": "Bíró Bence Balázs", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 32},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-fa00a4ac868d", "name": "Chlumecky Martin", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 32},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-fe0b630e6a22", "name": "CIPETIC BRANIMIR", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 30},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-c41102009eb6", "name": "DANIEL STEPHEN ADAYILO", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 2},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-3f02cae67457", "name": "KOLIADA NAZAR", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 1},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-1f4f96815ad4", "name": "KOVÁCS MARCELL", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 32},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    },
+    {
+      "id": "nb1-d41a8ab9b25c", "name": "KÖRMENDI KEVIN", "club": "Kisvárda Master Good", "clubs": ["Kisvárda Master Good"], "nation": "", "position": "", "birthDate": null,
+      "stats": {"squads": 18},
+      "meta": {"clubId": "kisvarda-master-good", "clubIds": ["kisvarda-master-good"], "registrationCount": 1, "checkedAt": "2026-07-20", "dataStatus": "partially_verified", "additionSourceIds": ["mlsz-fizz-liga-kisvarda-selected10-squads-2025-26"], "sourceNotes": "A 2025/26-os Fizz Liga MLSZ-sor ellenőrzött kerettagsági értéke; nem azonos a pályára lépések számával."}
+    }
+  ]
+}
