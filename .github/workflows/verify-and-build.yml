@@ -40,7 +40,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           cp data/enrichment-audit.json data/eto-puskas-debug-audit.json
-          if git diff --quiet -- data/eto-puskas-debug-audit.json; then
+          if [ -z "$(git status --porcelain -- data/eto-puskas-debug-audit.json)" ]; then
             echo "Az ideiglenes audit már naprakész."
           else
             git config user.name "github-actions[bot]"
