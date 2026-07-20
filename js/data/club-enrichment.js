@@ -10,6 +10,7 @@ const MISSING_TEXT_VALUES = new Set([
 ]);
 const blank = value => value == null
   || (typeof value === 'string' && MISSING_TEXT_VALUES.has(value.trim().toLocaleLowerCase('hu-HU')));
+const usable = value => isFiniteNumber(value) || (typeof value === 'string' && !blank(value)) || value === false;
 
 export function normaliseEnrichmentText(value) {
   return String(value ?? '')
@@ -214,8 +215,46 @@ const cloneCard = card => ({
   },
 });
 
+function mergeVerifiedCorrection(card, correction) {
+  const next = cloneCard(card);
+  const appliedFields = [];
+
+  for (const field of ['nation', 'position', 'birthDate']) {
+    if (blank(next[field]) && usable(correction[field])) {
+      next[field] = correction[field];
+      appliedFields.push(field);
+    }
+  }
+
+  for (const [field, offered] of Object.entries(correction.stats ?? {})) {
+    const current = next.stats[field];
+    if (!usable(current) && usable(offered)) {
+      next.stats[field] = offered;
+      appliedFields.push(field);
+    }
+  }
+
+  for (const field of [
+    'sourceUrl', 'rosterSourceUrl', 'checkedAt', 'dataStatus', 'imageUrl',
+    'birthDateSource', 'birthDateSourceName', 'dismissalBreakdown',
+  ]) {
+    if (!usable(next.meta[field]) && usable(correction.meta?.[field])) next.meta[field] = correction.meta[field];
+  }
+
+  next.meta.officialCorrection = {
+    checkedAt: correction.meta?.checkedAt ?? null,
+    sourceIds: uniqueStrings(correction.meta?.additionSourceIds ?? []),
+    fieldsApplied: appliedFields,
+    note: correction.meta?.sourceNotes ?? null,
+  };
+  if (appliedFields.length) next.meta.dataStatus = correction.meta?.dataStatus ?? 'verified';
+
+  return { card: next, appliedFields };
+}
+
 function appendAdditions(cards, additions) {
   const added = [];
+  const updated = [];
   const skipped = [];
 
   for (const addition of Array.isArray(additions) ? additions : []) {
@@ -223,10 +262,17 @@ function appendAdditions(cards, additions) {
       skipped.push({ id: addition?.id ?? null, name: addition?.name ?? null, reason: 'invalid-addition' });
       continue;
     }
-    const duplicate = cards.some(card => card.id === addition.id
+    const duplicateIndex = cards.findIndex(card => card.id === addition.id
       || (cardClubIds(card).includes(addition.meta.clubId) && enrichmentNamesMatch(card.name, addition)));
-    if (duplicate) {
-      skipped.push({ id: addition.id, name: addition.name, reason: 'already-present' });
+    if (duplicateIndex >= 0) {
+      const merged = mergeVerifiedCorrection(cards[duplicateIndex], addition);
+      cards[duplicateIndex] = merged.card;
+      updated.push({
+        id: cards[duplicateIndex].id,
+        name: cards[duplicateIndex].name,
+        correctionId: addition.id,
+        fieldsApplied: merged.appliedFields,
+      });
       continue;
     }
     const card = cloneCard(addition);
@@ -234,11 +280,19 @@ function appendAdditions(cards, additions) {
     added.push(card);
   }
 
-  return { added, skipped };
+  return { added, updated, skipped };
 }
 
 const coverage = cards => ({
   birthDate: cards.filter(card => !blank(card?.birthDate)).length,
+  appearances: cards.filter(card => isFiniteNumber(card?.stats?.appearances)).length,
+  starts: cards.filter(card => isFiniteNumber(card?.stats?.starts)).length,
+  goals: cards.filter(card => isFiniteNumber(card?.stats?.goals)).length,
+  squads: cards.filter(card => isFiniteNumber(card?.stats?.squads)).length,
+  yellowCards: cards.filter(card => isFiniteNumber(card?.stats?.yellowCards)).length,
+  redCards: cards.filter(card => isFiniteNumber(card?.stats?.redCards)).length,
+  totalDismissals: cards.filter(card => isFiniteNumber(card?.stats?.totalDismissals)).length,
+  overallScore: cards.filter(card => isFiniteNumber(card?.stats?.overallScore)).length,
   position: cards.filter(card => !blank(card?.position)).length,
   nation: cards.filter(card => !blank(card?.nation)).length,
   heightCm: cards.filter(card => isFiniteNumber(card?.stats?.heightCm)).length,
@@ -293,9 +347,11 @@ export function applyClubEnrichmentPayload(payload, enrichment) {
     matchedRecords,
     unmatchedRecords: unmatchedRecords.length,
     excludedRecords: Array.isArray(enrichment.excludedRecords) ? enrichment.excludedRecords.length : 0,
-    additionsRequested: Array.isArray(enrichment.additions) ? enrichment.additions.length : 0,
+    correctionsRequested: Array.isArray(enrichment.additions) ? enrichment.additions.length : 0,
     addedPlayers: additionResult.added.length,
-    skippedAdditions: additionResult.skipped,
+    updatedExistingPlayers: additionResult.updated.length,
+    updatedPlayers: additionResult.updated,
+    skippedCorrections: additionResult.skipped,
     conflictCount,
     appliedFieldCounts,
     coverageBefore: before,
