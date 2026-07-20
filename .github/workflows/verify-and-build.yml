@@ -41,6 +41,9 @@ jobs:
       - name: Önálló HTML és teljes adatfelülvizsgálat elkészítése
         run: npm run build
 
+      - name: Adatbázis-felülvizsgálati parancs
+        run: npm run review:database
+
       - name: Valódi Chrome mobilnézeti ellenőrzés
         id: mobile_layout
         continue-on-error: true
