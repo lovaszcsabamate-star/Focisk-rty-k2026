@@ -26,7 +26,7 @@ const enriched = applyClubEnrichmentPayload(payload, enrichment);
 assert.equal(rawParts[0].records.length, 86);
 assert.equal(rawParts[1].records.length, 75);
 assert.equal(rawEnrichment.records.length, 161);
-assert.equal(corrections.recordPatches.length, 5);
+assert.equal(corrections.recordPatches.length, 7);
 assert.equal(corrections.excludeRecords.length, 8);
 assert.equal(enrichment.records.length, 153);
 assert.equal(enrichment.excludedRecords.length, 8);
@@ -45,22 +45,22 @@ assert.equal(enriched.enrichment.addedPlayers, 0);
 assert.equal(enriched.enrichment.updatedExistingPlayers, 1);
 assert.equal(enriched.enrichment.updatedPlayers[0].name, 'ABU FANI MOHAMMAD');
 assert.equal(enriched.enrichment.skippedCorrections.length, 0);
-assert.ok(enriched.enrichment.conflictCount <= 2, 'legfeljebb két, felülírás nélkül megőrzött forráseltérés maradhat');
+assert.equal(enriched.enrichment.conflictCount, 0);
 assert.equal(enriched.selection.playableCards, payload.selection.playableCards);
 assert.equal(enriched.selection.uniquePlayers, payload.selection.uniquePlayers);
 assert.equal(enriched.selection.registrationRecords, payload.selection.registrationRecords);
 assert.equal(enriched.clubs['Ferencvárosi TC'], payload.clubs['Ferencvárosi TC']);
-assert.equal(enriched.coverage.birthDate, 194);
+assert.equal(enriched.coverage.birthDate, 222);
 assert.equal(enriched.coverage.appearances, (payload.coverage.appearances ?? 0) + 1);
 assert.equal(enriched.coverage.starts, (payload.coverage.starts ?? 0) + 1);
 assert.equal(enriched.coverage.squads, (payload.coverage.squads ?? 0) + 1);
 assert.equal(enriched.coverage.yellowCards, (payload.coverage.yellowCards ?? 0) + 1);
 assert.equal(enriched.coverage.redCards, (payload.coverage.redCards ?? 0) + 1);
 assert.equal(enriched.coverage.totalDismissals, (payload.coverage.totalDismissals ?? 0) + 1);
-assert.equal(enriched.coverage.position, 150);
-assert.equal(enriched.coverage.nation, 150);
+assert.equal(enriched.coverage.position, 149);
+assert.equal(enriched.coverage.nation, 149);
 assert.equal(enriched.coverage.heightCm, 27);
-assert.equal(enriched.coverage.shirtNumber, 131);
+assert.equal(enriched.coverage.shirtNumber, 137);
 assert.equal(enriched.selection.exactBirthDates, enriched.coverage.birthDate);
 assert.equal(enriched.enrichment.coverageAfter.birthDate, enriched.coverage.birthDate);
 assert.equal(
@@ -95,6 +95,16 @@ assert.ok(manzanara, 'Manzanara rövid név az MLSZ teljes névformájához ille
 assert.equal(manzanara.position, 'Középpályás');
 assert.equal(manzanara.nation, 'ESP');
 assert.equal(manzanara.stats.shirtNumber, 16);
+
+const kulbachuk = find('dvsc', 'KULBACHUK VIACHESLAV');
+assert.ok(kulbachuk);
+assert.equal(kulbachuk.birthDate, '2004-08-25', 'az MLSZ születési dátuma marad');
+assert.equal(kulbachuk.stats.shirtNumber, 49);
+
+const mejias = find('dvsc', 'MEJIAS GARCIA JOSUA ANTONIO');
+assert.ok(mejias);
+assert.equal(mejias.birthDate, '1997-06-09', 'az MLSZ születési dátuma marad');
+assert.equal(mejias.stats.shirtNumber, 4);
 
 const barany = find('dvsc', 'Bárány Donát');
 assert.ok(barany);
@@ -174,5 +184,5 @@ assert.equal(normaliseEnrichmentText("O'Dowda, Callum"), 'O DOWDA CALLUM');
 console.log(
   `✓ Kluboldali audit: ${enriched.enrichment.matchedRecords}/${enrichment.records.length} rekord illesztve, `
   + `${enriched.enrichment.unmatchedRecords} illesztetlen rekord, `
-  + `${enriched.enrichment.conflictCount} felülírás nélkül megőrzött forráseltérés`,
+  + `${enriched.enrichment.conflictCount} forrásütközés`,
 );
