@@ -1,4 +1,4 @@
-const PWA_CACHE = 'fociskartyak-2026-v1';
+const PWA_CACHE = 'fociskartyak-2026-v2';
 const PWA_SHELL = [
   './',
   './index.html',
