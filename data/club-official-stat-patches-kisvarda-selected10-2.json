@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T21:20:00+02:00",
+  "source": {
+    "id": "mlsz-fizz-liga-kisvarda-selected10-2-2025-26",
+    "clubId": "kisvarda-master-good",
+    "clubName": "Kisvárda Master Good",
+    "name": "MLSZ Adatbank – a második tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
+    "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307003.html",
+    "additionalUrls": [
+      "https://adatbank.mlsz.hu/player/281164.html",
+      "https://adatbank.mlsz.hu/player/1557690.html",
+      "https://adatbank.mlsz.hu/player/1432844.html",
+      "https://adatbank.mlsz.hu/player/1421848.html",
+      "https://adatbank.mlsz.hu/player/460616.html",
+      "https://adatbank.mlsz.hu/player/989051.html",
+      "https://adatbank.mlsz.hu/player/1219844.html",
+      "https://adatbank.mlsz.hu/player/94827.html",
+      "https://adatbank.mlsz.hu/player/222605.html",
+      "https://adatbank.mlsz.hu/player/708768.html",
+      "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+      "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+    ],
+    "checkedAt": "2026-07-20",
+    "season": "2025/26",
+    "fields": [
+      "appearances",
+      "starts",
+      "substituteAppearances",
+      "squads",
+      "goals",
+      "yellowCards",
+      "redCards",
+      "secondYellowRedCards",
+      "totalDismissals"
+    ],
+    "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. A kiállítástípusnál a Kisvárda hivatalos fegyelmi bontása egészíti ki az MLSZ összesített piroslap-oszlopát."
+  },
+  "fields": [
+    "name",
+    "appearances",
+    "starts",
+    "substituteAppearances",
+    "squads",
+    "goals",
+    "yellowCards",
+    "redCards",
+    "secondYellowRedCards",
+    "totalDismissals"
+  ],
+  "rows": [
+    ["Lippai Tibor", 9, 0, 9, 32, 0, 1, 0, 0, 0],
+    ["Hianga’a Mbock", 13, 12, 1, 14, 1, 2, 0, 0, 0],
+    ["Marko Matanovic", 28, 15, 13, 33, 1, 4, 0, 0, 0],
+    ["Bernardo Matic", 9, 9, 0, 9, 1, 3, 0, 0, 0],
+    ["Medgyes Sinan", 15, 7, 8, 28, 0, 0, 0, 0, 0],
+    ["Bohdan Melnik", 30, 30, 0, 30, 1, 4, 0, 0, 0],
+    ["Jasmin Mesanovic", 22, 20, 2, 27, 2, 3, 0, 0, 0],
+    ["Molnár Gábor", 27, 5, 22, 31, 2, 2, 0, 1, 1],
+    ["Nagy Krisztián", 23, 19, 4, 32, 2, 5, 0, 0, 0],
+    ["Novothny Soma", 32, 15, 17, 33, 3, 2, 0, 0, 0]
+  ],
+  "aliases": {
+    "Hianga’a Mbock": ["MANANGA MBOCK HIANGA'A YUDWEEN", "MANANGA MBOCK HIANGA'A YUDWEEN SAMUEL"],
+    "Marko Matanovic": ["MATANOVIC MARKO", "Marko Matanovics"],
+    "Bernardo Matic": ["MATIC BERNARDO"],
+    "Bohdan Melnik": ["MELNIK BOGDÁN", "Melnik Bogdán"],
+    "Jasmin Mesanovic": ["MEŠANOVIĆ JASMIN", "Jasmin Mešanović"],
+    "Novothny Soma": ["NOVOTHNY SOMA ZSOMBOR", "Novothny Soma Zsombor"]
+  },
+  "overrides": {
+    "Jasmin Mesanovic": ["starts", "substituteAppearances"]
+  },
+  "batch": {
+    "id": "kisvarda-selected10-batch-2",
+    "playerCount": 10,
+    "note": "A lezárt MLSZ-sorok a kerettagságot egészítik ki. Jasmin Mesanovic kezdés/csere bontása bizonyított korrekció: az MLSZ végleges sora 20 kezdést és 2 cserepályára lépést mutat, miközben a korábbi klubösszesítés 22/0 bontást tartalmazott."
+  }
+}

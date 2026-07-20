@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-07-20",
+  "policy": "A klubprofilban felsorolt több szerepkör közül a másodlagos poszt a meglévő adatmodellben egyetlen, forrásolt secondaryPosition szövegmezőként kerül megőrzésre.",
+  "addSources": [],
+  "recordPatches": [
+    {
+      "sourceId": "kisvarda-melnik-return-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Bohdan Melnik",
+      "aliases": ["MELNIK BOGDÁN", "Melnik Bogdán"],
+      "meta": {
+        "secondaryPosition": "Szélső védő"
+      },
+      "note": "A Kisvárda hivatalos bemutatása szerint középpályásként és szélső védőként is bevethető; a másodlagos szerepkört kompatibilis egyértékű metaadat őrzi.",
+      "sourceUrl": "https://kisvardafc.hu/hir/egy-ev-utan-tert-vissza/8544"
+    }
+  ],
+  "excludeRecords": [],
+  "additions": []
+}

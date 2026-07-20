@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T21:15:00+02:00",
+  "batch": {
+    "id": "kisvarda-selected10-batch-2",
+    "playerCount": 10,
+    "playerIds": [
+      "nb1-046e04c4b9c4",
+      "nb1-2e28ae6a6417",
+      "nb1-cce1ff8d0032",
+      "nb1-194f70766db2",
+      "nb1-5617f703b891",
+      "nb1-b491c6bd8e82",
+      "nb1-7bc81b0db266",
+      "nb1-e262cfc330c5",
+      "nb1-34295f65a151",
+      "nb1-07dfcc9bf7b9"
+    ],
+    "rule": "Kizárólag a második tízes Kisvárda-csoport hiányzó, egyértelműen igazolt mezői tölthetők ki. A lezárt Fizz Liga-statisztikát az MLSZ, az alapadatokat és státuszt a klub hivatalos oldala igazolja."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "primarySource": "MLSZ Adatbank",
+    "secondarySource": "Kisvárda FC hivatalos oldala",
+    "rule": "A köztes MLSZ-szezonállapot nem írhatja felül a lezárt klub- és MLSZ-szezonadatot. Bizonytalan nemzetiség, poszt, magasság vagy szerződésadat hiányzó marad."
+  },
+  "sources": [
+    {
+      "id": "mlsz-player-lippai-tibor-281164",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Lippai Tibor játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/281164.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "seasonClub"]
+    },
+    {
+      "id": "kisvarda-lippai-signing-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Lippai Tibor hivatalos bemutatása",
+      "url": "https://kisvardafc.hu/news/news/view?id=6591",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthPlace", "position", "shirtNumber", "previousClub", "joinedAt"]
+    },
+    {
+      "id": "mlsz-player-mbock-1557690",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Hianga’a Mbock játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1557690.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "previousClub", "joinedAt"]
+    },
+    {
+      "id": "kisvarda-mbock-signing-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Hianga’a Mbock hivatalos bemutatása",
+      "url": "https://kisvardafc.hu/hir/francia-kozeppalyas-erkezett/9106",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "secondNationality", "birthPlace", "position", "heightCm", "strongFoot", "currentStatus"]
+    },
+    {
+      "id": "mlsz-player-matanovic-1432844",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Marko Matanovic játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1432844.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "previousClub", "loanStatus"]
+    },
+    {
+      "id": "kisvarda-matanovic-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Marko Matanovic hivatalos bemutatása",
+      "url": "https://kisvardafc.hu/hir/vele-vegleges-a-keret/7784",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "birthPlace", "position", "heightCm", "strongFoot", "shirtNumber"]
+    },
+    {
+      "id": "kisvarda-matanovic-permanent-2025",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Marko Matanovic végleges szerződtetése",
+      "url": "https://kisvardafc.hu/hir/ketten-is-hosszabbitottak/8526",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["loanStatus", "permanentFrom", "currentStatus"]
+    },
+    {
+      "id": "mlsz-player-matic-1421848",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Bernardo Matic játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1421848.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "seasonClub"]
+    },
+    {
+      "id": "kisvarda-matic-departure-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Bernardo Matic távozása",
+      "url": "https://kisvardafc.hu/hir/ket-ev-utan-tavozik/9102",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position", "departedAt", "contractEnd", "seasonStatus", "currentStatus"]
+    },
+    {
+      "id": "mlsz-player-medgyes-460616",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Medgyes Sinan játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/460616.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "previousClub", "joinedAt"]
+    },
+    {
+      "id": "kisvarda-medgyes-molnar-departure-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Medgyes Sinan és Molnár Gábor távozása",
+      "url": "https://kisvardafc.hu/news/news/view?id=9542",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["previousClub", "seasonStatus", "currentStatus", "departedAt"]
+    },
+    {
+      "id": "kisvarda-melnik-return-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Bohdan Melnik visszatérése és játékosprofilja",
+      "url": "https://kisvardafc.hu/hir/egy-ev-utan-tert-vissza/8544",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "birthPlace", "position", "secondaryPositions", "heightCm", "strongFoot", "shirtNumber", "previousClub", "joinedAt"]
+    },
+    {
+      "id": "kisvarda-melnik-hungarian-citizenship-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Bohdan Melnik magyar állampolgársága",
+      "url": "https://kisvardafc.hu/hir/ketszeri-egyenlites-utan-vereseg/9112",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "citizenshipConfirmedAt"]
+    },
+    {
+      "id": "mlsz-player-mesanovic-1219844",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Jasmin Mešanović játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/1219844.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "seasonClub"]
+    },
+    {
+      "id": "kisvarda-mesanovic-extension-2026",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Jasmin Mešanović szerződéshosszabbítása",
+      "url": "https://kisvardafc.hu/hir/marad-a-kapitany/9549",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position", "captain", "contractExtended", "contractEnd", "currentStatus"]
+    },
+    {
+      "id": "mlsz-player-molnar-gabor-94827",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Molnár Gábor játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/94827.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "seasonClub"]
+    },
+    {
+      "id": "kisvarda-nagy-krisztian-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Nagy Krisztián hivatalos bemutatása",
+      "url": "https://kisvardafc.hu/news/news/view?id=8527",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "birthPlace", "position", "secondaryPositions", "heightCm", "strongFoot", "previousClub", "joinedAt", "currentStatus"]
+    },
+    {
+      "id": "mlsz-player-novothny-708768",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ Adatbank – Novothny Soma Zsombor játékosadatlap",
+      "url": "https://adatbank.mlsz.hu/player/708768.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "seasonClub"]
+    },
+    {
+      "id": "kisvarda-novothny-signing-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Novothny Soma hivatalos bemutatása",
+      "url": "https://kisvardafc.hu/hir/magyar-csatar-lengyelorszagbol/8545",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "birthPlace", "position", "previousClub", "joinedAt", "currentStatus"]
+    },
+    {
+      "id": "mlsz-kisvarda-shirt-numbers-selected10-2",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ jegyzőkönyvek – a második Kisvárda-tízes 2025/26-os mezszámai",
+      "url": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html",
+      "additionalUrls": [
+        "https://adatbank.mlsz.hu/match/65/0/31362/24/2068966.html"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["shirtNumber"]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "mlsz-player-lippai-tibor-281164", "clubId": "kisvarda-master-good", "name": "Lippai Tibor",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/281164.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1997-12-24", "meta": {"seasonClub": "Kisvárda Master Good"}
+    },
+    {
+      "sourceId": "kisvarda-lippai-signing-profile", "clubId": "kisvarda-master-good", "name": "Lippai Tibor",
+      "sourceUrl": "https://kisvardafc.hu/news/news/view?id=6591", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "position": "Védő", "shirtNumber": 42,
+      "meta": {"primaryPosition": "Középhátvéd", "birthPlace": "Kisvárda", "previousClub": "Kolorcity Kazincbarcika SC", "joinedAt": "2023-06-19", "seasonShirtNumber": 42, "currentStatus": "active"}
+    },
+    {
+      "sourceId": "mlsz-player-mbock-1557690", "clubId": "kisvarda-master-good", "name": "Mananga Mbock Hianga'a Yudween", "aliases": ["Hianga’a Mbock", "MANANGA MBOCK HIANGA'A YUDWEEN"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1557690.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1999-12-28", "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "Grenoble Foot 38", "joinedAt": "2026-01-28"}
+    },
+    {
+      "sourceId": "kisvarda-mbock-signing-profile", "clubId": "kisvarda-master-good", "name": "Hianga’a Mbock", "aliases": ["Mananga Mbock Hianga'a Yudween"],
+      "sourceUrl": "https://kisvardafc.hu/hir/francia-kozeppalyas-erkezett/9106", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "nation": "FRA / CMR", "position": "Középpályás", "heightCm": 186, "shirtNumber": 80,
+      "meta": {"primaryPosition": "Védekező középpályás", "birthPlace": "Brest", "strongFoot": "jobb", "secondNationality": "CMR", "seasonShirtNumber": 80, "seasonStatus": "winter-arrival", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "mlsz-player-matanovic-1432844", "clubId": "kisvarda-master-good", "name": "Marko Matanovic", "aliases": ["MATANOVIC MARKO", "Marko Matanovics"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1432844.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "2000-07-17", "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "FK Sarajevo", "loanStatusAtArrival": true}
+    },
+    {
+      "sourceId": "kisvarda-matanovic-profile", "clubId": "kisvarda-master-good", "name": "Marko Matanovic", "aliases": ["MATANOVIC MARKO", "Marko Matanovics"],
+      "sourceUrl": "https://kisvardafc.hu/hir/vele-vegleges-a-keret/7784", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "nation": "MNE", "position": "Középpályás", "heightCm": 189, "shirtNumber": 11,
+      "meta": {"birthPlace": "Podgorica", "strongFoot": "bal", "seasonShirtNumber": 11}
+    },
+    {
+      "sourceId": "kisvarda-matanovic-permanent-2025", "clubId": "kisvarda-master-good", "name": "Marko Matanovic", "aliases": ["MATANOVIC MARKO", "Marko Matanovics"],
+      "sourceUrl": "https://kisvardafc.hu/hir/ketten-is-hosszabbitottak/8526", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"loanStatus": false, "permanentFrom": "2025-06-11", "seasonStatus": "active", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "mlsz-player-matic-1421848", "clubId": "kisvarda-master-good", "name": "Bernardo Matic", "aliases": ["MATIC BERNARDO"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1421848.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1994-07-27", "meta": {"seasonClub": "Kisvárda Master Good"}
+    },
+    {
+      "sourceId": "kisvarda-matic-departure-2026", "clubId": "kisvarda-master-good", "name": "Bernardo Matic", "aliases": ["MATIC BERNARDO"],
+      "sourceUrl": "https://kisvardafc.hu/hir/ket-ev-utan-tavozik/9102", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "nation": "CRO", "position": "Védő", "shirtNumber": 4,
+      "meta": {"primaryPosition": "Középhátvéd", "departedAt": "2026-01-22", "contractEnd": "2026-06-30", "seasonShirtNumber": 4, "seasonStatus": "departed-midseason-injured", "currentStatus": "departed"}
+    },
+    {
+      "sourceId": "mlsz-player-medgyes-460616", "clubId": "kisvarda-master-good", "name": "Medgyes Sinan",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/460616.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1993-06-30", "shirtNumber": 23,
+      "meta": {"seasonClub": "Kisvárda Master Good", "previousClub": "ZTE FC", "joinedAt": "2025-07-08", "seasonShirtNumber": 23}
+    },
+    {
+      "sourceId": "kisvarda-medgyes-molnar-departure-2026", "clubId": "kisvarda-master-good", "name": "Medgyes Sinan",
+      "sourceUrl": "https://kisvardafc.hu/news/news/view?id=9542", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"departedAt": "2026-06-16", "seasonStatus": "active-until-season-end", "currentStatus": "departed"}
+    },
+    {
+      "sourceId": "kisvarda-melnik-return-profile", "clubId": "kisvarda-master-good", "name": "Bohdan Melnik", "aliases": ["MELNIK BOGDÁN", "Melnik Bogdán"],
+      "sourceUrl": "https://kisvardafc.hu/hir/egy-ev-utan-tert-vissza/8544", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1997-01-04", "position": "Középpályás", "heightCm": 176, "shirtNumber": 14,
+      "meta": {"birthPlace": "Volodimir-Volinszkij, Ukrajna", "primaryPosition": "Középpályás", "secondaryPositions": ["Szélső védő"], "strongFoot": "jobb", "previousClub": "Fehérvár FC", "joinedAt": "2025-06-25", "seasonShirtNumber": 14, "seasonStatus": "active", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "kisvarda-melnik-hungarian-citizenship-2026", "clubId": "kisvarda-master-good", "name": "Bohdan Melnik", "aliases": ["MELNIK BOGDÁN", "Melnik Bogdán"],
+      "sourceUrl": "https://kisvardafc.hu/hir/ketszeri-egyenlites-utan-vereseg/9112", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "nation": "HUN", "meta": {"citizenshipConfirmedAt": "2026-01"}
+    },
+    {
+      "sourceId": "mlsz-player-mesanovic-1219844", "clubId": "kisvarda-master-good", "name": "Jasmin Mesanovic", "aliases": ["MEŠANOVIĆ JASMIN", "Jasmin Mešanović"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1219844.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1992-01-06", "shirtNumber": 27, "meta": {"seasonClub": "Kisvárda Master Good", "seasonShirtNumber": 27}
+    },
+    {
+      "sourceId": "kisvarda-mesanovic-extension-2026", "clubId": "kisvarda-master-good", "name": "Jasmin Mesanovic", "aliases": ["MEŠANOVIĆ JASMIN", "Jasmin Mešanović"],
+      "sourceUrl": "https://kisvardafc.hu/hir/marad-a-kapitany/9549", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "nation": "BIH", "position": "Támadó",
+      "meta": {"captain": true, "contractExtended": true, "contractEnd": "2027-06-30", "seasonStatus": "active", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "mlsz-player-molnar-gabor-94827", "clubId": "kisvarda-master-good", "name": "Molnár Gábor",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/94827.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1994-05-16", "shirtNumber": 16, "meta": {"seasonClub": "Kisvárda Master Good", "seasonShirtNumber": 16}
+    },
+    {
+      "sourceId": "kisvarda-medgyes-molnar-departure-2026", "clubId": "kisvarda-master-good", "name": "Molnár Gábor",
+      "sourceUrl": "https://kisvardafc.hu/news/news/view?id=9542", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "meta": {"previousClub": "Mezőkövesd Zsóry FC", "joinedAt": "2024", "departedAt": "2026-06-16", "seasonStatus": "active-until-season-end", "currentStatus": "departed"}
+    },
+    {
+      "sourceId": "kisvarda-nagy-krisztian-profile", "clubId": "kisvarda-master-good", "name": "Nagy Krisztián",
+      "sourceUrl": "https://kisvardafc.hu/news/news/view?id=8527", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1995-07-18", "nation": "HUN", "position": "Középpályás", "heightCm": 180, "shirtNumber": 55,
+      "meta": {"birthPlace": "Kaposvár", "primaryPosition": "Középpályás", "secondaryPositions": ["Szárnyvédő", "Szélső"], "strongFoot": "jobb", "previousClub": "Kecskeméti TE", "joinedAt": "2025-06-12", "seasonShirtNumber": 55, "seasonStatus": "active", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "mlsz-player-novothny-708768", "clubId": "kisvarda-master-good", "name": "Novothny Soma Zsombor", "aliases": ["Novothny Soma"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/708768.html", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "birthDate": "1994-06-16", "shirtNumber": 86, "meta": {"seasonClub": "Kisvárda Master Good", "seasonShirtNumber": 86}
+    },
+    {
+      "sourceId": "kisvarda-novothny-signing-profile", "clubId": "kisvarda-master-good", "name": "Novothny Soma", "aliases": ["Novothny Soma Zsombor"],
+      "sourceUrl": "https://kisvardafc.hu/hir/magyar-csatar-lengyelorszagbol/8545", "checkedAt": "2026-07-20", "season": "2025/26", "confidence": "high",
+      "nation": "HUN", "position": "Támadó",
+      "meta": {"primaryPosition": "Középcsatár", "birthPlace": "Veszprém", "previousClub": "Wisła Płock", "joinedAt": "2025-06-26", "seasonStatus": "active", "currentStatus": "active"}
+    }
+  ]
+}

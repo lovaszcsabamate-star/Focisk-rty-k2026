@@ -13,15 +13,18 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-5-other.json',
   'data/club-official-enrichment-6-eto-puskas.json',
   'data/club-official-enrichment-7-kisvarda-selected10.json',
+  'data/club-official-enrichment-8-kisvarda-selected10.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
+  'data/club-official-corrections-4-kisvarda-selected10-2.json',
 ];
 const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kisvarda.json',
   'data/club-official-stat-patches-kisvarda-selected10.json',
+  'data/club-official-stat-patches-kisvarda-selected10-2.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
@@ -114,7 +117,8 @@ try {
     const summary = finalPayload.officialStatPatches;
     console.info(
       `[official-stats] ${summary.matchedRecords}/${summary.records} hivatalos szezonstatisztika illesztve · `
-      + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés`
+      + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés · `
+      + `${summary.correctionCount ?? 0} bizonyított korrekció`
     );
   }
 
