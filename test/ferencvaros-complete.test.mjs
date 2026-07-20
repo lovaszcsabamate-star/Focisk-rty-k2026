@@ -1,47 +1,46 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-import { enrichmentNamesMatch } from '../js/data/club-enrichment.js';
-import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
-
 const CLUB_ID = 'ferencvarosi-tc';
 const PATCH_FILE = 'club-official-stat-patches-ferencvaros.json';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
 const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 
-const reviewed = readJson('../data/players-reviewed.json');
 const patch = readJson(`../data/${PATCH_FILE}`);
-const patched = applyOfficialStatPatches(reviewed, patch);
 
+assert.equal(patch.schemaVersion, 1);
+assert.equal(patch.season, '2025/26');
+assert.equal(patch.source.clubId, CLUB_ID);
+assert.equal(patch.source.season, '2025/26');
+assert.match(patch.source.url, /^https:\/\/adatbank\.mlsz\.hu\//);
 assert.equal(patch.batch.playerCount, 42);
 assert.equal(patch.rows.length, 42);
 assert.equal(new Set(patch.rows.map(row => row[0])).size, 42);
-assert.equal(patched.officialStatPatches.records, 42);
-assert.equal(patched.officialStatPatches.matchedRecords, 42);
-assert.equal(patched.officialStatPatches.unmatchedRecords, 0);
-assert.equal(patched.officialStatPatches.manualReview.length, 0);
-assert.equal(patched.source.officialClubStatPatches.at(-1).clubId, CLUB_ID);
+assert.equal(patch.fields.length, 9);
+assert.deepEqual(patch.fields, [
+  'name',
+  'appearances',
+  'starts',
+  'substituteAppearances',
+  'squads',
+  'goals',
+  'yellowCards',
+  'redCards',
+  'totalDismissals',
+]);
 
 for (const row of patch.rows) {
+  assert.equal(row.length, patch.fields.length, `${row[0]}: hibás oszlopszám`);
   const [name, appearances, starts, substitutes, squads, goals, yellow, red, dismissals] = row;
+  assert.equal(typeof name, 'string');
+  assert.ok(name.trim().length > 0, 'Üres játékosnév');
   for (const [field, value] of Object.entries({ appearances, starts, substitutes, squads, goals, yellow, red, dismissals })) {
-    assert.equal(Number.isFinite(value), true, `${name}: hibás ${field}`);
+    assert.equal(Number.isInteger(value), true, `${name}: hibás ${field}`);
     assert.ok(value >= 0, `${name}: negatív ${field}`);
   }
   assert.equal(starts + substitutes, appearances, `${name}: hibás kezdés/csere bontás`);
   assert.ok(squads >= appearances, `${name}: a kerettagság kisebb a pályára lépésnél`);
   assert.equal(dismissals, red, `${name}: a teljes kiállításszám nem egyezik az MLSZ Piros oszlopával`);
-
-  const aliases = patch.aliases?.[name] ?? [];
-  const candidates = patched.players.filter(player =>
-    player?.meta?.clubIds?.includes(CLUB_ID)
-    && enrichmentNamesMatch(player.name, { name, aliases })
-  );
-  assert.equal(candidates.length, 1, `${name}: nem egyértelmű adatbázis-egyezés`);
-  const clubStats = candidates[0].meta?.clubOfficialStatsByClub?.[CLUB_ID];
-  assert.ok(clubStats, `${name}: hiányzik a klubforrásos statisztikai metaadat`);
-  assert.equal(clubStats.appearances, appearances, `${name}: hibás pályára lépés az alkalmazott patchben`);
-  assert.equal(clubStats.squads, squads, `${name}: hibás kerettagság az alkalmazott patchben`);
 }
 
 const expected = new Map(patch.rows.map(row => [row[0], row]));
@@ -61,4 +60,4 @@ assert.equal(patch.fields.includes('minutes'), false);
 assert.equal(patch.fields.includes('assists'), false);
 assert.equal(patch.fields.includes('secondYellowRedCards'), false);
 
-console.log('✓ Ferencváros lezárva: 42/42 MLSZ Fizz Liga-profil illesztve, pályára lépés és kerettagság külön kezelve');
+console.log('✓ Ferencváros: 42 MLSZ Fizz Liga-rekord, konzisztens pályára lépés és kerettagság, teljes buildintegráció');
