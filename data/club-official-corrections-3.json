@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-07-20",
+  "policy": "A Puskás Akadémia aktuális hivatalos profiljai csak akkor kapcsolhatók a játékhoz, ha a játékos 2025/26-os Puskás Fizz Liga-kártyája az MLSZ-alapadatbázisban igazolható. Két névforma célzottan összekapcsolódik, öt évad- vagy klubidegen rekord dokumentáltan kizárásra kerül.",
+  "addSources": [],
+  "recordPatches": [
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Georgi Harutjunjan",
+      "aliases": ["ARUTIUNIAN GEORGII"],
+      "note": "A Puskás hivatalos oldala a Georgi Harutjunjan, az MLSZ Adatbank az ARUTIUNIAN GEORGII névformát használja.",
+      "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307007.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Dárdai Palkó",
+      "aliases": ["DÁRDAI PÁL"],
+      "note": "A kluboldali Palkó becenév az MLSZ DÁRDAI PÁL rekordjához kapcsolódik; a születési dátum mindkét forrásban 1999-04-24.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1212123.html"
+    }
+  ],
+  "excludeRecords": [
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Bozó Mirkó",
+      "reason": "Az MLSZ 2025/26-os adatlapján Puskás Akadémia FC II. NB III-as szereplés igazolható, Puskás Fizz Liga elsőcsapatos rekord nem.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/647216.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Farkas Bendegúz",
+      "reason": "A születési dátum alapján az MLSZ FARKAS BENDEGÚZ BENCE rekordja azonosítható, aki a 2025/26-os Fizz Ligában a Nyíregyháza Spartacus FC játékosa volt, nem a Puskás Akadémiáé.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/396261.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Pál Barna",
+      "reason": "Az MLSZ 2025/26-os adatlapja az Aqvital FC Csákvár Merkantil Bank Liga-játékosaként tartja nyilván; Puskás Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/591485.html"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Brugger Dániel",
+      "reason": "A Puskás Akadémia 2026. július 7-én, a 2025/26-os idény lezárása után jelentette be új igazolásként; ezért nem kaphat visszamenőleg 2025/26-os Puskás-kártyaadatot.",
+      "sourceUrl": "https://puskasakademia.hu/"
+    },
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Somfalvi Bence",
+      "reason": "Az MLSZ 2025/26-os adatlapja Soroksár SC- és Aqvital FC Csákvár-szereplést mutat a Merkantil Bank Ligában; Puskás Fizz Liga-rekord nincs.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/463914.html"
+    }
+  ],
+  "additions": []
+}
