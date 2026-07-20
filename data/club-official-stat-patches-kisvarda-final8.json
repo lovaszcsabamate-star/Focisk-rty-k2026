@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T22:50:00+02:00",
+  "source": {
+    "id": "mlsz-fizz-liga-kisvarda-final8-2025-26",
+    "clubId": "kisvarda-master-good",
+    "clubName": "Kisvárda Master Good",
+    "name": "MLSZ Adatbank – a Kisvárda utolsó nyolc rekordjának végleges 2025/26-os Fizz Liga sorai",
+    "url": "https://adatbank.mlsz.hu/club/65/0/31362/2/307003.html",
+    "additionalUrls": [
+      "https://adatbank.mlsz.hu/player/1497409.html",
+      "https://adatbank.mlsz.hu/player/446755.html",
+      "https://adatbank.mlsz.hu/player/771410.html",
+      "https://adatbank.mlsz.hu/player/1292313.html",
+      "https://adatbank.mlsz.hu/player/714803.html",
+      "https://adatbank.mlsz.hu/player/532301.html",
+      "https://adatbank.mlsz.hu/player/1352118.html",
+      "https://adatbank.mlsz.hu/player/1291810.html",
+      "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+      "https://kisvardafc.hu/hir/tenylegesen-nem-is-voltunk-emberhatranyban/9517"
+    ],
+    "checkedAt": "2026-07-20",
+    "season": "2025/26",
+    "fields": [
+      "appearances",
+      "starts",
+      "substituteAppearances",
+      "squads",
+      "goals",
+      "yellowCards",
+      "redCards",
+      "secondYellowRedCards",
+      "totalDismissals"
+    ],
+    "scope": "Kizárólag Fizz Liga 2025/26. A squads a kezdő, csere és pályára nem lépő kispados alkalmak összege. Hrabina Alex, Jazsik Román, Raúl-Martin Stefan és Tarasz Veprik bajnoki pályára lépés nélkül voltak kerettagok."
+  },
+  "fields": [
+    "name",
+    "appearances",
+    "starts",
+    "substituteAppearances",
+    "squads",
+    "goals",
+    "yellowCards",
+    "redCards",
+    "secondYellowRedCards",
+    "totalDismissals"
+  ],
+  "rows": [
+    ["Teslim Balogun", 4, 0, 4, 7, 0, 1, 0, 0, 0],
+    ["Gyurkó Máté", 1, 0, 1, 2, 0, 1, 0, 0, 0],
+    ["Hrabina Alex", 0, 0, 0, 4, 0, 0, 0, 0, 0],
+    ["Jazsik Román", 0, 0, 0, 2, 0, 0, 0, 0, 0],
+    ["Pintér Filip", 17, 4, 13, 27, 0, 2, 0, 0, 0],
+    ["Szabó Szilárd", 13, 4, 9, 17, 0, 1, 0, 0, 0],
+    ["Raul-Martin Stefan", 0, 0, 0, 5, 0, 0, 0, 0, 0],
+    ["Tarasz Veprik", 0, 0, 0, 4, 0, 0, 0, 0, 0]
+  ],
+  "aliases": {
+    "Teslim Balogun": ["BALOGUN TESLIM ABDULATEEF"],
+    "Gyurkó Máté": ["GYURKÓ MÁTÉ"],
+    "Hrabina Alex": ["HRABINA ALEX"],
+    "Jazsik Román": ["JAZSIK ROMÁN", "Roman Yazhik"],
+    "Pintér Filip": ["PINTÉR ATTILA FILIP", "Pintér Attila Filip"],
+    "Szabó Szilárd": ["SZABÓ SZILÁRD"],
+    "Raul-Martin Stefan": ["STEFAN RAUL MARTIN", "Raúl-Martin Stefan"],
+    "Tarasz Veprik": ["VEPRIK TARASZ", "VEPRYK TARAS"]
+  },
+  "batch": {
+    "id": "kisvarda-final8-batch",
+    "playerCount": 8,
+    "note": "A Kisvárda mind a 38 adatbázisrekordja ezzel forrásolt alapadat- és bajnoki kerettagsági ellenőrzést kap. A már meglévő perc- és gólpasszértékeket ez a réteg nem írja felül."
+  }
+}
