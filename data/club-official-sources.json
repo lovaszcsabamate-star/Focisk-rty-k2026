@@ -45,7 +45,7 @@
       "officialUrl": "https://kisvardafc.hu/",
       "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
       "officialCurrentRosterUrl": "https://kisvardafc.hu/oldal/4/nb-ii",
-      "status": "official-season-statistics-and-two-selected-batches-imported",
+      "status": "official-season-statistics-imported",
       "recordFiles": [
         "data/club-official-enrichment-5-other.json",
         "data/club-official-enrichment-7-kisvarda-selected10.json",
