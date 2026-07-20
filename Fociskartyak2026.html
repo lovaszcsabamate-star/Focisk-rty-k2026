@@ -3781,14 +3781,16 @@ if (typeof previousMatchScoreboard === 'function') {
 
 
 /* ===== js/pwa.js ===== */
+const pwaIsNative = Boolean(globalThis.Capacitor?.isNativePlatform?.()) || window.location.protocol === 'capacitor:';
+
 const pwaState = {
   deferredPrompt: null,
-  installed: window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true,
+  installed: pwaIsNative || window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true,
 };
 
 const pwaIsIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const pwaIsMobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
-const pwaCanRun = ['http:', 'https:'].includes(window.location.protocol);
+const pwaCanRun = !pwaIsNative && ['http:', 'https:'].includes(window.location.protocol);
 
 function pwaCloseGuide() {
   document.querySelector('#pwa-install-guide')?.remove();
@@ -3858,6 +3860,7 @@ if (pwaCanRun && 'serviceWorker' in navigator) {
 }
 
 window.addEventListener('beforeinstallprompt', event => {
+  if (pwaIsNative) return;
   event.preventDefault();
   pwaState.deferredPrompt = event;
   pwaEnsureInstallButton();
