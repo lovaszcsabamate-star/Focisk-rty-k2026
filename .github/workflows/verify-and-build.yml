@@ -8,6 +8,11 @@ on:
     paths-ignore:
       - Fociskartyak2026.html
       - data/enrichment-audit.json
+      - data/players-reviewed.json
+      - data/database-review.json
+      - data/database-review.md
+      - data/database-changelog.json
+      - data/missing-player-data-reviewed.json
   pull_request:
     branches:
       - main
@@ -33,7 +38,7 @@ jobs:
       - name: Szintaktikai ellenőrzés
         run: npm run lint
 
-      - name: Önálló HTML és audit elkészítése
+      - name: Önálló HTML és teljes adatfelülvizsgálat elkészítése
         run: npm run build
 
       - name: Valódi Chrome mobilnézeti ellenőrzés
@@ -63,15 +68,16 @@ jobs:
         if: steps.mobile_layout.outcome == 'failure'
         run: exit 1
 
-      - name: Generált játékfájl és audit mentése
+      - name: Generált játékfájl és adatfelülvizsgálat mentése
         if: github.event_name == 'push'
         run: |
-          if git diff --quiet -- Fociskartyak2026.html data/enrichment-audit.json; then
-            echo "Az önálló játékfájl és az audit naprakész."
+          GENERATED_FILES="Fociskartyak2026.html data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
+          if git diff --quiet -- $GENERATED_FILES; then
+            echo "Az önálló játékfájl és az adatfelülvizsgálati csomag naprakész."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Fociskartyak2026.html data/enrichment-audit.json
-          git commit -m "Önálló játékfájl és adat-audit frissítése [skip ci]"
+          git add $GENERATED_FILES
+          git commit -m "Önálló játékfájl és teljes adatfelülvizsgálat frissítése [skip ci]"
           git push

@@ -1,1 +1,141 @@
-{"schemaVersion":1,"season":"2025/26","checkedAt":"2026-07-20","clubs":[{"clubId":"dvsc","clubName":"DVSC","officialUrl":"https://dvsc.hu/","officialRosterUrl":"https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok","status":"structured-season-roster-imported","recordFiles":["data/club-official-enrichment-2.json"]},{"clubId":"dvtk","clubName":"DVTK","officialUrl":"https://dvtk.eu/","officialRosterUrl":"https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok","status":"structured-season-roster-imported","recordFiles":["data/club-official-enrichment.json"]},{"clubId":"eto-fc","clubName":"ETO FC","officialUrl":"https://www.eto.hu/","officialRosterUrl":"https://www.eto.hu/hu/roster?category=1","status":"structured-season-roster-imported","recordFiles":["data/club-official-enrichment-5-other.json","data/club-official-enrichment-6-eto-puskas.json"],"note":"A hivatalos NB I-es keretoldal posztcsoportokkal és mezszámokkal került feldolgozásra."},{"clubId":"ferencvarosi-tc","clubName":"Ferencvárosi TC","officialUrl":"https://www.fradi.hu/","officialRosterUrl":"https://www.fradi.hu/labdarugas/elso-csapat/jatekosok","status":"structured-season-roster-imported","recordFiles":["data/club-official-enrichment.json"]},{"clubId":"kisvarda-master-good","clubName":"Kisvárda Master Good","officialUrl":"https://kisvardafc.hu/","officialRosterUrl":"https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514","status":"official-season-statistics-imported","recordFiles":["data/club-official-enrichment-5-other.json","data/club-official-stat-patches-kisvarda.json"],"note":"A hivatalos 2025/26-os szezonértékelésekből 30 játékos szereplési, játékperc-, becserélési, gól-, gólpassz- és fegyelmi adata került MLSZ-elsődlegesen feldolgozásra."},{"clubId":"kolorcity-kazincbarcika-sc","clubName":"Kolorcity Kazincbarcika SC","officialUrl":"https://kbsc.hu/","officialRosterUrl":"https://kbsc.hu/oldal/jatekoskeret","status":"official-roster-and-transfer-enrichment","recordFiles":["data/club-official-enrichment-5-other.json"]},{"clubId":"mtk-budapest","clubName":"MTK Budapest","officialUrl":"https://www.mtkbudapest.hu/","officialRosterUrl":"https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok","status":"structured-season-roster-imported","recordFiles":["data/club-official-enrichment-2.json"]},{"clubId":"nyiregyhaza-spartacus-fc","clubName":"Nyíregyháza Spartacus FC","officialUrl":"https://nyiregyhazaspartacus.hu/","officialRosterUrl":"https://nyiregyhazaspartacus.hu/jatekosok","status":"official-roster-enrichment","recordFiles":["data/club-official-enrichment-3-paks-nyir.json"]},{"clubId":"paksi-fc","clubName":"Paksi FC","officialUrl":"https://paksifc.hu/","officialRosterUrl":"https://paksifc.hu/jatekosok.php","status":"official-roster-enrichment","recordFiles":["data/club-official-enrichment-3-paks-nyir.json"]},{"clubId":"puskas-akademia-fc","clubName":"Puskás Akadémia FC","officialUrl":"https://puskasakademia.hu/","officialRosterUrl":"https://puskasakademia.hu/team/puskas-akademia-fc","status":"official-roster-filtered-to-2025-26-mlsz-cards","recordFiles":["data/club-official-enrichment-5-other.json","data/club-official-enrichment-6-eto-puskas.json"],"note":"Az aktuális hivatalos profilok kizárólag már meglévő 2025/26-os MLSZ-kártyához illeszthetők."},{"clubId":"ujpest-fc","clubName":"Újpest FC","officialUrl":"https://www.ujpestfc.hu/","officialRosterUrl":"https://www.ujpestfc.hu/csapatok/csapat","status":"official-profile-enrichment","recordFiles":["data/club-official-enrichment-4-ujpest.json"],"note":"Aktuális profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."},{"clubId":"zte-fc","clubName":"ZTE FC","officialUrl":"https://www.ztefc.hu/","officialRosterUrl":"https://www.ztefc.hu/hu/csapat","status":"official-profile-and-role-enrichment","recordFiles":["data/club-official-enrichment-5-other.json"],"note":"Aktuális profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."}]}
+{
+  "schemaVersion": 2,
+  "season": "2025/26",
+  "checkedAt": "2026-07-20",
+  "clubs": [
+    {
+      "clubId": "dvsc",
+      "clubName": "DVSC",
+      "officialUrl": "https://dvsc.hu/",
+      "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
+      "officialCurrentRosterUrl": "https://dvsc.hu/dvsc-csapatok/dvsc/",
+      "historicalRosterSourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
+      "status": "structured-season-roster-imported-from-public-season-archive",
+      "recordFiles": [
+        "data/club-official-enrichment-2.json"
+      ],
+      "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és a klub aktuális hivatalos keretoldala külön forrásként szerepel; az aktuális keret nem írja felül automatikusan a lezárt szezon adatait."
+    },
+    {
+      "clubId": "dvtk",
+      "clubName": "DVTK",
+      "officialUrl": "https://dvtk.eu/",
+      "officialRosterUrl": "https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok",
+      "status": "structured-season-roster-imported",
+      "recordFiles": [
+        "data/club-official-enrichment.json"
+      ]
+    },
+    {
+      "clubId": "eto-fc",
+      "clubName": "ETO FC",
+      "officialUrl": "https://www.eto.hu/",
+      "officialRosterUrl": "https://www.eto.hu/hu/roster?category=1",
+      "status": "structured-season-roster-imported",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json",
+        "data/club-official-enrichment-6-eto-puskas.json"
+      ],
+      "note": "A hivatalos NB I-es keretoldal posztcsoportokkal és mezszámokkal került feldolgozásra."
+    },
+    {
+      "clubId": "ferencvarosi-tc",
+      "clubName": "Ferencvárosi TC",
+      "officialUrl": "https://www.fradi.hu/",
+      "officialRosterUrl": "https://www.fradi.hu/labdarugas/elso-csapat/jatekosok",
+      "status": "structured-season-roster-imported",
+      "recordFiles": [
+        "data/club-official-enrichment.json"
+      ]
+    },
+    {
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "officialUrl": "https://kisvardafc.hu/",
+      "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514",
+      "status": "official-season-statistics-imported",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json",
+        "data/club-official-stat-patches-kisvarda.json"
+      ],
+      "note": "A hivatalos 2025/26-os szezonértékelésekből 30 játékos szereplési, játékperc-, becserélési, gól-, gólpassz- és fegyelmi adata került MLSZ-elsődlegesen feldolgozásra."
+    },
+    {
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "clubName": "Kolorcity Kazincbarcika SC",
+      "officialUrl": "https://kbsc.hu/",
+      "officialRosterUrl": "https://kbsc.hu/oldal/jatekoskeret",
+      "status": "official-roster-and-transfer-enrichment",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json"
+      ]
+    },
+    {
+      "clubId": "mtk-budapest",
+      "clubName": "MTK Budapest",
+      "officialUrl": "https://www.mtkbudapest.hu/",
+      "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
+      "officialCurrentRosterUrl": "https://www.mtkbudapest.hu/hu/csapatok",
+      "historicalRosterSourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
+      "status": "structured-season-roster-imported-from-public-season-archive",
+      "recordFiles": [
+        "data/club-official-enrichment-2.json"
+      ],
+      "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és az MTK aktuális hivatalos keretoldala külön szerepel; az aktuális keret nem használható a lezárt szezon automatikus felülírására."
+    },
+    {
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "officialUrl": "https://nyiregyhazaspartacus.hu/",
+      "officialRosterUrl": "https://nyiregyhazaspartacus.hu/jatekosok",
+      "status": "official-roster-enrichment",
+      "recordFiles": [
+        "data/club-official-enrichment-3-paks-nyir.json"
+      ]
+    },
+    {
+      "clubId": "paksi-fc",
+      "clubName": "Paksi FC",
+      "officialUrl": "https://paksifc.hu/",
+      "officialRosterUrl": "https://paksifc.hu/jatekosok.php",
+      "status": "official-roster-enrichment",
+      "recordFiles": [
+        "data/club-official-enrichment-3-paks-nyir.json"
+      ]
+    },
+    {
+      "clubId": "puskas-akademia-fc",
+      "clubName": "Puskás Akadémia FC",
+      "officialUrl": "https://puskasakademia.hu/",
+      "officialRosterUrl": "https://puskasakademia.hu/team/puskas-akademia-fc",
+      "status": "official-roster-filtered-to-2025-26-mlsz-cards",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json",
+        "data/club-official-enrichment-6-eto-puskas.json"
+      ],
+      "note": "Az aktuális hivatalos profilok kizárólag már meglévő 2025/26-os MLSZ-kártyához illeszthetők."
+    },
+    {
+      "clubId": "ujpest-fc",
+      "clubName": "Újpest FC",
+      "officialUrl": "https://www.ujpestfc.hu/",
+      "officialRosterUrl": "https://www.ujpestfc.hu/csapatok/csapat",
+      "status": "official-profile-enrichment",
+      "recordFiles": [
+        "data/club-official-enrichment-4-ujpest.json"
+      ],
+      "note": "Aktuális profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."
+    },
+    {
+      "clubId": "zte-fc",
+      "clubName": "ZTE FC",
+      "officialUrl": "https://www.ztefc.hu/",
+      "officialRosterUrl": "https://www.ztefc.hu/hu/csapat",
+      "status": "official-profile-and-role-enrichment",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json"
+      ],
+      "note": "Aktuális profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."
+    }
+  ]
+}

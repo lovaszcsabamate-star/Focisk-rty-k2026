@@ -1,4 +1,4 @@
-/** Create a dependency-free, single-file preview build and enrichment audit. */
+/** Create a dependency-free, single-file preview build and complete database review. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -9,6 +9,10 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import {
+  auditReviewedDatabase,
+  writeDatabaseReviewFiles,
+} from './database-review.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -31,6 +35,7 @@ const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
+const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
 
 const moduleOrder = [
   'js/data/players.js',
@@ -80,6 +85,14 @@ const corrections = {
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
 const enrichedPayload = applyClubEnrichmentPayload(basePayload, enrichment);
 const payload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
+const reviewGeneratedAt = new Date().toISOString();
+const databaseReview = auditReviewedDatabase(payload, {
+  generatedAt: reviewGeneratedAt,
+  sourceFiles,
+  directory,
+});
+writeDatabaseReviewFiles(ROOT, payload, databaseReview);
+
 const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
 let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}`;
@@ -125,9 +138,10 @@ const conflicts = payload.players.flatMap(card =>
     .map(conflict => ({ playerId: card.id, playerName: card.name, ...conflict }))
 );
 const audit = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: reviewGeneratedAt,
   baseDataset: 'data/players.json',
-  sourceFiles: [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile],
+  reviewedDataset: 'data/players-reviewed.json',
+  sourceFiles,
   playerCount: payload.players.length,
   registrationRecords: payload.selection?.registrationRecords ?? null,
   selection: payload.selection,
@@ -139,6 +153,7 @@ const audit = {
     ...(payload.enrichment?.manualReview ?? []),
     ...(payload.officialStatPatches?.manualReview ?? []),
   ],
+  databaseReview: databaseReview.summary,
   enrichment: payload.enrichment,
   officialStatPatches: payload.officialStatPatches,
   exclusions: enrichment.excludedRecords ?? [],
@@ -149,6 +164,7 @@ fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 
 console.log(`Elkészült: ${outputPath}`);
 console.log(`Audit: ${auditPath}`);
+console.log(`Felülvizsgált adatbázis: ${path.join(ROOT, 'data/players-reviewed.json')}`);
 console.log(`${payload.players.length} játékoskártya és ${payload.selection?.registrationRecords ?? 0} klubregisztráció beágyazva.`);
 console.log(`${payload.enrichment?.clubSummary?.length ?? 0} klub hivatalos forrása ellenőrizve.`);
 console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
@@ -156,3 +172,8 @@ console.log(`${payload.officialStatPatches?.matchedRecords ?? 0}/${payload.offic
 console.log(`${(payload.enrichment?.unmatchedRecords ?? 0) + (payload.officialStatPatches?.unmatchedRecords ?? 0)} rekord kézi ellenőrzésre vár.`);
 console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
 console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hozzáadva.`);
+console.log(`Adatminőség: ${databaseReview.summary.errorCount} kritikus hiba · ${databaseReview.summary.warningCount} figyelmeztetés · ${databaseReview.summary.changeCount} naplózott kiegészítés.`);
+
+if (databaseReview.summary.errorCount > 0) {
+  throw new Error(`Az adatbázis-felülvizsgálat ${databaseReview.summary.errorCount} kritikus hibát talált.`);
+}
