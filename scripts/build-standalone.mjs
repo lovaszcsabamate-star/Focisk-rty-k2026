@@ -25,14 +25,17 @@ const enrichmentFiles = [
   'data/club-official-enrichment-4-ujpest.json',
   'data/club-official-enrichment-5-other.json',
   'data/club-official-enrichment-6-eto-puskas.json',
+  'data/club-official-enrichment-7-kisvarda-selected10.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
+  'data/club-official-corrections-4-kisvarda-selected10.json',
 ];
 const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda.json',
+  'data/club-official-stat-patches-kisvarda-selected10.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
@@ -172,8 +175,6 @@ console.log(`${payload.officialStatPatches?.matchedRecords ?? 0}/${payload.offic
 console.log(`${(payload.enrichment?.unmatchedRecords ?? 0) + (payload.officialStatPatches?.unmatchedRecords ?? 0)} rekord kézi ellenőrzésre vár.`);
 console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
 console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hozzáadva.`);
-console.log(`Adatminőség: ${databaseReview.summary.errorCount} kritikus hiba · ${databaseReview.summary.warningCount} figyelmeztetés · ${databaseReview.summary.changeCount} naplózott kiegészítés.`);
+console.log(`Adatellenőrzés: ${databaseReview.summary.errorCount} kritikus hiba, ${databaseReview.summary.warningCount} figyelmeztetés.`);
 
-if (databaseReview.summary.errorCount > 0) {
-  throw new Error(`Az adatbázis-felülvizsgálat ${databaseReview.summary.errorCount} kritikus hibát talált.`);
-}
+if (databaseReview.summary.errorCount > 0) process.exitCode = 1;
