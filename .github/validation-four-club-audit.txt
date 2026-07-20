@@ -1,0 +1,1 @@
+Ideiglenes validációs jelölő a 2025/26-os MLSZ- és kluboldali adatbővítés teljes CI-ellenőrzéséhez.
