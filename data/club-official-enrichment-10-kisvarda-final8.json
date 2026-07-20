@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T22:45:00+02:00",
+  "batch": {
+    "id": "kisvarda-final8-batch",
+    "playerCount": 8,
+    "playerIds": [
+      "nb1-082b9edbee8d",
+      "nb1-a8d4793a3acf",
+      "nb1-6c24b3629e1e",
+      "nb1-9e00c5f876e9",
+      "nb1-7012de8d22c6",
+      "nb1-2c1a69d9470c",
+      "nb1-29c1a2d27f64",
+      "nb1-1ba2fbff76ce"
+    ],
+    "rule": "A három korábbi tízes kör után hátralévő nyolc Kisvárda-rekord lezárása. Csak MLSZ- vagy hivatalos klubforrással igazolt mező kerül be; a nem igazolható mezők null értéken maradnak."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "primarySource": "MLSZ Adatbank",
+    "secondarySource": "Kisvárda FC hivatalos oldala",
+    "rule": "A 2025/26-os bajnoki adatokat az MLSZ sora igazolja. A kluboldal csak a posztot, státuszt és bemutatási adatokat egészíti ki; korábbi mezszám nem minősül automatikusan 2025/26-os mezszámnak."
+  },
+  "sources": [
+    {
+      "id": "kisvarda-balogun-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Teslim Balogun játékosprofil",
+      "url": "https://adatbank.mlsz.hu/player/1497409.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/igy-kezdunk-a-fradi-ellen/9299",
+        "https://kisvardafc.hu/oldal/4/nb-ii"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "nation", "position", "previousClub", "joinedAt", "seasonStatus", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-gyurko-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Gyurkó Máté játékosprofil és kölcsönadás",
+      "url": "https://adatbank.mlsz.hu/player/446755.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/a-csatar-nb-ii-es-kolcsonjateka/8721",
+        "https://kisvardafc.hu/hir/valogatott-jatekossal-gyarapodtunk/9553"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "position", "loanStatus", "loanClub", "departedAt", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-hrabina-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Hrabina Alex játékosprofil",
+      "url": "https://adatbank.mlsz.hu/player/771410.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/uj-kapus-erkezett-az-elso-edzesre/7599",
+        "https://kisvardafc.hu/hir/mezszamok-es-gazdaik/7665"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "position", "birthPlace", "strongFoot", "previousClub", "joinedAt", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-jazsik-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Jazsik Román játékosprofil",
+      "url": "https://adatbank.mlsz.hu/player/1292313.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/valogatott-tamadoval-kezdunk/9383",
+        "https://kisvardafc.hu/oldal/4/nb-ii"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "position", "homegrown", "seasonStatus", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-pinter-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Pintér Filip játékosprofil és kölcsönstátusz",
+      "url": "https://adatbank.mlsz.hu/player/714803.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/ifju-tamado-erkezett-a-vasastol/8601",
+        "https://kisvardafc.hu/news/news/view?id=9542"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "position", "previousClub", "joinedAt", "loanStatus", "loanEndedAt", "seasonStatus", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-szabo-szilard-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Szabó Szilárd játékosprofil és kölcsönstátusz",
+      "url": "https://adatbank.mlsz.hu/player/532301.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/fiatal-szelso-a-ferencvarosbol/8720",
+        "https://kisvardafc.hu/news/news/view?id=9542"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "position", "previousClub", "joinedAt", "loanStatus", "loanEndedAt", "seasonStatus", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-stefan-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Raúl-Martin Stefan játékosprofil",
+      "url": "https://adatbank.mlsz.hu/player/1352118.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/hir/tudta-hogy-felidonyi-lehetoseget-kap/6860",
+        "https://kisvardafc.hu/hir/mezszamok-es-gazdaik/7665"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "nation", "position", "previousClub", "joinedAt", "currentStatus"]
+    },
+    {
+      "id": "kisvarda-veprik-final-profile",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "MLSZ és Kisvárda FC – Tarasz Veprik játékosprofil",
+      "url": "https://adatbank.mlsz.hu/player/1291810.html",
+      "additionalUrls": [
+        "https://kisvardafc.hu/oldal/4/nb-ii",
+        "https://kisvardafc.hu/hir/ket-valtozas-a-kezdoben/9007"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["birthDate", "position", "previousClub", "joinedAt", "homegrown", "seasonStatus", "currentStatus"]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "kisvarda-balogun-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Teslim Balogun",
+      "aliases": ["BALOGUN TESLIM ABDULATEEF"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1497409.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2005-08-28",
+      "nation": "NGR",
+      "position": "Támadó",
+      "meta": {"primaryPosition": "Középcsatár", "previousClub": "The Charlesann FC", "joinedAt": "2025-07-17", "seasonStatus": "reserve-to-first-team", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "kisvarda-gyurko-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Gyurkó Máté",
+      "aliases": ["GYURKÓ MÁTÉ"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/446755.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2002-11-04",
+      "position": "Támadó",
+      "meta": {"primaryPosition": "Középcsatár", "loanStatus": true, "loanClub": "Budafoki MTE", "departedAt": "2025-09-04", "seasonStatus": "loaned-after-one-appearance", "currentStatus": "returned-from-loan"}
+    },
+    {
+      "sourceId": "kisvarda-hrabina-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Hrabina Alex",
+      "aliases": ["HRABINA ALEX"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/771410.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "1995-04-05",
+      "position": "Kapus",
+      "meta": {"birthPlace": "Nyíregyháza", "strongFoot": "bal", "previousClub": "Sényő FC", "joinedAt": "2024-06-24", "seasonStatus": "backup-goalkeeper", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "kisvarda-jazsik-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Jazsik Román",
+      "aliases": ["JAZSIK ROMÁN", "Roman Yazhik"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1292313.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2008-11-28",
+      "position": "Középpályás",
+      "meta": {"homegrown": true, "seasonStatus": "academy-first-team-bench", "currentStatus": "reserve-team"}
+    },
+    {
+      "sourceId": "kisvarda-pinter-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Pintér Attila Filip",
+      "aliases": ["PINTÉR ATTILA FILIP", "Pintér Filip"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/714803.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2005-10-29",
+      "position": "Támadó",
+      "meta": {"previousClub": "Vasas FC", "joinedAt": "2025-07-23", "loanStatus": true, "loanEndedAt": "2026-06-30", "seasonStatus": "season-loan", "currentStatus": "returned-to-parent-club"}
+    },
+    {
+      "sourceId": "kisvarda-szabo-szilard-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Szabó Szilárd",
+      "aliases": ["SZABÓ SZILÁRD"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/532301.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2006-10-01",
+      "position": "Támadó",
+      "meta": {"primaryPosition": "Szélső", "previousClub": "Ferencvárosi TC", "joinedAt": "2025-09-03", "loanStatus": true, "loanEndedAt": "2026-06-30", "seasonStatus": "season-loan", "currentStatus": "returned-to-parent-club"}
+    },
+    {
+      "sourceId": "kisvarda-stefan-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Raul-Martin Stefan",
+      "aliases": ["STEFAN RAUL MARTIN", "Raúl-Martin Stefan"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1352118.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2004-06-11",
+      "nation": "ESP / HUN",
+      "position": "Védő",
+      "meta": {"previousClub": "Getafe CF", "joinedAt": "2023-01-23", "seasonStatus": "first-team-squad-no-league-appearance", "currentStatus": "active"}
+    },
+    {
+      "sourceId": "kisvarda-veprik-final-profile",
+      "clubId": "kisvarda-master-good",
+      "name": "Tarasz Veprik",
+      "aliases": ["VEPRIK TARASZ", "VEPRYK TARAS"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1291810.html",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2008-01-11",
+      "position": "Középpályás",
+      "meta": {"previousClub": "SDIUSSHOR Prykarpattia", "joinedAt": "2025-01-15", "homegrown": true, "seasonStatus": "academy-first-team-bench", "currentStatus": "reserve-team"}
+    }
+  ]
+}

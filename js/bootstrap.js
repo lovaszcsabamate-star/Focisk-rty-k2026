@@ -15,6 +15,8 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-7-kisvarda-selected10.json',
   'data/club-official-enrichment-8-kisvarda-selected10.json',
   'data/club-official-enrichment-9-kisvarda-selected10.json',
+  'data/club-official-enrichment-10-kisvarda-final8.json',
+  'data/club-official-enrichment-11-kisvarda-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
@@ -27,6 +29,7 @@ const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kisvarda-selected10.json',
   'data/club-official-stat-patches-kisvarda-selected10-2.json',
   'data/club-official-stat-patches-kisvarda-selected10-3.json',
+  'data/club-official-stat-patches-kisvarda-final8.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 

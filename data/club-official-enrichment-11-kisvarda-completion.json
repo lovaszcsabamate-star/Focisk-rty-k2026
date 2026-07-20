@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-20T23:10:00+02:00",
+  "batch": {
+    "id": "kisvarda-position-completion",
+    "playerCount": 2,
+    "playerIds": [
+      "nb1-5617f703b891",
+      "nb1-e262cfc330c5"
+    ],
+    "rule": "A klub 38/38 lezárásához a korábbi körben forráshiány miatt üresen hagyott két poszt pótlása elsődleges hivatalos klubforrásból."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "rule": "A ZTE hivatalos profilja Medgyes Sinant balhátvédként, a Kisvárda hivatalos közlése Molnár Gábort támadóként azonosítja."
+  },
+  "sources": [
+    {
+      "id": "zte-official-medgyes-position-completion",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "ZTE FC – Medgyes Sinan hivatalos játékosprofil",
+      "url": "https://www.ztefc.hu/hu/hirek/medgyes-sinan-is-nalunk-folytatja-palyafutasat",
+      "additionalUrls": [
+        "https://www.ztefc.hu/hu/hirek/harom-tavozo-medgyes-evangelou-safronov",
+        "https://kisvardafc.hu/news/news/view?id=9542"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["nation", "position", "primaryPosition", "strongFoot"]
+    },
+    {
+      "id": "kisvarda-official-molnar-position-completion",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Kisvárda FC – Molnár Gábor hivatalos játékosközlése",
+      "url": "https://kisvardafc.hu/hir/golszerzonk-jobban-van/8551",
+      "additionalUrls": [
+        "https://kisvardafc.hu/news/news/view?id=9542"
+      ],
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "fields": ["position", "primaryPosition"]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "zte-official-medgyes-position-completion",
+      "clubId": "kisvarda-master-good",
+      "name": "Medgyes Sinan",
+      "sourceUrl": "https://www.ztefc.hu/hu/hirek/medgyes-sinan-is-nalunk-folytatja-palyafutasat",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "nation": "HUN / SVK",
+      "position": "Védő",
+      "meta": {
+        "primaryPosition": "Balhátvéd",
+        "strongFoot": "bal"
+      }
+    },
+    {
+      "sourceId": "kisvarda-official-molnar-position-completion",
+      "clubId": "kisvarda-master-good",
+      "name": "Molnár Gábor",
+      "sourceUrl": "https://kisvardafc.hu/hir/golszerzonk-jobban-van/8551",
+      "checkedAt": "2026-07-20",
+      "season": "2025/26",
+      "confidence": "high",
+      "position": "Támadó",
+      "meta": {
+        "primaryPosition": "Támadó középpályás"
+      }
+    }
+  ]
+}
