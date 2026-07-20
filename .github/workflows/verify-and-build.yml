@@ -53,12 +53,12 @@ jobs:
       - name: Kisvárda statisztikai teszt
         run: |
           set +e
-          node test/official-stat-patches.test.mjs > data/kisvarda-test-debug.log 2>&1
+          node test/official-stat-patches.test.mjs > data/kisvarda-test-debug.txt 2>&1
           status=$?
-          cat data/kisvarda-test-debug.log
+          cat data/kisvarda-test-debug.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/kisvarda-test-debug.log
+          git add -f data/kisvarda-test-debug.txt
           if ! git diff --cached --quiet; then
             git commit -m "Ideiglenes Kisvarda tesztnaplo [skip ci]"
             git push
