@@ -129,11 +129,14 @@
         "clubId": "paksi-fc",
         "clubName": "Paksi FC",
         "officialUrl": "https://paksifc.hu/",
-        "officialRosterUrl": "https://paksifc.hu/jatekosok.php",
-        "status": "official-roster-enrichment",
+        "officialRosterUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+        "officialSeasonRosterUrl": "https://adatbank.mlsz.hu/club/63/1/29453/0/31362/26/307012.html",
+        "status": "complete-33-of-33-player-review",
         "recordFiles": [
-          "data/club-official-enrichment-3-paks-nyir.json"
-        ]
+          "data/club-official-enrichment-3-paks-nyir.json",
+          "data/club-official-enrichment-18-paks-completion.json"
+        ],
+        "note": "A Paksi FC mind a 33 projektbeli 2025/26-os szezonrekordja hivatalos Paks-, HLSZ- és MLSZ-forrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség, poszt és Fizz Liga-statisztika rögzített. A klub kizárólag magyar játékosokra építő filozófiája alapján minden rekord rendelkezik magyar állampolgársággal; Tamás Olivér igazolt kettős nemzetisége HUN / UKR. A meglévő MLSZ-statisztikák nem kerültek felülírásra."
       },
       {
         "clubId": "puskas-akademia-fc",
@@ -1073,6 +1076,24 @@
         "season": "2025/26"
       },
       {
+        "id": "paks-official-hungarian-roster-2025-26",
+        "clubId": "paksi-fc",
+        "clubName": "Paksi FC",
+        "name": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+        "url": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-paks-former-2025-26",
+        "clubId": "paksi-fc",
+        "clubName": "Paksi FC",
+        "name": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+        "url": "https://hlsz.hu/paks",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1601,8 +1622,8 @@
     "redCards": 364,
     "totalDismissals": 364,
     "overallScore": 143,
-    "position": 400,
-    "nation": 308,
+    "position": 404,
+    "nation": 337,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
@@ -1622,9 +1643,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T11:15:00+02:00",
-    "records": 561,
-    "matchedRecords": 561,
+    "generatedAt": "2026-07-21T11:45:00+02:00",
+    "records": 594,
+    "matchedRecords": 594,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -1652,8 +1673,8 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 399,
-      "nation": 307,
+      "position": 403,
+      "nation": 336,
       "birthDate": 280,
       "heightCm": 57,
       "shirtNumber": 287,
@@ -1728,8 +1749,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 400,
-      "nation": 308,
+      "position": 404,
+      "nation": 337,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -1792,14 +1813,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 400,
-        "added": 400
+        "after": 404,
+        "added": 404
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 308,
-        "added": 308
+        "after": 337,
+        "added": 337
       },
       {
         "field": "heightCm",
@@ -1921,13 +1942,13 @@
         "clubId": "paksi-fc",
         "clubName": "Paksi FC",
         "mlszCards": 33,
-        "officialRecords": 28,
-        "eligibleRecords": 27,
-        "matched": 27,
+        "officialRecords": 61,
+        "eligibleRecords": 60,
+        "matched": 60,
         "excluded": 1,
         "review": 0,
-        "sourceStatus": "official-roster-enrichment",
-        "officialRosterUrl": "https://paksifc.hu/jatekosok.php"
+        "sourceStatus": "complete-33-of-33-player-review",
+        "officialRosterUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58"
       },
       {
         "clubId": "puskas-akademia-fc",
@@ -10950,6 +10971,17 @@
               "heightCm"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "PETŐ MILÁN",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -17943,6 +17975,17 @@
               "position",
               "nation"
             ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "OSVÁTH ATTILA",
+            "fieldsApplied": [],
             "inactiveSince": null
           }
         ],
@@ -34358,6 +34401,17 @@
             "matchedName": "Bévárdi Zsombor",
             "fieldsApplied": [],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "BÉVÁRDI ZSOMBOR",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -40417,6 +40471,17 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "ALAXAI ÁRON",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -40635,7 +40700,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "1994-11-06",
       "stats": {
@@ -40692,6 +40757,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "ÁDÁM MARTIN",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -40705,7 +40783,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "1990-06-11",
       "stats": {
@@ -40762,6 +40840,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "BALOGH BALÁZS",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -40775,7 +40866,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "1986-10-24",
       "stats": {
@@ -40840,6 +40931,19 @@
               "meta.captain"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "BÖDE DÁNIEL",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -40853,8 +40957,8 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN",
+      "position": "Védő",
       "birthDate": "2003-03-24",
       "stats": {
         "age": 23,
@@ -40893,6 +40997,22 @@
         "retainedFromPreviousDeck": true,
         "clubOfficial": {},
         "clubShirtNumbers": {},
+        "clubOfficialSources": [
+          {
+            "sourceId": "hlsz-paks-former-2025-26",
+            "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "DEBRECENI ÁKOS",
+            "fieldsApplied": [
+              "position",
+              "nation"
+            ],
+            "inactiveSince": null
+          }
+        ],
         "clubOfficialStatsByClub": {},
         "officialStatSources": []
       }
@@ -40904,7 +41024,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2008-01-09",
       "stats": {
@@ -40961,6 +41081,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "GALAMBOS JÁNOS",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -40974,7 +41107,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "2005-02-01",
       "stats": {
@@ -41031,6 +41164,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "GYETVÁN MÁRK",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41044,7 +41190,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "2002-06-05",
       "stats": {
@@ -41101,6 +41247,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "GYURKITS GERGŐ",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41114,7 +41273,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "1995-03-15",
       "stats": {
@@ -41173,6 +41332,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "Hahn János Csaba",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41186,8 +41358,8 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN",
+      "position": "Támadó",
       "birthDate": "1991-11-04",
       "stats": {
         "age": 34,
@@ -41226,6 +41398,22 @@
         "retainedFromPreviousDeck": true,
         "clubOfficial": {},
         "clubShirtNumbers": {},
+        "clubOfficialSources": [
+          {
+            "sourceId": "hlsz-paks-former-2025-26",
+            "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "HARASZTI ZSOLT",
+            "fieldsApplied": [
+              "position",
+              "nation"
+            ],
+            "inactiveSince": null
+          }
+        ],
         "clubOfficialStatsByClub": {},
         "officialStatSources": []
       }
@@ -41237,7 +41425,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "1998-02-05",
       "stats": {
@@ -41294,6 +41482,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "HINORA KRISTÓF",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41307,7 +41508,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2005-03-02",
       "stats": {
@@ -41366,6 +41567,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "Horváth Kevin",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41379,7 +41593,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "1993-05-12",
       "stats": {
@@ -41436,6 +41650,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "KINYIK ÁKOS",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41449,7 +41676,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "1991-04-04",
       "stats": {
@@ -41506,6 +41733,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "KOVÁCSIK ÁDÁM",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41519,8 +41759,8 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN",
+      "position": "Támadó",
       "birthDate": "2005-05-21",
       "stats": {
         "age": 20,
@@ -41559,6 +41799,22 @@
         "retainedFromPreviousDeck": true,
         "clubOfficial": {},
         "clubShirtNumbers": {},
+        "clubOfficialSources": [
+          {
+            "sourceId": "hlsz-paks-former-2025-26",
+            "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "LAPU ANDOR",
+            "fieldsApplied": [
+              "position",
+              "nation"
+            ],
+            "inactiveSince": null
+          }
+        ],
         "clubOfficialStatsByClub": {},
         "officialStatSources": []
       }
@@ -41570,7 +41826,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "1996-04-09",
       "stats": {
@@ -41627,6 +41883,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "LENZSÉR BENCE",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41640,7 +41909,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "2006-04-23",
       "stats": {
@@ -41697,6 +41966,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "MÁTÉ CSABA",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41710,7 +41992,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "1993-05-14",
       "stats": {
@@ -41769,6 +42051,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "Papp Kristóf",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41782,7 +42077,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2005-04-24",
       "stats": {
@@ -41841,6 +42136,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "Pesti Zoltán",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41854,7 +42162,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "1996-06-12",
       "stats": {
@@ -41911,6 +42219,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SILYE ERIK",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41924,7 +42245,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "2004-02-13",
       "stats": {
@@ -41981,6 +42302,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SIMON BARNABÁS",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -41994,7 +42328,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "1989-07-11",
       "stats": {
@@ -42051,6 +42385,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SZABÓ JÁNOS",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42064,7 +42411,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2001-02-08",
       "stats": {
@@ -42123,6 +42470,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "Szekszárdi Milán",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42136,7 +42496,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2003-01-23",
       "stats": {
@@ -42193,6 +42553,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SZENDREI ÁKOS",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42206,8 +42579,8 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN / UKR",
+      "position": "Védő",
       "birthDate": "2001-04-14",
       "stats": {
         "age": 25,
@@ -42246,6 +42619,22 @@
         "retainedFromPreviousDeck": true,
         "clubOfficial": {},
         "clubShirtNumbers": {},
+        "clubOfficialSources": [
+          {
+            "sourceId": "hlsz-paks-former-2025-26",
+            "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "TAMÁS OLIVÉR",
+            "fieldsApplied": [
+              "position",
+              "nation"
+            ],
+            "inactiveSince": null
+          }
+        ],
         "clubOfficialStatsByClub": {},
         "officialStatSources": []
       }
@@ -42257,7 +42646,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "1995-03-13",
       "stats": {
@@ -42314,6 +42703,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "TÓTH BARNA",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42327,7 +42729,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2003-08-29",
       "stats": {
@@ -42384,6 +42786,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "VAS GÁBOR",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42397,7 +42812,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "1993-07-13",
       "stats": {
@@ -42454,6 +42869,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "VÉCSEI BÁLINT MÁTÉ",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42467,7 +42895,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "1992-12-02",
       "stats": {
@@ -42524,6 +42952,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "WINDECKER JÓZSEF",
+            "fieldsApplied": [
+              "nation"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -42537,7 +42978,7 @@
       "clubs": [
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2000-09-01",
       "stats": {
@@ -42592,6 +43033,19 @@
             "fieldsApplied": [
               "position",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "paks-official-hungarian-roster-2025-26",
+            "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+            "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "ZEKE MÁRIÓ",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }

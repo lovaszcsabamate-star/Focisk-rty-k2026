@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T09:18:02.025Z",
+  "generatedAt": "2026-07-21T10:00:01.650Z",
   "season": "2025/26",
   "competition": "Fizz Liga (NB I)",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
@@ -23,6 +23,7 @@
     "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
     "data/club-official-enrichment-16-kazincbarcika-completion.json",
     "data/club-official-enrichment-17-ujpest-completion.json",
+    "data/club-official-enrichment-18-paks-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -50,14 +51,14 @@
     "warningCount": 22,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3384,
+    "changeCount": 3417,
     "exactBirthDates": 401,
     "completeGoals": 440
   },
   "coverage": {
     "birthDate": 401,
-    "nation": 308,
-    "position": 400,
+    "nation": 337,
+    "position": 404,
     "appearances": 364,
     "starts": 364,
     "minutes": 29,
@@ -73,8 +74,8 @@
   },
   "missingCounts": {
     "birthDate": 39,
-    "nation": 132,
-    "position": 40,
+    "nation": 103,
+    "position": 36,
     "appearances": 76,
     "starts": 76,
     "minutes": 411,
@@ -188,35 +189,6 @@
       "nb1-65d519bbe651",
       "nb1-c58be98f1211",
       "nb1-1ba2fbff76ce",
-      "2025-26-paksi-fc-adam-martin",
-      "2025-26-paksi-fc-balogh-balazs",
-      "2025-26-paksi-fc-bode-daniel",
-      "2025-26-paksi-fc-debreceni-akos",
-      "2025-26-paksi-fc-galambos-janos",
-      "2025-26-paksi-fc-gyetvan-mark",
-      "2025-26-paksi-fc-gyurkits-gergo",
-      "nb1-8378caea9bbf",
-      "2025-26-paksi-fc-haraszti-zsolt",
-      "2025-26-paksi-fc-hinora-kristof",
-      "nb1-16115bd7c08a",
-      "2025-26-paksi-fc-kinyik-akos",
-      "2025-26-paksi-fc-kovacsik-adam",
-      "2025-26-paksi-fc-lapu-andor",
-      "2025-26-paksi-fc-lenzser-bence",
-      "2025-26-paksi-fc-mate-csaba",
-      "nb1-99f5c34441a0",
-      "nb1-35fb6a54d829",
-      "2025-26-paksi-fc-silye-erik",
-      "2025-26-paksi-fc-simon-barnabas",
-      "2025-26-paksi-fc-szabo-janos",
-      "nb1-d6bfe3acf08d",
-      "2025-26-paksi-fc-szendrei-akos",
-      "2025-26-paksi-fc-tamas-oliver",
-      "2025-26-paksi-fc-toth-barna",
-      "2025-26-paksi-fc-vas-gabor",
-      "2025-26-paksi-fc-vecsei-balint-mate",
-      "2025-26-paksi-fc-windecker-jozsef",
-      "2025-26-paksi-fc-zeke-mario",
       "nb1-3fb9fa03cf8b",
       "nb1-f357fac0194c",
       "nb1-9f0fa23b85ca",
@@ -279,10 +251,6 @@
       "nb1-29a4cdca34c9",
       "nb1-9935ed0b7857",
       "nb1-28243985aab9",
-      "2025-26-paksi-fc-debreceni-akos",
-      "2025-26-paksi-fc-haraszti-zsolt",
-      "2025-26-paksi-fc-lapu-andor",
-      "2025-26-paksi-fc-tamas-oliver",
       "nb1-f357fac0194c",
       "nb1-8217a333e6ca",
       "nb1-8c4a63ee7f39",
@@ -2873,8 +2841,8 @@
       "players": 33,
       "coverage": {
         "birthDate": 33,
-        "nation": 4,
-        "position": 29,
+        "nation": 33,
+        "position": 33,
         "appearances": 33,
         "starts": 33,
         "minutes": 0,
@@ -2890,8 +2858,8 @@
       },
       "missing": {
         "birthDate": 0,
-        "nation": 29,
-        "position": 4,
+        "nation": 0,
+        "position": 0,
         "appearances": 0,
         "starts": 0,
         "minutes": 33,
@@ -3177,18 +3145,19 @@
     {
       "clubId": "paksi-fc",
       "clubName": "Paksi FC",
-      "status": "official-roster-enrichment",
+      "status": "complete-33-of-33-player-review",
       "officialUrl": "https://paksifc.hu/",
-      "officialRosterUrl": "https://paksifc.hu/jatekosok.php",
+      "officialRosterUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
       "officialCurrentRosterUrl": null,
       "historicalRosterSourceUrl": null,
       "officialDomain": "paksifc.hu",
       "rosterDomain": "paksifc.hu",
       "crossDomain": false,
       "recordFiles": [
-        "data/club-official-enrichment-3-paks-nyir.json"
+        "data/club-official-enrichment-3-paks-nyir.json",
+        "data/club-official-enrichment-18-paks-completion.json"
       ],
-      "note": null
+      "note": "A Paksi FC mind a 33 projektbeli 2025/26-os szezonrekordja hivatalos Paks-, HLSZ- és MLSZ-forrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség, poszt és Fizz Liga-statisztika rögzített. A klub kizárólag magyar játékosokra építő filozófiája alapján minden rekord rendelkezik magyar állampolgársággal; Tamás Olivér igazolt kettős nemzetisége HUN / UKR. A meglévő MLSZ-statisztikák nem kerültek felülírásra."
     },
     {
       "clubId": "puskas-akademia-fc",
@@ -37067,6 +37036,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-adam-martin",
+      "playerName": "ÁDÁM MARTIN",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-balogh-balazs",
       "playerName": "BALOGH BALÁZS",
       "clubId": "paksi-fc",
@@ -37087,6 +37068,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-balogh-balazs",
+      "playerName": "BALOGH BALÁZS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37127,6 +37120,42 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-bode-daniel",
+      "playerName": "BÖDE DÁNIEL",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-debreceni-akos",
+      "playerName": "DEBRECENI ÁKOS",
+      "clubId": "paksi-fc",
+      "field": "position",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-debreceni-akos",
+      "playerName": "DEBRECENI ÁKOS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-galambos-janos",
       "playerName": "GALAMBOS JÁNOS",
       "clubId": "paksi-fc",
@@ -37147,6 +37176,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-galambos-janos",
+      "playerName": "GALAMBOS JÁNOS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37175,6 +37216,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-gyetvan-mark",
+      "playerName": "GYETVÁN MÁRK",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-gyurkits-gergo",
       "playerName": "GYURKITS GERGŐ",
       "clubId": "paksi-fc",
@@ -37195,6 +37248,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-gyurkits-gergo",
+      "playerName": "GYURKITS GERGŐ",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37223,6 +37288,42 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-8378caea9bbf",
+      "playerName": "Hahn János Csaba",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-haraszti-zsolt",
+      "playerName": "HARASZTI ZSOLT",
+      "clubId": "paksi-fc",
+      "field": "position",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-haraszti-zsolt",
+      "playerName": "HARASZTI ZSOLT",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-hinora-kristof",
       "playerName": "HINORA KRISTÓF",
       "clubId": "paksi-fc",
@@ -37243,6 +37344,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-hinora-kristof",
+      "playerName": "HINORA KRISTÓF",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37271,6 +37384,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-16115bd7c08a",
+      "playerName": "Horváth Kevin",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-kinyik-akos",
       "playerName": "KINYIK ÁKOS",
       "clubId": "paksi-fc",
@@ -37291,6 +37416,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-kinyik-akos",
+      "playerName": "KINYIK ÁKOS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37319,6 +37456,42 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-kovacsik-adam",
+      "playerName": "KOVÁCSIK ÁDÁM",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-lapu-andor",
+      "playerName": "LAPU ANDOR",
+      "clubId": "paksi-fc",
+      "field": "position",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-lapu-andor",
+      "playerName": "LAPU ANDOR",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-lenzser-bence",
       "playerName": "LENZSÉR BENCE",
       "clubId": "paksi-fc",
@@ -37339,6 +37512,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-lenzser-bence",
+      "playerName": "LENZSÉR BENCE",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37367,6 +37552,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-mate-csaba",
+      "playerName": "MÁTÉ CSABA",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-99f5c34441a0",
       "playerName": "Papp Kristóf",
       "clubId": "paksi-fc",
@@ -37387,6 +37584,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-99f5c34441a0",
+      "playerName": "Papp Kristóf",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37415,6 +37624,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-35fb6a54d829",
+      "playerName": "Pesti Zoltán",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-silye-erik",
       "playerName": "SILYE ERIK",
       "clubId": "paksi-fc",
@@ -37435,6 +37656,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-silye-erik",
+      "playerName": "SILYE ERIK",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37463,6 +37696,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-simon-barnabas",
+      "playerName": "SIMON BARNABÁS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-szabo-janos",
       "playerName": "SZABÓ JÁNOS",
       "clubId": "paksi-fc",
@@ -37483,6 +37728,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-szabo-janos",
+      "playerName": "SZABÓ JÁNOS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37511,6 +37768,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-d6bfe3acf08d",
+      "playerName": "Szekszárdi Milán",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-szendrei-akos",
       "playerName": "SZENDREI ÁKOS",
       "clubId": "paksi-fc",
@@ -37531,6 +37800,42 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-szendrei-akos",
+      "playerName": "SZENDREI ÁKOS",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-tamas-oliver",
+      "playerName": "TAMÁS OLIVÉR",
+      "clubId": "paksi-fc",
+      "field": "position",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-tamas-oliver",
+      "playerName": "TAMÁS OLIVÉR",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "hlsz-paks-former-2025-26",
+      "sourceName": "HLSZ, MLSZ és Paksi FC – eltérő aktuális klubú 2025/26-os paksi kerettagok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37559,6 +37864,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-toth-barna",
+      "playerName": "TÓTH BARNA",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-vas-gabor",
       "playerName": "VAS GÁBOR",
       "clubId": "paksi-fc",
@@ -37579,6 +37896,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-vas-gabor",
+      "playerName": "VAS GÁBOR",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -37607,6 +37936,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-vecsei-balint-mate",
+      "playerName": "VÉCSEI BÁLINT MÁTÉ",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-windecker-jozsef",
       "playerName": "WINDECKER JÓZSEF",
       "clubId": "paksi-fc",
@@ -37631,6 +37972,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-windecker-jozsef",
+      "playerName": "WINDECKER JÓZSEF",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-zeke-mario",
       "playerName": "ZEKE MÁRIÓ",
       "clubId": "paksi-fc",
@@ -37651,6 +38004,18 @@
       "sourceName": "Paksi FC hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://paksifc.hu/jatekosok.php",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-zeke-mario",
+      "playerName": "ZEKE MÁRIÓ",
+      "clubId": "paksi-fc",
+      "field": "nation",
+      "sourceId": "paks-official-hungarian-roster-2025-26",
+      "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
+      "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },

@@ -1,13 +1,13 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T09:18:02.025Z
+Generálva: 2026-07-21T10:00:01.650Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **401/440**
-- Változásnapló-bejegyzések: **3384**
+- Változásnapló-bejegyzések: **3417**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **22**
@@ -17,8 +17,8 @@ Generálva: 2026-07-21T09:18:02.025Z
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
 | birthDate | 401 | 39 |
-| nation | 308 | 132 |
-| position | 400 | 40 |
+| nation | 337 | 103 |
+| position | 404 | 36 |
 | appearances | 364 | 76 |
 | starts | 364 | 76 |
 | minutes | 29 | 411 |
@@ -44,7 +44,7 @@ Generálva: 2026-07-21T09:18:02.025Z
 | Kolorcity Kazincbarcika SC | 40 | 40 | 40 | 40 | 35 | 0 | 0 |
 | MTK Budapest | 36 | 36 | 36 | 36 | 34 | 0 | 0 |
 | Nyíregyháza Spartacus FC | 39 | 39 | 33 | 39 | 37 | 0 | 0 |
-| Paksi FC | 33 | 33 | 29 | 4 | 33 | 0 | 0 |
+| Paksi FC | 33 | 33 | 33 | 33 | 33 | 0 | 0 |
 | Puskás Akadémia FC | 34 | 28 | 27 | 4 | 4 | 0 | 0 |
 | Újpest FC | 41 | 41 | 41 | 41 | 35 | 0 | 0 |
 | ZTE FC | 43 | 10 | 27 | 27 | 4 | 0 | 0 |

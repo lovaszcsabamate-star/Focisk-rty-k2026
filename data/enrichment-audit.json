@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T09:18:02.025Z",
+  "generatedAt": "2026-07-21T10:00:01.650Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -20,6 +20,7 @@
     "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
     "data/club-official-enrichment-16-kazincbarcika-completion.json",
     "data/club-official-enrichment-17-ujpest-completion.json",
+    "data/club-official-enrichment-18-paks-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -59,8 +60,8 @@
     "redCards": 364,
     "totalDismissals": 364,
     "overallScore": 143,
-    "position": 400,
-    "nation": 308,
+    "position": 404,
+    "nation": 337,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
@@ -127,14 +128,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 400,
-      "added": 400
+      "after": 404,
+      "added": 404
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 308,
-      "added": 308
+      "after": 337,
+      "added": 337
     },
     {
       "field": "heightCm",
@@ -324,13 +325,13 @@
       "clubId": "paksi-fc",
       "clubName": "Paksi FC",
       "mlszCards": 33,
-      "officialRecords": 28,
-      "eligibleRecords": 27,
-      "matched": 27,
+      "officialRecords": 61,
+      "eligibleRecords": 60,
+      "matched": 60,
       "excluded": 1,
       "review": 0,
-      "sourceStatus": "official-roster-enrichment",
-      "officialRosterUrl": "https://paksifc.hu/jatekosok.php"
+      "sourceStatus": "complete-33-of-33-player-review",
+      "officialRosterUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58"
     },
     {
       "clubId": "puskas-akademia-fc",
@@ -380,16 +381,16 @@
     "warningCount": 22,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3384,
+    "changeCount": 3417,
     "exactBirthDates": 401,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T11:15:00+02:00",
-    "records": 561,
-    "matchedRecords": 561,
+    "generatedAt": "2026-07-21T11:45:00+02:00",
+    "records": 594,
+    "matchedRecords": 594,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -417,8 +418,8 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 399,
-      "nation": 307,
+      "position": 403,
+      "nation": 336,
       "birthDate": 280,
       "heightCm": 57,
       "shirtNumber": 287,
@@ -493,8 +494,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 400,
-      "nation": 308,
+      "position": 404,
+      "nation": 337,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -557,14 +558,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 400,
-        "added": 400
+        "after": 404,
+        "added": 404
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 308,
-        "added": 308
+        "after": 337,
+        "added": 337
       },
       {
         "field": "heightCm",
@@ -686,13 +687,13 @@
         "clubId": "paksi-fc",
         "clubName": "Paksi FC",
         "mlszCards": 33,
-        "officialRecords": 28,
-        "eligibleRecords": 27,
-        "matched": 27,
+        "officialRecords": 61,
+        "eligibleRecords": 60,
+        "matched": 60,
         "excluded": 1,
         "review": 0,
-        "sourceStatus": "official-roster-enrichment",
-        "officialRosterUrl": "https://paksifc.hu/jatekosok.php"
+        "sourceStatus": "complete-33-of-33-player-review",
+        "officialRosterUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58"
       },
       {
         "clubId": "puskas-akademia-fc",
