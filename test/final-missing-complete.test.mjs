@@ -119,4 +119,4 @@ for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '
 assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
 assert.match(readText('../js/data/club-stat-patches.js'), /officialStatConsensus/);
 
-console.log('✓ Végső adatlezárás: 440/440 nemzetiség, poszt és elsődleges Fizz Liga-statisztika');
+console.log('✓ Végső adatlezárás: 440/440 nemzetiség, poszt, mérkőzés-, kezdés-, keret- és lapadat');
