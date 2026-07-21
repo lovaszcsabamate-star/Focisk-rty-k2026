@@ -1,34 +1,34 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-20T21:48:23.076Z
+Generálva: 2026-07-21T06:11:23.579Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
-- Pontos születési dátum: **303/440**
-- Változásnapló-bejegyzések: **1978**
+- Pontos születési dátum: **304/440**
+- Változásnapló-bejegyzések: **2228**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
-- Figyelmeztetések: **75**
+- Figyelmeztetések: **74**
 
 ## Mezőlefedettség
 
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
-| birthDate | 303 | 137 |
-| nation | 187 | 253 |
-| position | 344 | 96 |
-| appearances | 209 | 231 |
-| starts | 209 | 231 |
+| birthDate | 304 | 136 |
+| nation | 188 | 252 |
+| position | 345 | 95 |
+| appearances | 243 | 197 |
+| starts | 243 | 197 |
 | minutes | 29 | 411 |
 | goals | 440 | 0 |
 | assists | 29 | 411 |
-| squads | 181 | 259 |
-| yellowCards | 209 | 231 |
-| redCards | 209 | 231 |
+| squads | 219 | 221 |
+| yellowCards | 243 | 197 |
+| redCards | 243 | 197 |
 | secondYellowRedCards | 37 | 403 |
-| totalDismissals | 209 | 231 |
+| totalDismissals | 243 | 197 |
 | heightCm | 57 | 383 |
 | shirtNumber | 288 | 152 |
 
@@ -37,7 +37,7 @@ Generálva: 2026-07-20T21:48:23.076Z
 | Klub | Játékos | Születési dátum | Poszt | Nemzetiség | Mérkőzés | Perc | Gólpassz |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | DVSC | 38 | 38 | 36 | 36 | 38 | 0 | 0 |
-| DVTK | 45 | 44 | 44 | 44 | 5 | 0 | 0 |
+| DVTK | 45 | 45 | 45 | 45 | 39 | 0 | 0 |
 | ETO FC | 35 | 35 | 28 | 0 | 35 | 0 | 0 |
 | Ferencvárosi TC | 42 | 42 | 42 | 41 | 40 | 0 | 0 |
 | Kisvárda Master Good | 38 | 38 | 38 | 17 | 37 | 29 | 29 |
