@@ -3,6 +3,7 @@ import {
   prepareClubEnrichment,
 } from './data/club-enrichment.js';
 import { applyOfficialStatPatches } from './data/club-stat-patches.js';
+import { applyVerifiedPlayerCorrections } from './data/verified-player-corrections.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
 const CLUB_ENRICHMENT_URLS = [
@@ -76,6 +77,7 @@ function combineCorrections(parts) {
     checkedAt: valid.at(-1)?.checkedAt ?? null,
     addSources: valid.flatMap(part => part.addSources ?? []),
     recordPatches: valid.flatMap(part => part.recordPatches ?? []),
+    verifiedCorrections: valid.flatMap(part => part.verifiedCorrections ?? []),
     excludeRecords: valid.flatMap(part => part.excludeRecords ?? []),
     additions: valid.flatMap(part => part.additions ?? []),
   };
@@ -120,8 +122,9 @@ try {
 
   const combined = combineEnrichments(rawParts, directory);
   const corrections = combineCorrections(correctionParts);
+  const correctedPayload = applyVerifiedPlayerCorrections(payload, corrections.verifiedCorrections);
   const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
-  const enrichedPayload = enrichment ? applyClubEnrichmentPayload(payload, enrichment) : payload;
+  const enrichedPayload = enrichment ? applyClubEnrichmentPayload(correctedPayload, enrichment) : correctedPayload;
   const finalPayload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
   globalThis.__EMBEDDED_PLAYER_DATA__ = finalPayload;
 
