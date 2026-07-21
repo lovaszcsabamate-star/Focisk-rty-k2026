@@ -14,82 +14,18 @@ permissions:
 
 concurrency:
   group: gameflow-hardening-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Materialize transactional session controller
-        shell: bash
-        run: |
-          if compgen -G '.hardening/main.gz.part*' > /dev/null; then
-            cat .hardening/main.gz.part* | base64 --decode | gzip -dc > js/main.js
-            echo 'd3a175c7872bb678430ab2c5ab506dcaa0158c684ab4210acfd5c82a93ff800b  js/main.js' | sha256sum --check --strict
-            node --check js/main.js
-            rm -rf .hardening
-
-            if [[ '${{ github.event_name }}' == 'push' ]]; then
-              git config user.name 'github-actions[bot]'
-              git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-              git add js/main.js .hardening
-              git commit -m 'Tranzakcióbiztossá teszi a játékfolyamot' || true
-              git push
-            fi
-          fi
-
-      - name: Refresh migrated regression contracts
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          replacements = {
-              Path('test/eto-complete.test.mjs'): [
-                  ("assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);",
-                   "const serviceWorker = readText('../sw.js');\nassert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);\nassert.match(serviceWorker, /const PWA_CACHE = `\\$\\{CACHE_PREFIX\\}v43`;/);"),
-              ],
-              Path('test/interface-regression.test.mjs'): [
-                  ("assert.match(reliabilityJs, /RELIABILITY_LEGACY_OPPONENT_IDS/);",
-                   "assert.match(reliabilityJs, /normalizeLegacyOpponentId/);"),
-                  ("assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v42';/);",
-                   "assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);\nassert.match(serviceWorker, /const PWA_CACHE = `\\$\\{CACHE_PREFIX\\}v43`;/);"),
-              ],
-              Path('test/static.test.mjs'): [
-                  ("assert.match(matchdayJs, /KÖVETKEZŐ VÁLASZTÓ/);",
-                   "assert.match(matchdayJs, /matchdayScoreboardStatus/);\nassert.match(matchdayJs, /KATEGÓRIÁT VÁLASZT/);"),
-                  ("assert.match(mobileExperienceJs, /kevesebb életkor a jobb/);",
-                   "assert.match(mobileExperienceJs, /comparisonDirectionInstruction/);\nassert.match(mobileExperienceJs, /case 'lower': return 'A kisebb érték a jobb'/);"),
-                  ("assert.match(serviceWorker, /fociskartyak-2026-v30/);",
-                   "assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);\nassert.match(serviceWorker, /const PWA_CACHE = `\\$\\{CACHE_PREFIX\\}v43`;/);"),
-                  ("assert.match(main, /Penalties mód/);",
-                   "assert.doesNotMatch(main, /Penalties mód|Tizenegyes mód/);\nassert.match(main, /Büntetőpárbaj/);"),
-              ],
-          }
-
-          for path, pairs in replacements.items():
-              text = path.read_text(encoding='utf-8')
-              updated = text
-              for old, new in pairs:
-                  updated = updated.replace(old, new)
-              if updated != text:
-                  path.write_text(updated, encoding='utf-8')
-          PY
-
-          if [[ '${{ github.event_name }}' == 'push' ]]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add test/eto-complete.test.mjs test/interface-regression.test.mjs test/static.test.mjs
-            git commit -m 'Frissíti a regressziós szerződéseket az új architektúrához' || true
-            git push
-          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -99,18 +35,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Inventory fixed cache-version expectations
-        shell: bash
-        run: grep -RInE 'fociskartyak-2026-v[0-9]+' test > stale-cache-expectations.log || true
-
-      - name: Upload cache-expectation inventory
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: stale-cache-expectations-${{ github.run_id }}
-          path: stale-cache-expectations.log
-          if-no-files-found: ignore
 
       - name: Lint
         run: npm run lint
@@ -150,7 +74,23 @@ jobs:
         run: npm run review:database
 
       - name: Mobile layout regression
-        run: npm run test:mobile-layout
+        timeout-minutes: 8
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:mobile-layout 2>&1 | tee mobile-layout.log
+
+      - name: Upload mobile-layout diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameflow-mobile-layout-log-${{ github.run_id }}
+          path: |
+            mobile-layout.log
+            mobile-layout-report.json
+            mobile-selection-preview.png
+            mobile-battle-preview.png
+          if-no-files-found: ignore
 
       - name: Capacitor web assets preparation
         run: npm run mobile:prepare
