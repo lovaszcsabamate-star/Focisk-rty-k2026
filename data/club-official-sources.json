@@ -100,9 +100,10 @@
       "recordFiles": [
         "data/club-official-enrichment-3-paks-nyir.json",
         "data/club-official-enrichment-14-nyiregyhaza-completion.json",
+        "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
         "data/club-official-stat-patches-nyiregyhaza.json"
       ],
-      "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum rögzített; a pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
+      "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum és nemzetiség rögzített; 38 nemzetiségi adat magas, Molnár Mátyás HUN besorolása közepes forrásbizonyosságú. A pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
     },
     {
       "clubId": "paksi-fc",
