@@ -77,6 +77,11 @@ function saveSelectedOpponent(id) {
   try { localStorage.setItem(STORAGE_KEY, id); } catch { /* optional */ }
 }
 
+export function selectOpponentById(id) {
+  saveSelectedOpponent(id);
+  return selectedOpponent();
+}
+
 function applySprite(node, opponent) {
   node.classList.add('opponent-sprite');
   node.style.setProperty('--opponent-x', `${opponent.col * 50}%`);
@@ -194,6 +199,7 @@ function decorateResultPanel(panel) {
 }
 
 globalThis.__FOCISKARTYAK_OPPONENT__ = selectedOpponent();
+globalThis.__FOCISKARTYAK_SELECT_OPPONENT__ = selectOpponentById;
 
 const previousShowOverlay = UI.prototype.showOverlay;
 UI.prototype.showOverlay = function showOpponentOverlay(node) {
