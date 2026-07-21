@@ -412,4 +412,4 @@ function installDocumentUX() {
   }
 }
 
-installDocumentUX();
+if (typeof document !== 'undefined') installDocumentUX();
