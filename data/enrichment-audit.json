@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T06:11:23.579Z",
+  "generatedAt": "2026-07-21T06:39:21.374Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -15,6 +15,7 @@
     "data/club-official-enrichment-10-kisvarda-final8.json",
     "data/club-official-enrichment-11-kisvarda-completion.json",
     "data/club-official-enrichment-12-dvtk-completion.json",
+    "data/club-official-enrichment-13-mtk-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -26,6 +27,7 @@
     "data/club-official-stat-patches-kisvarda-final8.json",
     "data/club-official-stat-patches-ferencvaros.json",
     "data/club-official-stat-patches-dvtk.json",
+    "data/club-official-stat-patches-mtk.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -37,26 +39,26 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 304,
+    "exactBirthDates": 308,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 304,
-    "appearances": 243,
-    "starts": 243,
+    "birthDate": 308,
+    "appearances": 271,
+    "starts": 271,
     "goals": 440,
-    "squads": 219,
-    "yellowCards": 243,
-    "redCards": 243,
-    "totalDismissals": 243,
+    "squads": 251,
+    "yellowCards": 271,
+    "redCards": 271,
+    "totalDismissals": 271,
     "overallScore": 143,
-    "position": 345,
-    "nation": 188,
+    "position": 349,
+    "nation": 192,
     "heightCm": 57,
     "shirtNumber": 288,
-    "officialMetadata": 79,
+    "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 113,
+    "substituteAppearances": 145,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -64,8 +66,8 @@
     {
       "field": "birthDate",
       "before": 120,
-      "after": 304,
-      "added": 184
+      "after": 308,
+      "added": 188
     },
     {
       "field": "appearances",
@@ -118,14 +120,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 345,
-      "added": 345
+      "after": 349,
+      "added": 349
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 188,
-      "added": 188
+      "after": 192,
+      "added": 192
     },
     {
       "field": "heightCm",
@@ -142,28 +144,28 @@
     {
       "field": "officialMetadata",
       "before": 0,
-      "after": 79,
-      "added": 79
+      "after": 83,
+      "added": 83
     }
   ],
   "officialStatFieldCoverage": [
     {
       "field": "appearances",
       "before": 144,
-      "after": 243,
-      "added": 99
+      "after": 271,
+      "added": 127
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 243,
-      "added": 99
+      "after": 271,
+      "added": 127
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 219,
-      "added": 112
+      "after": 251,
+      "added": 144
     },
     {
       "field": "minutes",
@@ -174,8 +176,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 113,
-      "added": 113
+      "after": 145,
+      "added": 145
     },
     {
       "field": "goals",
@@ -192,14 +194,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 243,
-      "added": 99
+      "after": 271,
+      "added": 127
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 243,
-      "added": 99
+      "after": 271,
+      "added": 127
     },
     {
       "field": "secondYellowRedCards",
@@ -210,8 +212,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 243,
-      "added": 99
+      "after": 271,
+      "added": 127
     }
   ],
   "clubSummary": [
@@ -291,12 +293,12 @@
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
       "mlszCards": 36,
-      "officialRecords": 32,
-      "eligibleRecords": 32,
-      "matched": 32,
+      "officialRecords": 36,
+      "eligibleRecords": 36,
+      "matched": 36,
       "excluded": 0,
       "review": 0,
-      "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
+      "sourceStatus": "complete-36-of-36-player-review",
       "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
     },
     {
@@ -368,19 +370,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 74,
+    "warningCount": 70,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 2228,
-    "exactBirthDates": 304,
+    "changeCount": 2449,
+    "exactBirthDates": 308,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T07:58:00+02:00",
-    "records": 398,
-    "matchedRecords": 398,
+    "generatedAt": "2026-07-21T08:34:00+02:00",
+    "records": 402,
+    "matchedRecords": 402,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -408,9 +410,9 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 344,
-      "nation": 187,
-      "birthDate": 183,
+      "position": 348,
+      "nation": 191,
+      "birthDate": 187,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -437,7 +439,7 @@
       "meta.seasonStatus": 34,
       "meta.professionalContractAt": 1,
       "meta.seasonShirtNumber": 27,
-      "meta.primaryPosition": 17,
+      "meta.primaryPosition": 21,
       "meta.contractEnd": 4,
       "meta.academyJoinedAt": 1,
       "meta.professionalRegistrationAt": 1,
@@ -455,7 +457,8 @@
       "meta.contractExtensionAgreedAt": 1,
       "meta.firstProfessionalContractAt": 2,
       "meta.loanClub": 1,
-      "meta.loanEndedAt": 2
+      "meta.loanEndedAt": 2,
+      "meta.sourceNote": 1
     },
     "coverageBefore": {
       "birthDate": 120,
@@ -474,7 +477,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 304,
+      "birthDate": 308,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -483,18 +486,18 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 345,
-      "nation": 188,
+      "position": 349,
+      "nation": 192,
       "heightCm": 57,
       "shirtNumber": 288,
-      "officialMetadata": 79
+      "officialMetadata": 83
     },
     "fieldCoverage": [
       {
         "field": "birthDate",
         "before": 120,
-        "after": 304,
-        "added": 184
+        "after": 308,
+        "added": 188
       },
       {
         "field": "appearances",
@@ -547,14 +550,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 345,
-        "added": 345
+        "after": 349,
+        "added": 349
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 188,
-        "added": 188
+        "after": 192,
+        "added": 192
       },
       {
         "field": "heightCm",
@@ -571,8 +574,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 79,
-        "added": 79
+        "after": 83,
+        "added": 83
       }
     ],
     "clubSummary": [
@@ -652,12 +655,12 @@
         "clubId": "mtk-budapest",
         "clubName": "MTK Budapest",
         "mlszCards": 36,
-        "officialRecords": 32,
-        "eligibleRecords": 32,
-        "matched": 32,
+        "officialRecords": 36,
+        "eligibleRecords": 36,
+        "matched": 36,
         "excluded": 0,
         "review": 0,
-        "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
+        "sourceStatus": "complete-36-of-36-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
       },
       {
@@ -727,24 +730,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T07:58:00+02:00",
-    "records": 155,
-    "matchedRecords": 155,
+    "generatedAt": "2026-07-21T08:34:00+02:00",
+    "records": 191,
+    "matchedRecords": 191,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 13,
+    "multiClubMetadataOnly": 17,
     "appliedFieldCounts": {
-      "appearances": 99,
-      "starts": 99,
+      "appearances": 127,
+      "starts": 127,
       "minutes": 29,
-      "substituteAppearances": 113,
+      "substituteAppearances": 145,
       "assists": 29,
-      "yellowCards": 99,
-      "redCards": 99,
+      "yellowCards": 127,
+      "redCards": 127,
       "secondYellowRedCards": 37,
-      "totalDismissals": 99,
-      "squads": 112
+      "totalDismissals": 127,
+      "squads": 144
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -754,20 +757,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 243,
-        "added": 99
+        "after": 271,
+        "added": 127
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 243,
-        "added": 99
+        "after": 271,
+        "added": 127
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 219,
-        "added": 112
+        "after": 251,
+        "added": 144
       },
       {
         "field": "minutes",
@@ -778,8 +781,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 113,
-        "added": 113
+        "after": 145,
+        "added": 145
       },
       {
         "field": "goals",
@@ -796,14 +799,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 243,
-        "added": 99
+        "after": 271,
+        "added": 127
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 243,
-        "added": 99
+        "after": 271,
+        "added": 127
       },
       {
         "field": "secondYellowRedCards",
@@ -814,8 +817,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 243,
-        "added": 99
+        "after": 271,
+        "added": 127
       }
     ],
     "manualReview": [],
@@ -1090,6 +1093,64 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több NB I-es klubnál szereplő játékosoknál a meglévő merge-réteg a DVTK-s sort klubforrásos metaadatként tárolja, és nem írja felül a személy-szezon főstatisztikát."
+      },
+      {
+        "id": "mlsz-fizz-liga-mtk-complete-2025-26",
+        "clubId": "mtk-budapest",
+        "clubName": "MTK Budapest",
+        "name": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307008.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/44550.html",
+          "https://adatbank.mlsz.hu/player/45594.html",
+          "https://adatbank.mlsz.hu/player/68826.html",
+          "https://adatbank.mlsz.hu/player/151425.html",
+          "https://adatbank.mlsz.hu/player/171677.html",
+          "https://adatbank.mlsz.hu/player/231169.html",
+          "https://adatbank.mlsz.hu/player/305333.html",
+          "https://adatbank.mlsz.hu/player/323211.html",
+          "https://adatbank.mlsz.hu/player/338348.html",
+          "https://adatbank.mlsz.hu/player/372104.html",
+          "https://adatbank.mlsz.hu/player/437689.html",
+          "https://adatbank.mlsz.hu/player/440540.html",
+          "https://adatbank.mlsz.hu/player/458751.html",
+          "https://adatbank.mlsz.hu/player/468726.html",
+          "https://adatbank.mlsz.hu/player/486044.html",
+          "https://adatbank.mlsz.hu/player/515634.html",
+          "https://adatbank.mlsz.hu/player/530206.html",
+          "https://adatbank.mlsz.hu/player/582275.html",
+          "https://adatbank.mlsz.hu/player/990151.html",
+          "https://adatbank.mlsz.hu/player/1170810.html",
+          "https://adatbank.mlsz.hu/player/1171060.html",
+          "https://adatbank.mlsz.hu/player/1352258.html",
+          "https://adatbank.mlsz.hu/player/1497692.html",
+          "https://adatbank.mlsz.hu/player/533324.html",
+          "https://adatbank.mlsz.hu/player/754672.html",
+          "https://adatbank.mlsz.hu/player/462861.html",
+          "https://adatbank.mlsz.hu/player/1427239.html",
+          "https://adatbank.mlsz.hu/player/519136.html",
+          "https://adatbank.mlsz.hu/player/304053.html",
+          "https://adatbank.mlsz.hu/player/436280.html",
+          "https://adatbank.mlsz.hu/player/639975.html",
+          "https://adatbank.mlsz.hu/player/1557502.html",
+          "https://adatbank.mlsz.hu/player/1557820.html",
+          "https://adatbank.mlsz.hu/player/535553.html",
+          "https://adatbank.mlsz.hu/player/1114985.html",
+          "https://adatbank.mlsz.hu/player/702987.html"
+        ],
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több NB I-es klubnál szereplő játékosoknál a meglévő merge-réteg az MTK-s sort klubforrásos metaadatként tárolja, és nem írja felül a személy-szezon főstatisztikát."
       }
     ]
   },
