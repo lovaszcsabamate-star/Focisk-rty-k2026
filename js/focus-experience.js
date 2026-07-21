@@ -11,6 +11,7 @@ const initialiseFocusExperience = () => {
   const makeChoiceCardAccessible = (card, index) => {
     card.classList.add('card--choice');
     card.style.setProperty('--choice-index', String(index));
+    card.style.animationDelay = `${Math.min(index, 8) * 24}ms`;
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.setAttribute('aria-label', `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`);
@@ -29,6 +30,7 @@ const initialiseFocusExperience = () => {
     if (!card.classList.contains('card--choice') && !card.hasAttribute('tabindex')) return;
     card.classList.remove('card--choice');
     card.style.removeProperty('--choice-index');
+    card.style.removeProperty('animation-delay');
     card.removeAttribute('role');
     card.removeAttribute('tabindex');
     card.removeAttribute('aria-label');
