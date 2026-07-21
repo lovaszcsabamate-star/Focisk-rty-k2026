@@ -83,4 +83,4 @@ for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '
 }
 assert.match(readText('../sw.js'), /fociskartyak-2026-v29/);
 
-console.log('✓ Kisvárda nemzetiségek lezárva: 38/38 forrásolt országadat, alap- és statisztikai értékek változatlanok');
+console.log('✓ Kisvárda nemzetiségek lezárva: 21 új forrásolt országadat, összesen 38/38; az alap- és statisztikai értékek változatlanok');
