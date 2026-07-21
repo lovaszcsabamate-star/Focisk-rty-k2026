@@ -84,6 +84,7 @@ const moduleOrder = [
   'js/pwa.js',
   'js/mobile-experience.js',
   'js/player-profile.js',
+  'js/reliability-fixes.js',
   'js/focus-experience.js',
   'js/main.js',
 ];
@@ -166,6 +167,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/opponents.js"></script>\n', '')
   .replace('  <script type="module" src="js/pwa.js"></script>\n', '')
   .replace('  <script type="module" src="js/player-profile.js"></script>\n', '')
+  .replace('  <script type="module" src="js/reliability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/focus-experience.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
