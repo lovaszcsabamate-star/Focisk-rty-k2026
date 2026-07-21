@@ -14,6 +14,7 @@ const PWA_SHELL = [
   './css/mobile-overlay-fix.css',
   './css/player-profile.css',
   './js/bootstrap.js',
+  './js/data/complete-cards.js',
   './js/data/club-enrichment.js',
   './js/data/club-stat-patches.js',
   './js/data/verified-player-corrections.js',
