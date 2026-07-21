@@ -1,0 +1,161 @@
+/* ==========================================================================
+   Duel emphasis
+   - the battlefield uses at most half of the available viewport height
+   - the human player's played card grows up to exactly 2× the base card size
+   - responsive caps keep the opponent, prompt, result and controls visible
+   ========================================================================== */
+
+#felt {
+  flex: 0 1 50vh;
+  max-height: 50vh;
+  min-height: 0;
+  container-type: size;
+  gap: clamp(4px, .75vh, 8px);
+  padding-block: clamp(6px, 1vh, 10px);
+}
+
+@supports (height: 100dvh) {
+  #felt {
+    flex-basis: 50dvh;
+    max-height: 50dvh;
+  }
+}
+
+#duel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 24px);
+}
+
+#duel > .duel-slot {
+  min-width: 0;
+  max-width: 44%;
+}
+
+/* Fallback sizing for browsers without container query units. */
+#duel > .duel-slot:first-child .card {
+  --card-w: min(264px, 42vw);
+  --card-h: min(464px, 74vw, calc(50vh - 96px));
+}
+
+/* The card reaches 264 × 464 px on a sufficiently large battlefield,
+   exactly twice the normal 132 × 232 px card. On smaller screens its width
+   and height shrink together according to the battlefield container. */
+@supports (height: 1cqh) {
+  #duel > .duel-slot:first-child .card {
+    --card-w: min(264px, 48.9cqh, 42vw);
+    --card-h: min(464px, 86cqh, 74vw);
+  }
+
+  .mode-penalties #duel > .duel-slot:first-child .card {
+    --card-w: min(264px, 38.6cqh, 42vw);
+    --card-h: min(464px, 68cqh, 74vw);
+  }
+}
+
+/* Scale the contents too, not only the card frame, so the enlarged card is
+   genuinely easier to read. Clamps prevent oversized text on narrow screens. */
+#duel > .duel-slot:first-child .card__portrait {
+  height: clamp(62px, 12vw, 148px);
+}
+
+#duel > .duel-slot:first-child .card__portrait::after {
+  font-size: clamp(28px, 4vw, 52px);
+}
+
+#duel > .duel-slot:first-child .card__position {
+  top: clamp(4px, .6vw, 8px);
+  left: clamp(4px, .6vw, 8px);
+  padding: clamp(2px, .3vw, 4px) clamp(5px, .6vw, 9px);
+  font-size: clamp(9px, 1vw, 13px);
+}
+
+#duel > .duel-slot:first-child .card__name {
+  padding: clamp(4px, .7vw, 9px) clamp(6px, 1vw, 13px) 2px;
+  font-size: clamp(15px, 2vw, 28px);
+  line-height: 1;
+}
+
+#duel > .duel-slot:first-child .card__club {
+  padding: 0 clamp(6px, 1vw, 13px) clamp(4px, .7vw, 8px);
+  font-size: clamp(9px, 1vw, 15px);
+}
+
+#duel > .duel-slot:first-child .card__stats {
+  padding: 0 clamp(6px, .9vw, 11px) clamp(6px, .9vw, 11px);
+  gap: clamp(1px, .25vw, 3px);
+}
+
+#duel > .duel-slot:first-child .stat {
+  padding: clamp(2px, .4vw, 5px) clamp(4px, .7vw, 9px);
+  font-size: clamp(9px, 1.15vw, 16px);
+}
+
+/* Compact the surrounding labels before allowing overlap. */
+#felt #prompt {
+  min-height: 0;
+  font-size: clamp(14px, 1.6vw, 19px);
+  line-height: 1.05;
+}
+
+#felt #verdict {
+  min-height: 0;
+  font-size: clamp(18px, 2.1vw, 26px);
+  line-height: 1.05;
+}
+
+@media (max-width: 620px) {
+  #felt {
+    gap: 4px;
+    padding-block: 5px;
+  }
+
+  #duel {
+    gap: clamp(5px, 2vw, 9px);
+  }
+
+  #duel > .duel-slot {
+    max-width: 45%;
+    gap: 3px;
+  }
+
+  #duel > .duel-slot:first-child .card__portrait {
+    height: clamp(54px, 18vw, 92px);
+  }
+
+  #duel > .duel-slot:first-child .card__name {
+    font-size: clamp(13px, 4vw, 18px);
+  }
+
+  #duel > .duel-slot:first-child .card__club {
+    font-size: clamp(8px, 2.4vw, 11px);
+  }
+
+  #duel > .duel-slot:first-child .stat {
+    font-size: clamp(8px, 2.55vw, 11px);
+    padding: 2px 4px;
+  }
+
+  .duel-slot__who {
+    font-size: 9px;
+  }
+
+  .versus {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-height: 620px) {
+  #felt #prompt,
+  #felt #verdict small {
+    display: none;
+  }
+
+  #duel > .duel-slot:first-child .card__portrait {
+    height: clamp(48px, 11vh, 72px);
+  }
+}
