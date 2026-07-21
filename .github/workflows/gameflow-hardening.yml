@@ -27,31 +27,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Guard browser-only UX initialization
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('js/ux.js')
-          source = path.read_text(encoding='utf-8')
-          source = source.replace(
-              '\ninstallDocumentUX();\n',
-              "\nif (typeof document !== 'undefined') installDocumentUX();\n",
-          )
-          path.write_text(source, encoding='utf-8')
-          PY
-
-          node --check js/ux.js
-
-          if [[ '${{ github.event_name }}' == 'push' ]] && ! git diff --quiet; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add js/ux.js
-            git commit -m 'Böngészőfüggetlenné teszi az UX modul importját'
-            git push
-          fi
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
