@@ -1,0 +1,97 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+
+import {
+  applyClubEnrichmentPayload,
+  prepareClubEnrichment,
+} from '../js/data/club-enrichment.js';
+import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+
+const FILE = 'club-official-enrichment-23-final-missing-basic.json';
+const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
+const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
+const finite = value => typeof value === 'number' && Number.isFinite(value);
+const clubIds = card => Array.isArray(card?.meta?.clubIds) && card.meta.clubIds.length
+  ? card.meta.clubIds
+  : [card?.meta?.clubId].filter(Boolean);
+
+const base = readJson('../data/players-reviewed.json');
+const completion = readJson(`../data/${FILE}`);
+
+assert.equal(base.players.length, 440);
+assert.equal(completion.batch.playerCount, 7);
+assert.equal(completion.records.length, 7);
+assert.equal(new Set(completion.records.map(record => record.name)).size, 7);
+
+for (const record of completion.records) {
+  assert.equal(record.confidence, 'high');
+  assert.ok(record.nation || record.position);
+  assert.equal('birthDate' in record, false, `${record.name}: a lezáró réteg dátumot tartalmaz`);
+  assert.equal('stats' in record, false, `${record.name}: a lezáró réteg statisztikát tartalmaz`);
+}
+
+const prepared = prepareClubEnrichment(completion, {});
+const enriched = applyClubEnrichmentPayload(base, prepared);
+assert.equal(enriched.players.length, 440);
+assert.equal(enriched.enrichment.matchedRecords, 7);
+assert.equal(enriched.enrichment.unmatchedRecords, 0);
+assert.equal(enriched.enrichment.conflictCount, 0);
+
+const byName = new Map(enriched.players.map(card => [card.name, card]));
+assert.equal(byName.get('ASZTALOS NOEL').nation, 'HUN');
+assert.equal(byName.get('ASZTALOS NOEL').position, 'Középpályás');
+assert.equal(byName.get('KOHUT MÁTÉ').nation, 'HUN');
+assert.equal(byName.get('KOHUT MÁTÉ').position, 'Támadó');
+assert.equal(byName.get('BEKE PÉTER').position, 'Támadó');
+assert.equal(byName.get('GILBERT DANTAYE MICHAEL LEE').position, 'Középpályás');
+assert.equal(byName.get('JOKIC RANKO').position, 'Védő');
+assert.equal(byName.get('JOVANOV VANE').position, 'Védő');
+assert.equal(byName.get('VARGA KEVIN').position, 'Középpályás');
+assert.equal(enriched.players.filter(card => card.nation).length, 440);
+assert.equal(enriched.players.filter(card => card.position).length, 440);
+
+const beforeStats = new Map(enriched.players.map(card => [card.id, structuredClone(card.stats)]));
+const finalPayload = applyOfficialStatPatches(enriched, []);
+assert.equal(finalPayload.players.length, 440);
+assert.equal(finalPayload.officialStatPatches.consensusPromotedPlayers, 17);
+assert.equal(finalPayload.officialStatPatches.consensusConflictCount, 0);
+
+const primaryFields = [
+  'appearances',
+  'starts',
+  'squads',
+  'yellowCards',
+  'redCards',
+  'totalDismissals',
+];
+for (const field of primaryFields) {
+  assert.equal(finalPayload.players.filter(card => finite(card.stats?.[field])).length, 440, `${field}: nem teljes a lefedettség`);
+}
+assert.equal(finalPayload.players.filter(card => finite(card.stats?.substituteAppearances)).length, 440);
+
+const changedCards = finalPayload.players.filter(card =>
+  primaryFields.some(field => card.stats?.[field] !== beforeStats.get(card.id)?.[field])
+);
+assert.equal(changedCards.length, 17);
+assert.ok(changedCards.every(card => clubIds(card).length > 1));
+assert.ok(changedCards.every(card => card.meta?.officialStatConsensus?.fieldsApplied?.length >= 6));
+
+const finalByName = new Map(finalPayload.players.map(card => [card.name, card]));
+assert.equal(finalByName.get('ACOLATSE ELTON-OFOI').stats.appearances, 24);
+assert.equal(finalByName.get('ACOLATSE ELTON-OFOI').stats.starts, 20);
+assert.equal(finalByName.get('COLLEY LAMIN').stats.redCards, 1);
+assert.equal(finalByName.get('DALA MARTIN').stats.squads, 31);
+assert.equal(finalByName.get('BODNÁR GERGŐ JÁNOS').stats.yellowCards, 5);
+assert.equal(finalByName.get('KRAJCSOVICS ÁBEL GYÖRGY').stats.substituteAppearances, 18);
+
+assert.equal(finalPayload.players.filter(card => finite(card.stats?.minutes)).length, 29);
+assert.equal(finalPayload.players.filter(card => finite(card.stats?.assists)).length, 29);
+assert.equal(finalPayload.players.filter(card => finite(card.stats?.secondYellowRedCards)).length, 37);
+
+for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
+  assert.match(readText(source), new RegExp(FILE.replaceAll('.', '\\.')));
+}
+assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
+assert.match(readText('../js/data/club-stat-patches.js'), /officialStatConsensus/);
+
+console.log('✓ Végső adatlezárás: 440/440 nemzetiség, poszt és elsődleges Fizz Liga-statisztika');
