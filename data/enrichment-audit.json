@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T08:37:15.319Z",
+  "generatedAt": "2026-07-21T09:18:02.025Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -19,6 +19,7 @@
     "data/club-official-enrichment-14-nyiregyhaza-completion.json",
     "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
     "data/club-official-enrichment-16-kazincbarcika-completion.json",
+    "data/club-official-enrichment-17-ujpest-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -33,6 +34,7 @@
     "data/club-official-stat-patches-mtk.json",
     "data/club-official-stat-patches-nyiregyhaza.json",
     "data/club-official-stat-patches-kazincbarcika.json",
+    "data/club-official-stat-patches-ujpest.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -44,26 +46,26 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 383,
+    "exactBirthDates": 401,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 383,
-    "appearances": 333,
-    "starts": 333,
+    "birthDate": 401,
+    "appearances": 364,
+    "starts": 364,
     "goals": 440,
-    "squads": 321,
-    "yellowCards": 333,
-    "redCards": 333,
-    "totalDismissals": 333,
+    "squads": 356,
+    "yellowCards": 364,
+    "redCards": 364,
+    "totalDismissals": 364,
     "overallScore": 143,
-    "position": 381,
-    "nation": 270,
+    "position": 400,
+    "nation": 308,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 215,
+    "substituteAppearances": 250,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -71,8 +73,8 @@
     {
       "field": "birthDate",
       "before": 120,
-      "after": 383,
-      "added": 263
+      "after": 401,
+      "added": 281
     },
     {
       "field": "appearances",
@@ -125,14 +127,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 381,
-      "added": 381
+      "after": 400,
+      "added": 400
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 270,
-      "added": 270
+      "after": 308,
+      "added": 308
     },
     {
       "field": "heightCm",
@@ -157,20 +159,20 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 333,
-      "added": 189
+      "after": 364,
+      "added": 220
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 333,
-      "added": 189
+      "after": 364,
+      "added": 220
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 321,
-      "added": 214
+      "after": 356,
+      "added": 249
     },
     {
       "field": "minutes",
@@ -181,8 +183,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 215,
-      "added": 215
+      "after": 250,
+      "added": 250
     },
     {
       "field": "goals",
@@ -199,14 +201,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 333,
-      "added": 189
+      "after": 364,
+      "added": 220
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 333,
-      "added": 189
+      "after": 364,
+      "added": 220
     },
     {
       "field": "secondYellowRedCards",
@@ -217,8 +219,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 333,
-      "added": 189
+      "after": 364,
+      "added": 220
     }
   ],
   "clubSummary": [
@@ -346,12 +348,12 @@
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
       "mlszCards": 41,
-      "officialRecords": 26,
-      "eligibleRecords": 21,
-      "matched": 21,
+      "officialRecords": 67,
+      "eligibleRecords": 62,
+      "matched": 62,
       "excluded": 5,
       "review": 0,
-      "sourceStatus": "official-profile-enrichment",
+      "sourceStatus": "complete-41-of-41-player-review",
       "officialRosterUrl": "https://www.ujpestfc.hu/csapatok/csapat"
     },
     {
@@ -375,19 +377,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 41,
+    "warningCount": 22,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3084,
-    "exactBirthDates": 383,
+    "changeCount": 3384,
+    "exactBirthDates": 401,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T10:30:00+02:00",
-    "records": 520,
-    "matchedRecords": 520,
+    "generatedAt": "2026-07-21T11:15:00+02:00",
+    "records": 561,
+    "matchedRecords": 561,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -415,9 +417,9 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 380,
-      "nation": 269,
-      "birthDate": 262,
+      "position": 399,
+      "nation": 307,
+      "birthDate": 280,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -482,7 +484,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 383,
+      "birthDate": 401,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -491,8 +493,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 381,
-      "nation": 270,
+      "position": 400,
+      "nation": 308,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -501,8 +503,8 @@
       {
         "field": "birthDate",
         "before": 120,
-        "after": 383,
-        "added": 263
+        "after": 401,
+        "added": 281
       },
       {
         "field": "appearances",
@@ -555,14 +557,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 381,
-        "added": 381
+        "after": 400,
+        "added": 400
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 270,
-        "added": 270
+        "after": 308,
+        "added": 308
       },
       {
         "field": "heightCm",
@@ -708,12 +710,12 @@
         "clubId": "ujpest-fc",
         "clubName": "Újpest FC",
         "mlszCards": 41,
-        "officialRecords": 26,
-        "eligibleRecords": 21,
-        "matched": 21,
+        "officialRecords": 67,
+        "eligibleRecords": 62,
+        "matched": 62,
         "excluded": 5,
         "review": 0,
-        "sourceStatus": "official-profile-enrichment",
+        "sourceStatus": "complete-41-of-41-player-review",
         "officialRosterUrl": "https://www.ujpestfc.hu/csapatok/csapat"
       },
       {
@@ -735,24 +737,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T10:30:00+02:00",
-    "records": 270,
-    "matchedRecords": 270,
+    "generatedAt": "2026-07-21T11:15:00+02:00",
+    "records": 311,
+    "matchedRecords": 311,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 26,
+    "multiClubMetadataOnly": 32,
     "appliedFieldCounts": {
-      "appearances": 189,
-      "starts": 189,
+      "appearances": 220,
+      "starts": 220,
       "minutes": 29,
-      "substituteAppearances": 215,
+      "substituteAppearances": 250,
       "assists": 29,
-      "yellowCards": 189,
-      "redCards": 189,
+      "yellowCards": 220,
+      "redCards": 220,
       "secondYellowRedCards": 37,
-      "totalDismissals": 189,
-      "squads": 214
+      "totalDismissals": 220,
+      "squads": 249
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -762,20 +764,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 333,
-        "added": 189
+        "after": 364,
+        "added": 220
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 333,
-        "added": 189
+        "after": 364,
+        "added": 220
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 321,
-        "added": 214
+        "after": 356,
+        "added": 249
       },
       {
         "field": "minutes",
@@ -786,8 +788,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 215,
-        "added": 215
+        "after": 250,
+        "added": 250
       },
       {
         "field": "goals",
@@ -804,14 +806,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 333,
-        "added": 189
+        "after": 364,
+        "added": 220
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 333,
-        "added": 189
+        "after": 364,
+        "added": 220
       },
       {
         "field": "secondYellowRedCards",
@@ -822,8 +824,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 333,
-        "added": 189
+        "after": 364,
+        "added": 220
       }
     ],
     "manualReview": [],
@@ -1279,6 +1281,59 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, a Piros oszlop pedig nem bontja a kiállítás típusát. Többklubos játékosnál a klubsort a rendszer metaadatként őrzi meg, és nem írja felül a személy-szezon összesítést."
+      },
+      {
+        "id": "mlsz-fizz-liga-ujpest-complete-2025-26",
+        "clubId": "ujpest-fc",
+        "clubName": "Újpest FC",
+        "name": "MLSZ Adatbank – Újpest FC 2025/26 teljes Fizz Liga-játékosellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307011.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/1497057.html",
+          "https://adatbank.mlsz.hu/player/1173627.html",
+          "https://adatbank.mlsz.hu/player/63756.html",
+          "https://adatbank.mlsz.hu/player/1055458.html",
+          "https://adatbank.mlsz.hu/player/251629.html",
+          "https://adatbank.mlsz.hu/player/1427051.html",
+          "https://adatbank.mlsz.hu/player/1428639.html",
+          "https://adatbank.mlsz.hu/player/245021.html",
+          "https://adatbank.mlsz.hu/player/373985.html",
+          "https://adatbank.mlsz.hu/player/1557600.html",
+          "https://adatbank.mlsz.hu/player/304526.html",
+          "https://adatbank.mlsz.hu/player/1359242.html",
+          "https://adatbank.mlsz.hu/player/395614.html",
+          "https://adatbank.mlsz.hu/player/311717.html",
+          "https://adatbank.mlsz.hu/player/1497410.html",
+          "https://adatbank.mlsz.hu/player/1422386.html",
+          "https://adatbank.mlsz.hu/player/1223093.html",
+          "https://adatbank.mlsz.hu/player/475049.html",
+          "https://adatbank.mlsz.hu/player/533431.html",
+          "https://adatbank.mlsz.hu/player/695882.html",
+          "https://adatbank.mlsz.hu/player/1422624.html",
+          "https://adatbank.mlsz.hu/player/536488.html",
+          "https://adatbank.mlsz.hu/player/1429918.html",
+          "https://adatbank.mlsz.hu/player/1497542.html",
+          "https://adatbank.mlsz.hu/player/1294312.html",
+          "https://adatbank.mlsz.hu/player/1429636.html",
+          "https://adatbank.mlsz.hu/player/1557819.html",
+          "https://adatbank.mlsz.hu/player/1428316.html",
+          "https://adatbank.mlsz.hu/player/1497058.html",
+          "https://adatbank.mlsz.hu/player/479583.html",
+          "https://adatbank.mlsz.hu/player/602170.html",
+          "https://adatbank.mlsz.hu/player/1497480.html",
+          "https://adatbank.mlsz.hu/player/1220058.html",
+          "https://adatbank.mlsz.hu/player/1492440.html",
+          "https://adatbank.mlsz.hu/player/551911.html",
+          "https://adatbank.mlsz.hu/player/1219255.html",
+          "https://adatbank.mlsz.hu/player/506517.html",
+          "https://adatbank.mlsz.hu/player/655105.html",
+          "https://adatbank.mlsz.hu/player/324999.html",
+          "https://adatbank.mlsz.hu/player/3398.html",
+          "https://adatbank.mlsz.hu/player/1492454.html"
+        ],
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "scope": "A Fizz Liga-sor Összes, Kezdő, Csere, Kispad, Gól, Sárga és Piros oszlopai. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt; a Piros oszlopból a kiállítás típusa nem különíthető el."
       }
     ]
   },

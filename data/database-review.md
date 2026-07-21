@@ -1,34 +1,34 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T08:37:15.319Z
+Generálva: 2026-07-21T09:18:02.025Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
-- Pontos születési dátum: **383/440**
-- Változásnapló-bejegyzések: **3084**
+- Pontos születési dátum: **401/440**
+- Változásnapló-bejegyzések: **3384**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
-- Figyelmeztetések: **41**
+- Figyelmeztetések: **22**
 
 ## Mezőlefedettség
 
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
-| birthDate | 383 | 57 |
-| nation | 270 | 170 |
-| position | 381 | 59 |
-| appearances | 333 | 107 |
-| starts | 333 | 107 |
+| birthDate | 401 | 39 |
+| nation | 308 | 132 |
+| position | 400 | 40 |
+| appearances | 364 | 76 |
+| starts | 364 | 76 |
 | minutes | 29 | 411 |
 | goals | 440 | 0 |
 | assists | 29 | 411 |
-| squads | 321 | 119 |
-| yellowCards | 333 | 107 |
-| redCards | 333 | 107 |
+| squads | 356 | 84 |
+| yellowCards | 364 | 76 |
+| redCards | 364 | 76 |
 | secondYellowRedCards | 37 | 403 |
-| totalDismissals | 333 | 107 |
+| totalDismissals | 364 | 76 |
 | heightCm | 57 | 383 |
 | shirtNumber | 288 | 152 |
 
@@ -45,9 +45,9 @@ Generálva: 2026-07-21T08:37:15.319Z
 | MTK Budapest | 36 | 36 | 36 | 36 | 34 | 0 | 0 |
 | Nyíregyháza Spartacus FC | 39 | 39 | 33 | 39 | 37 | 0 | 0 |
 | Paksi FC | 33 | 33 | 29 | 4 | 33 | 0 | 0 |
-| Puskás Akadémia FC | 34 | 28 | 27 | 3 | 4 | 0 | 0 |
-| Újpest FC | 41 | 23 | 22 | 3 | 4 | 0 | 0 |
-| ZTE FC | 43 | 10 | 27 | 25 | 4 | 0 | 0 |
+| Puskás Akadémia FC | 34 | 28 | 27 | 4 | 4 | 0 | 0 |
+| Újpest FC | 41 | 41 | 41 | 41 | 35 | 0 | 0 |
+| ZTE FC | 43 | 10 | 27 | 27 | 4 | 0 | 0 |
 
 ## Forráskezelési megjegyzések
 
