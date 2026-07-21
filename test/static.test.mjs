@@ -86,7 +86,7 @@ assert.match(mobileOverlayFixCss, /#overlay-body\.panel/);
 assert.match(mobileExperienceJs, /saved-match:v2/);
 assert.match(mobileExperienceJs, /hydrateGame/);
 assert.match(mobileExperienceJs, /comparisonDirectionInstruction/);
-assert.match(mobileExperienceJs, /case 'lower': return 'A kisebb érték a jobb'/);
+assert.match(uxJs, /case 'lower': return 'A kisebb érték a jobb'/);
 assert.match(bootstrap, /showFatalError/);
 assert.match(bootstrap, /retry-load-btn/);
 

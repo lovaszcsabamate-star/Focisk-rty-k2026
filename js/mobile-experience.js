@@ -8,6 +8,9 @@ import {
   hasAttributeData,
 } from './data/players.js';
 import { HUMAN } from './engine.js';
+import { comparisonDirectionInstruction } from './ux.js';
+
+export { comparisonDirectionInstruction };
 
 export const FAST_AI_TURN_DELAYS = Object.freeze({
   chooseAttribute: 90,
@@ -177,17 +180,6 @@ export function installConnectivityBadge() {
   window.addEventListener('offline', update);
   window.addEventListener('online', update);
   if (navigator.onLine === false) update();
-}
-
-/** Central direction copy derived only from the category data model. */
-export function comparisonDirectionInstruction(attribute) {
-  switch (attribute?.direction) {
-    case 'higher': return 'A nagyobb érték a jobb';
-    case 'lower': return 'A kisebb érték a jobb';
-    case 'later': return 'A későbbi érték a jobb';
-    case 'earlier': return 'A korábbi érték a jobb';
-    default: return attribute?.higherWins ? 'A nagyobb érték a jobb' : 'A kisebb érték a jobb';
-  }
 }
 
 const bestHumanCard = (game, attribute) => {

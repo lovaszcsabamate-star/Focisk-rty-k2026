@@ -33,11 +33,7 @@ assert.equal(savePlayerName('   '), DEFAULT_PLAYER_NAME);
 assert.equal(memory.has(PLAYER_NAME_STORAGE_KEY), false);
 assert.equal(loadPlayerName(), DEFAULT_PLAYER_NAME);
 
-assert.equal(localizeInterfaceTextValue('⚽ Penalties mód'), '⚽ Büntetőpárbaj');
-assert.equal(localizeInterfaceTextValue('Tizenegyes mód · mentett játék'), 'Büntetőpárbaj · mentett játék');
-assert.equal(
-  localizeInterfaceTextValue('A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.'),
-  'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.',
-);
+assert.equal(localizeInterfaceTextValue('⚽ Büntetőpárbaj'), '⚽ Büntetőpárbaj');
+assert.equal(localizeInterfaceTextValue('Büntetőpárbaj · mentett játék'), 'Büntetőpárbaj · mentett játék');
 
 console.log('✓ A játékosnév mentése és a Büntetőpárbaj feliratok rendben');

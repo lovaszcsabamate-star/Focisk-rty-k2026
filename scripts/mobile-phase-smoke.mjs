@@ -214,7 +214,7 @@ const frame=document.querySelector('#app');frame.addEventListener('load',()=>set
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
     '--virtual-time-budget=5500', '--dump-dom', `file://${harnessFile}`,
-  ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
+  ], { encoding: 'utf8', timeout: 20_000, killSignal: 'SIGKILL', maxBuffer: 30 * 1024 * 1024 });
 
   const match = run.stdout.match(/data-phase-smoke="([^"]+)"/);
   if (run.status !== 0 || !match) {
@@ -258,7 +258,7 @@ for (const [fileName, body] of previewDocuments) {
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--hide-scrollbars',
     '--allow-file-access-from-files', '--window-size=720,1536', '--force-device-scale-factor=1',
     '--virtual-time-budget=1800', `--screenshot=${output}`, `file://${htmlFile}`,
-  ], { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
+  ], { encoding: 'utf8', timeout: 20_000, killSignal: 'SIGKILL', maxBuffer: 10 * 1024 * 1024 });
   if (shot.status !== 0 || !fs.existsSync(output)) failures.push(`Nem készült el a(z) ${fileName} előnézet.`);
 }
 
