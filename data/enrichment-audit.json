@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T10:41:02.376Z",
+  "generatedAt": "2026-07-21T12:43:05.354Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -22,10 +22,12 @@
     "data/club-official-enrichment-17-ujpest-completion.json",
     "data/club-official-enrichment-18-paks-completion.json",
     "data/club-official-enrichment-19-zte-completion.json",
+    "data/club-official-enrichment-20-puskas-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
     "data/club-official-corrections-4-kisvarda-selected10-2.json",
+    "data/club-official-corrections-5-puskas.json",
     "data/club-official-stat-patches-kisvarda.json",
     "data/club-official-stat-patches-kisvarda-selected10.json",
     "data/club-official-stat-patches-kisvarda-selected10-2.json",
@@ -38,6 +40,7 @@
     "data/club-official-stat-patches-kazincbarcika.json",
     "data/club-official-stat-patches-ujpest.json",
     "data/club-official-stat-patches-zte.json",
+    "data/club-official-stat-patches-puskas.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -49,35 +52,35 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 434,
+    "exactBirthDates": 440,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 434,
-    "appearances": 397,
-    "starts": 397,
+    "birthDate": 440,
+    "appearances": 423,
+    "starts": 423,
     "goals": 440,
-    "squads": 393,
-    "yellowCards": 397,
-    "redCards": 397,
-    "totalDismissals": 397,
+    "squads": 423,
+    "yellowCards": 423,
+    "redCards": 423,
+    "totalDismissals": 423,
     "overallScore": 143,
-    "position": 420,
-    "nation": 353,
+    "position": 427,
+    "nation": 383,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 287,
+    "substituteAppearances": 317,
     "assists": 29,
     "secondYellowRedCards": 37
   },
   "fieldCoverage": [
     {
       "field": "birthDate",
-      "before": 120,
-      "after": 434,
-      "added": 314
+      "before": 121,
+      "after": 440,
+      "added": 319
     },
     {
       "field": "appearances",
@@ -130,14 +133,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 420,
-      "added": 420
+      "after": 427,
+      "added": 427
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 353,
-      "added": 353
+      "after": 383,
+      "added": 383
     },
     {
       "field": "heightCm",
@@ -162,20 +165,20 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 397,
-      "added": 253
+      "after": 423,
+      "added": 279
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 397,
-      "added": 253
+      "after": 423,
+      "added": 279
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 393,
-      "added": 286
+      "after": 423,
+      "added": 316
     },
     {
       "field": "minutes",
@@ -186,8 +189,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 287,
-      "added": 287
+      "after": 317,
+      "added": 317
     },
     {
       "field": "goals",
@@ -204,14 +207,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 397,
-      "added": 253
+      "after": 423,
+      "added": 279
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 397,
-      "added": 253
+      "after": 423,
+      "added": 279
     },
     {
       "field": "secondYellowRedCards",
@@ -222,8 +225,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 397,
-      "added": 253
+      "after": 423,
+      "added": 279
     }
   ],
   "clubSummary": [
@@ -339,12 +342,12 @@
       "clubId": "puskas-akademia-fc",
       "clubName": "Puskás Akadémia FC",
       "mlszCards": 34,
-      "officialRecords": 32,
-      "eligibleRecords": 27,
-      "matched": 27,
+      "officialRecords": 66,
+      "eligibleRecords": 61,
+      "matched": 61,
       "excluded": 5,
       "review": 0,
-      "sourceStatus": "official-roster-filtered-to-2025-26-mlsz-cards",
+      "sourceStatus": "complete-34-of-34-player-review",
       "officialRosterUrl": "https://puskasakademia.hu/team/puskas-akademia-fc"
     },
     {
@@ -380,19 +383,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 6,
+    "warningCount": 2,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3721,
-    "exactBirthDates": 434,
+    "changeCount": 3953,
+    "exactBirthDates": 440,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T12:30:00+02:00",
-    "records": 637,
-    "matchedRecords": 637,
+    "generatedAt": "2026-07-21T14:30:00+02:00",
+    "records": 671,
+    "matchedRecords": 671,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -420,9 +423,9 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 419,
-      "nation": 352,
-      "birthDate": 313,
+      "position": 426,
+      "nation": 382,
+      "birthDate": 318,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -471,7 +474,7 @@
       "meta.sourceNote": 1
     },
     "coverageBefore": {
-      "birthDate": 120,
+      "birthDate": 121,
       "appearances": 143,
       "starts": 143,
       "goals": 440,
@@ -487,7 +490,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 434,
+      "birthDate": 440,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -496,8 +499,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 420,
-      "nation": 353,
+      "position": 427,
+      "nation": 383,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -505,9 +508,9 @@
     "fieldCoverage": [
       {
         "field": "birthDate",
-        "before": 120,
-        "after": 434,
-        "added": 314
+        "before": 121,
+        "after": 440,
+        "added": 319
       },
       {
         "field": "appearances",
@@ -560,14 +563,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 420,
-        "added": 420
+        "after": 427,
+        "added": 427
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 353,
-        "added": 353
+        "after": 383,
+        "added": 383
       },
       {
         "field": "heightCm",
@@ -701,12 +704,12 @@
         "clubId": "puskas-akademia-fc",
         "clubName": "Puskás Akadémia FC",
         "mlszCards": 34,
-        "officialRecords": 32,
-        "eligibleRecords": 27,
-        "matched": 27,
+        "officialRecords": 66,
+        "eligibleRecords": 61,
+        "matched": 61,
         "excluded": 5,
         "review": 0,
-        "sourceStatus": "official-roster-filtered-to-2025-26-mlsz-cards",
+        "sourceStatus": "complete-34-of-34-player-review",
         "officialRosterUrl": "https://puskasakademia.hu/team/puskas-akademia-fc"
       },
       {
@@ -737,27 +740,55 @@
     "manualReview": [],
     "unmatched": []
   },
+  "verifiedPlayerCorrections": {
+    "requested": 1,
+    "appliedPlayers": 1,
+    "appliedFields": 1,
+    "skipped": 0,
+    "applied": [
+      {
+        "playerId": "nb1-0313d575ded4",
+        "playerName": "SOISALO MIKAEL ANTERO",
+        "correctionId": "puskas-soisalo-birth-date-2025-26",
+        "clubId": "puskas-akademia-fc",
+        "checkedAt": "2026-07-21",
+        "sourceIds": [
+          "mlsz-hlsz-puskas-complete-2025-26",
+          "puskas-official-first-team-2026-07-20"
+        ],
+        "sourceUrl": "https://adatbank.mlsz.hu/player/1362198.html",
+        "note": "A lezárt MLSZ-profil és a HLSZ egyező 1998-04-24 dátuma javítja a korábbi 1998-02-24 alapértéket.",
+        "fieldsApplied": [
+          "birthDate"
+        ],
+        "previous": {
+          "birthDate": null
+        }
+      }
+    ],
+    "skippedCorrections": []
+  },
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T12:30:00+02:00",
-    "records": 354,
-    "matchedRecords": 354,
+    "generatedAt": "2026-07-21T14:30:00+02:00",
+    "records": 388,
+    "matchedRecords": 388,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 38,
+    "multiClubMetadataOnly": 42,
     "appliedFieldCounts": {
-      "appearances": 253,
-      "starts": 253,
+      "appearances": 279,
+      "starts": 279,
       "minutes": 29,
-      "substituteAppearances": 287,
+      "substituteAppearances": 317,
       "assists": 29,
-      "yellowCards": 253,
-      "redCards": 253,
+      "yellowCards": 279,
+      "redCards": 279,
       "secondYellowRedCards": 37,
-      "totalDismissals": 253,
-      "squads": 286
+      "totalDismissals": 279,
+      "squads": 316
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -767,20 +798,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 397,
-        "added": 253
+        "after": 423,
+        "added": 279
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 397,
-        "added": 253
+        "after": 423,
+        "added": 279
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 393,
-        "added": 286
+        "after": 423,
+        "added": 316
       },
       {
         "field": "minutes",
@@ -791,8 +822,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 287,
-        "added": 287
+        "after": 317,
+        "added": 317
       },
       {
         "field": "goals",
@@ -809,14 +840,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 397,
-        "added": 253
+        "after": 423,
+        "added": 279
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 397,
-        "added": 253
+        "after": 423,
+        "added": 279
       },
       {
         "field": "secondYellowRedCards",
@@ -827,8 +858,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 397,
-        "added": 253
+        "after": 423,
+        "added": 279
       }
     ],
     "manualReview": [],
@@ -1357,6 +1388,52 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag a lezárt 2025/26-os Fizz Liga. Az appearances a Kezdő és Csere oszlop összege; a squads az MLSZ Összes oszlopa. A több NB I-es klubban szereplő játékosok klubadata metaadatként marad meg, és nem írja felül a személy-szezon összesítést. Játékperc, gólpassz és kiállítástípus nem kerül becslésre."
+      },
+      {
+        "id": "mlsz-fizz-liga-puskas-complete-2025-26",
+        "clubId": "puskas-akademia-fc",
+        "clubName": "Puskás Akadémia FC",
+        "name": "MLSZ Adatbank – Puskás Akadémia FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307007.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/1492411.html",
+          "https://adatbank.mlsz.hu/player/470738.html",
+          "https://adatbank.mlsz.hu/player/1293437.html",
+          "https://adatbank.mlsz.hu/player/1430308.html",
+          "https://adatbank.mlsz.hu/player/372101.html",
+          "https://adatbank.mlsz.hu/player/1212123.html",
+          "https://adatbank.mlsz.hu/player/1221409.html",
+          "https://adatbank.mlsz.hu/player/1492544.html",
+          "https://adatbank.mlsz.hu/player/1170809.html",
+          "https://adatbank.mlsz.hu/player/1293882.html",
+          "https://adatbank.mlsz.hu/player/519136.html",
+          "https://adatbank.mlsz.hu/player/521278.html",
+          "https://adatbank.mlsz.hu/player/395894.html",
+          "https://adatbank.mlsz.hu/player/472089.html",
+          "https://adatbank.mlsz.hu/player/639967.html",
+          "https://adatbank.mlsz.hu/player/1359525.html",
+          "https://adatbank.mlsz.hu/player/434746.html",
+          "https://adatbank.mlsz.hu/player/3954.html",
+          "https://adatbank.mlsz.hu/player/473382.html",
+          "https://adatbank.mlsz.hu/player/578436.html",
+          "https://adatbank.mlsz.hu/player/178589.html",
+          "https://adatbank.mlsz.hu/player/123816.html",
+          "https://adatbank.mlsz.hu/player/437842.html",
+          "https://adatbank.mlsz.hu/player/1422249.html",
+          "https://adatbank.mlsz.hu/player/1500010.html",
+          "https://adatbank.mlsz.hu/player/436773.html",
+          "https://adatbank.mlsz.hu/player/1302117.html",
+          "https://adatbank.mlsz.hu/player/1497414.html",
+          "https://adatbank.mlsz.hu/player/1362198.html",
+          "https://adatbank.mlsz.hu/player/1219255.html",
+          "https://adatbank.mlsz.hu/player/271045.html",
+          "https://adatbank.mlsz.hu/player/367240.html",
+          "https://adatbank.mlsz.hu/player/649444.html",
+          "https://adatbank.mlsz.hu/player/512722.html"
+        ],
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "scope": "Kizárólag a lezárt 2025/26-os Fizz Liga. Az appearances a Kezdő és Csere oszlop összege; a squads az MLSZ Összes oszlopa. A több NB I-es klubban szereplő játékosok klubadata metaadatként marad meg, és nem írja felül a személy-szezon összesítést. Játékperc, gólpassz és kiállítástípus nem kerül becslésre."
       }
     ]
   },
@@ -1522,6 +1599,25 @@
   ],
   "conflicts": [],
   "corrections": [
+    {
+      "playerId": "nb1-0313d575ded4",
+      "playerName": "SOISALO MIKAEL ANTERO",
+      "correctionId": "puskas-soisalo-birth-date-2025-26",
+      "clubId": "puskas-akademia-fc",
+      "checkedAt": "2026-07-21",
+      "sourceIds": [
+        "mlsz-hlsz-puskas-complete-2025-26",
+        "puskas-official-first-team-2026-07-20"
+      ],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1362198.html",
+      "note": "A lezárt MLSZ-profil és a HLSZ egyező 1998-04-24 dátuma javítja a korábbi 1998-02-24 alapértéket.",
+      "fieldsApplied": [
+        "birthDate"
+      ],
+      "previous": {
+        "birthDate": null
+      }
+    },
     {
       "playerId": "nb1-7bc81b0db266",
       "playerName": "MEŠANOVIĆ JASMIN",

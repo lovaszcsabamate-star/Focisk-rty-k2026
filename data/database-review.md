@@ -1,34 +1,34 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T10:41:02.376Z
+Generálva: 2026-07-21T12:43:05.354Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
-- Pontos születési dátum: **434/440**
-- Változásnapló-bejegyzések: **3721**
+- Pontos születési dátum: **440/440**
+- Változásnapló-bejegyzések: **3953**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
-- Figyelmeztetések: **6**
+- Figyelmeztetések: **2**
 
 ## Mezőlefedettség
 
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
-| birthDate | 434 | 6 |
-| nation | 353 | 87 |
-| position | 420 | 20 |
-| appearances | 397 | 43 |
-| starts | 397 | 43 |
+| birthDate | 440 | 0 |
+| nation | 383 | 57 |
+| position | 427 | 13 |
+| appearances | 423 | 17 |
+| starts | 423 | 17 |
 | minutes | 29 | 411 |
 | goals | 440 | 0 |
 | assists | 29 | 411 |
-| squads | 393 | 47 |
-| yellowCards | 397 | 43 |
-| redCards | 397 | 43 |
+| squads | 423 | 17 |
+| yellowCards | 423 | 17 |
+| redCards | 423 | 17 |
 | secondYellowRedCards | 37 | 403 |
-| totalDismissals | 397 | 43 |
+| totalDismissals | 423 | 17 |
 | heightCm | 57 | 383 |
 | shirtNumber | 288 | 152 |
 
@@ -43,9 +43,9 @@ Generálva: 2026-07-21T10:41:02.376Z
 | Kisvárda Master Good | 38 | 38 | 38 | 17 | 37 | 29 | 29 |
 | Kolorcity Kazincbarcika SC | 40 | 40 | 40 | 40 | 35 | 0 | 0 |
 | MTK Budapest | 36 | 36 | 36 | 36 | 34 | 0 | 0 |
-| Nyíregyháza Spartacus FC | 39 | 39 | 33 | 39 | 37 | 0 | 0 |
+| Nyíregyháza Spartacus FC | 39 | 39 | 34 | 39 | 37 | 0 | 0 |
 | Paksi FC | 33 | 33 | 33 | 33 | 33 | 0 | 0 |
-| Puskás Akadémia FC | 34 | 28 | 27 | 4 | 4 | 0 | 0 |
+| Puskás Akadémia FC | 34 | 34 | 34 | 34 | 30 | 0 | 0 |
 | Újpest FC | 41 | 41 | 41 | 41 | 35 | 0 | 0 |
 | ZTE FC | 43 | 43 | 43 | 43 | 37 | 0 | 0 |
 
