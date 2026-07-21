@@ -36,6 +36,13 @@ jobs:
       - name: Build standalone version
         run: npm run build
 
+      - name: Upload standalone browser game
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Browser
+          path: Fociskartyak2026.html
+          if-no-files-found: error
+
       - name: Run mobile layout smoke tests
         id: mobile-smoke
         continue-on-error: true
