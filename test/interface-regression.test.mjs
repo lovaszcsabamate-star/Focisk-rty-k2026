@@ -53,7 +53,9 @@ assert.match(focusJs, /queueMicrotask/);
 assert.match(focusJs, /markChoiceCardSelected/);
 assert.match(focusJs, /handleDirectChoicePlay/);
 assert.match(focusJs, /card\.dataset\.battleTransitionBypass/);
-assert.match(phaseSmoke, /Math\.abs\(result\.first\.width\s*-\s*result\.second\.width\)\s*<=\s*1/);
+assert.match(phaseSmoke, /source-contract-and-real-chrome-previews/);
+assert.match(phaseSmoke, /transitionDelayMs:\s*250/);
+assert.match(phaseSmoke, /fociskartyak:interaction-invalidated/);
 assert.match(phaseSmoke, /selection-phase-mobile\.png/);
 assert.match(phaseSmoke, /battle-phase-mobile\.png/);
 
@@ -70,8 +72,9 @@ assert.match(profileCss, /\.final-score\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
 assert.match(profileJs, /PLAYER_NAME_STORAGE_KEY\s*=\s*'fociskartyak:player-name:v1'/);
 assert.match(profileJs, /DEFAULT_PLAYER_NAME\s*=\s*'Játékos'/);
 assert.match(profileJs, /fociskartyak:player-name-changed/);
-assert.match(profileJs, /\['Penalties mód',\s*'Büntetőpárbaj'\]/);
-assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
+assert.match(profileJs, /return String\(value \?\? ''\);/);
+assert.doesNotMatch(profileJs, /INTERFACE_TEXT_REPLACEMENTS/);
+assert.doesNotMatch(profileJs, /Penalties mód|Tizenegyes mód/);
 
 assert.match(reliabilityJs, /shouldSuppressRestoredVerdictFeedback/);
 assert.match(reliabilityJs, /recordedRounds\s*>=\s*resolvedRounds/);
