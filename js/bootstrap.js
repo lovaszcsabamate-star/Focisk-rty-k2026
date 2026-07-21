@@ -3,6 +3,7 @@ import {
   prepareClubEnrichment,
 } from './data/club-enrichment.js';
 import { applyOfficialStatPatches } from './data/club-stat-patches.js';
+import { filterCompleteCardsPayload } from './data/complete-cards.js';
 import { applyVerifiedPlayerCorrections } from './data/verified-player-corrections.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
@@ -129,7 +130,13 @@ try {
   const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
   const enrichedPayload = enrichment ? applyClubEnrichmentPayload(correctedPayload, enrichment) : correctedPayload;
   const finalPayload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
-  globalThis.__EMBEDDED_PLAYER_DATA__ = finalPayload;
+  const playablePayload = filterCompleteCardsPayload(finalPayload);
+  globalThis.__EMBEDDED_PLAYER_DATA__ = playablePayload;
+
+  console.info(
+    `[players] Teljes kártyák szűrése: ${playablePayload.players.length} használható · `
+    + `${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva`,
+  );
 
   if (finalPayload?.enrichment) {
     const summary = finalPayload.enrichment;

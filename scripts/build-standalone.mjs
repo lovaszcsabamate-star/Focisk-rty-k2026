@@ -9,6 +9,7 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import { filterCompleteCardsPayload } from '../js/data/complete-cards.js';
 import { applyVerifiedPlayerCorrections } from '../js/data/verified-player-corrections.js';
 import {
   auditReviewedDatabase,
@@ -127,7 +128,8 @@ const databaseReview = auditReviewedDatabase(payload, {
 });
 writeDatabaseReviewFiles(ROOT, payload, databaseReview);
 
-const safeJson = JSON.stringify(payload).replace(/<\/script/gi, '<\\/script');
+const playablePayload = filterCompleteCardsPayload(payload);
+const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
 let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}`;
 
@@ -204,7 +206,8 @@ fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 console.log(`Elkészült: ${outputPath}`);
 console.log(`Audit: ${auditPath}`);
 console.log(`Felülvizsgált adatbázis: ${path.join(ROOT, 'data/players-reviewed.json')}`);
-console.log(`${payload.players.length} játékoskártya és ${payload.selection?.registrationRecords ?? 0} klubregisztráció beágyazva.`);
+console.log(`${playablePayload.players.length} teljes játékoskártya beágyazva; ${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva.`);
+console.log(`${payload.players.length} forrásrekord és ${payload.selection?.registrationRecords ?? 0} klubregisztráció megőrizve az auditban.`);
 console.log(`${payload.enrichment?.clubSummary?.length ?? 0} klub hivatalos forrása ellenőrizve.`);
 console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
 console.log(`${payload.officialStatPatches?.matchedRecords ?? 0}/${payload.officialStatPatches?.records ?? 0} hivatalos szezonstatisztika illesztve.`);
