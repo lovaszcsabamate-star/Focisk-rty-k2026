@@ -3310,6 +3310,21 @@ html.ux-reduced-motion *::after {
     transform var(--battle-transition-duration, 250ms) ease;
 }
 
+/* The selectable card already uses ::before for the small "Kijátszás" badge.
+   When the same pseudo-element becomes "KIVÁLASZTVA", the inherited bottom
+   offset must be reset; otherwise top + bottom stretch it into a tall pill. */
+#player-hand.hand--selection .card--choice.is-selected::before {
+  inset: 7px auto auto 50%;
+  width: max-content;
+  height: auto;
+  min-width: 0;
+  max-width: calc(100% - 16px);
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
 /* The result and next-round control must sit below the cards rather than being
    compressed into the same vertical space. */
 #pub.is-battle-active #felt {
