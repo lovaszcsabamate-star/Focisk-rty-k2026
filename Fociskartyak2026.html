@@ -5473,13 +5473,37 @@ const initialiseFocusExperience = () => {
 
   if (!pub || !duel || !playerHand || !playerZone) return;
 
+  let animationFrame = 0;
+  let disposed = false;
+
+  const setClass = (node, className, enabled) => {
+    if (node.classList.contains(className) === enabled) return;
+    node.classList.toggle(className, enabled);
+  };
+
+  const setAttributeIfChanged = (node, name, value) => {
+    if (node.getAttribute(name) === value) return;
+    node.setAttribute(name, value);
+  };
+
   const makeChoiceCardAccessible = (card, index) => {
-    card.classList.add('card--choice');
-    card.style.setProperty('--choice-index', String(index));
-    card.style.animationDelay = `${Math.min(index, 8) * 24}ms`;
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`);
+    setClass(card, 'card--choice', true);
+
+    const choiceIndex = String(index);
+    if (card.style.getPropertyValue('--choice-index') !== choiceIndex) {
+      card.style.setProperty('--choice-index', choiceIndex);
+    }
+
+    const animationDelay = `${Math.min(index, 8) * 24}ms`;
+    if (card.style.animationDelay !== animationDelay) card.style.animationDelay = animationDelay;
+
+    setAttributeIfChanged(card, 'role', 'button');
+    setAttributeIfChanged(card, 'tabindex', '0');
+    setAttributeIfChanged(
+      card,
+      'aria-label',
+      `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`,
+    );
 
     if (card.dataset.choiceKeyboardBound === 'true') return;
     card.dataset.choiceKeyboardBound = 'true';
@@ -5493,7 +5517,7 @@ const initialiseFocusExperience = () => {
 
   const clearChoiceCardAccessibility = card => {
     if (!card.classList.contains('card--choice') && !card.hasAttribute('tabindex')) return;
-    card.classList.remove('card--choice');
+    setClass(card, 'card--choice', false);
     card.style.removeProperty('--choice-index');
     card.style.removeProperty('animation-delay');
     card.removeAttribute('role');
@@ -5502,44 +5526,73 @@ const initialiseFocusExperience = () => {
   };
 
   const syncFocusState = () => {
-    const duelCards = [...duel.querySelectorAll('.duel-slot .card')];
-    const hasCompleteFaceUpDuel = duelCards.length >= 2
-      && !duel.querySelector('.card--back, .card--empty');
-    const playableCards = [...playerHand.querySelectorAll(
-      '.card.selectable:not(.card--dim):not(.card--unavailable)',
-    )];
-    const selectionActive = playableCards.length > 0 && !hasCompleteFaceUpDuel;
+    if (disposed || !pub.isConnected) return;
 
-    pub.classList.toggle('is-duel-focus', hasCompleteFaceUpDuel);
-    pub.classList.toggle('is-card-selection', selectionActive);
-    playerHand.classList.toggle('hand--selection', selectionActive);
-    playerZone.setAttribute('aria-busy', String(!selectionActive && pub.classList.contains('is-processing')));
+    try {
+      const duelCards = [...duel.querySelectorAll('.duel-slot .card')];
+      const hasCompleteFaceUpDuel = duelCards.length >= 2
+        && !duel.querySelector('.card--back, .card--empty');
+      const playableCards = [...playerHand.querySelectorAll(
+        '.card.selectable:not(.card--dim):not(.card--unavailable)',
+      )];
+      const selectionActive = playableCards.length > 0 && !hasCompleteFaceUpDuel;
 
-    const playableSet = new Set(playableCards);
-    const allPlayerCards = [...playerHand.querySelectorAll('.card')];
-    allPlayerCards.forEach((card, index) => {
-      if (selectionActive && playableSet.has(card)) makeChoiceCardAccessible(card, index);
-      else clearChoiceCardAccessibility(card);
-    });
+      setClass(pub, 'is-duel-focus', hasCompleteFaceUpDuel);
+      setClass(pub, 'is-card-selection', selectionActive);
+      setClass(playerHand, 'hand--selection', selectionActive);
+      setAttributeIfChanged(
+        playerZone,
+        'aria-busy',
+        String(!selectionActive && pub.classList.contains('is-processing')),
+      );
 
-    if (selectionActive && !playerHand.dataset.selectionAnnounced) {
-      playerHand.dataset.selectionAnnounced = 'true';
-      playerHand.setAttribute('aria-label', 'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.');
-    } else if (!selectionActive) {
-      delete playerHand.dataset.selectionAnnounced;
-      playerHand.removeAttribute('aria-label');
+      const playableSet = new Set(playableCards);
+      const allPlayerCards = [...playerHand.querySelectorAll('.card')];
+      allPlayerCards.forEach((card, index) => {
+        if (selectionActive && playableSet.has(card)) makeChoiceCardAccessible(card, index);
+        else clearChoiceCardAccessibility(card);
+      });
+
+      if (selectionActive) {
+        if (!playerHand.dataset.selectionAnnounced) playerHand.dataset.selectionAnnounced = 'true';
+        setAttributeIfChanged(
+          playerHand,
+          'aria-label',
+          'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.',
+        );
+      } else {
+        delete playerHand.dataset.selectionAnnounced;
+        playerHand.removeAttribute('aria-label');
+      }
+    } catch (error) {
+      console.error('[focus-experience] A fókusznézet frissítése sikertelen:', error);
+      pub.classList.remove('is-duel-focus', 'is-card-selection');
+      playerHand.classList.remove('hand--selection');
     }
   };
 
-  const observer = new MutationObserver(syncFocusState);
-  observer.observe(pub, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['class'],
-  });
+  const scheduleSync = () => {
+    if (disposed || animationFrame) return;
+    animationFrame = requestAnimationFrame(() => {
+      animationFrame = 0;
+      syncFocusState();
+    });
+  };
 
-  window.addEventListener('resize', syncFocusState, { passive: true });
+  // Only DOM insertions/removals matter here. Observing every class mutation caused
+  // portrait loading and UI animations to trigger repeated full-hand scans on mobile.
+  const observer = new MutationObserver(scheduleSync);
+  observer.observe(pub, { childList: true, subtree: true });
+
+  window.addEventListener('resize', scheduleSync, { passive: true });
+  window.addEventListener('orientationchange', scheduleSync, { passive: true });
+
+  window.addEventListener('pagehide', () => {
+    disposed = true;
+    observer.disconnect();
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+  }, { once: true });
+
   syncFocusState();
 };
 
