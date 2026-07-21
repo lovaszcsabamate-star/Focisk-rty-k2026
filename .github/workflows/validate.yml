@@ -41,12 +41,14 @@ jobs:
         continue-on-error: true
         run: npm run test:mobile-layout
 
-      - name: Upload mobile layout report
+      - name: Upload mobile layout report and phase previews
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mobile-layout-diagnostics
-          path: mobile-layout-report.json
+          path: |
+            mobile-layout-report.json
+            previews/*.png
           if-no-files-found: error
 
       - name: Enforce mobile layout result
