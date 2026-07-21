@@ -51,6 +51,8 @@ const card = name => `
   </article>`;
 
 for (const width of WIDTHS) {
+  const fixtureFileName = `selection-app-${width}.html`;
+  const fixtureFile = path.join(temporaryDirectory, fixtureFileName);
   const fixture = `<!doctype html>
 <html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>${css}</style></head><body>
@@ -97,21 +99,38 @@ for (const width of WIDTHS) {
   </main>
   <aside id="banter"></aside>
 </div>
+</body></html>`;
+  fs.writeFileSync(fixtureFile, fixture);
+
+  /* Chrome headless enforces a minimum top-level window width on some runners.
+     Measuring inside a fixed-width iframe gives the requested mobile viewport
+     exactly and avoids the intermittent 500 px fallback seen in CI. */
+  const harness = `<!doctype html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;padding:0;overflow:hidden;background:#111}
+#app{display:block;width:${width}px;height:${HEIGHT}px;border:0;margin:0}
+</style></head><body>
+<iframe id="app" src="${fixtureFileName}"></iframe>
 <script>
-requestAnimationFrame(()=>requestAnimationFrame(()=>{
-  const q=selector=>document.querySelector(selector).getBoundingClientRect();
-  const viewport=innerWidth;
+const frame=document.querySelector('#app');
+frame.addEventListener('load',()=>setTimeout(()=>{
+  const win=frame.contentWindow;
+  const documentRoot=frame.contentDocument.documentElement;
+  const body=frame.contentDocument.body;
+  const q=selector=>frame.contentDocument.querySelector(selector).getBoundingClientRect();
+  const viewport=win.innerWidth;
   const felt=q('#felt');
   const prompt=q('#prompt');
   const duel=q('#duel');
   const zone=q('#player-zone');
   const hand=q('#player-hand');
   const first=q('#player-hand .card');
-  const choiceHeights=[...document.querySelectorAll('#player-hand .card')].map(node=>node.getBoundingClientRect().height);
+  const choiceHeights=[...frame.contentDocument.querySelectorAll('#player-hand .card')].map(node=>node.getBoundingClientRect().height);
   const result={
+    requestedWidth:${width},
     viewport,
-    documentWidth:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth),
-    opponentHidden:getComputedStyle(document.querySelector('#opponent-zone')).display==='none',
+    documentWidth:Math.max(documentRoot.scrollWidth,body.scrollWidth),
+    opponentHidden:getComputedStyle(frame.contentDocument.querySelector('#opponent-zone')).display==='none',
     promptHeight:Math.round(prompt.height),
     promptBeforeDuel:prompt.bottom<=duel.top+1,
     duelInsideFelt:duel.left>=felt.left-1&&duel.right<=felt.right+1&&duel.bottom<=felt.bottom+1,
@@ -130,15 +149,15 @@ requestAnimationFrame(()=>requestAnimationFrame(()=>{
     }
   };
   document.documentElement.setAttribute('data-selection-smoke',encodeURIComponent(JSON.stringify(result)));
-}));
+},1200));
 </script></body></html>`;
 
-  const fixtureFile = path.join(temporaryDirectory, `selection-${width}.html`);
-  fs.writeFileSync(fixtureFile, fixture);
+  const harnessFile = path.join(temporaryDirectory, `selection-harness-${width}.html`);
+  fs.writeFileSync(harnessFile, harness);
   const run = spawnSync(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
-    '--window-size=' + width + ',' + HEIGHT, '--force-device-scale-factor=1',
-    '--virtual-time-budget=2000', '--dump-dom', `file://${fixtureFile}`,
+    '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
+    '--virtual-time-budget=5000', '--dump-dom', `file://${harnessFile}`,
   ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
   const match = run.stdout.match(/data-selection-smoke="([^"]+)"/);
@@ -151,6 +170,7 @@ requestAnimationFrame(()=>requestAnimationFrame(()=>{
 
   const result = JSON.parse(decodeURIComponent(match[1]));
   const checks = [
+    [result.viewport === width, `a mért viewport ${result.viewport}px a kért ${width}px helyett`],
     [result.documentWidth <= result.viewport + 1, 'vízszintes dokumentum-kilógás'],
     [result.opponentHidden, 'a fölösleges ellenfél-lapsor látható maradt'],
     [result.promptHeight <= 62, `a kategóriaszöveg túl magas (${result.promptHeight}px)`],
