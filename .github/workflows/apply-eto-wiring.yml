@@ -1,0 +1,168 @@
+name: ETO végleges bekötése
+
+on:
+  push:
+    branches:
+      - data/eto-2025-26-completion
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message || '', '[eto-wired]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: data/eto-2025-26-completion
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: ETO fájlok végleges bekötése
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              file = Path(path)
+              text = file.read_text(encoding='utf-8')
+              if old not in text:
+                  raise SystemExit(f'Nem található cserecél: {path}: {old[:80]!r}')
+              file.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          eto_file = 'data/club-official-enrichment-21-eto-completion.json'
+
+          for path in ['js/bootstrap.js', 'scripts/build-standalone.mjs']:
+              replace_once(
+                  path,
+                  "  'data/club-official-enrichment-20-puskas-completion.json',\n];",
+                  "  'data/club-official-enrichment-20-puskas-completion.json',\n  'data/club-official-enrichment-21-eto-completion.json',\n];",
+              )
+
+          replace_once(
+              'sw.js',
+              "// Előző cache-verzió: fociskartyak-2026-v26\nconst PWA_CACHE = 'fociskartyak-2026-v27';",
+              "// Előző cache-verzió: fociskartyak-2026-v27\nconst PWA_CACHE = 'fociskartyak-2026-v28';",
+          )
+          replace_once(
+              'sw.js',
+              "  './data/club-official-enrichment-20-puskas-completion.json',\n",
+              "  './data/club-official-enrichment-20-puskas-completion.json',\n  './data/club-official-enrichment-21-eto-completion.json',\n",
+          )
+
+          directory_path = Path('data/club-official-sources.json')
+          directory = json.loads(directory_path.read_text(encoding='utf-8'))
+          eto = next(club for club in directory['clubs'] if club['clubId'] == 'eto-fc')
+          eto['status'] = 'complete-35-of-35-player-review'
+          eto.setdefault('recordFiles', [])
+          if eto_file not in eto['recordFiles']:
+              eto['recordFiles'].append(eto_file)
+          eto['note'] = (
+              'Az ETO FC mind a 35 projektbeli 2025/26-os szezonrekordja játékosonkénti MLSZ-, HLSZ- '
+              'és hivatalos klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, '
+              'nemzetiség és poszt rögzített. Kulcsár Martin védő, Mascoe Lawrenzo támadó, '
+              'Ouro Samsindin és Sahli Ouijdi középpályás, Szarka Bulcsú középpályás, Szép Márton támadó. '
+              'Mascoe Lawrenzo kanadai nemzetiségét a HLSZ jelenlegi profilja támasztja alá. '
+              'A már teljes 35/35 MLSZ-szezonstatisztika változatlan maradt.'
+          )
+          directory_path.write_text(json.dumps(directory, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          package_path = Path('package.json')
+          package = json.loads(package_path.read_text(encoding='utf-8'))
+          scripts = package['scripts']
+          new_scripts = {}
+          for key, value in scripts.items():
+              if key == 'test':
+                  new_scripts['test:eto'] = 'node test/eto-complete.test.mjs'
+                  if not value.startswith('node test/eto-complete.test.mjs && '):
+                      value = 'node test/eto-complete.test.mjs && ' + value
+              if key == 'test:all' and 'node test/eto-complete.test.mjs' not in value:
+                  value = value.replace(
+                      'node pipeline/test/transform.test.mjs && ',
+                      'node pipeline/test/transform.test.mjs && node test/eto-complete.test.mjs && ',
+                      1,
+                  )
+              new_scripts[key] = value
+          package['scripts'] = new_scripts
+          package_path.write_text(json.dumps(package, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          static_path = Path('test/static.test.mjs')
+          static = static_path.read_text(encoding='utf-8')
+          replacements = [
+              (
+                  "const zteCompletion = readJson('../data/club-official-enrichment-19-zte-completion.json');\n",
+                  "const zteCompletion = readJson('../data/club-official-enrichment-19-zte-completion.json');\nconst etoCompletion = readJson('../data/club-official-enrichment-21-eto-completion.json');\n",
+              ),
+              (
+                  "  'club-official-enrichment-19-zte-completion.json',\n",
+                  "  'club-official-enrichment-19-zte-completion.json',\n  'club-official-enrichment-21-eto-completion.json',\n",
+              ),
+              (
+                  "assert.match(serviceWorker, /fociskartyak-2026-v26/);",
+                  "assert.match(serviceWorker, /fociskartyak-2026-v28/);",
+              ),
+              (
+                  "assert.equal(zteCompletion.records.length, 43);\n",
+                  "assert.equal(zteCompletion.records.length, 43);\nassert.equal(etoCompletion.batch.playerCount, 35);\nassert.equal(etoCompletion.records.length, 35);\n",
+              ),
+              (
+                  "assert.equal(\n  directory.clubs.find(club => club.clubId === 'zte-fc').status,",
+                  "assert.equal(\n  directory.clubs.find(club => club.clubId === 'eto-fc').status,\n  'complete-35-of-35-player-review',\n);\nassert.equal(\n  directory.clubs.find(club => club.clubId === 'zte-fc').status,",
+              ),
+          ]
+          for old, new in replacements:
+              if old not in static:
+                  raise SystemExit(f'Hiányzó static teszt cserecél: {old[:100]!r}')
+              static = static.replace(old, new, 1)
+          static_path.write_text(static, encoding='utf-8')
+
+          workflow_path = Path('.github/workflows/verify-and-build.yml')
+          workflow = workflow_path.read_text(encoding='utf-8')
+          discovery_block = """      - name: ETO FC pontos projektlista kinyerése
+        run: node test/eto-discovery.test.mjs
+
+      - name: ETO FC lista mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: eto-discovery
+          path: eto-discovery.json
+          if-no-files-found: error
+          retention-days: 2
+
+"""
+          if discovery_block not in workflow:
+              raise SystemExit('Az ETO felderítő workflow-blokk nem található.')
+          workflow_path.write_text(workflow.replace(discovery_block, '', 1), encoding='utf-8')
+
+          discovery_test = Path('test/eto-discovery.test.mjs')
+          if discovery_test.exists():
+              discovery_test.unlink()
+          self_workflow = Path('.github/workflows/apply-eto-wiring.yml')
+          if self_workflow.exists():
+              self_workflow.unlink()
+          PY
+
+      - name: Teljes ellenőrzés
+        run: |
+          npm run lint
+          npm run build
+          npm test
+          npm run test:all
+          git diff --check
+
+      - name: Végleges változások mentése
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "ETO FC végleges adat- és buildintegrációja [eto-wired]"
+          git push origin HEAD:data/eto-2025-26-completion
