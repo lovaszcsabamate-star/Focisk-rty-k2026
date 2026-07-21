@@ -32,7 +32,22 @@ jobs:
       - name: Önálló build és adatbázis-audit
         run: npm run build
       - name: Végső adatlezárási teszt
-        run: npm run test:final-missing
+        id: final_test
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:final-missing 2>&1 | tee final-missing-test.log
+      - name: Végteszt kimenetének mentése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-missing-test-log
+          path: final-missing-test.log
+          retention-days: 2
+      - name: Végteszt eredményének érvényesítése
+        if: steps.final_test.outcome == 'failure'
+        run: exit 1
       - name: Teljes tesztcsomag
         run: npm test
       - name: Módosítások mentése
