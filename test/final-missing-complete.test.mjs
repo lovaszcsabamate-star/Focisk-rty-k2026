@@ -50,12 +50,6 @@ assert.equal(byName.get('VARGA KEVIN').position, 'Középpályás');
 assert.equal(enriched.players.filter(card => card.nation).length, 440);
 assert.equal(enriched.players.filter(card => card.position).length, 440);
 
-const beforeStats = new Map(enriched.players.map(card => [card.id, structuredClone(card.stats)]));
-const finalPayload = applyOfficialStatPatches(enriched, []);
-assert.equal(finalPayload.players.length, 440);
-assert.equal(finalPayload.officialStatPatches.consensusPromotedPlayers, 17);
-assert.equal(finalPayload.officialStatPatches.consensusConflictCount, 0);
-
 const primaryFields = [
   'appearances',
   'starts',
@@ -64,6 +58,37 @@ const primaryFields = [
   'redCards',
   'totalDismissals',
 ];
+const consensusFields = [...primaryFields, 'substituteAppearances'];
+const consensusCandidates = enriched.players.filter(card => {
+  const registeredClubs = clubIds(card);
+  if (registeredClubs.length <= 1) return false;
+  const rows = registeredClubs.map(clubId => card.meta?.clubOfficialStatsByClub?.[clubId]);
+  if (rows.some(row => !row || typeof row !== 'object')) return false;
+  return consensusFields.every(field => {
+    const values = rows.map(row => row[field]);
+    return values.every(finite) && values.every(value => value === values[0]);
+  });
+});
+assert.equal(consensusCandidates.length, 17);
+const candidateIds = new Set(consensusCandidates.map(card => card.id));
+const consensusSeed = {
+  ...enriched,
+  players: enriched.players.map(card => {
+    if (!candidateIds.has(card.id)) return card;
+    const stats = { ...card.stats };
+    for (const field of consensusFields) stats[field] = null;
+    const meta = { ...card.meta };
+    delete meta.officialStatConsensus;
+    return { ...card, stats, meta };
+  }),
+};
+
+const beforeStats = new Map(consensusSeed.players.map(card => [card.id, structuredClone(card.stats)]));
+const finalPayload = applyOfficialStatPatches(consensusSeed, []);
+assert.equal(finalPayload.players.length, 440);
+assert.equal(finalPayload.officialStatPatches.consensusPromotedPlayers, 17);
+assert.equal(finalPayload.officialStatPatches.consensusConflictCount, 0);
+
 for (const field of primaryFields) {
   assert.equal(finalPayload.players.filter(card => finite(card.stats?.[field])).length, 440, `${field}: nem teljes a lefedettség`);
 }
@@ -74,7 +99,7 @@ const changedCards = finalPayload.players.filter(card =>
 );
 assert.equal(changedCards.length, 17);
 assert.ok(changedCards.every(card => clubIds(card).length > 1));
-assert.ok(changedCards.every(card => card.meta?.officialStatConsensus?.fieldsApplied?.length >= 6));
+assert.ok(changedCards.every(card => card.meta?.officialStatConsensus?.fieldsApplied?.length >= 7));
 
 const finalByName = new Map(finalPayload.players.map(card => [card.name, card]));
 assert.equal(finalByName.get('ACOLATSE ELTON-OFOI').stats.appearances, 24);
