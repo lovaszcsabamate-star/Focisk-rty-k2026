@@ -82,9 +82,13 @@
       "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "officialCurrentRosterUrl": "https://www.mtkbudapest.hu/hu/csapatok",
       "historicalRosterSourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
-      "status": "structured-season-roster-imported-from-public-season-archive",
-      "recordFiles": ["data/club-official-enrichment-2.json"],
-      "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és az MTK aktuális hivatalos keretoldala külön szerepel; az aktuális keret nem használható a lezárt szezon automatikus felülírására."
+      "status": "complete-36-of-36-player-review",
+      "recordFiles": [
+        "data/club-official-enrichment-2.json",
+        "data/club-official-enrichment-13-mtk-completion.json",
+        "data/club-official-stat-patches-mtk.json"
+      ],
+      "note": "Az MTK Budapest mind a 36 adatbázisrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Kovács Mátyás, Molnár Péter, Vasiljevic Andrej és Görög Vincent korábban hiányzó alapadatai hivatalos MTK-, MLSZ- és HLSZ-forrásból kiegészültek. A többklubos játékosok MTK-s sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
     },
     {
       "clubId": "nyiregyhaza-spartacus-fc",
