@@ -40,6 +40,7 @@ const enrichmentFiles = [
   'data/club-official-enrichment-18-paks-completion.json',
   'data/club-official-enrichment-19-zte-completion.json',
   'data/club-official-enrichment-20-puskas-completion.json',
+  'data/club-official-enrichment-21-eto-completion.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',
