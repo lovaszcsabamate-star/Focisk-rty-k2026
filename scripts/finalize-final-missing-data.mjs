@@ -57,7 +57,7 @@ replaceOnce(
 replaceOnce(
   'test/static.test.mjs',
   'assert.match(clubStatPatches, /correctedFieldCounts/);\n',
-  'assert.match(clubStatPatches, /correctedFieldCounts/);\nassert.match(clubStatPatches, /officialStatConsensus/);\nassert.match(clubStatPatches, /consensusPromotedPlayers/);\n',
+  'assert.match(clubStatPatches, /correctedFieldCounts/);\nassert.match(clubStatPatches, /officialStatConsensus/);\nassert.match(clubStatPatches, /consensusPromotedPlayers/);\nassert.match(clubStatPatches, /derivedSubstituteAppearancesCount/);\n',
 );
 replaceOnce(
   'test/static.test.mjs',
@@ -90,7 +90,7 @@ replaceOnce(
 replaceOnce(
   'js/data/club-stat-patches.js',
   '  const correctedFieldCounts = {};\n  let matchedRecords = 0;\n',
-  '  const correctedFieldCounts = {};\n  const consensusAppliedFieldCounts = {};\n  const consensusPromotions = [];\n  const consensusConflicts = [];\n  let matchedRecords = 0;\n',
+  '  const correctedFieldCounts = {};\n  const consensusAppliedFieldCounts = {};\n  const consensusPromotions = [];\n  const consensusConflicts = [];\n  const derivedSubstituteAppearances = [];\n  let matchedRecords = 0;\n',
 );
 const consensusBlock = `
   for (let index = 0; index < cards.length; index += 1) {
@@ -156,6 +156,36 @@ const consensusBlock = `
     });
   }
 
+  for (let index = 0; index < cards.length; index += 1) {
+    const card = cards[index];
+    const appearances = card?.stats?.appearances;
+    const starts = card?.stats?.starts;
+    if (finite(card?.stats?.substituteAppearances)) continue;
+    if (!finite(appearances) || !finite(starts) || starts < 0 || appearances < starts) continue;
+
+    const substituteAppearances = appearances - starts;
+    const stats = { ...card.stats, substituteAppearances };
+    const meta = {
+      ...card.meta,
+      derivedOfficialStats: {
+        ...(card?.meta?.derivedOfficialStats ?? {}),
+        substituteAppearances: {
+          value: substituteAppearances,
+          formula: 'appearances - starts',
+          inputs: { appearances, starts },
+        },
+      },
+    };
+    cards[index] = { ...card, stats, meta };
+    derivedSubstituteAppearances.push({
+      playerId: card.id,
+      playerName: card.name,
+      value: substituteAppearances,
+      appearances,
+      starts,
+    });
+  }
+
 `;
 replaceOnce(
   'js/data/club-stat-patches.js',
@@ -165,7 +195,7 @@ replaceOnce(
 replaceOnce(
   'js/data/club-stat-patches.js',
   '    correctedFieldCounts,\n    fieldCoverage,\n',
-  '    correctedFieldCounts,\n    consensusPromotedPlayers: consensusPromotions.length,\n    consensusConflictCount: consensusConflicts.length,\n    consensusAppliedFieldCounts,\n    consensusPromotions,\n    consensusConflicts,\n    fieldCoverage,\n',
+  '    correctedFieldCounts,\n    consensusPromotedPlayers: consensusPromotions.length,\n    consensusConflictCount: consensusConflicts.length,\n    consensusAppliedFieldCounts,\n    consensusPromotions,\n    consensusConflicts,\n    derivedSubstituteAppearancesCount: derivedSubstituteAppearances.length,\n    derivedSubstituteAppearances,\n    fieldCoverage,\n',
 );
 
 for (const path of [
@@ -177,4 +207,4 @@ for (const path of [
   if (fs.existsSync(path)) fs.rmSync(path);
 }
 
-console.log('A végső alapadat- és statisztikai konszenzusintegráció elkészült.');
+console.log('A végső alapadat-, statisztikai konszenzus- és cserelevezetési integráció elkészült.');
