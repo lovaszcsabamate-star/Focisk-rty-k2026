@@ -13,6 +13,7 @@ const mobileExperienceCss = read('../css/mobile-experience.css');
 const mobileOverlayFixCss = read('../css/mobile-overlay-fix.css');
 const matchdayJs = read('../js/matchday.js');
 const mobileExperienceJs = read('../js/mobile-experience.js');
+const uxJs = read('../js/ux.js');
 const pwaCss = read('../css/pwa.css');
 const pwaJs = read('../js/pwa.js');
 const bootstrap = read('../js/bootstrap.js');
