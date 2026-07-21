@@ -1,34 +1,34 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T10:00:01.650Z
+Generálva: 2026-07-21T10:33:07.933Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
-- Pontos születési dátum: **401/440**
-- Változásnapló-bejegyzések: **3417**
-- Megőrzött forrásütközések: **0**
+- Pontos születési dátum: **434/440**
+- Változásnapló-bejegyzések: **3721**
+- Megőrzött forrásütközések: **1**
 - Kritikus hibák: **0**
-- Figyelmeztetések: **22**
+- Figyelmeztetések: **6**
 
 ## Mezőlefedettség
 
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
-| birthDate | 401 | 39 |
-| nation | 337 | 103 |
-| position | 404 | 36 |
-| appearances | 364 | 76 |
-| starts | 364 | 76 |
+| birthDate | 434 | 6 |
+| nation | 353 | 87 |
+| position | 420 | 20 |
+| appearances | 397 | 43 |
+| starts | 397 | 43 |
 | minutes | 29 | 411 |
 | goals | 440 | 0 |
 | assists | 29 | 411 |
-| squads | 356 | 84 |
-| yellowCards | 364 | 76 |
-| redCards | 364 | 76 |
+| squads | 393 | 47 |
+| yellowCards | 397 | 43 |
+| redCards | 397 | 43 |
 | secondYellowRedCards | 37 | 403 |
-| totalDismissals | 364 | 76 |
+| totalDismissals | 397 | 43 |
 | heightCm | 57 | 383 |
 | shirtNumber | 288 | 152 |
 
@@ -47,7 +47,7 @@ Generálva: 2026-07-21T10:00:01.650Z
 | Paksi FC | 33 | 33 | 33 | 33 | 33 | 0 | 0 |
 | Puskás Akadémia FC | 34 | 28 | 27 | 4 | 4 | 0 | 0 |
 | Újpest FC | 41 | 41 | 41 | 41 | 35 | 0 | 0 |
-| ZTE FC | 43 | 10 | 27 | 27 | 4 | 0 | 0 |
+| ZTE FC | 43 | 43 | 43 | 43 | 37 | 0 | 0 |
 
 ## Forráskezelési megjegyzések
 

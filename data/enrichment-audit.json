@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T10:00:01.650Z",
+  "generatedAt": "2026-07-21T10:33:07.933Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -21,6 +21,7 @@
     "data/club-official-enrichment-16-kazincbarcika-completion.json",
     "data/club-official-enrichment-17-ujpest-completion.json",
     "data/club-official-enrichment-18-paks-completion.json",
+    "data/club-official-enrichment-19-zte-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -36,6 +37,7 @@
     "data/club-official-stat-patches-nyiregyhaza.json",
     "data/club-official-stat-patches-kazincbarcika.json",
     "data/club-official-stat-patches-ujpest.json",
+    "data/club-official-stat-patches-zte.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -47,26 +49,26 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 401,
+    "exactBirthDates": 434,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 401,
-    "appearances": 364,
-    "starts": 364,
+    "birthDate": 434,
+    "appearances": 397,
+    "starts": 397,
     "goals": 440,
-    "squads": 356,
-    "yellowCards": 364,
-    "redCards": 364,
-    "totalDismissals": 364,
+    "squads": 393,
+    "yellowCards": 397,
+    "redCards": 397,
+    "totalDismissals": 397,
     "overallScore": 143,
-    "position": 404,
-    "nation": 337,
+    "position": 420,
+    "nation": 353,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 250,
+    "substituteAppearances": 287,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -74,8 +76,8 @@
     {
       "field": "birthDate",
       "before": 120,
-      "after": 401,
-      "added": 281
+      "after": 434,
+      "added": 314
     },
     {
       "field": "appearances",
@@ -128,14 +130,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 404,
-      "added": 404
+      "after": 420,
+      "added": 420
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 337,
-      "added": 337
+      "after": 353,
+      "added": 353
     },
     {
       "field": "heightCm",
@@ -160,20 +162,20 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 364,
-      "added": 220
+      "after": 397,
+      "added": 253
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 364,
-      "added": 220
+      "after": 397,
+      "added": 253
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 356,
-      "added": 249
+      "after": 393,
+      "added": 286
     },
     {
       "field": "minutes",
@@ -184,8 +186,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 250,
-      "added": 250
+      "after": 287,
+      "added": 287
     },
     {
       "field": "goals",
@@ -202,14 +204,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 364,
-      "added": 220
+      "after": 397,
+      "added": 253
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 364,
-      "added": 220
+      "after": 397,
+      "added": 253
     },
     {
       "field": "secondYellowRedCards",
@@ -220,8 +222,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 364,
-      "added": 220
+      "after": 397,
+      "added": 253
     }
   ],
   "clubSummary": [
@@ -361,12 +363,12 @@
       "clubId": "zte-fc",
       "clubName": "ZTE FC",
       "mlszCards": 43,
-      "officialRecords": 24,
-      "eligibleRecords": 22,
-      "matched": 22,
+      "officialRecords": 67,
+      "eligibleRecords": 65,
+      "matched": 65,
       "excluded": 2,
       "review": 0,
-      "sourceStatus": "official-profile-and-role-enrichment",
+      "sourceStatus": "complete-43-of-43-player-review",
       "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
     }
   ],
@@ -378,19 +380,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 22,
+    "warningCount": 6,
     "duplicateCandidateCount": 0,
-    "conflictCount": 0,
-    "changeCount": 3417,
-    "exactBirthDates": 401,
+    "conflictCount": 1,
+    "changeCount": 3721,
+    "exactBirthDates": 434,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T11:45:00+02:00",
-    "records": 594,
-    "matchedRecords": 594,
+    "generatedAt": "2026-07-21T12:30:00+02:00",
+    "records": 637,
+    "matchedRecords": 637,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -416,11 +418,11 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 0,
+    "conflictCount": 1,
     "appliedFieldCounts": {
-      "position": 403,
-      "nation": 336,
-      "birthDate": 280,
+      "position": 419,
+      "nation": 352,
+      "birthDate": 313,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -485,7 +487,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 401,
+      "birthDate": 434,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -494,8 +496,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 404,
-      "nation": 337,
+      "position": 420,
+      "nation": 353,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -504,8 +506,8 @@
       {
         "field": "birthDate",
         "before": 120,
-        "after": 401,
-        "added": 281
+        "after": 434,
+        "added": 314
       },
       {
         "field": "appearances",
@@ -558,14 +560,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 404,
-        "added": 404
+        "after": 420,
+        "added": 420
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 337,
-        "added": 337
+        "after": 353,
+        "added": 353
       },
       {
         "field": "heightCm",
@@ -723,12 +725,12 @@
         "clubId": "zte-fc",
         "clubName": "ZTE FC",
         "mlszCards": 43,
-        "officialRecords": 24,
-        "eligibleRecords": 22,
-        "matched": 22,
+        "officialRecords": 67,
+        "eligibleRecords": 65,
+        "matched": 65,
         "excluded": 2,
         "review": 0,
-        "sourceStatus": "official-profile-and-role-enrichment",
+        "sourceStatus": "complete-43-of-43-player-review",
         "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
       }
     ],
@@ -738,24 +740,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T11:15:00+02:00",
-    "records": 311,
-    "matchedRecords": 311,
+    "generatedAt": "2026-07-21T12:30:00+02:00",
+    "records": 354,
+    "matchedRecords": 354,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 32,
+    "multiClubMetadataOnly": 38,
     "appliedFieldCounts": {
-      "appearances": 220,
-      "starts": 220,
+      "appearances": 253,
+      "starts": 253,
       "minutes": 29,
-      "substituteAppearances": 250,
+      "substituteAppearances": 287,
       "assists": 29,
-      "yellowCards": 220,
-      "redCards": 220,
+      "yellowCards": 253,
+      "redCards": 253,
       "secondYellowRedCards": 37,
-      "totalDismissals": 220,
-      "squads": 249
+      "totalDismissals": 253,
+      "squads": 286
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -765,20 +767,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 356,
-        "added": 249
+        "after": 393,
+        "added": 286
       },
       {
         "field": "minutes",
@@ -789,8 +791,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 250,
-        "added": 250
+        "after": 287,
+        "added": 287
       },
       {
         "field": "goals",
@@ -807,14 +809,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "secondYellowRedCards",
@@ -825,8 +827,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       }
     ],
     "manualReview": [],
@@ -1335,6 +1337,26 @@
         "checkedAt": "2026-07-21",
         "season": "2025/26",
         "scope": "A Fizz Liga-sor Összes, Kezdő, Csere, Kispad, Gól, Sárga és Piros oszlopai. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt; a Piros oszlopból a kiállítás típusa nem különíthető el."
+      },
+      {
+        "id": "mlsz-fizz-liga-zte-complete-2025-26",
+        "clubId": "zte-fc",
+        "clubName": "ZTE FC",
+        "name": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a lezárt 2025/26-os Fizz Liga. Az appearances a Kezdő és Csere oszlop összege; a squads az MLSZ Összes oszlopa. A több NB I-es klubban szereplő játékosok klubadata metaadatként marad meg, és nem írja felül a személy-szezon összesítést. Játékperc, gólpassz és kiállítástípus nem kerül becslésre."
       }
     ]
   },
@@ -1498,7 +1520,17 @@
       "sourceUrl": "https://adatbank.mlsz.hu/player/463914.html"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "playerId": "nb1-32da55412eb8",
+      "playerName": "MAURICIO ZAN",
+      "field": "nation",
+      "kept": "SLO",
+      "offered": "SVN",
+      "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+      "clubId": "zte-fc"
+    }
+  ],
   "corrections": [
     {
       "playerId": "nb1-7bc81b0db266",

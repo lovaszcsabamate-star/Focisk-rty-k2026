@@ -169,11 +169,14 @@
         "clubName": "ZTE FC",
         "officialUrl": "https://www.ztefc.hu/",
         "officialRosterUrl": "https://www.ztefc.hu/hu/csapat",
-        "status": "official-profile-and-role-enrichment",
+        "officialSeasonRosterUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+        "status": "complete-43-of-43-player-review",
         "recordFiles": [
-          "data/club-official-enrichment-5-other.json"
+          "data/club-official-enrichment-5-other.json",
+          "data/club-official-enrichment-19-zte-completion.json",
+          "data/club-official-stat-patches-zte.json"
         ],
-        "note": "Aktuális hivatalos profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."
+        "note": "A ZTE FC mind a 43 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-, HLSZ- és hivatalos klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség és poszt rögzített. Harangi Aiden és Diogo Silva eltérő HLSZ-adatánál a lezárt MLSZ-profil születési dátuma az elsődleges. A több NB I-es klubban szereplő játékosok ZTE-s sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és kiállítástípus továbbra sem kerül becslésre."
       }
     ],
     "clubOfficialEnrichment": [
@@ -1094,6 +1097,15 @@
         "season": "2025/26"
       },
       {
+        "id": "mlsz-hlsz-zte-complete-2025-26",
+        "clubId": "zte-fc",
+        "clubName": "ZTE FC",
+        "name": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1585,6 +1597,26 @@
         "checkedAt": "2026-07-21",
         "season": "2025/26",
         "scope": "A Fizz Liga-sor Összes, Kezdő, Csere, Kispad, Gól, Sárga és Piros oszlopai. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt; a Piros oszlopból a kiállítás típusa nem különíthető el."
+      },
+      {
+        "id": "mlsz-fizz-liga-zte-complete-2025-26",
+        "clubId": "zte-fc",
+        "clubName": "ZTE FC",
+        "name": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a lezárt 2025/26-os Fizz Liga. Az appearances a Kezdő és Csere oszlop összege; a squads az MLSZ Összes oszlopa. A több NB I-es klubban szereplő játékosok klubadata metaadatként marad meg, és nem írja felül a személy-szezon összesítést. Játékperc, gólpassz és kiállítástípus nem kerül becslésre."
       }
     ]
   },
@@ -1609,26 +1641,26 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 401,
+    "exactBirthDates": 434,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 401,
-    "appearances": 364,
-    "starts": 364,
+    "birthDate": 434,
+    "appearances": 397,
+    "starts": 397,
     "goals": 440,
-    "squads": 356,
-    "yellowCards": 364,
-    "redCards": 364,
-    "totalDismissals": 364,
+    "squads": 393,
+    "yellowCards": 397,
+    "redCards": 397,
+    "totalDismissals": 397,
     "overallScore": 143,
-    "position": 404,
-    "nation": 337,
+    "position": 420,
+    "nation": 353,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 250,
+    "substituteAppearances": 287,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -1643,9 +1675,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T11:45:00+02:00",
-    "records": 594,
-    "matchedRecords": 594,
+    "generatedAt": "2026-07-21T12:30:00+02:00",
+    "records": 637,
+    "matchedRecords": 637,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -1671,11 +1703,11 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 0,
+    "conflictCount": 1,
     "appliedFieldCounts": {
-      "position": 403,
-      "nation": 336,
-      "birthDate": 280,
+      "position": 419,
+      "nation": 352,
+      "birthDate": 313,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -1740,7 +1772,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 401,
+      "birthDate": 434,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -1749,8 +1781,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 404,
-      "nation": 337,
+      "position": 420,
+      "nation": 353,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -1759,8 +1791,8 @@
       {
         "field": "birthDate",
         "before": 120,
-        "after": 401,
-        "added": 281
+        "after": 434,
+        "added": 314
       },
       {
         "field": "appearances",
@@ -1813,14 +1845,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 404,
-        "added": 404
+        "after": 420,
+        "added": 420
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 337,
-        "added": 337
+        "after": 353,
+        "added": 353
       },
       {
         "field": "heightCm",
@@ -1978,12 +2010,12 @@
         "clubId": "zte-fc",
         "clubName": "ZTE FC",
         "mlszCards": 43,
-        "officialRecords": 24,
-        "eligibleRecords": 22,
-        "matched": 22,
+        "officialRecords": 67,
+        "eligibleRecords": 65,
+        "matched": 65,
         "excluded": 2,
         "review": 0,
-        "sourceStatus": "official-profile-and-role-enrichment",
+        "sourceStatus": "complete-43-of-43-player-review",
         "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
       }
     ],
@@ -11508,6 +11540,17 @@
               "heightCm"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "CROIZET YOHAN",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -11522,6 +11565,17 @@
             "redCards": 0,
             "totalDismissals": 0,
             "sourceId": "mlsz-fizz-liga-dvtk-complete-2025-26"
+          },
+          "zte-fc": {
+            "appearances": 17,
+            "starts": 9,
+            "squads": 18,
+            "substituteAppearances": 8,
+            "goals": 2,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -11579,6 +11633,18 @@
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "dvtk",
+            "matchedName": "CROIZET YOHAN",
+            "fieldsApplied": [],
+            "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
             "matchedName": "CROIZET YOHAN",
             "fieldsApplied": [],
             "correctedFields": []
@@ -29639,6 +29705,17 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "KLAUSZ MILÁN GÁBOR",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -29653,6 +29730,17 @@
             "redCards": 0,
             "totalDismissals": 0,
             "sourceId": "mlsz-fizz-liga-kazincbarcika-complete-2025-26"
+          },
+          "zte-fc": {
+            "appearances": 22,
+            "starts": 8,
+            "squads": 32,
+            "substituteAppearances": 14,
+            "goals": 4,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -29705,6 +29793,18 @@
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "KLAUSZ MILÁN GÁBOR",
+            "fieldsApplied": [],
+            "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
             "matchedName": "KLAUSZ MILÁN GÁBOR",
             "fieldsApplied": [],
             "correctedFields": []
@@ -29768,6 +29868,17 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "NAGY ZSOMBOR",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -29782,6 +29893,17 @@
             "redCards": 1,
             "totalDismissals": 1,
             "sourceId": "mlsz-fizz-liga-kazincbarcika-complete-2025-26"
+          },
+          "zte-fc": {
+            "appearances": 9,
+            "starts": 8,
+            "squads": 28,
+            "substituteAppearances": 1,
+            "goals": 1,
+            "yellowCards": 0,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -29834,6 +29956,18 @@
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "NAGY ZSOMBOR",
+            "fieldsApplied": [],
+            "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
             "matchedName": "NAGY ZSOMBOR",
             "fieldsApplied": [],
             "correctedFields": []
@@ -29897,6 +30031,17 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "NYÍRI VINCE TÓBIÁS",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -29911,6 +30056,17 @@
             "redCards": 0,
             "totalDismissals": 0,
             "sourceId": "mlsz-fizz-liga-kazincbarcika-complete-2025-26"
+          },
+          "zte-fc": {
+            "appearances": 20,
+            "starts": 14,
+            "squads": 31,
+            "substituteAppearances": 6,
+            "goals": 1,
+            "yellowCards": 2,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -29963,6 +30119,18 @@
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "NYÍRI VINCE TÓBIÁS",
+            "fieldsApplied": [],
+            "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
             "matchedName": "NYÍRI VINCE TÓBIÁS",
             "fieldsApplied": [],
             "correctedFields": []
@@ -50395,6 +50563,17 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BODNÁR GERGŐ JÁNOS",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -50409,6 +50588,17 @@
             "redCards": 0,
             "totalDismissals": 0,
             "sourceId": "mlsz-fizz-liga-ujpest-complete-2025-26"
+          },
+          "zte-fc": {
+            "appearances": 23,
+            "starts": 23,
+            "squads": 25,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 5,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -50462,6 +50652,18 @@
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "ujpest-fc",
+            "matchedName": "BODNÁR GERGŐ JÁNOS",
+            "fieldsApplied": [],
+            "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
             "matchedName": "BODNÁR GERGŐ JÁNOS",
             "fieldsApplied": [],
             "correctedFields": []
@@ -50552,6 +50754,17 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "KRAJCSOVICS ÁBEL GYÖRGY",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -50566,6 +50779,17 @@
             "redCards": 0,
             "totalDismissals": 0,
             "sourceId": "mlsz-fizz-liga-ujpest-complete-2025-26"
+          },
+          "zte-fc": {
+            "appearances": 24,
+            "starts": 6,
+            "squads": 32,
+            "substituteAppearances": 18,
+            "goals": 4,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
           }
         },
         "officialStatSources": [
@@ -50622,6 +50846,18 @@
             "matchedName": "KRAJCSOVICS ÁBEL GYÖRGY",
             "fieldsApplied": [],
             "correctedFields": []
+          },
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "KRAJCSOVICS ÁBEL GYÖRGY",
+            "fieldsApplied": [],
+            "correctedFields": []
           }
         ]
       }
@@ -50633,20 +50869,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "NGA",
+      "position": "Védő",
+      "birthDate": "2006-07-19",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 13,
+        "starts": 9,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 15,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 4
       },
       "meta": {
         "personKey": "96c730667802",
@@ -50665,8 +50902,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "AKPE VICTORY MADUABUCHUKWU",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 13,
+            "starts": 9,
+            "squads": 15,
+            "substituteAppearances": 4,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "AKPE VICTORY MADUABUCHUKWU",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50678,18 +50966,19 @@
       ],
       "nation": "ARG",
       "position": "Támadó",
-      "birthDate": null,
+      "birthDate": "2006-07-18",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 8,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 11,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "f3f7bea1656d",
@@ -50722,11 +51011,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ALFONSO LUCAS VALENTINO",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 8,
+            "starts": 0,
+            "squads": 11,
+            "substituteAppearances": 8,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ALFONSO LUCAS VALENTINO",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50736,20 +51071,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "BRA",
+      "position": "Támadó",
+      "birthDate": "2004-12-06",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 26,
+        "starts": 9,
         "goals": 5,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 27,
+        "yellowCards": 2,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 17
       },
       "meta": {
         "personKey": "818e73c4f827",
@@ -50768,8 +51104,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ALVES DE LIMA DANIEL",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 26,
+            "starts": 9,
+            "squads": 27,
+            "substituteAppearances": 17,
+            "goals": 5,
+            "yellowCards": 2,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ALVES DE LIMA DANIEL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50779,20 +51166,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "BRA",
+      "position": "Támadó",
+      "birthDate": "2004-01-09",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 27,
+        "starts": 25,
         "goals": 3,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 31,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "306e794d0a4f",
@@ -50811,8 +51199,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ALVES SOARES MAXSUELL ALEXANDRE",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 27,
+            "starts": 25,
+            "squads": 31,
+            "substituteAppearances": 2,
+            "goals": 3,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ALVES SOARES MAXSUELL ALEXANDRE",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50824,18 +51263,19 @@
       ],
       "nation": "ARG",
       "position": "Középpályás",
-      "birthDate": null,
+      "birthDate": "2004-06-04",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 26,
+        "starts": 23,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 6,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "7926b1d230c3",
@@ -50868,11 +51308,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "AMATO FABRICIO",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 26,
+            "starts": 23,
+            "squads": 32,
+            "substituteAppearances": 3,
+            "goals": 1,
+            "yellowCards": 6,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "AMATO FABRICIO",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50882,20 +51368,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Középpályás",
+      "birthDate": "2004-12-31",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 13,
+        "starts": 1,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 16,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 12
       },
       "meta": {
         "personKey": "0e874f2fb0f2",
@@ -50914,8 +51401,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BAKTI BALÁZS",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 13,
+            "starts": 1,
+            "squads": 16,
+            "substituteAppearances": 12,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BAKTI BALÁZS",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50925,20 +51463,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "MDA",
+      "position": "Támadó",
+      "birthDate": "2005-09-27",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 6,
+        "starts": 2,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 14,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 4
       },
       "meta": {
         "personKey": "ae38a35191fb",
@@ -50957,8 +51496,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BITCA STEFAN",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 6,
+            "starts": 2,
+            "squads": 14,
+            "substituteAppearances": 4,
+            "goals": 0,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BITCA STEFAN",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -50970,18 +51560,19 @@
       ],
       "nation": "NED",
       "position": "Középpályás",
-      "birthDate": null,
+      "birthDate": "2004-02-06",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 1,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 7,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "fac2274b8258",
@@ -51014,11 +51605,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BOBSON DIVAIO JHAIR",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 1,
+            "starts": 0,
+            "squads": 7,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BOBSON DIVAIO JHAIR",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51028,20 +51665,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "BRA",
+      "position": "Védő",
+      "birthDate": "2004-12-15",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 6,
+        "starts": 5,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 8,
+        "yellowCards": 0,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 1,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "c99236f2f76a",
@@ -51060,8 +51698,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BORGES DA SILVA DIEGO",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 6,
+            "starts": 5,
+            "squads": 8,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BORGES DA SILVA DIEGO",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51073,18 +51762,19 @@
       ],
       "nation": "HUN",
       "position": "Kapus",
-      "birthDate": null,
+      "birthDate": "2000-09-21",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 17,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "4fe5472d2633",
@@ -51117,11 +51807,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BORSOS VILMOS",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 17,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "BORSOS VILMOS",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51133,18 +51869,19 @@
       ],
       "nation": "ESP",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2000-01-07",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 20,
+        "starts": 19,
         "goals": 3,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 21,
+        "yellowCards": 4,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 1,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "e8d44539f5b7",
@@ -51177,11 +51914,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "CALDERON PORTILLO JOSE MANUEL",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 20,
+            "starts": 19,
+            "squads": 21,
+            "substituteAppearances": 1,
+            "goals": 3,
+            "yellowCards": 4,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "CALDERON PORTILLO JOSE MANUEL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51191,20 +51974,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Védő",
+      "birthDate": "2000-04-04",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 9,
+        "starts": 8,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 20,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "3651048db5ea",
@@ -51223,8 +52007,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "CSÓKA DÁNIEL",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 9,
+            "starts": 8,
+            "squads": 20,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "CSÓKA DÁNIEL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51242,12 +52077,13 @@
         "appearances": 29,
         "starts": 24,
         "goals": 1,
-        "squads": null,
+        "squads": 31,
         "yellowCards": 6,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 54
+        "overallScore": 54,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "9c2a528109ee",
@@ -51282,11 +52118,50 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Csonka András Mátyás",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 29,
+            "starts": 24,
+            "squads": 31,
+            "substituteAppearances": 5,
+            "goals": 1,
+            "yellowCards": 6,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Csonka András Mátyás",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51296,20 +52171,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Támadó",
+      "birthDate": "2004-11-17",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 5,
+        "starts": 5,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 5,
+        "yellowCards": 1,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 1,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "da4caa56cfa0",
@@ -51328,8 +52204,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "DÉNES CSANÁD VILMOS",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 5,
+            "starts": 5,
+            "squads": 5,
+            "substituteAppearances": 0,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "DÉNES CSANÁD VILMOS",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51341,18 +52268,19 @@
       ],
       "nation": "ARG",
       "position": "Középpályás",
-      "birthDate": null,
+      "birthDate": "2005-02-01",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 3,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 13,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "26f6a8a86f91",
@@ -51385,11 +52313,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ELOSÚ LARUMBE NICOLÁS",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 3,
+            "starts": 0,
+            "squads": 13,
+            "substituteAppearances": 3,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "ELOSÚ LARUMBE NICOLÁS",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51407,12 +52381,13 @@
         "appearances": 1,
         "starts": 1,
         "goals": 0,
-        "squads": null,
+        "squads": 15,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 22
+        "overallScore": 22,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "50fd7361a98a",
@@ -51447,11 +52422,50 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Garai Zétény Péter",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 1,
+            "starts": 1,
+            "squads": 15,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Garai Zétény Péter",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51463,18 +52477,19 @@
       ],
       "nation": "HUN",
       "position": "Kapus",
-      "birthDate": null,
+      "birthDate": "1998-04-06",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 33,
+        "starts": 33,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "e6da9ca0a6bb",
@@ -51507,11 +52522,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "GUNDEL-TAKÁCS BENCE",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 33,
+            "starts": 33,
+            "squads": 33,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "GUNDEL-TAKÁCS BENCE",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51523,18 +52584,19 @@
       ],
       "nation": "HUN / USA",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2006-02-28",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 1,
+        "starts": 1,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 8,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "6b60d1aa3fdd",
@@ -51567,11 +52629,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "HARANGI AIDEN JOSHUA",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 1,
+            "starts": 1,
+            "squads": 8,
+            "substituteAppearances": 0,
+            "goals": 1,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "HARANGI AIDEN JOSHUA",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51581,20 +52689,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Védő",
+      "birthDate": "2001-01-29",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 2,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 6,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "54deaac330a6",
@@ -51613,8 +52722,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "HUSZTI ANDRÁS",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 2,
+            "starts": 0,
+            "squads": 6,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "HUSZTI ANDRÁS",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51626,18 +52786,19 @@
       ],
       "nation": "HUN",
       "position": "Középpályás",
-      "birthDate": null,
+      "birthDate": "1999-07-01",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 31,
+        "starts": 28,
         "goals": 5,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 6,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "c62968c263dd",
@@ -51670,11 +52831,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "KISS BENCE ANDRÁS",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 31,
+            "starts": 28,
+            "squads": 32,
+            "substituteAppearances": 3,
+            "goals": 5,
+            "yellowCards": 6,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "KISS BENCE ANDRÁS",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51686,18 +52893,19 @@
       ],
       "nation": "MEX",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2004-02-21",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 16,
+        "starts": 3,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 30,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 13
       },
       "meta": {
         "personKey": "b6b9f96922af",
@@ -51730,11 +52938,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "LOPEZ CEDILLO DAVID JARET",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 16,
+            "starts": 3,
+            "squads": 30,
+            "substituteAppearances": 13,
+            "goals": 0,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "LOPEZ CEDILLO DAVID JARET",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51746,18 +53000,19 @@
       ],
       "nation": "SLO",
       "position": "Kapus",
-      "birthDate": null,
+      "birthDate": "2004-11-16",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "32da55412eb8",
@@ -51790,11 +53045,66 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "MAURICIO ZAN",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "enrichmentConflicts": [
+          {
+            "field": "nation",
+            "kept": "SLO",
+            "offered": "SVN",
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "clubId": "zte-fc"
+          }
+        ],
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 33,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "MAURICIO ZAN",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51806,18 +53116,19 @@
       ],
       "nation": "POR",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2003-04-08",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 3,
+        "starts": 1,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "c961340720f0",
@@ -51850,11 +53161,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "MONTEIRO FERREIRA ANDRÉ",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 3,
+            "starts": 1,
+            "squads": 3,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "MONTEIRO FERREIRA ANDRÉ",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51864,20 +53221,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Középpályás",
+      "birthDate": "2006-03-30",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 2,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "bdfe3567975e",
@@ -51896,8 +53254,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "MULASICS DÁNIEL",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 2,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "MULASICS DÁNIEL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51907,20 +53316,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Támadó",
+      "birthDate": "2003-10-09",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 1,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 5,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "80fc23823127",
@@ -51939,8 +53349,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "NÉMETH DÁNIEL",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 1,
+            "starts": 0,
+            "squads": 5,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "NÉMETH DÁNIEL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51950,20 +53411,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN",
+      "position": "Középpályás",
       "birthDate": "2005-02-22",
       "stats": {
         "age": 21,
         "appearances": 9,
         "starts": 7,
         "goals": 0,
-        "squads": null,
+        "squads": 14,
         "yellowCards": 3,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 29
+        "overallScore": 29,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "e9c2b788895b",
@@ -51984,8 +53446,53 @@
         "retainedFromPreviousDeck": true,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Papp Csongor",
+            "fieldsApplied": [
+              "position",
+              "nation"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 9,
+            "starts": 7,
+            "squads": 14,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Papp Csongor",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -51997,18 +53504,19 @@
       ],
       "nation": "CRC",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2004-12-09",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 19,
+        "starts": 16,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 27,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "e22eda33e9a5",
@@ -52041,11 +53549,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "PERAZA SERRANO JOSETH GAEL",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 19,
+            "starts": 16,
+            "squads": 27,
+            "substituteAppearances": 3,
+            "goals": 1,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "PERAZA SERRANO JOSETH GAEL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52055,20 +53609,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Középpályás",
+      "birthDate": "2008-03-27",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 2,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 9,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "4de555c90541",
@@ -52087,8 +53642,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "PETRÓK VIKTOR",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 2,
+            "starts": 0,
+            "squads": 9,
+            "substituteAppearances": 2,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "PETRÓK VIKTOR",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52100,18 +53706,19 @@
       ],
       "nation": "BRA",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2005-10-06",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 2,
+        "starts": 1,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 8,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "d315a942143f",
@@ -52144,11 +53751,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "RODRIGUES DA SILVA DIOGO",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 2,
+            "starts": 1,
+            "squads": 8,
+            "substituteAppearances": 1,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "RODRIGUES DA SILVA DIOGO",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52158,20 +53811,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Védő",
+      "birthDate": "2007-05-06",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 3,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "506f767dee5d",
@@ -52190,8 +53844,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "RÓZSA MÁTÉ",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 3,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "RÓZSA MÁTÉ",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52209,12 +53914,13 @@
         "appearances": 29,
         "starts": 28,
         "goals": 10,
-        "squads": null,
+        "squads": 31,
         "yellowCards": 0,
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 80
+        "overallScore": 80,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "263fc043f910",
@@ -52249,11 +53955,50 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Skribek Alen Martin",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 29,
+            "starts": 28,
+            "squads": 31,
+            "substituteAppearances": 1,
+            "goals": 10,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "Skribek Alen Martin",
+            "fieldsApplied": [
+              "squads",
+              "substituteAppearances"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52265,18 +54010,19 @@
       ],
       "nation": "HUN",
       "position": "Középpályás",
-      "birthDate": null,
+      "birthDate": "2000-03-27",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 31,
+        "starts": 31,
         "goals": 3,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 31,
+        "yellowCards": 7,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 1,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "0411f600c497",
@@ -52326,6 +54072,19 @@
               "meta.seasonPlayerOfYear"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "SZENDREI NORBERT",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -52335,8 +54094,41 @@
             "seasonPlayerOfYear": "2025/26"
           }
         },
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 31,
+            "starts": 31,
+            "squads": 31,
+            "substituteAppearances": 0,
+            "goals": 3,
+            "yellowCards": 7,
+            "redCards": 1,
+            "totalDismissals": 1,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "SZENDREI NORBERT",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52348,18 +54140,19 @@
       ],
       "nation": "FRA",
       "position": "Középpályás",
-      "birthDate": null,
+      "birthDate": "2005-12-08",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 6,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 11,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "6020c82acb33",
@@ -52392,11 +54185,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "TCHICAMBOUD TRYPHOSE AIMÉ QUEYRELL",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 6,
+            "starts": 0,
+            "squads": 11,
+            "substituteAppearances": 6,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "TCHICAMBOUD TRYPHOSE AIMÉ QUEYRELL",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52408,18 +54247,19 @@
       ],
       "nation": "BRA",
       "position": "Támadó",
-      "birthDate": null,
+      "birthDate": "2005-02-10",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 9,
+        "starts": 1,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 11,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "a0e698b05055",
@@ -52452,11 +54292,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "TEIXEIRA GUILHERME LUIZ",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 9,
+            "starts": 1,
+            "squads": 11,
+            "substituteAppearances": 8,
+            "goals": 1,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "TEIXEIRA GUILHERME LUIZ",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52466,20 +54352,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "HUN",
+      "position": "Védő",
+      "birthDate": "2002-03-18",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 30,
+        "starts": 30,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 30,
+        "yellowCards": 6,
+        "redCards": 2,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 2,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "b5f89cf00a88",
@@ -52498,8 +54385,59 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VÁRKONYI BENCE",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 30,
+            "starts": 30,
+            "squads": 30,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 6,
+            "redCards": 2,
+            "totalDismissals": 2,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VÁRKONYI BENCE",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52511,18 +54449,19 @@
       ],
       "nation": "PAR",
       "position": "Védő",
-      "birthDate": null,
+      "birthDate": "2005-03-05",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 0,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 7,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "b97cbef16664",
@@ -52555,11 +54494,57 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VERA GARCIA FERNANDO JOSE",
+            "fieldsApplied": [
+              "birthDate"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 0,
+            "starts": 0,
+            "squads": 7,
+            "substituteAppearances": 0,
+            "goals": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VERA GARCIA FERNANDO JOSE",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     },
     {
@@ -52569,20 +54554,21 @@
       "clubs": [
         "ZTE FC"
       ],
-      "nation": "",
-      "position": "",
-      "birthDate": null,
+      "nation": "BRA",
+      "position": "Támadó",
+      "birthDate": "2004-04-27",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 33,
+        "starts": 27,
         "goals": 7,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "5edafc396658",
@@ -52601,32 +54587,83 @@
         "retainedFromPreviousDeck": false,
         "clubOfficial": {},
         "clubShirtNumbers": {},
-        "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "clubOfficialSources": [
+          {
+            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank, HLSZ és ZTE FC – teljes 2025/26-os játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VIEIRA FERREIRA SOUSA JOAO",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "birthDate"
+            ],
+            "inactiveSince": null
+          }
+        ],
+        "dataStatus": "partially_verified",
+        "clubOfficialStatsByClub": {
+          "zte-fc": {
+            "appearances": 33,
+            "starts": 27,
+            "squads": 33,
+            "substituteAppearances": 6,
+            "goals": 7,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0,
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26"
+          }
+        },
+        "officialStatSources": [
+          {
+            "sourceId": "mlsz-fizz-liga-zte-complete-2025-26",
+            "sourceName": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+            "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+            "additionalUrls": [],
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VIEIRA FERREIRA SOUSA JOAO",
+            "fieldsApplied": [
+              "appearances",
+              "starts",
+              "squads",
+              "substituteAppearances",
+              "yellowCards",
+              "redCards",
+              "totalDismissals"
+            ],
+            "correctedFields": []
+          }
+        ]
       }
     }
   ],
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T11:15:00+02:00",
-    "records": 311,
-    "matchedRecords": 311,
+    "generatedAt": "2026-07-21T12:30:00+02:00",
+    "records": 354,
+    "matchedRecords": 354,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 32,
+    "multiClubMetadataOnly": 38,
     "appliedFieldCounts": {
-      "appearances": 220,
-      "starts": 220,
+      "appearances": 253,
+      "starts": 253,
       "minutes": 29,
-      "substituteAppearances": 250,
+      "substituteAppearances": 287,
       "assists": 29,
-      "yellowCards": 220,
-      "redCards": 220,
+      "yellowCards": 253,
+      "redCards": 253,
       "secondYellowRedCards": 37,
-      "totalDismissals": 220,
-      "squads": 249
+      "totalDismissals": 253,
+      "squads": 286
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -52636,20 +54673,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 356,
-        "added": 249
+        "after": 393,
+        "added": 286
       },
       {
         "field": "minutes",
@@ -52660,8 +54697,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 250,
-        "added": 250
+        "after": 287,
+        "added": 287
       },
       {
         "field": "goals",
@@ -52678,14 +54715,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       },
       {
         "field": "secondYellowRedCards",
@@ -52696,8 +54733,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 364,
-        "added": 220
+        "after": 397,
+        "added": 253
       }
     ],
     "manualReview": [],
@@ -53206,6 +55243,26 @@
         "checkedAt": "2026-07-21",
         "season": "2025/26",
         "scope": "A Fizz Liga-sor Összes, Kezdő, Csere, Kispad, Gól, Sárga és Piros oszlopai. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt; a Piros oszlopból a kiállítás típusa nem különíthető el."
+      },
+      {
+        "id": "mlsz-fizz-liga-zte-complete-2025-26",
+        "clubId": "zte-fc",
+        "clubName": "ZTE FC",
+        "name": "MLSZ Adatbank – ZTE FC teljes 2025/26-os Fizz Liga-játékosellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a lezárt 2025/26-os Fizz Liga. Az appearances a Kezdő és Csere oszlop összege; a squads az MLSZ Összes oszlopa. A több NB I-es klubban szereplő játékosok klubadata metaadatként marad meg, és nem írja felül a személy-szezon összesítést. Játékperc, gólpassz és kiállítástípus nem kerül becslésre."
       }
     ]
   }
