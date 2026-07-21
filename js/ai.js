@@ -13,18 +13,36 @@ export function buildDistribution(deck) {
   ]));
 }
 
+const lowerBound = (values, target) => {
+  let low = 0;
+  let high = values.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (values[middle] < target) low = middle + 1;
+    else high = middle;
+  }
+  return low;
+};
+
+const upperBound = (values, target) => {
+  let low = 0;
+  let high = values.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (values[middle] <= target) low = middle + 1;
+    else high = middle;
+  }
+  return low;
+};
+
 export function strength(card, attributeKey, distribution) {
   const attribute = ATTRIBUTE_BY_KEY[attributeKey];
   const values = distribution[attributeKey] ?? [];
   const value = attributeValue(card, attributeKey);
   if (!attribute || value == null || values.length === 0) return Number.NEGATIVE_INFINITY;
 
-  let below = 0;
-  let equal = 0;
-  for (const other of values) {
-    if (other < value) below += 1;
-    else if (other === value) equal += 1;
-  }
+  const below = lowerBound(values, value);
+  const equal = upperBound(values, value) - below;
   const percentile = (below + equal / 2) / values.length;
   return attribute.higherWins ? percentile : 1 - percentile;
 }
@@ -40,20 +58,38 @@ export class OpponentAI {
     if (!Array.isArray(deck) || deck.length === 0) throw new Error('A gépnek szüksége van a játékoskeretre.');
     this.settings = DIFFICULTY[difficulty] ?? DIFFICULTY.regular;
     this.distribution = buildDistribution(deck);
+    this.strengthCache = new WeakMap();
   }
 
-  strength(card, attributeKey) { return strength(card, attributeKey, this.distribution); }
+  strength(card, attributeKey) {
+    let cardCache = this.strengthCache.get(card);
+    if (!cardCache) {
+      cardCache = new Map();
+      this.strengthCache.set(card, cardCache);
+    }
+    if (!cardCache.has(attributeKey)) {
+      cardCache.set(attributeKey, strength(card, attributeKey, this.distribution));
+    }
+    return cardCache.get(attributeKey);
+  }
+
   _jitter() { return (Math.random() - 0.5) * 2 * this.settings.noise; }
 
   chooseAttribute(hand, allowedKeys = ATTRIBUTES.map(attribute => attribute.key)) {
+    const cards = Array.isArray(hand) ? hand : [];
+    const keys = Array.isArray(allowedKeys)
+      ? allowedKeys.filter(key => ATTRIBUTE_BY_KEY[key])
+      : [];
     let best = null;
-    for (const card of hand) {
-      for (const key of allowedKeys) {
+
+    for (const card of cards) {
+      for (const key of keys) {
         if (!hasAttributeData(card, key)) continue;
         const score = this.strength(card, key) + this._jitter();
         if (!best || score > best.score) best = { score, attribute: key, cardId: card.id };
       }
     }
+
     if (!best) throw new Error('A gép nem talált összehasonlítható kártyát.');
     return { attribute: best.attribute, cardId: best.cardId };
   }

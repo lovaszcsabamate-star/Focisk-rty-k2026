@@ -9,6 +9,47 @@ import {
 } from './data/players.js';
 import { HUMAN } from './engine.js';
 
+export const FAST_AI_TURN_DELAYS = Object.freeze({
+  chooseAttribute: 90,
+  chooseCard: 110,
+});
+
+export function adjustedTurnDelay(milliseconds, promptText = '') {
+  const delay = Number(milliseconds);
+  const prompt = String(promptText).toLocaleLowerCase('hu-HU').replace(/\s+/g, ' ').trim();
+  if (delay === 550 && /a gép választ/.test(prompt)) return FAST_AI_TURN_DELAYS.chooseAttribute;
+  if (delay === 500 && /a gép kártyát választ/.test(prompt)) return FAST_AI_TURN_DELAYS.chooseCard;
+  return milliseconds;
+}
+
+const installFastAiTurnTimer = () => {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  if (globalThis.__FOCISKARTYAK_FAST_AI_TIMER__) return;
+
+  const nativeSetTimeout = globalThis.setTimeout.bind(globalThis);
+  globalThis.__FOCISKARTYAK_FAST_AI_TIMER__ = true;
+  globalThis.setTimeout = (callback, milliseconds = 0, ...args) => {
+    const prompt = document.querySelector('#prompt')?.textContent ?? '';
+    return nativeSetTimeout(callback, adjustedTurnDelay(milliseconds, prompt), ...args);
+  };
+};
+
+const installAiTurnRecovery = () => {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  if (globalThis.__FOCISKARTYAK_AI_RECOVERY__) return;
+  globalThis.__FOCISKARTYAK_AI_RECOVERY__ = true;
+
+  window.addEventListener('unhandledrejection', event => {
+    const prompt = document.querySelector('#prompt');
+    const text = prompt?.textContent?.toLocaleLowerCase('hu-HU') ?? '';
+    if (!/a gép(?: kártyát)? választ/.test(text)) return;
+
+    console.warn('[ai] A gépi döntés megszakadt, a mentett állás újratöltése következik.', event.reason);
+    if (prompt) prompt.textContent = 'A gép döntésének újrapróbálása…';
+    window.setTimeout(() => window.location.reload(), 360);
+  });
+};
+
 export const STORAGE_KEYS = {
   save: 'fociskartyak:saved-match:v2',
   onboarding: 'fociskartyak:onboarding-complete',
@@ -306,5 +347,7 @@ UI.prototype.closeInspector = function closeMobileInspector(...args) {
   baseMethods.closeInspector.apply(this, args);
 };
 
+installFastAiTurnTimer();
+installAiTurnRecovery();
 applyExperienceSettings(loadSettings());
 installConnectivityBadge();
