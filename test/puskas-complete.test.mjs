@@ -6,6 +6,7 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import { applyVerifiedPlayerCorrections } from '../js/data/verified-player-corrections.js';
 
 const CLUB_ID = 'puskas-akademia-fc';
 const ENRICHMENT_FILE = 'club-official-enrichment-20-puskas-completion.json';
@@ -54,6 +55,8 @@ assert.equal(records.get('SOISALO MIKAEL ANTERO').birthDate, '1998-04-24');
 assert.equal(correction.recordPatches.length, 1);
 assert.equal(correction.recordPatches[0].name, 'Mikael Soisalo');
 assert.equal(correction.recordPatches[0].birthDate, '1998-04-24');
+assert.equal(correction.verifiedCorrections.length, 1);
+assert.deepEqual(correction.verifiedCorrections[0].overrideFields, ['birthDate']);
 const preparedCurrent = prepareClubEnrichment(currentRoster, correction);
 assert.equal(
   preparedCurrent.records.find(record => record.name === 'Mikael Soisalo').birthDate,
@@ -101,8 +104,16 @@ assert.deepEqual(expected.get('SZAPPANOS PÉTER').slice(1, 6), [31, 31, 0, 31, 0
 assert.equal(expected.get('MARKGRÁF ÁKOS')[7], 1);
 assert.deepEqual(expected.get('KRUPA ZSOLT').slice(1, 6), [0, 0, 0, 3, 0]);
 
-const prepared = prepareClubEnrichment(enrichment, {});
-const enriched = applyClubEnrichmentPayload(base, prepared);
+const corrected = applyVerifiedPlayerCorrections(base, correction.verifiedCorrections);
+assert.equal(corrected.verifiedPlayerCorrections.requested, 1);
+assert.equal(corrected.verifiedPlayerCorrections.appliedPlayers, 1);
+assert.equal(corrected.verifiedPlayerCorrections.appliedFields, 1);
+assert.equal(
+  corrected.players.find(card => card.id === 'nb1-0313d575ded4').birthDate,
+  '1998-04-24',
+);
+const prepared = prepareClubEnrichment(enrichment, correction);
+const enriched = applyClubEnrichmentPayload(corrected, prepared);
 assert.equal(enriched.enrichment.matchedRecords, 34);
 assert.equal(enriched.enrichment.unmatchedRecords, 0);
 assert.equal(enriched.enrichment.conflictCount, 0);
@@ -120,6 +131,7 @@ for (const card of cards) {
   assert.ok(allowedPositions.has(card.position), `${card.name}: hibás végleges poszt`);
   assert.ok(card.meta.clubOfficialStatsByClub?.[CLUB_ID], `${card.name}: hiányzó klubstatisztikai metaadat`);
 }
+assert.equal(cards.find(card => card.name === 'SOISALO MIKAEL ANTERO').birthDate, '1998-04-24');
 
 for (const multiClubName of [
   'COLLEY LAMIN',
@@ -135,6 +147,7 @@ for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '
   assert.match(text, new RegExp(ENRICHMENT_FILE.replaceAll('.', '\\.')));
   assert.match(text, new RegExp(CORRECTION_FILE.replaceAll('.', '\\.')));
   assert.match(text, new RegExp(PATCH_FILE.replaceAll('.', '\\.')));
+  assert.match(text, /verified-player-corrections/);
 }
 assert.match(patch.source.scope, /nem kerül becslésre/);
 assert.equal(patch.fields.includes('minutes'), false);
