@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-21T16:15:00+02:00",
+  "batch": {
+    "id": "kisvarda-nationalities-completion",
+    "playerCount": 21,
+    "rule": "Kizárólag a 38 projektbeli Kisvárda-játékos közül a hiányzó 21 nemzetiségi mező pótlása; meglévő nemzetiség, születési dátum, poszt és statisztika nem írható felül."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "primarySources": ["HLSZ", "Kisvárda FC", "MLSZ Adatbank"],
+    "secondarySources": ["Nemzeti Sport", "Transfermarkt"],
+    "rule": "A HLSZ vagy hivatalos klubforrás az elsődleges. Abdullahi Kamal és Jazsik Román esetében a HLSZ üres nemzetiségi mezőjét az MLSZ-azonosítással egyező, ellenőrzött másodlagos forrás egészíti ki; becslés nem történik."
+  },
+  "sources": [
+    {
+      "id": "hlsz-kisvarda-2025-26-nationalities",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "url": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "hlsz-kisvarda-ii-2026-27-nationalities",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
+      "url": "https://hlsz.hu/kisvarda-ii",
+      "checkedAt": "2026-07-21",
+      "season": "2026/27",
+      "fields": ["nation"]
+    },
+    {
+      "id": "hlsz-budafok-gyurko-mate-nationality",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "HLSZ – Gyurkó Máté játékosprofilja",
+      "url": "https://hlsz.hu/budafok",
+      "checkedAt": "2026-07-21",
+      "season": "2026/27",
+      "fields": ["nation"]
+    },
+    {
+      "id": "hlsz-karcag-osztrovka-nationality",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "HLSZ – Osztrovka Maxim játékosprofilja",
+      "url": "https://hlsz.hu/karcag",
+      "checkedAt": "2026-07-21",
+      "season": "2026/27",
+      "fields": ["nation"]
+    },
+    {
+      "id": "transfermarkt-kisvarda-abdullahi-nationality",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Transfermarkt – Abdullahi Kamal Kisvárda-profilja",
+      "url": "https://www.transfermarkt.com/kisvarda-fc/leistungsdaten/verein/30613",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"],
+      "note": "Az MLSZ 1493495-ös profiljával egyező név és születési dátum; a HLSZ nemzetiségi mezője üres."
+    },
+    {
+      "id": "nemzeti-sport-jazsik-nationality",
+      "clubId": "kisvarda-master-good",
+      "clubName": "Kisvárda Master Good",
+      "name": "Nemzeti Sport – Jazsik Román kazincbarcikai kölcsönadása",
+      "url": "https://www.nemzetisport.hu/labdarugo-nb-ii/2026/07/kecskemeti-erkezok-barcikai-tavozok-szerbiaba-igazolt-a-csatar",
+      "checkedAt": "2026-07-21",
+      "season": "2026/27",
+      "fields": ["nation"],
+      "note": "A cikk ukrajnai játékosként azonosítja; az MLSZ 1292313-as profiljával egyező név és születési dátum."
+    }
+  ],
+  "records": [
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"SZABÓ SZILÁRD","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"transfermarkt-kisvarda-abdullahi-nationality","clubId":"kisvarda-master-good","name":"ABDULLAHI KAMAL","nation":"NGR","sourceUrl":"https://www.transfermarkt.com/kisvarda-fc/leistungsdaten/verein/30613","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"Bíró Bence Balázs","aliases":["Bíró Bence"],"nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-ii-2026-27-nationalities","clubId":"kisvarda-master-good","name":"DANIEL STEPHEN ADAYILO","aliases":["Daniel Stephen Adayilo","Adayilo Stephen"],"nation":"NGR","sourceUrl":"https://hlsz.hu/kisvarda-ii","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-budafok-gyurko-mate-nationality","clubId":"kisvarda-master-good","name":"GYURKÓ MÁTÉ","nation":"HUN","sourceUrl":"https://hlsz.hu/budafok","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"HRABINA ALEX","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"nemzeti-sport-jazsik-nationality","clubId":"kisvarda-master-good","name":"JAZSIK ROMÁN","aliases":["Roman Yazhik","Yazhik Roman"],"nation":"UKR","sourceUrl":"https://www.nemzetisport.hu/labdarugo-nb-ii/2026/07/kecskemeti-erkezok-barcikai-tavozok-szerbiaba-igazolt-a-csatar","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-ii-2026-27-nationalities","clubId":"kisvarda-master-good","name":"KOLIADA NAZAR","nation":"UKR","sourceUrl":"https://hlsz.hu/kisvarda-ii","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"KOVÁCS MARCELL","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"KÖRMENDI KEVIN","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"LIPPAI TIBOR","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"MOLNÁR GÁBOR","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-karcag-osztrovka-nationality","clubId":"kisvarda-master-good","name":"Osztrovka Maxim","nation":"UKR / HUN","sourceUrl":"https://hlsz.hu/karcag","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-ii-2026-27-nationalities","clubId":"kisvarda-master-good","name":"PAPP ZSOMBOR","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda-ii","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"PINTÉR ATTILA FILIP","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"POPOVICS ILLYA","aliases":["Popovics Ilija"],"nation":"UKR","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"Soltész Dominik István","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"SOLTÉSZ ISTVÁN ZOLTÁN","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-ii-2026-27-nationalities","clubId":"kisvarda-master-good","name":"SZIKSZAI HENNAGYIJ","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda-ii","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-2025-26-nationalities","clubId":"kisvarda-master-good","name":"SZŐR LEVENTE","nation":"HUN","sourceUrl":"https://hlsz.hu/kisvarda","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"},
+    {"sourceId":"hlsz-kisvarda-ii-2026-27-nationalities","clubId":"kisvarda-master-good","name":"VEPRIK TARASZ","aliases":["Taras Vepryk"],"nation":"UKR","sourceUrl":"https://hlsz.hu/kisvarda-ii","checkedAt":"2026-07-21","season":"2025/26","confidence":"high"}
+  ]
+}
