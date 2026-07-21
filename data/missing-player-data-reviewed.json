@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T13:23:21.601Z",
+  "generatedAt": "2026-07-21T14:06:09.768Z",
   "playerCount": 440,
   "missingCounts": {
     "birthDate": 0,
-    "nation": 23,
+    "nation": 2,
     "position": 7,
     "appearances": 17,
     "starts": 17,
@@ -23,28 +23,7 @@
     "birthDate": [],
     "nation": [
       "2025-26-dvsc-asztalos-noel",
-      "2025-26-dvsc-kohut-mate",
-      "nb1-2c1a69d9470c",
-      "nb1-8061aa670d1b",
-      "nb1-634e0e27432f",
-      "nb1-c41102009eb6",
-      "nb1-a8d4793a3acf",
-      "nb1-6c24b3629e1e",
-      "nb1-9e00c5f876e9",
-      "nb1-3f02cae67457",
-      "nb1-1f4f96815ad4",
-      "nb1-d41a8ab9b25c",
-      "nb1-046e04c4b9c4",
-      "nb1-e262cfc330c5",
-      "nb1-1fad065b3f0e",
-      "nb1-6cbcce5a2082",
-      "nb1-7012de8d22c6",
-      "nb1-3ba077e8f4ad",
-      "nb1-6540a986095c",
-      "nb1-b7749b584ff6",
-      "nb1-65d519bbe651",
-      "nb1-c58be98f1211",
-      "nb1-1ba2fbff76ce"
+      "2025-26-dvsc-kohut-mate"
     ],
     "position": [
       "2025-26-dvsc-asztalos-noel",
@@ -2065,7 +2044,7 @@
       "players": 42,
       "coverage": {
         "birthDate": 42,
-        "nation": 41,
+        "nation": 42,
         "position": 42,
         "appearances": 40,
         "starts": 40,
@@ -2082,7 +2061,7 @@
       },
       "missing": {
         "birthDate": 0,
-        "nation": 1,
+        "nation": 0,
         "position": 0,
         "appearances": 2,
         "starts": 2,
@@ -2104,7 +2083,7 @@
       "players": 38,
       "coverage": {
         "birthDate": 38,
-        "nation": 17,
+        "nation": 38,
         "position": 38,
         "appearances": 37,
         "starts": 37,
@@ -2121,7 +2100,7 @@
       },
       "missing": {
         "birthDate": 0,
-        "nation": 21,
+        "nation": 0,
         "position": 0,
         "appearances": 1,
         "starts": 1,
