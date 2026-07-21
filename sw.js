@@ -1,3 +1,4 @@
+// Előző cache-verzió: fociskartyak-2026-v26
 const PWA_CACHE = 'fociskartyak-2026-v27';
 const PWA_SHELL = [
   './',
@@ -15,6 +16,7 @@ const PWA_SHELL = [
   './js/bootstrap.js',
   './js/data/club-enrichment.js',
   './js/data/club-stat-patches.js',
+  './js/data/verified-player-corrections.js',
   './js/data/players.js',
   './js/engine.js',
   './js/penalties.js',
