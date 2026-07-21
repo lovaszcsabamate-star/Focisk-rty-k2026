@@ -1,0 +1,71 @@
+/* Final phase-layout refinements loaded after duel-emphasis.css. */
+
+/* Fade the confirmation inspector away together with the hand, so the player
+   can actually see the 250 ms table transition instead of an abrupt overlay cut. */
+#inspector.is-battle-transition {
+  opacity: 0;
+  transform: translateY(10px) scale(.99);
+  pointer-events: none;
+  transition:
+    opacity var(--battle-transition-duration, 250ms) ease,
+    transform var(--battle-transition-duration, 250ms) ease;
+}
+
+/* The result and next-round control must sit below the cards rather than being
+   compressed into the same vertical space. */
+#pub.is-battle-active #felt {
+  min-height: min(80dvh, calc(var(--battle-card-height) + 220px));
+  max-height: min(90dvh, calc(var(--battle-card-height) + 280px));
+}
+
+#pub.is-battle-active #duel {
+  flex-shrink: 0;
+}
+
+#pub.is-battle-active #verdict,
+#pub.is-battle-active #attribute-picker {
+  position: relative;
+  z-index: 3;
+}
+
+/* Once the verdict is visible both arrival animations must be fully settled.
+   This also makes the generated final-state preview deterministic in Chrome. */
+#pub.is-battle-active:has(#verdict.win, #verdict.lose, #verdict.tie) #duel .card {
+  animation: none !important;
+}
+
+/* Tall mobile viewports otherwise stretch the empty selection battlefield too
+   far. This ratio matches the supplied phone screenshot while keeping the large
+   horizontal hand directly below the field instead of leaving a dead gap. */
+@media (max-width: 900px) and (min-height: 1050px) {
+  #pub.is-card-selection #felt {
+    flex: 0 1 auto;
+    height: clamp(560px, 61dvh, 940px);
+    min-height: 560px;
+    max-height: 940px;
+  }
+
+  #pub.is-card-selection #player-zone {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  #pub.is-battle-active #felt {
+    min-height: min(82dvh, calc(var(--battle-card-height) + 210px));
+    max-height: min(92dvh, calc(var(--battle-card-height) + 265px));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  #pub.is-battle-active #felt {
+    min-height: calc(var(--battle-card-height) + 104px);
+    max-height: calc(var(--battle-card-height) + 138px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inspector.is-battle-transition {
+    transition-duration: 1ms;
+  }
+}
