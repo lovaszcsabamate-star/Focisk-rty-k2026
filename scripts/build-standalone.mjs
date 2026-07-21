@@ -132,7 +132,7 @@ writeDatabaseReviewFiles(ROOT, payload, databaseReview);
 const playablePayload = filterCompleteCardsPayload(payload);
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}`;
 
 const backgroundFiles = [
   ['assets/pub/background.webp', 'image/webp'],
@@ -158,6 +158,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/focus-experience.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/mobile-selection-fix.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/duel-emphasis.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/phase-refinements.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
@@ -175,7 +176,7 @@ const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
 fs.writeFileSync(outputPath, output);
 
 const conflicts = payload.players.flatMap(card =>
-  (Array.isArray(card?.meta?.enrichmentConflicts) ? card.meta.enrichmentConflicts : [])
+  (Array.isArray(card?.meta?.enrichmentConflicts) ? card.enrichmentConflicts : [])
     .map(conflict => ({ playerId: card.id, playerName: card.name, ...conflict }))
 );
 const audit = {
