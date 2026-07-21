@@ -30,6 +30,7 @@ const enrichmentFiles = [
   'data/club-official-enrichment-9-kisvarda-selected10.json',
   'data/club-official-enrichment-10-kisvarda-final8.json',
   'data/club-official-enrichment-11-kisvarda-completion.json',
+  'data/club-official-enrichment-12-dvtk-completion.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',
@@ -44,6 +45,7 @@ const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda-selected10-3.json',
   'data/club-official-stat-patches-kisvarda-final8.json',
   'data/club-official-stat-patches-ferencvaros.json',
+  'data/club-official-stat-patches-dvtk.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
