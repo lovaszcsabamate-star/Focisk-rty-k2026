@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34, fociskartyak-2026-v35, fociskartyak-2026-v36, fociskartyak-2026-v37, fociskartyak-2026-v38, fociskartyak-2026-v39, fociskartyak-2026-v40
-const PWA_CACHE = 'fociskartyak-2026-v41';
+// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34, fociskartyak-2026-v35, fociskartyak-2026-v36, fociskartyak-2026-v37, fociskartyak-2026-v38, fociskartyak-2026-v39, fociskartyak-2026-v40, fociskartyak-2026-v41
+const PWA_CACHE = 'fociskartyak-2026-v42';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -36,6 +36,7 @@ const PWA_SHELL = [
   './js/mobile-experience.js',
   './js/player-profile.js',
   './js/reliability-fixes.js',
+  './js/usability-fixes.js',
   './js/focus-experience.js',
   './js/main.js',
   './data/players.json',
@@ -85,12 +86,37 @@ const PWA_SHELL = [
   './assets/qr/mobil-eleres.svg'
 ];
 
+async function cacheResponse(request, response) {
+  if (!response?.ok) return response;
+  const cache = await caches.open(PWA_CACHE);
+  await cache.put(request, response.clone());
+  return response;
+}
+
+async function networkFirst(request) {
+  try {
+    return await cacheResponse(request, await fetch(request));
+  } catch {
+    return (await caches.match(request)) || Response.error();
+  }
+}
+
+async function cacheFirstWithRefresh(request) {
+  const cached = await caches.match(request);
+  const refresh = fetch(request)
+    .then(response => cacheResponse(request, response))
+    .catch(() => null);
+  return cached || (await refresh) || Response.error();
+}
+
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(PWA_CACHE)
-      .then(cache => cache.addAll(PWA_SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(PWA_CACHE);
+    const results = await Promise.allSettled(PWA_SHELL.map(resource => cache.add(resource)));
+    const failed = results.filter(result => result.status === 'rejected').length;
+    if (failed) console.warn(`[pwa] ${failed} erőforrás előtöltése kimaradt; az online játék ettől még elindul.`);
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', event => {
@@ -109,30 +135,16 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(PWA_CACHE).then(cache => cache.put(request, copy));
-          return response;
-        })
-        .catch(async () => (await caches.match(request)) || (await caches.match('./index.html')))
-    );
+    event.respondWith((async () => {
+      const response = await networkFirst(request);
+      if (response.ok) return response;
+      return (await caches.match(request)) || (await caches.match('./index.html')) || response;
+    })());
     return;
   }
 
-  event.respondWith(
-    caches.match(request).then(cached => {
-      const network = fetch(request)
-        .then(response => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(PWA_CACHE).then(cache => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
-  );
+  const freshCodeOrData = ['script', 'style', 'worker', 'manifest'].includes(request.destination)
+    || url.pathname.endsWith('.json');
+
+  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request));
 });
