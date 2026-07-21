@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T07:40:37.916Z",
+  "generatedAt": "2026-07-21T08:37:15.319Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -18,6 +18,7 @@
     "data/club-official-enrichment-13-mtk-completion.json",
     "data/club-official-enrichment-14-nyiregyhaza-completion.json",
     "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
+    "data/club-official-enrichment-16-kazincbarcika-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -31,6 +32,7 @@
     "data/club-official-stat-patches-dvtk.json",
     "data/club-official-stat-patches-mtk.json",
     "data/club-official-stat-patches-nyiregyhaza.json",
+    "data/club-official-stat-patches-kazincbarcika.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -42,26 +44,26 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 345,
+    "exactBirthDates": 383,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 345,
-    "appearances": 303,
-    "starts": 303,
+    "birthDate": 383,
+    "appearances": 333,
+    "starts": 333,
     "goals": 440,
-    "squads": 287,
-    "yellowCards": 303,
-    "redCards": 303,
-    "totalDismissals": 303,
+    "squads": 321,
+    "yellowCards": 333,
+    "redCards": 333,
+    "totalDismissals": 333,
     "overallScore": 143,
-    "position": 349,
-    "nation": 230,
+    "position": 381,
+    "nation": 270,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 181,
+    "substituteAppearances": 215,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -69,8 +71,8 @@
     {
       "field": "birthDate",
       "before": 120,
-      "after": 345,
-      "added": 225
+      "after": 383,
+      "added": 263
     },
     {
       "field": "appearances",
@@ -123,14 +125,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 349,
-      "added": 349
+      "after": 381,
+      "added": 381
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 230,
-      "added": 230
+      "after": 270,
+      "added": 270
     },
     {
       "field": "heightCm",
@@ -155,20 +157,20 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 303,
-      "added": 159
+      "after": 333,
+      "added": 189
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 303,
-      "added": 159
+      "after": 333,
+      "added": 189
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 287,
-      "added": 180
+      "after": 321,
+      "added": 214
     },
     {
       "field": "minutes",
@@ -179,8 +181,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 181,
-      "added": 181
+      "after": 215,
+      "added": 215
     },
     {
       "field": "goals",
@@ -197,14 +199,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 303,
-      "added": 159
+      "after": 333,
+      "added": 189
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 303,
-      "added": 159
+      "after": 333,
+      "added": 189
     },
     {
       "field": "secondYellowRedCards",
@@ -215,8 +217,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 303,
-      "added": 159
+      "after": 333,
+      "added": 189
     }
   ],
   "clubSummary": [
@@ -284,12 +286,12 @@
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
       "mlszCards": 40,
-      "officialRecords": 19,
-      "eligibleRecords": 16,
-      "matched": 16,
+      "officialRecords": 59,
+      "eligibleRecords": 56,
+      "matched": 56,
       "excluded": 3,
       "review": 0,
-      "sourceStatus": "official-roster-and-transfer-enrichment",
+      "sourceStatus": "complete-40-of-40-player-review",
       "officialRosterUrl": "https://kbsc.hu/oldal/jatekoskeret"
     },
     {
@@ -373,19 +375,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 64,
+    "warningCount": 41,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 2756,
-    "exactBirthDates": 345,
+    "changeCount": 3084,
+    "exactBirthDates": 383,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T09:45:00+02:00",
-    "records": 480,
-    "matchedRecords": 480,
+    "generatedAt": "2026-07-21T10:30:00+02:00",
+    "records": 520,
+    "matchedRecords": 520,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -413,9 +415,9 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 348,
-      "nation": 229,
-      "birthDate": 224,
+      "position": 380,
+      "nation": 269,
+      "birthDate": 262,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -480,7 +482,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 345,
+      "birthDate": 383,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -489,8 +491,8 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 349,
-      "nation": 230,
+      "position": 381,
+      "nation": 270,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -499,8 +501,8 @@
       {
         "field": "birthDate",
         "before": 120,
-        "after": 345,
-        "added": 225
+        "after": 383,
+        "added": 263
       },
       {
         "field": "appearances",
@@ -553,14 +555,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 349,
-        "added": 349
+        "after": 381,
+        "added": 381
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 230,
-        "added": 230
+        "after": 270,
+        "added": 270
       },
       {
         "field": "heightCm",
@@ -646,12 +648,12 @@
         "clubId": "kolorcity-kazincbarcika-sc",
         "clubName": "Kolorcity Kazincbarcika SC",
         "mlszCards": 40,
-        "officialRecords": 19,
-        "eligibleRecords": 16,
-        "matched": 16,
+        "officialRecords": 59,
+        "eligibleRecords": 56,
+        "matched": 56,
         "excluded": 3,
         "review": 0,
-        "sourceStatus": "official-roster-and-transfer-enrichment",
+        "sourceStatus": "complete-40-of-40-player-review",
         "officialRosterUrl": "https://kbsc.hu/oldal/jatekoskeret"
       },
       {
@@ -733,24 +735,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T09:15:00+02:00",
-    "records": 230,
-    "matchedRecords": 230,
+    "generatedAt": "2026-07-21T10:30:00+02:00",
+    "records": 270,
+    "matchedRecords": 270,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 20,
+    "multiClubMetadataOnly": 26,
     "appliedFieldCounts": {
-      "appearances": 159,
-      "starts": 159,
+      "appearances": 189,
+      "starts": 189,
       "minutes": 29,
-      "substituteAppearances": 181,
+      "substituteAppearances": 215,
       "assists": 29,
-      "yellowCards": 159,
-      "redCards": 159,
+      "yellowCards": 189,
+      "redCards": 189,
       "secondYellowRedCards": 37,
-      "totalDismissals": 159,
-      "squads": 180
+      "totalDismissals": 189,
+      "squads": 214
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -760,20 +762,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 303,
-        "added": 159
+        "after": 333,
+        "added": 189
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 303,
-        "added": 159
+        "after": 333,
+        "added": 189
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 287,
-        "added": 180
+        "after": 321,
+        "added": 214
       },
       {
         "field": "minutes",
@@ -784,8 +786,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 181,
-        "added": 181
+        "after": 215,
+        "added": 215
       },
       {
         "field": "goals",
@@ -802,14 +804,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 303,
-        "added": 159
+        "after": 333,
+        "added": 189
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 303,
-        "added": 159
+        "after": 333,
+        "added": 189
       },
       {
         "field": "secondYellowRedCards",
@@ -820,8 +822,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 303,
-        "added": 159
+        "after": 333,
+        "added": 189
       }
     ],
     "manualReview": [],
@@ -1215,6 +1217,68 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több NB I-es klubnál szereplő játékosoknál a meglévő merge-réteg a nyíregyházi sort klubforrásos metaadatként tárolja, és nem írja felül a személy-szezon főstatisztikát."
+      },
+      {
+        "id": "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+        "clubId": "kolorcity-kazincbarcika-sc",
+        "clubName": "Kolorcity Kazincbarcika SC",
+        "name": "MLSZ Adatbank – Kazincbarcika teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/26/307010.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/472582.html",
+          "https://adatbank.mlsz.hu/player/425133.html",
+          "https://adatbank.mlsz.hu/player/341358.html",
+          "https://adatbank.mlsz.hu/player/215849.html",
+          "https://adatbank.mlsz.hu/player/507935.html",
+          "https://adatbank.mlsz.hu/player/250805.html",
+          "https://adatbank.mlsz.hu/player/245021.html",
+          "https://adatbank.mlsz.hu/player/1500412.html",
+          "https://adatbank.mlsz.hu/player/325869.html",
+          "https://adatbank.mlsz.hu/player/538116.html",
+          "https://adatbank.mlsz.hu/player/178340.html",
+          "https://adatbank.mlsz.hu/player/1497541.html",
+          "https://adatbank.mlsz.hu/player/1119089.html",
+          "https://adatbank.mlsz.hu/player/475049.html",
+          "https://adatbank.mlsz.hu/player/578293.html",
+          "https://adatbank.mlsz.hu/player/493888.html",
+          "https://adatbank.mlsz.hu/player/527493.html",
+          "https://adatbank.mlsz.hu/player/762681.html",
+          "https://adatbank.mlsz.hu/player/484731.html",
+          "https://adatbank.mlsz.hu/player/642949.html",
+          "https://adatbank.mlsz.hu/player/179398.html",
+          "https://adatbank.mlsz.hu/player/1054705.html",
+          "https://adatbank.mlsz.hu/player/322814.html",
+          "https://adatbank.mlsz.hu/player/224738.html",
+          "https://adatbank.mlsz.hu/player/771208.html",
+          "https://adatbank.mlsz.hu/player/705756.html",
+          "https://adatbank.mlsz.hu/player/1287881.html",
+          "https://adatbank.mlsz.hu/player/510029.html",
+          "https://adatbank.mlsz.hu/player/1557562.html",
+          "https://adatbank.mlsz.hu/player/1498746.html",
+          "https://adatbank.mlsz.hu/player/303458.html",
+          "https://adatbank.mlsz.hu/player/1558049.html",
+          "https://adatbank.mlsz.hu/player/1497383.html",
+          "https://adatbank.mlsz.hu/player/1557549.html",
+          "https://adatbank.mlsz.hu/player/281657.html",
+          "https://adatbank.mlsz.hu/player/212948.html",
+          "https://adatbank.mlsz.hu/player/392208.html",
+          "https://adatbank.mlsz.hu/player/422093.html",
+          "https://adatbank.mlsz.hu/player/707806.html",
+          "https://adatbank.mlsz.hu/player/1171827.html"
+        ],
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, a Piros oszlop pedig nem bontja a kiállítás típusát. Többklubos játékosnál a klubsort a rendszer metaadatként őrzi meg, és nem írja felül a személy-szezon összesítést."
       }
     ]
   },
