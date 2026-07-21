@@ -133,9 +133,14 @@
       "clubName": "Újpest FC",
       "officialUrl": "https://www.ujpestfc.hu/",
       "officialRosterUrl": "https://www.ujpestfc.hu/csapatok/csapat",
-      "status": "official-profile-enrichment",
-      "recordFiles": ["data/club-official-enrichment-4-ujpest.json"],
-      "note": "Aktuális profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."
+      "officialSeasonRosterUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307011.html",
+      "status": "complete-41-of-41-player-review",
+      "recordFiles": [
+        "data/club-official-enrichment-4-ujpest.json",
+        "data/club-official-enrichment-17-ujpest-completion.json",
+        "data/club-official-stat-patches-ujpest.json"
+      ],
+      "note": "Az Újpest FC mind a 41 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-, HLSZ- és hivatalos klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség és poszt rögzített; João Nunes születési dátuma 1995-11-19-re javult. A pályára lépés és a kispados kerettagság külön mező; a többklubos játékosok újpesti sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
     },
     {
       "clubId": "zte-fc",
