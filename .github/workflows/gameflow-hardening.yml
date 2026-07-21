@@ -58,10 +58,32 @@ jobs:
         run: npm run lint
 
       - name: Unit and regression tests
-        run: npm test
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee npm-test.log
+
+      - name: Upload unit-test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameflow-unit-test-log-${{ github.run_id }}
+          path: npm-test.log
+          if-no-files-found: ignore
 
       - name: Full test suite
-        run: npm run test:all
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:all 2>&1 | tee test-all.log
+
+      - name: Upload full-test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameflow-full-test-log-${{ github.run_id }}
+          path: test-all.log
+          if-no-files-found: ignore
 
       - name: Standalone build
         run: npm run build
