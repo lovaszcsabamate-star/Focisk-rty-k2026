@@ -2883,35 +2883,20 @@ html.ux-reduced-motion *::after {
 
 
 /* ===========================================================================
-   Duel emphasis
-   - only the active battle view is reduced to half of the viewport height
-   - the human player's played card grows up to exactly 2× the base card size
-   - both cards always occupy separate columns and can never overlap
-   - card proportions and readable contents are preserved on narrow screens
+   Card selection and battle presentation
+   - selection cards keep their current large, horizontally scrollable size
+   - the committed card receives a clear gold selection state
+   - hand zones fade away before the battle begins
+   - both active battle cards use one shared, responsive size rule
    =========================================================================== */
 
-/* During card selection #duel already contains an empty human placeholder.
-   The compact battlefield must therefore activate only when the first slot
-   contains a real played card, not merely when #duel is non-empty. */
-#felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) {
-  flex: 0 1 50vh;
-  max-height: 50vh;
-  min-height: 0;
-  container-type: size;
-  gap: clamp(4px, .75vh, 8px);
-  padding-block: clamp(6px, 1vh, 10px);
+:root {
+  --card-aspect-ratio: 132 / 232;
+  --battle-transition-duration: 250ms;
 }
 
-@supports (height: 100dvh) {
-  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) {
-    flex-basis: 50dvh;
-    max-height: 50dvh;
-  }
-}
-
-/* Three explicit grid columns guarantee that the two card slots remain next
-   to each other. Each card is capped by its own column, so transforms, long
-   names and narrow mobile viewports cannot make the cards overlap. */
+/* The duel always owns three independent columns. The two card slots therefore
+   cannot overlap, even with long names or on narrow mobile screens. */
 #duel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -2921,169 +2906,466 @@ html.ux-reduced-motion *::after {
   max-width: 100%;
   min-width: 0;
   min-height: 0;
-  max-height: 100%;
-  gap: clamp(8px, 2vw, 24px);
+  gap: clamp(5px, 1.6vw, 18px);
 }
 
 #duel > .duel-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   min-width: 0;
   max-width: none;
 }
 
+#duel > .duel-slot:first-child { justify-self: end; }
+#duel > .duel-slot:last-child { justify-self: start; }
+
 #duel > .duel-slot .card {
   max-width: 100%;
-  height: auto;
-  aspect-ratio: 132 / 232;
+  aspect-ratio: var(--card-aspect-ratio);
 }
 
-/* The opponent card keeps its normal size, but scales down proportionally when
-   its grid column is narrower than the standard 132 px card width. */
-#duel > .duel-slot:last-child .card {
-  width: min(132px, 100%);
+/* ── Selection phase ─────────────────────────────────────────────────────── */
+
+#player-hand.hand--selection {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
 }
 
-/* Width controls the whole card through aspect-ratio. This preserves the
-   original 132 × 232 proportions and prevents independent width/height clamps
-   from stretching the enlarged human card. */
-#duel > .duel-slot:first-child .card:not(.card--empty) {
-  width: min(264px, 42vw, calc((50vh - 96px) * .5689655));
-  height: auto;
+#player-hand.hand--selection .card--choice {
+  flex: 0 0 var(--card-w);
+  margin: 0 !important;
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+}
+
+/* A tap marks the intended card before the confirmation button starts the
+   battle transition. No extra card is created and the hand size is unchanged. */
+#player-hand.hand--selection .card--choice.is-selected {
+  z-index: 14;
+  filter: none;
+  outline: 3px solid var(--brass-light);
+  outline-offset: 2px;
+  transform: translateY(-8px);
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, .66),
+    0 0 0 3px var(--brass),
+    0 0 28px rgba(232, 195, 122, .54);
+}
+
+#player-hand.hand--selection .card--choice.is-selected::before {
+  content: 'KIVÁLASZTVA';
+  position: absolute;
+  z-index: 4;
+  top: 7px;
+  right: 7px;
+  padding: 3px 6px;
+  border: 1px solid rgba(42, 28, 18, .48);
+  border-radius: 999px;
+  background: var(--brass-light);
+  color: #2a1c12;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, .38);
+}
+
+/* The play confirmation is delayed by the same 250 ms in focus-experience.js,
+   allowing the hand and pile areas to visibly fade instead of disappearing. */
+#pub.is-battle-transition #player-zone,
+#pub.is-battle-transition #opponent-zone {
+  opacity: 0;
+  filter: saturate(.72) brightness(.74);
+  transform: translateY(18px) scale(.985);
+  pointer-events: none;
+  transition:
+    opacity var(--battle-transition-duration) ease,
+    transform var(--battle-transition-duration) ease,
+    filter var(--battle-transition-duration) ease;
+}
+
+#pub.is-battle-transition #felt {
+  border-color: rgba(232, 195, 122, .58);
+  box-shadow:
+    inset 0 0 75px rgba(0, 0, 0, .58),
+    0 0 26px rgba(201, 162, 39, .18);
+  transition: border-color var(--battle-transition-duration) ease, box-shadow var(--battle-transition-duration) ease;
+}
+
+/* ── Active battle phase ─────────────────────────────────────────────────── */
+
+#pub.is-battle-active {
+  --battle-card-width: min(250px, 41vw);
+  --battle-card-height: calc(var(--battle-card-width) * 232 / 132);
+}
+
+/* The normal hand zones are removed by the existing duel-focus layer as soon
+   as the human card reaches the table. This includes both piles and all unused
+   human/opponent cards, while the HUD and category prompt remain visible. */
+#pub.is-battle-active #hud .title,
+#pub.is-battle-active #hud .meta {
+  display: block;
+}
+
+#pub.is-battle-active #hud {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
+  align-items: center;
+  width: 100%;
+  min-height: 46px;
+  gap: clamp(6px, 1.5vw, 16px);
+}
+
+#pub.is-battle-active #hud .title {
+  overflow: hidden;
+  font-size: clamp(12px, 1.7vw, 20px);
+  text-overflow: ellipsis;
+}
+
+#pub.is-battle-active #hud-scores {
+  justify-content: center;
+  min-width: 0;
+}
+
+#pub.is-battle-active #hud .meta {
+  overflow: hidden;
+  font-size: clamp(9px, 1vw, 12px);
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The battlefield follows the real card height instead of reserving a large,
+   mostly empty half-screen panel. */
+#pub.is-battle-active #felt {
+  flex: 0 1 auto;
+  width: min(1180px, 100%);
+  min-height: min(72dvh, calc(var(--battle-card-height) + 150px));
+  max-height: min(82dvh, calc(var(--battle-card-height) + 210px));
+  gap: clamp(5px, .85vh, 10px);
+  padding: clamp(7px, 1.2vw, 14px);
+  overflow: hidden;
+}
+
+#pub.is-battle-active #prompt {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 0;
+  max-height: 3.4em;
+  overflow: hidden;
+  font-size: clamp(14px, 2.1vw, 23px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+#pub.is-battle-active #duel {
+  flex: 0 1 auto;
+  grid-template-columns: minmax(0, 1fr) clamp(22px, 6.5vw, 46px) minmax(0, 1fr);
+  width: 100%;
+  min-height: 0;
+  gap: clamp(3px, 1vw, 10px);
+  overflow: visible;
+}
+
+/* One selector and one pair of custom properties control both sides. There are
+   deliberately no first-child/last-child size rules and no side-specific scale. */
+#pub.is-battle-active #duel > .duel-slot .card {
+  --card-w: var(--battle-card-width);
+  --card-h: var(--battle-card-height);
+  width: var(--battle-card-width);
+  height: var(--battle-card-height);
   max-width: 100%;
-  aspect-ratio: 132 / 232;
+  aspect-ratio: var(--card-aspect-ratio);
+  border-radius: 12px;
+  box-shadow:
+    0 15px 34px rgba(0, 0, 0, .68),
+    0 0 0 1px rgba(201, 162, 39, .34);
+  animation: battle-card-arrive 240ms ease-out both;
 }
 
-/* On a sufficiently large battlefield the card reaches 264 × 464 px, exactly
-   twice the normal 132 × 232 px card. Container units let short battlefields
-   reduce it before surrounding labels or controls can collide. */
-@supports (height: 1cqh) {
-  #duel > .duel-slot:first-child .card:not(.card--empty) {
-    width: min(264px, 48.9cqh, 42vw);
-  }
-
-  .mode-penalties #duel > .duel-slot:first-child .card:not(.card--empty) {
-    width: min(264px, 38.6cqh, 42vw);
-  }
+#pub.is-battle-active #duel > .duel-slot:last-child .card {
+  animation-delay: 65ms;
 }
 
-/* Scale the contents too, not only the card frame, so the enlarged card is
-   genuinely easier to read. Clamps prevent oversized text on narrow screens. */
-#duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
-  height: clamp(62px, 12vw, 148px);
+#pub.is-battle-active #duel .card__portrait {
+  height: clamp(76px, 22vw, 132px);
 }
 
-#duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait::after {
-  font-size: clamp(28px, 4vw, 52px);
+#pub.is-battle-active #duel .card__portrait::after {
+  font-size: clamp(30px, 6vw, 48px);
 }
 
-#duel > .duel-slot:first-child .card:not(.card--empty) .card__position {
-  top: clamp(4px, .6vw, 8px);
-  left: clamp(4px, .6vw, 8px);
-  padding: clamp(2px, .3vw, 4px) clamp(5px, .6vw, 9px);
-  font-size: clamp(9px, 1vw, 13px);
+#pub.is-battle-active #duel .card__position {
+  top: clamp(4px, .8vw, 7px);
+  left: clamp(4px, .8vw, 7px);
+  padding: 3px 6px;
+  font-size: clamp(9px, 1.8vw, 11px);
 }
 
-#duel > .duel-slot:first-child .card:not(.card--empty) .card__name {
-  padding: clamp(4px, .7vw, 9px) clamp(6px, 1vw, 13px) 2px;
-  font-size: clamp(15px, 2vw, 28px);
-  line-height: 1;
-}
-
-#duel > .duel-slot:first-child .card:not(.card--empty) .card__club {
-  padding: 0 clamp(6px, 1vw, 13px) clamp(4px, .7vw, 8px);
-  font-size: clamp(9px, 1vw, 15px);
-}
-
-#duel > .duel-slot:first-child .card:not(.card--empty) .card__stats {
-  padding: 0 clamp(6px, .9vw, 11px) clamp(6px, .9vw, 11px);
-  gap: clamp(1px, .25vw, 3px);
-}
-
-#duel > .duel-slot:first-child .card:not(.card--empty) .stat {
-  padding: clamp(2px, .4vw, 5px) clamp(4px, .7vw, 9px);
-  font-size: clamp(9px, 1.15vw, 16px);
-}
-
-/* Compact the surrounding labels only while a real duel is visible. */
-#felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #prompt {
+#pub.is-battle-active #duel .card__name {
   min-height: 0;
-  font-size: clamp(14px, 1.6vw, 19px);
+  padding: clamp(4px, .8vw, 7px) clamp(5px, 1vw, 9px) 2px;
+  overflow: hidden;
+  font-size: clamp(13px, 3.6vw, 21px);
+  line-height: 1.02;
+  text-overflow: ellipsis;
+}
+
+#pub.is-battle-active #duel .card__club {
+  padding: 0 clamp(5px, 1vw, 9px) clamp(3px, .8vw, 6px);
+  font-size: clamp(8px, 2vw, 11px);
+}
+
+#pub.is-battle-active #duel .card__stats {
+  gap: 2px;
+  padding: 0 clamp(4px, .8vw, 8px) clamp(4px, .8vw, 8px);
+}
+
+#pub.is-battle-active #duel .stat {
+  min-height: clamp(18px, 4vw, 24px);
+  padding: 2px clamp(3px, .7vw, 7px);
+  font-size: clamp(8px, 2.25vw, 12px);
+}
+
+#pub.is-battle-active .duel-slot__who {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: clamp(9px, 1.8vw, 13px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#pub.is-battle-active .versus {
+  flex: 0 0 auto;
+  font-size: clamp(19px, 6vw, 42px);
+}
+
+/* Winner and loser styling may change colour/opacity, never card dimensions. */
+#pub.is-battle-active .duel-slot.winner .card,
+#pub.is-battle-active .duel-slot.loser .card {
+  transform: none;
+}
+
+#pub.is-battle-active .duel-slot.winner .card {
+  box-shadow:
+    0 0 0 4px var(--win),
+    0 15px 36px rgba(0, 0, 0, .7),
+    0 0 28px rgba(106, 191, 122, .38);
+}
+
+#pub.is-battle-active #verdict {
+  flex: 0 0 auto;
+  min-height: 0;
+  font-size: clamp(18px, 4.8vw, 32px);
   line-height: 1.05;
 }
 
-#felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #verdict {
-  min-height: 0;
-  font-size: clamp(18px, 2.1vw, 26px);
-  line-height: 1.05;
+#pub.is-battle-active #verdict small {
+  max-width: 96%;
+  font-size: clamp(9px, 2.5vw, 13px);
+}
+
+#pub.is-battle-active #attribute-picker {
+  flex: 0 0 auto;
+  max-width: min(620px, 100%);
+}
+
+@keyframes battle-card-arrive {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 620px) {
-  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) {
-    gap: 4px;
-    padding-block: 5px;
+  #pub.is-battle-active {
+    --battle-card-width: min(250px, 41.5vw);
   }
 
-  #duel {
-    gap: clamp(4px, 1.5vw, 8px);
+  #pub.is-battle-active #table {
+    gap: 5px;
+    padding-inline: 5px;
   }
 
-  #duel > .duel-slot {
-    gap: 3px;
+  #pub.is-battle-active #hud {
+    grid-template-areas:
+      'title meta'
+      'scores scores';
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    row-gap: 2px;
+    min-height: 58px;
+    padding-inline: 4px;
   }
 
-  #duel > .duel-slot:first-child .card:not(.card--empty) {
-    width: min(264px, 41vw, calc((50vh - 86px) * .5689655));
+  #pub.is-battle-active #hud .title {
+    grid-area: title;
+    font-size: clamp(10px, 3vw, 13px);
+    letter-spacing: 1px;
   }
 
-  #duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
-    height: clamp(54px, 18vw, 92px);
+  #pub.is-battle-active #hud-scores {
+    grid-area: scores;
   }
 
-  #duel > .duel-slot:first-child .card:not(.card--empty) .card__name {
-    font-size: clamp(13px, 4vw, 18px);
+  #pub.is-battle-active #hud .meta {
+    grid-area: meta;
+    max-width: 42vw;
+    font-size: 8.5px;
   }
 
-  #duel > .duel-slot:first-child .card:not(.card--empty) .card__club {
-    font-size: clamp(8px, 2.4vw, 11px);
+  #pub.is-battle-active #felt {
+    min-height: min(74dvh, calc(var(--battle-card-height) + 142px));
+    max-height: min(84dvh, calc(var(--battle-card-height) + 196px));
+    padding: 6px 4px 8px;
   }
 
-  #duel > .duel-slot:first-child .card:not(.card--empty) .stat {
-    padding: 2px 4px;
-    font-size: clamp(8px, 2.55vw, 11px);
+  #pub.is-battle-active #duel {
+    grid-template-columns: minmax(0, 1fr) clamp(20px, 6vw, 30px) minmax(0, 1fr);
+    gap: clamp(2px, .8vw, 5px);
   }
 
-  .duel-slot__who {
-    max-width: 100%;
-    overflow: hidden;
-    font-size: 9px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  #pub.is-battle-active #duel .card__portrait {
+    height: clamp(72px, 23vw, 104px);
   }
 
-  .versus {
-    flex: 0 0 auto;
-    font-size: clamp(15px, 5vw, 22px);
+  #pub.is-battle-active #duel .card__name {
+    font-size: clamp(12px, 3.8vw, 17px);
+  }
+
+  #pub.is-battle-active #duel .stat {
+    min-height: 18px;
+    font-size: clamp(8px, 2.45vw, 10px);
   }
 }
 
-@media (max-height: 620px) {
-  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #prompt {
-    font-size: 12px;
-    line-height: 1;
+@media (max-width: 360px) {
+  #pub.is-battle-active {
+    --battle-card-width: min(250px, 40.5vw);
   }
 
-  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #verdict {
-    font-size: 17px;
-    line-height: 1;
+  #pub.is-battle-active #duel {
+    grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
+    gap: 2px;
   }
 
-  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #verdict small {
+  #pub.is-battle-active #duel .card__name { font-size: 12px; }
+  #pub.is-battle-active #duel .card__club { font-size: 7.5px; }
+  #pub.is-battle-active #duel .stat { padding-inline: 3px; font-size: 7.8px; }
+  #pub.is-battle-active .versus { font-size: 18px; }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  #pub.is-battle-active {
+    --battle-card-width: min(174px, 25vw, 36vh);
+  }
+
+  #pub.is-battle-active #hud .title,
+  #pub.is-battle-active #hud .meta {
+    display: none;
+  }
+
+  #pub.is-battle-active #hud {
+    display: flex;
+    min-height: 34px;
+    justify-content: center;
+  }
+
+  #pub.is-battle-active #felt {
+    min-height: calc(var(--battle-card-height) + 90px);
+    max-height: calc(var(--battle-card-height) + 116px);
+    gap: 3px;
+  }
+
+  #pub.is-battle-active #duel .card__portrait { height: clamp(58px, 17vh, 86px); }
+  #pub.is-battle-active #duel .stat { min-height: 16px; padding-block: 1px; font-size: 8px; }
+  #pub.is-battle-active #prompt { font-size: 14px; }
+  #pub.is-battle-active #verdict { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pub.is-battle-transition #player-zone,
+  #pub.is-battle-transition #opponent-zone,
+  #pub.is-battle-active #duel > .duel-slot .card {
+    animation: none;
+    transition-duration: 1ms;
+  }
+}
+
+
+/* Final phase-layout refinements loaded after duel-emphasis.css. */
+
+/* Fade the confirmation inspector away together with the hand, so the player
+   can actually see the 250 ms table transition instead of an abrupt overlay cut. */
+#inspector.is-battle-transition {
+  opacity: 0;
+  transform: translateY(10px) scale(.99);
+  pointer-events: none;
+  transition:
+    opacity var(--battle-transition-duration, 250ms) ease,
+    transform var(--battle-transition-duration, 250ms) ease;
+}
+
+/* The result and next-round control must sit below the cards rather than being
+   compressed into the same vertical space. */
+#pub.is-battle-active #felt {
+  min-height: min(80dvh, calc(var(--battle-card-height) + 220px));
+  max-height: min(90dvh, calc(var(--battle-card-height) + 280px));
+}
+
+#pub.is-battle-active #duel {
+  flex-shrink: 0;
+}
+
+#pub.is-battle-active #verdict,
+#pub.is-battle-active #attribute-picker {
+  position: relative;
+  z-index: 3;
+}
+
+/* Once the verdict is visible both arrival animations must be fully settled.
+   This also makes the generated final-state preview deterministic in Chrome. */
+#pub.is-battle-active:has(#verdict.win, #verdict.lose, #verdict.tie) #duel .card {
+  animation: none !important;
+}
+
+/* Tall mobile viewports otherwise stretch the empty selection battlefield too
+   far. This ratio matches the supplied phone screenshot while keeping the large
+   horizontal hand directly below the field instead of leaving a dead gap. */
+@media (max-width: 900px) and (min-height: 1050px) {
+  #pub.is-card-selection #felt {
+    flex: 0 1 auto;
+    height: clamp(560px, 61dvh, 940px);
+    min-height: 560px;
+    max-height: 940px;
+  }
+
+  #pub.is-card-selection #player-zone {
     margin-top: 0;
-    font-size: 9px;
   }
+}
 
-  #duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
-    height: clamp(48px, 11vh, 72px);
+@media (max-width: 620px) {
+  #pub.is-battle-active #felt {
+    min-height: min(82dvh, calc(var(--battle-card-height) + 210px));
+    max-height: min(92dvh, calc(var(--battle-card-height) + 265px));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  #pub.is-battle-active #felt {
+    min-height: calc(var(--battle-card-height) + 104px);
+    max-height: calc(var(--battle-card-height) + 138px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inspector.is-battle-transition {
+    transition-duration: 1ms;
   }
 }
 
@@ -6161,7 +6443,8 @@ const initialiseFocusExperience = () => {
 
   if (!pub || !duel || !playerHand || !playerZone) return;
 
-  let animationFrame = 0;
+  let syncQueued = false;
+  let transitionTimer = 0;
   let disposed = false;
 
   const setClass = (node, className, enabled) => {
@@ -6172,6 +6455,15 @@ const initialiseFocusExperience = () => {
   const setAttributeIfChanged = (node, name, value) => {
     if (node.getAttribute(name) === value) return;
     node.setAttribute(name, value);
+  };
+
+  const markChoiceCardSelected = card => {
+    if (!card?.classList.contains('card--choice')) return;
+    for (const choice of playerHand.querySelectorAll('.card--choice')) {
+      const selected = choice === card;
+      setClass(choice, 'is-selected', selected);
+      setAttributeIfChanged(choice, 'aria-pressed', String(selected));
+    }
   };
 
   const makeChoiceCardAccessible = (card, index) => {
@@ -6187,6 +6479,7 @@ const initialiseFocusExperience = () => {
 
     setAttributeIfChanged(card, 'role', 'button');
     setAttributeIfChanged(card, 'tabindex', '0');
+    setAttributeIfChanged(card, 'aria-pressed', String(card.classList.contains('is-selected')));
     setAttributeIfChanged(
       card,
       'aria-label',
@@ -6199,35 +6492,42 @@ const initialiseFocusExperience = () => {
       if (!card.classList.contains('card--choice')) return;
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
+      markChoiceCardSelected(card);
       card.click();
     });
   };
 
   const clearChoiceCardAccessibility = card => {
     if (!card.classList.contains('card--choice') && !card.hasAttribute('tabindex')) return;
-    setClass(card, 'card--choice', false);
+    card.classList.remove('card--choice', 'is-selected');
     card.style.removeProperty('--choice-index');
     card.style.removeProperty('animation-delay');
     card.removeAttribute('role');
     card.removeAttribute('tabindex');
     card.removeAttribute('aria-label');
+    card.removeAttribute('aria-pressed');
   };
 
   const syncFocusState = () => {
     if (disposed || !pub.isConnected) return;
 
     try {
-      const duelCards = [...duel.querySelectorAll('.duel-slot .card')];
-      const hasCompleteFaceUpDuel = duelCards.length >= 2
-        && !duel.querySelector('.card--back, .card--empty');
+      const humanDuelCard = duel.querySelector('.duel-slot:first-child .card');
+      const battleActive = Boolean(
+        humanDuelCard
+        && !humanDuelCard.classList.contains('card--empty')
+        && !humanDuelCard.classList.contains('card--back'),
+      );
       const playableCards = [...playerHand.querySelectorAll(
         '.card.selectable:not(.card--dim):not(.card--unavailable)',
       )];
-      const selectionActive = playableCards.length > 0 && !hasCompleteFaceUpDuel;
+      const selectionActive = playableCards.length > 0 && !battleActive;
 
-      setClass(pub, 'is-duel-focus', hasCompleteFaceUpDuel);
+      setClass(pub, 'is-battle-active', battleActive);
+      setClass(pub, 'is-duel-focus', battleActive);
       setClass(pub, 'is-card-selection', selectionActive);
       setClass(playerHand, 'hand--selection', selectionActive);
+      if (battleActive) pub.classList.remove('is-battle-transition');
       setAttributeIfChanged(
         playerZone,
         'aria-busy',
@@ -6254,31 +6554,90 @@ const initialiseFocusExperience = () => {
       }
     } catch (error) {
       console.error('[focus-experience] A fókusznézet frissítése sikertelen:', error);
-      pub.classList.remove('is-duel-focus', 'is-card-selection');
+      pub.classList.remove('is-duel-focus', 'is-battle-active', 'is-battle-transition', 'is-card-selection');
       playerHand.classList.remove('hand--selection');
     }
   };
 
+  /* MutationObserver callbacks already run in a microtask. Keeping the refresh
+     in the same microtask queue makes the phase class deterministic in embedded
+     WebViews and headless mobile tests where requestAnimationFrame may pause. */
   const scheduleSync = () => {
-    if (disposed || animationFrame) return;
-    animationFrame = requestAnimationFrame(() => {
-      animationFrame = 0;
+    if (disposed || syncQueued) return;
+    syncQueued = true;
+    queueMicrotask(() => {
+      syncQueued = false;
       syncFocusState();
     });
   };
 
-  // Only DOM insertions/removals matter here. Observing every class mutation caused
-  // portrait loading and UI animations to trigger repeated full-hand scans on mobile.
+  const handleChoicePointerDown = event => {
+    const card = event.target.closest('.card--choice');
+    if (!card || !playerHand.contains(card)) return;
+    markChoiceCardSelected(card);
+  };
+
+  const handleCommittedPlay = event => {
+    const button = event.target.closest('#inspector .inspector__actions .btn:not(.btn--ghost)');
+    if (!button || button.disabled) return;
+    if (button.dataset.battleTransitionBypass === 'true') {
+      delete button.dataset.battleTransitionBypass;
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    const inspector = document.querySelector('#inspector');
+    const inspectedId = inspector?.querySelector('.card')?.dataset.cardId;
+    const sourceCard = [...playerHand.querySelectorAll('.card--choice')]
+      .find(card => card.dataset.cardId === inspectedId);
+    if (sourceCard) markChoiceCardSelected(sourceCard);
+
+    /* Flush the pre-transition state, then fade the inspector and both hand
+       zones together. The actual game action fires only after 250 ms. */
+    void playerZone.offsetWidth;
+    inspector?.classList.add('is-battle-transition');
+    pub.classList.add('is-battle-transition');
+    if (transitionTimer) clearTimeout(transitionTimer);
+    transitionTimer = window.setTimeout(() => {
+      transitionTimer = 0;
+      if (!button.isConnected) {
+        pub.classList.remove('is-battle-transition');
+        return;
+      }
+      button.dataset.battleTransitionBypass = 'true';
+      button.click();
+    }, 250);
+  };
+
+  const handleCommittedPlayKey = event => {
+    if (event.key !== 'Enter' || event.target.closest('button, input, textarea, select')) return;
+    const button = document.querySelector('#inspector .inspector__actions .btn:not(.btn--ghost)');
+    if (!button || button.disabled) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    button.click();
+  };
+
   const observer = new MutationObserver(scheduleSync);
   observer.observe(pub, { childList: true, subtree: true });
 
+  playerHand.addEventListener('pointerdown', handleChoicePointerDown, { passive: true });
+  document.addEventListener('click', handleCommittedPlay, true);
+  document.addEventListener('keydown', handleCommittedPlayKey, true);
   window.addEventListener('resize', scheduleSync, { passive: true });
   window.addEventListener('orientationchange', scheduleSync, { passive: true });
 
   window.addEventListener('pagehide', () => {
     disposed = true;
     observer.disconnect();
-    if (animationFrame) cancelAnimationFrame(animationFrame);
+    playerHand.removeEventListener('pointerdown', handleChoicePointerDown);
+    document.removeEventListener('click', handleCommittedPlay, true);
+    document.removeEventListener('keydown', handleCommittedPlayKey, true);
+    if (transitionTimer) clearTimeout(transitionTimer);
   }, { once: true });
 
   syncFocusState();
