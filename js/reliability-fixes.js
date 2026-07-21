@@ -9,12 +9,20 @@ import { loadPlayerName, localizeInterfaceTextValue } from './player-profile.js'
 
 export const SAVED_MATCH_STORAGE_KEY = 'fociskartyak:saved-match:v2';
 
+const RELIABILITY_LEGACY_OPPONENT_IDS = Object.freeze({
+  pub: 'bogdan',
+  regular: 'd-raven',
+  shark: 'h-li',
+  easy: 'bogdan',
+  medium: 'd-raven',
+  hard: 'h-li',
+});
+
 export function savedOpponentIdFromRawSave(rawValue) {
   try {
     const parsed = JSON.parse(String(rawValue ?? ''));
-    return typeof parsed?.difficulty === 'string' && parsed.difficulty.trim()
-      ? parsed.difficulty.trim()
-      : null;
+    const difficulty = typeof parsed?.difficulty === 'string' ? parsed.difficulty.trim() : '';
+    return difficulty ? (RELIABILITY_LEGACY_OPPONENT_IDS[difficulty] ?? difficulty) : null;
   } catch {
     return null;
   }
@@ -24,6 +32,12 @@ export function shouldSuppressRestoredVerdictFeedback(ui, game) {
   const recordedRounds = Number(ui?.uxStats?.rounds);
   const resolvedRounds = Array.isArray(game?.log) ? game.log.length : 0;
   return resolvedRounds > 0 && Number.isFinite(recordedRounds) && recordedRounds >= resolvedRounds;
+}
+
+function localizeReliabilityValue(value) {
+  return localizeInterfaceTextValue(value)
+    .replaceAll('Tizenegyes szabály', 'Büntetőpárbaj szabály')
+    .replaceAll('TIZENEGYESEK', 'BÜNTETŐPÁRBAJ');
 }
 
 function localizeReliabilityTree(root) {
@@ -38,7 +52,7 @@ function localizeReliabilityTree(root) {
   for (const textNode of textNodes) {
     const parentTag = textNode.parentElement?.tagName;
     if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'TEXTAREA') continue;
-    const localized = localizeInterfaceTextValue(textNode.nodeValue);
+    const localized = localizeReliabilityValue(textNode.nodeValue);
     if (localized !== textNode.nodeValue) textNode.nodeValue = localized;
   }
 
@@ -50,7 +64,7 @@ function localizeReliabilityTree(root) {
     for (const attribute of ['title', 'aria-label']) {
       if (!node.hasAttribute(attribute)) continue;
       const current = node.getAttribute(attribute);
-      const localized = localizeInterfaceTextValue(current);
+      const localized = localizeReliabilityValue(current);
       if (localized !== current) node.setAttribute(attribute, localized);
     }
   }
@@ -67,6 +81,7 @@ function syncSavedReliabilityOpponent() {
 
 const reliabilityPreviousShowOverlay = UI.prototype.showOverlay;
 UI.prototype.showOverlay = function showReliableOverlay(node) {
+  const output = reliabilityPreviousShowOverlay.call(this, node);
   localizeReliabilityTree(node);
 
   const heading = node?.querySelector?.('h1')?.textContent?.trim().toLocaleUpperCase('hu-HU');
@@ -75,7 +90,7 @@ UI.prototype.showOverlay = function showReliableOverlay(node) {
     node.classList.add('result-panel--tie');
   }
 
-  return reliabilityPreviousShowOverlay.call(this, node);
+  return output;
 };
 
 const reliabilityPreviousMatchScoreboard = UI.prototype._renderMatchScoreboard;
