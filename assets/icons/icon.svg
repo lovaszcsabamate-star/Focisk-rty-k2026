@@ -1,28 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
-  <title id="title">Fociskártyák 2026 ikon</title>
-  <desc id="desc">Arany szegélyű zöld focipálya, középen focilabdával és két kártyával.</desc>
+  <title id="title">Fociskártyák 2026 logó</title>
+  <desc id="desc">Piros, fehér és zöld FK 26 alkalmazásikon három kártyával és focilabdával.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#4b3020"/>
-      <stop offset="1" stop-color="#1c120c"/>
-    </linearGradient>
-    <linearGradient id="pitch" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2d7657"/>
-      <stop offset="1" stop-color="#163f31"/>
-    </linearGradient>
-    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="14" stdDeviation="15" flood-color="#000" flood-opacity=".45"/>
+    <clipPath id="rounded"><rect width="512" height="512" rx="92"/></clipPath>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff101e"/><stop offset="1" stop-color="#d90014"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00814c"/><stop offset="1" stop-color="#004b2d"/></linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#00643a"/><stop offset="1" stop-color="#002f1c"/></linearGradient>
+    <filter id="shadow" x="-35%" y="-35%" width="170%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity=".35"/>
     </filter>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <rect x="25" y="25" width="462" height="462" rx="94" fill="none" stroke="#d5a93f" stroke-width="18"/>
-  <rect x="76" y="82" width="360" height="348" rx="44" fill="url(#pitch)" stroke="#f0dfbc" stroke-width="8" filter="url(#shadow)"/>
-  <path d="M256 86v340M80 256h352" stroke="#f0dfbc" stroke-width="7" opacity=".82"/>
-  <circle cx="256" cy="256" r="78" fill="none" stroke="#f0dfbc" stroke-width="7" opacity=".82"/>
-  <rect x="108" y="132" width="118" height="182" rx="18" fill="#e5d4ae" stroke="#d5a93f" stroke-width="8" transform="rotate(-12 167 223)"/>
-  <rect x="286" y="132" width="118" height="182" rx="18" fill="#e5d4ae" stroke="#d5a93f" stroke-width="8" transform="rotate(12 345 223)"/>
-  <circle cx="256" cy="273" r="76" fill="#f7f4ec" stroke="#171717" stroke-width="8" filter="url(#shadow)"/>
-  <polygon points="256,230 292,256 278,299 234,299 220,256" fill="#161616"/>
-  <path d="M256 230l-2-31M292 256l31-10M278 299l18 27M234 299l-18 27M220 256l-31-10" stroke="#161616" stroke-width="9" stroke-linecap="round"/>
-  <path d="M218 202l36-3 28 14 22 34 1 39-25 39-35 20-42-13-25-36-2-42 18-34z" fill="none" stroke="#161616" stroke-width="8"/>
+
+  <g clip-path="url(#rounded)">
+    <rect width="512" height="512" fill="#fff"/>
+    <path d="M0 0h512v177C397 155 324 142 247 154 153 168 74 202 0 226Z" fill="url(#red)"/>
+    <path d="M0 390c92-53 181-86 286-90 83-3 153 10 226-30v242H0Z" fill="url(#green)"/>
+    <path d="M0 226c91-28 169-63 247-72 78-10 151 1 265 23v93c-69 41-143 49-226 52-103 4-193 35-286 68Z" fill="#fff"/>
+    <path d="M394 350c48-33 82-49 118-58v65c-49 1-86 8-122 27 20-20 26-25 49-44-20 4-28 5-45 10Z" fill="#00713f"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="76" y="119" width="183" height="311" rx="35" transform="rotate(-11 167.5 274.5)" fill="#e91422" stroke="#fff" stroke-width="15"/>
+    <rect x="253" y="112" width="183" height="313" rx="35" transform="rotate(11 344.5 268.5)" fill="#087548" stroke="#fff" stroke-width="15"/>
+
+    <path d="M144 77h224c28 0 51 23 51 51v270c0 30-21 52-47 55l-73 8-43 31-43-31-73-8c-27-3-47-25-47-55V128c0-28 23-51 51-51Z" fill="#fff" stroke="#fff" stroke-width="16" stroke-linejoin="round"/>
+    <path d="M147 87h218c24 0 43 19 43 43v266c0 24-17 43-39 46l-74 8-39 28-39-28-74-8c-22-3-39-22-39-46V130c0-24 19-43 43-43Z" fill="#fff" stroke="#ed1422" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M151 101h210c18 0 33 15 33 33v255c0 18-13 33-30 35l-78 9-30 22-30-22-78-9c-17-2-30-17-30-35V134c0-18 15-33 33-33Z" fill="#fff" stroke="#087548" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <g font-family="Arial Black, Impact, sans-serif" font-style="italic" font-weight="900">
+    <text x="150" y="239" font-size="139" fill="#ed1020" letter-spacing="-15">F</text>
+    <text x="252" y="239" font-size="139" fill="#00703f" letter-spacing="-12">K</text>
+  </g>
+
+  <g transform="translate(154 253)">
+    <rect width="63" height="6" rx="3" fill="#ed1422"/>
+    <rect x="72" width="61" height="6" rx="3" fill="#d8d8d8"/>
+    <rect x="142" width="63" height="6" rx="3" fill="#087548"/>
+  </g>
+
+  <text x="148" y="377" font-family="Arial Black, Impact, sans-serif" font-style="italic" font-weight="900" font-size="145" letter-spacing="-8" fill="url(#ink)">26</text>
+
+  <g transform="translate(256 424)" filter="url(#shadow)">
+    <circle r="59" fill="#fff" stroke="#fff" stroke-width="13"/>
+    <circle r="53" fill="#fff" stroke="#075b38" stroke-width="5"/>
+    <polygon points="0,-20 19,-7 12,16 -12,16 -19,-7" fill="#043b25"/>
+    <path d="M0-20 0-43M19-7 42-14M12 16 26 38M-12 16-26 38M-19-7-42-14" fill="none" stroke="#043b25" stroke-width="5" stroke-linecap="round"/>
+    <path d="M0-43 25-39 42-14 45 13 26 38 0 48-26 38-45 13-42-14-25-39Z" fill="none" stroke="#043b25" stroke-width="5" stroke-linejoin="round"/>
+  </g>
+
+  <rect x="4" y="4" width="504" height="504" rx="88" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="8"/>
 </svg>
