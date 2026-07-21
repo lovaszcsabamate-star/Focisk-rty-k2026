@@ -85,6 +85,68 @@
   width: 100%;
 }
 
+.pwa-update-notice {
+  position: fixed;
+  z-index: 3200;
+  left: max(10px, env(safe-area-inset-left));
+  right: max(10px, env(safe-area-inset-right));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  width: min(620px, calc(100% - 20px));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 14px;
+  border: 1px solid rgba(232, 195, 122, .7);
+  border-radius: 16px;
+  color: #f2e6d0;
+  background: rgba(27, 18, 12, .98);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, .58);
+  backdrop-filter: blur(10px);
+}
+
+.pwa-update-notice__copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.pwa-update-notice__copy strong {
+  color: #e8c37a;
+  font-size: 14px;
+}
+
+.pwa-update-notice__copy span {
+  color: #d9c8aa;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.pwa-update-notice__actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 7px;
+}
+
+.pwa-update-notice__actions .btn {
+  min-height: 40px;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+@media (max-width: 520px) {
+  .pwa-update-notice {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pwa-update-notice__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (min-width: 700px) {
   .pwa-install-guide {
     place-items: center;
