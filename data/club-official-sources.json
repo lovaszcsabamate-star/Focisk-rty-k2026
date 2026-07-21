@@ -152,9 +152,14 @@
       "clubName": "ZTE FC",
       "officialUrl": "https://www.ztefc.hu/",
       "officialRosterUrl": "https://www.ztefc.hu/hu/csapat",
-      "status": "official-profile-and-role-enrichment",
-      "recordFiles": ["data/club-official-enrichment-5-other.json"],
-      "note": "Aktuális hivatalos profilok kizárólag a meglévő 2025/26-os MLSZ-kártyákhoz illeszthetők."
+      "officialSeasonRosterUrl": "https://adatbank.mlsz.hu/club/65/0/31362/33/307006.html",
+      "status": "complete-43-of-43-player-review",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json",
+        "data/club-official-enrichment-19-zte-completion.json",
+        "data/club-official-stat-patches-zte.json"
+      ],
+      "note": "A ZTE FC mind a 43 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-, HLSZ- és hivatalos klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség és poszt rögzített. Harangi Aiden és Diogo Silva eltérő HLSZ-adatánál a lezárt MLSZ-profil születési dátuma az elsődleges. A több NB I-es klubban szereplő játékosok ZTE-s sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és kiállítástípus továbbra sem kerül becslésre."
     }
   ]
 }
