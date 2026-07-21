@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34, fociskartyak-2026-v35, fociskartyak-2026-v36, fociskartyak-2026-v37, fociskartyak-2026-v38
-const PWA_CACHE = 'fociskartyak-2026-v39';
+// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34, fociskartyak-2026-v35, fociskartyak-2026-v36, fociskartyak-2026-v37, fociskartyak-2026-v38, fociskartyak-2026-v39
+const PWA_CACHE = 'fociskartyak-2026-v40';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -35,6 +35,7 @@ const PWA_SHELL = [
   './js/pwa.js',
   './js/mobile-experience.js',
   './js/player-profile.js',
+  './js/reliability-fixes.js',
   './js/focus-experience.js',
   './js/main.js',
   './data/players.json',
