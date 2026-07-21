@@ -2,8 +2,8 @@
    Duel emphasis
    - only the active battle view is reduced to half of the viewport height
    - the human player's played card grows up to exactly 2× the base card size
-   - one aspect ratio controls both dimensions, preventing stretched cards
-   - responsive caps keep the opponent, prompt, result and controls visible
+   - both cards always occupy separate columns and can never overlap
+   - card proportions and readable contents are preserved on narrow screens
    =========================================================================== */
 
 /* During card selection #duel already contains an empty human placeholder.
@@ -25,42 +25,60 @@
   }
 }
 
+/* Three explicit grid columns guarantee that the two card slots remain next
+   to each other. Each card is capped by its own column, so transforms, long
+   names and narrow mobile viewports cannot make the cards overlap. */
 #duel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
   width: 100%;
   max-width: 100%;
   min-width: 0;
   min-height: 0;
   max-height: 100%;
-  justify-content: center;
   gap: clamp(8px, 2vw, 24px);
 }
 
 #duel > .duel-slot {
+  width: 100%;
   min-width: 0;
-  max-width: 44%;
+  max-width: none;
 }
 
-/* The height determines the whole card size through aspect-ratio. This keeps
-   the original 132 × 232 proportions on every screen instead of allowing the
-   width and height clamps to stretch the card independently. */
+#duel > .duel-slot .card {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 132 / 232;
+}
+
+/* The opponent card keeps its normal size, but scales down proportionally when
+   its grid column is narrower than the standard 132 px card width. */
+#duel > .duel-slot:last-child .card {
+  width: min(132px, 100%);
+}
+
+/* Width controls the whole card through aspect-ratio. This preserves the
+   original 132 × 232 proportions and prevents independent width/height clamps
+   from stretching the enlarged human card. */
 #duel > .duel-slot:first-child .card:not(.card--empty) {
-  width: auto;
-  height: min(464px, 74vw, calc(50vh - 96px));
-  max-width: 42vw;
+  width: min(264px, 42vw, calc((50vh - 96px) * .5689655));
+  height: auto;
+  max-width: 100%;
   aspect-ratio: 132 / 232;
 }
 
 /* On a sufficiently large battlefield the card reaches 264 × 464 px, exactly
-   twice the normal 132 × 232 px card. Container units let shorter battlefields
-   reduce it before surrounding labels or controls can overlap. */
+   twice the normal 132 × 232 px card. Container units let short battlefields
+   reduce it before surrounding labels or controls can collide. */
 @supports (height: 1cqh) {
   #duel > .duel-slot:first-child .card:not(.card--empty) {
-    width: auto;
-    height: min(464px, 86cqh, 74vw);
+    width: min(264px, 48.9cqh, 42vw);
   }
 
   .mode-penalties #duel > .duel-slot:first-child .card:not(.card--empty) {
-    height: min(464px, 68cqh, 74vw);
+    width: min(264px, 38.6cqh, 42vw);
   }
 }
 
@@ -122,12 +140,15 @@
   }
 
   #duel {
-    gap: clamp(5px, 2vw, 9px);
+    gap: clamp(4px, 1.5vw, 8px);
   }
 
   #duel > .duel-slot {
-    max-width: 45%;
     gap: 3px;
+  }
+
+  #duel > .duel-slot:first-child .card:not(.card--empty) {
+    width: min(264px, 41vw, calc((50vh - 86px) * .5689655));
   }
 
   #duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
@@ -148,11 +169,16 @@
   }
 
   .duel-slot__who {
+    max-width: 100%;
+    overflow: hidden;
     font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .versus {
     flex: 0 0 auto;
+    font-size: clamp(15px, 5vw, 22px);
   }
 }
 
