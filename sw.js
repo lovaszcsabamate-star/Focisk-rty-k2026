@@ -1,4 +1,4 @@
-const PWA_CACHE = 'fociskartyak-2026-v21';
+const PWA_CACHE = 'fociskartyak-2026-v22';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -44,6 +44,7 @@ const PWA_SHELL = [
   './data/club-official-enrichment-12-dvtk-completion.json',
   './data/club-official-enrichment-13-mtk-completion.json',
   './data/club-official-enrichment-14-nyiregyhaza-completion.json',
+  './data/club-official-enrichment-15-nyiregyhaza-nationalities.json',
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',
