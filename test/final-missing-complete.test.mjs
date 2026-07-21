@@ -116,7 +116,9 @@ assert.equal(finalPayload.players.filter(card => finite(card.stats?.secondYellow
 for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
   assert.match(readText(source), new RegExp(FILE.replaceAll('.', '\\.')));
 }
-assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
+const serviceWorker = readText('../sw.js');
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);
+assert.match(serviceWorker, /const PWA_CACHE = `\$\{CACHE_PREFIX\}v43`;/);
 assert.match(readText('../js/data/club-stat-patches.js'), /officialStatConsensus/);
 
 console.log('✓ Végső adatlezárás: 440/440 nemzetiség, poszt, mérkőzés-, kezdés-, keret- és lapadat');
