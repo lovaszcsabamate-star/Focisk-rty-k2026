@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32
-const PWA_CACHE = 'fociskartyak-2026-v33';
+// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33
+const PWA_CACHE = 'fociskartyak-2026-v34';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -15,6 +15,7 @@ const PWA_SHELL = [
   './css/player-profile.css',
   './css/focus-experience.css',
   './css/mobile-selection-fix.css',
+  './css/duel-emphasis.css',
   './js/bootstrap.js',
   './js/data/complete-cards.js',
   './js/data/club-enrichment.js',
@@ -95,41 +96,5 @@ self.addEventListener('activate', event => {
     caches.keys()
       .then(keys => Promise.all(keys.filter(key => key !== PWA_CACHE).map(key => caches.delete(key))))
       .then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  if (request.method !== 'GET') return;
-
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
-
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(PWA_CACHE).then(cache => cache.put(request, copy));
-          return response;
-        })
-        .catch(async () => (await caches.match(request)) || (await caches.match('./index.html')))
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(request).then(cached => {
-      const network = fetch(request)
-        .then(response => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(PWA_CACHE).then(cache => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
   );
 });
