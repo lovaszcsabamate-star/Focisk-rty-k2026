@@ -20,6 +20,7 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-12-dvtk-completion.json',
   'data/club-official-enrichment-13-mtk-completion.json',
   'data/club-official-enrichment-14-nyiregyhaza-completion.json',
+  'data/club-official-enrichment-15-nyiregyhaza-nationalities.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',

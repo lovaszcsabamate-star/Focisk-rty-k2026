@@ -33,6 +33,7 @@ const enrichmentFiles = [
   'data/club-official-enrichment-12-dvtk-completion.json',
   'data/club-official-enrichment-13-mtk-completion.json',
   'data/club-official-enrichment-14-nyiregyhaza-completion.json',
+  'data/club-official-enrichment-15-nyiregyhaza-nationalities.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',

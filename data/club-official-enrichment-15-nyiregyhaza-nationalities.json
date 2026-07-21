@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-21T09:45:00+02:00",
+  "batch": {
+    "id": "nyiregyhaza-nationality-completion",
+    "playerCount": 39,
+    "rule": "A Nyíregyháza Spartacus 39 projektbeli 2025/26-os játékosrekordjának nemzetisége külön HLSZ-, klub- vagy szövetségi forrásos ellenőrzést kap."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "rule": "Nemzetiség csak egyértelmű klub-, név- és születésidátum-azonosítás után tölthető. A kettős nemzetiséget perjellel elválasztott FIFA/országkódok őrzik; meglévő hiteles érték nem írható felül."
+  },
+  "sources": [
+    {
+      "id": "hlsz-nyiregyhaza-nationalities",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "url": "https://hlsz.hu/nyiregyhaza",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"],
+      "scope": "A HLSZ játékosoldalain megjelenített magyar nyelvű nemzetiségmegjelölések kódolt rögzítése."
+    },
+    {
+      "id": "hlsz-beke-peter-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "HLSZ – Beke Péter játékosprofil",
+      "url": "https://hlsz.hu/2001-03-14/beke-peter",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "hlsz-alaxai-aron-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "HLSZ – Alaxai Áron játékosprofil a Paksi FC keretében",
+      "url": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "hlsz-bese-balazs-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "HLSZ – Bese Balázs játékosprofil",
+      "url": "https://hlsz.hu/1999-01-22/bese-balazs",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "hlsz-varga-kevin-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "HLSZ – Varga Kevin játékosprofil",
+      "url": "https://hlsz.hu/1996-03-30/varga-kevin",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "nyiregyhaza-official-gilbert-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "Nyíregyháza Spartacus – Dantaye Gilbert bemutatása",
+      "url": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "nyiregyhaza-official-jokic-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "Nyíregyháza Spartacus – Ranko Jokić bemutatása",
+      "url": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "fck-official-keita-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "F.C. København – Aboubakar Keita hivatalos játékosprofil",
+      "url": "https://www.fck.dk/en/spiller/aboubakar-keita",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "zte-official-evangelou-nationality",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "ZTE FC – Stefanos Evangelou hivatalos bemutatása",
+      "url": "https://www.ztefc.hu/hu/hirek/stefanos-evangelou-kek-feherben",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"]
+    },
+    {
+      "id": "mlsz-molnar-matyas-identification",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "clubName": "Nyíregyháza Spartacus FC",
+      "name": "MLSZ Adatbank – Molnár Mátyás játékosazonosítás",
+      "url": "https://adatbank.mlsz.hu/player/647713.html",
+      "additionalUrls": ["https://www.nyiregyhaza.hu/post/nb-iii-izgalmas-meccs-a-fuzesabony-ellen-2025-03-22"],
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation"],
+      "scope": "Magyar utánpótlás-nevelési és klubpálya alapján HUN; az adat közepes bizonyosságúként van jelölve."
+    }
+  ],
+  "records": [
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KERSÁK ROLAND ATTILA","aliases":["Kersák Roland"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KOVÁCS DÁNIEL","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KATONA MÁTYÁS","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"NAGY DOMINIK","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-beke-peter-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"BEKE PÉTER","sourceUrl":"https://hlsz.hu/2001-03-14/beke-peter","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"MÁJER MILÁN","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"BENCZENLEITNER BARNA","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"MANNER BALÁZS","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KOVÁCSRÉTI MÁRK","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-alaxai-aron-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"ALAXAI ÁRON","sourceUrl":"https://hlsz.hu/paks","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"CZIMER-NYITRAI ÁDÁM BÁLINT","aliases":["Czimer-Nyitrai Ádám"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"TEMESVÁRI ATTILA","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"TOMA GYÖRGY","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"UKR / HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"NEMANJA ANTONOV","aliases":["Antonov Nemanja","Nemanja Antonov"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"SRB"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"BABUNSKI HRISTOVSKI DORIAN","aliases":["Babunski Dorian","Dorian Babunski"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"MKD / ESP"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"EDOMWONYI OSAIGE BRIGHT","aliases":["Edomwonyi Bright","Bright Edomwonyi"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"NGA"},
+    {"sourceId":"zte-official-evangelou-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"EVANGELOU STEFANOS","sourceUrl":"https://www.ztefc.hu/hu/hirek/stefanos-evangelou-kek-feherben","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"GRC"},
+    {"sourceId":"fck-official-keita-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"ABOUBAKAR KEITA","aliases":["Keita Aboubakar"],"sourceUrl":"https://www.fck.dk/en/spiller/aboubakar-keita","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"CIV"},
+    {"sourceId":"nyiregyhaza-official-jokic-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"JOKIC RANKO","sourceUrl":"https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"SRB"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KORREA PAVLOS","aliases":["Pavlos Korrea"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"CYP"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"FARKAS BENDEGÚZ BENCE","aliases":["Farkas Bendegúz"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KATONA LEVENTE","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KATONA BÁLINT LAJOS","aliases":["Katona Bálint"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"SANKOVIC BOJAN","aliases":["Bojan Sankovic"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"MNE"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"OLÁH BENJÁMIN","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-bese-balazs-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"BESE BALÁZS","sourceUrl":"https://hlsz.hu/1999-01-22/bese-balazs","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-varga-kevin-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"VARGA KEVIN","sourceUrl":"https://hlsz.hu/1996-03-30/varga-kevin","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KOVÁCS MILÁN","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"nyiregyhaza-official-gilbert-nationality","clubId":"nyiregyhaza-spartacus-fc","name":"GILBERT DANTAYE MICHAEL LEE","aliases":["Gilbert Dantaye"],"sourceUrl":"https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"TRI"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"BITRI ENEO","aliases":["Eneo Bitri"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"ALB"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"VUKK ZSOMBOR","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"mlsz-molnar-matyas-identification","clubId":"nyiregyhaza-spartacus-fc","name":"MOLNÁR MÁTYÁS","sourceUrl":"https://adatbank.mlsz.hu/player/647713.html","checkedAt":"2026-07-21","season":"2025/26","confidence":"medium","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"DRESKOVIC MELDIN","aliases":["Meldin Dreskovic"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"MNE"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"KVASINA MARKO","aliases":["Marko Kvasina"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"AUT"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"TIJANI MUHAMED","aliases":["Muhamed Tijani"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"NGA"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"JOVANOV VANE","aliases":["Vane Jovanov"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"MKD"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"DALA MARTIN","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"TÓTH BALÁZS","sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"HUN"},
+    {"sourceId":"hlsz-nyiregyhaza-nationalities","clubId":"nyiregyhaza-spartacus-fc","name":"BABIC SLOBODAN","aliases":["Slobodan Babic"],"sourceUrl":"https://hlsz.hu/nyiregyhaza","checkedAt":"2026-07-21","season":"2025/26","confidence":"high","nation":"SRB"}
+  ]
+}
