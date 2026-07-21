@@ -9,6 +9,7 @@ const initialiseFocusExperience = () => {
   if (!pub || !duel || !playerHand || !playerZone) return;
 
   let animationFrame = 0;
+  let transitionTimer = 0;
   let disposed = false;
 
   const setClass = (node, className, enabled) => {
@@ -19,6 +20,15 @@ const initialiseFocusExperience = () => {
   const setAttributeIfChanged = (node, name, value) => {
     if (node.getAttribute(name) === value) return;
     node.setAttribute(name, value);
+  };
+
+  const markChoiceCardSelected = card => {
+    if (!card?.classList.contains('card--choice')) return;
+    for (const choice of playerHand.querySelectorAll('.card--choice')) {
+      const selected = choice === card;
+      setClass(choice, 'is-selected', selected);
+      setAttributeIfChanged(choice, 'aria-pressed', String(selected));
+    }
   };
 
   const makeChoiceCardAccessible = (card, index) => {
@@ -34,6 +44,7 @@ const initialiseFocusExperience = () => {
 
     setAttributeIfChanged(card, 'role', 'button');
     setAttributeIfChanged(card, 'tabindex', '0');
+    setAttributeIfChanged(card, 'aria-pressed', String(card.classList.contains('is-selected')));
     setAttributeIfChanged(
       card,
       'aria-label',
@@ -46,35 +57,42 @@ const initialiseFocusExperience = () => {
       if (!card.classList.contains('card--choice')) return;
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
+      markChoiceCardSelected(card);
       card.click();
     });
   };
 
   const clearChoiceCardAccessibility = card => {
     if (!card.classList.contains('card--choice') && !card.hasAttribute('tabindex')) return;
-    setClass(card, 'card--choice', false);
+    card.classList.remove('card--choice', 'is-selected');
     card.style.removeProperty('--choice-index');
     card.style.removeProperty('animation-delay');
     card.removeAttribute('role');
     card.removeAttribute('tabindex');
     card.removeAttribute('aria-label');
+    card.removeAttribute('aria-pressed');
   };
 
   const syncFocusState = () => {
     if (disposed || !pub.isConnected) return;
 
     try {
-      const duelCards = [...duel.querySelectorAll('.duel-slot .card')];
-      const hasCompleteFaceUpDuel = duelCards.length >= 2
-        && !duel.querySelector('.card--back, .card--empty');
+      const humanDuelCard = duel.querySelector('.duel-slot:first-child .card');
+      const battleActive = Boolean(
+        humanDuelCard
+        && !humanDuelCard.classList.contains('card--empty')
+        && !humanDuelCard.classList.contains('card--back'),
+      );
       const playableCards = [...playerHand.querySelectorAll(
         '.card.selectable:not(.card--dim):not(.card--unavailable)',
       )];
-      const selectionActive = playableCards.length > 0 && !hasCompleteFaceUpDuel;
+      const selectionActive = playableCards.length > 0 && !battleActive;
 
-      setClass(pub, 'is-duel-focus', hasCompleteFaceUpDuel);
+      setClass(pub, 'is-battle-active', battleActive);
+      setClass(pub, 'is-duel-focus', battleActive);
       setClass(pub, 'is-card-selection', selectionActive);
       setClass(playerHand, 'hand--selection', selectionActive);
+      if (battleActive) pub.classList.remove('is-battle-transition');
       setAttributeIfChanged(
         playerZone,
         'aria-busy',
@@ -101,7 +119,7 @@ const initialiseFocusExperience = () => {
       }
     } catch (error) {
       console.error('[focus-experience] A fókusznézet frissítése sikertelen:', error);
-      pub.classList.remove('is-duel-focus', 'is-card-selection');
+      pub.classList.remove('is-duel-focus', 'is-battle-active', 'is-battle-transition', 'is-card-selection');
       playerHand.classList.remove('hand--selection');
     }
   };
@@ -114,18 +132,71 @@ const initialiseFocusExperience = () => {
     });
   };
 
+  const handleChoicePointerDown = event => {
+    const card = event.target.closest('.card--choice');
+    if (!card || !playerHand.contains(card)) return;
+    markChoiceCardSelected(card);
+  };
+
+  const handleCommittedPlay = event => {
+    const button = event.target.closest('#inspector .inspector__actions .btn:not(.btn--ghost)');
+    if (!button || button.disabled) return;
+    if (button.dataset.battleTransitionBypass === 'true') {
+      delete button.dataset.battleTransitionBypass;
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    const inspectedId = document.querySelector('#inspector .card')?.dataset.cardId;
+    const sourceCard = [...playerHand.querySelectorAll('.card--choice')]
+      .find(card => card.dataset.cardId === inspectedId);
+    if (sourceCard) markChoiceCardSelected(sourceCard);
+
+    pub.classList.add('is-battle-transition');
+    if (transitionTimer) clearTimeout(transitionTimer);
+    transitionTimer = window.setTimeout(() => {
+      transitionTimer = 0;
+      if (!button.isConnected) {
+        pub.classList.remove('is-battle-transition');
+        return;
+      }
+      button.dataset.battleTransitionBypass = 'true';
+      button.click();
+    }, 250);
+  };
+
+  const handleCommittedPlayKey = event => {
+    if (event.key !== 'Enter' || event.target.closest('button, input, textarea, select')) return;
+    const button = document.querySelector('#inspector .inspector__actions .btn:not(.btn--ghost)');
+    if (!button || button.disabled) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    button.click();
+  };
+
   // Only DOM insertions/removals matter here. Observing every class mutation caused
   // portrait loading and UI animations to trigger repeated full-hand scans on mobile.
   const observer = new MutationObserver(scheduleSync);
   observer.observe(pub, { childList: true, subtree: true });
 
+  playerHand.addEventListener('pointerdown', handleChoicePointerDown, { passive: true });
+  document.addEventListener('click', handleCommittedPlay, true);
+  document.addEventListener('keydown', handleCommittedPlayKey, true);
   window.addEventListener('resize', scheduleSync, { passive: true });
   window.addEventListener('orientationchange', scheduleSync, { passive: true });
 
   window.addEventListener('pagehide', () => {
     disposed = true;
     observer.disconnect();
+    playerHand.removeEventListener('pointerdown', handleChoicePointerDown);
+    document.removeEventListener('click', handleCommittedPlay, true);
+    document.removeEventListener('keydown', handleCommittedPlayKey, true);
     if (animationFrame) cancelAnimationFrame(animationFrame);
+    if (transitionTimer) clearTimeout(transitionTimer);
   }, { once: true });
 
   syncFocusState();
