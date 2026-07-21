@@ -34,12 +34,14 @@ const mtkCompletion = readJson('../data/club-official-enrichment-13-mtk-completi
 const nyiregyhazaCompletion = readJson('../data/club-official-enrichment-14-nyiregyhaza-completion.json');
 const nyiregyhazaNationalities = readJson('../data/club-official-enrichment-15-nyiregyhaza-nationalities.json');
 const kazincbarcikaCompletion = readJson('../data/club-official-enrichment-16-kazincbarcika-completion.json');
+const ujpestCompletion = readJson('../data/club-official-enrichment-17-ujpest-completion.json');
 const kisvardaFinalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const ferencvarosStats = readJson('../data/club-official-stat-patches-ferencvaros.json');
 const dvtkStats = readJson('../data/club-official-stat-patches-dvtk.json');
 const mtkStats = readJson('../data/club-official-stat-patches-mtk.json');
 const nyiregyhazaStats = readJson('../data/club-official-stat-patches-nyiregyhaza.json');
 const kazincbarcikaStats = readJson('../data/club-official-stat-patches-kazincbarcika.json');
+const ujpestStats = readJson('../data/club-official-stat-patches-ujpest.json');
 const corrections2 = readJson('../data/club-official-corrections-2.json');
 const corrections3 = readJson('../data/club-official-corrections-3.json');
 const manifest = readJson('../manifest.webmanifest');
@@ -97,6 +99,7 @@ const dataFiles = [
   'club-official-enrichment-14-nyiregyhaza-completion.json',
   'club-official-enrichment-15-nyiregyhaza-nationalities.json',
   'club-official-enrichment-16-kazincbarcika-completion.json',
+  'club-official-enrichment-17-ujpest-completion.json',
   'club-official-corrections.json',
   'club-official-corrections-2.json',
   'club-official-corrections-3.json',
@@ -111,6 +114,7 @@ const dataFiles = [
   'club-official-stat-patches-mtk.json',
   'club-official-stat-patches-nyiregyhaza.json',
   'club-official-stat-patches-kazincbarcika.json',
+  'club-official-stat-patches-ujpest.json',
   'club-official-sources.json',
 ];
 for (const file of dataFiles) {
@@ -127,7 +131,7 @@ assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
 assert.match(clubStatPatches, /clubOfficialStatsByClub/);
 assert.match(clubStatPatches, /correctedFieldCounts/);
-assert.match(serviceWorker, /fociskartyak-2026-v23/);
+assert.match(serviceWorker, /fociskartyak-2026-v24/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
@@ -155,6 +159,8 @@ assert.equal(nyiregyhazaNationalities.batch.playerCount, 39);
 assert.equal(nyiregyhazaNationalities.records.length, 39);
 assert.equal(kazincbarcikaCompletion.batch.playerCount, 40);
 assert.equal(kazincbarcikaCompletion.records.length, 40);
+assert.equal(ujpestCompletion.batch.playerCount, 41);
+assert.equal(ujpestCompletion.records.length, 41);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);
@@ -171,6 +177,9 @@ assert.equal(nyiregyhazaStats.source.clubId, 'nyiregyhaza-spartacus-fc');
 assert.equal(kazincbarcikaStats.rows.length, 40);
 assert.equal(kazincbarcikaStats.batch.playerCount, 40);
 assert.equal(kazincbarcikaStats.source.clubId, 'kolorcity-kazincbarcika-sc');
+assert.equal(ujpestStats.rows.length, 41);
+assert.equal(ujpestStats.batch.playerCount, 41);
+assert.equal(ujpestStats.source.clubId, 'ujpest-fc');
 assert.equal(corrections2.recordPatches.length, 2);
 assert.equal(corrections2.excludeRecords.length, 11);
 assert.equal(corrections3.recordPatches.length, 2);
@@ -195,6 +204,10 @@ assert.equal(
 assert.equal(
   directory.clubs.find(club => club.clubId === 'kolorcity-kazincbarcika-sc').status,
   'complete-40-of-40-player-review',
+);
+assert.equal(
+  directory.clubs.find(club => club.clubId === 'ujpest-fc').status,
+  'complete-41-of-41-player-review',
 );
 
 assert.equal(manifest.display, 'standalone');
