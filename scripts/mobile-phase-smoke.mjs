@@ -126,6 +126,10 @@ const battleBody = () => `
   <aside id="banter"></aside>
 </div>`;
 
+const inspectorCardJs = JSON.stringify(card('csoka', 'Csóka Dániel', 'ZTE FC'));
+const humanBattleCardJs = JSON.stringify(card('csoka', 'Csóka Dániel', 'ZTE FC'));
+const aiBattleCardJs = JSON.stringify(card('nagy', 'Nagy Barnabás', 'Ferencváros'));
+
 for (const width of WIDTHS) {
   const fixtureFileName = `phase-app-${width}.html`;
   const fixtureFile = path.join(temporaryDirectory, fixtureFileName);
@@ -149,12 +153,12 @@ const sleep=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds))
 
   const inspector=document.createElement('div');
   inspector.id='inspector';
-  inspector.innerHTML='<div class="inspector__shell"><div class="inspector__centre">${card('csoka', 'Csóka Dániel', 'ZTE FC').replace(/'/g, "\\'")}<div class="inspector__actions"><button class="btn" id="commit-card">Kijátszom ezt a lapot</button><button class="btn btn--ghost">Vissza</button></div></div></div>';
+  inspector.innerHTML='<div class="inspector__shell"><div class="inspector__centre">'+${inspectorCardJs}+'<div class="inspector__actions"><button class="btn" id="commit-card">Kijátszom ezt a lapot</button><button class="btn btn--ghost">Vissza</button></div></div></div>';
   document.body.appendChild(inspector);
   let committed=0;
   inspector.querySelector('#commit-card').addEventListener('click',()=>{
     committed+=1;
-    document.querySelector('#duel').innerHTML='<div class="duel-slot"><div class="duel-slot__who">CSABI</div>${card('csoka', 'Csóka Dániel', 'ZTE FC').replace(/'/g, "\\'")}</div><div class="versus">VS</div><div class="duel-slot"><div class="duel-slot__who">GÉP</div>${card('nagy', 'Nagy Barnabás', 'Ferencváros').replace(/'/g, "\\'")}</div>';
+    document.querySelector('#duel').innerHTML='<div class="duel-slot"><div class="duel-slot__who">CSABI</div>'+${humanBattleCardJs}+'</div><div class="versus">VS</div><div class="duel-slot"><div class="duel-slot__who">GÉP</div>'+${aiBattleCardJs}+'</div>';
     [...hand.querySelectorAll('.card')].forEach(node=>node.classList.add('card--dim'));
     inspector.remove();
   });
