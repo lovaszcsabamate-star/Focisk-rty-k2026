@@ -1,6 +1,6 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T10:33:07.933Z
+Generálva: 2026-07-21T10:41:02.376Z
 
 ## Összefoglaló
 
@@ -8,7 +8,7 @@ Generálva: 2026-07-21T10:33:07.933Z
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **434/440**
 - Változásnapló-bejegyzések: **3721**
-- Megőrzött forrásütközések: **1**
+- Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **6**
 

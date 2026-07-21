@@ -1703,7 +1703,7 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 1,
+    "conflictCount": 0,
     "appliedFieldCounts": {
       "position": 419,
       "nation": 352,
@@ -53061,15 +53061,6 @@
           }
         ],
         "dataStatus": "partially_verified",
-        "enrichmentConflicts": [
-          {
-            "field": "nation",
-            "kept": "SLO",
-            "offered": "SVN",
-            "sourceId": "mlsz-hlsz-zte-complete-2025-26",
-            "clubId": "zte-fc"
-          }
-        ],
         "clubOfficialStatsByClub": {
           "zte-fc": {
             "appearances": 0,
