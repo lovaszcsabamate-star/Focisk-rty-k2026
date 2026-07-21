@@ -1,0 +1,99 @@
+name: Gameflow hardening
+
+on:
+  push:
+    branches:
+      - fix/gameflow-hardening-2026-07-22
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gameflow-hardening-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Materialize transactional session controller
+        shell: bash
+        run: |
+          if compgen -G '.hardening/main.gz.part*' > /dev/null; then
+            cat .hardening/main.gz.part* | base64 --decode | gzip -dc > js/main.js
+            echo 'd3a175c7872bb678430ab2c5ab506dcaa0158c684ab4210acfd5c82a93ff800b  js/main.js' | sha256sum --check --strict
+            node --check js/main.js
+            rm -rf .hardening
+
+            if [[ '${{ github.event_name }}' == 'push' ]]; then
+              git config user.name 'github-actions[bot]'
+              git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+              git add js/main.js .hardening
+              git commit -m 'Tranzakcióbiztossá teszi a játékfolyamot' || true
+              git push
+            fi
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit and regression tests
+        run: npm test
+
+      - name: Full test suite
+        run: npm run test:all
+
+      - name: Standalone build
+        run: npm run build
+
+      - name: Database review
+        run: npm run review:database
+
+      - name: Mobile layout regression
+        run: npm run test:mobile-layout
+
+      - name: Capacitor web assets preparation
+        run: npm run mobile:prepare
+
+      - name: Verify standalone HTML and hardening invariants
+        shell: bash
+        run: |
+          test -s Fociskartyak2026.html
+          grep -q 'Büntetőpárbaj' Fociskartyak2026.html
+          grep -q 'fociskartyak-2026-' sw.js
+          if grep -q 'globalThis.setTimeout[[:space:]]*=' js/mobile-experience.js; then
+            echo 'A globális setTimeout felülírása visszakerült.' >&2
+            exit 1
+          fi
+          test -d mobile-www/assets
+          test -f mobile-www/index.html
+
+      - name: Commit generated standalone HTML
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Fociskartyak2026.html
+          git commit -m 'Frissíti az önálló Fociskártyák HTML-buildet' || true
+          git push
