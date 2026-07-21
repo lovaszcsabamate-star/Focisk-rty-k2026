@@ -51,4 +51,21 @@ jobs:
         run: exit 1
 
       - name: Run complete test suite
-        run: npm test
+        id: complete-tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee complete-test-output.log
+
+      - name: Upload complete test output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: complete-test-diagnostics
+          path: complete-test-output.log
+          if-no-files-found: error
+
+      - name: Enforce complete test result
+        if: steps.complete-tests.outcome == 'failure'
+        run: exit 1
