@@ -58,6 +58,17 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+      - name: ZTE pontos projektlista kinyerése
+        run: npm run test:zte-discovery
+
+      - name: ZTE lista mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: zte-discovery
+          path: zte-discovery.json
+          if-no-files-found: error
+          retention-days: 2
+
       - name: Alkalmazástesztek
         run: npm test
 
