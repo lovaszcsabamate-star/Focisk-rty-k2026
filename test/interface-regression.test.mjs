@@ -77,7 +77,7 @@ assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
 assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/focus-experience\.js/);
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v40';/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v41';/);
 assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
