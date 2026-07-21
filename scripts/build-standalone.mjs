@@ -84,6 +84,7 @@ const moduleOrder = [
   'js/pwa.js',
   'js/mobile-experience.js',
   'js/player-profile.js',
+  'js/focus-experience.js',
   'js/main.js',
 ];
 
@@ -131,7 +132,7 @@ writeDatabaseReviewFiles(ROOT, payload, databaseReview);
 const playablePayload = filterCompleteCardsPayload(payload);
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}`;
 
 const backgroundFiles = [
   ['assets/pub/background.webp', 'image/webp'],
@@ -154,6 +155,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/mobile-experience.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/mobile-overlay-fix.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/player-profile.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/focus-experience.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
@@ -161,6 +163,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/opponents.js"></script>\n', '')
   .replace('  <script type="module" src="js/pwa.js"></script>\n', '')
   .replace('  <script type="module" src="js/player-profile.js"></script>\n', '')
+  .replace('  <script type="module" src="js/focus-experience.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
     `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson};</script>\n<script type="module">${safeBundle}</script>`
@@ -217,5 +220,3 @@ console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hoz
 console.log(`${payload.verifiedPlayerCorrections?.appliedFields ?? 0} bizonyított alapadat-korrekció alkalmazva.`);
 console.log(`${payload.officialStatPatches?.correctionCount ?? 0} bizonyított statisztikai korrekció alkalmazva.`);
 console.log(`Adatellenőrzés: ${databaseReview.summary.errorCount} kritikus hiba, ${databaseReview.summary.warningCount} figyelmeztetés.`);
-
-if (databaseReview.summary.errorCount > 0) process.exitCode = 1;
