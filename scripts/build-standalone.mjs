@@ -36,6 +36,7 @@ const enrichmentFiles = [
   'data/club-official-enrichment-15-nyiregyhaza-nationalities.json',
   'data/club-official-enrichment-16-kazincbarcika-completion.json',
   'data/club-official-enrichment-17-ujpest-completion.json',
+  'data/club-official-enrichment-18-paks-completion.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',

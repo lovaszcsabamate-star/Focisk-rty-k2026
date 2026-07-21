@@ -115,9 +115,14 @@
       "clubId": "paksi-fc",
       "clubName": "Paksi FC",
       "officialUrl": "https://paksifc.hu/",
-      "officialRosterUrl": "https://paksifc.hu/jatekosok.php",
-      "status": "official-roster-enrichment",
-      "recordFiles": ["data/club-official-enrichment-3-paks-nyir.json"]
+      "officialRosterUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
+      "officialSeasonRosterUrl": "https://adatbank.mlsz.hu/club/63/1/29453/0/31362/26/307012.html",
+      "status": "complete-33-of-33-player-review",
+      "recordFiles": [
+        "data/club-official-enrichment-3-paks-nyir.json",
+        "data/club-official-enrichment-18-paks-completion.json"
+      ],
+      "note": "A Paksi FC mind a 33 projektbeli 2025/26-os szezonrekordja hivatalos Paks-, HLSZ- és MLSZ-forrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség, poszt és Fizz Liga-statisztika rögzített. A klub kizárólag magyar játékosokra építő filozófiája alapján minden rekord rendelkezik magyar állampolgársággal; Tamás Olivér igazolt kettős nemzetisége HUN / UKR. A meglévő MLSZ-statisztikák nem kerültek felülírásra."
     },
     {
       "clubId": "puskas-akademia-fc",
