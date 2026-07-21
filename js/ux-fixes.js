@@ -1,5 +1,7 @@
-import { UI } from './ui.js';
+import { ART, UI } from './ui.js';
 import { ATTRIBUTE_BY_KEY, calculateAge } from './data/players.js';
+
+ART.pub = () => ['assets/pub/background.svg'];
 
 const uxFallbackBirthAttribute = ATTRIBUTE_BY_KEY.birthDate;
 if (uxFallbackBirthAttribute) {
