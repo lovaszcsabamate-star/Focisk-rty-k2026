@@ -27,6 +27,8 @@ jobs:
         run: npm install
       - name: Végső integráció alkalmazása
         run: node scripts/finalize-final-missing-data.mjs
+      - name: PWA-tesztek v30 elvárásának egységesítése
+        run: node scripts/update-final-cache-test-expectations.mjs
       - name: Szintaktikai ellenőrzés
         run: npm run lint
       - name: Önálló build és adatbázis-audit
@@ -67,6 +69,7 @@ jobs:
         run: exit 1
       - name: Módosítások mentése
         run: |
+          rm -f final-missing-test.log full-regression-test.log
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
