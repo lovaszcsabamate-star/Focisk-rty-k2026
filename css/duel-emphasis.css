@@ -150,9 +150,19 @@
 }
 
 @media (max-height: 620px) {
-  #felt #prompt,
+  #felt #prompt {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  #felt #verdict {
+    font-size: 17px;
+    line-height: 1;
+  }
+
   #felt #verdict small {
-    display: none;
+    margin-top: 0;
+    font-size: 9px;
   }
 
   #duel > .duel-slot:first-child .card__portrait {
