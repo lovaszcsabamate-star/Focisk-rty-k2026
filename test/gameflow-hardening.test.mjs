@@ -65,7 +65,7 @@ assert.equal(normalizeLegacyOpponentId('project-9'), 'project-9');
 
 const ageText = ageResultExplanation({
   attribute: 'birthDate',
-  humanCard: { name: 'Fiatalabb', birthDate: '2002-07-10' },
+  humanCard: { name: 'Fiatalabb', birthDate: '2002-05-10' },
   aiCard: { name: 'Idősebb', birthDate: '2002-01-10' },
 });
 assert.match(ageText, /^mindkettő \d+ éves, de Fiatalabb fiatalabb$/);
