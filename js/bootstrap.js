@@ -19,6 +19,7 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-11-kisvarda-completion.json',
   'data/club-official-enrichment-12-dvtk-completion.json',
   'data/club-official-enrichment-13-mtk-completion.json',
+  'data/club-official-enrichment-14-nyiregyhaza-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
@@ -35,6 +36,7 @@ const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-ferencvaros.json',
   'data/club-official-stat-patches-dvtk.json',
   'data/club-official-stat-patches-mtk.json',
+  'data/club-official-stat-patches-nyiregyhaza.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
