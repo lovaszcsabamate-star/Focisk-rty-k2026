@@ -49,7 +49,7 @@ assert.equal(records.get('HARANGI AIDEN JOSHUA').nation, 'HUN / USA');
 assert.equal(records.get('RODRIGUES DA SILVA DIOGO').birthDate, '2005-10-06');
 assert.equal(records.get('VIEIRA FERREIRA SOUSA JOAO').nation, 'BRA');
 assert.equal(records.get('VIEIRA FERREIRA SOUSA JOAO').position, 'Támadó');
-assert.equal(records.get('MAURICIO ZAN').nation, 'SVN');
+assert.equal(records.get('MAURICIO ZAN').nation, 'SLO');
 
 assert.equal(patch.schemaVersion, 1);
 assert.equal(patch.season, '2025/26');
