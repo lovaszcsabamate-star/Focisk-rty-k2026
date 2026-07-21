@@ -1,0 +1,71 @@
+{
+  "chrome": "/usr/bin/google-chrome",
+  "measurements": [
+    {
+      "width": 320,
+      "overflow": 0,
+      "requestedWidth": 320,
+      "viewport": 320,
+      "documentWidth": 320,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 360,
+      "overflow": 0,
+      "requestedWidth": 360,
+      "viewport": 360,
+      "documentWidth": 360,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 390,
+      "overflow": 0,
+      "requestedWidth": 390,
+      "viewport": 390,
+      "documentWidth": 390,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 412,
+      "overflow": 0,
+      "requestedWidth": 412,
+      "viewport": 412,
+      "documentWidth": 412,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 480,
+      "overflow": 0,
+      "requestedWidth": 480,
+      "viewport": 480,
+      "documentWidth": 480,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    }
+  ],
+  "failures": []
+}

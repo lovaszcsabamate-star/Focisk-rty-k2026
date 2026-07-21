@@ -35,9 +35,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: ETO FC végleges bekötése
-        run: node scripts/apply-eto-wiring.mjs
-
       - name: Szintaktikai ellenőrzés
         run: npm run lint
 
@@ -70,14 +67,20 @@ jobs:
       - name: Formázási hibák ellenőrzése
         run: git diff --check
 
-      - name: ETO végleges módosítások mentése
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "ETO FC végleges adat- és buildintegrációja [eto-wired]"
-          git push origin HEAD:data/eto-2025-26-completion
-
       - name: Mobilnézeti eredmény érvényesítése
         if: steps.mobile_layout.outcome == 'failure'
         run: exit 1
+
+      - name: Generált játékfájl és adatfelülvizsgálat mentése
+        if: github.event_name == 'push'
+        run: |
+          GENERATED_FILES="Fociskartyak2026.html data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
+          if git diff --quiet -- $GENERATED_FILES; then
+            echo "Az önálló játékfájl és az adatfelülvizsgálati csomag naprakész."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add $GENERATED_FILES
+          git commit -m "Önálló játékfájl és teljes adatfelülvizsgálat frissítése [skip ci]"
+          git push

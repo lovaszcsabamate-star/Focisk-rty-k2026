@@ -1,13 +1,13 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T12:43:05.354Z
+Generálva: 2026-07-21T13:11:51.093Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **440/440**
-- Változásnapló-bejegyzések: **3953**
+- Változásnapló-bejegyzések: **3993**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **2**
@@ -17,8 +17,8 @@ Generálva: 2026-07-21T12:43:05.354Z
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
 | birthDate | 440 | 0 |
-| nation | 383 | 57 |
-| position | 427 | 13 |
+| nation | 417 | 23 |
+| position | 433 | 7 |
 | appearances | 423 | 17 |
 | starts | 423 | 17 |
 | minutes | 29 | 411 |
@@ -38,7 +38,7 @@ Generálva: 2026-07-21T12:43:05.354Z
 |---|---:|---:|---:|---:|---:|---:|---:|
 | DVSC | 38 | 38 | 36 | 36 | 38 | 0 | 0 |
 | DVTK | 45 | 45 | 45 | 45 | 39 | 0 | 0 |
-| ETO FC | 35 | 35 | 29 | 1 | 35 | 0 | 0 |
+| ETO FC | 35 | 35 | 35 | 35 | 35 | 0 | 0 |
 | Ferencvárosi TC | 42 | 42 | 42 | 41 | 40 | 0 | 0 |
 | Kisvárda Master Good | 38 | 38 | 38 | 17 | 37 | 29 | 29 |
 | Kolorcity Kazincbarcika SC | 40 | 40 | 40 | 40 | 35 | 0 | 0 |

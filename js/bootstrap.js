@@ -27,6 +27,7 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-18-paks-completion.json',
   'data/club-official-enrichment-19-zte-completion.json',
   'data/club-official-enrichment-20-puskas-completion.json',
+  'data/club-official-enrichment-21-eto-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',

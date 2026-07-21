@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T12:43:05.354Z",
+  "generatedAt": "2026-07-21T13:11:51.093Z",
   "season": "2025/26",
   "competition": "Fizz Liga (NB I)",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
@@ -26,6 +26,7 @@
     "data/club-official-enrichment-18-paks-completion.json",
     "data/club-official-enrichment-19-zte-completion.json",
     "data/club-official-enrichment-20-puskas-completion.json",
+    "data/club-official-enrichment-21-eto-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -56,14 +57,14 @@
     "warningCount": 2,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3953,
+    "changeCount": 3993,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "coverage": {
     "birthDate": 440,
-    "nation": 383,
-    "position": 427,
+    "nation": 417,
+    "position": 433,
     "appearances": 423,
     "starts": 423,
     "minutes": 29,
@@ -79,8 +80,8 @@
   },
   "missingCounts": {
     "birthDate": 0,
-    "nation": 57,
-    "position": 13,
+    "nation": 23,
+    "position": 7,
     "appearances": 17,
     "starts": 17,
     "minutes": 411,
@@ -99,40 +100,6 @@
     "nation": [
       "2025-26-dvsc-asztalos-noel",
       "2025-26-dvsc-kohut-mate",
-      "2025-26-eto-fc-abrahamsson-nils-oscar-alexander",
-      "nb1-f50e0bbc2943",
-      "2025-26-eto-fc-banati-kevin",
-      "nb1-4e4f5773f0cd",
-      "2025-26-eto-fc-biro-barnabas",
-      "2025-26-eto-fc-boldor-deian",
-      "2025-26-eto-fc-brecska-daniel",
-      "2025-26-eto-fc-bumba-claudiu-vasile",
-      "2025-26-eto-fc-csinger-mark",
-      "2025-26-eto-fc-decsy-adam",
-      "nb1-0d5856f6c638",
-      "2025-26-eto-fc-herczeg-marcell",
-      "2025-26-eto-fc-huszar-marcell-bela",
-      "2025-26-eto-fc-krpic-miljan",
-      "2025-26-eto-fc-kulcsar-martin",
-      "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
-      "nb1-3228c4eed8dc",
-      "2025-26-eto-fc-miangue-senna",
-      "2025-26-eto-fc-njie-nfansu",
-      "2025-26-eto-fc-ouro-samsindin",
-      "2025-26-eto-fc-petras-samuel",
-      "2025-26-eto-fc-pyshchur-oleksandr",
-      "2025-26-eto-fc-sahli-ouijdi",
-      "2025-26-eto-fc-schon-szabolcs-gergo",
-      "2025-26-eto-fc-stefulj-daniel",
-      "2025-26-eto-fc-szarka-bulcsu-janos",
-      "nb1-3c933249d398",
-      "2025-26-eto-fc-tollar-imre-adrian",
-      "2025-26-eto-fc-toth-rajmund",
-      "2025-26-eto-fc-urblik-norbert",
-      "2025-26-eto-fc-vingler-laszlo",
-      "2025-26-eto-fc-vitalis-milan",
-      "2025-26-eto-fc-vladoiu-stefan-marinel",
-      "2025-26-eto-fc-zivkovic-jovan",
       "nb1-2c1a69d9470c",
       "nb1-8061aa670d1b",
       "nb1-634e0e27432f",
@@ -158,12 +125,6 @@
     "position": [
       "2025-26-dvsc-asztalos-noel",
       "2025-26-dvsc-kohut-mate",
-      "2025-26-eto-fc-kulcsar-martin",
-      "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
-      "2025-26-eto-fc-ouro-samsindin",
-      "2025-26-eto-fc-sahli-ouijdi",
-      "2025-26-eto-fc-szarka-bulcsu-janos",
-      "nb1-3c933249d398",
       "nb1-97ee66e0060d",
       "nb1-d76b694321c9",
       "nb1-7f6de355f229",
@@ -2141,8 +2102,8 @@
       "players": 35,
       "coverage": {
         "birthDate": 35,
-        "nation": 1,
-        "position": 29,
+        "nation": 35,
+        "position": 35,
         "appearances": 35,
         "starts": 35,
         "minutes": 0,
@@ -2158,8 +2119,8 @@
       },
       "missing": {
         "birthDate": 0,
-        "nation": 34,
-        "position": 6,
+        "nation": 0,
+        "position": 0,
         "appearances": 0,
         "starts": 0,
         "minutes": 35,
@@ -2564,7 +2525,7 @@
     {
       "clubId": "eto-fc",
       "clubName": "ETO FC",
-      "status": "structured-season-roster-imported",
+      "status": "complete-35-of-35-player-review",
       "officialUrl": "https://www.eto.hu/",
       "officialRosterUrl": "https://www.eto.hu/hu/roster?category=1",
       "officialCurrentRosterUrl": null,
@@ -2574,9 +2535,10 @@
       "crossDomain": false,
       "recordFiles": [
         "data/club-official-enrichment-5-other.json",
-        "data/club-official-enrichment-6-eto-puskas.json"
+        "data/club-official-enrichment-6-eto-puskas.json",
+        "data/club-official-enrichment-21-eto-completion.json"
       ],
-      "note": "A hivatalos NB I-es keretoldal posztcsoportokkal és mezszámokkal került feldolgozásra."
+      "note": "Az ETO FC mind a 35 projektbeli 2025/26-os szezonrekordja játékosonkénti MLSZ-, HLSZ- és hivatalos klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség és poszt rögzített. Kulcsár Martin védő, Mascoe Lawrenzo támadó, Ouro Samsindin és Sahli Ouijdi középpályás, Szarka Bulcsú középpályás, Szép Márton támadó. Mascoe Lawrenzo kanadai nemzetiségét a HLSZ jelenlegi profilja támasztja alá. A már teljes 35/35 MLSZ-szezonstatisztika változatlan maradt."
     },
     {
       "clubId": "ferencvarosi-tc",
@@ -9395,6 +9357,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-abrahamsson-nils-oscar-alexander",
+      "playerName": "ABRAHAMSSON NILS OSCAR ALEXANDER",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-f50e0bbc2943",
       "playerName": "Anton Paul-Viorel",
       "clubId": "eto-fc",
@@ -9415,6 +9389,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-f50e0bbc2943",
+      "playerName": "Anton Paul-Viorel",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9443,6 +9429,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-banati-kevin",
+      "playerName": "BÁNÁTI KEVIN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-4e4f5773f0cd",
       "playerName": "Benbouali Ahmed Nadhir",
       "clubId": "eto-fc",
@@ -9463,6 +9461,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-4e4f5773f0cd",
+      "playerName": "Benbouali Ahmed Nadhir",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9491,6 +9501,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-biro-barnabas",
+      "playerName": "BÍRÓ BARNABÁS",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-boldor-deian",
       "playerName": "BOLDOR DEIAN",
       "clubId": "eto-fc",
@@ -9511,6 +9533,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-boldor-deian",
+      "playerName": "BOLDOR DEIAN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9539,6 +9573,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-brecska-daniel",
+      "playerName": "BRECSKA DÁNIEL",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-bumba-claudiu-vasile",
       "playerName": "BUMBA CLAUDIU-VASILE",
       "clubId": "eto-fc",
@@ -9559,6 +9605,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-bumba-claudiu-vasile",
+      "playerName": "BUMBA CLAUDIU-VASILE",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9587,6 +9645,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-csinger-mark",
+      "playerName": "CSINGER MÁRK",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-decsy-adam",
       "playerName": "DÉCSY ÁDÁM",
       "clubId": "eto-fc",
@@ -9607,6 +9677,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-decsy-adam",
+      "playerName": "DÉCSY ÁDÁM",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9635,6 +9717,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-0d5856f6c638",
+      "playerName": "Gavric Zeljko",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-herczeg-marcell",
       "playerName": "HERCZEG MARCELL",
       "clubId": "eto-fc",
@@ -9655,6 +9749,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-herczeg-marcell",
+      "playerName": "HERCZEG MARCELL",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9683,6 +9789,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-huszar-marcell-bela",
+      "playerName": "HUSZÁR MARCELL BÉLA",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-krpic-miljan",
       "playerName": "KRPIC MILJAN",
       "clubId": "eto-fc",
@@ -9703,6 +9821,66 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-krpic-miljan",
+      "playerName": "KRPIC MILJAN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-kulcsar-martin",
+      "playerName": "KULCSÁR MARTIN",
+      "clubId": "eto-fc",
+      "field": "position",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-kulcsar-martin",
+      "playerName": "KULCSÁR MARTIN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+      "playerName": "MASCOE LAWRENZO NATHANIEL",
+      "clubId": "eto-fc",
+      "field": "position",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+      "playerName": "MASCOE LAWRENZO NATHANIEL",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9731,6 +9909,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-3228c4eed8dc",
+      "playerName": "Megyeri Balázs",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-miangue-senna",
       "playerName": "MIANGUE SENNA",
       "clubId": "eto-fc",
@@ -9751,6 +9941,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-miangue-senna",
+      "playerName": "MIANGUE SENNA",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9779,6 +9981,42 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-njie-nfansu",
+      "playerName": "NJIE NFANSU",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-ouro-samsindin",
+      "playerName": "OURO SAMSINDIN",
+      "clubId": "eto-fc",
+      "field": "position",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-ouro-samsindin",
+      "playerName": "OURO SAMSINDIN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-petras-samuel",
       "playerName": "PETRÁS SAMUEL",
       "clubId": "eto-fc",
@@ -9799,6 +10037,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-petras-samuel",
+      "playerName": "PETRÁS SAMUEL",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9827,6 +10077,42 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-pyshchur-oleksandr",
+      "playerName": "PYSHCHUR OLEKSANDR",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-sahli-ouijdi",
+      "playerName": "SAHLI OUIJDI",
+      "clubId": "eto-fc",
+      "field": "position",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-sahli-ouijdi",
+      "playerName": "SAHLI OUIJDI",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-schon-szabolcs-gergo",
       "playerName": "SCHÖN SZABOLCS GERGŐ",
       "clubId": "eto-fc",
@@ -9847,6 +10133,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-schon-szabolcs-gergo",
+      "playerName": "SCHÖN SZABOLCS GERGŐ",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9875,6 +10173,66 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-stefulj-daniel",
+      "playerName": "STEFULJ DANIEL",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-szarka-bulcsu-janos",
+      "playerName": "SZARKA BULCSÚ JÁNOS",
+      "clubId": "eto-fc",
+      "field": "position",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-szarka-bulcsu-janos",
+      "playerName": "SZARKA BULCSÚ JÁNOS",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-3c933249d398",
+      "playerName": "Szép Márton",
+      "clubId": "eto-fc",
+      "field": "position",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-3c933249d398",
+      "playerName": "Szép Márton",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-tollar-imre-adrian",
       "playerName": "TOLLÁR IMRE ADRIÁN",
       "clubId": "eto-fc",
@@ -9895,6 +10253,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-tollar-imre-adrian",
+      "playerName": "TOLLÁR IMRE ADRIÁN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9923,6 +10293,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-toth-rajmund",
+      "playerName": "TÓTH RAJMUND",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-urblik-norbert",
       "playerName": "URBLÍK NORBERT",
       "clubId": "eto-fc",
@@ -9943,6 +10325,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-urblik-norbert",
+      "playerName": "URBLÍK NORBERT",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -9971,6 +10365,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-vingler-laszlo",
+      "playerName": "VINGLER LÁSZLÓ",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-vitalis-milan",
       "playerName": "VITÁLIS MILÁN",
       "clubId": "eto-fc",
@@ -9991,6 +10397,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-vitalis-milan",
+      "playerName": "VITÁLIS MILÁN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -10019,6 +10437,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-eto-fc-vladoiu-stefan-marinel",
+      "playerName": "VLADOIU STEFAN-MARINEL",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-eto-fc-zivkovic-jovan",
       "playerName": "ZIVKOVIC JOVAN",
       "clubId": "eto-fc",
@@ -10039,6 +10469,18 @@
       "sourceName": "ETO FC – hivatalos NB I-es játékoskeret",
       "sourceUrl": "https://www.eto.hu/hu/roster?category=1",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-eto-fc-zivkovic-jovan",
+      "playerName": "ZIVKOVIC JOVAN",
+      "clubId": "eto-fc",
+      "field": "nation",
+      "sourceId": "mlsz-hlsz-eto-complete-2025-26",
+      "sourceName": "MLSZ Adatbank, HLSZ és ETO FC – teljes 2025/26-os játékosellenőrzés",
+      "sourceUrl": "https://hlsz.hu/eto-fc-gyor",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
