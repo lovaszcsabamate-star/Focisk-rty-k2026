@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T14:12:21.942Z",
+  "generatedAt": "2026-07-21T14:48:38.635Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -25,6 +25,7 @@
     "data/club-official-enrichment-20-puskas-completion.json",
     "data/club-official-enrichment-21-eto-completion.json",
     "data/club-official-enrichment-22-kisvarda-nationalities.json",
+    "data/club-official-enrichment-23-final-missing-basic.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -59,21 +60,21 @@
   },
   "coverage": {
     "birthDate": 440,
-    "appearances": 423,
-    "starts": 423,
+    "appearances": 440,
+    "starts": 440,
     "goals": 440,
-    "squads": 423,
-    "yellowCards": 423,
-    "redCards": 423,
-    "totalDismissals": 423,
+    "squads": 440,
+    "yellowCards": 440,
+    "redCards": 440,
+    "totalDismissals": 440,
     "overallScore": 143,
-    "position": 433,
-    "nation": 438,
+    "position": 440,
+    "nation": 440,
     "heightCm": 57,
     "shirtNumber": 288,
-    "officialMetadata": 83,
+    "officialMetadata": 85,
     "minutes": 29,
-    "substituteAppearances": 317,
+    "substituteAppearances": 440,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -135,14 +136,14 @@
     {
       "field": "position",
       "before": 0,
-      "after": 433,
-      "added": 433
+      "after": 440,
+      "added": 440
     },
     {
       "field": "nation",
       "before": 0,
-      "after": 438,
-      "added": 438
+      "after": 440,
+      "added": 440
     },
     {
       "field": "heightCm",
@@ -159,28 +160,28 @@
     {
       "field": "officialMetadata",
       "before": 0,
-      "after": 83,
-      "added": 83
+      "after": 85,
+      "added": 85
     }
   ],
   "officialStatFieldCoverage": [
     {
       "field": "appearances",
       "before": 144,
-      "after": 423,
-      "added": 279
+      "after": 440,
+      "added": 296
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 423,
-      "added": 279
+      "after": 440,
+      "added": 296
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 423,
-      "added": 316
+      "after": 440,
+      "added": 333
     },
     {
       "field": "minutes",
@@ -191,8 +192,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 317,
-      "added": 317
+      "after": 440,
+      "added": 440
     },
     {
       "field": "goals",
@@ -209,14 +210,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 423,
-      "added": 279
+      "after": 440,
+      "added": 296
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 423,
-      "added": 279
+      "after": 440,
+      "added": 296
     },
     {
       "field": "secondYellowRedCards",
@@ -227,8 +228,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 423,
-      "added": 279
+      "after": 440,
+      "added": 296
     }
   ],
   "clubSummary": [
@@ -236,12 +237,12 @@
       "clubId": "dvsc",
       "clubName": "DVSC",
       "mlszCards": 38,
-      "officialRecords": 43,
-      "eligibleRecords": 36,
-      "matched": 36,
+      "officialRecords": 45,
+      "eligibleRecords": 38,
+      "matched": 38,
       "excluded": 7,
       "review": 0,
-      "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
+      "sourceStatus": "complete-38-of-38-player-review",
       "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
     },
     {
@@ -320,9 +321,9 @@
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
       "mlszCards": 39,
-      "officialRecords": 110,
-      "eligibleRecords": 110,
-      "matched": 110,
+      "officialRecords": 115,
+      "eligibleRecords": 115,
+      "matched": 115,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "complete-39-of-39-player-review",
@@ -388,16 +389,16 @@
     "warningCount": 2,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 4014,
+    "changeCount": 4025,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T16:15:00+02:00",
-    "records": 727,
-    "matchedRecords": 727,
+    "generatedAt": "2026-07-21T16:35:00+02:00",
+    "records": 734,
+    "matchedRecords": 734,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -425,8 +426,8 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 432,
-      "nation": 437,
+      "position": 439,
+      "nation": 439,
       "birthDate": 318,
       "heightCm": 57,
       "shirtNumber": 287,
@@ -454,7 +455,7 @@
       "meta.seasonStatus": 34,
       "meta.professionalContractAt": 1,
       "meta.seasonShirtNumber": 27,
-      "meta.primaryPosition": 21,
+      "meta.primaryPosition": 22,
       "meta.contractEnd": 4,
       "meta.academyJoinedAt": 1,
       "meta.professionalRegistrationAt": 1,
@@ -473,7 +474,8 @@
       "meta.firstProfessionalContractAt": 2,
       "meta.loanClub": 1,
       "meta.loanEndedAt": 2,
-      "meta.sourceNote": 1
+      "meta.sourceNote": 1,
+      "meta.sourcePosition": 1
     },
     "coverageBefore": {
       "birthDate": 121,
@@ -501,11 +503,11 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 433,
-      "nation": 438,
+      "position": 440,
+      "nation": 440,
       "heightCm": 57,
       "shirtNumber": 288,
-      "officialMetadata": 83
+      "officialMetadata": 85
     },
     "fieldCoverage": [
       {
@@ -565,14 +567,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 433,
-        "added": 433
+        "after": 440,
+        "added": 440
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 438,
-        "added": 438
+        "after": 440,
+        "added": 440
       },
       {
         "field": "heightCm",
@@ -589,8 +591,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 83,
-        "added": 83
+        "after": 85,
+        "added": 85
       }
     ],
     "clubSummary": [
@@ -598,12 +600,12 @@
         "clubId": "dvsc",
         "clubName": "DVSC",
         "mlszCards": 38,
-        "officialRecords": 43,
-        "eligibleRecords": 36,
-        "matched": 36,
+        "officialRecords": 45,
+        "eligibleRecords": 38,
+        "matched": 38,
         "excluded": 7,
         "review": 0,
-        "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
+        "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
       },
       {
@@ -682,9 +684,9 @@
         "clubId": "nyiregyhaza-spartacus-fc",
         "clubName": "Nyíregyháza Spartacus FC",
         "mlszCards": 39,
-        "officialRecords": 110,
-        "eligibleRecords": 110,
-        "matched": 110,
+        "officialRecords": 115,
+        "eligibleRecords": 115,
+        "matched": 115,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-39-of-39-player-review",
@@ -796,24 +798,1293 @@
       "starts": 1,
       "substituteAppearances": 1
     },
+    "consensusPromotedPlayers": 17,
+    "consensusConflictCount": 0,
+    "consensusAppliedFieldCounts": {
+      "appearances": 17,
+      "starts": 17,
+      "squads": 17,
+      "substituteAppearances": 17,
+      "yellowCards": 17,
+      "redCards": 17,
+      "totalDismissals": 17
+    },
+    "consensusPromotions": [
+      {
+        "playerId": "nb1-836f45d76e07",
+        "playerName": "ACOLATSE ELTON-OFOI",
+        "clubIds": [
+          "dvtk",
+          "ferencvarosi-tc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 20,
+          "squads": 28,
+          "substituteAppearances": 4,
+          "yellowCards": 4,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-10f546d72481",
+        "playerName": "JUREK GÁBOR",
+        "clubIds": [
+          "dvtk",
+          "mtk-budapest"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-mtk-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 27,
+          "starts": 10,
+          "squads": 32,
+          "substituteAppearances": 17,
+          "yellowCards": 1,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-691205822d18",
+        "playerName": "ABOUBAKAR KEITA",
+        "clubIds": [
+          "dvtk",
+          "nyiregyhaza-spartacus-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-nyiregyhaza-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 14,
+          "squads": 30,
+          "substituteAppearances": 10,
+          "yellowCards": 2,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-fcbef6bf03be",
+        "playerName": "COLLEY LAMIN",
+        "clubIds": [
+          "dvtk",
+          "puskas-akademia-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-puskas-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 15,
+          "squads": 27,
+          "substituteAppearances": 9,
+          "yellowCards": 4,
+          "redCards": 1,
+          "totalDismissals": 1
+        }
+      },
+      {
+        "playerId": "nb1-f9ca1e886bfb",
+        "playerName": "MUCSÁNYI MIRON MÁTÉ",
+        "clubIds": [
+          "dvtk",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 10,
+          "starts": 7,
+          "squads": 25,
+          "substituteAppearances": 3,
+          "yellowCards": 4,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-5b00e3ae7d1e",
+        "playerName": "CROIZET YOHAN",
+        "clubIds": [
+          "dvtk",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 17,
+          "starts": 9,
+          "squads": 18,
+          "substituteAppearances": 8,
+          "yellowCards": 0,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-2c1a69d9470c",
+        "playerName": "SZABÓ SZILÁRD",
+        "clubIds": [
+          "ferencvarosi-tc",
+          "kisvarda-master-good"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+          "mlsz-fizz-liga-kisvarda-final8-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 13,
+          "starts": 4,
+          "squads": 17,
+          "substituteAppearances": 9,
+          "yellowCards": 1,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-a4ad77d75f42",
+        "playerName": "DOMBÓ DÁVID",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 1,
+          "starts": 0,
+          "squads": 29,
+          "substituteAppearances": 1,
+          "yellowCards": 0,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-90096f61aca8",
+        "playerName": "JUHÁSZ ISTVÁN BENCE",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 16,
+          "starts": 14,
+          "squads": 30,
+          "substituteAppearances": 2,
+          "yellowCards": 1,
+          "redCards": 1,
+          "totalDismissals": 1
+        }
+      },
+      {
+        "playerId": "nb1-b7bc042974d6",
+        "playerName": "KLAUSZ MILÁN GÁBOR",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 22,
+          "starts": 8,
+          "squads": 32,
+          "substituteAppearances": 14,
+          "yellowCards": 3,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-f71b88003adc",
+        "playerName": "NAGY ZSOMBOR",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 9,
+          "starts": 8,
+          "squads": 28,
+          "substituteAppearances": 1,
+          "yellowCards": 0,
+          "redCards": 1,
+          "totalDismissals": 1
+        }
+      },
+      {
+        "playerId": "nb1-2fa3cc67b720",
+        "playerName": "NYÍRI VINCE TÓBIÁS",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 20,
+          "starts": 14,
+          "squads": 31,
+          "substituteAppearances": 6,
+          "yellowCards": 2,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-a5450b3d3149",
+        "playerName": "KEREZSI ZALÁN MÁRK",
+        "clubIds": [
+          "mtk-budapest",
+          "puskas-akademia-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-mtk-complete-2025-26",
+          "mlsz-fizz-liga-puskas-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 26,
+          "starts": 14,
+          "squads": 30,
+          "substituteAppearances": 12,
+          "yellowCards": 2,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-28243985aab9",
+        "playerName": "DALA MARTIN",
+        "clubIds": [
+          "nyiregyhaza-spartacus-fc",
+          "puskas-akademia-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
+          "mlsz-fizz-liga-puskas-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 4,
+          "starts": 4,
+          "squads": 31,
+          "substituteAppearances": 0,
+          "yellowCards": 0,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-0acb07a28ff5",
+        "playerName": "STRONATI PATRIZIO",
+        "clubIds": [
+          "puskas-akademia-fc",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-puskas-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 22,
+          "squads": 33,
+          "substituteAppearances": 2,
+          "yellowCards": 1,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-0089893675e7",
+        "playerName": "BODNÁR GERGŐ JÁNOS",
+        "clubIds": [
+          "ujpest-fc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-ujpest-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 23,
+          "starts": 23,
+          "squads": 25,
+          "substituteAppearances": 0,
+          "yellowCards": 5,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-60f16f486337",
+        "playerName": "KRAJCSOVICS ÁBEL GYÖRGY",
+        "clubIds": [
+          "ujpest-fc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-ujpest-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 6,
+          "squads": 32,
+          "substituteAppearances": 18,
+          "yellowCards": 4,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      }
+    ],
+    "consensusConflicts": [],
+    "derivedSubstituteAppearancesCount": 106,
+    "derivedSubstituteAppearances": [
+      {
+        "playerId": "2025-26-dvsc-asztalos-noel",
+        "playerName": "ASZTALOS NOEL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-barany-donat",
+        "playerName": "BÁRÁNY DONÁT",
+        "value": 4,
+        "appearances": 25,
+        "starts": 21
+      },
+      {
+        "playerId": "2025-26-dvsc-batik-bence",
+        "playerName": "BATIK BENCE",
+        "value": 3,
+        "appearances": 23,
+        "starts": 20
+      },
+      {
+        "playerId": "2025-26-dvsc-bermejo-escribano-alex",
+        "playerName": "BERMEJO ESCRIBANO ALEX",
+        "value": 11,
+        "appearances": 14,
+        "starts": 3
+      },
+      {
+        "playerId": "2025-26-dvsc-bodnar-balazs",
+        "playerName": "BODNÁR BALÁZS",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-camarasa-ferrando-victor",
+        "playerName": "CAMARASA FERRANDO VICTOR",
+        "value": 5,
+        "appearances": 5,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-cibla-florian",
+        "playerName": "CIBLA FLÓRIÁN",
+        "value": 9,
+        "appearances": 18,
+        "starts": 9
+      },
+      {
+        "playerId": "2025-26-dvsc-dacosta-julien-joachim",
+        "playerName": "DACOSTA JULIEN JOACHIM",
+        "value": 2,
+        "appearances": 13,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-dvsc-djokic-dejan",
+        "playerName": "DJOKIC DEJAN",
+        "value": 5,
+        "appearances": 5,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-d2b7e604be9d",
+        "playerName": "Dzsudzsák Balázs",
+        "value": 1,
+        "appearances": 33,
+        "starts": 32
+      },
+      {
+        "playerId": "2025-26-dvsc-egri-imre",
+        "playerName": "EGRI IMRE",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-erdelyi-benedek-miklos",
+        "playerName": "ERDÉLYI BENEDEK MIKLÓS",
+        "value": 0,
+        "appearances": 12,
+        "starts": 12
+      },
+      {
+        "playerId": "2025-26-dvsc-gordic-dorde",
+        "playerName": "GORDIC DORDE",
+        "value": 9,
+        "appearances": 26,
+        "starts": 17
+      },
+      {
+        "playerId": "2025-26-dvsc-guerrero-aguilar-adrian",
+        "playerName": "GUERRERO AGUILAR ADRIAN",
+        "value": 5,
+        "appearances": 23,
+        "starts": 18
+      },
+      {
+        "playerId": "nb1-232751bffa85",
+        "playerName": "Hofmann Maximilian",
+        "value": 2,
+        "appearances": 9,
+        "starts": 7
+      },
+      {
+        "playerId": "2025-26-dvsc-kocsis-dominik",
+        "playerName": "KOCSIS DOMINIK",
+        "value": 1,
+        "appearances": 29,
+        "starts": 28
+      },
+      {
+        "playerId": "2025-26-dvsc-kohut-mate",
+        "playerName": "KOHUT MÁTÉ",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-komaromi-gyorgy",
+        "playerName": "KOMÁROMI GYÖRGY",
+        "value": 19,
+        "appearances": 23,
+        "starts": 4
+      },
+      {
+        "playerId": "2025-26-dvsc-kulbachuk-viacheslav",
+        "playerName": "KULBACHUK VIACHESLAV",
+        "value": 3,
+        "appearances": 6,
+        "starts": 3
+      },
+      {
+        "playerId": "2025-26-dvsc-kusnyir-erik",
+        "playerName": "KUSNYIR ERIK",
+        "value": 0,
+        "appearances": 13,
+        "starts": 13
+      },
+      {
+        "playerId": "2025-26-dvsc-lang-adam",
+        "playerName": "LANG ÁDÁM",
+        "value": 1,
+        "appearances": 30,
+        "starts": 29
+      },
+      {
+        "playerId": "2025-26-dvsc-lopez-de-la-manzanara",
+        "playerName": "LOPEZ DE LA MANZANARA",
+        "value": 16,
+        "appearances": 16,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-mejias-garcia-josua-antonio",
+        "playerName": "MEJIAS GARCIA JOSUA ANTONIO",
+        "value": 1,
+        "appearances": 28,
+        "starts": 27
+      },
+      {
+        "playerId": "2025-26-dvsc-odey-stephen-pius",
+        "playerName": "ODEY STEPHEN PIUS",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-palfi-donat",
+        "playerName": "PÁLFI DONÁT",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-patai-david",
+        "playerName": "PATAI DÁVID",
+        "value": 5,
+        "appearances": 6,
+        "starts": 1
+      },
+      {
+        "playerId": "2025-26-dvsc-regenyei-gergo",
+        "playerName": "REGENYEI GERGŐ",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-silue-dognimani-yacouba",
+        "playerName": "SILUE DOGNIMANI YACOUBA",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-sissoko-niama-pape",
+        "playerName": "SISSOKO NIAMA PAPE",
+        "value": 7,
+        "appearances": 7,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-575a09ebf626",
+        "playerName": "Szakál Dénes",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-szecsi-mark",
+        "playerName": "SZÉCSI MÁRK",
+        "value": 12,
+        "appearances": 21,
+        "starts": 9
+      },
+      {
+        "playerId": "2025-26-dvsc-szuhodovszki-soma",
+        "playerName": "SZUHODOVSZKI SOMA",
+        "value": 7,
+        "appearances": 23,
+        "starts": 16
+      },
+      {
+        "playerId": "nb1-cf21a2d9106f",
+        "playerName": "Szűcs Tamás",
+        "value": 0,
+        "appearances": 31,
+        "starts": 31
+      },
+      {
+        "playerId": "2025-26-dvsc-tercza-gergo",
+        "playerName": "TERCZA GERGŐ",
+        "value": 7,
+        "appearances": 8,
+        "starts": 1
+      },
+      {
+        "playerId": "nb1-89c5690fc8d1",
+        "playerName": "Vajda Botond",
+        "value": 8,
+        "appearances": 23,
+        "starts": 15
+      },
+      {
+        "playerId": "2025-26-dvsc-youga-christopher-amos",
+        "playerName": "YOUGA CHRISTOPHER AMOS",
+        "value": 4,
+        "appearances": 19,
+        "starts": 15
+      },
+      {
+        "playerId": "nb1-b9770cc7878a",
+        "playerName": "VARGA ÁDÁM GÁBOR",
+        "value": 0,
+        "appearances": 19,
+        "starts": 19
+      },
+      {
+        "playerId": "nb1-f07e2f5fa9cc",
+        "playerName": "DEMJÉN PATRIK",
+        "value": 0,
+        "appearances": 20,
+        "starts": 20
+      },
+      {
+        "playerId": "nb1-101825889dbb",
+        "playerName": "PETŐ MILÁN",
+        "value": 13,
+        "appearances": 27,
+        "starts": 14
+      },
+      {
+        "playerId": "2025-26-eto-fc-abrahamsson-nils-oscar-alexander",
+        "playerName": "ABRAHAMSSON NILS OSCAR ALEXANDER",
+        "value": 2,
+        "appearances": 10,
+        "starts": 8
+      },
+      {
+        "playerId": "nb1-f50e0bbc2943",
+        "playerName": "Anton Paul-Viorel",
+        "value": 1,
+        "appearances": 14,
+        "starts": 13
+      },
+      {
+        "playerId": "2025-26-eto-fc-banati-kevin",
+        "playerName": "BÁNÁTI KEVIN",
+        "value": 9,
+        "appearances": 29,
+        "starts": 20
+      },
+      {
+        "playerId": "nb1-4e4f5773f0cd",
+        "playerName": "Benbouali Ahmed Nadhir",
+        "value": 2,
+        "appearances": 32,
+        "starts": 30
+      },
+      {
+        "playerId": "2025-26-eto-fc-biro-barnabas",
+        "playerName": "BÍRÓ BARNABÁS",
+        "value": 5,
+        "appearances": 16,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-eto-fc-boldor-deian",
+        "playerName": "BOLDOR DEIAN",
+        "value": 8,
+        "appearances": 12,
+        "starts": 4
+      },
+      {
+        "playerId": "2025-26-eto-fc-brecska-daniel",
+        "playerName": "BRECSKA DÁNIEL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-bumba-claudiu-vasile",
+        "playerName": "BUMBA CLAUDIU-VASILE",
+        "value": 8,
+        "appearances": 31,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-csinger-mark",
+        "playerName": "CSINGER MÁRK",
+        "value": 1,
+        "appearances": 31,
+        "starts": 30
+      },
+      {
+        "playerId": "2025-26-eto-fc-decsy-adam",
+        "playerName": "DÉCSY ÁDÁM",
+        "value": 2,
+        "appearances": 5,
+        "starts": 3
+      },
+      {
+        "playerId": "nb1-0d5856f6c638",
+        "playerName": "Gavric Zeljko",
+        "value": 5,
+        "appearances": 28,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-herczeg-marcell",
+        "playerName": "HERCZEG MARCELL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-huszar-marcell-bela",
+        "playerName": "HUSZÁR MARCELL BÉLA",
+        "value": 14,
+        "appearances": 14,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-krpic-miljan",
+        "playerName": "KRPIC MILJAN",
+        "value": 1,
+        "appearances": 22,
+        "starts": 21
+      },
+      {
+        "playerId": "2025-26-eto-fc-kulcsar-martin",
+        "playerName": "KULCSÁR MARTIN",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+        "playerName": "MASCOE LAWRENZO NATHANIEL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-3228c4eed8dc",
+        "playerName": "Megyeri Balázs",
+        "value": 0,
+        "appearances": 10,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-eto-fc-miangue-senna",
+        "playerName": "MIANGUE SENNA",
+        "value": 6,
+        "appearances": 9,
+        "starts": 3
+      },
+      {
+        "playerId": "2025-26-eto-fc-njie-nfansu",
+        "playerName": "NJIE NFANSU",
+        "value": 15,
+        "appearances": 25,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-eto-fc-ouro-samsindin",
+        "playerName": "OURO SAMSINDIN",
+        "value": 1,
+        "appearances": 3,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-eto-fc-petras-samuel",
+        "playerName": "PETRÁS SAMUEL",
+        "value": 0,
+        "appearances": 23,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-pyshchur-oleksandr",
+        "playerName": "PYSHCHUR OLEKSANDR",
+        "value": 23,
+        "appearances": 25,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-eto-fc-sahli-ouijdi",
+        "playerName": "SAHLI OUIJDI",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-schon-szabolcs-gergo",
+        "playerName": "SCHÖN SZABOLCS GERGŐ",
+        "value": 6,
+        "appearances": 27,
+        "starts": 21
+      },
+      {
+        "playerId": "2025-26-eto-fc-stefulj-daniel",
+        "playerName": "STEFULJ DANIEL",
+        "value": 1,
+        "appearances": 32,
+        "starts": 31
+      },
+      {
+        "playerId": "2025-26-eto-fc-szarka-bulcsu-janos",
+        "playerName": "SZARKA BULCSÚ JÁNOS",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-3c933249d398",
+        "playerName": "Szép Márton",
+        "value": 2,
+        "appearances": 2,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-tollar-imre-adrian",
+        "playerName": "TOLLÁR IMRE ADRIÁN",
+        "value": 3,
+        "appearances": 4,
+        "starts": 1
+      },
+      {
+        "playerId": "2025-26-eto-fc-toth-rajmund",
+        "playerName": "TÓTH RAJMUND",
+        "value": 7,
+        "appearances": 30,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-urblik-norbert",
+        "playerName": "URBLÍK NORBERT",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-vingler-laszlo",
+        "playerName": "VINGLER LÁSZLÓ",
+        "value": 8,
+        "appearances": 16,
+        "starts": 8
+      },
+      {
+        "playerId": "2025-26-eto-fc-vitalis-milan",
+        "playerName": "VITÁLIS MILÁN",
+        "value": 0,
+        "appearances": 31,
+        "starts": 31
+      },
+      {
+        "playerId": "2025-26-eto-fc-vladoiu-stefan-marinel",
+        "playerName": "VLADOIU STEFAN-MARINEL",
+        "value": 10,
+        "appearances": 21,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-eto-fc-zivkovic-jovan",
+        "playerName": "ZIVKOVIC JOVAN",
+        "value": 6,
+        "appearances": 7,
+        "starts": 1
+      },
+      {
+        "playerId": "nb1-2e55f246af3d",
+        "playerName": "KOCSIS BOTOND",
+        "value": 0,
+        "appearances": 4,
+        "starts": 4
+      },
+      {
+        "playerId": "nb1-c1ed1ff161bd",
+        "playerName": "OSVÁTH ATTILA",
+        "value": 4,
+        "appearances": 30,
+        "starts": 26
+      },
+      {
+        "playerId": "nb1-091532eac303",
+        "playerName": "BÉVÁRDI ZSOMBOR",
+        "value": 9,
+        "appearances": 20,
+        "starts": 11
+      },
+      {
+        "playerId": "nb1-c155217a77ef",
+        "playerName": "ALAXAI ÁRON",
+        "value": 9,
+        "appearances": 17,
+        "starts": 8
+      },
+      {
+        "playerId": "2025-26-paksi-fc-adam-martin",
+        "playerName": "ÁDÁM MARTIN",
+        "value": 13,
+        "appearances": 13,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-balogh-balazs",
+        "playerName": "BALOGH BALÁZS",
+        "value": 5,
+        "appearances": 16,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-paksi-fc-bode-daniel",
+        "playerName": "BÖDE DÁNIEL",
+        "value": 19,
+        "appearances": 23,
+        "starts": 4
+      },
+      {
+        "playerId": "2025-26-paksi-fc-debreceni-akos",
+        "playerName": "DEBRECENI ÁKOS",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-galambos-janos",
+        "playerName": "GALAMBOS JÁNOS",
+        "value": 2,
+        "appearances": 4,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-paksi-fc-gyetvan-mark",
+        "playerName": "GYETVÁN MÁRK",
+        "value": 0,
+        "appearances": 6,
+        "starts": 6
+      },
+      {
+        "playerId": "2025-26-paksi-fc-gyurkits-gergo",
+        "playerName": "GYURKITS GERGŐ",
+        "value": 11,
+        "appearances": 27,
+        "starts": 16
+      },
+      {
+        "playerId": "nb1-8378caea9bbf",
+        "playerName": "Hahn János Csaba",
+        "value": 5,
+        "appearances": 28,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-paksi-fc-haraszti-zsolt",
+        "playerName": "HARASZTI ZSOLT",
+        "value": 6,
+        "appearances": 8,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-paksi-fc-hinora-kristof",
+        "playerName": "HINORA KRISTÓF",
+        "value": 3,
+        "appearances": 14,
+        "starts": 11
+      },
+      {
+        "playerId": "nb1-16115bd7c08a",
+        "playerName": "Horváth Kevin",
+        "value": 6,
+        "appearances": 32,
+        "starts": 26
+      },
+      {
+        "playerId": "2025-26-paksi-fc-kinyik-akos",
+        "playerName": "KINYIK ÁKOS",
+        "value": 1,
+        "appearances": 14,
+        "starts": 13
+      },
+      {
+        "playerId": "2025-26-paksi-fc-kovacsik-adam",
+        "playerName": "KOVÁCSIK ÁDÁM",
+        "value": 0,
+        "appearances": 25,
+        "starts": 25
+      },
+      {
+        "playerId": "2025-26-paksi-fc-lapu-andor",
+        "playerName": "LAPU ANDOR",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-lenzser-bence",
+        "playerName": "LENZSÉR BENCE",
+        "value": 0,
+        "appearances": 19,
+        "starts": 19
+      },
+      {
+        "playerId": "2025-26-paksi-fc-mate-csaba",
+        "playerName": "MÁTÉ CSABA",
+        "value": 8,
+        "appearances": 9,
+        "starts": 1
+      },
+      {
+        "playerId": "nb1-99f5c34441a0",
+        "playerName": "Papp Kristóf",
+        "value": 0,
+        "appearances": 28,
+        "starts": 28
+      },
+      {
+        "playerId": "nb1-35fb6a54d829",
+        "playerName": "Pesti Zoltán",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-silye-erik",
+        "playerName": "SILYE ERIK",
+        "value": 5,
+        "appearances": 20,
+        "starts": 15
+      },
+      {
+        "playerId": "2025-26-paksi-fc-simon-barnabas",
+        "playerName": "SIMON BARNABÁS",
+        "value": 0,
+        "appearances": 2,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-paksi-fc-szabo-janos",
+        "playerName": "SZABÓ JÁNOS",
+        "value": 0,
+        "appearances": 20,
+        "starts": 20
+      },
+      {
+        "playerId": "nb1-d6bfe3acf08d",
+        "playerName": "Szekszárdi Milán",
+        "value": 5,
+        "appearances": 15,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-paksi-fc-szendrei-akos",
+        "playerName": "SZENDREI ÁKOS",
+        "value": 6,
+        "appearances": 20,
+        "starts": 14
+      },
+      {
+        "playerId": "2025-26-paksi-fc-tamas-oliver",
+        "playerName": "TAMÁS OLIVÉR",
+        "value": 2,
+        "appearances": 2,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-toth-barna",
+        "playerName": "TÓTH BARNA",
+        "value": 8,
+        "appearances": 25,
+        "starts": 17
+      },
+      {
+        "playerId": "2025-26-paksi-fc-vas-gabor",
+        "playerName": "VAS GÁBOR",
+        "value": 0,
+        "appearances": 10,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-paksi-fc-vecsei-balint-mate",
+        "playerName": "VÉCSEI BÁLINT MÁTÉ",
+        "value": 2,
+        "appearances": 25,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-paksi-fc-windecker-jozsef",
+        "playerName": "WINDECKER JÓZSEF",
+        "value": 11,
+        "appearances": 27,
+        "starts": 16
+      },
+      {
+        "playerId": "2025-26-paksi-fc-zeke-mario",
+        "playerName": "ZEKE MÁRIÓ",
+        "value": 5,
+        "appearances": 24,
+        "starts": 19
+      }
+    ],
     "fieldCoverage": [
       {
         "field": "appearances",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 423,
-        "added": 316
+        "after": 440,
+        "added": 333
       },
       {
         "field": "minutes",
@@ -824,8 +2095,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 317,
-        "added": 317
+        "after": 440,
+        "added": 440
       },
       {
         "field": "goals",
@@ -842,14 +2113,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "secondYellowRedCards",
@@ -860,8 +2131,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       }
     ],
     "manualReview": [],

@@ -1,5 +1,5 @@
-// Előző cache-verzió: fociskartyak-2026-v28
-const PWA_CACHE = 'fociskartyak-2026-v29';
+// Előző cache-verzió: fociskartyak-2026-v29
+const PWA_CACHE = 'fociskartyak-2026-v30';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -54,6 +54,7 @@ const PWA_SHELL = [
   './data/club-official-enrichment-20-puskas-completion.json',
   './data/club-official-enrichment-21-eto-completion.json',
   './data/club-official-enrichment-22-kisvarda-nationalities.json',
+  './data/club-official-enrichment-23-final-missing-basic.json',
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',

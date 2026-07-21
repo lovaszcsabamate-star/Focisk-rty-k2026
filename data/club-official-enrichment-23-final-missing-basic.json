@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-21T16:35:00+02:00",
+  "batch": {
+    "id": "final-missing-basic-data-2025-26",
+    "playerCount": 7,
+    "rule": "Kizárólag a végső auditban hiányzó nemzetiség- és posztmezők pótlása; meglévő érték és statisztika nem írható felül."
+  },
+  "policy": {
+    "primarySources": ["hivatalos kluboldal", "HLSZ", "MLSZ"],
+    "secondarySources": ["M4 Sport hivatalos klubközleményt idéző bejelentése"],
+    "positionNormalisation": {
+      "Csatár": "Támadó",
+      "Belső védő": "Védő",
+      "Jobbhátvéd": "Védő"
+    },
+    "rule": "Csak névvel, születési dátummal és szezonklubbal egyértelműen azonosított rekord kaphat új értéket."
+  },
+  "sources": [
+    {
+      "id": "dvsc-academy-asztalos-noel",
+      "clubId": "dvsc",
+      "name": "DVSC Labdarúgó Akadémia – Asztalos Noel játékosprofil",
+      "url": "https://akademia.dvsc.hu/player/asztalos-noel/",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation", "position"]
+    },
+    {
+      "id": "hlsz-kohut-mate-2026",
+      "clubId": "dvsc",
+      "name": "HLSZ – Kohut Máté játékosprofil",
+      "url": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["nation", "position"]
+    },
+    {
+      "id": "nyir-beke-attacker-official",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "Nyíregyháza Spartacus – Beke Péter támadó",
+      "url": "https://nyiregyhazaspartacus.hu/hir/beke-peter-kecskemetre-kerul-kolcsonbe/7068",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["position"]
+    },
+    {
+      "id": "nyir-gilbert-midfielder-official",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "Nyíregyháza Spartacus – Dantaye Gilbert középpályás",
+      "url": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["position"]
+    },
+    {
+      "id": "nyir-jokic-defender-official",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "Nyíregyháza Spartacus – Ranko Jokić belső védő",
+      "url": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["position"]
+    },
+    {
+      "id": "m4-jovanov-defender-official-announcement",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "M4 Sport – a Nyíregyháza hivatalos Jovanov-bejelentése",
+      "url": "https://m4sport.hu/magyar-foci/cikk/2026/02/02/hivatalos-a-horvat-elvonalbol-igazolt-vedot-a-nyiregyhaza-spartacus",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["position"]
+    },
+    {
+      "id": "hlsz-varga-kevin-2026",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "HLSZ – Varga Kevin játékosprofil",
+      "url": "https://hlsz.hu/1996-03-30/varga-kevin",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["position"]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "dvsc-academy-asztalos-noel",
+      "clubId": "dvsc",
+      "name": "ASZTALOS NOEL",
+      "sourceUrl": "https://akademia.dvsc.hu/player/asztalos-noel/",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "nation": "HUN",
+      "position": "Középpályás"
+    },
+    {
+      "sourceId": "hlsz-kohut-mate-2026",
+      "clubId": "dvsc",
+      "name": "KOHUT MÁTÉ",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "nation": "HUN",
+      "position": "Támadó",
+      "meta": {"sourcePosition": "Csatár"}
+    },
+    {
+      "sourceId": "nyir-beke-attacker-official",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "BEKE PÉTER",
+      "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/beke-peter-kecskemetre-kerul-kolcsonbe/7068",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "position": "Támadó"
+    },
+    {
+      "sourceId": "nyir-gilbert-midfielder-official",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "GILBERT DANTAYE MICHAEL LEE",
+      "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "position": "Középpályás"
+    },
+    {
+      "sourceId": "nyir-jokic-defender-official",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "JOKIC RANKO",
+      "aliases": ["Ranko Jokić", "RANKO JOKIC"],
+      "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "position": "Védő"
+    },
+    {
+      "sourceId": "m4-jovanov-defender-official-announcement",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "JOVANOV VANE",
+      "aliases": ["Vane Jovanov"],
+      "sourceUrl": "https://m4sport.hu/magyar-foci/cikk/2026/02/02/hivatalos-a-horvat-elvonalbol-igazolt-vedot-a-nyiregyhaza-spartacus",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "position": "Védő",
+      "meta": {"primaryPosition": "Jobbhátvéd"}
+    },
+    {
+      "sourceId": "hlsz-varga-kevin-2026",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "VARGA KEVIN",
+      "sourceUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "position": "Középpályás"
+    }
+  ]
+}

@@ -39,6 +39,7 @@ const paksCompletion = readJson('../data/club-official-enrichment-18-paks-comple
 const zteCompletion = readJson('../data/club-official-enrichment-19-zte-completion.json');
 const etoCompletion = readJson('../data/club-official-enrichment-21-eto-completion.json');
 const kisvardaNationalities = readJson('../data/club-official-enrichment-22-kisvarda-nationalities.json');
+const finalMissingBasic = readJson('../data/club-official-enrichment-23-final-missing-basic.json');
 const kisvardaFinalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const ferencvarosStats = readJson('../data/club-official-stat-patches-ferencvaros.json');
 const dvtkStats = readJson('../data/club-official-stat-patches-dvtk.json');
@@ -109,6 +110,7 @@ const dataFiles = [
   'club-official-enrichment-19-zte-completion.json',
   'club-official-enrichment-21-eto-completion.json',
   'club-official-enrichment-22-kisvarda-nationalities.json',
+  'club-official-enrichment-23-final-missing-basic.json',
   'club-official-corrections.json',
   'club-official-corrections-2.json',
   'club-official-corrections-3.json',
@@ -141,7 +143,10 @@ assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
 assert.match(clubStatPatches, /clubOfficialStatsByClub/);
 assert.match(clubStatPatches, /correctedFieldCounts/);
-assert.match(serviceWorker, /fociskartyak-2026-v29/);
+assert.match(clubStatPatches, /officialStatConsensus/);
+assert.match(clubStatPatches, /consensusPromotedPlayers/);
+assert.match(clubStatPatches, /derivedSubstituteAppearancesCount/);
+assert.match(serviceWorker, /fociskartyak-2026-v30/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
@@ -179,6 +184,8 @@ assert.equal(etoCompletion.batch.playerCount, 35);
 assert.equal(etoCompletion.records.length, 35);
 assert.equal(kisvardaNationalities.batch.playerCount, 21);
 assert.equal(kisvardaNationalities.records.length, 21);
+assert.equal(finalMissingBasic.batch.playerCount, 7);
+assert.equal(finalMissingBasic.records.length, 7);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);

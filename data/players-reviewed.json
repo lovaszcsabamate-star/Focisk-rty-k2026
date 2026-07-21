@@ -17,11 +17,12 @@
         "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
         "officialCurrentRosterUrl": "https://dvsc.hu/dvsc-csapatok/dvsc/",
         "historicalRosterSourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
-        "status": "structured-season-roster-imported-from-public-season-archive",
+        "status": "complete-38-of-38-player-review",
         "recordFiles": [
-          "data/club-official-enrichment-2.json"
+          "data/club-official-enrichment-2.json",
+          "data/club-official-enrichment-23-final-missing-basic.json"
         ],
-        "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és a klub aktuális hivatalos keretoldala külön forrásként szerepel; az aktuális keret nem írja felül automatikusan a lezárt szezon adatait."
+        "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és a klub aktuális hivatalos keretoldala külön forrásként szerepel; az aktuális keret nem írja felül automatikusan a lezárt szezon adatait. Asztalos Noel magyar középpályás és Kohut Máté magyar támadó hivatalos DVSC-akadémiai, klub- és HLSZ-forrásból lezárva."
       },
       {
         "clubId": "dvtk",
@@ -123,9 +124,10 @@
           "data/club-official-enrichment-3-paks-nyir.json",
           "data/club-official-enrichment-14-nyiregyhaza-completion.json",
           "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
-          "data/club-official-stat-patches-nyiregyhaza.json"
+          "data/club-official-stat-patches-nyiregyhaza.json",
+          "data/club-official-enrichment-23-final-missing-basic.json"
         ],
-        "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum és nemzetiség rögzített; 38 nemzetiségi adat magas, Molnár Mátyás HUN besorolása közepes forrásbizonyosságú. A pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
+        "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum és nemzetiség rögzített; 38 nemzetiségi adat magas, Molnár Mátyás HUN besorolása közepes forrásbizonyosságú. A pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad. Beke Péter támadó, Dantaye Gilbert középpályás, Ranko Jokić védő, Vane Jovanov védő és Varga Kevin középpályás posztja hivatalos klub-, HLSZ- és ellenőrzött bejelentési forrásból lezárva."
       },
       {
         "clubId": "paksi-fc",
@@ -1184,6 +1186,62 @@
         "season": "2026/27"
       },
       {
+        "id": "dvsc-academy-asztalos-noel",
+        "clubId": "dvsc",
+        "name": "DVSC Labdarúgó Akadémia – Asztalos Noel játékosprofil",
+        "url": "https://akademia.dvsc.hu/player/asztalos-noel/",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-kohut-mate-2026",
+        "clubId": "dvsc",
+        "name": "HLSZ – Kohut Máté játékosprofil",
+        "url": "https://hlsz.hu/debrecen",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "nyir-beke-attacker-official",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "name": "Nyíregyháza Spartacus – Beke Péter támadó",
+        "url": "https://nyiregyhazaspartacus.hu/hir/beke-peter-kecskemetre-kerul-kolcsonbe/7068",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "nyir-gilbert-midfielder-official",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "name": "Nyíregyháza Spartacus – Dantaye Gilbert középpályás",
+        "url": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "nyir-jokic-defender-official",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "name": "Nyíregyháza Spartacus – Ranko Jokić belső védő",
+        "url": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "m4-jovanov-defender-official-announcement",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "name": "M4 Sport – a Nyíregyháza hivatalos Jovanov-bejelentése",
+        "url": "https://m4sport.hu/magyar-foci/cikk/2026/02/02/hivatalos-a-horvat-elvonalbol-igazolt-vedot-a-nyiregyhaza-spartacus",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-varga-kevin-2026",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "name": "HLSZ – Varga Kevin játékosprofil",
+        "url": "https://hlsz.hu/1996-03-30/varga-kevin",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1770,21 +1828,21 @@
   },
   "coverage": {
     "birthDate": 440,
-    "appearances": 423,
-    "starts": 423,
+    "appearances": 440,
+    "starts": 440,
     "goals": 440,
-    "squads": 423,
-    "yellowCards": 423,
-    "redCards": 423,
-    "totalDismissals": 423,
+    "squads": 440,
+    "yellowCards": 440,
+    "redCards": 440,
+    "totalDismissals": 440,
     "overallScore": 143,
-    "position": 433,
-    "nation": 438,
+    "position": 440,
+    "nation": 440,
     "heightCm": 57,
     "shirtNumber": 288,
-    "officialMetadata": 83,
+    "officialMetadata": 85,
     "minutes": 29,
-    "substituteAppearances": 317,
+    "substituteAppearances": 440,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -1827,9 +1885,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T16:15:00+02:00",
-    "records": 727,
-    "matchedRecords": 727,
+    "generatedAt": "2026-07-21T16:35:00+02:00",
+    "records": 734,
+    "matchedRecords": 734,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -1857,8 +1915,8 @@
     "skippedCorrections": [],
     "conflictCount": 0,
     "appliedFieldCounts": {
-      "position": 432,
-      "nation": 437,
+      "position": 439,
+      "nation": 439,
       "birthDate": 318,
       "heightCm": 57,
       "shirtNumber": 287,
@@ -1886,7 +1944,7 @@
       "meta.seasonStatus": 34,
       "meta.professionalContractAt": 1,
       "meta.seasonShirtNumber": 27,
-      "meta.primaryPosition": 21,
+      "meta.primaryPosition": 22,
       "meta.contractEnd": 4,
       "meta.academyJoinedAt": 1,
       "meta.professionalRegistrationAt": 1,
@@ -1905,7 +1963,8 @@
       "meta.firstProfessionalContractAt": 2,
       "meta.loanClub": 1,
       "meta.loanEndedAt": 2,
-      "meta.sourceNote": 1
+      "meta.sourceNote": 1,
+      "meta.sourcePosition": 1
     },
     "coverageBefore": {
       "birthDate": 121,
@@ -1933,11 +1992,11 @@
       "redCards": 144,
       "totalDismissals": 144,
       "overallScore": 143,
-      "position": 433,
-      "nation": 438,
+      "position": 440,
+      "nation": 440,
       "heightCm": 57,
       "shirtNumber": 288,
-      "officialMetadata": 83
+      "officialMetadata": 85
     },
     "fieldCoverage": [
       {
@@ -1997,14 +2056,14 @@
       {
         "field": "position",
         "before": 0,
-        "after": 433,
-        "added": 433
+        "after": 440,
+        "added": 440
       },
       {
         "field": "nation",
         "before": 0,
-        "after": 438,
-        "added": 438
+        "after": 440,
+        "added": 440
       },
       {
         "field": "heightCm",
@@ -2021,8 +2080,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 83,
-        "added": 83
+        "after": 85,
+        "added": 85
       }
     ],
     "clubSummary": [
@@ -2030,12 +2089,12 @@
         "clubId": "dvsc",
         "clubName": "DVSC",
         "mlszCards": 38,
-        "officialRecords": 43,
-        "eligibleRecords": 36,
-        "matched": 36,
+        "officialRecords": 45,
+        "eligibleRecords": 38,
+        "matched": 38,
         "excluded": 7,
         "review": 0,
-        "sourceStatus": "structured-season-roster-imported-from-public-season-archive",
+        "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
       },
       {
@@ -2114,9 +2173,9 @@
         "clubId": "nyiregyhaza-spartacus-fc",
         "clubName": "Nyíregyháza Spartacus FC",
         "mlszCards": 39,
-        "officialRecords": 110,
-        "eligibleRecords": 110,
-        "matched": 110,
+        "officialRecords": 115,
+        "eligibleRecords": 115,
+        "matched": 115,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-39-of-39-player-review",
@@ -2182,8 +2241,8 @@
       "clubs": [
         "DVSC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN",
+      "position": "Középpályás",
       "birthDate": "2008-08-08",
       "stats": {
         "age": 17,
@@ -2195,7 +2254,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 20
+        "overallScore": 20,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "96e384a4e020",
@@ -2223,8 +2283,34 @@
         "verifiedCorrections": [],
         "clubOfficial": {},
         "clubShirtNumbers": {},
+        "clubOfficialSources": [
+          {
+            "sourceId": "dvsc-academy-asztalos-noel",
+            "sourceName": "DVSC Labdarúgó Akadémia – Asztalos Noel játékosprofil",
+            "sourceUrl": "https://akademia.dvsc.hu/player/asztalos-noel/",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "ASZTALOS NOEL",
+            "fieldsApplied": [
+              "position",
+              "nation"
+            ],
+            "inactiveSince": null
+          }
+        ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -2248,7 +2334,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 76,
-        "shirtNumber": 17
+        "shirtNumber": 17,
+        "substituteAppearances": 4
       },
       "meta": {
         "personKey": "bfecbf79e6e3",
@@ -2296,7 +2383,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 4,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 25,
+              "starts": 21
+            }
+          }
+        }
       }
     },
     {
@@ -2320,7 +2417,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 45,
-        "shirtNumber": 5
+        "shirtNumber": 5,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "da972013d3df",
@@ -2368,7 +2466,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 3,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 20
+            }
+          }
+        }
       }
     },
     {
@@ -2392,7 +2500,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 40,
-        "shirtNumber": 95
+        "shirtNumber": 95,
+        "substituteAppearances": 11
       },
       "meta": {
         "personKey": "da3c31a72ac9",
@@ -2440,7 +2549,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 11,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 14,
+              "starts": 3
+            }
+          }
+        }
       }
     },
     {
@@ -2464,7 +2583,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 21,
-        "shirtNumber": 18
+        "shirtNumber": 18,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "a708da151eec",
@@ -2512,7 +2632,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -2536,7 +2666,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 32,
-        "shirtNumber": 6
+        "shirtNumber": 6,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "c55343a574e8",
@@ -2584,7 +2715,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 5,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -2608,7 +2749,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 51,
-        "shirtNumber": 99
+        "shirtNumber": 99,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "36be5719fdad",
@@ -2656,7 +2798,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 9,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 18,
+              "starts": 9
+            }
+          }
+        }
       }
     },
     {
@@ -2680,7 +2832,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 40,
-        "shirtNumber": 96
+        "shirtNumber": 96,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "70be395663c1",
@@ -2728,7 +2881,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 13,
+              "starts": 11
+            }
+          }
+        }
       }
     },
     {
@@ -2752,7 +2915,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 28,
-        "shirtNumber": 90
+        "shirtNumber": 90,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "24215f022449",
@@ -2800,7 +2964,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 5,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -2824,7 +2998,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 76,
-        "shirtNumber": 10
+        "shirtNumber": 10,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "d2b7e604be9d",
@@ -2874,7 +3049,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 33,
+              "starts": 32
+            }
+          }
+        }
       }
     },
     {
@@ -2898,7 +3083,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 20,
-        "shirtNumber": 24
+        "shirtNumber": 24,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "7d3749ff46ff",
@@ -2946,7 +3132,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -2970,7 +3166,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 36,
-        "shirtNumber": 12
+        "shirtNumber": 12,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "9b45e82305cf",
@@ -3018,7 +3215,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 12,
+              "starts": 12
+            }
+          }
+        }
       }
     },
     {
@@ -3042,7 +3249,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 53,
-        "shirtNumber": 14
+        "shirtNumber": 14,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "117cc7a8d0da",
@@ -3093,7 +3301,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 9,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 26,
+              "starts": 17
+            }
+          }
+        }
       }
     },
     {
@@ -3117,7 +3335,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 58,
-        "shirtNumber": 3
+        "shirtNumber": 3,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "3acefc462765",
@@ -3165,7 +3384,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 18
+            }
+          }
+        }
       }
     },
     {
@@ -3189,7 +3418,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 35,
-        "shirtNumber": 28
+        "shirtNumber": 28,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "232751bffa85",
@@ -3239,7 +3469,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 9,
+              "starts": 7
+            }
+          }
+        }
       }
     },
     {
@@ -3264,7 +3504,8 @@
         "totalDismissals": 1,
         "overallScore": 58,
         "heightCm": 168,
-        "shirtNumber": 19
+        "shirtNumber": 19,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "07e22812da3b",
@@ -3313,7 +3554,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 29,
+              "starts": 28
+            }
+          }
+        }
       }
     },
     {
@@ -3323,8 +3574,8 @@
       "clubs": [
         "DVSC"
       ],
-      "nation": "",
-      "position": "",
+      "nation": "HUN",
+      "position": "Támadó",
       "birthDate": "2006-03-02",
       "stats": {
         "age": 20,
@@ -3336,7 +3587,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 22
+        "overallScore": 22,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "e02e274f183a",
@@ -3362,10 +3614,44 @@
         "sourceNotes": "DVSC 2025/26 Fizz Liga személy- és szereplési adatok az MLSZ játékosoldal alapján ellenőrizve; perc, gólpassz, poszt és magasság nem elérhető.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePosition": "Csatár"
+        },
         "clubShirtNumbers": {},
+        "clubOfficialByClub": {
+          "dvsc": {
+            "sourcePosition": "Csatár"
+          }
+        },
+        "clubOfficialSources": [
+          {
+            "sourceId": "hlsz-kohut-mate-2026",
+            "sourceName": "HLSZ – Kohut Máté játékosprofil",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "KOHUT MÁTÉ",
+            "fieldsApplied": [
+              "position",
+              "nation",
+              "meta.sourcePosition"
+            ],
+            "inactiveSince": null
+          }
+        ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -3389,7 +3675,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 52,
-        "shirtNumber": 11
+        "shirtNumber": 11,
+        "substituteAppearances": 19
       },
       "meta": {
         "personKey": "6f21e3f7a724",
@@ -3437,7 +3724,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 19,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 4
+            }
+          }
+        }
       }
     },
     {
@@ -3461,7 +3758,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 30,
-        "shirtNumber": 49
+        "shirtNumber": 49,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "8afe15969f2a",
@@ -3512,7 +3810,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 3,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 6,
+              "starts": 3
+            }
+          }
+        }
       }
     },
     {
@@ -3536,7 +3844,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 42,
-        "shirtNumber": 29
+        "shirtNumber": 29,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "719670d22b23",
@@ -3584,7 +3893,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 13,
+              "starts": 13
+            }
+          }
+        }
       }
     },
     {
@@ -3608,7 +3927,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 57,
-        "shirtNumber": 26
+        "shirtNumber": 26,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "0065fd35f2b0",
@@ -3656,7 +3976,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 30,
+              "starts": 29
+            }
+          }
+        }
       }
     },
     {
@@ -3680,7 +4010,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 41,
-        "shirtNumber": 16
+        "shirtNumber": 16,
+        "substituteAppearances": 16
       },
       "meta": {
         "personKey": "1f765abb6f87",
@@ -3731,7 +4062,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 16,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 16,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -3755,7 +4096,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 49,
-        "shirtNumber": 4
+        "shirtNumber": 4,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "e1cea05e0e79",
@@ -3806,7 +4148,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 28,
+              "starts": 27
+            }
+          }
+        }
       }
     },
     {
@@ -3830,7 +4182,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 26,
-        "shirtNumber": 98
+        "shirtNumber": 98,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "9d9c474bde1d",
@@ -3878,7 +4231,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -3902,7 +4265,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 24,
-        "shirtNumber": 86
+        "shirtNumber": 86,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "34ded8ee156a",
@@ -3950,7 +4314,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -3974,7 +4348,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 28,
-        "shirtNumber": 15
+        "shirtNumber": 15,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "7e4da8ce7bd3",
@@ -4022,7 +4397,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 6,
+              "starts": 1
+            }
+          }
+        }
       }
     },
     {
@@ -4046,7 +4431,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 22,
-        "shirtNumber": 21
+        "shirtNumber": 21,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "bf3d1bead6ca",
@@ -4094,7 +4480,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -4118,7 +4514,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 23,
-        "shirtNumber": 42
+        "shirtNumber": 42,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "f589380d221f",
@@ -4166,7 +4563,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -4190,7 +4597,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 30,
-        "shirtNumber": 74
+        "shirtNumber": 74,
+        "substituteAppearances": 7
       },
       "meta": {
         "personKey": "4de850f7358c",
@@ -4238,7 +4646,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 7,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 7,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -4262,7 +4680,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 21,
-        "shirtNumber": 2
+        "shirtNumber": 2,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "575a09ebf626",
@@ -4312,7 +4731,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -4336,7 +4765,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 50,
-        "shirtNumber": 77
+        "shirtNumber": 77,
+        "substituteAppearances": 12
       },
       "meta": {
         "personKey": "1198281096f2",
@@ -4384,7 +4814,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 12,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 21,
+              "starts": 9
+            }
+          }
+        }
       }
     },
     {
@@ -4408,7 +4848,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 51,
-        "shirtNumber": 13
+        "shirtNumber": 13,
+        "substituteAppearances": 7
       },
       "meta": {
         "personKey": "5276992799e1",
@@ -4456,7 +4897,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 7,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 16
+            }
+          }
+        }
       }
     },
     {
@@ -4480,7 +4931,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": 56,
-        "shirtNumber": 8
+        "shirtNumber": 8,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "cf21a2d9106f",
@@ -4530,7 +4982,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 31,
+              "starts": 31
+            }
+          }
+        }
       }
     },
     {
@@ -4554,7 +5016,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 31,
-        "shirtNumber": 23
+        "shirtNumber": 23,
+        "substituteAppearances": 7
       },
       "meta": {
         "personKey": "23c8a4dc2ce4",
@@ -4602,7 +5065,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 7,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 8,
+              "starts": 1
+            }
+          }
+        }
       }
     },
     {
@@ -4626,7 +5099,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 48,
-        "shirtNumber": 22
+        "shirtNumber": 22,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "89c5690fc8d1",
@@ -4676,7 +5150,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 8,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 15
+            }
+          }
+        }
       }
     },
     {
@@ -4700,7 +5184,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 45,
-        "shirtNumber": 20
+        "shirtNumber": 20,
+        "substituteAppearances": 4
       },
       "meta": {
         "personKey": "3085e2672bcc",
@@ -4748,7 +5233,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 4,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 19,
+              "starts": 15
+            }
+          }
+        }
       }
     },
     {
@@ -4772,7 +5267,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 47
+        "overallScore": 47,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "b9770cc7878a",
@@ -4850,7 +5346,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 19,
+              "starts": 19
+            }
+          }
+        }
       }
     },
     {
@@ -4874,7 +5380,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 50
+        "overallScore": 50,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "f07e2f5fa9cc",
@@ -4989,7 +5496,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 20,
+              "starts": 20
+            }
+          }
+        }
       }
     },
     {
@@ -10579,16 +11096,17 @@
       "birthDate": "1995-07-25",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 24,
+        "starts": 20,
         "goals": 10,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 28,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 184
+        "heightCm": 184,
+        "substituteAppearances": 4
       },
       "meta": {
         "personKey": "836f45d76e07",
@@ -10737,7 +11255,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "dvtk",
+            "ferencvarosi-tc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-dvtk-complete-2025-26",
+            "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 24,
+            "starts": 20,
+            "squads": 28,
+            "substituteAppearances": 4,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -10753,16 +11301,17 @@
       "birthDate": "2004-06-04",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 27,
+        "starts": 10,
         "goals": 4,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 183
+        "heightCm": 183,
+        "substituteAppearances": 17
       },
       "meta": {
         "personKey": "10f546d72481",
@@ -10948,7 +11497,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "dvtk",
+            "mtk-budapest"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-dvtk-complete-2025-26",
+            "mlsz-fizz-liga-mtk-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 27,
+            "starts": 10,
+            "squads": 32,
+            "substituteAppearances": 17,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -10964,16 +11543,17 @@
       "birthDate": "1997-11-05",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 24,
+        "starts": 14,
         "goals": 2,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 30,
+        "yellowCards": 2,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 188
+        "heightCm": 188,
+        "substituteAppearances": 10
       },
       "meta": {
         "personKey": "691205822d18",
@@ -11172,7 +11752,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "dvtk",
+            "nyiregyhaza-spartacus-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-dvtk-complete-2025-26",
+            "mlsz-fizz-liga-nyiregyhaza-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 24,
+            "starts": 14,
+            "squads": 30,
+            "substituteAppearances": 10,
+            "yellowCards": 2,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -11197,7 +11807,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 61,
-        "heightCm": 175
+        "heightCm": 175,
+        "substituteAppearances": 13
       },
       "meta": {
         "personKey": "101825889dbb",
@@ -11321,7 +11932,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 13,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 27,
+              "starts": 14
+            }
+          }
+        }
       }
     },
     {
@@ -11337,16 +11958,17 @@
       "birthDate": "1993-07-05",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 24,
+        "starts": 15,
         "goals": 6,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 27,
+        "yellowCards": 4,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 1,
         "overallScore": null,
-        "heightCm": 195
+        "heightCm": 195,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "fcbef6bf03be",
@@ -11541,7 +12163,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "dvtk",
+            "puskas-akademia-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-dvtk-complete-2025-26",
+            "mlsz-fizz-liga-puskas-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 24,
+            "starts": 15,
+            "squads": 27,
+            "substituteAppearances": 9,
+            "yellowCards": 4,
+            "redCards": 1,
+            "totalDismissals": 1
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -11557,16 +12209,17 @@
       "birthDate": "2005-10-14",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 10,
+        "starts": 7,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 25,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 180
+        "heightCm": 180,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "f9ca1e886bfb",
@@ -11780,7 +12433,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "dvtk",
+            "ujpest-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-dvtk-complete-2025-26",
+            "mlsz-fizz-liga-ujpest-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 10,
+            "starts": 7,
+            "squads": 25,
+            "substituteAppearances": 3,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -11796,16 +12479,17 @@
       "birthDate": "1992-02-15",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 17,
+        "starts": 9,
         "goals": 2,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 18,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 180
+        "heightCm": 180,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "5b00e3ae7d1e",
@@ -11953,7 +12637,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "dvtk",
+            "zte-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-dvtk-complete-2025-26",
+            "mlsz-fizz-liga-zte-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 17,
+            "starts": 9,
+            "squads": 18,
+            "substituteAppearances": 8,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -11977,7 +12691,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 35,
-        "shirtNumber": 4
+        "shirtNumber": 4,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "140fda0b6de6",
@@ -12037,7 +12752,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 10,
+              "starts": 8
+            }
+          }
+        }
       }
     },
     {
@@ -12061,7 +12786,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 49,
-        "shirtNumber": 5
+        "shirtNumber": 5,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "f50e0bbc2943",
@@ -12123,7 +12849,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 14,
+              "starts": 13
+            }
+          }
+        }
       }
     },
     {
@@ -12147,7 +12883,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 62,
-        "shirtNumber": 90
+        "shirtNumber": 90,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "6103e77128bc",
@@ -12207,7 +12944,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 9,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 29,
+              "starts": 20
+            }
+          }
+        }
       }
     },
     {
@@ -12231,7 +12978,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 88,
-        "shirtNumber": 7
+        "shirtNumber": 7,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "4e4f5773f0cd",
@@ -12293,7 +13041,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 32,
+              "starts": 30
+            }
+          }
+        }
       }
     },
     {
@@ -12317,7 +13075,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 44,
-        "shirtNumber": 20
+        "shirtNumber": 20,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "3944b131a5bf",
@@ -12377,7 +13136,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 16,
+              "starts": 11
+            }
+          }
+        }
       }
     },
     {
@@ -12401,7 +13170,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 42,
-        "shirtNumber": 25
+        "shirtNumber": 25,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "208edc5ff75d",
@@ -12461,7 +13231,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 8,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 12,
+              "starts": 4
+            }
+          }
+        }
       }
     },
     {
@@ -12485,7 +13265,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 21,
-        "shirtNumber": 64
+        "shirtNumber": 64,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "ccaa5196bd71",
@@ -12545,7 +13326,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -12569,7 +13360,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 70,
-        "shirtNumber": 10
+        "shirtNumber": 10,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "3e4da73d90a4",
@@ -12629,7 +13421,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 8,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 31,
+              "starts": 23
+            }
+          }
+        }
       }
     },
     {
@@ -12653,7 +13455,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 61,
-        "shirtNumber": 21
+        "shirtNumber": 21,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "5bfcee16c8b7",
@@ -12713,7 +13516,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 31,
+              "starts": 30
+            }
+          }
+        }
       }
     },
     {
@@ -12737,7 +13550,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 27,
-        "shirtNumber": 47
+        "shirtNumber": 47,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "a7b288dfdc9b",
@@ -12797,7 +13611,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 5,
+              "starts": 3
+            }
+          }
+        }
       }
     },
     {
@@ -12821,7 +13645,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 64,
-        "shirtNumber": 80
+        "shirtNumber": 80,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "0d5856f6c638",
@@ -12883,7 +13708,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 28,
+              "starts": 23
+            }
+          }
+        }
       }
     },
     {
@@ -12907,7 +13742,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 21,
-        "shirtNumber": 39
+        "shirtNumber": 39,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "6768e626c863",
@@ -12967,7 +13803,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -12991,7 +13837,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 42,
-        "shirtNumber": 96
+        "shirtNumber": 96,
+        "substituteAppearances": 14
       },
       "meta": {
         "personKey": "1755418d9d79",
@@ -13051,7 +13898,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 14,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 14,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -13075,7 +13932,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 43,
-        "shirtNumber": 24
+        "shirtNumber": 24,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "55fed227ea7f",
@@ -13135,7 +13993,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 22,
+              "starts": 21
+            }
+          }
+        }
       }
     },
     {
@@ -13158,7 +14026,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 21
+        "overallScore": 21,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "a05a96ebded5",
@@ -13203,7 +14072,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -13226,7 +14105,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 22
+        "overallScore": 22,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "c6c03f37de87",
@@ -13271,7 +14151,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -13295,7 +14185,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 41,
-        "shirtNumber": 16
+        "shirtNumber": 16,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "3228c4eed8dc",
@@ -13357,7 +14248,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 10,
+              "starts": 10
+            }
+          }
+        }
       }
     },
     {
@@ -13381,7 +14282,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 34,
-        "shirtNumber": 18
+        "shirtNumber": 18,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "7a1cee5a1478",
@@ -13441,7 +14343,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 6,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 9,
+              "starts": 3
+            }
+          }
+        }
       }
     },
     {
@@ -13465,7 +14377,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 57,
-        "shirtNumber": 11
+        "shirtNumber": 11,
+        "substituteAppearances": 15
       },
       "meta": {
         "personKey": "a9415fba09f1",
@@ -13525,7 +14438,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 15,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 25,
+              "starts": 10
+            }
+          }
+        }
       }
     },
     {
@@ -13548,7 +14471,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 30
+        "overallScore": 30,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "5317ad376ca1",
@@ -13593,7 +14517,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 3,
+              "starts": 2
+            }
+          }
+        }
       }
     },
     {
@@ -13617,7 +14551,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 52,
-        "shirtNumber": 99
+        "shirtNumber": 99,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "ae3179493e5e",
@@ -13677,7 +14612,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 23
+            }
+          }
+        }
       }
     },
     {
@@ -13701,7 +14646,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 53,
-        "shirtNumber": 19
+        "shirtNumber": 19,
+        "substituteAppearances": 23
       },
       "meta": {
         "personKey": "3395a387b28d",
@@ -13761,7 +14707,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 23,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 25,
+              "starts": 2
+            }
+          }
+        }
       }
     },
     {
@@ -13784,7 +14740,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 25
+        "overallScore": 25,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "d289e3578daf",
@@ -13829,7 +14786,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -13853,7 +14820,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 61,
-        "shirtNumber": 17
+        "shirtNumber": 17,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "9d42194b0742",
@@ -13913,7 +14881,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 6,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 27,
+              "starts": 21
+            }
+          }
+        }
       }
     },
     {
@@ -13937,7 +14915,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 66,
-        "shirtNumber": 23
+        "shirtNumber": 23,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "2f8b7b3cd450",
@@ -13997,7 +14976,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 32,
+              "starts": 31
+            }
+          }
+        }
       }
     },
     {
@@ -14020,7 +15009,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 20
+        "overallScore": 20,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "77bc637b35f0",
@@ -14065,7 +15055,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -14088,7 +15088,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 23
+        "overallScore": 23,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "3c933249d398",
@@ -14135,7 +15136,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 2,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -14159,7 +15170,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 26,
-        "shirtNumber": 70
+        "shirtNumber": 70,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "4e9b9a0e28f4",
@@ -14219,7 +15231,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 3,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 4,
+              "starts": 1
+            }
+          }
+        }
       }
     },
     {
@@ -14243,7 +15265,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": 45,
-        "shirtNumber": 6
+        "shirtNumber": 6,
+        "substituteAppearances": 7
       },
       "meta": {
         "personKey": "4efc1a1d1d91",
@@ -14303,7 +15326,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 7,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 30,
+              "starts": 23
+            }
+          }
+        }
       }
     },
     {
@@ -14327,7 +15360,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 24,
-        "shirtNumber": 37
+        "shirtNumber": 37,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "3143540cc9ab",
@@ -14387,7 +15421,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -14411,7 +15455,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": 30,
-        "shirtNumber": 18
+        "shirtNumber": 18,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "38532619f5f7",
@@ -14471,7 +15516,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 8,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 16,
+              "starts": 8
+            }
+          }
+        }
       }
     },
     {
@@ -14495,7 +15550,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 71,
-        "shirtNumber": 27
+        "shirtNumber": 27,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "6c12cc7dc8f1",
@@ -14555,7 +15611,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 31,
+              "starts": 31
+            }
+          }
+        }
       }
     },
     {
@@ -14579,7 +15645,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 47,
-        "shirtNumber": 2
+        "shirtNumber": 2,
+        "substituteAppearances": 10
       },
       "meta": {
         "personKey": "deb44d76bf3c",
@@ -14639,7 +15706,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 10,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 21,
+              "starts": 11
+            }
+          }
+        }
       }
     },
     {
@@ -14663,7 +15740,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 28,
-        "shirtNumber": 76
+        "shirtNumber": 76,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "926fa71fa104",
@@ -14723,7 +15801,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 6,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 7,
+              "starts": 1
+            }
+          }
+        }
       }
     },
     {
@@ -14747,7 +15835,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 24
+        "overallScore": 24,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "2e55f246af3d",
@@ -14863,7 +15952,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 4,
+              "starts": 4
+            }
+          }
+        }
       }
     },
     {
@@ -18681,15 +19780,16 @@
       "birthDate": "2006-10-01",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 13,
+        "starts": 4,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 17,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "2c1a69d9470c",
@@ -18844,7 +19944,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "ferencvarosi-tc",
+            "kisvarda-master-good"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+            "mlsz-fizz-liga-kisvarda-final8-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 13,
+            "starts": 4,
+            "squads": 17,
+            "substituteAppearances": 9,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -18868,7 +19998,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 59
+        "overallScore": 59,
+        "substituteAppearances": 4
       },
       "meta": {
         "personKey": "c1ed1ff161bd",
@@ -18945,7 +20076,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 4,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 30,
+              "starts": 26
+            }
+          }
+        }
       }
     },
     {
@@ -30405,16 +31546,17 @@
       "birthDate": "1993-02-26",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 1,
+        "starts": 0,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 29,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 187
+        "heightCm": 187,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "a4ad77d75f42",
@@ -30636,7 +31778,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "kolorcity-kazincbarcika-sc",
+            "ujpest-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+            "mlsz-fizz-liga-ujpest-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 1,
+            "starts": 0,
+            "squads": 29,
+            "substituteAppearances": 1,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -30652,15 +31824,16 @@
       "birthDate": "2005-09-13",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 16,
+        "starts": 14,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 30,
+        "yellowCards": 1,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 1,
+        "overallScore": null,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "90096f61aca8",
@@ -30842,7 +32015,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "kolorcity-kazincbarcika-sc",
+            "ujpest-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+            "mlsz-fizz-liga-ujpest-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 16,
+            "starts": 14,
+            "squads": 30,
+            "substituteAppearances": 2,
+            "yellowCards": 1,
+            "redCards": 1,
+            "totalDismissals": 1
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -30858,15 +32061,16 @@
       "birthDate": "2005-02-24",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 22,
+        "starts": 8,
         "goals": 4,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 3,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 14
       },
       "meta": {
         "personKey": "b7bc042974d6",
@@ -31006,7 +32210,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "kolorcity-kazincbarcika-sc",
+            "zte-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+            "mlsz-fizz-liga-zte-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 22,
+            "starts": 8,
+            "squads": 32,
+            "substituteAppearances": 14,
+            "yellowCards": 3,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -31022,15 +32256,16 @@
       "birthDate": "1998-03-21",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 9,
+        "starts": 8,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 28,
+        "yellowCards": 0,
+        "redCards": 1,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 1,
+        "overallScore": null,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "f71b88003adc",
@@ -31170,7 +32405,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "kolorcity-kazincbarcika-sc",
+            "zte-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+            "mlsz-fizz-liga-zte-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 9,
+            "starts": 8,
+            "squads": 28,
+            "substituteAppearances": 1,
+            "yellowCards": 0,
+            "redCards": 1,
+            "totalDismissals": 1
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -31186,15 +32451,16 @@
       "birthDate": "2001-06-27",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 20,
+        "starts": 14,
         "goals": 1,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 31,
+        "yellowCards": 2,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "2fa3cc67b720",
@@ -31334,7 +32600,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "kolorcity-kazincbarcika-sc",
+            "zte-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+            "mlsz-fizz-liga-zte-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 20,
+            "starts": 14,
+            "squads": 31,
+            "substituteAppearances": 6,
+            "yellowCards": 2,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -35752,7 +37048,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 45
+        "overallScore": 45,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "091532eac303",
@@ -35878,7 +37175,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 9,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 20,
+              "starts": 11
+            }
+          }
+        }
       }
     },
     {
@@ -35894,15 +37201,16 @@
       "birthDate": "2003-07-17",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 26,
+        "starts": 14,
         "goals": 6,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 30,
+        "yellowCards": 2,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 12
       },
       "meta": {
         "personKey": "a5450b3d3149",
@@ -36075,7 +37383,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "mtk-budapest",
+            "puskas-akademia-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-mtk-complete-2025-26",
+            "mlsz-fizz-liga-puskas-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 26,
+            "starts": 14,
+            "squads": 30,
+            "substituteAppearances": 12,
+            "yellowCards": 2,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -36414,7 +37752,7 @@
         "Nyíregyháza Spartacus FC"
       ],
       "nation": "HUN",
-      "position": "",
+      "position": "Támadó",
       "birthDate": "2001-03-14",
       "stats": {
         "age": null,
@@ -36471,6 +37809,19 @@
             "matchedName": "BEKE PÉTER",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "nyir-beke-attacker-official",
+            "sourceName": "Nyíregyháza Spartacus – Beke Péter támadó",
+            "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/beke-peter-kecskemetre-kerul-kolcsonbe/7068",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BEKE PÉTER",
+            "fieldsApplied": [
+              "position"
             ],
             "inactiveSince": null
           }
@@ -37873,7 +39224,7 @@
         "Nyíregyháza Spartacus FC"
       ],
       "nation": "TRI",
-      "position": "",
+      "position": "Középpályás",
       "birthDate": "2004-12-03",
       "stats": {
         "age": null,
@@ -37930,6 +39281,19 @@
             "matchedName": "GILBERT DANTAYE MICHAEL LEE",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "nyir-gilbert-midfielder-official",
+            "sourceName": "Nyíregyháza Spartacus – Dantaye Gilbert középpályás",
+            "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "GILBERT DANTAYE MICHAEL LEE",
+            "fieldsApplied": [
+              "position"
             ],
             "inactiveSince": null
           }
@@ -38020,7 +39384,7 @@
         "Nyíregyháza Spartacus FC"
       ],
       "nation": "SRB",
-      "position": "",
+      "position": "Védő",
       "birthDate": "1999-04-22",
       "stats": {
         "age": null,
@@ -38077,6 +39441,19 @@
             "matchedName": "JOKIC RANKO",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "nyir-jokic-defender-official",
+            "sourceName": "Nyíregyháza Spartacus – Ranko Jokić belső védő",
+            "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "JOKIC RANKO",
+            "fieldsApplied": [
+              "position"
             ],
             "inactiveSince": null
           }
@@ -38167,7 +39544,7 @@
         "Nyíregyháza Spartacus FC"
       ],
       "nation": "MKD",
-      "position": "",
+      "position": "Védő",
       "birthDate": "1998-12-28",
       "stats": {
         "age": null,
@@ -38198,7 +39575,9 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "primaryPosition": "Jobbhátvéd"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -38226,9 +39605,28 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "m4-jovanov-defender-official-announcement",
+            "sourceName": "M4 Sport – a Nyíregyháza hivatalos Jovanov-bejelentése",
+            "sourceUrl": "https://m4sport.hu/magyar-foci/cikk/2026/02/02/hivatalos-a-horvat-elvonalbol-igazolt-vedot-a-nyiregyhaza-spartacus",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "JOVANOV VANE",
+            "fieldsApplied": [
+              "position",
+              "meta.primaryPosition"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "primaryPosition": "Jobbhátvéd"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 13,
@@ -41585,7 +42983,7 @@
         "Nyíregyháza Spartacus FC"
       ],
       "nation": "HUN",
-      "position": "",
+      "position": "Középpályás",
       "birthDate": "1996-03-30",
       "stats": {
         "age": null,
@@ -41642,6 +43040,19 @@
             "matchedName": "VARGA KEVIN",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-varga-kevin-2026",
+            "sourceName": "HLSZ – Varga Kevin játékosprofil",
+            "sourceUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "VARGA KEVIN",
+            "fieldsApplied": [
+              "position"
             ],
             "inactiveSince": null
           }
@@ -41906,7 +43317,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 36
+        "overallScore": 36,
+        "substituteAppearances": 9
       },
       "meta": {
         "personKey": "c155217a77ef",
@@ -42058,7 +43470,17 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 9,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 17,
+              "starts": 8
+            }
+          }
+        }
       }
     },
     {
@@ -42074,15 +43496,16 @@
       "birthDate": "2004-04-26",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 4,
+        "starts": 4,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 31,
+        "yellowCards": 0,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
-        "overallScore": null
+        "totalDismissals": 0,
+        "overallScore": null,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "28243985aab9",
@@ -42269,7 +43692,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "nyiregyhaza-spartacus-fc",
+            "puskas-akademia-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
+            "mlsz-fizz-liga-puskas-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 4,
+            "starts": 4,
+            "squads": 31,
+            "substituteAppearances": 0,
+            "yellowCards": 0,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -42293,7 +43746,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 43,
-        "shirtNumber": 7
+        "shirtNumber": 7,
+        "substituteAppearances": 13
       },
       "meta": {
         "personKey": "55fa24750345",
@@ -42353,7 +43807,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 13,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 13,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -42377,7 +43841,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 42,
-        "shirtNumber": 8
+        "shirtNumber": 8,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "3aa98dcce2b9",
@@ -42437,7 +43902,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 16,
+              "starts": 11
+            }
+          }
+        }
       }
     },
     {
@@ -42461,7 +43936,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 74,
-        "shirtNumber": 13
+        "shirtNumber": 13,
+        "substituteAppearances": 19
       },
       "meta": {
         "personKey": "82a7de0351fc",
@@ -42529,7 +44005,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 19,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 23,
+              "starts": 4
+            }
+          }
+        }
       }
     },
     {
@@ -42552,7 +44038,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 24
+        "overallScore": 24,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "9fc65dd8968d",
@@ -42597,7 +44084,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -42621,7 +44118,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 28,
-        "shirtNumber": 27
+        "shirtNumber": 27,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "ba856df2b722",
@@ -42681,7 +44179,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 4,
+              "starts": 2
+            }
+          }
+        }
       }
     },
     {
@@ -42705,7 +44213,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 29,
-        "shirtNumber": 28
+        "shirtNumber": 28,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "3b3b5c3e303e",
@@ -42765,7 +44274,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 6,
+              "starts": 6
+            }
+          }
+        }
       }
     },
     {
@@ -42789,7 +44308,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 60,
-        "shirtNumber": 18
+        "shirtNumber": 18,
+        "substituteAppearances": 11
       },
       "meta": {
         "personKey": "08b00646b0f2",
@@ -42849,7 +44369,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 11,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 27,
+              "starts": 16
+            }
+          }
+        }
       }
     },
     {
@@ -42873,7 +44403,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 79,
-        "shirtNumber": 9
+        "shirtNumber": 9,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "8378caea9bbf",
@@ -42935,7 +44466,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 28,
+              "starts": 23
+            }
+          }
+        }
       }
     },
     {
@@ -42958,7 +44499,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 35
+        "overallScore": 35,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "ef76dddebb2a",
@@ -43003,7 +44545,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 6,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 8,
+              "starts": 2
+            }
+          }
+        }
       }
     },
     {
@@ -43027,7 +44579,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 41,
-        "shirtNumber": 17
+        "shirtNumber": 17,
+        "substituteAppearances": 3
       },
       "meta": {
         "personKey": "41f814a867c6",
@@ -43087,7 +44640,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 3,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 14,
+              "starts": 11
+            }
+          }
+        }
       }
     },
     {
@@ -43111,7 +44674,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 60,
-        "shirtNumber": 19
+        "shirtNumber": 19,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "16115bd7c08a",
@@ -43173,7 +44737,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 6,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 32,
+              "starts": 26
+            }
+          }
+        }
       }
     },
     {
@@ -43197,7 +44771,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 37,
-        "shirtNumber": 2
+        "shirtNumber": 2,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "b3aceb1b549b",
@@ -43257,7 +44832,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 14,
+              "starts": 13
+            }
+          }
+        }
       }
     },
     {
@@ -43281,7 +44866,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 58,
-        "shirtNumber": 1
+        "shirtNumber": 1,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "8b31a3ac69c5",
@@ -43341,7 +44927,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 25,
+              "starts": 25
+            }
+          }
+        }
       }
     },
     {
@@ -43364,7 +44960,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 21
+        "overallScore": 21,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "30f88df3236b",
@@ -43409,7 +45006,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 0,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -43433,7 +45040,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": 40,
-        "shirtNumber": 24
+        "shirtNumber": 24,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "788c2d6c95d4",
@@ -43493,7 +45101,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 19,
+              "starts": 19
+            }
+          }
+        }
       }
     },
     {
@@ -43517,7 +45135,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 32,
-        "shirtNumber": 23
+        "shirtNumber": 23,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "9b1603578345",
@@ -43577,7 +45196,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 8,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 9,
+              "starts": 1
+            }
+          }
+        }
       }
     },
     {
@@ -43601,7 +45230,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 50,
-        "shirtNumber": 21
+        "shirtNumber": 21,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "99f5c34441a0",
@@ -43663,7 +45293,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 28,
+              "starts": 28
+            }
+          }
+        }
       }
     },
     {
@@ -43687,7 +45327,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 23,
-        "shirtNumber": 16
+        "shirtNumber": 16,
+        "substituteAppearances": 1
       },
       "meta": {
         "personKey": "35fb6a54d829",
@@ -43749,7 +45390,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 1,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 1,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -43773,7 +45424,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 53,
-        "shirtNumber": 14
+        "shirtNumber": 14,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "9500c5302695",
@@ -43833,7 +45485,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 20,
+              "starts": 15
+            }
+          }
+        }
       }
     },
     {
@@ -43857,7 +45519,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 23,
-        "shirtNumber": 25
+        "shirtNumber": 25,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "68ce2bb1133c",
@@ -43917,7 +45580,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 2,
+              "starts": 2
+            }
+          }
+        }
       }
     },
     {
@@ -43941,7 +45614,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": 49,
-        "shirtNumber": 30
+        "shirtNumber": 30,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "84ad50b69280",
@@ -44001,7 +45675,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 20,
+              "starts": 20
+            }
+          }
+        }
       }
     },
     {
@@ -44025,7 +45709,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 35,
-        "shirtNumber": 26
+        "shirtNumber": 26,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "d6bfe3acf08d",
@@ -44087,7 +45772,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 15,
+              "starts": 10
+            }
+          }
+        }
       }
     },
     {
@@ -44111,7 +45806,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 57,
-        "shirtNumber": 15
+        "shirtNumber": 15,
+        "substituteAppearances": 6
       },
       "meta": {
         "personKey": "f0a50926618a",
@@ -44171,7 +45867,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 6,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 20,
+              "starts": 14
+            }
+          }
+        }
       }
     },
     {
@@ -44194,7 +45900,8 @@
         "redCards": 0,
         "secondYellowRedCards": null,
         "totalDismissals": 0,
-        "overallScore": 26
+        "overallScore": 26,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "2a4cb19625cb",
@@ -44239,7 +45946,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 2,
+              "starts": 0
+            }
+          }
+        }
       }
     },
     {
@@ -44263,7 +45980,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 64,
-        "shirtNumber": 29
+        "shirtNumber": 29,
+        "substituteAppearances": 8
       },
       "meta": {
         "personKey": "de111bed4aa4",
@@ -44323,7 +46041,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 8,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 25,
+              "starts": 17
+            }
+          }
+        }
       }
     },
     {
@@ -44347,7 +46075,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 35,
-        "shirtNumber": 12
+        "shirtNumber": 12,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "bdc65777a75f",
@@ -44407,7 +46136,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 0,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 10,
+              "starts": 10
+            }
+          }
+        }
       }
     },
     {
@@ -44431,7 +46170,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 57,
-        "shirtNumber": 5
+        "shirtNumber": 5,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "632be0a4caa2",
@@ -44491,7 +46231,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 2,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 25,
+              "starts": 23
+            }
+          }
+        }
       }
     },
     {
@@ -44515,7 +46265,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 69,
-        "shirtNumber": 22
+        "shirtNumber": 22,
+        "substituteAppearances": 11
       },
       "meta": {
         "personKey": "565f0f6c669b",
@@ -44575,7 +46326,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 11,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 27,
+              "starts": 16
+            }
+          }
+        }
       }
     },
     {
@@ -44599,7 +46360,8 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 53,
-        "shirtNumber": 20
+        "shirtNumber": 20,
+        "substituteAppearances": 5
       },
       "meta": {
         "personKey": "3f9b97d8cef6",
@@ -44659,7 +46421,17 @@
           }
         ],
         "clubOfficialStatsByClub": {},
-        "officialStatSources": []
+        "officialStatSources": [],
+        "derivedOfficialStats": {
+          "substituteAppearances": {
+            "value": 5,
+            "formula": "appearances - starts",
+            "inputs": {
+              "appearances": 24,
+              "starts": 19
+            }
+          }
+        }
       }
     },
     {
@@ -49051,16 +50823,17 @@
       "birthDate": "1994-11-17",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 24,
+        "starts": 22,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 33,
+        "yellowCards": 1,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 192
+        "heightCm": 192,
+        "substituteAppearances": 2
       },
       "meta": {
         "personKey": "0acb07a28ff5",
@@ -49262,7 +51035,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "puskas-akademia-fc",
+            "ujpest-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-puskas-complete-2025-26",
+            "mlsz-fizz-liga-ujpest-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 24,
+            "starts": 22,
+            "squads": 33,
+            "substituteAppearances": 2,
+            "yellowCards": 1,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -54552,16 +56355,17 @@
       "birthDate": "2005-04-18",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 23,
+        "starts": 23,
         "goals": 0,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 25,
+        "yellowCards": 5,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 173
+        "heightCm": 173,
+        "substituteAppearances": 0
       },
       "meta": {
         "personKey": "0089893675e7",
@@ -54728,7 +56532,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "ujpest-fc",
+            "zte-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-ujpest-complete-2025-26",
+            "mlsz-fizz-liga-zte-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 23,
+            "starts": 23,
+            "squads": 25,
+            "substituteAppearances": 0,
+            "yellowCards": 5,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -54744,16 +56578,17 @@
       "birthDate": "2004-08-17",
       "stats": {
         "age": null,
-        "appearances": null,
-        "starts": null,
+        "appearances": 24,
+        "starts": 6,
         "goals": 4,
-        "squads": null,
-        "yellowCards": null,
-        "redCards": null,
+        "squads": 32,
+        "yellowCards": 4,
+        "redCards": 0,
         "secondYellowRedCards": null,
-        "totalDismissals": null,
+        "totalDismissals": 0,
         "overallScore": null,
-        "heightCm": 182
+        "heightCm": 182,
+        "substituteAppearances": 18
       },
       "meta": {
         "personKey": "60f16f486337",
@@ -54920,7 +56755,37 @@
             "fieldsApplied": [],
             "correctedFields": []
           }
-        ]
+        ],
+        "officialStatConsensus": {
+          "season": "2025/26",
+          "clubIds": [
+            "ujpest-fc",
+            "zte-fc"
+          ],
+          "sourceIds": [
+            "mlsz-fizz-liga-ujpest-complete-2025-26",
+            "mlsz-fizz-liga-zte-complete-2025-26"
+          ],
+          "fieldsApplied": [
+            "appearances",
+            "starts",
+            "squads",
+            "substituteAppearances",
+            "yellowCards",
+            "redCards",
+            "totalDismissals"
+          ],
+          "values": {
+            "appearances": 24,
+            "starts": 6,
+            "squads": 32,
+            "substituteAppearances": 18,
+            "yellowCards": 4,
+            "redCards": 0,
+            "totalDismissals": 0
+          },
+          "rule": "all-registered-clubs-report-identical-player-season-totals"
+        }
       }
     },
     {
@@ -58758,24 +60623,1293 @@
       "starts": 1,
       "substituteAppearances": 1
     },
+    "consensusPromotedPlayers": 17,
+    "consensusConflictCount": 0,
+    "consensusAppliedFieldCounts": {
+      "appearances": 17,
+      "starts": 17,
+      "squads": 17,
+      "substituteAppearances": 17,
+      "yellowCards": 17,
+      "redCards": 17,
+      "totalDismissals": 17
+    },
+    "consensusPromotions": [
+      {
+        "playerId": "nb1-836f45d76e07",
+        "playerName": "ACOLATSE ELTON-OFOI",
+        "clubIds": [
+          "dvtk",
+          "ferencvarosi-tc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-ferencvaros-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 20,
+          "squads": 28,
+          "substituteAppearances": 4,
+          "yellowCards": 4,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-10f546d72481",
+        "playerName": "JUREK GÁBOR",
+        "clubIds": [
+          "dvtk",
+          "mtk-budapest"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-mtk-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 27,
+          "starts": 10,
+          "squads": 32,
+          "substituteAppearances": 17,
+          "yellowCards": 1,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-691205822d18",
+        "playerName": "ABOUBAKAR KEITA",
+        "clubIds": [
+          "dvtk",
+          "nyiregyhaza-spartacus-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-nyiregyhaza-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 14,
+          "squads": 30,
+          "substituteAppearances": 10,
+          "yellowCards": 2,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-fcbef6bf03be",
+        "playerName": "COLLEY LAMIN",
+        "clubIds": [
+          "dvtk",
+          "puskas-akademia-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-puskas-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 15,
+          "squads": 27,
+          "substituteAppearances": 9,
+          "yellowCards": 4,
+          "redCards": 1,
+          "totalDismissals": 1
+        }
+      },
+      {
+        "playerId": "nb1-f9ca1e886bfb",
+        "playerName": "MUCSÁNYI MIRON MÁTÉ",
+        "clubIds": [
+          "dvtk",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 10,
+          "starts": 7,
+          "squads": 25,
+          "substituteAppearances": 3,
+          "yellowCards": 4,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-5b00e3ae7d1e",
+        "playerName": "CROIZET YOHAN",
+        "clubIds": [
+          "dvtk",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-dvtk-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 17,
+          "starts": 9,
+          "squads": 18,
+          "substituteAppearances": 8,
+          "yellowCards": 0,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-2c1a69d9470c",
+        "playerName": "SZABÓ SZILÁRD",
+        "clubIds": [
+          "ferencvarosi-tc",
+          "kisvarda-master-good"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-ferencvaros-complete-2025-26",
+          "mlsz-fizz-liga-kisvarda-final8-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 13,
+          "starts": 4,
+          "squads": 17,
+          "substituteAppearances": 9,
+          "yellowCards": 1,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-a4ad77d75f42",
+        "playerName": "DOMBÓ DÁVID",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 1,
+          "starts": 0,
+          "squads": 29,
+          "substituteAppearances": 1,
+          "yellowCards": 0,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-90096f61aca8",
+        "playerName": "JUHÁSZ ISTVÁN BENCE",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 16,
+          "starts": 14,
+          "squads": 30,
+          "substituteAppearances": 2,
+          "yellowCards": 1,
+          "redCards": 1,
+          "totalDismissals": 1
+        }
+      },
+      {
+        "playerId": "nb1-b7bc042974d6",
+        "playerName": "KLAUSZ MILÁN GÁBOR",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 22,
+          "starts": 8,
+          "squads": 32,
+          "substituteAppearances": 14,
+          "yellowCards": 3,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-f71b88003adc",
+        "playerName": "NAGY ZSOMBOR",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 9,
+          "starts": 8,
+          "squads": 28,
+          "substituteAppearances": 1,
+          "yellowCards": 0,
+          "redCards": 1,
+          "totalDismissals": 1
+        }
+      },
+      {
+        "playerId": "nb1-2fa3cc67b720",
+        "playerName": "NYÍRI VINCE TÓBIÁS",
+        "clubIds": [
+          "kolorcity-kazincbarcika-sc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-kazincbarcika-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 20,
+          "starts": 14,
+          "squads": 31,
+          "substituteAppearances": 6,
+          "yellowCards": 2,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-a5450b3d3149",
+        "playerName": "KEREZSI ZALÁN MÁRK",
+        "clubIds": [
+          "mtk-budapest",
+          "puskas-akademia-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-mtk-complete-2025-26",
+          "mlsz-fizz-liga-puskas-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 26,
+          "starts": 14,
+          "squads": 30,
+          "substituteAppearances": 12,
+          "yellowCards": 2,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-28243985aab9",
+        "playerName": "DALA MARTIN",
+        "clubIds": [
+          "nyiregyhaza-spartacus-fc",
+          "puskas-akademia-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
+          "mlsz-fizz-liga-puskas-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 4,
+          "starts": 4,
+          "squads": 31,
+          "substituteAppearances": 0,
+          "yellowCards": 0,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-0acb07a28ff5",
+        "playerName": "STRONATI PATRIZIO",
+        "clubIds": [
+          "puskas-akademia-fc",
+          "ujpest-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-puskas-complete-2025-26",
+          "mlsz-fizz-liga-ujpest-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 22,
+          "squads": 33,
+          "substituteAppearances": 2,
+          "yellowCards": 1,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-0089893675e7",
+        "playerName": "BODNÁR GERGŐ JÁNOS",
+        "clubIds": [
+          "ujpest-fc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-ujpest-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 23,
+          "starts": 23,
+          "squads": 25,
+          "substituteAppearances": 0,
+          "yellowCards": 5,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      },
+      {
+        "playerId": "nb1-60f16f486337",
+        "playerName": "KRAJCSOVICS ÁBEL GYÖRGY",
+        "clubIds": [
+          "ujpest-fc",
+          "zte-fc"
+        ],
+        "sourceIds": [
+          "mlsz-fizz-liga-ujpest-complete-2025-26",
+          "mlsz-fizz-liga-zte-complete-2025-26"
+        ],
+        "fieldsApplied": [
+          "appearances",
+          "starts",
+          "squads",
+          "substituteAppearances",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "values": {
+          "appearances": 24,
+          "starts": 6,
+          "squads": 32,
+          "substituteAppearances": 18,
+          "yellowCards": 4,
+          "redCards": 0,
+          "totalDismissals": 0
+        }
+      }
+    ],
+    "consensusConflicts": [],
+    "derivedSubstituteAppearancesCount": 106,
+    "derivedSubstituteAppearances": [
+      {
+        "playerId": "2025-26-dvsc-asztalos-noel",
+        "playerName": "ASZTALOS NOEL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-barany-donat",
+        "playerName": "BÁRÁNY DONÁT",
+        "value": 4,
+        "appearances": 25,
+        "starts": 21
+      },
+      {
+        "playerId": "2025-26-dvsc-batik-bence",
+        "playerName": "BATIK BENCE",
+        "value": 3,
+        "appearances": 23,
+        "starts": 20
+      },
+      {
+        "playerId": "2025-26-dvsc-bermejo-escribano-alex",
+        "playerName": "BERMEJO ESCRIBANO ALEX",
+        "value": 11,
+        "appearances": 14,
+        "starts": 3
+      },
+      {
+        "playerId": "2025-26-dvsc-bodnar-balazs",
+        "playerName": "BODNÁR BALÁZS",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-camarasa-ferrando-victor",
+        "playerName": "CAMARASA FERRANDO VICTOR",
+        "value": 5,
+        "appearances": 5,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-cibla-florian",
+        "playerName": "CIBLA FLÓRIÁN",
+        "value": 9,
+        "appearances": 18,
+        "starts": 9
+      },
+      {
+        "playerId": "2025-26-dvsc-dacosta-julien-joachim",
+        "playerName": "DACOSTA JULIEN JOACHIM",
+        "value": 2,
+        "appearances": 13,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-dvsc-djokic-dejan",
+        "playerName": "DJOKIC DEJAN",
+        "value": 5,
+        "appearances": 5,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-d2b7e604be9d",
+        "playerName": "Dzsudzsák Balázs",
+        "value": 1,
+        "appearances": 33,
+        "starts": 32
+      },
+      {
+        "playerId": "2025-26-dvsc-egri-imre",
+        "playerName": "EGRI IMRE",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-erdelyi-benedek-miklos",
+        "playerName": "ERDÉLYI BENEDEK MIKLÓS",
+        "value": 0,
+        "appearances": 12,
+        "starts": 12
+      },
+      {
+        "playerId": "2025-26-dvsc-gordic-dorde",
+        "playerName": "GORDIC DORDE",
+        "value": 9,
+        "appearances": 26,
+        "starts": 17
+      },
+      {
+        "playerId": "2025-26-dvsc-guerrero-aguilar-adrian",
+        "playerName": "GUERRERO AGUILAR ADRIAN",
+        "value": 5,
+        "appearances": 23,
+        "starts": 18
+      },
+      {
+        "playerId": "nb1-232751bffa85",
+        "playerName": "Hofmann Maximilian",
+        "value": 2,
+        "appearances": 9,
+        "starts": 7
+      },
+      {
+        "playerId": "2025-26-dvsc-kocsis-dominik",
+        "playerName": "KOCSIS DOMINIK",
+        "value": 1,
+        "appearances": 29,
+        "starts": 28
+      },
+      {
+        "playerId": "2025-26-dvsc-kohut-mate",
+        "playerName": "KOHUT MÁTÉ",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-komaromi-gyorgy",
+        "playerName": "KOMÁROMI GYÖRGY",
+        "value": 19,
+        "appearances": 23,
+        "starts": 4
+      },
+      {
+        "playerId": "2025-26-dvsc-kulbachuk-viacheslav",
+        "playerName": "KULBACHUK VIACHESLAV",
+        "value": 3,
+        "appearances": 6,
+        "starts": 3
+      },
+      {
+        "playerId": "2025-26-dvsc-kusnyir-erik",
+        "playerName": "KUSNYIR ERIK",
+        "value": 0,
+        "appearances": 13,
+        "starts": 13
+      },
+      {
+        "playerId": "2025-26-dvsc-lang-adam",
+        "playerName": "LANG ÁDÁM",
+        "value": 1,
+        "appearances": 30,
+        "starts": 29
+      },
+      {
+        "playerId": "2025-26-dvsc-lopez-de-la-manzanara",
+        "playerName": "LOPEZ DE LA MANZANARA",
+        "value": 16,
+        "appearances": 16,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-mejias-garcia-josua-antonio",
+        "playerName": "MEJIAS GARCIA JOSUA ANTONIO",
+        "value": 1,
+        "appearances": 28,
+        "starts": 27
+      },
+      {
+        "playerId": "2025-26-dvsc-odey-stephen-pius",
+        "playerName": "ODEY STEPHEN PIUS",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-palfi-donat",
+        "playerName": "PÁLFI DONÁT",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-patai-david",
+        "playerName": "PATAI DÁVID",
+        "value": 5,
+        "appearances": 6,
+        "starts": 1
+      },
+      {
+        "playerId": "2025-26-dvsc-regenyei-gergo",
+        "playerName": "REGENYEI GERGŐ",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-silue-dognimani-yacouba",
+        "playerName": "SILUE DOGNIMANI YACOUBA",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-sissoko-niama-pape",
+        "playerName": "SISSOKO NIAMA PAPE",
+        "value": 7,
+        "appearances": 7,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-575a09ebf626",
+        "playerName": "Szakál Dénes",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-dvsc-szecsi-mark",
+        "playerName": "SZÉCSI MÁRK",
+        "value": 12,
+        "appearances": 21,
+        "starts": 9
+      },
+      {
+        "playerId": "2025-26-dvsc-szuhodovszki-soma",
+        "playerName": "SZUHODOVSZKI SOMA",
+        "value": 7,
+        "appearances": 23,
+        "starts": 16
+      },
+      {
+        "playerId": "nb1-cf21a2d9106f",
+        "playerName": "Szűcs Tamás",
+        "value": 0,
+        "appearances": 31,
+        "starts": 31
+      },
+      {
+        "playerId": "2025-26-dvsc-tercza-gergo",
+        "playerName": "TERCZA GERGŐ",
+        "value": 7,
+        "appearances": 8,
+        "starts": 1
+      },
+      {
+        "playerId": "nb1-89c5690fc8d1",
+        "playerName": "Vajda Botond",
+        "value": 8,
+        "appearances": 23,
+        "starts": 15
+      },
+      {
+        "playerId": "2025-26-dvsc-youga-christopher-amos",
+        "playerName": "YOUGA CHRISTOPHER AMOS",
+        "value": 4,
+        "appearances": 19,
+        "starts": 15
+      },
+      {
+        "playerId": "nb1-b9770cc7878a",
+        "playerName": "VARGA ÁDÁM GÁBOR",
+        "value": 0,
+        "appearances": 19,
+        "starts": 19
+      },
+      {
+        "playerId": "nb1-f07e2f5fa9cc",
+        "playerName": "DEMJÉN PATRIK",
+        "value": 0,
+        "appearances": 20,
+        "starts": 20
+      },
+      {
+        "playerId": "nb1-101825889dbb",
+        "playerName": "PETŐ MILÁN",
+        "value": 13,
+        "appearances": 27,
+        "starts": 14
+      },
+      {
+        "playerId": "2025-26-eto-fc-abrahamsson-nils-oscar-alexander",
+        "playerName": "ABRAHAMSSON NILS OSCAR ALEXANDER",
+        "value": 2,
+        "appearances": 10,
+        "starts": 8
+      },
+      {
+        "playerId": "nb1-f50e0bbc2943",
+        "playerName": "Anton Paul-Viorel",
+        "value": 1,
+        "appearances": 14,
+        "starts": 13
+      },
+      {
+        "playerId": "2025-26-eto-fc-banati-kevin",
+        "playerName": "BÁNÁTI KEVIN",
+        "value": 9,
+        "appearances": 29,
+        "starts": 20
+      },
+      {
+        "playerId": "nb1-4e4f5773f0cd",
+        "playerName": "Benbouali Ahmed Nadhir",
+        "value": 2,
+        "appearances": 32,
+        "starts": 30
+      },
+      {
+        "playerId": "2025-26-eto-fc-biro-barnabas",
+        "playerName": "BÍRÓ BARNABÁS",
+        "value": 5,
+        "appearances": 16,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-eto-fc-boldor-deian",
+        "playerName": "BOLDOR DEIAN",
+        "value": 8,
+        "appearances": 12,
+        "starts": 4
+      },
+      {
+        "playerId": "2025-26-eto-fc-brecska-daniel",
+        "playerName": "BRECSKA DÁNIEL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-bumba-claudiu-vasile",
+        "playerName": "BUMBA CLAUDIU-VASILE",
+        "value": 8,
+        "appearances": 31,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-csinger-mark",
+        "playerName": "CSINGER MÁRK",
+        "value": 1,
+        "appearances": 31,
+        "starts": 30
+      },
+      {
+        "playerId": "2025-26-eto-fc-decsy-adam",
+        "playerName": "DÉCSY ÁDÁM",
+        "value": 2,
+        "appearances": 5,
+        "starts": 3
+      },
+      {
+        "playerId": "nb1-0d5856f6c638",
+        "playerName": "Gavric Zeljko",
+        "value": 5,
+        "appearances": 28,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-herczeg-marcell",
+        "playerName": "HERCZEG MARCELL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-huszar-marcell-bela",
+        "playerName": "HUSZÁR MARCELL BÉLA",
+        "value": 14,
+        "appearances": 14,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-krpic-miljan",
+        "playerName": "KRPIC MILJAN",
+        "value": 1,
+        "appearances": 22,
+        "starts": 21
+      },
+      {
+        "playerId": "2025-26-eto-fc-kulcsar-martin",
+        "playerName": "KULCSÁR MARTIN",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+        "playerName": "MASCOE LAWRENZO NATHANIEL",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-3228c4eed8dc",
+        "playerName": "Megyeri Balázs",
+        "value": 0,
+        "appearances": 10,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-eto-fc-miangue-senna",
+        "playerName": "MIANGUE SENNA",
+        "value": 6,
+        "appearances": 9,
+        "starts": 3
+      },
+      {
+        "playerId": "2025-26-eto-fc-njie-nfansu",
+        "playerName": "NJIE NFANSU",
+        "value": 15,
+        "appearances": 25,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-eto-fc-ouro-samsindin",
+        "playerName": "OURO SAMSINDIN",
+        "value": 1,
+        "appearances": 3,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-eto-fc-petras-samuel",
+        "playerName": "PETRÁS SAMUEL",
+        "value": 0,
+        "appearances": 23,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-pyshchur-oleksandr",
+        "playerName": "PYSHCHUR OLEKSANDR",
+        "value": 23,
+        "appearances": 25,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-eto-fc-sahli-ouijdi",
+        "playerName": "SAHLI OUIJDI",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-schon-szabolcs-gergo",
+        "playerName": "SCHÖN SZABOLCS GERGŐ",
+        "value": 6,
+        "appearances": 27,
+        "starts": 21
+      },
+      {
+        "playerId": "2025-26-eto-fc-stefulj-daniel",
+        "playerName": "STEFULJ DANIEL",
+        "value": 1,
+        "appearances": 32,
+        "starts": 31
+      },
+      {
+        "playerId": "2025-26-eto-fc-szarka-bulcsu-janos",
+        "playerName": "SZARKA BULCSÚ JÁNOS",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "nb1-3c933249d398",
+        "playerName": "Szép Márton",
+        "value": 2,
+        "appearances": 2,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-tollar-imre-adrian",
+        "playerName": "TOLLÁR IMRE ADRIÁN",
+        "value": 3,
+        "appearances": 4,
+        "starts": 1
+      },
+      {
+        "playerId": "2025-26-eto-fc-toth-rajmund",
+        "playerName": "TÓTH RAJMUND",
+        "value": 7,
+        "appearances": 30,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-eto-fc-urblik-norbert",
+        "playerName": "URBLÍK NORBERT",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-eto-fc-vingler-laszlo",
+        "playerName": "VINGLER LÁSZLÓ",
+        "value": 8,
+        "appearances": 16,
+        "starts": 8
+      },
+      {
+        "playerId": "2025-26-eto-fc-vitalis-milan",
+        "playerName": "VITÁLIS MILÁN",
+        "value": 0,
+        "appearances": 31,
+        "starts": 31
+      },
+      {
+        "playerId": "2025-26-eto-fc-vladoiu-stefan-marinel",
+        "playerName": "VLADOIU STEFAN-MARINEL",
+        "value": 10,
+        "appearances": 21,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-eto-fc-zivkovic-jovan",
+        "playerName": "ZIVKOVIC JOVAN",
+        "value": 6,
+        "appearances": 7,
+        "starts": 1
+      },
+      {
+        "playerId": "nb1-2e55f246af3d",
+        "playerName": "KOCSIS BOTOND",
+        "value": 0,
+        "appearances": 4,
+        "starts": 4
+      },
+      {
+        "playerId": "nb1-c1ed1ff161bd",
+        "playerName": "OSVÁTH ATTILA",
+        "value": 4,
+        "appearances": 30,
+        "starts": 26
+      },
+      {
+        "playerId": "nb1-091532eac303",
+        "playerName": "BÉVÁRDI ZSOMBOR",
+        "value": 9,
+        "appearances": 20,
+        "starts": 11
+      },
+      {
+        "playerId": "nb1-c155217a77ef",
+        "playerName": "ALAXAI ÁRON",
+        "value": 9,
+        "appearances": 17,
+        "starts": 8
+      },
+      {
+        "playerId": "2025-26-paksi-fc-adam-martin",
+        "playerName": "ÁDÁM MARTIN",
+        "value": 13,
+        "appearances": 13,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-balogh-balazs",
+        "playerName": "BALOGH BALÁZS",
+        "value": 5,
+        "appearances": 16,
+        "starts": 11
+      },
+      {
+        "playerId": "2025-26-paksi-fc-bode-daniel",
+        "playerName": "BÖDE DÁNIEL",
+        "value": 19,
+        "appearances": 23,
+        "starts": 4
+      },
+      {
+        "playerId": "2025-26-paksi-fc-debreceni-akos",
+        "playerName": "DEBRECENI ÁKOS",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-galambos-janos",
+        "playerName": "GALAMBOS JÁNOS",
+        "value": 2,
+        "appearances": 4,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-paksi-fc-gyetvan-mark",
+        "playerName": "GYETVÁN MÁRK",
+        "value": 0,
+        "appearances": 6,
+        "starts": 6
+      },
+      {
+        "playerId": "2025-26-paksi-fc-gyurkits-gergo",
+        "playerName": "GYURKITS GERGŐ",
+        "value": 11,
+        "appearances": 27,
+        "starts": 16
+      },
+      {
+        "playerId": "nb1-8378caea9bbf",
+        "playerName": "Hahn János Csaba",
+        "value": 5,
+        "appearances": 28,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-paksi-fc-haraszti-zsolt",
+        "playerName": "HARASZTI ZSOLT",
+        "value": 6,
+        "appearances": 8,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-paksi-fc-hinora-kristof",
+        "playerName": "HINORA KRISTÓF",
+        "value": 3,
+        "appearances": 14,
+        "starts": 11
+      },
+      {
+        "playerId": "nb1-16115bd7c08a",
+        "playerName": "Horváth Kevin",
+        "value": 6,
+        "appearances": 32,
+        "starts": 26
+      },
+      {
+        "playerId": "2025-26-paksi-fc-kinyik-akos",
+        "playerName": "KINYIK ÁKOS",
+        "value": 1,
+        "appearances": 14,
+        "starts": 13
+      },
+      {
+        "playerId": "2025-26-paksi-fc-kovacsik-adam",
+        "playerName": "KOVÁCSIK ÁDÁM",
+        "value": 0,
+        "appearances": 25,
+        "starts": 25
+      },
+      {
+        "playerId": "2025-26-paksi-fc-lapu-andor",
+        "playerName": "LAPU ANDOR",
+        "value": 0,
+        "appearances": 0,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-lenzser-bence",
+        "playerName": "LENZSÉR BENCE",
+        "value": 0,
+        "appearances": 19,
+        "starts": 19
+      },
+      {
+        "playerId": "2025-26-paksi-fc-mate-csaba",
+        "playerName": "MÁTÉ CSABA",
+        "value": 8,
+        "appearances": 9,
+        "starts": 1
+      },
+      {
+        "playerId": "nb1-99f5c34441a0",
+        "playerName": "Papp Kristóf",
+        "value": 0,
+        "appearances": 28,
+        "starts": 28
+      },
+      {
+        "playerId": "nb1-35fb6a54d829",
+        "playerName": "Pesti Zoltán",
+        "value": 1,
+        "appearances": 1,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-silye-erik",
+        "playerName": "SILYE ERIK",
+        "value": 5,
+        "appearances": 20,
+        "starts": 15
+      },
+      {
+        "playerId": "2025-26-paksi-fc-simon-barnabas",
+        "playerName": "SIMON BARNABÁS",
+        "value": 0,
+        "appearances": 2,
+        "starts": 2
+      },
+      {
+        "playerId": "2025-26-paksi-fc-szabo-janos",
+        "playerName": "SZABÓ JÁNOS",
+        "value": 0,
+        "appearances": 20,
+        "starts": 20
+      },
+      {
+        "playerId": "nb1-d6bfe3acf08d",
+        "playerName": "Szekszárdi Milán",
+        "value": 5,
+        "appearances": 15,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-paksi-fc-szendrei-akos",
+        "playerName": "SZENDREI ÁKOS",
+        "value": 6,
+        "appearances": 20,
+        "starts": 14
+      },
+      {
+        "playerId": "2025-26-paksi-fc-tamas-oliver",
+        "playerName": "TAMÁS OLIVÉR",
+        "value": 2,
+        "appearances": 2,
+        "starts": 0
+      },
+      {
+        "playerId": "2025-26-paksi-fc-toth-barna",
+        "playerName": "TÓTH BARNA",
+        "value": 8,
+        "appearances": 25,
+        "starts": 17
+      },
+      {
+        "playerId": "2025-26-paksi-fc-vas-gabor",
+        "playerName": "VAS GÁBOR",
+        "value": 0,
+        "appearances": 10,
+        "starts": 10
+      },
+      {
+        "playerId": "2025-26-paksi-fc-vecsei-balint-mate",
+        "playerName": "VÉCSEI BÁLINT MÁTÉ",
+        "value": 2,
+        "appearances": 25,
+        "starts": 23
+      },
+      {
+        "playerId": "2025-26-paksi-fc-windecker-jozsef",
+        "playerName": "WINDECKER JÓZSEF",
+        "value": 11,
+        "appearances": 27,
+        "starts": 16
+      },
+      {
+        "playerId": "2025-26-paksi-fc-zeke-mario",
+        "playerName": "ZEKE MÁRIÓ",
+        "value": 5,
+        "appearances": 24,
+        "starts": 19
+      }
+    ],
     "fieldCoverage": [
       {
         "field": "appearances",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 423,
-        "added": 316
+        "after": 440,
+        "added": 333
       },
       {
         "field": "minutes",
@@ -58786,8 +61920,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 317,
-        "added": 317
+        "after": 440,
+        "added": 440
       },
       {
         "field": "goals",
@@ -58804,14 +61938,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       },
       {
         "field": "secondYellowRedCards",
@@ -58822,8 +61956,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 423,
-        "added": 279
+        "after": 440,
+        "added": 296
       }
     ],
     "manualReview": [],
