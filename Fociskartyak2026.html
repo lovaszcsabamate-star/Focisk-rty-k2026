@@ -6762,6 +6762,33 @@ const initialiseFocusExperience = () => {
     markChoiceCardSelected(card);
   };
 
+  const handleDirectChoicePlay = event => {
+    const card = event.target.closest('#player-hand .card--choice.card--direct-play');
+    if (!card || !playerHand.contains(card) || event.target.closest('.card__inspect')) return;
+    if (card.dataset.battleTransitionBypass === 'true') {
+      delete card.dataset.battleTransitionBypass;
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    markChoiceCardSelected(card);
+
+    void playerZone.offsetWidth;
+    pub.classList.add('is-battle-transition');
+    if (transitionTimer) clearTimeout(transitionTimer);
+    transitionTimer = window.setTimeout(() => {
+      transitionTimer = 0;
+      if (!card.isConnected) {
+        pub.classList.remove('is-battle-transition');
+        return;
+      }
+      card.dataset.battleTransitionBypass = 'true';
+      card.click();
+    }, 250);
+  };
+
   const handleCommittedPlay = event => {
     const button = event.target.closest('#inspector .inspector__actions .btn:not(.btn--ghost)');
     if (!button || button.disabled) return;
@@ -6811,6 +6838,7 @@ const initialiseFocusExperience = () => {
   observer.observe(pub, { childList: true, subtree: true });
 
   playerHand.addEventListener('pointerdown', handleChoicePointerDown, { passive: true });
+  document.addEventListener('click', handleDirectChoicePlay, true);
   document.addEventListener('click', handleCommittedPlay, true);
   document.addEventListener('keydown', handleCommittedPlayKey, true);
   window.addEventListener('resize', scheduleSync, { passive: true });
@@ -6820,6 +6848,7 @@ const initialiseFocusExperience = () => {
     disposed = true;
     observer.disconnect();
     playerHand.removeEventListener('pointerdown', handleChoicePointerDown);
+    document.removeEventListener('click', handleDirectChoicePlay, true);
     document.removeEventListener('click', handleCommittedPlay, true);
     document.removeEventListener('keydown', handleCommittedPlayKey, true);
     if (transitionTimer) clearTimeout(transitionTimer);
