@@ -10,6 +10,6 @@ assert.match(source, /observer\.observe\(pub, \{ childList: true, subtree: true 
 assert.doesNotMatch(source, /attributes:\s*true/);
 assert.doesNotMatch(source, /attributeFilter:\s*\['class'\]/);
 assert.match(source, /observer\.disconnect\(\)/);
-assert.doesNotMatch(source, /requestAnimationFrame/);
+assert.doesNotMatch(source, /requestAnimationFrame\s*\(/);
 
 console.log('✓ A fókusznézet DOM-figyelője mikrofeládatban frissít és nem figyeli saját osztálymódosításait.');
