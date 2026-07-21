@@ -1,0 +1,286 @@
+/* Mobile card-selection layout guard.
+   Keeps the partially revealed duel, prompt and selectable hand inside one screen. */
+
+@media (max-width: 900px) {
+  #pub.is-card-selection #table {
+    height: 100dvh;
+    min-height: 100dvh;
+    gap: 5px;
+    overflow: hidden;
+  }
+
+  /* The face-down fan is redundant while the player is choosing a card and
+     previously consumed almost a full card row of vertical space. */
+  #pub.is-card-selection #opponent-zone {
+    display: none;
+  }
+
+  #pub.is-card-selection #felt {
+    flex: 1 1 auto;
+    min-height: 248px;
+    max-height: none;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 7px;
+    overflow: hidden;
+  }
+
+  #pub.is-card-selection #penalty-board {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 4px 6px;
+    gap: 3px;
+  }
+
+  #pub.is-card-selection .attempt-row {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  #pub.is-card-selection .attempt-row strong {
+    font-size: 8px;
+  }
+
+  #pub.is-card-selection .attempt {
+    height: 18px;
+    font-size: 9px;
+  }
+
+  #pub.is-card-selection .game-steps {
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  #pub.is-card-selection #prompt {
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 0;
+    max-height: 3.5em;
+    overflow: hidden;
+    font-size: clamp(13px, 3.8vw, 17px);
+    line-height: 1.12;
+    letter-spacing: .45px;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    white-space: normal;
+  }
+
+  #pub.is-card-selection #prompt .highlight {
+    display: inline;
+  }
+
+  #pub.is-card-selection #prompt .ux-direction {
+    display: block;
+    margin: 2px 0 0;
+    font-size: clamp(9px, 2.7vw, 11px);
+    line-height: 1.1;
+    letter-spacing: .1px;
+  }
+
+  /* The pre-duel preview is deliberately compact. The fully revealed result
+     still uses the large two-sided duel focus view. */
+  #pub.is-card-selection #duel {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    min-height: 126px;
+    max-height: 184px;
+    gap: 5px;
+    overflow: hidden;
+  }
+
+  #pub.is-card-selection #duel .duel-slot:first-child {
+    justify-self: end;
+  }
+
+  #pub.is-card-selection #duel .duel-slot:last-child {
+    justify-self: start;
+  }
+
+  #pub.is-card-selection #duel .duel-slot {
+    gap: 2px;
+    min-width: 0;
+  }
+
+  #pub.is-card-selection #duel .duel-slot__who {
+    font-size: 8px;
+    letter-spacing: .8px;
+  }
+
+  #pub.is-card-selection #duel .card {
+    --card-w: clamp(82px, 25vw, 106px);
+    --card-h: clamp(138px, 41vw, 176px);
+    max-width: none;
+  }
+
+  #pub.is-card-selection #duel .card__portrait {
+    height: clamp(42px, 12vw, 54px);
+  }
+
+  #pub.is-card-selection #duel .card__name {
+    min-height: 0;
+    padding: 3px 4px 1px;
+    font-size: 9px;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  #pub.is-card-selection #duel .card__club {
+    padding: 0 4px 2px;
+    font-size: 7px;
+  }
+
+  #pub.is-card-selection #duel .card__stats {
+    padding: 0 4px 4px;
+  }
+
+  #pub.is-card-selection #duel .stat {
+    min-height: 16px;
+    padding: 1px 3px;
+    font-size: 7px;
+  }
+
+  #pub.is-card-selection #duel .versus,
+  #pub.is-card-selection .versus {
+    font-size: 20px;
+  }
+
+  #pub.is-card-selection #verdict:empty,
+  #pub.is-card-selection #attribute-picker:empty {
+    display: none;
+  }
+
+  /* Keep the pile and hand in separate grid columns. A 100%-wide flex hand next
+     to the pile previously made the first card start off-screen. */
+  #pub.is-card-selection #player-zone {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: end;
+    gap: 3px;
+    width: 100%;
+    min-height: 0;
+    padding: 25px 0 max(5px, var(--mobile-safe-bottom));
+  }
+
+  #pub.is-card-selection #player-pile {
+    justify-self: center;
+  }
+
+  #pub.is-card-selection #player-hand {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #pub.is-card-selection #player-hand.has-scroll-hint::after {
+    display: none;
+  }
+
+  #player-hand.hand--selection {
+    height: clamp(214px, 31dvh, 244px);
+    min-height: 0;
+    gap: 9px;
+    padding: 8px 10px 7px;
+    scroll-padding-inline: 10px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(120px, 35vw, 140px);
+    --card-h: clamp(206px, 30dvh, 236px);
+  }
+
+  #player-hand.hand--selection .card--choice .card__portrait {
+    height: clamp(60px, 17vw, 72px);
+  }
+
+  #player-hand.hand--selection .card--choice .card__name {
+    font-size: clamp(11px, 3.2vw, 13px);
+  }
+}
+
+@media (max-width: 480px) {
+  #pub.is-card-selection #player-zone::before {
+    content: 'Húzd oldalra · koppints a választott lapra';
+  }
+
+  #pub.is-card-selection #felt {
+    min-height: 236px;
+  }
+
+  #player-hand.hand--selection {
+    height: clamp(208px, 30dvh, 232px);
+    padding-inline: 8px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(116px, 34vw, 132px);
+    --card-h: clamp(200px, 29dvh, 224px);
+  }
+}
+
+@media (max-width: 380px) {
+  #pub.is-card-selection #felt {
+    min-height: 224px;
+  }
+
+  #pub.is-card-selection #duel {
+    min-height: 112px;
+    max-height: 158px;
+  }
+
+  #pub.is-card-selection #duel .card {
+    --card-w: 78px;
+    --card-h: 132px;
+  }
+
+  #player-hand.hand--selection {
+    height: 212px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: 116px;
+    --card-h: 204px;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 720px) {
+  #pub.is-card-selection #felt {
+    min-height: 206px;
+  }
+
+  #pub.is-card-selection #penalty-board {
+    display: none;
+  }
+
+  #pub.is-card-selection #duel {
+    min-height: 102px;
+    max-height: 142px;
+  }
+
+  #pub.is-card-selection #duel .card {
+    --card-w: 74px;
+    --card-h: 126px;
+  }
+
+  #player-hand.hand--selection {
+    height: 196px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: 110px;
+    --card-h: 188px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  #player-hand.hand--selection .card--choice:hover {
+    transform: none;
+  }
+
+  #player-hand.hand--selection .card--choice:focus-visible {
+    transform: translateY(-5px) scale(1.015);
+  }
+}
