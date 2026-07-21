@@ -10,11 +10,12 @@
       "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "officialCurrentRosterUrl": "https://dvsc.hu/dvsc-csapatok/dvsc/",
       "historicalRosterSourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
-      "status": "structured-season-roster-imported-from-public-season-archive",
+      "status": "complete-38-of-38-player-review",
       "recordFiles": [
-        "data/club-official-enrichment-2.json"
+        "data/club-official-enrichment-2.json",
+        "data/club-official-enrichment-23-final-missing-basic.json"
       ],
-      "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és a klub aktuális hivatalos keretoldala külön forrásként szerepel; az aktuális keret nem írja felül automatikusan a lezárt szezon adatait."
+      "note": "A 2025/26-os strukturált szezonkeret nyilvános történeti oldala és a klub aktuális hivatalos keretoldala külön forrásként szerepel; az aktuális keret nem írja felül automatikusan a lezárt szezon adatait. Asztalos Noel magyar középpályás és Kohut Máté magyar támadó hivatalos DVSC-akadémiai, klub- és HLSZ-forrásból lezárva."
     },
     {
       "clubId": "dvtk",
@@ -116,9 +117,10 @@
         "data/club-official-enrichment-3-paks-nyir.json",
         "data/club-official-enrichment-14-nyiregyhaza-completion.json",
         "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
-        "data/club-official-stat-patches-nyiregyhaza.json"
+        "data/club-official-stat-patches-nyiregyhaza.json",
+        "data/club-official-enrichment-23-final-missing-basic.json"
       ],
-      "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum és nemzetiség rögzített; 38 nemzetiségi adat magas, Molnár Mátyás HUN besorolása közepes forrásbizonyosságú. A pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
+      "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum és nemzetiség rögzített; 38 nemzetiségi adat magas, Molnár Mátyás HUN besorolása közepes forrásbizonyosságú. A pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad. Beke Péter támadó, Dantaye Gilbert középpályás, Ranko Jokić védő, Vane Jovanov védő és Varga Kevin középpályás posztja hivatalos klub-, HLSZ- és ellenőrzött bejelentési forrásból lezárva."
     },
     {
       "clubId": "paksi-fc",

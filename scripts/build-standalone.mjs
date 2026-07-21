@@ -42,6 +42,7 @@ const enrichmentFiles = [
   'data/club-official-enrichment-20-puskas-completion.json',
   'data/club-official-enrichment-21-eto-completion.json',
   'data/club-official-enrichment-22-kisvarda-nationalities.json',
+  'data/club-official-enrichment-23-final-missing-basic.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',

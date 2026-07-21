@@ -1,13 +1,13 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T14:12:21.942Z
+Generálva: 2026-07-21T14:48:38.635Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **440/440**
-- Változásnapló-bejegyzések: **4014**
+- Változásnapló-bejegyzések: **4025**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **2**
@@ -17,18 +17,18 @@ Generálva: 2026-07-21T14:12:21.942Z
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
 | birthDate | 440 | 0 |
-| nation | 438 | 2 |
-| position | 433 | 7 |
-| appearances | 423 | 17 |
-| starts | 423 | 17 |
+| nation | 440 | 0 |
+| position | 440 | 0 |
+| appearances | 440 | 0 |
+| starts | 440 | 0 |
 | minutes | 29 | 411 |
 | goals | 440 | 0 |
 | assists | 29 | 411 |
-| squads | 423 | 17 |
-| yellowCards | 423 | 17 |
-| redCards | 423 | 17 |
+| squads | 440 | 0 |
+| yellowCards | 440 | 0 |
+| redCards | 440 | 0 |
 | secondYellowRedCards | 37 | 403 |
-| totalDismissals | 423 | 17 |
+| totalDismissals | 440 | 0 |
 | heightCm | 57 | 383 |
 | shirtNumber | 288 | 152 |
 
@@ -36,18 +36,18 @@ Generálva: 2026-07-21T14:12:21.942Z
 
 | Klub | Játékos | Születési dátum | Poszt | Nemzetiség | Mérkőzés | Perc | Gólpassz |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| DVSC | 38 | 38 | 36 | 36 | 38 | 0 | 0 |
-| DVTK | 45 | 45 | 45 | 45 | 39 | 0 | 0 |
+| DVSC | 38 | 38 | 38 | 38 | 38 | 0 | 0 |
+| DVTK | 45 | 45 | 45 | 45 | 45 | 0 | 0 |
 | ETO FC | 35 | 35 | 35 | 35 | 35 | 0 | 0 |
-| Ferencvárosi TC | 42 | 42 | 42 | 42 | 40 | 0 | 0 |
-| Kisvárda Master Good | 38 | 38 | 38 | 38 | 37 | 29 | 29 |
-| Kolorcity Kazincbarcika SC | 40 | 40 | 40 | 40 | 35 | 0 | 0 |
-| MTK Budapest | 36 | 36 | 36 | 36 | 34 | 0 | 0 |
-| Nyíregyháza Spartacus FC | 39 | 39 | 34 | 39 | 37 | 0 | 0 |
+| Ferencvárosi TC | 42 | 42 | 42 | 42 | 42 | 0 | 0 |
+| Kisvárda Master Good | 38 | 38 | 38 | 38 | 38 | 29 | 29 |
+| Kolorcity Kazincbarcika SC | 40 | 40 | 40 | 40 | 40 | 0 | 0 |
+| MTK Budapest | 36 | 36 | 36 | 36 | 36 | 0 | 0 |
+| Nyíregyháza Spartacus FC | 39 | 39 | 39 | 39 | 39 | 0 | 0 |
 | Paksi FC | 33 | 33 | 33 | 33 | 33 | 0 | 0 |
-| Puskás Akadémia FC | 34 | 34 | 34 | 34 | 30 | 0 | 0 |
-| Újpest FC | 41 | 41 | 41 | 41 | 35 | 0 | 0 |
-| ZTE FC | 43 | 43 | 43 | 43 | 37 | 0 | 0 |
+| Puskás Akadémia FC | 34 | 34 | 34 | 34 | 34 | 0 | 0 |
+| Újpest FC | 41 | 41 | 41 | 41 | 41 | 0 | 0 |
+| ZTE FC | 43 | 43 | 43 | 43 | 43 | 0 | 0 |
 
 ## Forráskezelési megjegyzések
 

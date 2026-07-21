@@ -77,7 +77,6 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
   const parts = (Array.isArray(patchPayloads) ? patchPayloads : [patchPayloads]).filter(isObject);
   const sources = parts.map(part => part.source).filter(source => source?.id);
   const records = parts.flatMap(expandRows);
-  if (!records.length) return payload;
 
   const cards = rawCards.map(card => ({
     ...card,
@@ -98,6 +97,10 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
   const corrections = [];
   const appliedFieldCounts = {};
   const correctedFieldCounts = {};
+  const consensusAppliedFieldCounts = {};
+  const consensusPromotions = [];
+  const consensusConflicts = [];
+  const derivedSubstituteAppearances = [];
   let matchedRecords = 0;
   let multiClubMetadataOnly = 0;
 
@@ -199,6 +202,100 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
     matchedRecords += 1;
   }
 
+
+  for (let index = 0; index < cards.length; index += 1) {
+    const card = cards[index];
+    const registeredClubs = cardClubIds(card);
+    if (registeredClubs.length <= 1) continue;
+
+    const officialByClub = card?.meta?.clubOfficialStatsByClub ?? {};
+    const clubRows = registeredClubs.map(clubId => officialByClub[clubId]);
+    if (clubRows.some(row => !isObject(row))) continue;
+
+    const stats = { ...card.stats };
+    const appliedFields = [];
+    const differingFields = [];
+    for (const field of STAT_FIELDS) {
+      if (finite(stats[field])) continue;
+      const values = clubRows.map(row => row[field]);
+      if (!values.every(finite)) continue;
+      if (!values.every(value => value === values[0])) {
+        differingFields.push({
+          field,
+          values: Object.fromEntries(registeredClubs.map((clubId, rowIndex) => [clubId, values[rowIndex]])),
+        });
+        continue;
+      }
+      stats[field] = values[0];
+      appliedFields.push(field);
+      consensusAppliedFieldCounts[field] = (consensusAppliedFieldCounts[field] ?? 0) + 1;
+    }
+
+    if (differingFields.length) {
+      consensusConflicts.push({
+        playerId: card.id,
+        playerName: card.name,
+        clubIds: registeredClubs,
+        fields: differingFields,
+      });
+    }
+    if (!appliedFields.length) continue;
+
+    const values = Object.fromEntries(appliedFields.map(field => [field, stats[field]]));
+    const sourceIds = [...new Set(clubRows.map(row => row.sourceId).filter(Boolean))];
+    const meta = {
+      ...card.meta,
+      dataStatus: card.meta?.dataStatus === 'verified' ? 'verified' : 'partially_verified',
+      officialStatConsensus: {
+        season: parts.at(-1)?.season ?? null,
+        clubIds: registeredClubs,
+        sourceIds,
+        fieldsApplied: appliedFields,
+        values,
+        rule: 'all-registered-clubs-report-identical-player-season-totals',
+      },
+    };
+    cards[index] = { ...card, stats, meta };
+    consensusPromotions.push({
+      playerId: card.id,
+      playerName: card.name,
+      clubIds: registeredClubs,
+      sourceIds,
+      fieldsApplied: appliedFields,
+      values,
+    });
+  }
+
+  for (let index = 0; index < cards.length; index += 1) {
+    const card = cards[index];
+    const appearances = card?.stats?.appearances;
+    const starts = card?.stats?.starts;
+    if (finite(card?.stats?.substituteAppearances)) continue;
+    if (!finite(appearances) || !finite(starts) || starts < 0 || appearances < starts) continue;
+
+    const substituteAppearances = appearances - starts;
+    const stats = { ...card.stats, substituteAppearances };
+    const meta = {
+      ...card.meta,
+      derivedOfficialStats: {
+        ...(card?.meta?.derivedOfficialStats ?? {}),
+        substituteAppearances: {
+          value: substituteAppearances,
+          formula: 'appearances - starts',
+          inputs: { appearances, starts },
+        },
+      },
+    };
+    cards[index] = { ...card, stats, meta };
+    derivedSubstituteAppearances.push({
+      playerId: card.id,
+      playerName: card.name,
+      value: substituteAppearances,
+      appearances,
+      starts,
+    });
+  }
+
   const after = patchCoverage(cards);
   const fieldCoverage = STAT_FIELDS.map(field => ({
     field,
@@ -218,6 +315,13 @@ export function applyOfficialStatPatches(payload, patchPayloads) {
     multiClubMetadataOnly,
     appliedFieldCounts,
     correctedFieldCounts,
+    consensusPromotedPlayers: consensusPromotions.length,
+    consensusConflictCount: consensusConflicts.length,
+    consensusAppliedFieldCounts,
+    consensusPromotions,
+    consensusConflicts,
+    derivedSubstituteAppearancesCount: derivedSubstituteAppearances.length,
+    derivedSubstituteAppearances,
     fieldCoverage,
     manualReview: unmatched,
     conflicts,
