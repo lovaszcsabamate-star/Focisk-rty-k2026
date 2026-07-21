@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-21T07:58:00+02:00",
+  "batch": {
+    "id": "dvtk-varga-hunor-completion",
+    "playerCount": 1,
+    "playerIds": [
+      "nb1-6a4e42738867"
+    ],
+    "rule": "A DVTK 45/45 alapadat-lefedettségéhez a korábban hiányzó Varga Hunor Attila születési dátuma, nemzetisége és kapusposztja kerül pótlásra MLSZ- és hivatalos DVTK-forrásból."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "rule": "Csak az egyértelműen azonosított, azonos nevű és születési dátumú DVTK-játékos hiányzó mezői tölthetők."
+  },
+  "sources": [
+    {
+      "id": "dvtk-official-varga-hunor-completion",
+      "clubId": "dvtk",
+      "clubName": "DVTK",
+      "name": "DVTK U16 hivatalos keretoldal és MLSZ játékosprofil – Varga Hunor",
+      "url": "https://dvtk.eu/index.php/merkozesek/index.php/171-csapat-DVTK_U16/jatekosok",
+      "additionalUrls": [
+        "https://adatbank.mlsz.hu/player/808599.html"
+      ],
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": [
+        "birthDate",
+        "nation",
+        "position",
+        "primaryPosition"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "dvtk-official-varga-hunor-completion",
+      "clubId": "dvtk",
+      "name": "VARGA HUNOR ATTILA",
+      "sourceUrl": "https://dvtk.eu/index.php/merkozesek/index.php/171-csapat-DVTK_U16/jatekosok",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2010-03-18",
+      "nation": "HUN",
+      "position": "Kapus",
+      "meta": {
+        "primaryPosition": "Kapus"
+      }
+    }
+  ]
+}
