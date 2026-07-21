@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T06:39:21.374Z",
+  "generatedAt": "2026-07-21T07:12:16.081Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -16,6 +16,7 @@
     "data/club-official-enrichment-11-kisvarda-completion.json",
     "data/club-official-enrichment-12-dvtk-completion.json",
     "data/club-official-enrichment-13-mtk-completion.json",
+    "data/club-official-enrichment-14-nyiregyhaza-completion.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -28,6 +29,7 @@
     "data/club-official-stat-patches-ferencvaros.json",
     "data/club-official-stat-patches-dvtk.json",
     "data/club-official-stat-patches-mtk.json",
+    "data/club-official-stat-patches-nyiregyhaza.json",
     "data/club-official-sources.json"
   ],
   "playerCount": 440,
@@ -39,18 +41,18 @@
     "registrationRecords": 464,
     "multiClubPlayers": 24,
     "completeGoalTotals": 440,
-    "exactBirthDates": 308,
+    "exactBirthDates": 345,
     "retainedExistingCards": 136
   },
   "coverage": {
-    "birthDate": 308,
-    "appearances": 271,
-    "starts": 271,
+    "birthDate": 345,
+    "appearances": 303,
+    "starts": 303,
     "goals": 440,
-    "squads": 251,
-    "yellowCards": 271,
-    "redCards": 271,
-    "totalDismissals": 271,
+    "squads": 287,
+    "yellowCards": 303,
+    "redCards": 303,
+    "totalDismissals": 303,
     "overallScore": 143,
     "position": 349,
     "nation": 192,
@@ -58,7 +60,7 @@
     "shirtNumber": 288,
     "officialMetadata": 83,
     "minutes": 29,
-    "substituteAppearances": 145,
+    "substituteAppearances": 181,
     "assists": 29,
     "secondYellowRedCards": 37
   },
@@ -66,8 +68,8 @@
     {
       "field": "birthDate",
       "before": 120,
-      "after": 308,
-      "added": 188
+      "after": 345,
+      "added": 225
     },
     {
       "field": "appearances",
@@ -152,20 +154,20 @@
     {
       "field": "appearances",
       "before": 144,
-      "after": 271,
-      "added": 127
+      "after": 303,
+      "added": 159
     },
     {
       "field": "starts",
       "before": 144,
-      "after": 271,
-      "added": 127
+      "after": 303,
+      "added": 159
     },
     {
       "field": "squads",
       "before": 107,
-      "after": 251,
-      "added": 144
+      "after": 287,
+      "added": 180
     },
     {
       "field": "minutes",
@@ -176,8 +178,8 @@
     {
       "field": "substituteAppearances",
       "before": 0,
-      "after": 145,
-      "added": 145
+      "after": 181,
+      "added": 181
     },
     {
       "field": "goals",
@@ -194,14 +196,14 @@
     {
       "field": "yellowCards",
       "before": 144,
-      "after": 271,
-      "added": 127
+      "after": 303,
+      "added": 159
     },
     {
       "field": "redCards",
       "before": 144,
-      "after": 271,
-      "added": 127
+      "after": 303,
+      "added": 159
     },
     {
       "field": "secondYellowRedCards",
@@ -212,8 +214,8 @@
     {
       "field": "totalDismissals",
       "before": 144,
-      "after": 271,
-      "added": 127
+      "after": 303,
+      "added": 159
     }
   ],
   "clubSummary": [
@@ -305,12 +307,12 @@
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
       "mlszCards": 39,
-      "officialRecords": 32,
-      "eligibleRecords": 32,
-      "matched": 32,
+      "officialRecords": 71,
+      "eligibleRecords": 71,
+      "matched": 71,
       "excluded": 0,
       "review": 0,
-      "sourceStatus": "official-roster-enrichment",
+      "sourceStatus": "complete-39-of-39-player-review",
       "officialRosterUrl": "https://nyiregyhazaspartacus.hu/jatekosok"
     },
     {
@@ -370,19 +372,19 @@
     "registrationRecords": 464,
     "clubs": 12,
     "errorCount": 0,
-    "warningCount": 70,
+    "warningCount": 64,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 2449,
-    "exactBirthDates": 308,
+    "changeCount": 2718,
+    "exactBirthDates": 345,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T08:34:00+02:00",
-    "records": 402,
-    "matchedRecords": 402,
+    "generatedAt": "2026-07-21T09:15:00+02:00",
+    "records": 441,
+    "matchedRecords": 441,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -412,7 +414,7 @@
     "appliedFieldCounts": {
       "position": 348,
       "nation": 191,
-      "birthDate": 187,
+      "birthDate": 224,
       "heightCm": 57,
       "shirtNumber": 287,
       "meta.captain": 3,
@@ -477,7 +479,7 @@
       "officialMetadata": 0
     },
     "coverageAfter": {
-      "birthDate": 308,
+      "birthDate": 345,
       "appearances": 144,
       "starts": 144,
       "goals": 440,
@@ -496,8 +498,8 @@
       {
         "field": "birthDate",
         "before": 120,
-        "after": 308,
-        "added": 188
+        "after": 345,
+        "added": 225
       },
       {
         "field": "appearances",
@@ -667,12 +669,12 @@
         "clubId": "nyiregyhaza-spartacus-fc",
         "clubName": "Nyíregyháza Spartacus FC",
         "mlszCards": 39,
-        "officialRecords": 32,
-        "eligibleRecords": 32,
-        "matched": 32,
+        "officialRecords": 71,
+        "eligibleRecords": 71,
+        "matched": 71,
         "excluded": 0,
         "review": 0,
-        "sourceStatus": "official-roster-enrichment",
+        "sourceStatus": "complete-39-of-39-player-review",
         "officialRosterUrl": "https://nyiregyhazaspartacus.hu/jatekosok"
       },
       {
@@ -730,24 +732,24 @@
   "officialStatPatches": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T08:34:00+02:00",
-    "records": 191,
-    "matchedRecords": 191,
+    "generatedAt": "2026-07-21T09:15:00+02:00",
+    "records": 230,
+    "matchedRecords": 230,
     "unmatchedRecords": 0,
     "conflictCount": 0,
     "correctionCount": 2,
-    "multiClubMetadataOnly": 17,
+    "multiClubMetadataOnly": 20,
     "appliedFieldCounts": {
-      "appearances": 127,
-      "starts": 127,
+      "appearances": 159,
+      "starts": 159,
       "minutes": 29,
-      "substituteAppearances": 145,
+      "substituteAppearances": 181,
       "assists": 29,
-      "yellowCards": 127,
-      "redCards": 127,
+      "yellowCards": 159,
+      "redCards": 159,
       "secondYellowRedCards": 37,
-      "totalDismissals": 127,
-      "squads": 144
+      "totalDismissals": 159,
+      "squads": 180
     },
     "correctedFieldCounts": {
       "starts": 1,
@@ -757,20 +759,20 @@
       {
         "field": "appearances",
         "before": 144,
-        "after": 271,
-        "added": 127
+        "after": 303,
+        "added": 159
       },
       {
         "field": "starts",
         "before": 144,
-        "after": 271,
-        "added": 127
+        "after": 303,
+        "added": 159
       },
       {
         "field": "squads",
         "before": 107,
-        "after": 251,
-        "added": 144
+        "after": 287,
+        "added": 180
       },
       {
         "field": "minutes",
@@ -781,8 +783,8 @@
       {
         "field": "substituteAppearances",
         "before": 0,
-        "after": 145,
-        "added": 145
+        "after": 181,
+        "added": 181
       },
       {
         "field": "goals",
@@ -799,14 +801,14 @@
       {
         "field": "yellowCards",
         "before": 144,
-        "after": 271,
-        "added": 127
+        "after": 303,
+        "added": 159
       },
       {
         "field": "redCards",
         "before": 144,
-        "after": 271,
-        "added": 127
+        "after": 303,
+        "added": 159
       },
       {
         "field": "secondYellowRedCards",
@@ -817,8 +819,8 @@
       {
         "field": "totalDismissals",
         "before": 144,
-        "after": 271,
-        "added": 127
+        "after": 303,
+        "added": 159
       }
     ],
     "manualReview": [],
@@ -1151,6 +1153,67 @@
           "totalDismissals"
         ],
         "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több NB I-es klubnál szereplő játékosoknál a meglévő merge-réteg az MTK-s sort klubforrásos metaadatként tárolja, és nem írja felül a személy-szezon főstatisztikát."
+      },
+      {
+        "id": "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "MLSZ Adatbank – Nyíregyháza Spartacus FC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
+        "url": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+        "additionalUrls": [
+          "https://adatbank.mlsz.hu/player/207500.html",
+          "https://adatbank.mlsz.hu/player/221530.html",
+          "https://adatbank.mlsz.hu/player/235494.html",
+          "https://adatbank.mlsz.hu/player/267649.html",
+          "https://adatbank.mlsz.hu/player/324758.html",
+          "https://adatbank.mlsz.hu/player/374304.html",
+          "https://adatbank.mlsz.hu/player/408030.html",
+          "https://adatbank.mlsz.hu/player/469550.html",
+          "https://adatbank.mlsz.hu/player/518540.html",
+          "https://adatbank.mlsz.hu/player/593332.html",
+          "https://adatbank.mlsz.hu/player/707646.html",
+          "https://adatbank.mlsz.hu/player/764250.html",
+          "https://adatbank.mlsz.hu/player/775338.html",
+          "https://adatbank.mlsz.hu/player/1182736.html",
+          "https://adatbank.mlsz.hu/player/1285948.html",
+          "https://adatbank.mlsz.hu/player/1359425.html",
+          "https://adatbank.mlsz.hu/player/1363884.html",
+          "https://adatbank.mlsz.hu/player/1422818.html",
+          "https://adatbank.mlsz.hu/player/1428167.html",
+          "https://adatbank.mlsz.hu/player/1492455.html",
+          "https://adatbank.mlsz.hu/player/396261.html",
+          "https://adatbank.mlsz.hu/player/232982.html",
+          "https://adatbank.mlsz.hu/player/350922.html",
+          "https://adatbank.mlsz.hu/player/584503.html",
+          "https://adatbank.mlsz.hu/player/649433.html",
+          "https://adatbank.mlsz.hu/player/236592.html",
+          "https://adatbank.mlsz.hu/player/248853.html",
+          "https://adatbank.mlsz.hu/player/298579.html",
+          "https://adatbank.mlsz.hu/player/1500864.html",
+          "https://adatbank.mlsz.hu/player/1427750.html",
+          "https://adatbank.mlsz.hu/player/595399.html",
+          "https://adatbank.mlsz.hu/player/647713.html",
+          "https://adatbank.mlsz.hu/player/1294183.html",
+          "https://adatbank.mlsz.hu/player/1557530.html",
+          "https://adatbank.mlsz.hu/player/1557595.html",
+          "https://adatbank.mlsz.hu/player/1557925.html",
+          "https://adatbank.mlsz.hu/player/372101.html",
+          "https://adatbank.mlsz.hu/player/499566.html",
+          "https://adatbank.mlsz.hu/player/1428168.html"
+        ],
+        "checkedAt": "2026-07-21",
+        "season": "2025/26",
+        "fields": [
+          "appearances",
+          "starts",
+          "substituteAppearances",
+          "squads",
+          "goals",
+          "yellowCards",
+          "redCards",
+          "totalDismissals"
+        ],
+        "scope": "Kizárólag a 2025/26-os Fizz Liga. Az appearances a kezdő és csereként pályára lépés összege; a squads az MLSZ Összes oszlopa, ezért a pályára nem lépő kispados kerettagságot is tartalmazza. Az MLSZ-profilok nem közölnek játékpercet és gólpasszt, ezért ezek nem kerülnek becslésre. A Piros oszlopból a közvetlen és második sárgás kiállítás nem választható szét, ezért secondYellowRedCards mező nem kerül megadásra. Több NB I-es klubnál szereplő játékosoknál a meglévő merge-réteg a nyíregyházi sort klubforrásos metaadatként tárolja, és nem írja felül a személy-szezon főstatisztikát."
       }
     ]
   },
