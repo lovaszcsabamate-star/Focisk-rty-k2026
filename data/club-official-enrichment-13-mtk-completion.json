@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-21T08:34:00+02:00",
+  "batch": {
+    "id": "mtk-four-player-completion",
+    "playerCount": 4,
+    "rule": "Az MTK 36/36 alapadat-lefedettségéhez a korábbi szezonkeret-kiegészítésből kimaradt négy játékos pontos születési dátuma, nemzetisége és posztja kerül pótlásra MLSZ-, MTK- és HLSZ-forrásból."
+  },
+  "policy": {
+    "baseDataset": "data/players.json",
+    "rule": "Csak egyértelmű név- és születési dátum-azonosítás után tölthető hiányzó mező. Kovács Mátyásnál a 2025/26-os Fizz Liga-profil posztja az irányadó, nem a következő idény aktuális profilja."
+  },
+  "sources": [
+    {
+      "id": "mtk-official-kovacs-matyas-completion",
+      "clubId": "mtk-budapest",
+      "clubName": "MTK Budapest",
+      "name": "MTK Budapest – Kovács Mátyás 2025/26-os hivatalos játékosprofil",
+      "url": "https://www.mtkbudapest.hu/hu/csapat/1897",
+      "additionalUrls": [
+        "https://adatbank.mlsz.hu/player/486044.html"
+      ],
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["birthDate", "nation", "position", "primaryPosition"]
+    },
+    {
+      "id": "mtk-official-molnar-peter-completion",
+      "clubId": "mtk-budapest",
+      "clubName": "MTK Budapest",
+      "name": "MTK Budapest – Molnár Péter 2025/26-os hivatalos játékosprofil",
+      "url": "https://www.mtkbudapest.hu/hu/csapat/5793",
+      "additionalUrls": [
+        "https://adatbank.mlsz.hu/player/535553.html"
+      ],
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["birthDate", "nation", "position", "primaryPosition"]
+    },
+    {
+      "id": "mtk-official-vasiljevic-completion",
+      "clubId": "mtk-budapest",
+      "clubName": "MTK Budapest",
+      "name": "MTK Budapest és HLSZ – Vasiljevic Andrej játékosazonosítás",
+      "url": "https://www.mtkbudapest.hu/hu/hirek/vasiljevic-bemutatkozott-a-felnottek-kozott2",
+      "additionalUrls": [
+        "https://adatbank.mlsz.hu/player/1114985.html",
+        "https://hlsz.hu/2010-03-25/vasiljevic-andrej"
+      ],
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["birthDate", "nation", "position", "primaryPosition"]
+    },
+    {
+      "id": "mtk-official-gorog-vincent-completion",
+      "clubId": "mtk-budapest",
+      "clubName": "MTK Budapest",
+      "name": "MTK Budapest, MLSZ és HLSZ – Görög Vincent játékosazonosítás",
+      "url": "https://www.mtkbudapest.hu/hu/hirek/dontetlennel-zartuk-a-szezont3",
+      "additionalUrls": [
+        "https://adatbank.mlsz.hu/player/702987.html",
+        "https://hlsz.hu/mtk"
+      ],
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "fields": ["birthDate", "nation", "position", "primaryPosition"]
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "mtk-official-kovacs-matyas-completion",
+      "clubId": "mtk-budapest",
+      "name": "KOVÁCS MÁTYÁS",
+      "sourceUrl": "https://www.mtkbudapest.hu/hu/csapat/1897",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2003-07-07",
+      "nation": "HUN",
+      "position": "Középpályás",
+      "meta": {
+        "primaryPosition": "Középpályás",
+        "sourceNote": "A 2025/26-os Fizz Liga-profil középpályásként tartja nyilván; a 2026/27-es aktuális profil eltérő posztját a lezárt szezon nem veszi át."
+      }
+    },
+    {
+      "sourceId": "mtk-official-molnar-peter-completion",
+      "clubId": "mtk-budapest",
+      "name": "MOLNÁR PÉTER",
+      "sourceUrl": "https://www.mtkbudapest.hu/hu/csapat/5793",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2007-04-14",
+      "nation": "HUN",
+      "position": "Támadó",
+      "meta": {
+        "primaryPosition": "Támadó"
+      }
+    },
+    {
+      "sourceId": "mtk-official-vasiljevic-completion",
+      "clubId": "mtk-budapest",
+      "name": "VASILJEVIC ANDREJ",
+      "aliases": ["VASZILJEVICS ANDREJ"],
+      "sourceUrl": "https://www.mtkbudapest.hu/hu/hirek/vasiljevic-bemutatkozott-a-felnottek-kozott2",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2010-03-25",
+      "nation": "SRB / HUN",
+      "position": "Támadó",
+      "meta": {
+        "primaryPosition": "Csatár"
+      }
+    },
+    {
+      "sourceId": "mtk-official-gorog-vincent-completion",
+      "clubId": "mtk-budapest",
+      "name": "GÖRÖG VINCENT",
+      "sourceUrl": "https://www.mtkbudapest.hu/hu/hirek/dontetlennel-zartuk-a-szezont3",
+      "checkedAt": "2026-07-21",
+      "season": "2025/26",
+      "confidence": "high",
+      "birthDate": "2009-01-28",
+      "nation": "HUN",
+      "position": "Támadó",
+      "meta": {
+        "primaryPosition": "Csatár"
+      }
+    }
+  ]
+}
