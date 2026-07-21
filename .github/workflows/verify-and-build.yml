@@ -58,6 +58,17 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+      - name: ETO FC pontos projektlista kinyerése
+        run: node test/eto-discovery.test.mjs
+
+      - name: ETO FC lista mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: eto-discovery
+          path: eto-discovery.json
+          if-no-files-found: error
+          retention-days: 2
+
       - name: Alkalmazástesztek
         run: npm test
 
