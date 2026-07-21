@@ -29,8 +29,10 @@ const kisvardaSelected2 = readJson('../data/club-official-enrichment-8-kisvarda-
 const kisvardaSelectedStats2 = readJson('../data/club-official-stat-patches-kisvarda-selected10-2.json');
 const kisvardaFinal8 = readJson('../data/club-official-enrichment-10-kisvarda-final8.json');
 const kisvardaCompletion = readJson('../data/club-official-enrichment-11-kisvarda-completion.json');
+const dvtkCompletion = readJson('../data/club-official-enrichment-12-dvtk-completion.json');
 const kisvardaFinalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const ferencvarosStats = readJson('../data/club-official-stat-patches-ferencvaros.json');
+const dvtkStats = readJson('../data/club-official-stat-patches-dvtk.json');
 const corrections2 = readJson('../data/club-official-corrections-2.json');
 const corrections3 = readJson('../data/club-official-corrections-3.json');
 const manifest = readJson('../manifest.webmanifest');
@@ -83,6 +85,7 @@ const dataFiles = [
   'club-official-enrichment-9-kisvarda-selected10.json',
   'club-official-enrichment-10-kisvarda-final8.json',
   'club-official-enrichment-11-kisvarda-completion.json',
+  'club-official-enrichment-12-dvtk-completion.json',
   'club-official-corrections.json',
   'club-official-corrections-2.json',
   'club-official-corrections-3.json',
@@ -93,6 +96,7 @@ const dataFiles = [
   'club-official-stat-patches-kisvarda-selected10-3.json',
   'club-official-stat-patches-kisvarda-final8.json',
   'club-official-stat-patches-ferencvaros.json',
+  'club-official-stat-patches-dvtk.json',
   'club-official-sources.json',
 ];
 for (const file of dataFiles) {
@@ -109,7 +113,7 @@ assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
 assert.match(clubStatPatches, /clubOfficialStatsByClub/);
 assert.match(clubStatPatches, /correctedFieldCounts/);
-assert.match(serviceWorker, /fociskartyak-2026-v18/);
+assert.match(serviceWorker, /fociskartyak-2026-v19/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
@@ -130,10 +134,14 @@ assert.equal(kisvardaSelectedStats2.rows.length, 10);
 assert.deepEqual(kisvardaSelectedStats2.overrides['Jasmin Mesanovic'], ['starts', 'substituteAppearances']);
 assert.equal(kisvardaFinal8.batch.playerCount, 8);
 assert.equal(kisvardaCompletion.batch.playerCount, 2);
+assert.equal(dvtkCompletion.batch.playerCount, 1);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);
 assert.equal(ferencvarosStats.source.clubId, 'ferencvarosi-tc');
+assert.equal(dvtkStats.rows.length, 45);
+assert.equal(dvtkStats.batch.playerCount, 45);
+assert.equal(dvtkStats.source.clubId, 'dvtk');
 assert.equal(corrections2.recordPatches.length, 2);
 assert.equal(corrections2.excludeRecords.length, 11);
 assert.equal(corrections3.recordPatches.length, 2);
@@ -142,6 +150,10 @@ assert.ok(directory.clubs.every(club => club.officialUrl && club.officialRosterU
 assert.equal(
   directory.clubs.find(club => club.clubId === 'kisvarda-master-good').status,
   'complete-38-of-38-player-review',
+);
+assert.equal(
+  directory.clubs.find(club => club.clubId === 'dvtk').status,
+  'complete-45-of-45-player-review',
 );
 
 assert.equal(manifest.display, 'standalone');
