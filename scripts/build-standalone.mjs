@@ -176,7 +176,7 @@ const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
 fs.writeFileSync(outputPath, output);
 
 const conflicts = payload.players.flatMap(card =>
-  (Array.isArray(card?.meta?.enrichmentConflicts) ? card.enrichmentConflicts : [])
+  (Array.isArray(card?.meta?.enrichmentConflicts) ? card.meta.enrichmentConflicts : [])
     .map(conflict => ({ playerId: card.id, playerName: card.name, ...conflict }))
 );
 const audit = {
