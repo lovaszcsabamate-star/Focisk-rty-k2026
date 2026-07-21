@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34, fociskartyak-2026-v35, fociskartyak-2026-v36, fociskartyak-2026-v37, fociskartyak-2026-v38, fociskartyak-2026-v39, fociskartyak-2026-v40, fociskartyak-2026-v41
-const PWA_CACHE = 'fociskartyak-2026-v42';
+const CACHE_PREFIX = 'fociskartyak-2026-';
+const PWA_CACHE = `${CACHE_PREFIX}v43`;
 const PWA_SHELL = [
   './',
   './index.html',
@@ -83,29 +83,36 @@ const PWA_SHELL = [
   './data/club-official-stat-patches-puskas.json',
   './data/club-official-sources.json',
   './assets/icons/icon.svg',
-  './assets/qr/mobil-eleres.svg'
+  './assets/qr/mobil-eleres.svg',
 ];
 
 async function cacheResponse(request, response) {
   if (!response?.ok) return response;
-  const cache = await caches.open(PWA_CACHE);
-  await cache.put(request, response.clone());
+  try {
+    const cache = await caches.open(PWA_CACHE);
+    await cache.put(request, response.clone());
+  } catch (error) {
+    console.warn('[pwa] A sikeres hálózati válasz gyorsítótárazása kimaradt:', error);
+  }
   return response;
 }
 
 async function networkFirst(request) {
   try {
-    return await cacheResponse(request, await fetch(request));
+    const response = await fetch(request);
+    return await cacheResponse(request, response);
   } catch {
     return (await caches.match(request)) || Response.error();
   }
 }
 
-async function cacheFirstWithRefresh(request) {
+async function cacheFirstWithRefresh(request, event) {
   const cached = await caches.match(request);
   const refresh = fetch(request)
     .then(response => cacheResponse(request, response))
     .catch(() => null);
+
+  event?.waitUntil?.(refresh.then(() => undefined));
   return cached || (await refresh) || Response.error();
 }
 
@@ -120,11 +127,13 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key !== PWA_CACHE).map(key => caches.delete(key))))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys
+      .filter(key => key.startsWith(CACHE_PREFIX) && key !== PWA_CACHE)
+      .map(key => caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('fetch', event => {
@@ -146,5 +155,5 @@ self.addEventListener('fetch', event => {
   const freshCodeOrData = ['script', 'style', 'worker', 'manifest'].includes(request.destination)
     || url.pathname.endsWith('.json');
 
-  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request));
+  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request, event));
 });

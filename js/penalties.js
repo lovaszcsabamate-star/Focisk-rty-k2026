@@ -1,4 +1,4 @@
-/** Penalties mode state machine. It never mutates or re-draws a team mid-match. */
+/** Büntetőpárbaj state machine. It never mutates or re-draws a team mid-match. */
 
 import { ATTRIBUTES, hasAttributeData } from './data/players.js';
 import { AI, HUMAN, PHASE, compare, shuffle } from './engine.js';
@@ -6,10 +6,15 @@ import { AI, HUMAN, PHASE, compare, shuffle } from './engine.js';
 export const PENALTY_TEAM_SIZE = 11;
 export const REGULAR_DUELS = 5;
 
+const cloneAttempts = attempts => ({
+  [HUMAN]: [...(attempts?.[HUMAN] ?? [])],
+  [AI]: [...(attempts?.[AI] ?? [])],
+});
+
 export class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
     if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE * 2) {
-      throw new Error(`A Penalties mód két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
+      throw new Error(`A Büntetőpárbaj két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
     }
 
     this.mode = 'penalties';
@@ -23,6 +28,7 @@ export class PenaltyGame {
     this.used = { [HUMAN]: [], [AI]: [] };
     this.scores = { [HUMAN]: 0, [AI]: 0 };
     this.attempts = { [HUMAN]: [], [AI]: [] };
+    this.cycleHistory = [];
     this.chooser = rng() < 0.5 ? HUMAN : AI;
     this.phase = PHASE.CHOOSE_ATTRIBUTE;
     this.attribute = null;
@@ -128,6 +134,15 @@ export class PenaltyGame {
     this.phase = PHASE.GAME_OVER;
   }
 
+  _archiveCurrentCycle() {
+    this.cycleHistory.push({
+      cycle: this.cycle,
+      attempts: cloneAttempts(this.attempts),
+      scoreAfterCycle: { [HUMAN]: this.scores[HUMAN], [AI]: this.scores[AI] },
+      duelsAfterCycle: this.log.length,
+    });
+  }
+
   nextDuel() {
     if (this.phase !== PHASE.REVEAL) throw new Error(`Nem indítható új párbaj ebben a fázisban: ${this.phase}`);
     this.played = { [HUMAN]: null, [AI]: null };
@@ -135,6 +150,7 @@ export class PenaltyGame {
     let reshuffled = false;
 
     if (this.hands[HUMAN].length === 0 || this.hands[AI].length === 0) {
+      this._archiveCurrentCycle();
       this.hands = {
         [HUMAN]: shuffle(this.teams[HUMAN], this.rng),
         [AI]: shuffle(this.teams[AI], this.rng),
@@ -163,6 +179,12 @@ export class PenaltyGame {
       ai,
       winner: human > ai ? HUMAN : AI,
       duels: this.log.length,
+      cycles: this.cycle,
+      cycleHistory: this.cycleHistory.map(entry => ({
+        ...entry,
+        attempts: cloneAttempts(entry.attempts),
+        scoreAfterCycle: { ...entry.scoreAfterCycle },
+      })),
       stage: this.finishStage,
       reason: this.finishReason,
       bestCategories,

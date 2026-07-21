@@ -1,28 +1,18 @@
-/**
- * Small reliability and usability fixes layered on the existing UI.
- * The game engine and both rule sets remain unchanged.
- */
+/** Reliability, restored-save and result-presentation repairs. */
 
 import './mobile-experience.js';
-import { UI } from './ui.js';
-import { loadPlayerName, localizeInterfaceTextValue } from './player-profile.js';
+import { UI, el } from './ui.js';
+import { AI, HUMAN } from './engine.js';
+import { calculateAge } from './data/players.js';
+import { loadPlayerName } from './player-profile.js';
+import { normalizeLegacyOpponentId, STORAGE_KEYS } from './mobile-experience.js';
 
-export const SAVED_MATCH_STORAGE_KEY = 'fociskartyak:saved-match:v2';
-
-const RELIABILITY_LEGACY_OPPONENT_IDS = Object.freeze({
-  pub: 'bogdan',
-  regular: 'd-raven',
-  shark: 'h-li',
-  easy: 'bogdan',
-  medium: 'd-raven',
-  hard: 'h-li',
-});
+export const SAVED_MATCH_STORAGE_KEY = STORAGE_KEYS.save;
 
 export function savedOpponentIdFromRawSave(rawValue) {
   try {
     const parsed = JSON.parse(String(rawValue ?? ''));
-    const difficulty = typeof parsed?.difficulty === 'string' ? parsed.difficulty.trim() : '';
-    return difficulty ? (RELIABILITY_LEGACY_OPPONENT_IDS[difficulty] ?? difficulty) : null;
+    return normalizeLegacyOpponentId(parsed?.difficulty) || null;
   } catch {
     return null;
   }
@@ -34,40 +24,22 @@ export function shouldSuppressRestoredVerdictFeedback(ui, game) {
   return resolvedRounds > 0 && Number.isFinite(recordedRounds) && recordedRounds >= resolvedRounds;
 }
 
-function localizeReliabilityValue(value) {
-  return localizeInterfaceTextValue(value)
-    .replaceAll('Tizenegyes szabály', 'Büntetőpárbaj szabály')
-    .replaceAll('TIZENEGYESEK', 'BÜNTETŐPÁRBAJ');
-}
+export function ageResultExplanation(result) {
+  if (!['birthDate', 'birthDateOlder'].includes(result?.attribute)) return null;
+  const humanAge = calculateAge(result.humanCard?.birthDate);
+  const aiAge = calculateAge(result.aiCard?.birthDate);
+  if (!Number.isFinite(humanAge) || humanAge !== aiAge) return null;
 
-function localizeReliabilityTree(root) {
-  if (!root) return;
-  const documentRoot = root.nodeType === 9 ? root : root.ownerDocument;
-  if (!documentRoot?.createTreeWalker) return;
-
-  const walker = documentRoot.createTreeWalker(root, globalThis.NodeFilter?.SHOW_TEXT ?? 4);
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  for (const textNode of textNodes) {
-    const parentTag = textNode.parentElement?.tagName;
-    if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'TEXTAREA') continue;
-    const localized = localizeReliabilityValue(textNode.nodeValue);
-    if (localized !== textNode.nodeValue) textNode.nodeValue = localized;
+  const humanDate = Date.parse(result.humanCard.birthDate);
+  const aiDate = Date.parse(result.aiCard.birthDate);
+  if (!Number.isFinite(humanDate) || !Number.isFinite(aiDate) || humanDate === aiDate) {
+    return `mindkettő ${humanAge} éves`;
   }
 
-  const nodes = [
-    ...(root.matches?.('[title], [aria-label]') ? [root] : []),
-    ...(root.querySelectorAll?.('[title], [aria-label]') ?? []),
-  ];
-  for (const node of nodes) {
-    for (const attribute of ['title', 'aria-label']) {
-      if (!node.hasAttribute(attribute)) continue;
-      const current = node.getAttribute(attribute);
-      const localized = localizeReliabilityValue(current);
-      if (localized !== current) node.setAttribute(attribute, localized);
-    }
-  }
+  const wantsOlder = result.attribute === 'birthDateOlder';
+  const humanMatches = wantsOlder ? humanDate < aiDate : humanDate > aiDate;
+  const selected = humanMatches ? result.humanCard : result.aiCard;
+  return `mindkettő ${humanAge} éves, de ${selected.name} ${wantsOlder ? 'idősebb' : 'fiatalabb'}`;
 }
 
 function syncSavedReliabilityOpponent() {
@@ -82,14 +54,11 @@ function syncSavedReliabilityOpponent() {
 const reliabilityPreviousShowOverlay = UI.prototype.showOverlay;
 UI.prototype.showOverlay = function showReliableOverlay(node) {
   const output = reliabilityPreviousShowOverlay.call(this, node);
-  localizeReliabilityTree(node);
-
   const heading = node?.querySelector?.('h1')?.textContent?.trim().toLocaleUpperCase('hu-HU');
   if (heading === 'DÖNTETLEN' && node.classList?.contains('result-panel')) {
     node.classList.remove('result-panel--loss');
     node.classList.add('result-panel--tie');
   }
-
   return output;
 };
 
@@ -116,41 +85,67 @@ if (typeof reliabilityPreviousMatchScoreboard === 'function') {
       competition.textContent = `${prefix}${game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'NB I KÁRTYAMECCS'}`;
     }
 
-    board.setAttribute(
-      'aria-label',
-      `${playerName} ${human}, ${opponentName} ${ai}.${status ? ` ${status.toLocaleLowerCase('hu-HU')}.` : ''}`,
-    );
+    board.setAttribute('aria-label', `${playerName} ${human}, ${opponentName} ${ai}.${status ? ` ${status.toLocaleLowerCase('hu-HU')}.` : ''}`);
     return board;
   };
 }
 
+const reliabilityPreviousPenaltyScores = UI.prototype._renderPenaltyScores;
+UI.prototype._renderPenaltyScores = function renderPenaltyHistory(game) {
+  reliabilityPreviousPenaltyScores.call(this, game);
+  const history = Array.isArray(game.cycleHistory) ? game.cycleHistory : [];
+  if (!history.length) return;
+
+  const details = el('details', 'penalty-cycle-history');
+  details.appendChild(el('summary', null, `Korábbi ciklusok (${history.length})`));
+  const list = el('ol', 'penalty-cycle-history__list');
+  for (const entry of history) {
+    const humanAttempts = entry.attempts?.[HUMAN] ?? [];
+    const aiAttempts = entry.attempts?.[AI] ?? [];
+    const goals = attempts => attempts.filter(outcome => outcome === 'win').length;
+    const score = entry.scoreAfterCycle ?? {};
+    list.appendChild(el(
+      'li',
+      null,
+      `${entry.cycle}. ciklus: ${goals(humanAttempts)}–${goals(aiAttempts)} cikluseredmény · összesen ${score[HUMAN] ?? 0}–${score[AI] ?? 0}`,
+    ));
+  }
+  details.appendChild(list);
+  this.dom.penaltyBoard.appendChild(details);
+};
+
 const reliabilityPreviousShowVerdict = UI.prototype.showVerdict;
 UI.prototype.showVerdict = function showReliableVerdict(result, game) {
   const restoredResult = shouldSuppressRestoredVerdictFeedback(this, game);
-  if (!restoredResult) return reliabilityPreviousShowVerdict.call(this, result, game);
-
-  const statsSnapshot = this.uxStats
-    ? (typeof structuredClone === 'function'
-      ? structuredClone(this.uxStats)
-      : JSON.parse(JSON.stringify(this.uxStats)))
+  const statsSnapshot = restoredResult && this.uxStats
+    ? (typeof structuredClone === 'function' ? structuredClone(this.uxStats) : JSON.parse(JSON.stringify(this.uxStats)))
     : null;
   const previousSounds = this.settings?.sounds;
   const previousVibration = this.settings?.vibration;
 
-  if (this.settings) {
+  if (restoredResult && this.settings) {
     this.settings.sounds = false;
     this.settings.vibration = false;
   }
 
   try {
-    return reliabilityPreviousShowVerdict.call(this, result, game);
+    const output = reliabilityPreviousShowVerdict.call(this, result, game);
+    const ageExplanation = ageResultExplanation(result);
+    if (ageExplanation) {
+      const detail = this.dom.verdict.querySelector('small');
+      if (detail) {
+        const suffix = detail.textContent.includes(' · ') ? ` · ${detail.textContent.split(' · ').slice(1).join(' · ')}` : '';
+        detail.textContent = `${ageExplanation}${suffix}`;
+      }
+    }
+    return output;
   } finally {
-    if (this.settings) {
+    if (restoredResult && this.settings) {
       this.settings.sounds = previousSounds;
       this.settings.vibration = previousVibration;
     }
     if (statsSnapshot) this.uxStats = statsSnapshot;
-    this.dom?.verdict?.classList.remove('ux-verdict-pop');
+    if (restoredResult) this.dom?.verdict?.classList.remove('ux-verdict-pop');
   }
 };
 

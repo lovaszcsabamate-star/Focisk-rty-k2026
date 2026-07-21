@@ -2,7 +2,7 @@
  * Progressive UX layer for Fociskártyák 2026.
  *
  * It intentionally augments the existing UI instead of replacing the game
- * engine. The classic rules and the penalty rules therefore remain unchanged.
+ * engine. The classic rules and the Büntetőpárbaj rules therefore remain unchanged.
  */
 
 import { UI, el } from './ui.js';
@@ -41,15 +41,27 @@ const originals = {
   showOverlay: UI.prototype.showOverlay,
 };
 
+export function comparisonDirectionInstruction(attribute) {
+  switch (attribute?.direction) {
+    case 'higher': return 'A nagyobb érték a jobb';
+    case 'lower': return 'A kisebb érték a jobb';
+    case 'later': return 'A későbbi érték a jobb';
+    case 'earlier': return 'A korábbi érték a jobb';
+    default: return attribute?.higherWins ? 'A nagyobb érték a jobb' : 'A kisebb érték a jobb';
+  }
+}
+
 const attributeDirection = attribute => {
-  if (!attribute) return '';
-  return attribute.key === 'birthDate' ? 'a fiatalabb nyer' : 'a nagyobb érték nyer';
+  const instruction = comparisonDirectionInstruction(attribute);
+  return instruction ? instruction.charAt(0).toLocaleLowerCase('hu-HU') + instruction.slice(1) : '';
 };
 
 const comparisonSymbol = (attribute, winner) => {
   if (winner === 'tie') return '=';
   const humanWon = winner === HUMAN;
-  if (attribute?.key === 'birthDate') return humanWon ? '<' : '>';
+  const lowerWins = ['lower', 'earlier'].includes(attribute?.direction)
+    || (!attribute?.direction && attribute?.higherWins === false);
+  if (lowerWins) return humanWon ? '<' : '>';
   return humanWon ? '>' : '<';
 };
 
@@ -344,10 +356,10 @@ UI.prototype.showOverlay = function showFriendlyOverlay(node) {
   if (penaltyMode) {
     const title = penaltyMode.querySelector('b');
     const description = penaltyMode.querySelector('small');
-    if (title) title.textContent = '⚽ Tizenegyes mód';
+    if (title) title.textContent = '⚽ Büntetőpárbaj';
     if (description) description.textContent = '11–11 lap, öt rendes párbaj, döntetlennél hirtelen halál.';
     const rules = node.querySelector('[data-rules="penalties"]');
-    if (rules) rules.innerHTML = '<b>Tizenegyes szabály:</b> 11 lap. Öt rendes párbaj. Döntetlennél hirtelen halál; azonos értéknél nincs gól.';
+    if (rules) rules.innerHTML = '<b>Büntetőpárbaj-szabály:</b> 11 lap. Öt rendes párbaj. Döntetlennél hirtelen halál; azonos értéknél nincs gól.';
   }
 
   // Add a useful match summary to the classic result screen.
@@ -400,4 +412,4 @@ function installDocumentUX() {
   }
 }
 
-installDocumentUX();
+if (typeof document !== 'undefined') installDocumentUX();

@@ -158,7 +158,7 @@ frame.addEventListener('load',()=>setTimeout(()=>{
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
     '--virtual-time-budget=5000', '--dump-dom', `file://${harnessFile}`,
-  ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
+  ], { encoding: 'utf8', timeout: 20_000, killSignal: 'SIGKILL', maxBuffer: 30 * 1024 * 1024 });
 
   const match = run.stdout.match(/data-selection-smoke="([^"]+)"/);
   if (run.status !== 0 || !match) {

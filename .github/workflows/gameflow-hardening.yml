@@ -1,0 +1,124 @@
+name: Gameflow hardening
+
+on:
+  push:
+    branches:
+      - fix/gameflow-hardening-2026-07-22
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gameflow-hardening-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit and regression tests
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee npm-test.log
+
+      - name: Upload unit-test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameflow-unit-test-log-${{ github.run_id }}
+          path: npm-test.log
+          if-no-files-found: ignore
+
+      - name: Full test suite
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:all 2>&1 | tee test-all.log
+
+      - name: Upload full-test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameflow-full-test-log-${{ github.run_id }}
+          path: test-all.log
+          if-no-files-found: ignore
+
+      - name: Standalone build
+        run: npm run build
+
+      - name: Database review
+        run: npm run review:database
+
+      - name: Mobile layout regression
+        timeout-minutes: 8
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:mobile-layout 2>&1 | tee mobile-layout.log
+
+      - name: Upload mobile-layout diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gameflow-mobile-layout-log-${{ github.run_id }}
+          path: |
+            mobile-layout.log
+            mobile-layout-report.json
+            mobile-selection-preview.png
+            mobile-battle-preview.png
+            previews/*.png
+          if-no-files-found: ignore
+
+      - name: Capacitor web assets preparation
+        run: npm run mobile:prepare
+
+      - name: Verify standalone HTML and hardening invariants
+        shell: bash
+        run: |
+          test -s Fociskartyak2026.html
+          grep -q 'Büntetőpárbaj' Fociskartyak2026.html
+          grep -q 'fociskartyak-2026-' sw.js
+          if grep -RInE 'Penalties mód|Tizenegyes mód|Tizenegyes szabály' js; then
+            echo 'Régi játékmód-felirat maradt a forrásban.' >&2
+            exit 1
+          fi
+          if grep -q 'globalThis.setTimeout[[:space:]]*=' js/mobile-experience.js; then
+            echo 'A globális setTimeout felülírása visszakerült.' >&2
+            exit 1
+          fi
+          test -d mobile-www/assets
+          test -f mobile-www/index.html
+
+      - name: Commit generated standalone HTML
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Fociskartyak2026.html
+          git commit -m 'Frissíti az önálló Fociskártyák HTML-buildet' || true
+          git push

@@ -8,12 +8,19 @@ const matchdayPreviousPenaltyScores = UI.prototype._renderPenaltyScores;
 const matchdayPreviousShowOverlay = UI.prototype.showOverlay;
 
 const matchdaySideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
-const matchdayOtherSide = side => side === HUMAN ? AI : HUMAN;
 
-function matchdayScoreboardStatus(game) {
-  if (game.phase === PHASE.GAME_OVER) return 'VÉGEREDMÉNY';
-  if (game.phase === PHASE.REVEAL) return `KÖVETKEZŐ VÁLASZTÓ: ${matchdaySideLabel(matchdayOtherSide(game.chooser)).toUpperCase()}`;
-  return `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
+export function matchdayScoreboardStatus(game) {
+  switch (game.phase) {
+    case PHASE.GAME_OVER:
+      return 'VÉGEREDMÉNY';
+    case PHASE.REVEAL:
+      return 'EREDMÉNY';
+    case PHASE.CHOOSE_CARD:
+      return game.chooser === HUMAN ? 'A GÉP VÁLASZT' : 'KÁRTYÁT VÁLASZT';
+    case PHASE.CHOOSE_ATTRIBUTE:
+    default:
+      return game.chooser === AI ? 'A GÉP VÁLASZT' : `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
+  }
 }
 
 UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human, ai) {
@@ -23,7 +30,7 @@ UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human
   board.setAttribute('aria-live', 'polite');
   board.setAttribute('aria-label', `Játékos ${human}, Gép ${ai}. ${status.toLowerCase()}.`);
 
-  const competition = el('div', 'match-scoreboard__competition', game.mode === 'penalties' ? 'TIZENEGYESEK' : 'NB I KÁRTYAMECCS');
+  const competition = el('div', 'match-scoreboard__competition', game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'NB I KÁRTYAMECCS');
   const home = el('div', 'match-team match-team--home');
   home.append(el('span', 'match-team__crest', '⚽'), el('span', 'match-team__name', 'JÁTÉKOS'));
 
@@ -65,6 +72,6 @@ UI.prototype.showOverlay = function showAlternatingChooserRules(node) {
 
   const penaltyRules = node.querySelector?.('[data-rules="penalties"]');
   if (penaltyRules) {
-    penaltyRules.innerHTML = '<b>Tizenegyes szabály:</b> A két fél párbajonként felváltva választ kategóriát. 11 lap, öt rendes párbaj, döntetlennél hirtelen halál; azonos értéknél nincs gól.';
+    penaltyRules.innerHTML = '<b>Büntetőpárbaj-szabály:</b> A két fél párbajonként felváltva választ kategóriát. 11 lap, öt rendes párbaj, döntetlennél hirtelen halál; azonos értéknél nincs gól, és mindkét lap a használt lapok közé kerül.';
   }
 };

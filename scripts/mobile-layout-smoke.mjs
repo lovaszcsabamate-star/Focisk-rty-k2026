@@ -12,6 +12,7 @@ const STANDALONE = path.join(ROOT, 'Fociskartyak2026.html');
 const REPORT = path.join(ROOT, 'mobile-layout-report.json');
 const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 900;
+const CHROME_TIMEOUT_MS = 20_000;
 
 const chrome = [
   process.env.CHROME_BIN,
@@ -20,7 +21,7 @@ const chrome = [
   'chromium',
   'chromium-browser',
 ].filter(Boolean).find(command => {
-  const result = spawnSync(command, ['--version'], { encoding: 'utf8' });
+  const result = spawnSync(command, ['--version'], { encoding: 'utf8', timeout: 5_000 });
   return result.status === 0;
 });
 
@@ -95,13 +96,22 @@ frame.addEventListener('load', () => setTimeout(() => {
     `file://${harnessFile}`,
   ], {
     encoding: 'utf8',
+    timeout: CHROME_TIMEOUT_MS,
+    killSignal: 'SIGKILL',
     maxBuffer: 30 * 1024 * 1024,
   });
+
+  if (run.error?.code === 'ETIMEDOUT') {
+    const failure = `${width}px: a Chrome ${CHROME_TIMEOUT_MS / 1000} másodperces időkorlát után leállításra került.`;
+    failures.push(failure);
+    measurements.push({ width, failure, timedOut: true, stderr: run.stderr?.slice(-4000) ?? '' });
+    continue;
+  }
 
   if (run.status !== 0) {
     const failure = `${width}px: a Chrome hibával leállt.`;
     failures.push(failure);
-    measurements.push({ width, failure, stderr: run.stderr.slice(-4000) });
+    measurements.push({ width, failure, status: run.status, signal: run.signal, stderr: run.stderr?.slice(-4000) ?? '' });
     continue;
   }
 

@@ -81,6 +81,8 @@ assert.equal(byName.get('VEPRIK TARASZ').nation, 'UKR');
 for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
   assert.match(readText(source), new RegExp(FILE.replaceAll('.', '\\.')));
 }
-assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
+const serviceWorker = readText('../sw.js');
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);
+assert.match(serviceWorker, /const PWA_CACHE = `\$\{CACHE_PREFIX\}v43`;/);
 
 console.log('✓ Kisvárda nemzetiségek lezárva: 21 új forrásolt országadat, összesen 38/38; az alap- és statisztikai értékek változatlanok');

@@ -4166,17 +4166,22 @@ class Game {
 
 
 /* ===== js/penalties.js ===== */
-/** Penalties mode state machine. It never mutates or re-draws a team mid-match. */
+/** Büntetőpárbaj state machine. It never mutates or re-draws a team mid-match. */
 
 
 
 const PENALTY_TEAM_SIZE = 11;
 const REGULAR_DUELS = 5;
 
+const cloneAttempts = attempts => ({
+  [HUMAN]: [...(attempts?.[HUMAN] ?? [])],
+  [AI]: [...(attempts?.[AI] ?? [])],
+});
+
 class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
     if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE * 2) {
-      throw new Error(`A Penalties mód két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
+      throw new Error(`A Büntetőpárbaj két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
     }
 
     this.mode = 'penalties';
@@ -4190,6 +4195,7 @@ class PenaltyGame {
     this.used = { [HUMAN]: [], [AI]: [] };
     this.scores = { [HUMAN]: 0, [AI]: 0 };
     this.attempts = { [HUMAN]: [], [AI]: [] };
+    this.cycleHistory = [];
     this.chooser = rng() < 0.5 ? HUMAN : AI;
     this.phase = PHASE.CHOOSE_ATTRIBUTE;
     this.attribute = null;
@@ -4295,6 +4301,15 @@ class PenaltyGame {
     this.phase = PHASE.GAME_OVER;
   }
 
+  _archiveCurrentCycle() {
+    this.cycleHistory.push({
+      cycle: this.cycle,
+      attempts: cloneAttempts(this.attempts),
+      scoreAfterCycle: { [HUMAN]: this.scores[HUMAN], [AI]: this.scores[AI] },
+      duelsAfterCycle: this.log.length,
+    });
+  }
+
   nextDuel() {
     if (this.phase !== PHASE.REVEAL) throw new Error(`Nem indítható új párbaj ebben a fázisban: ${this.phase}`);
     this.played = { [HUMAN]: null, [AI]: null };
@@ -4302,6 +4317,7 @@ class PenaltyGame {
     let reshuffled = false;
 
     if (this.hands[HUMAN].length === 0 || this.hands[AI].length === 0) {
+      this._archiveCurrentCycle();
       this.hands = {
         [HUMAN]: shuffle(this.teams[HUMAN], this.rng),
         [AI]: shuffle(this.teams[AI], this.rng),
@@ -4330,6 +4346,12 @@ class PenaltyGame {
       ai,
       winner: human > ai ? HUMAN : AI,
       duels: this.log.length,
+      cycles: this.cycle,
+      cycleHistory: this.cycleHistory.map(entry => ({
+        ...entry,
+        attempts: cloneAttempts(entry.attempts),
+        scoreAfterCycle: { ...entry.scoreAfterCycle },
+      })),
       stage: this.finishStage,
       reason: this.finishReason,
       bestCategories,
@@ -5003,7 +5025,7 @@ class UI {
  * Progressive UX layer for Fociskártyák 2026.
  *
  * It intentionally augments the existing UI instead of replacing the game
- * engine. The classic rules and the penalty rules therefore remain unchanged.
+ * engine. The classic rules and the Büntetőpárbaj rules therefore remain unchanged.
  */
 
 
@@ -5035,15 +5057,27 @@ const originals = {
   showOverlay: UI.prototype.showOverlay,
 };
 
+function comparisonDirectionInstruction(attribute) {
+  switch (attribute?.direction) {
+    case 'higher': return 'A nagyobb érték a jobb';
+    case 'lower': return 'A kisebb érték a jobb';
+    case 'later': return 'A későbbi érték a jobb';
+    case 'earlier': return 'A korábbi érték a jobb';
+    default: return attribute?.higherWins ? 'A nagyobb érték a jobb' : 'A kisebb érték a jobb';
+  }
+}
+
 const attributeDirection = attribute => {
-  if (!attribute) return '';
-  return attribute.key === 'birthDate' ? 'a fiatalabb nyer' : 'a nagyobb érték nyer';
+  const instruction = comparisonDirectionInstruction(attribute);
+  return instruction ? instruction.charAt(0).toLocaleLowerCase('hu-HU') + instruction.slice(1) : '';
 };
 
 const comparisonSymbol = (attribute, winner) => {
   if (winner === 'tie') return '=';
   const humanWon = winner === HUMAN;
-  if (attribute?.key === 'birthDate') return humanWon ? '<' : '>';
+  const lowerWins = ['lower', 'earlier'].includes(attribute?.direction)
+    || (!attribute?.direction && attribute?.higherWins === false);
+  if (lowerWins) return humanWon ? '<' : '>';
   return humanWon ? '>' : '<';
 };
 
@@ -5338,10 +5372,10 @@ UI.prototype.showOverlay = function showFriendlyOverlay(node) {
   if (penaltyMode) {
     const title = penaltyMode.querySelector('b');
     const description = penaltyMode.querySelector('small');
-    if (title) title.textContent = '⚽ Tizenegyes mód';
+    if (title) title.textContent = '⚽ Büntetőpárbaj';
     if (description) description.textContent = '11–11 lap, öt rendes párbaj, döntetlennél hirtelen halál.';
     const rules = node.querySelector('[data-rules="penalties"]');
-    if (rules) rules.innerHTML = '<b>Tizenegyes szabály:</b> 11 lap. Öt rendes párbaj. Döntetlennél hirtelen halál; azonos értéknél nincs gól.';
+    if (rules) rules.innerHTML = '<b>Büntetőpárbaj-szabály:</b> 11 lap. Öt rendes párbaj. Döntetlennél hirtelen halál; azonos értéknél nincs gól.';
   }
 
   // Add a useful match summary to the classic result screen.
@@ -5394,7 +5428,7 @@ function installDocumentUX() {
   }
 }
 
-installDocumentUX();
+if (typeof document !== 'undefined') installDocumentUX();
 
 
 /* ===== js/ux-fixes.js ===== */
@@ -5511,12 +5545,19 @@ const matchdayPreviousPenaltyScores = UI.prototype._renderPenaltyScores;
 const matchdayPreviousShowOverlay = UI.prototype.showOverlay;
 
 const matchdaySideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
-const matchdayOtherSide = side => side === HUMAN ? AI : HUMAN;
 
 function matchdayScoreboardStatus(game) {
-  if (game.phase === PHASE.GAME_OVER) return 'VÉGEREDMÉNY';
-  if (game.phase === PHASE.REVEAL) return `KÖVETKEZŐ VÁLASZTÓ: ${matchdaySideLabel(matchdayOtherSide(game.chooser)).toUpperCase()}`;
-  return `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
+  switch (game.phase) {
+    case PHASE.GAME_OVER:
+      return 'VÉGEREDMÉNY';
+    case PHASE.REVEAL:
+      return 'EREDMÉNY';
+    case PHASE.CHOOSE_CARD:
+      return game.chooser === HUMAN ? 'A GÉP VÁLASZT' : 'KÁRTYÁT VÁLASZT';
+    case PHASE.CHOOSE_ATTRIBUTE:
+    default:
+      return game.chooser === AI ? 'A GÉP VÁLASZT' : `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
+  }
 }
 
 UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human, ai) {
@@ -5526,7 +5567,7 @@ UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human
   board.setAttribute('aria-live', 'polite');
   board.setAttribute('aria-label', `Játékos ${human}, Gép ${ai}. ${status.toLowerCase()}.`);
 
-  const competition = el('div', 'match-scoreboard__competition', game.mode === 'penalties' ? 'TIZENEGYESEK' : 'NB I KÁRTYAMECCS');
+  const competition = el('div', 'match-scoreboard__competition', game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'NB I KÁRTYAMECCS');
   const home = el('div', 'match-team match-team--home');
   home.append(el('span', 'match-team__crest', '⚽'), el('span', 'match-team__name', 'JÁTÉKOS'));
 
@@ -5568,7 +5609,7 @@ UI.prototype.showOverlay = function showAlternatingChooserRules(node) {
 
   const penaltyRules = node.querySelector?.('[data-rules="penalties"]');
   if (penaltyRules) {
-    penaltyRules.innerHTML = '<b>Tizenegyes szabály:</b> A két fél párbajonként felváltva választ kategóriát. 11 lap, öt rendes párbaj, döntetlennél hirtelen halál; azonos értéknél nincs gól.';
+    penaltyRules.innerHTML = '<b>Büntetőpárbaj-szabály:</b> A két fél párbajonként felváltva választ kategóriát. 11 lap, öt rendes párbaj, döntetlennél hirtelen halál; azonos értéknél nincs gól, és mindkét lap a használt lapok közé kerül.';
   }
 };
 
@@ -5952,46 +5993,38 @@ else pwaStart();
 
 
 
+
+
 const FAST_AI_TURN_DELAYS = Object.freeze({
   chooseAttribute: 90,
   chooseCard: 110,
 });
 
-function adjustedTurnDelay(milliseconds, promptText = '') {
-  const delay = Number(milliseconds);
-  const prompt = String(promptText).toLocaleLowerCase('hu-HU').replace(/\s+/g, ' ').trim();
-  if (delay === 550 && /a gép választ/.test(prompt)) return FAST_AI_TURN_DELAYS.chooseAttribute;
-  if (delay === 500 && /a gép kártyát választ/.test(prompt)) return FAST_AI_TURN_DELAYS.chooseCard;
+/** Prompt-independent compatibility helper retained for existing callers/tests. */
+function adjustedTurnDelay(milliseconds) {
+  if (Number(milliseconds) === 550) return FAST_AI_TURN_DELAYS.chooseAttribute;
+  if (Number(milliseconds) === 500) return FAST_AI_TURN_DELAYS.chooseCard;
   return milliseconds;
 }
 
-const installFastAiTurnTimer = () => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (globalThis.__FOCISKARTYAK_FAST_AI_TIMER__) return;
+/** AI-only delay selector. It never modifies the application's global timers. */
+function aiDelay(kind, fallbackMilliseconds) {
+  return FAST_AI_TURN_DELAYS[kind] ?? fallbackMilliseconds;
+}
 
-  const nativeSetTimeout = globalThis.setTimeout.bind(globalThis);
-  globalThis.__FOCISKARTYAK_FAST_AI_TIMER__ = true;
-  globalThis.setTimeout = (callback, milliseconds = 0, ...args) => {
-    const prompt = document.querySelector('#prompt')?.textContent ?? '';
-    return nativeSetTimeout(callback, adjustedTurnDelay(milliseconds, prompt), ...args);
-  };
-};
+const LEGACY_OPPONENT_IDS = Object.freeze({
+  pub: 'bogdan',
+  regular: 'd-raven',
+  shark: 'h-li',
+  easy: 'bogdan',
+  medium: 'd-raven',
+  hard: 'h-li',
+});
 
-const installAiTurnRecovery = () => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (globalThis.__FOCISKARTYAK_AI_RECOVERY__) return;
-  globalThis.__FOCISKARTYAK_AI_RECOVERY__ = true;
-
-  window.addEventListener('unhandledrejection', event => {
-    const prompt = document.querySelector('#prompt');
-    const text = prompt?.textContent?.toLocaleLowerCase('hu-HU') ?? '';
-    if (!/a gép(?: kártyát)? választ/.test(text)) return;
-
-    console.warn('[ai] A gépi döntés megszakadt, a mentett állás újratöltése következik.', event.reason);
-    if (prompt) prompt.textContent = 'A gép döntésének újrapróbálása…';
-    window.setTimeout(() => window.location.reload(), 360);
-  });
-};
+function normalizeLegacyOpponentId(value) {
+  const id = typeof value === 'string' ? value.trim() : '';
+  return LEGACY_OPPONENT_IDS[id] ?? id;
+}
 
 const STORAGE_KEYS = {
   save: 'fociskartyak:saved-match:v2',
@@ -6040,8 +6073,9 @@ function loadSettings() {
 }
 
 function applyExperienceSettings(settings = {}) {
+  if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  const reducedBySystem = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  const reducedBySystem = globalThis.window?.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   root.classList.toggle('ux-large-text', Boolean(settings.largeText));
   root.classList.toggle('ux-simplified', Boolean(settings.simplified));
   root.classList.toggle('ux-reduced-motion', !settings.animations || reducedBySystem);
@@ -6061,6 +6095,9 @@ function readSavedMatch() {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (parsed?.version !== 2 || !parsed?.game || !['classic', 'penalties'].includes(parsed.mode)) return null;
+
+    parsed.difficulty = normalizeLegacyOpponentId(parsed.difficulty);
+    if (parsed.difficulty) globalThis.__FOCISKARTYAK_SELECT_OPPONENT__?.(parsed.difficulty);
     return parsed;
   } catch (error) {
     console.warn('[save] A mentett játék nem olvasható:', error);
@@ -6069,13 +6106,13 @@ function readSavedMatch() {
 }
 
 function writeSavedMatch(payload) {
-  if (!payload?.game || payload.game.isOver) return false;
+  if (!payload?.game || payload.game.isOver || payload.transient) return false;
   try {
     const snapshot = {
       version: 2,
       savedAt: new Date().toISOString(),
       mode: payload.mode,
-      difficulty: payload.difficulty,
+      difficulty: normalizeLegacyOpponentId(payload.difficulty),
       pendingAttribute: payload.pendingAttribute ?? null,
       awaitingChooserCard: Boolean(payload.awaitingChooserCard),
       uxStats: payload.uxStats ?? null,
@@ -6098,10 +6135,14 @@ function hydrateGame(instance, savedState) {
     if (key !== 'rng') instance[key] = value;
   }
   instance.rng = Math.random;
+  if (instance.mode === 'penalties') {
+    instance.cycleHistory = Array.isArray(instance.cycleHistory) ? instance.cycleHistory : [];
+  }
   return instance;
 }
 
 function installConnectivityBadge() {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return;
   const existing = document.querySelector('#connectivity-status');
   const badge = existing ?? el('div', 'connectivity-status');
   badge.id = 'connectivity-status';
@@ -6124,18 +6165,14 @@ function installConnectivityBadge() {
   if (navigator.onLine === false) update();
 }
 
-const directionLabel = attribute => {
-  if (!attribute) return '';
-  if (attribute.key === 'birthDate') return 'kevesebb életkor a jobb';
-  if (attribute.key === 'birthDateOlder') return 'több életkor a jobb';
-  return ['higher', 'later'].includes(attribute.direction) ? 'több a jobb' : 'kevesebb a jobb';
-};
-
 const bestHumanCard = (game, attribute) => {
   const cards = game.hands[HUMAN].filter(card => hasAttributeData(card, attribute.key));
   if (!cards.length) return null;
-  const multiplier = ['higher', 'later'].includes(attribute.direction) ? -1 : 1;
-  return cards.sort((a, b) => multiplier * (attributeValue(a, attribute.key) - attributeValue(b, attribute.key)))[0];
+  const higherWins = ['higher', 'later'].includes(attribute.direction);
+  return cards.slice().sort((a, b) => {
+    const difference = attributeValue(a, attribute.key) - attributeValue(b, attribute.key);
+    return higherWins ? -difference : difference;
+  })[0];
 };
 
 const baseMethods = {
@@ -6153,7 +6190,7 @@ UI.prototype._renderSettings = function renderMobileToolbar() {
   if (!this._mobileClickSoundBound) {
     this._mobileClickSoundBound = true;
     document.addEventListener('click', event => {
-      if (event.target.closest?.('button:not(:disabled), [role="button"]')) this.playSound('click');
+      if (event.target.closest?.('button:not(:disabled), [role="button"]:not([aria-disabled="true"])')) this.playSound('click');
     });
   }
 
@@ -6176,11 +6213,42 @@ UI.prototype.setSettings = function setMobileSettings(settings) {
   applyExperienceSettings(this.settings);
 };
 
+const GAME_ACTION_SELECTOR = [
+  '#attribute-picker button',
+  '#player-hand .card--direct-play',
+  '#player-hand .selectable',
+  '#inspector .inspector__actions button',
+  '#inspector .inspector__nav',
+  '.next-round-button',
+  '[data-game-action]',
+].join(', ');
+
 UI.prototype.setInteractionBusy = function setInteractionBusy(busy) {
-  this.dom.pub.classList.toggle('is-processing', Boolean(busy));
-  for (const node of this.dom.pub.querySelectorAll('#attribute-picker button, #player-hand .card--direct-play, #inspector button')) {
-    if ('disabled' in node) node.disabled = Boolean(busy);
-    node.setAttribute('aria-disabled', String(Boolean(busy)));
+  const disabled = Boolean(busy);
+  this.interactionBusy = disabled;
+  this.dom.pub.classList.toggle('is-processing', disabled);
+  this.dom.playerHand?.setAttribute('aria-busy', String(disabled));
+
+  for (const node of document.querySelectorAll(GAME_ACTION_SELECTOR)) {
+    if ('disabled' in node) node.disabled = disabled;
+    node.setAttribute('aria-disabled', String(disabled));
+    node.classList.toggle('is-disabled', disabled);
+  }
+
+  if (!this._busyGuardBound) {
+    this._busyGuardBound = true;
+    const blockDisabledAction = event => {
+      const target = event.target.closest?.(GAME_ACTION_SELECTOR);
+      if (!target) return;
+      if (!this.interactionBusy && target.getAttribute('aria-disabled') !== 'true') return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+    document.addEventListener('click', blockDisabledAction, true);
+    document.addEventListener('keydown', event => {
+      if (!['Enter', ' '].includes(event.key)) return;
+      blockDisabledAction(event);
+    }, true);
   }
 };
 
@@ -6207,44 +6275,47 @@ UI.prototype.renderScores = function renderMobileScores(game) {
   baseMethods.renderScores.call(this, game);
   this.dom.pub.dataset.turn = game.chooser === HUMAN ? 'human' : 'ai';
   this.dom.pub.dataset.gameMode = game.mode;
-  this.dom.hudMeta.setAttribute('aria-label', `${game.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'}. ${this.dom.hudMeta.textContent}`);
+  this.dom.hudMeta.setAttribute('aria-label', `${game.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'}. ${this.dom.hudMeta.textContent}`);
 };
 
 UI.prototype.renderHands = function renderMobileHands(game, options = {}) {
   baseMethods.renderHands.call(this, game, options);
-  const selectableCards = this.dom.playerHand.querySelectorAll('.card--direct-play:not(.card--unavailable)');
+  const selectableCards = this.dom.playerHand.querySelectorAll('.card--direct-play:not(.card--unavailable), .selectable:not(.card--unavailable)');
   this.dom.playerHand.classList.toggle('has-scroll-hint', this.dom.playerHand.children.length > 2);
-  this.dom.playerHand.setAttribute('aria-busy', String(this.dom.pub.classList.contains('is-processing')));
+  this.dom.playerHand.setAttribute('aria-busy', String(Boolean(this.interactionBusy)));
   selectableCards.forEach(card => card.setAttribute('aria-describedby', 'mobile-hand-instruction'));
   if (!document.querySelector('#mobile-hand-instruction')) {
     const instruction = el('span', 'sr-only', 'Koppints a kártyára a kijátszáshoz, vagy a nagyítóra a részletekhez. A kéz oldalra görgethető.');
     instruction.id = 'mobile-hand-instruction';
     document.body.appendChild(instruction);
   }
+  if (this.interactionBusy) this.setInteractionBusy(true);
 };
 
 UI.prototype.showAttributePicker = function showMobileAttributePicker(game) {
   this.dom.duel.replaceChildren();
   this.dom.verdict.replaceChildren();
   this.dom.verdict.className = '';
-  this.setPrompt('Te következel – válassz kategóriát');
+  this.setPrompt('Kategóriát választ');
 
   const available = new Set(game.availableAttributeKeys());
   const buttons = ATTRIBUTES
     .filter(attribute => available.has(attribute.key))
     .map(attribute => {
       const best = bestHumanCard(game, attribute);
+      const direction = comparisonDirectionInstruction(attribute);
       const button = el('button', 'attr-btn attr-btn--mobile');
       button.type = 'button';
       button.dataset.attribute = attribute.key;
+      button.dataset.gameAction = 'choose-attribute';
       button.append(
         el('span', 'attr-btn__label', `${attribute.icon} ${attribute.label}`),
         el('strong', 'attr-btn__value', best ? `Legjobb saját: ${formatAttribute(best, attribute.key)}` : 'Nincs használható saját lap'),
-        el('small', 'attr-btn__direction', directionLabel(attribute)),
+        el('small', 'attr-btn__direction', direction),
       );
-      button.setAttribute('aria-label', `${attribute.label}. ${best ? `Legjobb saját érték: ${formatAttribute(best, attribute.key)}.` : ''} ${directionLabel(attribute)}.`);
+      button.setAttribute('aria-label', `${attribute.label}. ${best ? `Legjobb saját érték: ${formatAttribute(best, attribute.key)}.` : ''} ${direction}.`);
       button.addEventListener('click', () => {
-        if (button.disabled) return;
+        if (button.disabled || this.interactionBusy) return;
         this.dom.picker.querySelectorAll('button').forEach(item => { item.disabled = true; });
         button.classList.add('is-selected');
         this.handlers.onAttribute(attribute.key);
@@ -6254,20 +6325,33 @@ UI.prototype.showAttributePicker = function showMobileAttributePicker(game) {
 
   if (buttons.length) this.dom.picker.replaceChildren(...buttons);
   else this.dom.picker.replaceChildren(el('p', 'ux-empty-state', 'Ehhez a leosztáshoz nincs közös, hiteles kategória.'));
-  this._uxSetStep?.(1);
 };
+
+function verdictHeadline(result, game) {
+  if (result.winner === 'tie') {
+    return game.mode === 'penalties'
+      ? 'Döntetlen – nincs gól'
+      : 'Döntetlen – a lapok a közös pakliba kerülnek';
+  }
+  if (result.winner === HUMAN) return game.mode === 'penalties' ? 'Gól – megnyerted a párbajt' : 'Megnyerted a kört';
+  return game.mode === 'penalties' ? 'A gép gólt szerzett' : 'A gép nyerte a kört';
+}
 
 UI.prototype.showVerdict = function showMobileVerdict(result, game) {
   baseMethods.showVerdict.call(this, result, game);
   const node = this.dom.verdict;
   const first = node.firstChild;
-  if (first?.nodeType === Node.TEXT_NODE) {
-    first.nodeValue = result.winner === 'tie'
-      ? 'Döntetlen – a lapok a közös pakliba kerülnek'
-      : result.winner === HUMAN
-        ? (game.mode === 'penalties' ? 'Gól – megnyerted a párbajt' : 'Megnyerted a kört')
-        : (game.mode === 'penalties' ? 'A gép gólt szerzett' : 'A gép nyerte a kört');
+  if (first?.nodeType === Node.TEXT_NODE) first.nodeValue = verdictHeadline(result, game);
+
+  if (result.winner === 'tie' && game.mode === 'penalties') {
+    const detail = node.querySelector('small');
+    if (detail) {
+      detail.textContent = detail.textContent
+        .replace(/\s*·\s*(?:nincs gól|a lapok az asztalon maradnak).*$/i, '')
+        + ' · mindkét lap a használt lapok közé kerül';
+    }
   }
+
   node.classList.add('ux-verdict-pop');
   if (result.winner === HUMAN) this.vibrate([35, 40, 35]);
   else if (result.winner === 'ai') this.vibrate(70);
@@ -6275,6 +6359,7 @@ UI.prototype.showVerdict = function showMobileVerdict(result, game) {
 };
 
 UI.prototype.openInspector = function openMobileInspector(...args) {
+  document.dispatchEvent(new CustomEvent('fociskartyak:interaction-invalidated', { detail: { source: 'inspector' } }));
   baseMethods.openInspector.apply(this, args);
   const layer = document.querySelector('#inspector');
   const shell = layer?.querySelector('.inspector__shell');
@@ -6283,36 +6368,26 @@ UI.prototype.openInspector = function openMobileInspector(...args) {
   shell?.setAttribute('aria-label', 'Játékoskártya részletei');
   layer?.querySelector('.inspector__nav:first-child')?.setAttribute('aria-label', 'Előző kártya');
   layer?.querySelector('.inspector__nav:last-child')?.setAttribute('aria-label', 'Következő kártya');
-  layer?.querySelector('button')?.focus({ preventScroll: true });
+  if (this.interactionBusy) this.setInteractionBusy(true);
+  layer?.querySelector('button:not(:disabled)')?.focus({ preventScroll: true });
 };
 
 UI.prototype.closeInspector = function closeMobileInspector(...args) {
   baseMethods.closeInspector.apply(this, args);
 };
 
-installFastAiTurnTimer();
-installAiTurnRecovery();
-applyExperienceSettings(loadSettings());
-installConnectivityBadge();
+if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+  applyExperienceSettings(loadSettings());
+  installConnectivityBadge();
+}
 
 
 /* ===== js/player-profile.js ===== */
-/** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
+/** Persistent player-name profile and scoreboard personalization. */
 
 const PLAYER_NAME_STORAGE_KEY = 'fociskartyak:player-name:v1';
 const DEFAULT_PLAYER_NAME = 'Játékos';
 const MAX_PLAYER_NAME_LENGTH = 24;
-
-const INTERFACE_TEXT_REPLACEMENTS = Object.freeze([
-  [
-    'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.',
-    'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.',
-  ],
-  ['Penalties mód', 'Büntetőpárbaj'],
-  ['Tizenegyes mód', 'Büntetőpárbaj'],
-  ['Penalties', 'Büntetőpárbaj'],
-  ['tizenegyespárbaj', 'büntetőpárbaj'],
-]);
 
 function normalizePlayerName(value) {
   return String(value ?? '')
@@ -6323,10 +6398,7 @@ function normalizePlayerName(value) {
 }
 
 function localizeInterfaceTextValue(value) {
-  return INTERFACE_TEXT_REPLACEMENTS.reduce(
-    (text, [source, replacement]) => text.replaceAll(source, replacement),
-    String(value ?? ''),
-  );
+  return String(value ?? '');
 }
 
 const readStoredName = () => {
@@ -6372,33 +6444,7 @@ function setFullNameHint(node, name) {
   node.setAttribute('aria-label', name);
 }
 
-function localizeInterfaceText(root = document) {
-  if (!root?.createTreeWalker && !root?.ownerDocument?.createTreeWalker) return;
-  const documentRoot = root.nodeType === 9 ? root : root.ownerDocument;
-  const walker = documentRoot.createTreeWalker(root, globalThis.NodeFilter?.SHOW_TEXT ?? 4);
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  for (const textNode of textNodes) {
-    const parentTag = textNode.parentElement?.tagName;
-    if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'TEXTAREA') continue;
-    const localized = localizeInterfaceTextValue(textNode.nodeValue);
-    replaceTextNode(textNode, localized);
-  }
-
-  for (const node of root.querySelectorAll?.('[title], [aria-label]') ?? []) {
-    for (const attribute of ['title', 'aria-label']) {
-      if (!node.hasAttribute(attribute)) continue;
-      const current = node.getAttribute(attribute);
-      const localized = localizeInterfaceTextValue(current);
-      if (localized !== current) node.setAttribute(attribute, localized);
-    }
-  }
-}
-
 function personalizeGameLabels(root = document) {
-  localizeInterfaceText(root);
-
   const name = loadPlayerName();
   const upper = upperName();
 
@@ -6561,30 +6607,20 @@ if (typeof document !== 'undefined') {
 
 
 /* ===== js/reliability-fixes.js ===== */
-/**
- * Small reliability and usability fixes layered on the existing UI.
- * The game engine and both rule sets remain unchanged.
- */
+/** Reliability, restored-save and result-presentation repairs. */
 
 
 
 
-const SAVED_MATCH_STORAGE_KEY = 'fociskartyak:saved-match:v2';
 
-const RELIABILITY_LEGACY_OPPONENT_IDS = Object.freeze({
-  pub: 'bogdan',
-  regular: 'd-raven',
-  shark: 'h-li',
-  easy: 'bogdan',
-  medium: 'd-raven',
-  hard: 'h-li',
-});
+
+
+const SAVED_MATCH_STORAGE_KEY = STORAGE_KEYS.save;
 
 function savedOpponentIdFromRawSave(rawValue) {
   try {
     const parsed = JSON.parse(String(rawValue ?? ''));
-    const difficulty = typeof parsed?.difficulty === 'string' ? parsed.difficulty.trim() : '';
-    return difficulty ? (RELIABILITY_LEGACY_OPPONENT_IDS[difficulty] ?? difficulty) : null;
+    return normalizeLegacyOpponentId(parsed?.difficulty) || null;
   } catch {
     return null;
   }
@@ -6596,40 +6632,22 @@ function shouldSuppressRestoredVerdictFeedback(ui, game) {
   return resolvedRounds > 0 && Number.isFinite(recordedRounds) && recordedRounds >= resolvedRounds;
 }
 
-function localizeReliabilityValue(value) {
-  return localizeInterfaceTextValue(value)
-    .replaceAll('Tizenegyes szabály', 'Büntetőpárbaj szabály')
-    .replaceAll('TIZENEGYESEK', 'BÜNTETŐPÁRBAJ');
-}
+function ageResultExplanation(result) {
+  if (!['birthDate', 'birthDateOlder'].includes(result?.attribute)) return null;
+  const humanAge = calculateAge(result.humanCard?.birthDate);
+  const aiAge = calculateAge(result.aiCard?.birthDate);
+  if (!Number.isFinite(humanAge) || humanAge !== aiAge) return null;
 
-function localizeReliabilityTree(root) {
-  if (!root) return;
-  const documentRoot = root.nodeType === 9 ? root : root.ownerDocument;
-  if (!documentRoot?.createTreeWalker) return;
-
-  const walker = documentRoot.createTreeWalker(root, globalThis.NodeFilter?.SHOW_TEXT ?? 4);
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  for (const textNode of textNodes) {
-    const parentTag = textNode.parentElement?.tagName;
-    if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'TEXTAREA') continue;
-    const localized = localizeReliabilityValue(textNode.nodeValue);
-    if (localized !== textNode.nodeValue) textNode.nodeValue = localized;
+  const humanDate = Date.parse(result.humanCard.birthDate);
+  const aiDate = Date.parse(result.aiCard.birthDate);
+  if (!Number.isFinite(humanDate) || !Number.isFinite(aiDate) || humanDate === aiDate) {
+    return `mindkettő ${humanAge} éves`;
   }
 
-  const nodes = [
-    ...(root.matches?.('[title], [aria-label]') ? [root] : []),
-    ...(root.querySelectorAll?.('[title], [aria-label]') ?? []),
-  ];
-  for (const node of nodes) {
-    for (const attribute of ['title', 'aria-label']) {
-      if (!node.hasAttribute(attribute)) continue;
-      const current = node.getAttribute(attribute);
-      const localized = localizeReliabilityValue(current);
-      if (localized !== current) node.setAttribute(attribute, localized);
-    }
-  }
+  const wantsOlder = result.attribute === 'birthDateOlder';
+  const humanMatches = wantsOlder ? humanDate < aiDate : humanDate > aiDate;
+  const selected = humanMatches ? result.humanCard : result.aiCard;
+  return `mindkettő ${humanAge} éves, de ${selected.name} ${wantsOlder ? 'idősebb' : 'fiatalabb'}`;
 }
 
 function syncSavedReliabilityOpponent() {
@@ -6644,14 +6662,11 @@ function syncSavedReliabilityOpponent() {
 const reliabilityPreviousShowOverlay = UI.prototype.showOverlay;
 UI.prototype.showOverlay = function showReliableOverlay(node) {
   const output = reliabilityPreviousShowOverlay.call(this, node);
-  localizeReliabilityTree(node);
-
   const heading = node?.querySelector?.('h1')?.textContent?.trim().toLocaleUpperCase('hu-HU');
   if (heading === 'DÖNTETLEN' && node.classList?.contains('result-panel')) {
     node.classList.remove('result-panel--loss');
     node.classList.add('result-panel--tie');
   }
-
   return output;
 };
 
@@ -6678,41 +6693,67 @@ if (typeof reliabilityPreviousMatchScoreboard === 'function') {
       competition.textContent = `${prefix}${game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'NB I KÁRTYAMECCS'}`;
     }
 
-    board.setAttribute(
-      'aria-label',
-      `${playerName} ${human}, ${opponentName} ${ai}.${status ? ` ${status.toLocaleLowerCase('hu-HU')}.` : ''}`,
-    );
+    board.setAttribute('aria-label', `${playerName} ${human}, ${opponentName} ${ai}.${status ? ` ${status.toLocaleLowerCase('hu-HU')}.` : ''}`);
     return board;
   };
 }
 
+const reliabilityPreviousPenaltyScores = UI.prototype._renderPenaltyScores;
+UI.prototype._renderPenaltyScores = function renderPenaltyHistory(game) {
+  reliabilityPreviousPenaltyScores.call(this, game);
+  const history = Array.isArray(game.cycleHistory) ? game.cycleHistory : [];
+  if (!history.length) return;
+
+  const details = el('details', 'penalty-cycle-history');
+  details.appendChild(el('summary', null, `Korábbi ciklusok (${history.length})`));
+  const list = el('ol', 'penalty-cycle-history__list');
+  for (const entry of history) {
+    const humanAttempts = entry.attempts?.[HUMAN] ?? [];
+    const aiAttempts = entry.attempts?.[AI] ?? [];
+    const goals = attempts => attempts.filter(outcome => outcome === 'win').length;
+    const score = entry.scoreAfterCycle ?? {};
+    list.appendChild(el(
+      'li',
+      null,
+      `${entry.cycle}. ciklus: ${goals(humanAttempts)}–${goals(aiAttempts)} cikluseredmény · összesen ${score[HUMAN] ?? 0}–${score[AI] ?? 0}`,
+    ));
+  }
+  details.appendChild(list);
+  this.dom.penaltyBoard.appendChild(details);
+};
+
 const reliabilityPreviousShowVerdict = UI.prototype.showVerdict;
 UI.prototype.showVerdict = function showReliableVerdict(result, game) {
   const restoredResult = shouldSuppressRestoredVerdictFeedback(this, game);
-  if (!restoredResult) return reliabilityPreviousShowVerdict.call(this, result, game);
-
-  const statsSnapshot = this.uxStats
-    ? (typeof structuredClone === 'function'
-      ? structuredClone(this.uxStats)
-      : JSON.parse(JSON.stringify(this.uxStats)))
+  const statsSnapshot = restoredResult && this.uxStats
+    ? (typeof structuredClone === 'function' ? structuredClone(this.uxStats) : JSON.parse(JSON.stringify(this.uxStats)))
     : null;
   const previousSounds = this.settings?.sounds;
   const previousVibration = this.settings?.vibration;
 
-  if (this.settings) {
+  if (restoredResult && this.settings) {
     this.settings.sounds = false;
     this.settings.vibration = false;
   }
 
   try {
-    return reliabilityPreviousShowVerdict.call(this, result, game);
+    const output = reliabilityPreviousShowVerdict.call(this, result, game);
+    const ageExplanation = ageResultExplanation(result);
+    if (ageExplanation) {
+      const detail = this.dom.verdict.querySelector('small');
+      if (detail) {
+        const suffix = detail.textContent.includes(' · ') ? ` · ${detail.textContent.split(' · ').slice(1).join(' · ')}` : '';
+        detail.textContent = `${ageExplanation}${suffix}`;
+      }
+    }
+    return output;
   } finally {
-    if (this.settings) {
+    if (restoredResult && this.settings) {
       this.settings.sounds = previousSounds;
       this.settings.vibration = previousVibration;
     }
     if (statsSnapshot) this.uxStats = statsSnapshot;
-    this.dom?.verdict?.classList.remove('ux-verdict-pop');
+    if (restoredResult) this.dom?.verdict?.classList.remove('ux-verdict-pop');
   }
 };
 
@@ -6725,52 +6766,63 @@ if (typeof document !== 'undefined') {
 
 
 /* ===== js/usability-fixes.js ===== */
-/**
- * Accessibility and interaction repairs for the card inspector.
- * Loaded after the existing mobile and profile layers.
- */
+/** Accessibility and interaction repairs for the card inspector. */
 
 
 
-const usabilityPreviousOpenInspector = UI.prototype.openInspector;
-const usabilityPreviousCloseInspector = UI.prototype.closeInspector;
-const usabilityPreviousRenderInspector = UI.prototype._renderInspector;
+const previousOpen = UI.prototype.openInspector;
+const previousClose = UI.prototype.closeInspector;
+const previousRender = UI.prototype._renderInspector;
 
-const usabilityFocusable = root => [...(root?.querySelectorAll?.(
-  'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
-) ?? [])].filter(node => !node.hidden && node.getAttribute('aria-hidden') !== 'true');
+const focusable = root => [...(root?.querySelectorAll?.('button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])') ?? [])]
+  .filter(node => !node.hidden && node.getAttribute('aria-hidden') !== 'true');
+
+const controlType = node => {
+  if (!node) return null;
+  if (node.matches?.('.inspector__nav:first-child')) return 'previous';
+  if (node.matches?.('.inspector__nav:last-child')) return 'next';
+  if (node.matches?.('.inspector__actions .btn:not(.btn--ghost)')) return 'play';
+  if (node.matches?.('.inspector__actions .btn--ghost')) return 'close';
+  return null;
+};
+
+const refocus = (layer, type) => {
+  const selectors = {
+    previous: '.inspector__nav:first-child:not(:disabled)',
+    next: '.inspector__nav:last-child:not(:disabled)',
+    play: '.inspector__actions .btn:not(.btn--ghost):not(:disabled)',
+    close: '.inspector__actions .btn--ghost:not(:disabled)',
+  };
+  const target = layer?.querySelector(selectors[type])
+    ?? layer?.querySelector('.inspector__actions .btn:not(:disabled)')
+    ?? layer?.querySelector('button:not(:disabled)');
+  target?.focus({ preventScroll: true });
+};
 
 UI.prototype.openInspector = function openAccessibleInspector(...args) {
   const active = document.activeElement;
   this._inspectorReturnFocus = active instanceof HTMLElement && active !== document.body ? active : null;
-  usabilityPreviousOpenInspector.apply(this, args);
-
-  const layer = document.querySelector('#inspector');
-  const preferred = layer?.querySelector('.inspector__actions .btn:not(:disabled)')
-    ?? layer?.querySelector('.inspector__actions .btn')
-    ?? layer?.querySelector('button:not(:disabled)');
-  preferred?.focus({ preventScroll: true });
+  previousOpen.apply(this, args);
+  refocus(document.querySelector('#inspector'), 'play');
 };
 
 UI.prototype.closeInspector = function closeAccessibleInspector(...args) {
   const returnFocus = this._inspectorReturnFocus;
   this._inspectorReturnFocus = null;
-  usabilityPreviousCloseInspector.apply(this, args);
-
+  previousClose.apply(this, args);
   queueMicrotask(() => {
-    if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') {
-      returnFocus.focus({ preventScroll: true });
-    }
+    if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') returnFocus.focus({ preventScroll: true });
   });
 };
 
 UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
+  const previousType = controlType(document.activeElement);
   if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
   this._inspectorKeys = null;
-
-  usabilityPreviousRenderInspector.apply(this, args);
-
+  previousRender.apply(this, args);
   if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
+  if (this.interactionBusy) this.setInteractionBusy?.(true);
+  if (previousType) queueMicrotask(() => refocus(document.querySelector('#inspector'), previousType));
 
   this._inspectorKeys = event => {
     if (!this.inspector) return;
@@ -6778,10 +6830,10 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
     if (!layer) return;
 
     if (event.key === 'Tab') {
-      const focusable = usabilityFocusable(layer);
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable.at(-1);
+      const nodes = focusable(layer);
+      if (!nodes.length) return;
+      const first = nodes[0];
+      const last = nodes.at(-1);
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -6800,24 +6852,23 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
 
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
+      const type = controlType(document.activeElement) ?? (event.key === 'ArrowLeft' ? 'previous' : 'next');
       this._inspectorStep(event.key === 'ArrowLeft' ? -1 : 1);
+      queueMicrotask(() => refocus(document.querySelector('#inspector'), type));
       return;
     }
 
-    if (event.key !== 'Enter') return;
+    if (event.key !== 'Enter' || this.interactionBusy) return;
     if (event.target.closest?.('button, a, input, select, textarea, [role="button"]')) return;
-
     const current = this.inspector.hand[this.inspector.index];
     const playable = this.inspector.opts.playable
       && (!this.inspector.opts.attribute || hasAttributeData(current, this.inspector.opts.attribute));
     if (!playable) return;
-
     event.preventDefault();
     const onPlay = this.inspector.opts.onPlay;
     this.closeInspector();
     onPlay(current);
   };
-
   document.addEventListener('keydown', this._inspectorKeys);
 };
 
@@ -6825,13 +6876,11 @@ if (typeof document !== 'undefined') {
   document.addEventListener('pointerdown', event => {
     const card = event.target.closest?.('#player-hand .card--choice');
     if (!card) return;
-    requestAnimationFrame(() => {
-      card.scrollIntoView({
-        block: 'nearest',
-        inline: 'center',
-        behavior: document.documentElement.classList.contains('ux-reduced-motion') ? 'auto' : 'smooth',
-      });
-    });
+    requestAnimationFrame(() => card.scrollIntoView({
+      block: 'nearest',
+      inline: 'center',
+      behavior: document.documentElement.classList.contains('ux-reduced-motion') ? 'auto' : 'smooth',
+    }));
   }, { passive: true });
 }
 
@@ -6844,11 +6893,13 @@ const initialiseFocusExperience = () => {
   const duel = document.querySelector('#duel');
   const playerHand = document.querySelector('#player-hand');
   const playerZone = document.querySelector('#player-zone');
+  const overlay = document.querySelector('#overlay');
 
   if (!pub || !duel || !playerHand || !playerZone) return;
 
   let syncQueued = false;
   let transitionTimer = 0;
+  let transitionTarget = null;
   let disposed = false;
 
   const setClass = (node, className, enabled) => {
@@ -6859,6 +6910,40 @@ const initialiseFocusExperience = () => {
   const setAttributeIfChanged = (node, name, value) => {
     if (node.getAttribute(name) === value) return;
     node.setAttribute(name, value);
+  };
+
+  const cancelTransition = () => {
+    if (transitionTimer) clearTimeout(transitionTimer);
+    transitionTimer = 0;
+    transitionTarget = null;
+    pub.classList.remove('is-battle-transition');
+    document.querySelector('#inspector')?.classList.remove('is-battle-transition');
+  };
+
+  const transitionStillValid = (target, { inspector = false } = {}) => {
+    if (disposed || !target?.isConnected) return false;
+    if (overlay && !overlay.hidden) return false;
+    if (pub.classList.contains('is-processing')) return false;
+    if (target.getAttribute('aria-disabled') === 'true' || target.disabled) return false;
+    if (inspector) return Boolean(document.querySelector('#inspector')?.contains(target));
+    return playerHand.contains(target)
+      && target.classList.contains('card--choice')
+      && target.classList.contains('card--direct-play');
+  };
+
+  const scheduleCommittedAction = (target, action, options = {}) => {
+    cancelTransition();
+    transitionTarget = target;
+    transitionTimer = window.setTimeout(() => {
+      transitionTimer = 0;
+      const currentTarget = transitionTarget;
+      transitionTarget = null;
+      if (!transitionStillValid(currentTarget, options)) {
+        cancelTransition();
+        return;
+      }
+      action(currentTarget);
+    }, 250);
   };
 
   const markChoiceCardSelected = card => {
@@ -6872,11 +6957,10 @@ const initialiseFocusExperience = () => {
 
   const makeChoiceCardAccessible = (card, index) => {
     setClass(card, 'card--choice', true);
+    card.dataset.gameAction = 'play-card';
 
     const choiceIndex = String(index);
-    if (card.style.getPropertyValue('--choice-index') !== choiceIndex) {
-      card.style.setProperty('--choice-index', choiceIndex);
-    }
+    if (card.style.getPropertyValue('--choice-index') !== choiceIndex) card.style.setProperty('--choice-index', choiceIndex);
 
     const animationDelay = `${Math.min(index, 8) * 24}ms`;
     if (card.style.animationDelay !== animationDelay) card.style.animationDelay = animationDelay;
@@ -6884,16 +6968,12 @@ const initialiseFocusExperience = () => {
     setAttributeIfChanged(card, 'role', 'button');
     setAttributeIfChanged(card, 'tabindex', '0');
     setAttributeIfChanged(card, 'aria-pressed', String(card.classList.contains('is-selected')));
-    setAttributeIfChanged(
-      card,
-      'aria-label',
-      `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`,
-    );
+    setAttributeIfChanged(card, 'aria-label', `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`);
 
     if (card.dataset.choiceKeyboardBound === 'true') return;
     card.dataset.choiceKeyboardBound = 'true';
     card.addEventListener('keydown', event => {
-      if (!card.classList.contains('card--choice')) return;
+      if (!card.classList.contains('card--choice') || card.getAttribute('aria-disabled') === 'true') return;
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
       markChoiceCardSelected(card);
@@ -6910,6 +6990,7 @@ const initialiseFocusExperience = () => {
     card.removeAttribute('tabindex');
     card.removeAttribute('aria-label');
     card.removeAttribute('aria-pressed');
+    card.removeAttribute('data-game-action');
   };
 
   const syncFocusState = () => {
@@ -6922,50 +7003,38 @@ const initialiseFocusExperience = () => {
         && !humanDuelCard.classList.contains('card--empty')
         && !humanDuelCard.classList.contains('card--back'),
       );
-      const playableCards = [...playerHand.querySelectorAll(
-        '.card.selectable:not(.card--dim):not(.card--unavailable)',
-      )];
-      const selectionActive = playableCards.length > 0 && !battleActive;
+      const playableCards = [...playerHand.querySelectorAll('.card.selectable:not(.card--dim):not(.card--unavailable)')];
+      const selectionActive = playableCards.length > 0 && !battleActive && (overlay?.hidden ?? true);
 
+      if (!selectionActive && transitionTimer) cancelTransition();
       setClass(pub, 'is-battle-active', battleActive);
       setClass(pub, 'is-duel-focus', battleActive);
       setClass(pub, 'is-card-selection', selectionActive);
       setClass(playerHand, 'hand--selection', selectionActive);
       if (battleActive) pub.classList.remove('is-battle-transition');
-      setAttributeIfChanged(
-        playerZone,
-        'aria-busy',
-        String(!selectionActive && pub.classList.contains('is-processing')),
-      );
+      setAttributeIfChanged(playerZone, 'aria-busy', String(!selectionActive && pub.classList.contains('is-processing')));
 
       const playableSet = new Set(playableCards);
-      const allPlayerCards = [...playerHand.querySelectorAll('.card')];
-      allPlayerCards.forEach((card, index) => {
+      [...playerHand.querySelectorAll('.card')].forEach((card, index) => {
         if (selectionActive && playableSet.has(card)) makeChoiceCardAccessible(card, index);
         else clearChoiceCardAccessibility(card);
       });
 
       if (selectionActive) {
-        if (!playerHand.dataset.selectionAnnounced) playerHand.dataset.selectionAnnounced = 'true';
-        setAttributeIfChanged(
-          playerHand,
-          'aria-label',
-          'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.',
-        );
+        playerHand.dataset.selectionAnnounced = 'true';
+        setAttributeIfChanged(playerHand, 'aria-label', 'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.');
       } else {
         delete playerHand.dataset.selectionAnnounced;
         playerHand.removeAttribute('aria-label');
       }
     } catch (error) {
       console.error('[focus-experience] A fókusznézet frissítése sikertelen:', error);
-      pub.classList.remove('is-duel-focus', 'is-battle-active', 'is-battle-transition', 'is-card-selection');
+      cancelTransition();
+      pub.classList.remove('is-duel-focus', 'is-battle-active', 'is-card-selection');
       playerHand.classList.remove('hand--selection');
     }
   };
 
-  /* MutationObserver callbacks already run in a microtask. Keeping the refresh
-     in the same microtask queue makes the phase class deterministic in embedded
-     WebViews and headless mobile tests where requestAnimationFrame may pause. */
   const scheduleSync = () => {
     if (disposed || syncQueued) return;
     syncQueued = true;
@@ -6977,7 +7046,7 @@ const initialiseFocusExperience = () => {
 
   const handleChoicePointerDown = event => {
     const card = event.target.closest('.card--choice');
-    if (!card || !playerHand.contains(card)) return;
+    if (!card || !playerHand.contains(card) || card.getAttribute('aria-disabled') === 'true') return;
     markChoiceCardSelected(card);
   };
 
@@ -6988,29 +7057,23 @@ const initialiseFocusExperience = () => {
       delete card.dataset.battleTransitionBypass;
       return;
     }
+    if (card.getAttribute('aria-disabled') === 'true' || card.disabled) return;
 
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
     markChoiceCardSelected(card);
-
     void playerZone.offsetWidth;
     pub.classList.add('is-battle-transition');
-    if (transitionTimer) clearTimeout(transitionTimer);
-    transitionTimer = window.setTimeout(() => {
-      transitionTimer = 0;
-      if (!card.isConnected) {
-        pub.classList.remove('is-battle-transition');
-        return;
-      }
-      card.dataset.battleTransitionBypass = 'true';
-      card.click();
-    }, 250);
+    scheduleCommittedAction(card, current => {
+      current.dataset.battleTransitionBypass = 'true';
+      current.click();
+    });
   };
 
   const handleCommittedPlay = event => {
     const button = event.target.closest('#inspector .inspector__actions .btn:not(.btn--ghost)');
-    if (!button || button.disabled) return;
+    if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     if (button.dataset.battleTransitionBypass === 'true') {
       delete button.dataset.battleTransitionBypass;
       return;
@@ -7022,31 +7085,22 @@ const initialiseFocusExperience = () => {
 
     const inspector = document.querySelector('#inspector');
     const inspectedId = inspector?.querySelector('.card')?.dataset.cardId;
-    const sourceCard = [...playerHand.querySelectorAll('.card--choice')]
-      .find(card => card.dataset.cardId === inspectedId);
+    const sourceCard = [...playerHand.querySelectorAll('.card--choice')].find(card => card.dataset.cardId === inspectedId);
     if (sourceCard) markChoiceCardSelected(sourceCard);
 
-    /* Flush the pre-transition state, then fade the inspector and both hand
-       zones together. The actual game action fires only after 250 ms. */
     void playerZone.offsetWidth;
     inspector?.classList.add('is-battle-transition');
     pub.classList.add('is-battle-transition');
-    if (transitionTimer) clearTimeout(transitionTimer);
-    transitionTimer = window.setTimeout(() => {
-      transitionTimer = 0;
-      if (!button.isConnected) {
-        pub.classList.remove('is-battle-transition');
-        return;
-      }
-      button.dataset.battleTransitionBypass = 'true';
-      button.click();
-    }, 250);
+    scheduleCommittedAction(button, current => {
+      current.dataset.battleTransitionBypass = 'true';
+      current.click();
+    }, { inspector: true });
   };
 
   const handleCommittedPlayKey = event => {
     if (event.key !== 'Enter' || event.target.closest('button, input, textarea, select')) return;
     const button = document.querySelector('#inspector .inspector__actions .btn:not(.btn--ghost)');
-    if (!button || button.disabled) return;
+    if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -7054,12 +7108,14 @@ const initialiseFocusExperience = () => {
   };
 
   const observer = new MutationObserver(scheduleSync);
-  observer.observe(pub, { childList: true, subtree: true });
+  observer.observe(pub, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'aria-disabled'] });
+  if (overlay) observer.observe(overlay, { attributes: true, attributeFilter: ['hidden'] });
 
   playerHand.addEventListener('pointerdown', handleChoicePointerDown, { passive: true });
   document.addEventListener('click', handleDirectChoicePlay, true);
   document.addEventListener('click', handleCommittedPlay, true);
   document.addEventListener('keydown', handleCommittedPlayKey, true);
+  document.addEventListener('fociskartyak:interaction-invalidated', cancelTransition);
   window.addEventListener('resize', scheduleSync, { passive: true });
   window.addEventListener('orientationchange', scheduleSync, { passive: true });
 
@@ -7070,21 +7126,21 @@ const initialiseFocusExperience = () => {
     document.removeEventListener('click', handleDirectChoicePlay, true);
     document.removeEventListener('click', handleCommittedPlay, true);
     document.removeEventListener('keydown', handleCommittedPlayKey, true);
-    if (transitionTimer) clearTimeout(transitionTimer);
+    document.removeEventListener('fociskartyak:interaction-invalidated', cancelTransition);
+    cancelTransition();
   }, { once: true });
 
   syncFocusState();
 };
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialiseFocusExperience, { once: true });
-} else {
-  initialiseFocusExperience();
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialiseFocusExperience, { once: true });
+  else initialiseFocusExperience();
 }
 
 
 /* ===== js/main.js ===== */
-/** Browser session controller for Classic and Penalties modes. */
+/** Browser session controller for Classic and Büntetőpárbaj modes. */
 
 
 
@@ -7093,12 +7149,27 @@ if (document.readyState === 'loading') {
 
 
 
-const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const selectedOpponentDifficulty = () => {
   const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
-  return validDifficulty(id) ? id : (validDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
+  return validDifficulty(id) ? id : (validDifficulty('d-raven') ? 'd-raven' : Object.keys(DIFFICULTY)[0]);
 };
+
+const serialisableGameState = game => JSON.parse(JSON.stringify(game));
+
+function restoreGameState(game, snapshot) {
+  if (!game || !snapshot) return game;
+  const rng = game.rng;
+  for (const key of Object.keys(game)) {
+    if (key !== 'rng') delete game[key];
+  }
+  for (const [key, value] of Object.entries(snapshot)) {
+    if (key !== 'rng') game[key] = value;
+  }
+  game.rng = rng ?? Math.random;
+  return game;
+}
 
 class Session {
   constructor(deck, source, meta) {
@@ -7118,13 +7189,85 @@ class Session {
     this.game = null;
     this.overlayReturn = null;
     this.exitTapAt = 0;
+    this.sessionVersion = 0;
+    this.turnVersion = 0;
+    this.flowVersion = 0;
+    this.transaction = null;
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
   }
 
-  delay(milliseconds) {
-    return wait(this.settings.animations ? milliseconds : Math.min(milliseconds, 90));
+  _token(game = this.game) {
+    return {
+      session: this.sessionVersion,
+      turn: this.turnVersion,
+      flow: this.flowVersion,
+      game,
+    };
+  }
+
+  _tokenIsCurrent(token, allowedPhases = null, requireInteractive = true) {
+    if (!token || token.game !== this.game) return false;
+    if (token.session !== this.sessionVersion || token.turn !== this.turnVersion || token.flow !== this.flowVersion) return false;
+    if (allowedPhases && !allowedPhases.includes(this.game?.phase)) return false;
+    if (requireInteractive && (!this.ui.dom.overlay.hidden || document.querySelector('#inspector'))) return false;
+    return true;
+  }
+
+  async delay(milliseconds, token, { phases = null, requireInteractive = true } = {}) {
+    const duration = this.settings.animations ? milliseconds : Math.min(milliseconds, 90);
+    await sleep(duration);
+    return this._tokenIsCurrent(token, phases, requireInteractive);
+  }
+
+  _invalidateFlow({ newSession = false, newTurn = false, rollback = false } = {}) {
+    if (rollback) this._rollbackTransaction({ render: false });
+    if (newSession) {
+      this.sessionVersion += 1;
+      this.turnVersion = 0;
+    } else if (newTurn) {
+      this.turnVersion += 1;
+    }
+    this.flowVersion += 1;
+  }
+
+  _beginTransaction(label) {
+    if (!this.game) return null;
+    this.transaction = {
+      label,
+      game: this.game,
+      gameState: serialisableGameState(this.game),
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+    };
+    return this.transaction;
+  }
+
+  _commitTransaction() {
+    this.transaction = null;
+  }
+
+  _rollbackTransaction({ render = true } = {}) {
+    const transaction = this.transaction;
+    this.transaction = null;
+    if (!transaction || transaction.game !== this.game) return false;
+    restoreGameState(this.game, transaction.gameState);
+    this.pendingAttribute = transaction.pendingAttribute;
+    this.awaitingChooserCard = transaction.awaitingChooserCard;
+    this.busy = false;
+    this.ui.setInteractionBusy(false);
+    if (render && this.ui.dom.overlay.hidden) this.restoreSavedView({ allowAiResume: false });
+    return true;
+  }
+
+  _cancelPendingActivity({ rollback = true } = {}) {
+    document.dispatchEvent(new CustomEvent('fociskartyak:interaction-invalidated', { detail: { source: 'session' } }));
+    this._invalidateFlow({ rollback });
+    this.busy = false;
+    this.ui.setInteractionBusy(false);
   }
 
   toggleSetting(key, forcedValue) {
@@ -7140,14 +7283,21 @@ class Session {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') this.saveCurrentGame();
     });
+    document.addEventListener('fociskartyak:interaction-invalidated', event => {
+      if (event.detail?.source === 'session') return;
+      if (this.busy) this._cancelPendingActivity({ rollback: true });
+      else this._invalidateFlow();
+    });
     window.addEventListener('pagehide', () => this.saveCurrentGame());
     window.addEventListener('error', event => {
       console.error('[ui] Nem kezelt hiba:', event.error ?? event.message);
-      this.ui.showToast('Váratlan hiba történt. A játékállást megőriztük.', 'error', 3200);
+      this._cancelPendingActivity({ rollback: true });
+      this.ui.showToast('Váratlan hiba történt. A stabil játékállást megőriztük.', 'error', 3200);
       this.saveCurrentGame();
     });
     window.addEventListener('unhandledrejection', event => {
       console.error('[ui] Nem kezelt aszinkron hiba:', event.reason);
+      this._cancelPendingActivity({ rollback: true });
       this.ui.showToast('Egy művelet nem fejeződött be. Próbáld újra.', 'error', 3200);
       this.saveCurrentGame();
     });
@@ -7192,6 +7342,7 @@ class Session {
   }
 
   _showPanel(panel, returnAction = null) {
+    this._cancelPendingActivity({ rollback: true });
     this.overlayReturn = returnAction;
     this.ui.showOverlay(panel);
     requestAnimationFrame(() => panel.querySelector('button, input, summary')?.focus({ preventScroll: true }));
@@ -7203,9 +7354,9 @@ class Session {
   }
 
   showTitleScreen({ offerOnboarding = false } = {}) {
+    this._cancelPendingActivity({ rollback: true });
     if (this.game && !this.game.isOver) this.saveCurrentGame();
-    this.busy = false;
-    this.ui.setInteractionBusy(false);
+    this._invalidateFlow({ newSession: true });
     this.game = null;
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
@@ -7222,14 +7373,14 @@ class Session {
       ${saved ? `
         <button class="btn btn--continue" id="continue-btn">
           <span>▶ Játék folytatása</span>
-          <small>${saved.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${this._savedTimeLabel(saved.savedAt)}</small>
+          <small>${saved.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'} · ${this._savedTimeLabel(saved.savedAt)}</small>
         </button>
       ` : ''}
 
       <h2 class="menu-section-title">Új játék</h2>
       <div class="primary-mode-actions">
         <button class="btn mode-start" id="start-btn"><span>🃏 Klasszikus mód</span><small>52 lapos kártyameccs</small></button>
-        <button class="btn mode-start" id="penalties-btn"><span>⚽ Penalties mód</span><small>11 lap, öt rendes párbaj</small></button>
+        <button class="btn mode-start" id="penalties-btn" aria-label="Büntetőpárbaj indítása"><span>⚽ Büntetőpárbaj</span><small>11 lap, öt rendes párbaj</small></button>
       </div>
 
       <details class="opponent-details">
@@ -7255,9 +7406,7 @@ class Session {
     panel.querySelector('#settings-btn').addEventListener('click', () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })), { once: true });
 
     this._showPanel(panel);
-    if (offerOnboarding && !onboardingWasCompleted()) {
-      setTimeout(() => this.showOnboarding(false), 0);
-    }
+    if (offerOnboarding && !onboardingWasCompleted()) setTimeout(() => this.showOnboarding(false), 0);
   }
 
   _savedTimeLabel(iso) {
@@ -7296,8 +7445,7 @@ class Session {
       <div class="result-actions">
         <button class="btn" id="replace-save-btn">Igen, új játék</button>
         <button class="btn btn--ghost" id="keep-save-btn">Mégse</button>
-      </div>
-    `;
+      </div>`;
     panel.querySelector('#replace-save-btn').addEventListener('click', () => {
       clearSavedMatch();
       this.start(mode, difficulty);
@@ -7308,10 +7456,10 @@ class Session {
 
   showOnboarding(forced = false) {
     const slides = [
-      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.'],
+      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyors, 11 lapos összecsapás.'],
       ['🃏', 'Nézd meg a saját lapjaidat', 'A kéz oldalra húzható. Koppints egy kártyára, a nagyítóval pedig megnyithatod a részleteit.'],
-      ['📊', 'Válassz kategóriát', 'A gomb megmutatja, hogy több vagy kevesebb érték számít jobbnak, és a legjobb saját értékedet is.'],
-      ['🏆', 'Gyűjts több lapot', 'A kör győztese viszi a lapokat. Döntetlennél a lapok a közös pakliba kerülnek.'],
+      ['📊', 'Válassz kategóriát', 'A gomb az adatmodell iránya alapján jelzi, hogy a több, kevesebb, korábbi vagy későbbi érték számít jobbnak.'],
+      ['🏆', 'A két mód eltérően kezeli a döntetlent', 'Klasszikus módban a lapok a döntetlenpakliba kerülnek. Büntetőpárbajban nincs gól, és mindkét lap a használt lapok közé kerül.'],
     ];
     let index = 0;
     const panel = el('div', 'onboarding-panel');
@@ -7323,14 +7471,12 @@ class Session {
       <div class="onboarding-actions">
         <button class="btn btn--ghost" id="onboarding-back" type="button">Vissza</button>
         <button class="btn" id="onboarding-next" type="button">Tovább</button>
-      </div>
-    `;
+      </div>`;
     const slide = panel.querySelector('.onboarding-slide');
     const progress = panel.querySelector('.onboarding-progress');
     const back = panel.querySelector('#onboarding-back');
     const next = panel.querySelector('#onboarding-next');
     const never = panel.querySelector('#onboarding-never');
-
     const finish = () => {
       if (never.checked) setOnboardingCompleted(true);
       else if (forced) setOnboardingCompleted(false);
@@ -7364,18 +7510,17 @@ class Session {
       <h1>Játékszabályok</h1>
       <section class="rule-card" data-rules="classic">
         <h2>🃏 Klasszikus mód</h2>
-        <p><b>${Math.min(GAME_DECK_SIZE, this.deck.length)} véletlenszerű lap</b> kerül játékba. A két fél körönként felváltva választ kategóriát. A győztes viszi a két lapot és a döntetlenpaklit.</p>
+        <p><b>${Math.min(GAME_DECK_SIZE, this.deck.length)} véletlenszerű lap</b> kerül játékba. A győztes viszi a két lapot és a döntetlenpaklit.</p>
       </section>
       <section class="rule-card" data-rules="penalties">
-        <h2>⚽ Penalties mód</h2>
-        <p>Mindkét fél 11 lapot kap. Öt rendes párbaj következik; döntetlennél hirtelen halál. Azonos értéknél nincs gól.</p>
+        <h2>⚽ Büntetőpárbaj</h2>
+        <p>Mindkét fél 11 lapot kap. Öt rendes párbaj következik; döntetlennél nincs gól, mindkét lap a használt lapok közé kerül, egyenlő állásnál pedig hirtelen halál jön.</p>
       </section>
       <section class="rule-card">
         <h2>📊 Kategóriák</h2>
-        <p>A kategóriagomb mindig jelzi, hogy a több vagy a kevesebb érték a jobb. Csak olyan kategória választható, amelyhez mindkét oldalon van hiteles adat.</p>
+        <p>A kategóriagomb az adatmodell iránya alapján jelzi, hogy a több, kevesebb, korábbi vagy későbbi érték a jobb.</p>
       </section>
-      <button class="btn" id="rules-back-btn">Vissza</button>
-    `;
+      <button class="btn" id="rules-back-btn">Vissza</button>`;
     panel.querySelector('#rules-back-btn').addEventListener('click', returnAction, { once: true });
     this._showPanel(panel, returnAction);
   }
@@ -7383,15 +7528,13 @@ class Session {
   showSettings(returnAction) {
     const panel = el('div', 'settings-panel mobile-sheet');
     panel.innerHTML = `
-      <p class="eyebrow">Személyre szabás</p>
-      <h1>Beállítások</h1>
+      <p class="eyebrow">Személyre szabás</p><h1>Beállítások</h1>
       <div class="settings-list"></div>
       <div class="settings-actions">
         <button class="btn btn--ghost" id="replay-guide-btn">Útmutató újraindítása</button>
         ${readSavedMatch() ? '<button class="btn btn--danger" id="delete-save-btn">Mentett játék törlése</button>' : ''}
         <button class="btn" id="settings-back-btn">Kész</button>
-      </div>
-    `;
+      </div>`;
     const rows = [
       ['sounds', '🔊 Hangok', 'Rövid gomb- és eredményhangok'],
       ['commentary', '💬 Kommentárok', 'A hátsó asztal beszólásai'],
@@ -7428,21 +7571,23 @@ class Session {
 
   showPauseMenu() {
     if (!this.game || this.game.isOver) return;
+    this._cancelPendingActivity({ rollback: true });
     this.saveCurrentGame();
     const panel = el('div', 'pause-panel mobile-sheet');
     panel.innerHTML = `
-      <p class="eyebrow">A játék szünetel</p>
-      <h1>Szünet</h1>
-      <p>${this.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${this.game.round}. ${this.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
+      <p class="eyebrow">A játék szünetel</p><h1>Szünet</h1>
+      <p>${this.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'} · ${this.game.round}. ${this.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
       <div class="pause-actions">
         <button class="btn" id="resume-btn">▶ Játék folytatása</button>
         <button class="btn btn--ghost" id="restart-btn">↻ Újrakezdés</button>
         <button class="btn btn--ghost" id="pause-rules-btn">📖 Szabályok</button>
         <button class="btn btn--ghost" id="pause-settings-btn">⚙ Beállítások</button>
         <button class="btn btn--ghost" id="home-btn">⌂ Vissza a főmenübe</button>
-      </div>
-    `;
-    const resume = () => this._hidePanel();
+      </div>`;
+    const resume = () => {
+      this._hidePanel();
+      this.restoreSavedView();
+    };
     panel.querySelector('#resume-btn').addEventListener('click', resume, { once: true });
     panel.querySelector('#restart-btn').addEventListener('click', () => this.start(this.mode, this.difficulty), { once: true });
     panel.querySelector('#pause-rules-btn').addEventListener('click', () => this.showRules(() => this.showPauseMenu()), { once: true });
@@ -7452,19 +7597,19 @@ class Session {
   }
 
   start(mode, difficulty) {
+    this._cancelPendingActivity({ rollback: true });
+    this._invalidateFlow({ newSession: true });
     clearSavedMatch();
     this.mode = mode;
     this.difficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
+    globalThis.__FOCISKARTYAK_SELECT_OPPONENT__?.(this.difficulty);
     this.busy = false;
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
     this.ui.resetTable();
     this.ui.setMode(mode);
-    this.game = mode === 'penalties'
-      ? new PenaltyGame({ players: this.deck })
-      : new Game({ players: this.deck });
+    this.game = mode === 'penalties' ? new PenaltyGame({ players: this.deck }) : new Game({ players: this.deck });
     this.prepareAI();
-
     if (mode === 'penalties') this.showPenaltyIntro();
     else this._beginMatch();
   }
@@ -7479,11 +7624,10 @@ class Session {
   showPenaltyIntro() {
     const panel = el('div', 'penalty-intro');
     panel.innerHTML = `
-      <p class="eyebrow">Penalties mód</p>
+      <p class="eyebrow">Büntetőpárbaj</p>
       <h1>11 lap. 5 rendes párbaj.</h1>
-      <p>Döntetlennél hirtelen halál. A felhasznált lapok külön pakliba kerülnek.</p>
-      <button class="btn" id="kickoff-btn">Kezdődhet</button>
-    `;
+      <p>Döntetlennél nincs gól, és mindkét lap a használt lapok közé kerül. Egyenlő állásnál hirtelen halál következik.</p>
+      <button class="btn" id="kickoff-btn">Kezdődhet</button>`;
     panel.querySelector('#kickoff-btn').addEventListener('click', () => this._beginMatch(), { once: true });
     this._showPanel(panel, () => this.showTitleScreen({ offerOnboarding: false }));
   }
@@ -7497,6 +7641,7 @@ class Session {
   beginRound() {
     const game = this.game;
     if (!game) return;
+    this._invalidateFlow({ newTurn: true });
     this.busy = false;
     this.ui.setInteractionBusy(false);
     this.ui.closeInspector();
@@ -7504,10 +7649,10 @@ class Session {
     this.ui.dom.duel.replaceChildren();
     this.ui.dom.verdict.replaceChildren();
     this.ui.dom.verdict.className = '';
-
     if (game.chooser === HUMAN) {
       this.ui.renderHands(game, { selectable: false });
       this.ui.showAttributePicker(game);
+      this.ui.setPrompt('Kategóriát választ');
       this.saveCurrentGame();
     } else {
       this.aiChoosesAttribute();
@@ -7515,85 +7660,136 @@ class Session {
   }
 
   humanChoseAttribute(attributeKey) {
-    if (this.busy || !this.game.availableAttributeKeys().includes(attributeKey)) return;
+    if (this.busy || !this.game || this.game.phase !== PHASE.CHOOSE_ATTRIBUTE
+      || !this.game.availableAttributeKeys().includes(attributeKey)) return;
     this.pendingAttribute = attributeKey;
     this.ui.hideAttributePicker();
     this.ui.say(getLine('youChooseAttribute', { attributeKey }));
-    this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[attributeKey].label);
+    this.ui.setPrompt('Kártyát választ', ATTRIBUTE_BY_KEY[attributeKey].label);
     this.ui.renderHands(this.game, { selectable: true, inspectAttribute: attributeKey });
     this.awaitingChooserCard = true;
+    this.ui.renderScores(this.game);
     this.saveCurrentGame();
+  }
+
+  _showAiRetry(message, action) {
+    this.busy = false;
+    this.ui.setInteractionBusy(false);
+    this.ui.setPrompt(message);
+    const button = el('button', 'btn next-round-button', 'Gépi választás újrapróbálása');
+    button.type = 'button';
+    button.addEventListener('click', action, { once: true });
+    this.ui.dom.picker.replaceChildren(button);
   }
 
   async aiChoosesAttribute() {
     const game = this.game;
+    const token = this._token(game);
     this.busy = true;
     this.ui.setInteractionBusy(true);
     this.ui.renderHands(game, { selectable: false });
-    this.ui.setPrompt('A gép választ…');
-    await this.delay(550);
-    if (this.game !== game) return;
+    this.ui.setPrompt('A gép választ');
+    this.ui.renderScores(game);
 
-    const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
-    game.chooseAttribute(choice.attribute, choice.cardId);
-    const label = ATTRIBUTE_BY_KEY[choice.attribute].label;
-    this.ui.say(getLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
-    this.ui.setPrompt('A gép ezt választotta:', label);
-    this.ui.showDuel(game, { opponentHidden: true });
-    this.ui.renderHands(game, { selectable: true });
-    this.awaitingChooserCard = false;
-    this.busy = false;
-    this.ui.setInteractionBusy(false);
-    this.saveCurrentGame();
+    try {
+      const valid = await this.delay(aiDelay('chooseAttribute', 550), token, { phases: [PHASE.CHOOSE_ATTRIBUTE] });
+      if (!valid) return;
+      this._beginTransaction('ai-attribute');
+      const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
+      game.chooseAttribute(choice.attribute, choice.cardId);
+      this._commitTransaction();
+      const label = ATTRIBUTE_BY_KEY[choice.attribute].label;
+      this.ui.say(getLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
+      this.ui.setPrompt('Kártyát választ', label);
+      this.ui.showDuel(game, { opponentHidden: true });
+      this.ui.renderHands(game, { selectable: true });
+      this.awaitingChooserCard = false;
+      this.busy = false;
+      this.ui.setInteractionBusy(false);
+      this.ui.renderScores(game);
+      this.saveCurrentGame();
+    } catch (error) {
+      console.error('[ai] A gép nem tudott kategóriát választani:', error);
+      this._rollbackTransaction({ render: false });
+      if (this.game === game) {
+        this.ui.renderHands(game, { selectable: false });
+        this._showAiRetry('A gép választása megszakadt', () => this.aiChoosesAttribute());
+        this.ui.showToast('A gépi választás sikertelen volt. Az állapot visszaállt.', 'error');
+        this.saveCurrentGame();
+      }
+    }
   }
 
   async humanPlayedCard(card) {
-    if (this.busy || !this.game || this.game.phase === PHASE.GAME_OVER) return;
+    if (this.busy || !this.game || ![PHASE.CHOOSE_ATTRIBUTE, PHASE.CHOOSE_CARD].includes(this.game.phase)) return;
+    const game = this.game;
+    const token = this._token(game);
     this.busy = true;
     this.ui.setInteractionBusy(true);
+    this._beginTransaction('human-card');
     let result;
 
     try {
       if (this.awaitingChooserCard) {
-        this.game.chooseAttribute(this.pendingAttribute, card.id);
+        game.chooseAttribute(this.pendingAttribute, card.id);
         this.awaitingChooserCard = false;
-        this.ui.showDuel(this.game, { opponentHidden: true });
-        this.ui.renderHands(this.game, { selectable: false });
-        this.ui.setPrompt('A gép kártyát választ…');
-        await this.delay(500);
-        const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-        result = this.game.playCard(AI, aiCardId);
+        this.ui.showDuel(game, { opponentHidden: true });
+        this.ui.renderHands(game, { selectable: false });
+        this.ui.setPrompt('A gép választ');
+        this.ui.renderScores(game);
+        const valid = await this.delay(aiDelay('chooseCard', 500), token, { phases: [PHASE.CHOOSE_CARD] });
+        if (!valid) {
+          this._rollbackTransaction({ render: false });
+          return;
+        }
+        const aiCardId = this.ai.chooseCard(game.hands[AI], game.attribute);
+        result = game.playCard(AI, aiCardId);
       } else {
-        result = this.game.playCard(HUMAN, card.id);
-        this.ui.renderHands(this.game, { selectable: false });
-        await this.delay(250);
+        result = game.playCard(HUMAN, card.id);
+        this.ui.renderHands(game, { selectable: false });
+        const valid = await this.delay(250, token, { phases: [PHASE.REVEAL, PHASE.GAME_OVER] });
+        if (!valid) {
+          this._rollbackTransaction({ render: false });
+          return;
+        }
       }
-      await this.revealAndScore(result);
+      this._commitTransaction();
+      await this.revealAndScore(result, token);
     } catch (error) {
       console.error('[round] A kör nem fejezhető be:', error);
-      this.busy = false;
-      this.ui.setInteractionBusy(false);
-      this.ui.showToast('A kört nem sikerült lezárni. Próbáld újra.', 'error');
-      this.saveCurrentGame();
+      this._rollbackTransaction({ render: false });
+      if (this.game === game) {
+        this.busy = false;
+        this.ui.setInteractionBusy(false);
+        this.restoreSavedView({ allowAiResume: false });
+        this.ui.showToast('A kört nem sikerült lezárni. A kártya visszakerült, próbáld újra.', 'error');
+        this.saveCurrentGame();
+      }
     }
   }
 
-  async revealAndScore(result) {
+  async revealAndScore(result, token = this._token(this.game)) {
+    if (!this._tokenIsCurrent(token, [PHASE.REVEAL, PHASE.GAME_OVER], false)) return;
     this.ui.showDuel(this.game, { result });
     this.ui.setPrompt('Eredmény');
-    await this.delay(320);
+    this.ui.renderScores(this.game);
+    if (!await this.delay(320, token, { phases: [PHASE.REVEAL, PHASE.GAME_OVER], requireInteractive: false })) return;
     this.ui.showVerdict(result, this.game);
     this.ui.renderScores(this.game);
     this.sayResultBanter(result);
-    this.saveCurrentGame();
+    this.saveCurrentGame({ force: true });
 
     if (result.enteredSuddenDeath) {
-      this.ui.say(getLine('suddenDeath'));
-      await this.ui.showSuddenDeath();
-    } else {
-      await this.delay(650);
+      this.ui.dom.suddenDeath.hidden = false;
+      this.ui.dom.suddenDeath.textContent = '⚠ HIRTELEN HALÁL ⚠';
+      this.ui.playSound('sudden');
+      if (!await this.delay(1200, token, { phases: [PHASE.REVEAL, PHASE.GAME_OVER], requireInteractive: false })) return;
+      this.ui.dom.suddenDeath.hidden = true;
+    } else if (!await this.delay(650, token, { phases: [PHASE.REVEAL, PHASE.GAME_OVER], requireInteractive: false })) {
+      return;
     }
 
+    if (!this._tokenIsCurrent(token, [PHASE.REVEAL, PHASE.GAME_OVER], false)) return;
     if (this.game.isOver) {
       this.showGameOver();
       return;
@@ -7610,7 +7806,6 @@ class Session {
       this.ui.say(getLine('tie', context));
       return;
     }
-
     const mine = attributeValue(result.humanCard, result.attribute);
     const theirs = attributeValue(result.aiCard, result.attribute);
     const spread = Math.abs(mine - theirs) / Math.max(Math.abs(mine), Math.abs(theirs), 1);
@@ -7648,8 +7843,8 @@ class Session {
     this.saveCurrentGame();
   }
 
-  saveCurrentGame() {
-    if (!this.game || this.game.isOver) return false;
+  saveCurrentGame({ force = false } = {}) {
+    if (!this.game || this.game.isOver || this.transaction || (!force && this.busy)) return false;
     return writeSavedMatch({
       game: this.game,
       mode: this.mode,
@@ -7669,8 +7864,11 @@ class Session {
     }
 
     try {
+      this._cancelPendingActivity({ rollback: true });
+      this._invalidateFlow({ newSession: true });
       this.mode = saved.mode;
       this.difficulty = validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty();
+      globalThis.__FOCISKARTYAK_SELECT_OPPONENT__?.(this.difficulty);
       this.pendingAttribute = saved.pendingAttribute;
       this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
       this.game = saved.mode === 'penalties'
@@ -7693,16 +7891,23 @@ class Session {
     }
   }
 
-  restoreSavedView() {
+  restoreSavedView({ allowAiResume = true } = {}) {
     const game = this.game;
+    if (!game) return;
     this.ui.renderScores(game);
 
     if (game.phase === PHASE.CHOOSE_ATTRIBUTE) {
       if (this.awaitingChooserCard && this.pendingAttribute && game.chooser === HUMAN) {
-        this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[this.pendingAttribute]?.label);
+        this.ui.setPrompt('Kártyát választ', ATTRIBUTE_BY_KEY[this.pendingAttribute]?.label);
         this.ui.renderHands(game, { selectable: true, inspectAttribute: this.pendingAttribute });
+      } else if (game.chooser === HUMAN) {
+        this.ui.renderHands(game, { selectable: false });
+        this.ui.showAttributePicker(game);
+        this.ui.setPrompt('Kategóriát választ');
+      } else if (allowAiResume) {
+        this.aiChoosesAttribute();
       } else {
-        this.beginRound();
+        this._showAiRetry('A gép választása megszakadt', () => this.aiChoosesAttribute());
       }
       return;
     }
@@ -7710,18 +7915,20 @@ class Session {
     if (game.phase === PHASE.CHOOSE_CARD) {
       this.ui.showDuel(game, { opponentHidden: true });
       if (game.chooser === AI) {
-        this.ui.setPrompt('A gép ezt választotta:', ATTRIBUTE_BY_KEY[game.attribute]?.label);
+        this.ui.setPrompt('Kártyát választ', ATTRIBUTE_BY_KEY[game.attribute]?.label);
         this.ui.renderHands(game, { selectable: true });
         this.awaitingChooserCard = false;
       } else {
         this.ui.renderHands(game, { selectable: false });
-        this.ui.setPrompt('A gép befejezi a félbemaradt kört…');
-        this.finishRestoredAiMove();
+        this.ui.setPrompt('A gép választ');
+        if (allowAiResume) this.finishRestoredAiMove();
+        else this._showAiRetry('A gép választása megszakadt', () => this.finishRestoredAiMove());
       }
       return;
     }
 
     if (game.phase === PHASE.REVEAL && game.lastResult) {
+      this.ui.setPrompt('Eredmény');
       this.ui.renderHands(game, { selectable: false });
       this.ui.showDuel(game, { result: game.lastResult });
       this.ui.showVerdict(game.lastResult, game);
@@ -7733,22 +7940,42 @@ class Session {
   }
 
   async finishRestoredAiMove() {
+    const game = this.game;
+    const token = this._token(game);
     this.busy = true;
     this.ui.setInteractionBusy(true);
-    await this.delay(350);
-    const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-    const result = this.game.playCard(AI, aiCardId);
-    await this.revealAndScore(result);
+    this._beginTransaction('restored-ai-card');
+    try {
+      if (!await this.delay(350, token, { phases: [PHASE.CHOOSE_CARD] })) {
+        this._rollbackTransaction({ render: false });
+        return;
+      }
+      const aiCardId = this.ai.chooseCard(game.hands[AI], game.attribute);
+      const result = game.playCard(AI, aiCardId);
+      this._commitTransaction();
+      await this.revealAndScore(result, token);
+    } catch (error) {
+      console.error('[save] A félbemaradt gépi kör nem fejezhető be:', error);
+      this._rollbackTransaction({ render: false });
+      if (this.game === game) {
+        this._showAiRetry('A gép választása megszakadt', () => this.finishRestoredAiMove());
+        this.ui.showToast('A gépi választás sikertelen volt. Az állapot visszaállt.', 'error');
+        this.saveCurrentGame();
+      }
+    }
   }
 
   showGameOver() {
+    this._cancelPendingActivity({ rollback: false });
     this.busy = true;
     this.ui.setInteractionBusy(false);
+    this.ui.setPrompt('Mérkőzés vége');
+    this.ui.renderScores(this.game);
     clearSavedMatch();
     const result = this.game.result();
     const won = result.winner === HUMAN;
     this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
-    const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
+    const panel = el('div', `result-panel ${won ? 'result-panel--win' : result.winner === AI ? 'result-panel--loss' : 'result-panel--tie'}`);
 
     if (this.mode === 'penalties') {
       const best = result.bestCategories.length
@@ -7759,20 +7986,19 @@ class Session {
         <h1>${won ? 'GYŐZELEM' : 'VERESÉG'}</h1>
         <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
         <dl class="result-stats">
-          <div><dt>Felhasznált párbajok</dt><dd>${result.duels}</dd></div>
+          <div><dt>Összes párbaj</dt><dd>${result.duels}</dd></div>
+          <div><dt>Felhasznált ciklusok</dt><dd>${result.cycles}</dd></div>
           <div><dt>Eldőlt</dt><dd>${result.stage}</dd></div>
           <div><dt>Legeredményesebb kategória</dt><dd>${best}${result.bestCategoryWins ? ` (${result.bestCategoryWins} gól)` : ''}</dd></div>
         </dl>
-        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
-      `;
+        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>`;
     } else {
       const heading = result.winner === HUMAN ? 'GYŐZELEM' : result.winner === AI ? 'VERESÉG' : 'DÖNTETLEN';
       panel.innerHTML = `
         <h1>${heading}</h1>
         <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
         ${result.undecided ? `<p>${result.undecided} lap a döntetlenpakliban maradt.</p>` : ''}
-        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
-      `;
+        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>`;
     }
 
     panel.querySelector('#rematch-btn').addEventListener('click', () => this.start(this.mode, this.difficulty), { once: true });
@@ -7781,8 +8007,10 @@ class Session {
   }
 }
 
-const { players, source, meta } = await loadPlayers();
-new Session(players, source, meta);
+if (typeof document !== 'undefined' && !globalThis.__FOCISKARTYAK_TEST__) {
+  const { players, source, meta } = await loadPlayers();
+  new Session(players, source, meta);
+}
 </script>
 </body>
 </html>

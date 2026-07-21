@@ -5,11 +5,13 @@ const initialiseFocusExperience = () => {
   const duel = document.querySelector('#duel');
   const playerHand = document.querySelector('#player-hand');
   const playerZone = document.querySelector('#player-zone');
+  const overlay = document.querySelector('#overlay');
 
   if (!pub || !duel || !playerHand || !playerZone) return;
 
   let syncQueued = false;
   let transitionTimer = 0;
+  let transitionTarget = null;
   let disposed = false;
 
   const setClass = (node, className, enabled) => {
@@ -20,6 +22,40 @@ const initialiseFocusExperience = () => {
   const setAttributeIfChanged = (node, name, value) => {
     if (node.getAttribute(name) === value) return;
     node.setAttribute(name, value);
+  };
+
+  const cancelTransition = () => {
+    if (transitionTimer) clearTimeout(transitionTimer);
+    transitionTimer = 0;
+    transitionTarget = null;
+    pub.classList.remove('is-battle-transition');
+    document.querySelector('#inspector')?.classList.remove('is-battle-transition');
+  };
+
+  const transitionStillValid = (target, { inspector = false } = {}) => {
+    if (disposed || !target?.isConnected) return false;
+    if (overlay && !overlay.hidden) return false;
+    if (pub.classList.contains('is-processing')) return false;
+    if (target.getAttribute('aria-disabled') === 'true' || target.disabled) return false;
+    if (inspector) return Boolean(document.querySelector('#inspector')?.contains(target));
+    return playerHand.contains(target)
+      && target.classList.contains('card--choice')
+      && target.classList.contains('card--direct-play');
+  };
+
+  const scheduleCommittedAction = (target, action, options = {}) => {
+    cancelTransition();
+    transitionTarget = target;
+    transitionTimer = window.setTimeout(() => {
+      transitionTimer = 0;
+      const currentTarget = transitionTarget;
+      transitionTarget = null;
+      if (!transitionStillValid(currentTarget, options)) {
+        cancelTransition();
+        return;
+      }
+      action(currentTarget);
+    }, 250);
   };
 
   const markChoiceCardSelected = card => {
@@ -33,11 +69,10 @@ const initialiseFocusExperience = () => {
 
   const makeChoiceCardAccessible = (card, index) => {
     setClass(card, 'card--choice', true);
+    card.dataset.gameAction = 'play-card';
 
     const choiceIndex = String(index);
-    if (card.style.getPropertyValue('--choice-index') !== choiceIndex) {
-      card.style.setProperty('--choice-index', choiceIndex);
-    }
+    if (card.style.getPropertyValue('--choice-index') !== choiceIndex) card.style.setProperty('--choice-index', choiceIndex);
 
     const animationDelay = `${Math.min(index, 8) * 24}ms`;
     if (card.style.animationDelay !== animationDelay) card.style.animationDelay = animationDelay;
@@ -45,16 +80,12 @@ const initialiseFocusExperience = () => {
     setAttributeIfChanged(card, 'role', 'button');
     setAttributeIfChanged(card, 'tabindex', '0');
     setAttributeIfChanged(card, 'aria-pressed', String(card.classList.contains('is-selected')));
-    setAttributeIfChanged(
-      card,
-      'aria-label',
-      `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`,
-    );
+    setAttributeIfChanged(card, 'aria-label', `${card.querySelector('.card__name')?.textContent || 'Játékoskártya'} kiválasztása`);
 
     if (card.dataset.choiceKeyboardBound === 'true') return;
     card.dataset.choiceKeyboardBound = 'true';
     card.addEventListener('keydown', event => {
-      if (!card.classList.contains('card--choice')) return;
+      if (!card.classList.contains('card--choice') || card.getAttribute('aria-disabled') === 'true') return;
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
       markChoiceCardSelected(card);
@@ -71,6 +102,7 @@ const initialiseFocusExperience = () => {
     card.removeAttribute('tabindex');
     card.removeAttribute('aria-label');
     card.removeAttribute('aria-pressed');
+    card.removeAttribute('data-game-action');
   };
 
   const syncFocusState = () => {
@@ -83,50 +115,38 @@ const initialiseFocusExperience = () => {
         && !humanDuelCard.classList.contains('card--empty')
         && !humanDuelCard.classList.contains('card--back'),
       );
-      const playableCards = [...playerHand.querySelectorAll(
-        '.card.selectable:not(.card--dim):not(.card--unavailable)',
-      )];
-      const selectionActive = playableCards.length > 0 && !battleActive;
+      const playableCards = [...playerHand.querySelectorAll('.card.selectable:not(.card--dim):not(.card--unavailable)')];
+      const selectionActive = playableCards.length > 0 && !battleActive && (overlay?.hidden ?? true);
 
+      if (!selectionActive && transitionTimer) cancelTransition();
       setClass(pub, 'is-battle-active', battleActive);
       setClass(pub, 'is-duel-focus', battleActive);
       setClass(pub, 'is-card-selection', selectionActive);
       setClass(playerHand, 'hand--selection', selectionActive);
       if (battleActive) pub.classList.remove('is-battle-transition');
-      setAttributeIfChanged(
-        playerZone,
-        'aria-busy',
-        String(!selectionActive && pub.classList.contains('is-processing')),
-      );
+      setAttributeIfChanged(playerZone, 'aria-busy', String(!selectionActive && pub.classList.contains('is-processing')));
 
       const playableSet = new Set(playableCards);
-      const allPlayerCards = [...playerHand.querySelectorAll('.card')];
-      allPlayerCards.forEach((card, index) => {
+      [...playerHand.querySelectorAll('.card')].forEach((card, index) => {
         if (selectionActive && playableSet.has(card)) makeChoiceCardAccessible(card, index);
         else clearChoiceCardAccessibility(card);
       });
 
       if (selectionActive) {
-        if (!playerHand.dataset.selectionAnnounced) playerHand.dataset.selectionAnnounced = 'true';
-        setAttributeIfChanged(
-          playerHand,
-          'aria-label',
-          'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.',
-        );
+        playerHand.dataset.selectionAnnounced = 'true';
+        setAttributeIfChanged(playerHand, 'aria-label', 'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.');
       } else {
         delete playerHand.dataset.selectionAnnounced;
         playerHand.removeAttribute('aria-label');
       }
     } catch (error) {
       console.error('[focus-experience] A fókusznézet frissítése sikertelen:', error);
-      pub.classList.remove('is-duel-focus', 'is-battle-active', 'is-battle-transition', 'is-card-selection');
+      cancelTransition();
+      pub.classList.remove('is-duel-focus', 'is-battle-active', 'is-card-selection');
       playerHand.classList.remove('hand--selection');
     }
   };
 
-  /* MutationObserver callbacks already run in a microtask. Keeping the refresh
-     in the same microtask queue makes the phase class deterministic in embedded
-     WebViews and headless mobile tests where requestAnimationFrame may pause. */
   const scheduleSync = () => {
     if (disposed || syncQueued) return;
     syncQueued = true;
@@ -138,7 +158,7 @@ const initialiseFocusExperience = () => {
 
   const handleChoicePointerDown = event => {
     const card = event.target.closest('.card--choice');
-    if (!card || !playerHand.contains(card)) return;
+    if (!card || !playerHand.contains(card) || card.getAttribute('aria-disabled') === 'true') return;
     markChoiceCardSelected(card);
   };
 
@@ -149,29 +169,23 @@ const initialiseFocusExperience = () => {
       delete card.dataset.battleTransitionBypass;
       return;
     }
+    if (card.getAttribute('aria-disabled') === 'true' || card.disabled) return;
 
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
     markChoiceCardSelected(card);
-
     void playerZone.offsetWidth;
     pub.classList.add('is-battle-transition');
-    if (transitionTimer) clearTimeout(transitionTimer);
-    transitionTimer = window.setTimeout(() => {
-      transitionTimer = 0;
-      if (!card.isConnected) {
-        pub.classList.remove('is-battle-transition');
-        return;
-      }
-      card.dataset.battleTransitionBypass = 'true';
-      card.click();
-    }, 250);
+    scheduleCommittedAction(card, current => {
+      current.dataset.battleTransitionBypass = 'true';
+      current.click();
+    });
   };
 
   const handleCommittedPlay = event => {
     const button = event.target.closest('#inspector .inspector__actions .btn:not(.btn--ghost)');
-    if (!button || button.disabled) return;
+    if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     if (button.dataset.battleTransitionBypass === 'true') {
       delete button.dataset.battleTransitionBypass;
       return;
@@ -183,31 +197,22 @@ const initialiseFocusExperience = () => {
 
     const inspector = document.querySelector('#inspector');
     const inspectedId = inspector?.querySelector('.card')?.dataset.cardId;
-    const sourceCard = [...playerHand.querySelectorAll('.card--choice')]
-      .find(card => card.dataset.cardId === inspectedId);
+    const sourceCard = [...playerHand.querySelectorAll('.card--choice')].find(card => card.dataset.cardId === inspectedId);
     if (sourceCard) markChoiceCardSelected(sourceCard);
 
-    /* Flush the pre-transition state, then fade the inspector and both hand
-       zones together. The actual game action fires only after 250 ms. */
     void playerZone.offsetWidth;
     inspector?.classList.add('is-battle-transition');
     pub.classList.add('is-battle-transition');
-    if (transitionTimer) clearTimeout(transitionTimer);
-    transitionTimer = window.setTimeout(() => {
-      transitionTimer = 0;
-      if (!button.isConnected) {
-        pub.classList.remove('is-battle-transition');
-        return;
-      }
-      button.dataset.battleTransitionBypass = 'true';
-      button.click();
-    }, 250);
+    scheduleCommittedAction(button, current => {
+      current.dataset.battleTransitionBypass = 'true';
+      current.click();
+    }, { inspector: true });
   };
 
   const handleCommittedPlayKey = event => {
     if (event.key !== 'Enter' || event.target.closest('button, input, textarea, select')) return;
     const button = document.querySelector('#inspector .inspector__actions .btn:not(.btn--ghost)');
-    if (!button || button.disabled) return;
+    if (!button || button.disabled || button.getAttribute('aria-disabled') === 'true') return;
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -215,12 +220,14 @@ const initialiseFocusExperience = () => {
   };
 
   const observer = new MutationObserver(scheduleSync);
-  observer.observe(pub, { childList: true, subtree: true });
+  observer.observe(pub, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'aria-disabled'] });
+  if (overlay) observer.observe(overlay, { attributes: true, attributeFilter: ['hidden'] });
 
   playerHand.addEventListener('pointerdown', handleChoicePointerDown, { passive: true });
   document.addEventListener('click', handleDirectChoicePlay, true);
   document.addEventListener('click', handleCommittedPlay, true);
   document.addEventListener('keydown', handleCommittedPlayKey, true);
+  document.addEventListener('fociskartyak:interaction-invalidated', cancelTransition);
   window.addEventListener('resize', scheduleSync, { passive: true });
   window.addEventListener('orientationchange', scheduleSync, { passive: true });
 
@@ -231,14 +238,14 @@ const initialiseFocusExperience = () => {
     document.removeEventListener('click', handleDirectChoicePlay, true);
     document.removeEventListener('click', handleCommittedPlay, true);
     document.removeEventListener('keydown', handleCommittedPlayKey, true);
-    if (transitionTimer) clearTimeout(transitionTimer);
+    document.removeEventListener('fociskartyak:interaction-invalidated', cancelTransition);
+    cancelTransition();
   }, { once: true });
 
   syncFocusState();
 };
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialiseFocusExperience, { once: true });
-} else {
-  initialiseFocusExperience();
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialiseFocusExperience, { once: true });
+  else initialiseFocusExperience();
 }
