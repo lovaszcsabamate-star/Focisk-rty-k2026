@@ -1534,6 +1534,68 @@ body {
   width: 100%;
 }
 
+.pwa-update-notice {
+  position: fixed;
+  z-index: 3200;
+  left: max(10px, env(safe-area-inset-left));
+  right: max(10px, env(safe-area-inset-right));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  width: min(620px, calc(100% - 20px));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 14px;
+  border: 1px solid rgba(232, 195, 122, .7);
+  border-radius: 16px;
+  color: #f2e6d0;
+  background: rgba(27, 18, 12, .98);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, .58);
+  backdrop-filter: blur(10px);
+}
+
+.pwa-update-notice__copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.pwa-update-notice__copy strong {
+  color: #e8c37a;
+  font-size: 14px;
+}
+
+.pwa-update-notice__copy span {
+  color: #d9c8aa;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.pwa-update-notice__actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 7px;
+}
+
+.pwa-update-notice__actions .btn {
+  min-height: 40px;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+@media (max-width: 520px) {
+  .pwa-update-notice {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pwa-update-notice__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (min-width: 700px) {
   .pwa-install-guide {
     place-items: center;
@@ -5741,11 +5803,13 @@ const pwaIsNative = Boolean(globalThis.Capacitor?.isNativePlatform?.()) || windo
 const pwaState = {
   deferredPrompt: null,
   installed: pwaIsNative || window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true,
+  updateNoticeShown: false,
 };
 
 const pwaIsIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const pwaIsMobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
 const pwaCanRun = !pwaIsNative && ['http:', 'https:'].includes(window.location.protocol);
+const pwaHadController = Boolean(navigator.serviceWorker?.controller);
 
 function pwaCloseGuide() {
   document.querySelector('#pwa-install-guide')?.remove();
@@ -5779,6 +5843,37 @@ function pwaShowGuide() {
   document.body.appendChild(layer);
 }
 
+function pwaShowUpdateNotice() {
+  if (pwaState.updateNoticeShown || document.querySelector('#pwa-update-notice')) return;
+  pwaState.updateNoticeShown = true;
+
+  const notice = document.createElement('section');
+  notice.id = 'pwa-update-notice';
+  notice.className = 'pwa-update-notice';
+  notice.setAttribute('role', 'status');
+  notice.setAttribute('aria-live', 'polite');
+  notice.innerHTML = `
+    <div class="pwa-update-notice__copy">
+      <strong>Új játékverzió érhető el</strong>
+      <span>A folyamatban lévő mérkőzés mentése után frissíthető.</span>
+    </div>
+    <div class="pwa-update-notice__actions">
+      <button class="btn pwa-update-notice__reload" type="button">Frissítés</button>
+      <button class="btn btn--ghost pwa-update-notice__later" type="button">Később</button>
+    </div>`;
+
+  notice.querySelector('.pwa-update-notice__reload')?.addEventListener('click', () => {
+    notice.querySelectorAll('button').forEach(button => { button.disabled = true; });
+    location.reload();
+  }, { once: true });
+  notice.querySelector('.pwa-update-notice__later')?.addEventListener('click', () => {
+    notice.remove();
+  }, { once: true });
+
+  document.body.appendChild(notice);
+  notice.querySelector('.pwa-update-notice__reload')?.focus({ preventScroll: true });
+}
+
 async function pwaInstall() {
   if (pwaState.deferredPrompt) {
     const promptEvent = pwaState.deferredPrompt;
@@ -5807,10 +5902,22 @@ function pwaEnsureInstallButton() {
 }
 
 if (pwaCanRun && 'serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(error => {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
+      const requestUpdate = () => registration.update().catch(() => {});
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') requestUpdate();
+      });
+      window.setInterval(requestUpdate, 30 * 60 * 1000);
+    } catch (error) {
       console.warn('A mobiljáték offline módja nem indult el:', error);
-    });
+    }
+  });
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (pwaHadController) pwaShowUpdateNotice();
   });
 }
 
@@ -6614,6 +6721,118 @@ if (typeof document !== 'undefined') {
     if (!event.target.closest?.('#continue-btn')) return;
     syncSavedReliabilityOpponent();
   }, true);
+}
+
+
+/* ===== js/usability-fixes.js ===== */
+/**
+ * Accessibility and interaction repairs for the card inspector.
+ * Loaded after the existing mobile and profile layers.
+ */
+
+
+
+const usabilityPreviousOpenInspector = UI.prototype.openInspector;
+const usabilityPreviousCloseInspector = UI.prototype.closeInspector;
+const usabilityPreviousRenderInspector = UI.prototype._renderInspector;
+
+const usabilityFocusable = root => [...(root?.querySelectorAll?.(
+  'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
+) ?? [])].filter(node => !node.hidden && node.getAttribute('aria-hidden') !== 'true');
+
+UI.prototype.openInspector = function openAccessibleInspector(...args) {
+  const active = document.activeElement;
+  this._inspectorReturnFocus = active instanceof HTMLElement && active !== document.body ? active : null;
+  usabilityPreviousOpenInspector.apply(this, args);
+
+  const layer = document.querySelector('#inspector');
+  const preferred = layer?.querySelector('.inspector__actions .btn:not(:disabled)')
+    ?? layer?.querySelector('.inspector__actions .btn')
+    ?? layer?.querySelector('button:not(:disabled)');
+  preferred?.focus({ preventScroll: true });
+};
+
+UI.prototype.closeInspector = function closeAccessibleInspector(...args) {
+  const returnFocus = this._inspectorReturnFocus;
+  this._inspectorReturnFocus = null;
+  usabilityPreviousCloseInspector.apply(this, args);
+
+  queueMicrotask(() => {
+    if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') {
+      returnFocus.focus({ preventScroll: true });
+    }
+  });
+};
+
+UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
+  if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
+  this._inspectorKeys = null;
+
+  usabilityPreviousRenderInspector.apply(this, args);
+
+  if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
+
+  this._inspectorKeys = event => {
+    if (!this.inspector) return;
+    const layer = document.querySelector('#inspector');
+    if (!layer) return;
+
+    if (event.key === 'Tab') {
+      const focusable = usabilityFocusable(layer);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeInspector();
+      return;
+    }
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      this._inspectorStep(event.key === 'ArrowLeft' ? -1 : 1);
+      return;
+    }
+
+    if (event.key !== 'Enter') return;
+    if (event.target.closest?.('button, a, input, select, textarea, [role="button"]')) return;
+
+    const current = this.inspector.hand[this.inspector.index];
+    const playable = this.inspector.opts.playable
+      && (!this.inspector.opts.attribute || hasAttributeData(current, this.inspector.opts.attribute));
+    if (!playable) return;
+
+    event.preventDefault();
+    const onPlay = this.inspector.opts.onPlay;
+    this.closeInspector();
+    onPlay(current);
+  };
+
+  document.addEventListener('keydown', this._inspectorKeys);
+};
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('pointerdown', event => {
+    const card = event.target.closest?.('#player-hand .card--choice');
+    if (!card) return;
+    requestAnimationFrame(() => {
+      card.scrollIntoView({
+        block: 'nearest',
+        inline: 'center',
+        behavior: document.documentElement.classList.contains('ux-reduced-motion') ? 'auto' : 'smooth',
+      });
+    });
+  }, { passive: true });
 }
 
 
