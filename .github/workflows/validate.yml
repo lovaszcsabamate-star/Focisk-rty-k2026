@@ -30,11 +30,11 @@ jobs:
       - name: Check JavaScript syntax
         run: npm run lint
 
+      - name: Build standalone version
+        run: npm run build
+
       - name: Run mobile layout smoke tests
         run: npm run test:mobile-layout
 
       - name: Run complete test suite
         run: npm test
-
-      - name: Build standalone version
-        run: npm run build
