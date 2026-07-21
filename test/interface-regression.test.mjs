@@ -9,6 +9,8 @@ const read = relativePath => fs.readFileSync(path.join(ROOT, relativePath), 'utf
 const duelCss = read('css/duel-emphasis.css');
 const refinementCss = read('css/phase-refinements.css');
 const focusJs = read('js/focus-experience.js');
+const reliabilityJs = read('js/reliability-fixes.js');
+const opponentsJs = read('js/opponents.js');
 const phaseSmoke = read('scripts/mobile-phase-smoke.mjs');
 const profileCss = read('css/player-profile.css');
 const profileJs = read('js/player-profile.js');
@@ -37,6 +39,7 @@ assert.doesNotMatch(
 assert.match(duelCss, /\.card--choice\.is-selected\s*\{[^}]*outline:\s*3px\s+solid\s+var\(--brass-light\)/s);
 assert.match(duelCss, /#pub\.is-battle-transition\s+#player-zone/);
 assert.match(refinementCss, /#inspector\.is-battle-transition\s*\{[^}]*opacity:\s*0;/s);
+assert.match(refinementCss, /\.card--choice\.is-selected::before\s*\{[^}]*inset:\s*7px\s+auto\s+auto\s+50%;/s);
 assert.match(refinementCss, /#pub\.is-battle-active\s+#felt\s*\{[^}]*battle-card-height[^}]*280px/s);
 assert.doesNotMatch(duelCss, /margin-left:\s*-/i, 'Negatív margó átfedést okozhat a párbajnézetben.');
 
@@ -59,11 +62,20 @@ assert.match(profileJs, /fociskartyak:player-name-changed/);
 assert.match(profileJs, /\['Penalties mód',\s*'Büntetőpárbaj'\]/);
 assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
 
+assert.match(reliabilityJs, /shouldSuppressRestoredVerdictFeedback/);
+assert.match(reliabilityJs, /recordedRounds\s*>=\s*resolvedRounds/);
+assert.match(reliabilityJs, /__FOCISKARTYAK_SELECT_OPPONENT__/);
+assert.match(reliabilityJs, /game\.mode\s*===\s*'penalties'\s*\?\s*'BÜNTETŐPÁRBAJ'/);
+assert.match(opponentsJs, /export function selectOpponentById/);
+assert.match(opponentsJs, /__FOCISKARTYAK_SELECT_OPPONENT__\s*=\s*selectOpponentById/);
+
 assert.doesNotMatch(indexHtml, />\s*Penalties(?: mód)?\s*</u, 'A fő HTML-ben angol Penalties felirat maradt.');
 assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
+assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/focus-experience\.js/);
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /fociskartyak-2026-v38/);
+assert.match(serviceWorker, /fociskartyak-2026-v40/);
+assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ A fázisváltás, azonos csatakártyák, mentett név és Büntetőpárbaj felirat regressziós ellenőrzése rendben');
+console.log('✓ A fázisváltás, visszatöltés, ellenfél-szinkron, mentett név és Büntetőpárbaj regressziós ellenőrzése rendben');
