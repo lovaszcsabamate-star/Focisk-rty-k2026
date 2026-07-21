@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T07:12:16.081Z",
+  "generatedAt": "2026-07-21T07:40:37.916Z",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
   "sourceDatasetVersion": "2.3.0-interim",
   "changes": [
@@ -25328,6 +25328,18 @@
       "playerId": "nb1-009672bb9dae",
       "playerName": "BABIC SLOBODAN",
       "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-009672bb9dae",
+      "playerName": "BABIC SLOBODAN",
+      "clubId": "nyiregyhaza-spartacus-fc",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus FC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -25448,6 +25460,18 @@
       "playerId": "nb1-bc101180cf50",
       "playerName": "BABUNSKI HRISTOVSKI DORIAN",
       "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-bc101180cf50",
+      "playerName": "BABUNSKI HRISTOVSKI DORIAN",
+      "clubId": "nyiregyhaza-spartacus-fc",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus FC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -25536,6 +25560,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-97ee66e0060d",
+      "playerName": "BEKE PÉTER",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-beke-peter-nationality",
+      "sourceName": "HLSZ – Beke Péter játékosprofil",
+      "sourceUrl": "https://hlsz.hu/2001-03-14/beke-peter",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -25664,6 +25700,18 @@
       "playerId": "nb1-f22144ab228e",
       "playerName": "BENCZENLEITNER BARNA",
       "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-f22144ab228e",
+      "playerName": "BENCZENLEITNER BARNA",
+      "clubId": "nyiregyhaza-spartacus-fc",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-nyiregyhaza-complete-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus FC teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -25776,6 +25824,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-be99bee4d17e",
+      "playerName": "BESE BALÁZS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-bese-balazs-nationality",
+      "sourceName": "HLSZ – Bese Balázs játékosprofil",
+      "sourceUrl": "https://hlsz.hu/1999-01-22/bese-balazs",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -25896,6 +25956,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-bc0d3bb082a1",
+      "playerName": "BITRI ENEO",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26016,6 +26088,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-dd2ed7b40fbc",
+      "playerName": "CZIMER-NYITRAI ÁDÁM BÁLINT",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26136,6 +26220,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d3753ff5632a",
+      "playerName": "DRESKOVIC MELDIN",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26256,6 +26352,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-43a63db32c77",
+      "playerName": "EDOMWONYI OSAIGE BRIGHT",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26376,6 +26484,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-46d39b6a0699",
+      "playerName": "EVANGELOU STEFANOS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "zte-official-evangelou-nationality",
+      "sourceName": "ZTE FC – Stefanos Evangelou hivatalos bemutatása",
+      "sourceUrl": "https://www.ztefc.hu/hu/hirek/stefanos-evangelou-kek-feherben",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26496,6 +26616,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-cc0594a97935",
+      "playerName": "FARKAS BENDEGÚZ BENCE",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26592,6 +26724,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d76b694321c9",
+      "playerName": "GILBERT DANTAYE MICHAEL LEE",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "nyiregyhaza-official-gilbert-nationality",
+      "sourceName": "Nyíregyháza Spartacus – Dantaye Gilbert bemutatása",
+      "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26688,6 +26832,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-7f6de355f229",
+      "playerName": "JOKIC RANKO",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "nyiregyhaza-official-jokic-nationality",
+      "sourceName": "Nyíregyháza Spartacus – Ranko Jokić bemutatása",
+      "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26784,6 +26940,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-29a4cdca34c9",
+      "playerName": "JOVANOV VANE",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -26904,6 +27072,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d8374af7e29b",
+      "playerName": "KATONA BÁLINT LAJOS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27024,6 +27204,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-1cbee86abe46",
+      "playerName": "KATONA LEVENTE",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27144,6 +27336,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-661fa638d4b7",
+      "playerName": "KATONA MÁTYÁS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27264,6 +27468,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-bebcf82353b9",
+      "playerName": "KERSÁK ROLAND ATTILA",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27384,6 +27600,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-2a51d5bc26f1",
+      "playerName": "KORREA PAVLOS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27504,6 +27732,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-b288b953f1e3",
+      "playerName": "KOVÁCS DÁNIEL",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27624,6 +27864,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c8bdd5aad379",
+      "playerName": "KOVÁCS MILÁN",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27744,6 +27996,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-e2fffe6885ad",
+      "playerName": "KOVÁCSRÉTI MÁRK",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27864,6 +28128,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-fad722b424c7",
+      "playerName": "KVASINA MARKO",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -27984,6 +28260,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-012d042278b4",
+      "playerName": "MÁJER MILÁN",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28104,6 +28392,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-13c97f8a0f73",
+      "playerName": "MANNER BALÁZS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28224,6 +28524,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-327eba464994",
+      "playerName": "MOLNÁR MÁTYÁS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "mlsz-molnar-matyas-identification",
+      "sourceName": "MLSZ Adatbank – Molnár Mátyás játékosazonosítás",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/647713.html",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28344,6 +28656,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-353c1aa8edb0",
+      "playerName": "NAGY DOMINIK",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28464,6 +28788,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-f98d9cd1c649",
+      "playerName": "Nemanja Antonov",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28524,6 +28860,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-489f67cd7bfb",
+      "playerName": "Oláh Benjámin",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28584,6 +28932,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-29fb44a381a8",
+      "playerName": "SANKOVIC BOJAN",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28704,6 +29064,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-9309e1184ef9",
+      "playerName": "Temesvári Attila",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28764,6 +29136,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-f1df95d03396",
+      "playerName": "TIJANI MUHAMED",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -28884,6 +29268,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-b39528f27013",
+      "playerName": "TOMA GYÖRGY",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -29004,6 +29400,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-60fd1231e84f",
+      "playerName": "TÓTH BALÁZS",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -29100,6 +29508,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-9935ed0b7857",
+      "playerName": "VARGA KEVIN",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-varga-kevin-nationality",
+      "sourceName": "HLSZ – Varga Kevin játékosprofil",
+      "sourceUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -29220,6 +29640,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-17831da5b04f",
+      "playerName": "Vukk Zsombor",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
@@ -29261,6 +29693,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-c155217a77ef",
+      "playerName": "ALAXAI ÁRON",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-alaxai-aron-nationality",
+      "sourceName": "HLSZ – Alaxai Áron játékosprofil a Paksi FC keretében",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-28243985aab9",
       "playerName": "DALA MARTIN",
       "clubId": "nyiregyhaza-spartacus-fc",
@@ -29268,6 +29712,18 @@
       "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
       "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
       "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-28243985aab9",
+      "playerName": "DALA MARTIN",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "field": "nation",
+      "sourceId": "hlsz-nyiregyhaza-nationalities",
+      "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+      "sourceUrl": "https://hlsz.hu/nyiregyhaza",
       "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"

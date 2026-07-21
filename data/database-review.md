@@ -1,13 +1,13 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T07:12:16.081Z
+Generálva: 2026-07-21T07:40:37.916Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **345/440**
-- Változásnapló-bejegyzések: **2718**
+- Változásnapló-bejegyzések: **2756**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **64**
@@ -17,7 +17,7 @@ Generálva: 2026-07-21T07:12:16.081Z
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
 | birthDate | 345 | 95 |
-| nation | 192 | 248 |
+| nation | 230 | 210 |
 | position | 349 | 91 |
 | appearances | 303 | 137 |
 | starts | 303 | 137 |
@@ -43,9 +43,9 @@ Generálva: 2026-07-21T07:12:16.081Z
 | Kisvárda Master Good | 38 | 38 | 38 | 17 | 37 | 29 | 29 |
 | Kolorcity Kazincbarcika SC | 40 | 2 | 8 | 0 | 5 | 0 | 0 |
 | MTK Budapest | 36 | 36 | 36 | 36 | 34 | 0 | 0 |
-| Nyíregyháza Spartacus FC | 39 | 39 | 33 | 1 | 37 | 0 | 0 |
-| Paksi FC | 33 | 33 | 29 | 3 | 33 | 0 | 0 |
-| Puskás Akadémia FC | 34 | 28 | 27 | 2 | 4 | 0 | 0 |
+| Nyíregyháza Spartacus FC | 39 | 39 | 33 | 39 | 37 | 0 | 0 |
+| Paksi FC | 33 | 33 | 29 | 4 | 33 | 0 | 0 |
+| Puskás Akadémia FC | 34 | 28 | 27 | 3 | 4 | 0 | 0 |
 | Újpest FC | 41 | 22 | 21 | 1 | 4 | 0 | 0 |
 | ZTE FC | 43 | 7 | 24 | 22 | 4 | 0 | 0 |
 

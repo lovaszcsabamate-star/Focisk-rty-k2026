@@ -116,9 +116,10 @@
         "recordFiles": [
           "data/club-official-enrichment-3-paks-nyir.json",
           "data/club-official-enrichment-14-nyiregyhaza-completion.json",
+          "data/club-official-enrichment-15-nyiregyhaza-nationalities.json",
           "data/club-official-stat-patches-nyiregyhaza.json"
         ],
-        "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum rögzített; a pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
+        "note": "A Nyíregyháza Spartacus mind a 39 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Valamennyi pontos születési dátum és nemzetiség rögzített; 38 nemzetiségi adat magas, Molnár Mátyás HUN besorolása közepes forrásbizonyosságú. A pályára lépés és a kispados kerettagság külön mező. A többklubos játékosok nyíregyházi sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
       },
       {
         "clubId": "paksi-fc",
@@ -921,6 +922,96 @@
         "season": "2025/26"
       },
       {
+        "id": "hlsz-nyiregyhaza-nationalities",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+        "url": "https://hlsz.hu/nyiregyhaza",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-beke-peter-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "HLSZ – Beke Péter játékosprofil",
+        "url": "https://hlsz.hu/2001-03-14/beke-peter",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-alaxai-aron-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "HLSZ – Alaxai Áron játékosprofil a Paksi FC keretében",
+        "url": "https://hlsz.hu/paks",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-bese-balazs-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "HLSZ – Bese Balázs játékosprofil",
+        "url": "https://hlsz.hu/1999-01-22/bese-balazs",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-varga-kevin-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "HLSZ – Varga Kevin játékosprofil",
+        "url": "https://hlsz.hu/1996-03-30/varga-kevin",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "nyiregyhaza-official-gilbert-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "Nyíregyháza Spartacus – Dantaye Gilbert bemutatása",
+        "url": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "nyiregyhaza-official-jokic-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "Nyíregyháza Spartacus – Ranko Jokić bemutatása",
+        "url": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "fck-official-keita-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "F.C. København – Aboubakar Keita hivatalos játékosprofil",
+        "url": "https://www.fck.dk/en/spiller/aboubakar-keita",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "zte-official-evangelou-nationality",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "ZTE FC – Stefanos Evangelou hivatalos bemutatása",
+        "url": "https://www.ztefc.hu/hu/hirek/stefanos-evangelou-kek-feherben",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
+        "id": "mlsz-molnar-matyas-identification",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "MLSZ Adatbank – Molnár Mátyás játékosazonosítás",
+        "url": "https://adatbank.mlsz.hu/player/647713.html",
+        "checkedAt": "2026-07-21",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1335,7 +1426,7 @@
     "totalDismissals": 303,
     "overallScore": 143,
     "position": 349,
-    "nation": 192,
+    "nation": 230,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
@@ -1355,9 +1446,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T09:15:00+02:00",
-    "records": 441,
-    "matchedRecords": 441,
+    "generatedAt": "2026-07-21T09:45:00+02:00",
+    "records": 480,
+    "matchedRecords": 480,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -1386,7 +1477,7 @@
     "conflictCount": 0,
     "appliedFieldCounts": {
       "position": 348,
-      "nation": 191,
+      "nation": 229,
       "birthDate": 224,
       "heightCm": 57,
       "shirtNumber": 287,
@@ -1462,7 +1553,7 @@
       "totalDismissals": 144,
       "overallScore": 143,
       "position": 349,
-      "nation": 192,
+      "nation": 230,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -1531,8 +1622,8 @@
       {
         "field": "nation",
         "before": 0,
-        "after": 192,
-        "added": 192
+        "after": 230,
+        "added": 230
       },
       {
         "field": "heightCm",
@@ -1642,9 +1733,9 @@
         "clubId": "nyiregyhaza-spartacus-fc",
         "clubName": "Nyíregyháza Spartacus FC",
         "mlszCards": 39,
-        "officialRecords": 71,
-        "eligibleRecords": 71,
-        "matched": 71,
+        "officialRecords": 110,
+        "eligibleRecords": 110,
+        "matched": 110,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-39-of-39-player-review",
@@ -10466,6 +10557,17 @@
             "sourceId": "mlsz-nyiregyhaza-birthdate-completion-2025-26",
             "sourceName": "MLSZ Adatbank – Nyíregyháza Spartacus 2025/26 játékosprofilok",
             "sourceUrl": "https://adatbank.mlsz.hu/club/65/0/31362/7/307005.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "ABOUBAKAR KEITA",
+            "fieldsApplied": [],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "fck-official-keita-nationality",
+            "sourceName": "F.C. København – Aboubakar Keita hivatalos játékosprofil",
+            "sourceUrl": "https://www.fck.dk/en/spiller/aboubakar-keita",
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "nyiregyhaza-spartacus-fc",
@@ -30467,7 +30569,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "SRB",
       "position": "Támadó",
       "birthDate": "2000-03-04",
       "stats": {
@@ -30528,6 +30630,19 @@
             "matchedName": "BABIC SLOBODAN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BABIC SLOBODAN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -30617,7 +30732,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "MKD / ESP",
       "position": "Támadó",
       "birthDate": "1996-08-29",
       "stats": {
@@ -30678,6 +30793,19 @@
             "matchedName": "BABUNSKI HRISTOVSKI DORIAN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BABUNSKI HRISTOVSKI DORIAN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -30767,7 +30895,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "",
       "birthDate": "2001-03-14",
       "stats": {
@@ -30811,6 +30939,19 @@
             "matchedName": "BEKE PÉTER",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-beke-peter-nationality",
+            "sourceName": "HLSZ – Beke Péter játékosprofil",
+            "sourceUrl": "https://hlsz.hu/2001-03-14/beke-peter",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BEKE PÉTER",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -30900,7 +31041,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2003-09-16",
       "stats": {
@@ -30961,6 +31102,19 @@
             "matchedName": "BENCZENLEITNER BARNA",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BENCZENLEITNER BARNA",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31050,7 +31204,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "1999-01-22",
       "stats": {
@@ -31111,6 +31265,19 @@
             "matchedName": "BESE BALÁZS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-bese-balazs-nationality",
+            "sourceName": "HLSZ – Bese Balázs játékosprofil",
+            "sourceUrl": "https://hlsz.hu/1999-01-22/bese-balazs",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BESE BALÁZS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31200,7 +31367,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "ALB",
       "position": "Védő",
       "birthDate": "1996-08-26",
       "stats": {
@@ -31261,6 +31428,19 @@
             "matchedName": "BITRI ENEO",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BITRI ENEO",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31350,7 +31530,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2005-07-02",
       "stats": {
@@ -31411,6 +31591,19 @@
             "matchedName": "CZIMER-NYITRAI ÁDÁM BÁLINT",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "CZIMER-NYITRAI ÁDÁM BÁLINT",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31500,7 +31693,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "MNE",
       "position": "Védő",
       "birthDate": "1998-03-26",
       "stats": {
@@ -31561,6 +31754,19 @@
             "matchedName": "DRESKOVIC MELDIN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "DRESKOVIC MELDIN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31650,7 +31856,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "NGA",
       "position": "Támadó",
       "birthDate": "1994-07-24",
       "stats": {
@@ -31711,6 +31917,19 @@
             "matchedName": "EDOMWONYI OSAIGE BRIGHT",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "EDOMWONYI OSAIGE BRIGHT",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31800,7 +32019,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "GRC",
       "position": "Védő",
       "birthDate": "1998-05-12",
       "stats": {
@@ -31861,6 +32080,19 @@
             "matchedName": "EVANGELOU STEFANOS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "zte-official-evangelou-nationality",
+            "sourceName": "ZTE FC – Stefanos Evangelou hivatalos bemutatása",
+            "sourceUrl": "https://www.ztefc.hu/hu/hirek/stefanos-evangelou-kek-feherben",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "EVANGELOU STEFANOS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -31950,7 +32182,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2004-08-05",
       "stats": {
@@ -32011,6 +32243,19 @@
             "matchedName": "FARKAS BENDEGÚZ BENCE",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "FARKAS BENDEGÚZ BENCE",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32100,7 +32345,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "TRI",
       "position": "",
       "birthDate": "2004-12-03",
       "stats": {
@@ -32144,6 +32389,19 @@
             "matchedName": "GILBERT DANTAYE MICHAEL LEE",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "nyiregyhaza-official-gilbert-nationality",
+            "sourceName": "Nyíregyháza Spartacus – Dantaye Gilbert bemutatása",
+            "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/a-psvtol-igazoltunk-kozeppalyast-/7084",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "GILBERT DANTAYE MICHAEL LEE",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32233,7 +32491,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "SRB",
       "position": "",
       "birthDate": "1999-04-22",
       "stats": {
@@ -32277,6 +32535,19 @@
             "matchedName": "JOKIC RANKO",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "nyiregyhaza-official-jokic-nationality",
+            "sourceName": "Nyíregyháza Spartacus – Ranko Jokić bemutatása",
+            "sourceUrl": "https://nyiregyhazaspartacus.hu/hir/belso-vedot-igazoltunk/6225",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "JOKIC RANKO",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32366,7 +32637,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "MKD",
       "position": "",
       "birthDate": "1998-12-28",
       "stats": {
@@ -32410,6 +32681,19 @@
             "matchedName": "JOVANOV VANE",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "JOVANOV VANE",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32499,7 +32783,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2002-09-07",
       "stats": {
@@ -32560,6 +32844,19 @@
             "matchedName": "KATONA BÁLINT LAJOS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KATONA BÁLINT LAJOS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32649,7 +32946,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2001-12-31",
       "stats": {
@@ -32710,6 +33007,19 @@
             "matchedName": "KATONA LEVENTE",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KATONA LEVENTE",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32799,7 +33109,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "1999-12-30",
       "stats": {
@@ -32860,6 +33170,19 @@
             "matchedName": "KATONA MÁTYÁS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KATONA MÁTYÁS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -32949,7 +33272,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "1997-07-31",
       "stats": {
@@ -33010,6 +33333,19 @@
             "matchedName": "KERSÁK ROLAND ATTILA",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KERSÁK ROLAND ATTILA",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33099,7 +33435,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "CYP",
       "position": "Védő",
       "birthDate": "1998-07-14",
       "stats": {
@@ -33160,6 +33496,19 @@
             "matchedName": "KORREA PAVLOS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KORREA PAVLOS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33249,7 +33598,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "1994-01-16",
       "stats": {
@@ -33310,6 +33659,19 @@
             "matchedName": "KOVÁCS DÁNIEL",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KOVÁCS DÁNIEL",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33399,7 +33761,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "1999-09-24",
       "stats": {
@@ -33460,6 +33822,19 @@
             "matchedName": "KOVÁCS MILÁN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KOVÁCS MILÁN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33549,7 +33924,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2000-09-01",
       "stats": {
@@ -33610,6 +33985,19 @@
             "matchedName": "KOVÁCSRÉTI MÁRK",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KOVÁCSRÉTI MÁRK",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33699,7 +34087,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "AUT",
       "position": "Támadó",
       "birthDate": "1996-12-20",
       "stats": {
@@ -33760,6 +34148,19 @@
             "matchedName": "KVASINA MARKO",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KVASINA MARKO",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33849,7 +34250,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "1999-06-28",
       "stats": {
@@ -33910,6 +34311,19 @@
             "matchedName": "MÁJER MILÁN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "MÁJER MILÁN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -33999,7 +34413,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "2005-04-26",
       "stats": {
@@ -34060,6 +34474,19 @@
             "matchedName": "MANNER BALÁZS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "MANNER BALÁZS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -34149,7 +34576,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "2006-12-30",
       "stats": {
@@ -34210,6 +34637,19 @@
             "matchedName": "MOLNÁR MÁTYÁS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "mlsz-molnar-matyas-identification",
+            "sourceName": "MLSZ Adatbank – Molnár Mátyás játékosazonosítás",
+            "sourceUrl": "https://adatbank.mlsz.hu/player/647713.html",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "MOLNÁR MÁTYÁS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -34299,7 +34739,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "1995-05-08",
       "stats": {
@@ -34360,6 +34800,19 @@
             "matchedName": "NAGY DOMINIK",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "NAGY DOMINIK",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -34449,7 +34902,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "SRB",
       "position": "Védő",
       "birthDate": "1995-05-06",
       "stats": {
@@ -34512,6 +34965,19 @@
             "matchedName": "NEMANJA ANTONOV",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "NEMANJA ANTONOV",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -34596,7 +35062,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Támadó",
       "birthDate": "2005-12-05",
       "stats": {
@@ -34659,6 +35125,19 @@
             "matchedName": "OLÁH BENJÁMIN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "OLÁH BENJÁMIN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -34743,7 +35222,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "MNE",
       "position": "Középpályás",
       "birthDate": "1993-11-21",
       "stats": {
@@ -34804,6 +35283,19 @@
             "matchedName": "SANKOVIC BOJAN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "SANKOVIC BOJAN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -34893,7 +35385,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2000-06-03",
       "stats": {
@@ -34956,6 +35448,19 @@
             "matchedName": "TEMESVÁRI ATTILA",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "TEMESVÁRI ATTILA",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -35040,7 +35545,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "NGA",
       "position": "Támadó",
       "birthDate": "2000-07-26",
       "stats": {
@@ -35101,6 +35606,19 @@
             "matchedName": "TIJANI MUHAMED",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "TIJANI MUHAMED",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -35190,7 +35708,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "UKR / HUN",
       "position": "Középpályás",
       "birthDate": "1996-04-27",
       "stats": {
@@ -35251,6 +35769,19 @@
             "matchedName": "TOMA GYÖRGY",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "TOMA GYÖRGY",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -35340,7 +35871,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Kapus",
       "birthDate": "2004-04-29",
       "stats": {
@@ -35401,6 +35932,19 @@
             "matchedName": "TÓTH BALÁZS",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "TÓTH BALÁZS",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -35490,7 +36034,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "",
       "birthDate": "1996-03-30",
       "stats": {
@@ -35534,6 +36078,19 @@
             "matchedName": "VARGA KEVIN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-varga-kevin-nationality",
+            "sourceName": "HLSZ – Varga Kevin játékosprofil",
+            "sourceUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "VARGA KEVIN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -35623,7 +36180,7 @@
       "clubs": [
         "Nyíregyháza Spartacus FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Középpályás",
       "birthDate": "2006-07-07",
       "stats": {
@@ -35686,6 +36243,19 @@
             "matchedName": "VUKK ZSOMBOR",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "VUKK ZSOMBOR",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
@@ -35771,7 +36341,7 @@
         "Nyíregyháza Spartacus FC",
         "Paksi FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "Védő",
       "birthDate": "2003-04-11",
       "stats": {
@@ -35841,6 +36411,19 @@
             "clubId": "nyiregyhaza-spartacus-fc",
             "matchedName": "ALAXAI ÁRON",
             "fieldsApplied": [],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-alaxai-aron-nationality",
+            "sourceName": "HLSZ – Alaxai Áron játékosprofil a Paksi FC keretében",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "ALAXAI ÁRON",
+            "fieldsApplied": [
+              "nation"
+            ],
             "inactiveSince": null
           }
         ],
@@ -35922,7 +36505,7 @@
         "Nyíregyháza Spartacus FC",
         "Puskás Akadémia FC"
       ],
-      "nation": "",
+      "nation": "HUN",
       "position": "",
       "birthDate": "2004-04-26",
       "stats": {
@@ -35966,6 +36549,19 @@
             "matchedName": "DALA MARTIN",
             "fieldsApplied": [
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-nyiregyhaza-nationalities",
+            "sourceName": "HLSZ – Nyíregyháza játékoskeret és játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/nyiregyhaza",
+            "checkedAt": "2026-07-21",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "DALA MARTIN",
+            "fieldsApplied": [
+              "nation"
             ],
             "inactiveSince": null
           }
