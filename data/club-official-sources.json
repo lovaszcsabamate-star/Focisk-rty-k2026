@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "season": "2025/26",
-  "checkedAt": "2026-07-20",
+  "checkedAt": "2026-07-21",
   "clubs": [
     {
       "clubId": "dvsc",
@@ -19,8 +19,13 @@
       "clubName": "DVTK",
       "officialUrl": "https://dvtk.eu/",
       "officialRosterUrl": "https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok",
-      "status": "structured-season-roster-imported",
-      "recordFiles": ["data/club-official-enrichment.json"]
+      "status": "complete-45-of-45-player-review",
+      "recordFiles": [
+        "data/club-official-enrichment.json",
+        "data/club-official-enrichment-12-dvtk-completion.json",
+        "data/club-official-stat-patches-dvtk.json"
+      ],
+      "note": "A DVTK mind a 45 adatbázisrekordja játékosprofilonkénti MLSZ Fizz Liga-ellenőrzést kapott. Varga Hunor korábban hiányzó születési dátuma, nemzetisége és kapusposztja hivatalos DVTK- és MLSZ-forrásból kiegészült. A pályára lépés és a kispados kerettagság külön mező. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
     },
     {
       "clubId": "eto-fc",
