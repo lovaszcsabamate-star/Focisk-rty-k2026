@@ -8,7 +8,7 @@ const initialiseFocusExperience = () => {
 
   if (!pub || !duel || !playerHand || !playerZone) return;
 
-  let animationFrame = 0;
+  let syncQueued = false;
   let transitionTimer = 0;
   let disposed = false;
 
@@ -124,10 +124,14 @@ const initialiseFocusExperience = () => {
     }
   };
 
+  /* MutationObserver callbacks already run in a microtask. Keeping the refresh
+     in the same microtask queue makes the phase class deterministic in embedded
+     WebViews and headless mobile tests where requestAnimationFrame may pause. */
   const scheduleSync = () => {
-    if (disposed || animationFrame) return;
-    animationFrame = requestAnimationFrame(() => {
-      animationFrame = 0;
+    if (disposed || syncQueued) return;
+    syncQueued = true;
+    queueMicrotask(() => {
+      syncQueued = false;
       syncFocusState();
     });
   };
@@ -150,11 +154,16 @@ const initialiseFocusExperience = () => {
     event.stopPropagation();
     event.stopImmediatePropagation();
 
-    const inspectedId = document.querySelector('#inspector .card')?.dataset.cardId;
+    const inspector = document.querySelector('#inspector');
+    const inspectedId = inspector?.querySelector('.card')?.dataset.cardId;
     const sourceCard = [...playerHand.querySelectorAll('.card--choice')]
       .find(card => card.dataset.cardId === inspectedId);
     if (sourceCard) markChoiceCardSelected(sourceCard);
 
+    /* Flush the pre-transition state, then fade the inspector and both hand
+       zones together. The actual game action fires only after 250 ms. */
+    void playerZone.offsetWidth;
+    inspector?.classList.add('is-battle-transition');
     pub.classList.add('is-battle-transition');
     if (transitionTimer) clearTimeout(transitionTimer);
     transitionTimer = window.setTimeout(() => {
@@ -178,8 +187,6 @@ const initialiseFocusExperience = () => {
     button.click();
   };
 
-  // Only DOM insertions/removals matter here. Observing every class mutation caused
-  // portrait loading and UI animations to trigger repeated full-hand scans on mobile.
   const observer = new MutationObserver(scheduleSync);
   observer.observe(pub, { childList: true, subtree: true });
 
@@ -195,7 +202,6 @@ const initialiseFocusExperience = () => {
     playerHand.removeEventListener('pointerdown', handleChoicePointerDown);
     document.removeEventListener('click', handleCommittedPlay, true);
     document.removeEventListener('keydown', handleCommittedPlayKey, true);
-    if (animationFrame) cancelAnimationFrame(animationFrame);
     if (transitionTimer) clearTimeout(transitionTimer);
   }, { once: true });
 
