@@ -28,19 +28,19 @@
   z-index: 3;
 }
 
-/* The static 720×1536 preview and real tall phones should not turn the felt into
-   a mostly empty full-height panel during card selection. The hand remains near
-   the bottom while the battlefield keeps a screenshot-like, readable height. */
+/* Tall mobile viewports otherwise stretch the empty selection battlefield too
+   far. This ratio matches the supplied phone screenshot while keeping the large
+   horizontal hand directly below the field instead of leaving a dead gap. */
 @media (max-width: 900px) and (min-height: 1050px) {
   #pub.is-card-selection #felt {
     flex: 0 1 auto;
-    height: clamp(430px, 47dvh, 650px);
-    min-height: 430px;
-    max-height: 650px;
+    height: clamp(560px, 61dvh, 940px);
+    min-height: 560px;
+    max-height: 940px;
   }
 
   #pub.is-card-selection #player-zone {
-    margin-top: auto;
+    margin-top: 0;
   }
 }
 
