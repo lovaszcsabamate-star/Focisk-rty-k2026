@@ -27,6 +27,28 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fix central direction test binding
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('test/static.test.mjs')
+          source = path.read_text(encoding='utf-8')
+          marker = "const mobileExperienceJs = read('../js/mobile-experience.js');\n"
+          binding = "const uxJs = read('../js/ux.js');\n"
+          if binding not in source:
+              source = source.replace(marker, marker + binding)
+              path.write_text(source, encoding='utf-8')
+          PY
+          node --check test/static.test.mjs
+          if [[ '${{ github.event_name }}' == 'push' ]] && ! git diff --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add test/static.test.mjs
+            git commit -m 'Beköti a központi kategóriairány statikus tesztjét'
+            git push
+          fi
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
