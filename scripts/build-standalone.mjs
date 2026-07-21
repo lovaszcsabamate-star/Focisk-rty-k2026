@@ -38,12 +38,14 @@ const enrichmentFiles = [
   'data/club-official-enrichment-17-ujpest-completion.json',
   'data/club-official-enrichment-18-paks-completion.json',
   'data/club-official-enrichment-19-zte-completion.json',
+  'data/club-official-enrichment-20-puskas-completion.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
   'data/club-official-corrections-4-kisvarda-selected10-2.json',
+  'data/club-official-corrections-5-puskas.json',
 ];
 const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda.json',
@@ -58,6 +60,7 @@ const statPatchFiles = [
   'data/club-official-stat-patches-kazincbarcika.json',
   'data/club-official-stat-patches-ujpest.json',
   'data/club-official-stat-patches-zte.json',
+  'data/club-official-stat-patches-puskas.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
