@@ -28,6 +28,12 @@
   z-index: 3;
 }
 
+/* Once the verdict is visible both arrival animations must be fully settled.
+   This also makes the generated final-state preview deterministic in Chrome. */
+#pub.is-battle-active:has(#verdict.win, #verdict.lose, #verdict.tie) #duel .card {
+  animation: none !important;
+}
+
 /* Tall mobile viewports otherwise stretch the empty selection battlefield too
    far. This ratio matches the supplied phone screenshot while keeping the large
    horizontal hand directly below the field instead of leaving a dead gap. */
