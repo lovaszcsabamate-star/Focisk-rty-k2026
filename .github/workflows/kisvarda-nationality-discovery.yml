@@ -1,0 +1,29 @@
+name: Kisvárda nemzetiségi felderítés
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Hiányzó nemzetiségek kinyerése
+        run: node scripts/discover-kisvarda-nationalities.mjs
+      - name: Lista mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: kisvarda-nationality-discovery
+          path: kisvarda-nationality-discovery.json
+          retention-days: 2
