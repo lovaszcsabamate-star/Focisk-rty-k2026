@@ -1,0 +1,71 @@
+name: Project validation
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        run: npm run lint
+
+      - name: Build standalone version
+        run: npm run build
+
+      - name: Run mobile layout smoke tests
+        id: mobile-smoke
+        continue-on-error: true
+        run: npm run test:mobile-layout
+
+      - name: Upload mobile layout report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-layout-diagnostics
+          path: mobile-layout-report.json
+          if-no-files-found: error
+
+      - name: Enforce mobile layout result
+        if: steps.mobile-smoke.outcome == 'failure'
+        run: exit 1
+
+      - name: Run complete test suite
+        id: complete-tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee complete-test-output.log
+
+      - name: Upload complete test output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: complete-test-diagnostics
+          path: complete-test-output.log
+          if-no-files-found: error
+
+      - name: Enforce complete test result
+        if: steps.complete-tests.outcome == 'failure'
+        run: exit 1
