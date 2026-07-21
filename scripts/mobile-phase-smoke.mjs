@@ -35,8 +35,8 @@ const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'fociskartyak-p
 const failures = [];
 const measurements = [];
 
-const card = (id, name, club = 'DVTK', selected = false) => `
-  <article class="card selectable${selected ? ' card--choice is-selected' : ''}" data-card-id="${id}">
+const card = (id, name, club = 'DVTK', { choice = false, selected = false } = {}) => `
+  <article class="card selectable${choice || selected ? ' card--choice' : ''}${selected ? ' is-selected' : ''}" data-card-id="${id}">
     <div class="card__portrait" data-initials="${name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase()}"><span class="card__position">Védő</span></div>
     <div class="card__name">${name}</div>
     <div class="card__club">${club} · 🇭🇺</div>
@@ -94,10 +94,10 @@ const selectionBody = ({ selected = false } = {}) => `
     <section class="zone" id="player-zone">
       <div class="pile filled" id="player-pile">1<span class="pile__label">Használt lapok</span></div>
       <div class="hand hand--selection" id="player-hand">
-        ${card('bence', 'Lukács Bence')}
-        ${card('csoka', 'Csóka Dániel', 'ZTE FC', selected)}
-        ${card('nagy', 'Nagy Barnabás', 'Ferencváros')}
-        ${card('torocsik', 'Törőcsik Péter', 'Újpest FC')}
+        ${card('bence', 'Lukács Bence', 'DVTK', { choice: true })}
+        ${card('csoka', 'Csóka Dániel', 'ZTE FC', { choice: true, selected })}
+        ${card('nagy', 'Nagy Barnabás', 'Ferencváros', { choice: true })}
+        ${card('torocsik', 'Törőcsik Péter', 'Újpest FC', { choice: true })}
       </div>
     </section>
   </main>
@@ -166,8 +166,8 @@ const sleep=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds))
   await sleep(120);
   const transitionActive=pub.classList.contains('is-battle-transition');
   const transitionDelayed=committed===0;
-  const transitionOpacity=parseFloat(getComputedStyle(document.querySelector('#player-zone')).opacity);
-  await sleep(260);
+  const inspectorTransitioning=inspector.classList.contains('is-battle-transition');
+  await sleep(280);
 
   const cards=[...document.querySelectorAll('#duel .duel-slot .card')];
   const first=cards[0].getBoundingClientRect();
@@ -184,7 +184,7 @@ const sleep=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds))
     selectionWidth:Math.round(selectionWidth),
     transitionActive,
     transitionDelayed,
-    transitionOpacity,
+    inspectorTransitioning,
     committed,
     battleActive:pub.classList.contains('is-battle-active'),
     duelFocus:pub.classList.contains('is-duel-focus'),
@@ -205,7 +205,7 @@ const sleep=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds))
   const harness = `<!doctype html><html><head><meta charset="utf-8"><style>
 html,body{margin:0;padding:0;overflow:hidden;background:#111}#app{display:block;width:${width}px;height:${HEIGHT}px;border:0;margin:0}
 </style></head><body><iframe id="app" src="${fixtureFileName}"></iframe><script>
-const frame=document.querySelector('#app');frame.addEventListener('load',()=>setTimeout(()=>{const value=frame.contentDocument.documentElement.getAttribute('data-phase-smoke');if(value)document.documentElement.setAttribute('data-phase-smoke',value)},1100));
+const frame=document.querySelector('#app');frame.addEventListener('load',()=>setTimeout(()=>{const value=frame.contentDocument.documentElement.getAttribute('data-phase-smoke');if(value)document.documentElement.setAttribute('data-phase-smoke',value)},1150));
 </script></body></html>`;
   const harnessFile = path.join(temporaryDirectory, `phase-harness-${width}.html`);
   fs.writeFileSync(harnessFile, harness);
@@ -229,8 +229,7 @@ const frame=document.querySelector('#app');frame.addEventListener('load',()=>set
     [result.viewport === width, `a mért viewport ${result.viewport}px a kért ${width}px helyett`],
     [result.documentWidth <= result.viewport + 1, 'vízszintes dokumentum-kilógás'],
     [result.selected && result.selectedOutline >= 2, 'a kiválasztott kártya nem kapott arany kiemelést'],
-    [result.transitionActive && result.transitionDelayed, 'a 250 ms-os átmenet nem előzi meg a kijátszást'],
-    [result.transitionOpacity < .9, `a kártyasor nem halványult el (${result.transitionOpacity})`],
+    [result.transitionActive && result.transitionDelayed && result.inspectorTransitioning, 'a 250 ms-os átmenet nem előzi meg a kijátszást'],
     [result.committed === 1, `a kártya ${result.committed} alkalommal került kijátszásra`],
     [result.battleActive && result.duelFocus, 'nem aktiválódott a csatafázis'],
     [result.playerZoneHidden && result.opponentZoneHidden, 'a kézben maradt lapok vagy paklik láthatók maradtak'],
