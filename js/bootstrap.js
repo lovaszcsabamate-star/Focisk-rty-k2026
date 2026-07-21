@@ -3,6 +3,7 @@ import {
   prepareClubEnrichment,
 } from './data/club-enrichment.js';
 import { applyOfficialStatPatches } from './data/club-stat-patches.js';
+import { applyVerifiedPlayerCorrections } from './data/verified-player-corrections.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
 const CLUB_ENRICHMENT_URLS = [
@@ -25,12 +26,14 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-17-ujpest-completion.json',
   'data/club-official-enrichment-18-paks-completion.json',
   'data/club-official-enrichment-19-zte-completion.json',
+  'data/club-official-enrichment-20-puskas-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
   'data/club-official-corrections-4-kisvarda-selected10-2.json',
+  'data/club-official-corrections-5-puskas.json',
 ];
 const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kisvarda.json',
@@ -45,6 +48,7 @@ const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kazincbarcika.json',
   'data/club-official-stat-patches-ujpest.json',
   'data/club-official-stat-patches-zte.json',
+  'data/club-official-stat-patches-puskas.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
@@ -73,6 +77,7 @@ function combineCorrections(parts) {
     checkedAt: valid.at(-1)?.checkedAt ?? null,
     addSources: valid.flatMap(part => part.addSources ?? []),
     recordPatches: valid.flatMap(part => part.recordPatches ?? []),
+    verifiedCorrections: valid.flatMap(part => part.verifiedCorrections ?? []),
     excludeRecords: valid.flatMap(part => part.excludeRecords ?? []),
     additions: valid.flatMap(part => part.additions ?? []),
   };
@@ -117,8 +122,9 @@ try {
 
   const combined = combineEnrichments(rawParts, directory);
   const corrections = combineCorrections(correctionParts);
+  const correctedPayload = applyVerifiedPlayerCorrections(payload, corrections.verifiedCorrections);
   const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
-  const enrichedPayload = enrichment ? applyClubEnrichmentPayload(payload, enrichment) : payload;
+  const enrichedPayload = enrichment ? applyClubEnrichmentPayload(correctedPayload, enrichment) : correctedPayload;
   const finalPayload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
   globalThis.__EMBEDDED_PLAYER_DATA__ = finalPayload;
 

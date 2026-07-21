@@ -9,6 +9,7 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import { applyVerifiedPlayerCorrections } from '../js/data/verified-player-corrections.js';
 import {
   auditReviewedDatabase,
   writeDatabaseReviewFiles,
@@ -38,12 +39,14 @@ const enrichmentFiles = [
   'data/club-official-enrichment-17-ujpest-completion.json',
   'data/club-official-enrichment-18-paks-completion.json',
   'data/club-official-enrichment-19-zte-completion.json',
+  'data/club-official-enrichment-20-puskas-completion.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
   'data/club-official-corrections-4-kisvarda-selected10-2.json',
+  'data/club-official-corrections-5-puskas.json',
 ];
 const statPatchFiles = [
   'data/club-official-stat-patches-kisvarda.json',
@@ -58,6 +61,7 @@ const statPatchFiles = [
   'data/club-official-stat-patches-kazincbarcika.json',
   'data/club-official-stat-patches-ujpest.json',
   'data/club-official-stat-patches-zte.json',
+  'data/club-official-stat-patches-puskas.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
@@ -104,11 +108,13 @@ const corrections = {
   checkedAt: correctionParts.at(-1)?.checkedAt ?? null,
   addSources: correctionParts.flatMap(part => part.addSources ?? []),
   recordPatches: correctionParts.flatMap(part => part.recordPatches ?? []),
+  verifiedCorrections: correctionParts.flatMap(part => part.verifiedCorrections ?? []),
   excludeRecords: correctionParts.flatMap(part => part.excludeRecords ?? []),
   additions: correctionParts.flatMap(part => part.additions ?? []),
 };
+const correctedPayload = applyVerifiedPlayerCorrections(basePayload, corrections.verifiedCorrections);
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
-const enrichedPayload = applyClubEnrichmentPayload(basePayload, enrichment);
+const enrichedPayload = applyClubEnrichmentPayload(correctedPayload, enrichment);
 const payload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
 const reviewGeneratedAt = new Date().toISOString();
 const databaseReview = auditReviewedDatabase(payload, {
@@ -180,10 +186,14 @@ const audit = {
   ],
   databaseReview: databaseReview.summary,
   enrichment: payload.enrichment,
+  verifiedPlayerCorrections: payload.verifiedPlayerCorrections ?? null,
   officialStatPatches: payload.officialStatPatches,
   exclusions: enrichment.excludedRecords ?? [],
   conflicts: [...conflicts, ...(payload.officialStatPatches?.conflicts ?? [])],
-  corrections: payload.officialStatPatches?.corrections ?? [],
+  corrections: [
+    ...(payload.verifiedPlayerCorrections?.applied ?? []),
+    ...(payload.officialStatPatches?.corrections ?? []),
+  ],
 };
 const auditPath = path.join(ROOT, 'data/enrichment-audit.json');
 fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
@@ -198,6 +208,7 @@ console.log(`${payload.officialStatPatches?.matchedRecords ?? 0}/${payload.offic
 console.log(`${(payload.enrichment?.unmatchedRecords ?? 0) + (payload.officialStatPatches?.unmatchedRecords ?? 0)} rekord kézi ellenőrzésre vár.`);
 console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
 console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hozzáadva.`);
+console.log(`${payload.verifiedPlayerCorrections?.appliedFields ?? 0} bizonyított alapadat-korrekció alkalmazva.`);
 console.log(`${payload.officialStatPatches?.correctionCount ?? 0} bizonyított statisztikai korrekció alkalmazva.`);
 console.log(`Adatellenőrzés: ${databaseReview.summary.errorCount} kritikus hiba, ${databaseReview.summary.warningCount} figyelmeztetés.`);
 

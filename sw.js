@@ -1,4 +1,5 @@
-const PWA_CACHE = 'fociskartyak-2026-v26';
+// Előző cache-verzió: fociskartyak-2026-v26
+const PWA_CACHE = 'fociskartyak-2026-v27';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -15,6 +16,7 @@ const PWA_SHELL = [
   './js/bootstrap.js',
   './js/data/club-enrichment.js',
   './js/data/club-stat-patches.js',
+  './js/data/verified-player-corrections.js',
   './js/data/players.js',
   './js/engine.js',
   './js/penalties.js',
@@ -49,10 +51,12 @@ const PWA_SHELL = [
   './data/club-official-enrichment-17-ujpest-completion.json',
   './data/club-official-enrichment-18-paks-completion.json',
   './data/club-official-enrichment-19-zte-completion.json',
+  './data/club-official-enrichment-20-puskas-completion.json',
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',
   './data/club-official-corrections-4-kisvarda-selected10-2.json',
+  './data/club-official-corrections-5-puskas.json',
   './data/club-official-stat-patches-kisvarda.json',
   './data/club-official-stat-patches-kisvarda-selected10.json',
   './data/club-official-stat-patches-kisvarda-selected10-2.json',
@@ -65,6 +69,7 @@ const PWA_SHELL = [
   './data/club-official-stat-patches-kazincbarcika.json',
   './data/club-official-stat-patches-ujpest.json',
   './data/club-official-stat-patches-zte.json',
+  './data/club-official-stat-patches-puskas.json',
   './data/club-official-sources.json',
   './assets/icons/icon.svg',
   './assets/qr/mobil-eleres.svg'
