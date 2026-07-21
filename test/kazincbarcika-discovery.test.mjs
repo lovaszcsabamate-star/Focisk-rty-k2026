@@ -24,7 +24,5 @@ const snapshot = players
   .sort((a, b) => a.name.localeCompare(b.name, 'hu-HU'));
 
 assert.equal(snapshot.length, 40, `A projektben ${snapshot.length} Kazincbarcika-rekord található 40 helyett.`);
-console.log('KAZINCBARCIKA_DISCOVERY_START');
-console.log(JSON.stringify(snapshot));
-console.log('KAZINCBARCIKA_DISCOVERY_END');
-console.log('✓ Kazincbarcika pontos 40-es projektlista kinyerve');
+fs.writeFileSync(new URL('../kazincbarcika-discovery.json', import.meta.url), `${JSON.stringify(snapshot, null, 2)}\n`);
+console.log('✓ Kazincbarcika pontos 40-es projektlista artifactként elkészült');
