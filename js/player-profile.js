@@ -1,8 +1,19 @@
-/** Persistent player-name profile and DOM personalization. */
+/** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
 
 export const PLAYER_NAME_STORAGE_KEY = 'fociskartyak:player-name:v1';
 export const DEFAULT_PLAYER_NAME = 'Játékos';
 export const MAX_PLAYER_NAME_LENGTH = 24;
+
+const INTERFACE_TEXT_REPLACEMENTS = Object.freeze([
+  [
+    'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.',
+    'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.',
+  ],
+  ['Penalties mód', 'Büntetőpárbaj'],
+  ['Tizenegyes mód', 'Büntetőpárbaj'],
+  ['Penalties', 'Büntetőpárbaj'],
+  ['tizenegyespárbaj', 'büntetőpárbaj'],
+]);
 
 export function normalizePlayerName(value) {
   return String(value ?? '')
@@ -10,6 +21,13 @@ export function normalizePlayerName(value) {
     .replace(/\s+/g, ' ')
     .trim()
     .slice(0, MAX_PLAYER_NAME_LENGTH);
+}
+
+export function localizeInterfaceTextValue(value) {
+  return INTERFACE_TEXT_REPLACEMENTS.reduce(
+    (text, [source, replacement]) => text.replaceAll(source, replacement),
+    String(value ?? ''),
+  );
 }
 
 const readStoredName = () => {
@@ -49,28 +67,65 @@ function setNodeText(node, value) {
   if (node && node.textContent !== value) node.textContent = value;
 }
 
+function setFullNameHint(node, name) {
+  if (!node) return;
+  node.title = name;
+  node.setAttribute('aria-label', name);
+}
+
+function localizeInterfaceText(root = document) {
+  if (!root?.createTreeWalker && !root?.ownerDocument?.createTreeWalker) return;
+  const documentRoot = root.nodeType === 9 ? root : root.ownerDocument;
+  const walker = documentRoot.createTreeWalker(root, globalThis.NodeFilter?.SHOW_TEXT ?? 4);
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  for (const textNode of textNodes) {
+    const parentTag = textNode.parentElement?.tagName;
+    if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'TEXTAREA') continue;
+    const localized = localizeInterfaceTextValue(textNode.nodeValue);
+    replaceTextNode(textNode, localized);
+  }
+
+  for (const node of root.querySelectorAll?.('[title], [aria-label]') ?? []) {
+    for (const attribute of ['title', 'aria-label']) {
+      if (!node.hasAttribute(attribute)) continue;
+      const current = node.getAttribute(attribute);
+      const localized = localizeInterfaceTextValue(current);
+      if (localized !== current) node.setAttribute(attribute, localized);
+    }
+  }
+}
+
 function personalizeGameLabels(root = document) {
+  localizeInterfaceText(root);
+
   const name = loadPlayerName();
   const upper = upperName();
 
   const classicScore = root.querySelector?.('#hud-scores .score:first-child span:first-child');
   setNodeText(classicScore, name);
+  setFullNameHint(classicScore, name);
 
   const penaltyScore = root.querySelector?.('#hud-scores .penalty-score');
   if (penaltyScore) {
     const score = penaltyScore.textContent.match(/(\d+)\s*[–-]\s*(\d+)\s+GÉP$/u);
     if (score) setNodeText(penaltyScore, `${upper} ${score[1]}–${score[2]} GÉP`);
+    setFullNameHint(penaltyScore, `${name} – Gép`);
   }
 
   const humanDuelLabel = root.querySelector?.('#duel .duel-slot:first-child .duel-slot__who');
   setNodeText(humanDuelLabel, name);
+  setFullNameHint(humanDuelLabel, name);
 
   const humanAttemptLabel = root.querySelector?.('#penalty-board .attempt-row:first-child strong');
   setNodeText(humanAttemptLabel, upper);
+  setFullNameHint(humanAttemptLabel, name);
 
   for (const finalScore of root.querySelectorAll?.('.final-score') ?? []) {
     const score = finalScore.textContent.match(/(\d+)\s*[–-]\s*(\d+)\s+GÉP$/u);
     if (score) setNodeText(finalScore, `${upper} ${score[1]}–${score[2]} GÉP`);
+    setFullNameHint(finalScore, `${name} – Gép`);
   }
 
   const verdict = root.querySelector?.('#verdict.win');
@@ -197,6 +252,7 @@ globalThis.__FOCISKARTYAK_PLAYER_PROFILE__ = Object.freeze({
   load: loadPlayerName,
   save: savePlayerName,
   normalize: normalizePlayerName,
+  localize: localizeInterfaceTextValue,
 });
 
 if (typeof document !== 'undefined') {
