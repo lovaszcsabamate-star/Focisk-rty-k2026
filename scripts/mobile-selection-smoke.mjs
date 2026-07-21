@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const STANDALONE = path.join(ROOT, 'Fociskartyak2026.html');
+const REPORT = path.join(ROOT, 'mobile-layout-report.json');
 const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 820;
 
@@ -26,6 +27,7 @@ if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskart
 const original = fs.readFileSync(STANDALONE, 'utf8');
 const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'fociskartyak-selection-'));
 const failures = [];
+const measurements = [];
 
 for (const width of WIDTHS) {
   const appFileName = `selection-app-${width}.html`;
@@ -79,6 +81,14 @@ frame.addEventListener('load',()=>setTimeout(()=>{
       firstCardVisible:first.left>=hand.left-1,
       feltBeforeZone:felt.bottom<=zone.top+2,
       maxChoiceHeight:Math.round(Math.max(...choiceHeights)),
+      rects:{
+        felt:{top:Math.round(felt.top),bottom:Math.round(felt.bottom),left:Math.round(felt.left),right:Math.round(felt.right)},
+        prompt:{top:Math.round(prompt.top),bottom:Math.round(prompt.bottom)},
+        duel:{top:Math.round(duel.top),bottom:Math.round(duel.bottom),left:Math.round(duel.left),right:Math.round(duel.right)},
+        zone:{top:Math.round(zone.top),bottom:Math.round(zone.bottom),left:Math.round(zone.left),right:Math.round(zone.right)},
+        hand:{left:Math.round(hand.left),right:Math.round(hand.right)},
+        first:{left:Math.round(first.left),right:Math.round(first.right)},
+      },
     };
     document.documentElement.setAttribute('data-selection-smoke',encodeURIComponent(JSON.stringify(result)));
   }));
@@ -95,7 +105,9 @@ frame.addEventListener('load',()=>setTimeout(()=>{
 
   const match = run.stdout.match(/data-selection-smoke="([^"]+)"/);
   if (run.status !== 0 || !match) {
-    failures.push(`${width}px: a választási állapot nem mérhető.`);
+    const message = `${width}px: a választási állapot nem mérhető.`;
+    failures.push(message);
+    measurements.push({ width, failure: message, status: run.status, stderr: run.stderr.slice(-2000) });
     continue;
   }
 
@@ -114,10 +126,17 @@ frame.addEventListener('load',()=>setTimeout(()=>{
   ];
   const widthFailures = checks.filter(([ok]) => !ok).map(([,message]) => `${width}px: ${message}.`);
   failures.push(...widthFailures);
+  measurements.push({ width, ...result, failures: widthFailures });
   console.log(`✓ ${width}px választási nézet: prompt ${result.promptHeight}px, kártya max. ${result.maxChoiceHeight}px`);
 }
 
 fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+let report = {};
+try { report = JSON.parse(fs.readFileSync(REPORT, 'utf8')); } catch { /* standalone selection report */ }
+report.selectionMeasurements = measurements;
+report.selectionFailures = failures;
+fs.writeFileSync(REPORT, `${JSON.stringify(report, null, 2)}\n`);
+
 if (failures.length) {
   console.error(`Mobilos kártyaválasztási hibák:\n- ${failures.join('\n- ')}`);
   process.exitCode = 1;
