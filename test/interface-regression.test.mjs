@@ -10,7 +10,10 @@ const duelCss = read('css/duel-emphasis.css');
 const refinementCss = read('css/phase-refinements.css');
 const focusJs = read('js/focus-experience.js');
 const reliabilityJs = read('js/reliability-fixes.js');
+const usabilityJs = read('js/usability-fixes.js');
 const opponentsJs = read('js/opponents.js');
+const pwaJs = read('js/pwa.js');
+const pwaCss = read('css/pwa.css');
 const phaseSmoke = read('scripts/mobile-phase-smoke.mjs');
 const profileCss = read('css/player-profile.css');
 const profileJs = read('js/player-profile.js');
@@ -54,6 +57,12 @@ assert.match(phaseSmoke, /Math\.abs\(result\.first\.width\s*-\s*result\.second\.
 assert.match(phaseSmoke, /selection-phase-mobile\.png/);
 assert.match(phaseSmoke, /battle-phase-mobile\.png/);
 
+assert.match(usabilityJs, /document\.removeEventListener\('keydown', this\._inspectorKeys\)/);
+assert.match(usabilityJs, /event\.key === 'Tab'/);
+assert.match(usabilityJs, /_inspectorReturnFocus/);
+assert.match(usabilityJs, /scrollIntoView/);
+assert.match(usabilityJs, /event\.target\.closest\?\.\('button, a, input, select, textarea, \[role="button"\]'\)/);
+
 assert.match(profileCss, /#hud-scores \.score:first-child span:first-child\s*\{[^}]*text-overflow:\s*ellipsis;/s);
 assert.match(profileCss, /#hud-scores \.penalty-score\s*\{[^}]*white-space:\s*nowrap;/s);
 assert.match(profileCss, /\.final-score\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
@@ -72,13 +81,23 @@ assert.match(reliabilityJs, /game\.mode\s*===\s*'penalties'\s*\?\s*'BÜNTETŐPÁ
 assert.match(opponentsJs, /export function selectOpponentById/);
 assert.match(opponentsJs, /__FOCISKARTYAK_SELECT_OPPONENT__\s*=\s*selectOpponentById/);
 
+assert.match(pwaJs, /pwaShowUpdateNotice/);
+assert.match(pwaJs, /navigator\.serviceWorker\.addEventListener\('controllerchange'/);
+assert.match(pwaJs, /30 \* 60 \* 1000/);
+assert.match(pwaCss, /\.pwa-update-notice\s*\{/);
+assert.match(pwaCss, /safe-area-inset-bottom/);
+
 assert.doesNotMatch(indexHtml, />\s*Penalties(?: mód)?\s*</u, 'A fő HTML-ben angol Penalties felirat maradt.');
 assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
-assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/focus-experience\.js/);
+assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/usability-fixes\.js[\s\S]*js\/focus-experience\.js/);
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v41';/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v42';/);
+assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
+assert.match(serviceWorker, /async function networkFirst/);
+assert.match(serviceWorker, /freshCodeOrData/);
 assert.match(serviceWorker, /js\/reliability-fixes\.js/);
+assert.match(serviceWorker, /js\/usability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ A fázisváltás, animált kijelölés, visszatöltés, ellenfél-szinkron, mentett név és Büntetőpárbaj ellenőrzése rendben');
+console.log('✓ A kártyanézegető, frissítés, offline mód, fázisváltás és mentett játék regressziós ellenőrzése rendben');
