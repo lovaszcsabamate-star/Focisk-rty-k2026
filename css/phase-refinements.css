@@ -1,0 +1,65 @@
+/* Final phase-layout refinements loaded after duel-emphasis.css. */
+
+/* Fade the confirmation inspector away together with the hand, so the player
+   can actually see the 250 ms table transition instead of an abrupt overlay cut. */
+#inspector.is-battle-transition {
+  opacity: 0;
+  transform: translateY(10px) scale(.99);
+  pointer-events: none;
+  transition:
+    opacity var(--battle-transition-duration, 250ms) ease,
+    transform var(--battle-transition-duration, 250ms) ease;
+}
+
+/* The result and next-round control must sit below the cards rather than being
+   compressed into the same vertical space. */
+#pub.is-battle-active #felt {
+  min-height: min(80dvh, calc(var(--battle-card-height) + 220px));
+  max-height: min(90dvh, calc(var(--battle-card-height) + 280px));
+}
+
+#pub.is-battle-active #duel {
+  flex-shrink: 0;
+}
+
+#pub.is-battle-active #verdict,
+#pub.is-battle-active #attribute-picker {
+  position: relative;
+  z-index: 3;
+}
+
+/* The static 720×1536 preview and real tall phones should not turn the felt into
+   a mostly empty full-height panel during card selection. The hand remains near
+   the bottom while the battlefield keeps a screenshot-like, readable height. */
+@media (max-width: 900px) and (min-height: 1050px) {
+  #pub.is-card-selection #felt {
+    flex: 0 1 auto;
+    height: clamp(430px, 47dvh, 650px);
+    min-height: 430px;
+    max-height: 650px;
+  }
+
+  #pub.is-card-selection #player-zone {
+    margin-top: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  #pub.is-battle-active #felt {
+    min-height: min(82dvh, calc(var(--battle-card-height) + 210px));
+    max-height: min(92dvh, calc(var(--battle-card-height) + 265px));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  #pub.is-battle-active #felt {
+    min-height: calc(var(--battle-card-height) + 104px);
+    max-height: calc(var(--battle-card-height) + 138px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inspector.is-battle-transition {
+    transition-duration: 1ms;
+  }
+}
