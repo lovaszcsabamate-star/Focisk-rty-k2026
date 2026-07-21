@@ -27,138 +27,28 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Finalize source terminology and test-runner guards
+      - name: Guard browser-only UX initialization
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
 
-          ux_path = Path('js/ux.js')
-          ux = ux_path.read_text(encoding='utf-8')
-          ux = ux.replace(
-              ' * engine. The classic rules and the penalty rules therefore remain unchanged.',
-              ' * engine. The classic rules and the Büntetőpárbaj rules therefore remain unchanged.',
+          path = Path('js/ux.js')
+          source = path.read_text(encoding='utf-8')
+          source = source.replace(
+              '\ninstallDocumentUX();\n',
+              "\nif (typeof document !== 'undefined') installDocumentUX();\n",
           )
-          ux = ux.replace(
-              "const attributeDirection = attribute => {\n"
-              "  if (!attribute) return '';\n"
-              "  return attribute.key === 'birthDate' ? 'a fiatalabb nyer' : 'a nagyobb érték nyer';\n"
-              "};\n\n"
-              "const comparisonSymbol = (attribute, winner) => {\n"
-              "  if (winner === 'tie') return '=';\n"
-              "  const humanWon = winner === HUMAN;\n"
-              "  if (attribute?.key === 'birthDate') return humanWon ? '<' : '>';\n"
-              "  return humanWon ? '>' : '<';\n"
-              "};",
-              "export function comparisonDirectionInstruction(attribute) {\n"
-              "  switch (attribute?.direction) {\n"
-              "    case 'higher': return 'A nagyobb érték a jobb';\n"
-              "    case 'lower': return 'A kisebb érték a jobb';\n"
-              "    case 'later': return 'A későbbi érték a jobb';\n"
-              "    case 'earlier': return 'A korábbi érték a jobb';\n"
-              "    default: return attribute?.higherWins ? 'A nagyobb érték a jobb' : 'A kisebb érték a jobb';\n"
-              "  }\n"
-              "}\n\n"
-              "const attributeDirection = attribute => {\n"
-              "  const instruction = comparisonDirectionInstruction(attribute);\n"
-              "  return instruction ? instruction.charAt(0).toLocaleLowerCase('hu-HU') + instruction.slice(1) : '';\n"
-              "};\n\n"
-              "const comparisonSymbol = (attribute, winner) => {\n"
-              "  if (winner === 'tie') return '=';\n"
-              "  const humanWon = winner === HUMAN;\n"
-              "  const lowerWins = ['lower', 'earlier'].includes(attribute?.direction)\n"
-              "    || (!attribute?.direction && attribute?.higherWins === false);\n"
-              "  if (lowerWins) return humanWon ? '<' : '>';\n"
-              "  return humanWon ? '>' : '<';\n"
-              "};",
-          )
-          ux = ux.replace("if (title) title.textContent = '⚽ Tizenegyes mód';", "if (title) title.textContent = '⚽ Büntetőpárbaj';")
-          ux = ux.replace("<b>Tizenegyes szabály:</b>", "<b>Büntetőpárbaj-szabály:</b>")
-          ux_path.write_text(ux, encoding='utf-8')
-
-          mobile_path = Path('js/mobile-experience.js')
-          mobile = mobile_path.read_text(encoding='utf-8')
-          mobile = mobile.replace(
-              "import { HUMAN } from './engine.js';\n",
-              "import { HUMAN } from './engine.js';\nimport { comparisonDirectionInstruction } from './ux.js';\n\nexport { comparisonDirectionInstruction };\n",
-          )
-          mobile = mobile.replace(
-              "/** Central direction copy derived only from the category data model. */\n"
-              "export function comparisonDirectionInstruction(attribute) {\n"
-              "  switch (attribute?.direction) {\n"
-              "    case 'higher': return 'A nagyobb érték a jobb';\n"
-              "    case 'lower': return 'A kisebb érték a jobb';\n"
-              "    case 'later': return 'A későbbi érték a jobb';\n"
-              "    case 'earlier': return 'A korábbi érték a jobb';\n"
-              "    default: return attribute?.higherWins ? 'A nagyobb érték a jobb' : 'A kisebb érték a jobb';\n"
-              "  }\n"
-              "}\n\n",
-              "",
-          )
-          mobile_path.write_text(mobile, encoding='utf-8')
-
-          profile_path = Path('js/player-profile.js')
-          profile = profile_path.read_text(encoding='utf-8')
-          profile = profile.replace(
-              '/** Persistent player-name profile, Hungarian mode labels and DOM personalization. */',
-              '/** Persistent player-name profile and scoreboard personalization. */',
-          )
-          start = profile.index('const INTERFACE_TEXT_REPLACEMENTS')
-          end = profile.index('export function normalizePlayerName', start)
-          profile = profile[:start] + profile[end:]
-          start = profile.index('export function localizeInterfaceTextValue')
-          end = profile.index('const readStoredName', start)
-          profile = profile[:start] + "export function localizeInterfaceTextValue(value) {\n  return String(value ?? '');\n}\n\n" + profile[end:]
-          start = profile.index('function localizeInterfaceText(root = document)')
-          end = profile.index('function personalizeGameLabels', start)
-          profile = profile[:start] + profile[end:]
-          profile = profile.replace('  localizeInterfaceText(root);\n\n', '')
-          profile_path.write_text(profile, encoding='utf-8')
-
-          player_test_path = Path('test/player-profile.test.mjs')
-          player_test = player_test_path.read_text(encoding='utf-8')
-          start = player_test.index("assert.equal(localizeInterfaceTextValue('⚽ Penalties mód')")
-          end = player_test.index('console.log', start)
-          player_test = player_test[:start] + (
-              "assert.equal(localizeInterfaceTextValue('⚽ Büntetőpárbaj'), '⚽ Büntetőpárbaj');\n"
-              "assert.equal(localizeInterfaceTextValue('Büntetőpárbaj · mentett játék'), 'Büntetőpárbaj · mentett játék');\n\n"
-          ) + player_test[end:]
-          player_test_path.write_text(player_test, encoding='utf-8')
-
-          static_path = Path('test/static.test.mjs')
-          static = static_path.read_text(encoding='utf-8')
-          static = static.replace(
-              "assert.match(mobileExperienceJs, /case 'lower': return 'A kisebb érték a jobb'/);",
-              "assert.match(uxJs, /case 'lower': return 'A kisebb érték a jobb'/);",
-          )
-          static_path.write_text(static, encoding='utf-8')
-
-          for script_name in [
-              'scripts/mobile-layout-smoke.mjs',
-              'scripts/mobile-selection-smoke.mjs',
-              'scripts/mobile-phase-smoke.mjs',
-          ]:
-              path = Path(script_name)
-              text = path.read_text(encoding='utf-8')
-              text = text.replace(
-                  "{ encoding: 'utf8', maxBuffer:",
-                  "{ encoding: 'utf8', timeout: 20_000, killSignal: 'SIGKILL', maxBuffer:",
-              )
-              path.write_text(text, encoding='utf-8')
+          path.write_text(source, encoding='utf-8')
           PY
 
           node --check js/ux.js
-          node --check js/mobile-experience.js
-          node --check js/player-profile.js
-          node --check scripts/mobile-layout-smoke.mjs
-          node --check scripts/mobile-selection-smoke.mjs
-          node --check scripts/mobile-phase-smoke.mjs
 
           if [[ '${{ github.event_name }}' == 'push' ]] && ! git diff --quiet; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add js/ux.js js/mobile-experience.js js/player-profile.js test/player-profile.test.mjs test/static.test.mjs scripts/mobile-layout-smoke.mjs scripts/mobile-selection-smoke.mjs scripts/mobile-phase-smoke.mjs
-            git commit -m 'Egységesíti a Büntetőpárbaj forrásfeliratait és kategóriairányait'
+            git add js/ux.js
+            git commit -m 'Böngészőfüggetlenné teszi az UX modul importját'
             git push
           fi
 
