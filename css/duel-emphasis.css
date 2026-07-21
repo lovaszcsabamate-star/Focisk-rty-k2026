@@ -6,9 +6,10 @@
    - responsive caps keep the opponent, prompt, result and controls visible
    =========================================================================== */
 
-/* The battlefield must remain at its normal flexible size during category and
-   card selection. It is reduced only after played cards appear in #duel. */
-#felt:has(#duel:not(:empty)) {
+/* During card selection #duel already contains an empty human placeholder.
+   The compact battlefield must therefore activate only when the first slot
+   contains a real played card, not merely when #duel is non-empty. */
+#felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) {
   flex: 0 1 50vh;
   max-height: 50vh;
   min-height: 0;
@@ -18,7 +19,7 @@
 }
 
 @supports (height: 100dvh) {
-  #felt:has(#duel:not(:empty)) {
+  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) {
     flex-basis: 50dvh;
     max-height: 50dvh;
   }
@@ -42,7 +43,7 @@
 /* The height determines the whole card size through aspect-ratio. This keeps
    the original 132 × 232 proportions on every screen instead of allowing the
    width and height clamps to stretch the card independently. */
-#duel > .duel-slot:first-child .card {
+#duel > .duel-slot:first-child .card:not(.card--empty) {
   width: auto;
   height: min(464px, 74vw, calc(50vh - 96px));
   max-width: 42vw;
@@ -53,69 +54,69 @@
    twice the normal 132 × 232 px card. Container units let shorter battlefields
    reduce it before surrounding labels or controls can overlap. */
 @supports (height: 1cqh) {
-  #duel > .duel-slot:first-child .card {
+  #duel > .duel-slot:first-child .card:not(.card--empty) {
     width: auto;
     height: min(464px, 86cqh, 74vw);
   }
 
-  .mode-penalties #duel > .duel-slot:first-child .card {
+  .mode-penalties #duel > .duel-slot:first-child .card:not(.card--empty) {
     height: min(464px, 68cqh, 74vw);
   }
 }
 
 /* Scale the contents too, not only the card frame, so the enlarged card is
    genuinely easier to read. Clamps prevent oversized text on narrow screens. */
-#duel > .duel-slot:first-child .card__portrait {
+#duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
   height: clamp(62px, 12vw, 148px);
 }
 
-#duel > .duel-slot:first-child .card__portrait::after {
+#duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait::after {
   font-size: clamp(28px, 4vw, 52px);
 }
 
-#duel > .duel-slot:first-child .card__position {
+#duel > .duel-slot:first-child .card:not(.card--empty) .card__position {
   top: clamp(4px, .6vw, 8px);
   left: clamp(4px, .6vw, 8px);
   padding: clamp(2px, .3vw, 4px) clamp(5px, .6vw, 9px);
   font-size: clamp(9px, 1vw, 13px);
 }
 
-#duel > .duel-slot:first-child .card__name {
+#duel > .duel-slot:first-child .card:not(.card--empty) .card__name {
   padding: clamp(4px, .7vw, 9px) clamp(6px, 1vw, 13px) 2px;
   font-size: clamp(15px, 2vw, 28px);
   line-height: 1;
 }
 
-#duel > .duel-slot:first-child .card__club {
+#duel > .duel-slot:first-child .card:not(.card--empty) .card__club {
   padding: 0 clamp(6px, 1vw, 13px) clamp(4px, .7vw, 8px);
   font-size: clamp(9px, 1vw, 15px);
 }
 
-#duel > .duel-slot:first-child .card__stats {
+#duel > .duel-slot:first-child .card:not(.card--empty) .card__stats {
   padding: 0 clamp(6px, .9vw, 11px) clamp(6px, .9vw, 11px);
   gap: clamp(1px, .25vw, 3px);
 }
 
-#duel > .duel-slot:first-child .stat {
+#duel > .duel-slot:first-child .card:not(.card--empty) .stat {
   padding: clamp(2px, .4vw, 5px) clamp(4px, .7vw, 9px);
   font-size: clamp(9px, 1.15vw, 16px);
 }
 
-/* Compact the surrounding labels only while a duel is actually visible. */
-#felt:has(#duel:not(:empty)) #prompt {
+/* Compact the surrounding labels only while a real duel is visible. */
+#felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #prompt {
   min-height: 0;
   font-size: clamp(14px, 1.6vw, 19px);
   line-height: 1.05;
 }
 
-#felt:has(#duel:not(:empty)) #verdict {
+#felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #verdict {
   min-height: 0;
   font-size: clamp(18px, 2.1vw, 26px);
   line-height: 1.05;
 }
 
 @media (max-width: 620px) {
-  #felt:has(#duel:not(:empty)) {
+  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) {
     gap: 4px;
     padding-block: 5px;
   }
@@ -129,19 +130,19 @@
     gap: 3px;
   }
 
-  #duel > .duel-slot:first-child .card__portrait {
+  #duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
     height: clamp(54px, 18vw, 92px);
   }
 
-  #duel > .duel-slot:first-child .card__name {
+  #duel > .duel-slot:first-child .card:not(.card--empty) .card__name {
     font-size: clamp(13px, 4vw, 18px);
   }
 
-  #duel > .duel-slot:first-child .card__club {
+  #duel > .duel-slot:first-child .card:not(.card--empty) .card__club {
     font-size: clamp(8px, 2.4vw, 11px);
   }
 
-  #duel > .duel-slot:first-child .stat {
+  #duel > .duel-slot:first-child .card:not(.card--empty) .stat {
     padding: 2px 4px;
     font-size: clamp(8px, 2.55vw, 11px);
   }
@@ -156,22 +157,22 @@
 }
 
 @media (max-height: 620px) {
-  #felt:has(#duel:not(:empty)) #prompt {
+  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #prompt {
     font-size: 12px;
     line-height: 1;
   }
 
-  #felt:has(#duel:not(:empty)) #verdict {
+  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #verdict {
     font-size: 17px;
     line-height: 1;
   }
 
-  #felt:has(#duel:not(:empty)) #verdict small {
+  #felt:has(#duel > .duel-slot:first-child .card:not(.card--empty)) #verdict small {
     margin-top: 0;
     font-size: 9px;
   }
 
-  #duel > .duel-slot:first-child .card__portrait {
+  #duel > .duel-slot:first-child .card:not(.card--empty) .card__portrait {
     height: clamp(48px, 11vh, 72px);
   }
 }
