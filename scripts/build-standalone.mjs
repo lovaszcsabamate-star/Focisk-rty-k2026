@@ -32,6 +32,7 @@ const enrichmentFiles = [
   'data/club-official-enrichment-11-kisvarda-completion.json',
   'data/club-official-enrichment-12-dvtk-completion.json',
   'data/club-official-enrichment-13-mtk-completion.json',
+  'data/club-official-enrichment-14-nyiregyhaza-completion.json',
 ];
 const correctionFiles = [
   'data/club-official-corrections.json',
@@ -48,6 +49,7 @@ const statPatchFiles = [
   'data/club-official-stat-patches-ferencvaros.json',
   'data/club-official-stat-patches-dvtk.json',
   'data/club-official-stat-patches-mtk.json',
+  'data/club-official-stat-patches-nyiregyhaza.json',
 ];
 const directoryFile = 'data/club-official-sources.json';
 const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
