@@ -58,6 +58,17 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+      - name: Kazincbarcika pontos projektlista kinyerése
+        run: npm run test:kazincbarcika-discovery
+
+      - name: Kazincbarcika lista mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: kazincbarcika-discovery
+          path: kazincbarcika-discovery.json
+          if-no-files-found: error
+          retention-days: 2
+
       - name: Alkalmazástesztek
         run: npm test
 
