@@ -25,12 +25,14 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-17-ujpest-completion.json',
   'data/club-official-enrichment-18-paks-completion.json',
   'data/club-official-enrichment-19-zte-completion.json',
+  'data/club-official-enrichment-20-puskas-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
   'data/club-official-corrections-2.json',
   'data/club-official-corrections-3.json',
   'data/club-official-corrections-4-kisvarda-selected10-2.json',
+  'data/club-official-corrections-5-puskas.json',
 ];
 const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kisvarda.json',
@@ -45,6 +47,7 @@ const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-kazincbarcika.json',
   'data/club-official-stat-patches-ujpest.json',
   'data/club-official-stat-patches-zte.json',
+  'data/club-official-stat-patches-puskas.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
