@@ -72,8 +72,14 @@
       "clubName": "Kolorcity Kazincbarcika SC",
       "officialUrl": "https://kbsc.hu/",
       "officialRosterUrl": "https://kbsc.hu/oldal/jatekoskeret",
-      "status": "official-roster-and-transfer-enrichment",
-      "recordFiles": ["data/club-official-enrichment-5-other.json"]
+      "officialSeasonRosterUrl": "https://adatbank.mlsz.hu/club/65/0/31362/26/307010.html",
+      "status": "complete-40-of-40-player-review",
+      "recordFiles": [
+        "data/club-official-enrichment-5-other.json",
+        "data/club-official-enrichment-16-kazincbarcika-completion.json",
+        "data/club-official-stat-patches-kazincbarcika.json"
+      ],
+      "note": "A Kolorcity Kazincbarcika SC mind a 40 projektbeli 2025/26-os szezonrekordja játékosprofilonkénti MLSZ Fizz Liga-, HLSZ- és hivatalos klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség és poszt rögzített. A pályára lépés és a kispados kerettagság külön mező; a többklubos játékosok kazincbarcikai sora klubmetaadatként marad meg, és nem írja felül a személy-szezon összesítést. A nem publikált játékperc, gólpassz és a kiállítás típusa továbbra is null marad."
     },
     {
       "clubId": "mtk-budapest",
