@@ -54,6 +54,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Inventory fixed cache-version expectations
+        shell: bash
+        run: grep -RInE 'fociskartyak-2026-v[0-9]+' test > stale-cache-expectations.log || true
+
+      - name: Upload cache-expectation inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stale-cache-expectations-${{ github.run_id }}
+          path: stale-cache-expectations.log
+          if-no-files-found: ignore
+
       - name: Lint
         run: npm run lint
 
