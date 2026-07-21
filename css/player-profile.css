@@ -93,6 +93,52 @@
   margin-bottom: 16px;
 }
 
+/* The saved name must never widen or break the HUD. The score value stays in
+   its own flex item, while only an overlong name is shortened with an ellipsis. */
+#hud-scores {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#hud-scores .score,
+#hud-scores .penalty-score {
+  min-width: 0;
+}
+
+#hud-scores .score:first-child {
+  max-width: min(260px, 42vw);
+}
+
+#hud-scores .score:first-child span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hud-scores .penalty-score {
+  max-width: min(460px, 76vw);
+  overflow: hidden;
+  font-size: clamp(10px, 2.6vw, 16px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#duel .duel-slot:first-child .duel-slot__who,
+#penalty-board .attempt-row:first-child strong {
+  min-width: 0;
+  max-width: min(220px, 38vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.final-score {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
 @media (max-width: 520px) {
   .player-profile__form {
     grid-template-columns: 1fr;
@@ -100,5 +146,18 @@
 
   .player-profile__save {
     width: 100%;
+  }
+
+  #hud-scores .score:first-child {
+    max-width: 44vw;
+  }
+
+  #hud-scores .score:first-child span:first-child {
+    font-size: clamp(9px, 3vw, 12px);
+  }
+
+  #hud-scores .penalty-score {
+    max-width: 84vw;
+    font-size: clamp(9px, 3vw, 12px);
   }
 }
