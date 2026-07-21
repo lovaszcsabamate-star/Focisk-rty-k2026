@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T13:23:21.601Z",
+  "generatedAt": "2026-07-21T14:06:09.768Z",
   "season": "2025/26",
   "competition": "Fizz Liga (NB I)",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
@@ -27,6 +27,7 @@
     "data/club-official-enrichment-19-zte-completion.json",
     "data/club-official-enrichment-20-puskas-completion.json",
     "data/club-official-enrichment-21-eto-completion.json",
+    "data/club-official-enrichment-22-kisvarda-nationalities.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -57,13 +58,13 @@
     "warningCount": 2,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3993,
+    "changeCount": 4014,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "coverage": {
     "birthDate": 440,
-    "nation": 417,
+    "nation": 438,
     "position": 433,
     "appearances": 423,
     "starts": 423,
@@ -80,7 +81,7 @@
   },
   "missingCounts": {
     "birthDate": 0,
-    "nation": 23,
+    "nation": 2,
     "position": 7,
     "appearances": 17,
     "starts": 17,
@@ -99,28 +100,7 @@
     "birthDate": [],
     "nation": [
       "2025-26-dvsc-asztalos-noel",
-      "2025-26-dvsc-kohut-mate",
-      "nb1-2c1a69d9470c",
-      "nb1-8061aa670d1b",
-      "nb1-634e0e27432f",
-      "nb1-c41102009eb6",
-      "nb1-a8d4793a3acf",
-      "nb1-6c24b3629e1e",
-      "nb1-9e00c5f876e9",
-      "nb1-3f02cae67457",
-      "nb1-1f4f96815ad4",
-      "nb1-d41a8ab9b25c",
-      "nb1-046e04c4b9c4",
-      "nb1-e262cfc330c5",
-      "nb1-1fad065b3f0e",
-      "nb1-6cbcce5a2082",
-      "nb1-7012de8d22c6",
-      "nb1-3ba077e8f4ad",
-      "nb1-6540a986095c",
-      "nb1-b7749b584ff6",
-      "nb1-65d519bbe651",
-      "nb1-c58be98f1211",
-      "nb1-1ba2fbff76ce"
+      "2025-26-dvsc-kohut-mate"
     ],
     "position": [
       "2025-26-dvsc-asztalos-noel",
@@ -2141,7 +2121,7 @@
       "players": 42,
       "coverage": {
         "birthDate": 42,
-        "nation": 41,
+        "nation": 42,
         "position": 42,
         "appearances": 40,
         "starts": 40,
@@ -2158,7 +2138,7 @@
       },
       "missing": {
         "birthDate": 0,
-        "nation": 1,
+        "nation": 0,
         "position": 0,
         "appearances": 2,
         "starts": 2,
@@ -2180,7 +2160,7 @@
       "players": 38,
       "coverage": {
         "birthDate": 38,
-        "nation": 17,
+        "nation": 38,
         "position": 38,
         "appearances": 37,
         "starts": 37,
@@ -2197,7 +2177,7 @@
       },
       "missing": {
         "birthDate": 0,
-        "nation": 21,
+        "nation": 0,
         "position": 0,
         "appearances": 1,
         "starts": 1,
@@ -2579,9 +2559,10 @@
         "data/club-official-stat-patches-kisvarda-selected10.json",
         "data/club-official-stat-patches-kisvarda-selected10-2.json",
         "data/club-official-stat-patches-kisvarda-selected10-3.json",
-        "data/club-official-stat-patches-kisvarda-final8.json"
+        "data/club-official-stat-patches-kisvarda-final8.json",
+        "data/club-official-enrichment-22-kisvarda-nationalities.json"
       ],
-      "note": "A Kisvárda mind a 38 adatbázisrekordja játékosonkénti MLSZ- és klubforrásos ellenőrzést kapott. A pontos születési dátum, poszt és Fizz Liga-kerettagság valamennyi rekordnál rögzített; Medgyes Sinan és Molnár Gábor korábban üresen hagyott posztját külön hivatalos klubforrás zárja le. A pályára lépés és a kispados kerettagság külön mező. A nem publikált magasság, domináns láb, mezszám vagy szerződésadat továbbra is null marad."
+      "note": "A Kisvárda mind a 38 adatbázisrekordja játékosonkénti MLSZ-, HLSZ- és klubforrásos ellenőrzést kapott. Valamennyi pontos születési dátum, nemzetiség és poszt rögzített. A korábban hiányzó 21 országadat külön, kizárólag nemzetiséget tartalmazó rétegben került be; Abdullahi Kamal nigériai és Jazsik Román ukrán besorolását az MLSZ-azonosítással egyező ellenőrzött másodlagos forrás támasztja alá, mert a HLSZ mezője üres. A már meglévő Fizz Liga-statisztikák változatlanok maradtak."
     },
     {
       "clubId": "kolorcity-kazincbarcika-sc",
@@ -15273,6 +15254,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-2c1a69d9470c",
+      "playerName": "SZABÓ SZILÁRD",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-c1ed1ff161bd",
       "playerName": "OSVÁTH ATTILA",
       "clubId": "ferencvarosi-tc",
@@ -15389,6 +15382,18 @@
       "sourceName": "Kisvárda FC hivatalos keretoldal – kiválasztott játékosok posztja",
       "sourceUrl": "https://kisvardafc.hu/oldal/4/nb-ii",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-8061aa670d1b",
+      "playerName": "ABDULLAHI KAMAL",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "transfermarkt-kisvarda-abdullahi-nationality",
+      "sourceName": "Transfermarkt – Abdullahi Kamal Kisvárda-profilja",
+      "sourceUrl": "https://www.transfermarkt.com/kisvarda-fc/leistungsdaten/verein/30613",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -16380,6 +16385,18 @@
       "playerId": "nb1-634e0e27432f",
       "playerName": "Bíró Bence Balázs",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-634e0e27432f",
+      "playerName": "Bíró Bence Balázs",
+      "clubId": "kisvarda-master-good",
       "field": "stats.minutes",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -17004,6 +17021,18 @@
       "playerId": "nb1-c41102009eb6",
       "playerName": "DANIEL STEPHEN ADAYILO",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-ii-2026-27-nationalities",
+      "sourceName": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda-ii",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c41102009eb6",
+      "playerName": "DANIEL STEPHEN ADAYILO",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -17213,6 +17242,18 @@
       "sourceName": "MLSZ és Kisvárda FC – Gyurkó Máté játékosprofil és kölcsönadás",
       "sourceUrl": "https://adatbank.mlsz.hu/player/446755.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-a8d4793a3acf",
+      "playerName": "GYURKÓ MÁTÉ",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-budafok-gyurko-mate-nationality",
+      "sourceName": "HLSZ – Gyurkó Máté játékosprofilja",
+      "sourceUrl": "https://hlsz.hu/budafok",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -17436,6 +17477,18 @@
       "playerId": "nb1-6c24b3629e1e",
       "playerName": "HRABINA ALEX",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-6c24b3629e1e",
+      "playerName": "HRABINA ALEX",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-kisvarda-final8-2025-26",
       "sourceName": "MLSZ Adatbank – a Kisvárda utolsó nyolc rekordjának végleges 2025/26-os Fizz Liga sorai",
@@ -17585,6 +17638,18 @@
       "sourceName": "MLSZ és Kisvárda FC – Jazsik Román játékosprofil",
       "sourceUrl": "https://adatbank.mlsz.hu/player/1292313.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-9e00c5f876e9",
+      "playerName": "JAZSIK ROMÁN",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "nemzeti-sport-jazsik-nationality",
+      "sourceName": "Nemzeti Sport – Jazsik Román kazincbarcikai kölcsönadása",
+      "sourceUrl": "https://www.nemzetisport.hu/labdarugo-nb-ii/2026/07/kecskemeti-erkezok-barcikai-tavozok-szerbiaba-igazolt-a-csatar",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -17777,6 +17842,18 @@
       "sourceName": "Kisvárda FC hivatalos keretoldal – kiválasztott játékosok posztja",
       "sourceUrl": "https://kisvardafc.hu/oldal/4/nb-ii",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-3f02cae67457",
+      "playerName": "KOLIADA NAZAR",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-ii-2026-27-nationalities",
+      "sourceName": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda-ii",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -18012,6 +18089,18 @@
       "playerId": "nb1-1f4f96815ad4",
       "playerName": "KOVÁCS MARCELL",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-1f4f96815ad4",
+      "playerName": "KOVÁCS MARCELL",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-kisvarda-selected10-2025-26",
       "sourceName": "MLSZ Adatbank – a kiválasztott tíz Kisvárda-játékos végleges 2025/26-os Fizz Liga sorai",
@@ -18233,6 +18322,18 @@
       "sourceName": "MLSZ jegyzőkönyvek – Kisvárda 2025/26-os mezszámok",
       "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d41a8ab9b25c",
+      "playerName": "KÖRMENDI KEVIN",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -18473,6 +18574,18 @@
       "sourceName": "Kisvárda FC – Lippai Tibor hivatalos bemutatása",
       "sourceUrl": "https://kisvardafc.hu/news/news/view?id=6591",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-046e04c4b9c4",
+      "playerName": "LIPPAI TIBOR",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -20436,6 +20549,18 @@
       "playerId": "nb1-e262cfc330c5",
       "playerName": "MOLNÁR GÁBOR",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-e262cfc330c5",
+      "playerName": "MOLNÁR GÁBOR",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -21480,6 +21605,18 @@
       "playerId": "nb1-1fad065b3f0e",
       "playerName": "Osztrovka Maxim",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-karcag-osztrovka-nationality",
+      "sourceName": "HLSZ – Osztrovka Maxim játékosprofilja",
+      "sourceUrl": "https://hlsz.hu/karcag",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-1fad065b3f0e",
+      "playerName": "Osztrovka Maxim",
+      "clubId": "kisvarda-master-good",
       "field": "stats.minutes",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -21653,6 +21790,18 @@
       "sourceName": "Kisvárda FC és MLSZ – Papp Zsombor játékosprofil",
       "sourceUrl": "https://kisvardafc.hu/hir/fiatal-kapust-szerzodtettunk/9178",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-6cbcce5a2082",
+      "playerName": "PAPP ZSOMBOR",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-ii-2026-27-nationalities",
+      "sourceName": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda-ii",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -21845,6 +21994,18 @@
       "sourceName": "MLSZ és Kisvárda FC – Pintér Filip játékosprofil és kölcsönstátusz",
       "sourceUrl": "https://adatbank.mlsz.hu/player/714803.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-7012de8d22c6",
+      "playerName": "PINTÉR ATTILA FILIP",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -22049,6 +22210,18 @@
       "sourceName": "MLSZ és Kisvárda FC – Popovics Ilija játékosprofil",
       "sourceUrl": "https://adatbank.mlsz.hu/player/1109171.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-3ba077e8f4ad",
+      "playerName": "POPOVICS ILLYA",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -22608,6 +22781,18 @@
       "playerId": "nb1-6540a986095c",
       "playerName": "Soltész Dominik István",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-6540a986095c",
+      "playerName": "Soltész Dominik István",
+      "clubId": "kisvarda-master-good",
       "field": "stats.minutes",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -22781,6 +22966,18 @@
       "sourceName": "Kisvárda FC – Soltész István hivatalos bemutatása",
       "sourceUrl": "https://kisvardafc.hu/hir/csatlakozott-az-ikertestverehez/7600",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-b7749b584ff6",
+      "playerName": "SOLTÉSZ ISTVÁN ZOLTÁN",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -23184,6 +23381,18 @@
       "playerId": "nb1-65d519bbe651",
       "playerName": "SZIKSZAI HENNAGYIJ",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-ii-2026-27-nationalities",
+      "sourceName": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda-ii",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-65d519bbe651",
+      "playerName": "SZIKSZAI HENNAGYIJ",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -23400,6 +23609,18 @@
       "playerId": "nb1-c58be98f1211",
       "playerName": "SZŐR LEVENTE",
       "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-2025-26-nationalities",
+      "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c58be98f1211",
+      "playerName": "SZŐR LEVENTE",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -23597,6 +23818,18 @@
       "sourceName": "MLSZ és Kisvárda FC – Tarasz Veprik játékosprofil",
       "sourceUrl": "https://adatbank.mlsz.hu/player/1291810.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-1ba2fbff76ce",
+      "playerName": "VEPRIK TARASZ",
+      "clubId": "kisvarda-master-good",
+      "field": "nation",
+      "sourceId": "hlsz-kisvarda-ii-2026-27-nationalities",
+      "sourceName": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
+      "sourceUrl": "https://hlsz.hu/kisvarda-ii",
+      "checkedAt": "2026-07-21",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },

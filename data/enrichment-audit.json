@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T13:23:21.601Z",
+  "generatedAt": "2026-07-21T14:06:09.768Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -24,6 +24,7 @@
     "data/club-official-enrichment-19-zte-completion.json",
     "data/club-official-enrichment-20-puskas-completion.json",
     "data/club-official-enrichment-21-eto-completion.json",
+    "data/club-official-enrichment-22-kisvarda-nationalities.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -67,7 +68,7 @@
     "totalDismissals": 423,
     "overallScore": 143,
     "position": 433,
-    "nation": 417,
+    "nation": 438,
     "heightCm": 57,
     "shirtNumber": 288,
     "officialMetadata": 83,
@@ -140,8 +141,8 @@
     {
       "field": "nation",
       "before": 0,
-      "after": 417,
-      "added": 417
+      "after": 438,
+      "added": 438
     },
     {
       "field": "heightCm",
@@ -283,9 +284,9 @@
       "clubId": "kisvarda-master-good",
       "clubName": "Kisvárda Master Good",
       "mlszCards": 38,
-      "officialRecords": 71,
-      "eligibleRecords": 71,
-      "matched": 71,
+      "officialRecords": 92,
+      "eligibleRecords": 92,
+      "matched": 92,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "complete-38-of-38-player-review",
@@ -387,16 +388,16 @@
     "warningCount": 2,
     "duplicateCandidateCount": 0,
     "conflictCount": 0,
-    "changeCount": 3993,
+    "changeCount": 4014,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T14:55:00+02:00",
-    "records": 706,
-    "matchedRecords": 706,
+    "generatedAt": "2026-07-21T16:15:00+02:00",
+    "records": 727,
+    "matchedRecords": 727,
     "unmatchedRecords": 0,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -425,7 +426,7 @@
     "conflictCount": 0,
     "appliedFieldCounts": {
       "position": 432,
-      "nation": 416,
+      "nation": 437,
       "birthDate": 318,
       "heightCm": 57,
       "shirtNumber": 287,
@@ -501,7 +502,7 @@
       "totalDismissals": 144,
       "overallScore": 143,
       "position": 433,
-      "nation": 417,
+      "nation": 438,
       "heightCm": 57,
       "shirtNumber": 288,
       "officialMetadata": 83
@@ -570,8 +571,8 @@
       {
         "field": "nation",
         "before": 0,
-        "after": 417,
-        "added": 417
+        "after": 438,
+        "added": 438
       },
       {
         "field": "heightCm",
@@ -645,9 +646,9 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 71,
-        "eligibleRecords": 71,
-        "matched": 71,
+        "officialRecords": 92,
+        "eligibleRecords": 92,
+        "matched": 92,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-38-of-38-player-review",

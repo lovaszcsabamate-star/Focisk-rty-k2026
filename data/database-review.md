@@ -1,13 +1,13 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-21T13:23:21.601Z
+Generálva: 2026-07-21T14:06:09.768Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **440/440**
-- Változásnapló-bejegyzések: **3993**
+- Változásnapló-bejegyzések: **4014**
 - Megőrzött forrásütközések: **0**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **2**
@@ -17,7 +17,7 @@ Generálva: 2026-07-21T13:23:21.601Z
 | Mező | Ismert | Hiányzó |
 |---|---:|---:|
 | birthDate | 440 | 0 |
-| nation | 417 | 23 |
+| nation | 438 | 2 |
 | position | 433 | 7 |
 | appearances | 423 | 17 |
 | starts | 423 | 17 |
@@ -39,8 +39,8 @@ Generálva: 2026-07-21T13:23:21.601Z
 | DVSC | 38 | 38 | 36 | 36 | 38 | 0 | 0 |
 | DVTK | 45 | 45 | 45 | 45 | 39 | 0 | 0 |
 | ETO FC | 35 | 35 | 35 | 35 | 35 | 0 | 0 |
-| Ferencvárosi TC | 42 | 42 | 42 | 41 | 40 | 0 | 0 |
-| Kisvárda Master Good | 38 | 38 | 38 | 17 | 37 | 29 | 29 |
+| Ferencvárosi TC | 42 | 42 | 42 | 42 | 40 | 0 | 0 |
+| Kisvárda Master Good | 38 | 38 | 38 | 38 | 37 | 29 | 29 |
 | Kolorcity Kazincbarcika SC | 40 | 40 | 40 | 40 | 35 | 0 | 0 |
 | MTK Budapest | 36 | 36 | 36 | 36 | 34 | 0 | 0 |
 | Nyíregyháza Spartacus FC | 39 | 39 | 34 | 39 | 37 | 0 | 0 |
