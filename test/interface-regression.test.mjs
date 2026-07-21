@@ -48,6 +48,8 @@ assert.match(focusJs, /pub\.classList\.add\('is-battle-transition'\)/);
 assert.match(focusJs, /},\s*250\);/, 'A 200–300 ms-os átmeneti időzítés hiányzik.');
 assert.match(focusJs, /queueMicrotask/);
 assert.match(focusJs, /markChoiceCardSelected/);
+assert.match(focusJs, /handleDirectChoicePlay/);
+assert.match(focusJs, /card\.dataset\.battleTransitionBypass/);
 assert.match(phaseSmoke, /Math\.abs\(result\.first\.width\s*-\s*result\.second\.width\)\s*<=\s*1/);
 assert.match(phaseSmoke, /selection-phase-mobile\.png/);
 assert.match(phaseSmoke, /battle-phase-mobile\.png/);
@@ -64,6 +66,7 @@ assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
 
 assert.match(reliabilityJs, /shouldSuppressRestoredVerdictFeedback/);
 assert.match(reliabilityJs, /recordedRounds\s*>=\s*resolvedRounds/);
+assert.match(reliabilityJs, /RELIABILITY_LEGACY_OPPONENT_IDS/);
 assert.match(reliabilityJs, /__FOCISKARTYAK_SELECT_OPPONENT__/);
 assert.match(reliabilityJs, /game\.mode\s*===\s*'penalties'\s*\?\s*'BÜNTETŐPÁRBAJ'/);
 assert.match(opponentsJs, /export function selectOpponentById/);
@@ -74,8 +77,8 @@ assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
 assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/focus-experience\.js/);
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /fociskartyak-2026-v40/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v40';/);
 assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ A fázisváltás, visszatöltés, ellenfél-szinkron, mentett név és Büntetőpárbaj regressziós ellenőrzése rendben');
+console.log('✓ A fázisváltás, animált kijelölés, visszatöltés, ellenfél-szinkron, mentett név és Büntetőpárbaj ellenőrzése rendben');
