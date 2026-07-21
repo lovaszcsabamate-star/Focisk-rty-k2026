@@ -26,7 +26,7 @@ export function shouldSuppressRestoredVerdictFeedback(ui, game) {
   return resolvedRounds > 0 && Number.isFinite(recordedRounds) && recordedRounds >= resolvedRounds;
 }
 
-function localizeTree(root) {
+function localizeReliabilityTree(root) {
   if (!root) return;
   const documentRoot = root.nodeType === 9 ? root : root.ownerDocument;
   if (!documentRoot?.createTreeWalker) return;
@@ -56,7 +56,7 @@ function localizeTree(root) {
   }
 }
 
-function syncSavedOpponent() {
+function syncSavedReliabilityOpponent() {
   try {
     const opponentId = savedOpponentIdFromRawSave(localStorage.getItem(SAVED_MATCH_STORAGE_KEY));
     if (opponentId) globalThis.__FOCISKARTYAK_SELECT_OPPONENT__?.(opponentId);
@@ -65,9 +65,9 @@ function syncSavedOpponent() {
   }
 }
 
-const previousShowOverlay = UI.prototype.showOverlay;
+const reliabilityPreviousShowOverlay = UI.prototype.showOverlay;
 UI.prototype.showOverlay = function showReliableOverlay(node) {
-  localizeTree(node);
+  localizeReliabilityTree(node);
 
   const heading = node?.querySelector?.('h1')?.textContent?.trim().toLocaleUpperCase('hu-HU');
   if (heading === 'DÖNTETLEN' && node.classList?.contains('result-panel')) {
@@ -75,13 +75,13 @@ UI.prototype.showOverlay = function showReliableOverlay(node) {
     node.classList.add('result-panel--tie');
   }
 
-  return previousShowOverlay.call(this, node);
+  return reliabilityPreviousShowOverlay.call(this, node);
 };
 
-const previousMatchScoreboard = UI.prototype._renderMatchScoreboard;
-if (typeof previousMatchScoreboard === 'function') {
+const reliabilityPreviousMatchScoreboard = UI.prototype._renderMatchScoreboard;
+if (typeof reliabilityPreviousMatchScoreboard === 'function') {
   UI.prototype._renderMatchScoreboard = function renderReliableMatchScoreboard(game, human, ai) {
-    const board = previousMatchScoreboard.call(this, game, human, ai);
+    const board = reliabilityPreviousMatchScoreboard.call(this, game, human, ai);
     const playerName = loadPlayerName();
     const opponent = globalThis.__FOCISKARTYAK_OPPONENT__;
     const opponentName = opponent?.name ?? board.querySelector('.match-team--away .match-team__name')?.textContent ?? 'Gép';
@@ -109,10 +109,10 @@ if (typeof previousMatchScoreboard === 'function') {
   };
 }
 
-const previousShowVerdict = UI.prototype.showVerdict;
+const reliabilityPreviousShowVerdict = UI.prototype.showVerdict;
 UI.prototype.showVerdict = function showReliableVerdict(result, game) {
   const restoredResult = shouldSuppressRestoredVerdictFeedback(this, game);
-  if (!restoredResult) return previousShowVerdict.call(this, result, game);
+  if (!restoredResult) return reliabilityPreviousShowVerdict.call(this, result, game);
 
   const statsSnapshot = this.uxStats
     ? (typeof structuredClone === 'function'
@@ -128,7 +128,7 @@ UI.prototype.showVerdict = function showReliableVerdict(result, game) {
   }
 
   try {
-    return previousShowVerdict.call(this, result, game);
+    return reliabilityPreviousShowVerdict.call(this, result, game);
   } finally {
     if (this.settings) {
       this.settings.sounds = previousSounds;
@@ -142,6 +142,6 @@ UI.prototype.showVerdict = function showReliableVerdict(result, game) {
 if (typeof document !== 'undefined') {
   document.addEventListener('click', event => {
     if (!event.target.closest?.('#continue-btn')) return;
-    syncSavedOpponent();
+    syncSavedReliabilityOpponent();
   }, true);
 }
