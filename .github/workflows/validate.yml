@@ -34,7 +34,21 @@ jobs:
         run: npm run build
 
       - name: Run mobile layout smoke tests
+        id: mobile-smoke
+        continue-on-error: true
         run: npm run test:mobile-layout
+
+      - name: Upload mobile layout report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-layout-diagnostics
+          path: mobile-layout-report.json
+          if-no-files-found: error
+
+      - name: Enforce mobile layout result
+        if: steps.mobile-smoke.outcome == 'failure'
+        run: exit 1
 
       - name: Run complete test suite
         run: npm test
