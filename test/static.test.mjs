@@ -35,6 +35,7 @@ const nyiregyhazaCompletion = readJson('../data/club-official-enrichment-14-nyir
 const nyiregyhazaNationalities = readJson('../data/club-official-enrichment-15-nyiregyhaza-nationalities.json');
 const kazincbarcikaCompletion = readJson('../data/club-official-enrichment-16-kazincbarcika-completion.json');
 const ujpestCompletion = readJson('../data/club-official-enrichment-17-ujpest-completion.json');
+const paksCompletion = readJson('../data/club-official-enrichment-18-paks-completion.json');
 const kisvardaFinalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const ferencvarosStats = readJson('../data/club-official-stat-patches-ferencvaros.json');
 const dvtkStats = readJson('../data/club-official-stat-patches-dvtk.json');
@@ -100,6 +101,7 @@ const dataFiles = [
   'club-official-enrichment-15-nyiregyhaza-nationalities.json',
   'club-official-enrichment-16-kazincbarcika-completion.json',
   'club-official-enrichment-17-ujpest-completion.json',
+  'club-official-enrichment-18-paks-completion.json',
   'club-official-corrections.json',
   'club-official-corrections-2.json',
   'club-official-corrections-3.json',
@@ -131,7 +133,7 @@ assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
 assert.match(clubStatPatches, /clubOfficialStatsByClub/);
 assert.match(clubStatPatches, /correctedFieldCounts/);
-assert.match(serviceWorker, /fociskartyak-2026-v24/);
+assert.match(serviceWorker, /fociskartyak-2026-v25/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
@@ -161,6 +163,8 @@ assert.equal(kazincbarcikaCompletion.batch.playerCount, 40);
 assert.equal(kazincbarcikaCompletion.records.length, 40);
 assert.equal(ujpestCompletion.batch.playerCount, 41);
 assert.equal(ujpestCompletion.records.length, 41);
+assert.equal(paksCompletion.batch.playerCount, 33);
+assert.equal(paksCompletion.records.length, 33);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);
@@ -208,6 +212,10 @@ assert.equal(
 assert.equal(
   directory.clubs.find(club => club.clubId === 'ujpest-fc').status,
   'complete-41-of-41-player-review',
+);
+assert.equal(
+  directory.clubs.find(club => club.clubId === 'paksi-fc').status,
+  'complete-33-of-33-player-review',
 );
 
 assert.equal(manifest.display, 'standalone');
