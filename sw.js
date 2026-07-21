@@ -1,4 +1,4 @@
-const PWA_CACHE = 'fociskartyak-2026-v18';
+const PWA_CACHE = 'fociskartyak-2026-v19';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -41,6 +41,7 @@ const PWA_SHELL = [
   './data/club-official-enrichment-9-kisvarda-selected10.json',
   './data/club-official-enrichment-10-kisvarda-final8.json',
   './data/club-official-enrichment-11-kisvarda-completion.json',
+  './data/club-official-enrichment-12-dvtk-completion.json',
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',
@@ -51,6 +52,7 @@ const PWA_SHELL = [
   './data/club-official-stat-patches-kisvarda-selected10-3.json',
   './data/club-official-stat-patches-kisvarda-final8.json',
   './data/club-official-stat-patches-ferencvaros.json',
+  './data/club-official-stat-patches-dvtk.json',
   './data/club-official-sources.json',
   './assets/icons/icon.svg',
   './assets/qr/mobil-eleres.svg'
