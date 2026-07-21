@@ -31,10 +31,12 @@ const kisvardaFinal8 = readJson('../data/club-official-enrichment-10-kisvarda-fi
 const kisvardaCompletion = readJson('../data/club-official-enrichment-11-kisvarda-completion.json');
 const dvtkCompletion = readJson('../data/club-official-enrichment-12-dvtk-completion.json');
 const mtkCompletion = readJson('../data/club-official-enrichment-13-mtk-completion.json');
+const nyiregyhazaCompletion = readJson('../data/club-official-enrichment-14-nyiregyhaza-completion.json');
 const kisvardaFinalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const ferencvarosStats = readJson('../data/club-official-stat-patches-ferencvaros.json');
 const dvtkStats = readJson('../data/club-official-stat-patches-dvtk.json');
 const mtkStats = readJson('../data/club-official-stat-patches-mtk.json');
+const nyiregyhazaStats = readJson('../data/club-official-stat-patches-nyiregyhaza.json');
 const corrections2 = readJson('../data/club-official-corrections-2.json');
 const corrections3 = readJson('../data/club-official-corrections-3.json');
 const manifest = readJson('../manifest.webmanifest');
@@ -89,6 +91,7 @@ const dataFiles = [
   'club-official-enrichment-11-kisvarda-completion.json',
   'club-official-enrichment-12-dvtk-completion.json',
   'club-official-enrichment-13-mtk-completion.json',
+  'club-official-enrichment-14-nyiregyhaza-completion.json',
   'club-official-corrections.json',
   'club-official-corrections-2.json',
   'club-official-corrections-3.json',
@@ -101,6 +104,7 @@ const dataFiles = [
   'club-official-stat-patches-ferencvaros.json',
   'club-official-stat-patches-dvtk.json',
   'club-official-stat-patches-mtk.json',
+  'club-official-stat-patches-nyiregyhaza.json',
   'club-official-sources.json',
 ];
 for (const file of dataFiles) {
@@ -117,7 +121,7 @@ assert.match(clubEnrichment, /clubShirtNumbers/);
 assert.match(clubEnrichment, /clubOfficialByClub/);
 assert.match(clubStatPatches, /clubOfficialStatsByClub/);
 assert.match(clubStatPatches, /correctedFieldCounts/);
-assert.match(serviceWorker, /fociskartyak-2026-v20/);
+assert.match(serviceWorker, /fociskartyak-2026-v21/);
 assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
@@ -140,6 +144,7 @@ assert.equal(kisvardaFinal8.batch.playerCount, 8);
 assert.equal(kisvardaCompletion.batch.playerCount, 2);
 assert.equal(dvtkCompletion.batch.playerCount, 1);
 assert.equal(mtkCompletion.batch.playerCount, 4);
+assert.equal(nyiregyhazaCompletion.batch.playerCount, 39);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);
@@ -150,6 +155,9 @@ assert.equal(dvtkStats.source.clubId, 'dvtk');
 assert.equal(mtkStats.rows.length, 36);
 assert.equal(mtkStats.batch.playerCount, 36);
 assert.equal(mtkStats.source.clubId, 'mtk-budapest');
+assert.equal(nyiregyhazaStats.rows.length, 39);
+assert.equal(nyiregyhazaStats.batch.playerCount, 39);
+assert.equal(nyiregyhazaStats.source.clubId, 'nyiregyhaza-spartacus-fc');
 assert.equal(corrections2.recordPatches.length, 2);
 assert.equal(corrections2.excludeRecords.length, 11);
 assert.equal(corrections3.recordPatches.length, 2);
@@ -166,6 +174,10 @@ assert.equal(
 assert.equal(
   directory.clubs.find(club => club.clubId === 'mtk-budapest').status,
   'complete-36-of-36-player-review',
+);
+assert.equal(
+  directory.clubs.find(club => club.clubId === 'nyiregyhaza-spartacus-fc').status,
+  'complete-39-of-39-player-review',
 );
 
 assert.equal(manifest.display, 'standalone');
