@@ -24,6 +24,7 @@ const CLUB_ENRICHMENT_URLS = [
   'data/club-official-enrichment-16-kazincbarcika-completion.json',
   'data/club-official-enrichment-17-ujpest-completion.json',
   'data/club-official-enrichment-18-paks-completion.json',
+  'data/club-official-enrichment-19-zte-completion.json',
 ];
 const CLUB_CORRECTION_URLS = [
   'data/club-official-corrections.json',
@@ -43,6 +44,7 @@ const CLUB_STAT_PATCH_URLS = [
   'data/club-official-stat-patches-nyiregyhaza.json',
   'data/club-official-stat-patches-kazincbarcika.json',
   'data/club-official-stat-patches-ujpest.json',
+  'data/club-official-stat-patches-zte.json',
 ];
 const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
 
