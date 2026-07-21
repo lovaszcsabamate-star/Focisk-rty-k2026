@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33
-const PWA_CACHE = 'fociskartyak-2026-v34';
+// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34
+const PWA_CACHE = 'fociskartyak-2026-v35';
 const PWA_SHELL = [
   './',
   './index.html',
