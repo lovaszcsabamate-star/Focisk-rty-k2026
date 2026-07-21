@@ -1,11 +1,14 @@
-/* ==========================================================================
+/* ===========================================================================
    Duel emphasis
-   - the battlefield uses at most half of the available viewport height
+   - only the active battle view is reduced to half of the viewport height
    - the human player's played card grows up to exactly 2× the base card size
+   - one aspect ratio controls both dimensions, preventing stretched cards
    - responsive caps keep the opponent, prompt, result and controls visible
-   ========================================================================== */
+   =========================================================================== */
 
-#felt {
+/* The battlefield must remain at its normal flexible size during category and
+   card selection. It is reduced only after played cards appear in #duel. */
+#felt:has(#duel:not(:empty)) {
   flex: 0 1 50vh;
   max-height: 50vh;
   min-height: 0;
@@ -15,7 +18,7 @@
 }
 
 @supports (height: 100dvh) {
-  #felt {
+  #felt:has(#duel:not(:empty)) {
     flex-basis: 50dvh;
     max-height: 50dvh;
   }
@@ -36,24 +39,27 @@
   max-width: 44%;
 }
 
-/* Fallback sizing for browsers without container query units. */
+/* The height determines the whole card size through aspect-ratio. This keeps
+   the original 132 × 232 proportions on every screen instead of allowing the
+   width and height clamps to stretch the card independently. */
 #duel > .duel-slot:first-child .card {
-  --card-w: min(264px, 42vw);
-  --card-h: min(464px, 74vw, calc(50vh - 96px));
+  width: auto;
+  height: min(464px, 74vw, calc(50vh - 96px));
+  max-width: 42vw;
+  aspect-ratio: 132 / 232;
 }
 
-/* The card reaches 264 × 464 px on a sufficiently large battlefield,
-   exactly twice the normal 132 × 232 px card. On smaller screens its width
-   and height shrink together according to the battlefield container. */
+/* On a sufficiently large battlefield the card reaches 264 × 464 px, exactly
+   twice the normal 132 × 232 px card. Container units let shorter battlefields
+   reduce it before surrounding labels or controls can overlap. */
 @supports (height: 1cqh) {
   #duel > .duel-slot:first-child .card {
-    --card-w: min(264px, 48.9cqh, 42vw);
-    --card-h: min(464px, 86cqh, 74vw);
+    width: auto;
+    height: min(464px, 86cqh, 74vw);
   }
 
   .mode-penalties #duel > .duel-slot:first-child .card {
-    --card-w: min(264px, 38.6cqh, 42vw);
-    --card-h: min(464px, 68cqh, 74vw);
+    height: min(464px, 68cqh, 74vw);
   }
 }
 
@@ -95,21 +101,21 @@
   font-size: clamp(9px, 1.15vw, 16px);
 }
 
-/* Compact the surrounding labels before allowing overlap. */
-#felt #prompt {
+/* Compact the surrounding labels only while a duel is actually visible. */
+#felt:has(#duel:not(:empty)) #prompt {
   min-height: 0;
   font-size: clamp(14px, 1.6vw, 19px);
   line-height: 1.05;
 }
 
-#felt #verdict {
+#felt:has(#duel:not(:empty)) #verdict {
   min-height: 0;
   font-size: clamp(18px, 2.1vw, 26px);
   line-height: 1.05;
 }
 
 @media (max-width: 620px) {
-  #felt {
+  #felt:has(#duel:not(:empty)) {
     gap: 4px;
     padding-block: 5px;
   }
@@ -136,8 +142,8 @@
   }
 
   #duel > .duel-slot:first-child .stat {
-    font-size: clamp(8px, 2.55vw, 11px);
     padding: 2px 4px;
+    font-size: clamp(8px, 2.55vw, 11px);
   }
 
   .duel-slot__who {
@@ -150,17 +156,17 @@
 }
 
 @media (max-height: 620px) {
-  #felt #prompt {
+  #felt:has(#duel:not(:empty)) #prompt {
     font-size: 12px;
     line-height: 1;
   }
 
-  #felt #verdict {
+  #felt:has(#duel:not(:empty)) #verdict {
     font-size: 17px;
     line-height: 1;
   }
 
-  #felt #verdict small {
+  #felt:has(#duel:not(:empty)) #verdict small {
     margin-top: 0;
     font-size: 9px;
   }
