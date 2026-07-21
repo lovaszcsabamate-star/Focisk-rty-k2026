@@ -71,7 +71,9 @@ for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '
   const text = readText(source);
   assert.match(text, new RegExp(ENRICHMENT_FILE.replaceAll('.', '\\.')));
 }
-assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
+const serviceWorker = readText('../sw.js');
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);
+assert.match(serviceWorker, /const PWA_CACHE = `\$\{CACHE_PREFIX\}v43`;/);
 
 const directory = readJson('../data/club-official-sources.json');
 const club = directory.clubs.find(item => item.clubId === CLUB_ID);

@@ -75,7 +75,7 @@ assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
 
 assert.match(reliabilityJs, /shouldSuppressRestoredVerdictFeedback/);
 assert.match(reliabilityJs, /recordedRounds\s*>=\s*resolvedRounds/);
-assert.match(reliabilityJs, /RELIABILITY_LEGACY_OPPONENT_IDS/);
+assert.match(reliabilityJs, /normalizeLegacyOpponentId/);
 assert.match(reliabilityJs, /__FOCISKARTYAK_SELECT_OPPONENT__/);
 assert.match(reliabilityJs, /game\.mode\s*===\s*'penalties'\s*\?\s*'BÜNTETŐPÁRBAJ'/);
 assert.match(opponentsJs, /export function selectOpponentById/);
@@ -92,7 +92,8 @@ assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
 assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/usability-fixes\.js[\s\S]*js\/focus-experience\.js/);
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v42';/);
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-';/);
+assert.match(serviceWorker, /const PWA_CACHE = `\$\{CACHE_PREFIX\}v43`;/);
 assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
