@@ -9,6 +9,7 @@ on:
       - test/interface-regression.test.mjs
       - test/stabilization.test.mjs
       - scripts/sync-usability-main-once.py
+      - scripts/fix-central-name-export-once.py
       - scripts/fix-selection-smoke-once.py
 
 permissions:
@@ -36,6 +37,7 @@ jobs:
       - name: Main fejlesztések portolása
         run: |
           python scripts/sync-main-once.py
+          python scripts/fix-central-name-export-once.py
           python scripts/sync-visual-main-once.py
           python scripts/sync-usability-main-once.py
           python scripts/fix-visual-tests-once.py
@@ -86,6 +88,7 @@ jobs:
           rm -f scripts/sync-main-once.py
           rm -f scripts/sync-visual-main-once.py
           rm -f scripts/sync-usability-main-once.py
+          rm -f scripts/fix-central-name-export-once.py
           rm -f scripts/fix-visual-tests-once.py
           rm -f scripts/fix-visual-performance-once.py
           rm -f scripts/fix-mobile-carousel-once.py
