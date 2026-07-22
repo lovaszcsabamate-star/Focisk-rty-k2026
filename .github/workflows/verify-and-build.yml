@@ -5,8 +5,11 @@ on:
     branches:
       - main
       - ux/felhasznalobarat-jatekmenet
+      - visual-unification-legal-assets
     paths-ignore:
       - Fociskartyak2026.html
+      - mobile-layout-report.json
+      - previews/*.png
       - data/enrichment-audit.json
       - data/players-reviewed.json
       - data/database-review.json
@@ -38,6 +41,9 @@ jobs:
       - name: Szintaktikai ellenőrzés
         run: npm run lint
 
+      - name: Assetlicenc-ellenőrzés
+        run: npm run audit:assets
+
       - name: Önálló HTML és teljes adatfelülvizsgálat elkészítése
         run: npm run build
 
@@ -49,14 +55,19 @@ jobs:
         continue-on-error: true
         run: npm run test:mobile-layout
 
-      - name: Mobilnézeti riport mentése
+      - name: Asztali fáziselőnézetek elkészítése
+        run: npm run preview:desktop
+
+      - name: Mobil- és asztali előnézetek mentése
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-layout-report
-          path: mobile-layout-report.json
+          name: visual-layout-report-and-previews
+          path: |
+            mobile-layout-report.json
+            previews/*.png
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 30
 
       - name: Alkalmazástesztek
         run: npm test
@@ -71,16 +82,16 @@ jobs:
         if: steps.mobile_layout.outcome == 'failure'
         run: exit 1
 
-      - name: Generált játékfájl és adatfelülvizsgálat mentése
+      - name: Generált játékfájl, riport és előnézetek mentése
         if: github.event_name == 'push'
         run: |
-          GENERATED_FILES="Fociskartyak2026.html data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
+          GENERATED_FILES="Fociskartyak2026.html mobile-layout-report.json previews/*.png data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
           if git diff --quiet -- $GENERATED_FILES; then
-            echo "Az önálló játékfájl és az adatfelülvizsgálati csomag naprakész."
+            echo "Az önálló játékfájl, a riportok és az előnézetek naprakészek."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $GENERATED_FILES
-          git commit -m "Önálló játékfájl és teljes adatfelülvizsgálat frissítése [skip ci]"
+          git commit -m "Önálló build, vizuális előnézetek és audit frissítése [skip ci]"
           git push
