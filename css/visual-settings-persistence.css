@@ -1,0 +1,39 @@
+.appearance-save-status {
+  margin: 12px 0 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .045);
+  color: var(--cream);
+  font-size: .92rem;
+  line-height: 1.35;
+}
+
+.appearance-save-status[data-state='dirty'] {
+  border-color: rgba(239, 212, 144, .72);
+  color: var(--accent-color-light);
+}
+
+.appearance-save-status[data-state='saved'] {
+  border-color: rgba(113, 214, 145, .7);
+  background: rgba(51, 139, 78, .16);
+  color: #c9f4d5;
+}
+
+.appearance-save-status[data-state='error'] {
+  border-color: rgba(239, 100, 100, .72);
+  background: rgba(150, 36, 36, .18);
+  color: #ffd1d1;
+}
+
+.appearance-save-button {
+  min-height: 44px;
+  font-weight: 800;
+}
+
+@media (max-width: 560px) {
+  .appearance-actions .appearance-save-button {
+    flex-basis: 100%;
+    order: -1;
+  }
+}
