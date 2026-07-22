@@ -32,6 +32,7 @@ export type BrandingConfig = {
   licenseRegistryPath: string;
   playerPlaceholderPath: string;
   clubPlaceholderPath: string;
+  appIconPath: string;
   blockRemotePlayerPhotos: boolean;
   blockRemoteClubLogos: boolean;
 };
@@ -45,6 +46,7 @@ export const brandingConfig: Readonly<BrandingConfig> = Object.freeze({
   licenseRegistryPath: 'src/assets/licenses/assets-licenses.json',
   playerPlaceholderPath: 'src/assets/placeholders/player-silhouette.svg',
   clubPlaceholderPath: 'src/assets/placeholders/club-badge.svg',
+  appIconPath: 'src/assets/placeholders/app-icon.svg',
   blockRemotePlayerPhotos: true,
   blockRemoteClubLogos: true,
 });
