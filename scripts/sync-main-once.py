@@ -338,25 +338,34 @@ for test_file in (ROOT / "test").glob("*.mjs"):
 
 
 # Stabilizációs regressziós ellenőrzések
-test = ROOT / "test/stabilization.test.mjs"
-text = test.read_text(encoding="utf-8")
+regression_test = ROOT / "test/stabilization.test.mjs"
+text = regression_test.read_text(encoding="utf-8")
 if "const uiSource = text('js/ui.js');" not in text:
-    old = "console.log('✓ A közvetlen játékosprofil, magyar feliratok és konszolidált fájllánc rendben');"
-    new = r"""const uiSource = text('js/ui.js');
-const mobileCss = text('css/mobile-experience.css');
+    contract = r"""const uiSource = text('js/ui.js');
+const mobileCssContract = text('css/mobile-experience.css');
 const readmeSource = text('README.md');
 assert.match(uiSource, /export function cardPlayerDisplayName/);
 assert.match(uiSource, /INSPECTOR_SWIPE_DISTANCE\s*=\s*44/);
 assert.match(uiSource, /pointerup/);
 assert.match(uiSource, /el\('div', 'card__name', displayName\)/);
-assert.match(mobileCss, /grid-auto-flow:\s*column/);
-assert.match(mobileCss, /\.card__name--compact/);
-assert.match(mobileCss, /text-overflow:\s*clip\s*!important/);
+assert.match(mobileCssContract, /grid-auto-flow:\s*column/);
+assert.match(mobileCssContract, /\.card__name--compact/);
+assert.match(mobileCssContract, /text-overflow:\s*clip\s*!important/);
 assert.match(readmeSource, /Legújabb önálló játék letöltése/);
 assert.match(serviceWorker, /fociskartyak-2026-v44/);
 
-console.log('✓ A közvetlen profil, teljes kártyanevek, mobil lapozás és konszolidált fájllánc rendben');"""
-    text = require_replace(text, old, new, "stabilization.test.mjs lezárás")
-    test.write_text(text, encoding="utf-8")
+"""
+    insertion_markers = [
+        "console.log('✓ A közvetlen játékosprofil, magyar feliratok és konszolidált fájllánc rendben');",
+        "console.log('✓ A közvetlen profil, teljes kártyanevek, mobil lapozás és konszolidált fájllánc rendben');",
+        "console.log('✓ A konszolidált kártyanézet, profil, offline mód és fázisváltás regressziós ellenőrzése rendben');",
+    ]
+    for insertion_marker in insertion_markers:
+        if insertion_marker in text:
+            text = text.replace(insertion_marker, contract + insertion_marker, 1)
+            break
+    else:
+        text = text.rstrip() + "\n\n" + contract
+    regression_test.write_text(text, encoding="utf-8")
 
 print("A main fejlesztéseinek célzott portolása elkészült.")
