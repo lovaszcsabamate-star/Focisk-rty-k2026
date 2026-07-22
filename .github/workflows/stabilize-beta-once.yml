@@ -1,0 +1,70 @@
+name: Egyszeri béta-stabilizáció
+
+on:
+  push:
+    branches:
+      - stabilize-beta-2026-07-22
+    paths:
+      - scripts/stabilize-core.mjs
+      - scripts/stabilize-tests.mjs
+      - .github/workflows/stabilize-beta-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  stabilize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Forrás letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: stabilize-beta-2026-07-22
+          fetch-depth: 0
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Központi javítások alkalmazása
+        run: node scripts/stabilize-core.mjs
+      - name: Tesztek és dokumentáció alkalmazása
+        run: node scripts/stabilize-tests.mjs
+      - name: Függőségek telepítése és lockfile frissítése
+        run: npm install --save-dev @playwright/test
+      - name: Chromium telepítése
+        run: npx playwright install --with-deps chromium
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Alaptesztek
+        run: npm test
+      - name: Teljes tesztcsomag
+        run: npm run test:all
+      - name: Mobil- és reszponzív tesztek
+        run: npm run test:mobile-layout
+      - name: Git formázási ellenőrzés
+        run: git diff --check
+      - name: Egyszeri segédfájlok eltávolítása
+        run: rm -f .github/workflows/stabilize-beta-once.yml scripts/stabilize-core.mjs scripts/stabilize-tests.mjs
+      - name: Stabilizált állapot commitolása
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git add -f test-artifacts/previews || true
+          git commit -m "Stabil bétaállapot és teljes regressziós ellenőrzés"
+          git push origin stabilize-beta-2026-07-22
+      - name: Teszttermékek megőrzése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: egyszeri-stabilizacio-artifacts
+          if-no-files-found: warn
+          path: |
+            test-artifacts/
+            previews/
+            playwright-report/
+            mobile-layout-report.json
