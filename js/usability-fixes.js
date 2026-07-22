@@ -17,6 +17,7 @@ const usabilityPreviousInspectorStep = UI.prototype._inspectorStep;
 const INSPECTOR_SWIPE_DISTANCE = 44;
 const INSPECTOR_TRANSITION_MS = 120;
 const INSPECTOR_BACKDROP_ID = 'inspector-stable-backdrop';
+let inspectorBackdropRemovalTimer = 0;
 
 const NAME_PARTICLES = new Set([
   'a', 'al', 'ap', 'da', 'das', 'de', 'del', 'della', 'der', 'di', 'do', 'dos',
@@ -107,23 +108,41 @@ const reducedMotionEnabled = () => (
 );
 
 const ensureInspectorBackdrop = ui => {
-  let backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
-  if (backdrop) return backdrop;
+  if (inspectorBackdropRemovalTimer) {
+    window.clearTimeout(inspectorBackdropRemovalTimer);
+    inspectorBackdropRemovalTimer = 0;
+  }
 
-  backdrop = document.createElement('div');
-  backdrop.id = INSPECTOR_BACKDROP_ID;
-  backdrop.setAttribute('aria-hidden', 'true');
-  backdrop.addEventListener('click', () => ui.closeInspector());
-  document.body.appendChild(backdrop);
-  requestAnimationFrame(() => backdrop.classList.add('is-visible'));
+  let backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.id = INSPECTOR_BACKDROP_ID;
+    backdrop.setAttribute('aria-hidden', 'true');
+    backdrop.addEventListener('click', () => ui.closeInspector());
+    document.body.appendChild(backdrop);
+  }
+
+  /* Azonnal láthatóvá tesszük. Így a kártya DOM-jának cseréje és egy korábbi
+     bezárási időzítő sem tud egyetlen képkockára világos hátteret mutatni. */
+  backdrop.classList.add('is-visible');
   return backdrop;
 };
 
 const removeInspectorBackdrop = () => {
+  if (inspectorBackdropRemovalTimer) window.clearTimeout(inspectorBackdropRemovalTimer);
   const backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
-  if (!backdrop) return;
+  if (!backdrop) {
+    inspectorBackdropRemovalTimer = 0;
+    return;
+  }
+
   backdrop.classList.remove('is-visible');
-  window.setTimeout(() => backdrop.remove(), reducedMotionEnabled() ? 1 : 190);
+  inspectorBackdropRemovalTimer = window.setTimeout(() => {
+    inspectorBackdropRemovalTimer = 0;
+    /* Ha közben újranyílt az inspector, az ensureInspectorBackdrop megszakítja
+       ezt az időzítőt. Ez a feltétel további védelmet ad lassú WebView esetén. */
+    if (!document.querySelector('#inspector')) backdrop.remove();
+  }, reducedMotionEnabled() ? 1 : 190);
 };
 
 const syncHandInspectorButton = ui => {
