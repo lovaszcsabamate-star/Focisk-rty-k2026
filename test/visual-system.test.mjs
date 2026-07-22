@@ -6,7 +6,9 @@ const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'ut
 const index = read('index.html');
 const manifest = read('manifest.webmanifest');
 const css = read('css/visual-system.css');
+const legalCss = read('css/legal-ui.css');
 const visual = read('js/visual-system.js');
+const usability = read('js/usability-fixes.js');
 const branding = read('js/branding.js');
 const legalUi = read('js/legal-ui.js');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
@@ -33,6 +35,21 @@ assert.match(css, /#player-hand\.hand--selection[\s\S]*overflow-x:\s*auto/, 'A v
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/, 'Hiányzik a prefers-reduced-motion támogatás.');
 assert.match(css, /\.duel-slot\.winner::after[\s\S]*GYŐZTES/, 'A győzelmet nem csak színnel kell jelezni.');
 assert.match(css, /\.duel-slot\.loser::after[\s\S]*VESZTES/, 'A vereséget nem csak színnel kell jelezni.');
+
+assert.match(legalCss, /#pub #player-hand:not\(\.hand--selection\) \.card/, 'A két játékmód közös kézkártya-méretezése hiányzik.');
+assert.match(legalCss, /\.pile__inspect\s*\{/, 'Hiányzik az egyetlen kézszintű nagyító gomb.');
+assert.match(legalCss, /\.card__inspect\s*\{[\s\S]*display:\s*none\s*!important/, 'A kártyánkénti nagyítókat el kell rejteni.');
+assert.match(legalCss, /#inspector-stable-backdrop/, 'Hiányzik a villanásmentes, stabil inspector-háttér.');
+assert.match(legalCss, /#hud-settings \.icon-toggle[\s\S]*58px/, 'A mobilos felső ikonok nagyítása hiányzik.');
+assert.match(legalCss, /#player-hand\.hand--selection[\s\S]*padding-left:\s*16px\s*!important/, 'Az első lap bal oldali biztonsági térköze hiányzik.');
+assert.match(legalCss, /#pub:has\(#attribute-picker > \.attr-btn--mobile\)[\s\S]*--card-w:\s*clamp\(138px, 39vw, 158px\)/, 'Kategóriaválasztáskor nem nőnek meg a kártyák.');
+
+assert.match(usability, /node\.querySelector\('\.card__inspect'\)\?\.remove\(\)/, 'A kártyánkénti nagyítót futásidőben is el kell távolítani.');
+assert.match(usability, /syncHandInspectorButton/, 'Hiányzik az egyetlen kézszintű nagyító szinkronizálása.');
+assert.match(usability, /INSPECTOR_BACKDROP_ID\s*=\s*'inspector-stable-backdrop'/, 'A nagyított nézet stabil háttere nincs bekötve.');
+assert.match(usability, /largeCard\.classList\.add\('inspector__playable-card'\)/, 'A nagyított lap nem választható koppintással.');
+assert.match(usability, /playButton\.click\(\)/, 'A nagyított lap koppintása nem indítja el a meglévő kiválasztási folyamatot.');
+assert.match(usability, /stepInspectorWithoutBackdropFlash/, 'Hiányzik a simított kártyalapozás.');
 
 assert.match(visual, /localStorage/, 'A megjelenési beállításokat helyben kell menteni.');
 assert.match(visual, /requestFullscreen/, 'Hiányzik a teljes képernyős beállítás.');

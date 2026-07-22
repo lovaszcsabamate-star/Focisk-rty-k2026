@@ -1,4 +1,4 @@
-/** Start both game modes in real headless Chrome and detect runtime errors/remote requests. */
+/** Start both game modes in real headless Chrome and detect runtime/UI errors. */
 
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -38,6 +38,9 @@ const instrumentation = `<script>
     localStorage.setItem('fociskartyak:player-name:v1', 'Csabi');
     localStorage.removeItem('fociskartyak:saved-match:v2');
   } catch {}
+  /* Deterministic human first turn so the inspector can be tested as a real
+     playable-card selector in both game modes. */
+  Math.random = () => 0.1;
   window.__runtimeSmoke = { errors: [], remoteRequests: [], consoleErrors: [] };
   window.addEventListener('error', event => window.__runtimeSmoke.errors.push(String(event.error?.stack || event.message || 'window error')));
   window.addEventListener('unhandledrejection', event => window.__runtimeSmoke.errors.push(String(event.reason?.stack || event.reason || 'unhandled rejection')));
@@ -66,32 +69,93 @@ for (const mode of MODES) {
     const frame = document.querySelector('#app');
     frame.addEventListener('load', () => setTimeout(() => {
       const doc = frame.contentDocument;
+      const win = frame.contentWindow;
       const titleText = doc.querySelector('#penalties-btn')?.textContent || '';
       doc.querySelector('${mode.button}')?.click();
+
       setTimeout(() => {
-        const win = frame.contentWindow;
-        const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [] };
-        const pub = doc.querySelector('#pub');
-        const scoreText = doc.querySelector('#hud-scores')?.textContent || '';
-        const visibleCards = [...doc.querySelectorAll('#player-hand .card, #duel .card')].filter(card => card.getBoundingClientRect().width > 0).length;
-        const expectedClass = ${JSON.stringify(mode.expectedClass)};
-        const result = {
-          mode: '${mode.id}',
-          titleLocalised: /Büntetőpárbaj/.test(titleText),
-          loadingHidden: Boolean(doc.querySelector('#app-loading')?.hidden),
-          loadingError: Boolean(doc.querySelector('.app-loading__error')),
-          overlayHidden: Boolean(doc.querySelector('#overlay')?.hidden),
-          modeClassPresent: expectedClass ? Boolean(pub?.classList.contains(expectedClass)) : true,
-          visibleCards,
-          minimumCards: ${mode.minimumCards},
-          savedNameVisible: /Csabi/i.test(scoreText),
-          errors: smoke.errors,
-          consoleErrors: smoke.consoleErrors,
-          remoteRequests: smoke.remoteRequests,
-        };
-        document.documentElement.setAttribute('data-runtime-smoke', encodeURIComponent(JSON.stringify(result)));
-      }, 2200);
-    }, 1500));
+        /* Penalty mode has a short intro overlay; classic mode simply ignores this. */
+        doc.querySelector('#kickoff-btn')?.click();
+
+        setTimeout(() => {
+          const category = doc.querySelector('#attribute-picker .attr-btn:not(:disabled)');
+          category?.click();
+
+          setTimeout(() => {
+            const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [] };
+            const pub = doc.querySelector('#pub');
+            const scoreText = doc.querySelector('#hud-scores')?.textContent || '';
+            const visibleCards = [...doc.querySelectorAll('#player-hand .card, #duel .card')].filter(card => card.getBoundingClientRect().width > 0).length;
+            const expectedClass = ${JSON.stringify(mode.expectedClass)};
+            const handCard = doc.querySelector('#player-hand .card');
+            const handRect = handCard?.getBoundingClientRect();
+            const pileInspectorCount = doc.querySelectorAll('#player-pile .pile__inspect').length;
+            const cardInspectorCount = doc.querySelectorAll('#player-hand .card__inspect').length;
+            const pileInspector = doc.querySelector('#player-pile .pile__inspect');
+            pileInspector?.click();
+
+            setTimeout(() => {
+              const inspectorBefore = doc.querySelector('#inspector');
+              const backdropBefore = doc.querySelector('#inspector-stable-backdrop');
+              const firstInspectedId = inspectorBefore?.querySelector('.card--large')?.dataset.cardId || '';
+              const largeBefore = inspectorBefore?.querySelector('.card--large');
+              const largeCardPlayable = Boolean(largeBefore?.classList.contains('inspector__playable-card'));
+              inspectorBefore?.querySelector('.inspector__nav:last-child')?.click();
+
+              setTimeout(() => {
+                const inspectorAfter = doc.querySelector('#inspector');
+                const backdropAfter = doc.querySelector('#inspector-stable-backdrop');
+                const nextInspectedId = inspectorAfter?.querySelector('.card--large')?.dataset.cardId || '';
+                const backdropPersisted = Boolean(
+                  backdropBefore
+                  && backdropBefore === backdropAfter
+                  && backdropAfter.isConnected
+                  && backdropAfter.classList.contains('is-visible')
+                );
+                inspectorAfter?.querySelector('.card--large.inspector__playable-card')?.click();
+
+                setTimeout(() => {
+                  const humanDuelCard = doc.querySelector('#duel .duel-slot:first-child .card');
+                  const battleStartedFromLargeCard = Boolean(
+                    pub?.classList.contains('is-battle-active')
+                    || (humanDuelCard
+                      && !humanDuelCard.classList.contains('card--empty')
+                      && !humanDuelCard.classList.contains('card--back'))
+                  );
+                  const result = {
+                    mode: '${mode.id}',
+                    titleLocalised: /Büntetőpárbaj/.test(titleText),
+                    loadingHidden: Boolean(doc.querySelector('#app-loading')?.hidden),
+                    loadingError: Boolean(doc.querySelector('.app-loading__error')),
+                    overlayHidden: Boolean(doc.querySelector('#overlay')?.hidden),
+                    modeClassPresent: expectedClass ? Boolean(pub?.classList.contains(expectedClass)) : true,
+                    visibleCards,
+                    minimumCards: ${mode.minimumCards},
+                    savedNameVisible: /Csabi/i.test(scoreText),
+                    handCardWidth: Math.round(handRect?.width || 0),
+                    handCardHeight: Math.round(handRect?.height || 0),
+                    singlePileInspector: pileInspectorCount === 1,
+                    pileInspectorCount,
+                    noCardInspectors: cardInspectorCount === 0,
+                    cardInspectorCount,
+                    inspectorOpened: Boolean(inspectorBefore),
+                    backdropOpened: Boolean(backdropBefore?.classList.contains('is-visible')),
+                    backdropPersisted,
+                    inspectorCardChanged: Boolean(firstInspectedId && nextInspectedId && firstInspectedId !== nextInspectedId),
+                    largeCardPlayable,
+                    battleStartedFromLargeCard,
+                    errors: smoke.errors,
+                    consoleErrors: smoke.consoleErrors,
+                    remoteRequests: smoke.remoteRequests,
+                  };
+                  document.documentElement.setAttribute('data-runtime-smoke', encodeURIComponent(JSON.stringify(result)));
+                }, 1050);
+              }, 360);
+            }, 220);
+          }, 700);
+        }, 850);
+      }, 280);
+    }, 1300));
   </script></body></html>`;
 
   const harnessFile = path.join(temporaryDirectory, `harness-${mode.id}.html`);
@@ -99,7 +163,7 @@ for (const mode of MODES) {
   const run = spawnSync(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=1300,940', '--force-device-scale-factor=1',
-    '--virtual-time-budget=6500', '--dump-dom', `file://${harnessFile}`,
+    '--virtual-time-budget=9000', '--dump-dom', `file://${harnessFile}`,
   ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
   if (run.status !== 0) {
@@ -125,12 +189,27 @@ for (const mode of MODES) {
   if (!result.modeClassPresent) modeFailures.push('a kiválasztott játékmód osztálya nem aktív');
   if (result.visibleCards < result.minimumCards) modeFailures.push(`csak ${result.visibleCards} kártya jelent meg a várt ${result.minimumCards} helyett`);
   if (!result.savedNameVisible) modeFailures.push('a mentett játékosnév nem jelent meg az eredményjelzőn');
+  if (!result.singlePileInspector) modeFailures.push(`nem pontosan egy kézszintű nagyító jelent meg (${result.pileInspectorCount})`);
+  if (!result.noCardInspectors) modeFailures.push(`kártyánkénti nagyítók maradtak (${result.cardInspectorCount})`);
+  if (!result.inspectorOpened || !result.backdropOpened) modeFailures.push('a nagyított kártyanézet vagy a sötét háttér nem nyílt meg');
+  if (!result.backdropPersisted) modeFailures.push('lapozáskor megszakadt vagy kicserélődött a sötét háttér');
+  if (!result.inspectorCardChanged) modeFailures.push('a nagyított kártyalapozás nem váltott lapot');
+  if (!result.largeCardPlayable) modeFailures.push('a nagyított, kijátszható lap nem kapott interaktív állapotot');
+  if (!result.battleStartedFromLargeCard) modeFailures.push('a nagyított lap koppintása nem indította el a párbajt');
   if (result.errors.length) modeFailures.push(`nem kezelt hibák: ${result.errors.join(' | ')}`);
   if (result.consoleErrors.length) modeFailures.push(`console.error: ${result.consoleErrors.join(' | ')}`);
   if (result.remoteRequests.length) modeFailures.push(`külső hálózati kérések: ${result.remoteRequests.join(', ')}`);
   failures.push(...modeFailures.map(message => `${mode.id}: ${message}.`));
   results.push({ ...result, failures: modeFailures });
-  console.log(`✓ ${mode.id}: ${result.visibleCards} látható kártya, 0 külső kérés, 0 futásidejű hiba`);
+  console.log(`✓ ${mode.id}: egy nagyító, stabil háttér, lapozás és nagyított lapról indított párbaj`);
+}
+
+if (results.length === MODES.length && results.every(result => !result.failure)) {
+  const [classic, penalties] = results;
+  if (Math.abs(classic.handCardWidth - penalties.handCardWidth) > 1
+    || Math.abs(classic.handCardHeight - penalties.handCardHeight) > 1) {
+    failures.push(`A Klasszikus és Büntetőpárbaj kézkártyái eltérő méretűek: ${classic.handCardWidth}×${classic.handCardHeight} és ${penalties.handCardWidth}×${penalties.handCardHeight}.`);
+  }
 }
 
 fs.rmSync(temporaryDirectory, { recursive: true, force: true });
@@ -140,5 +219,5 @@ if (failures.length) {
   console.error(`Futásidejű böngészőhibák:\n- ${failures.join('\n- ')}`);
   process.exitCode = 1;
 } else {
-  console.log('✓ Klasszikus és Büntetőpárbaj böngészős füstteszt: rendben');
+  console.log('✓ Klasszikus és Büntetőpárbaj böngészős kártya-UX teszt: rendben');
 }
