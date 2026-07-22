@@ -7,6 +7,7 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - scripts/sync-main-once.py
+      - scripts/sync-visual-main-once.py
       - .github/workflows/sync-main-once.yml
 
 permissions:
@@ -30,8 +31,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Friss main lekérése
+        run: git fetch origin main
       - name: Main fejlesztések portolása
-        run: python scripts/sync-main-once.py
+        run: |
+          python scripts/sync-main-once.py
+          python scripts/sync-visual-main-once.py
       - name: Függőségek telepítése
         run: npm ci
       - name: Chromium telepítése
@@ -43,21 +48,24 @@ jobs:
         run: |
           set -euo pipefail
           npm run lint
+          npm run audit:assets
           npm run build
           npm test
           npm run test:all
           npm run test:mobile-layout
+          npm run test:runtime
+          npm run preview:desktop
           git diff --check
       - name: Ellenőrzött változások commitolása
         shell: bash
         run: |
           set -euo pipefail
           rm -rf playwright-report test-results previews
-          rm -f mobile-layout-report.json
+          rm -f mobile-layout-report.json runtime-browser-report.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m 'Átvezeti a main mobil- és névjavításait a stabil bétába'
+          git commit -m 'Átvezeti a main vizuális, mobil- és jogi javításait a stabil bétába'
           git push origin HEAD:stabilize-beta-2026-07-22
       - name: Teszttermékek feltöltése
         if: always()
@@ -68,5 +76,7 @@ jobs:
           retention-days: 30
           path: |
             test-artifacts/
+            previews/
             playwright-report/
             mobile-layout-report.json
+            runtime-browser-report.json
