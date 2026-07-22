@@ -40,9 +40,7 @@ jobs:
       - name: Függőségek telepítése
         run: npm ci
       - name: Chromium telepítése
-        run: |
-          npx playwright install --with-deps chromium
-          echo "CHROME_BIN=$(node -e \"const { chromium } = require('playwright'); process.stdout.write(chromium.executablePath())\")" >> "$GITHUB_ENV"
+        run: npx playwright install --with-deps chromium
       - name: Teljes ellenőrzési lánc
         shell: bash
         run: |
