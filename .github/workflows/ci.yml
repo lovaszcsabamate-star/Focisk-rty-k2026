@@ -1,0 +1,65 @@
+name: Stabil béta ellenőrzés
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Forrás letöltése
+        uses: actions/checkout@v4
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Függőségek telepítése
+        run: npm ci
+      - name: Chromium telepítése
+        run: npx playwright install --with-deps chromium
+      - name: Szintaxis- és lintellenőrzés
+        run: npm run lint
+      - name: Standalone build
+        run: npm run build
+      - name: A generált állományok naprakészségének ellenőrzése
+        run: git diff --exit-code -- Fociskartyak2026.html data
+      - name: Alaptesztek
+        run: npm test
+      - name: Teljes tesztcsomag
+        run: npm run test:all
+      - name: Mobil- és reszponzív tesztek
+        run: npm run test:mobile-layout
+      - name: Git formázási ellenőrzés
+        run: git diff --check
+      - name: Teszttermékek feltöltése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fociskartyak-test-artifacts
+          if-no-files-found: warn
+          path: |
+            test-artifacts/
+            previews/
+            playwright-report/
+            mobile-layout-report.json
+
+  windows-launcher:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Windows indító ellenőrzése
+        shell: cmd
+        run: JATEK_INDITASA.bat --check
