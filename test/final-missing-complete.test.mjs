@@ -17,15 +17,24 @@ const clubIds = card => Array.isArray(card?.meta?.clubIds) && card.meta.clubIds.
 
 const base = readJson('../data/players-reviewed.json');
 const completion = readJson(`../data/${FILE}`);
+const basicRecords = completion.records.filter(record => record.nation || record.position);
+const heightRecords = completion.records.filter(record => finite(record.heightCm));
 
 assert.equal(base.players.length, 440);
-assert.equal(completion.batch.playerCount, 7);
-assert.equal(completion.records.length, 7);
-assert.equal(new Set(completion.records.map(record => record.name)).size, 7);
+assert.equal(completion.batch.playerCount, completion.records.length);
+assert.equal(completion.batch.heightRecordCount, heightRecords.length);
+assert.equal(basicRecords.length, 7);
+assert.equal(new Set(completion.records.map(record => `${record.sourceId}|${record.clubId}|${record.name}`)).size, completion.records.length);
 
 for (const record of completion.records) {
-  assert.equal(record.confidence, 'high');
-  assert.ok(record.nation || record.position);
+  const hasBasicData = Boolean(record.nation || record.position);
+  const hasHeight = finite(record.heightCm);
+  assert.ok(hasBasicData || hasHeight, `${record.name}: nincs kiegészítendő adat`);
+  if (hasBasicData) assert.equal(record.confidence, 'high');
+  if (hasHeight) {
+    assert.ok(record.heightCm >= completion.policy.heightRange.minimum, `${record.name}: túl alacsony magasság`);
+    assert.ok(record.heightCm <= completion.policy.heightRange.maximum, `${record.name}: túl magas magasság`);
+  }
   assert.equal('birthDate' in record, false, `${record.name}: a lezáró réteg dátumot tartalmaz`);
   assert.equal('stats' in record, false, `${record.name}: a lezáró réteg statisztikát tartalmaz`);
 }
@@ -33,7 +42,7 @@ for (const record of completion.records) {
 const prepared = prepareClubEnrichment(completion, {});
 const enriched = applyClubEnrichmentPayload(base, prepared);
 assert.equal(enriched.players.length, 440);
-assert.equal(enriched.enrichment.matchedRecords, 7);
+assert.equal(enriched.enrichment.matchedRecords, completion.records.length);
 assert.equal(enriched.enrichment.unmatchedRecords, 0);
 assert.equal(enriched.enrichment.conflictCount, 0);
 
@@ -119,4 +128,4 @@ for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '
 assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
 assert.match(readText('../js/data/club-stat-patches.js'), /officialStatConsensus/);
 
-console.log('✓ Végső adatlezárás: 440/440 nemzetiség, poszt, mérkőzés-, kezdés-, keret- és lapadat');
+console.log(`✓ Végső adatlezárás: ${completion.records.length} kiegészítés, teljes nemzetiség-, poszt-, mérkőzés-, kezdés-, keret- és lapadat`);
