@@ -75,44 +75,44 @@
       "viewport": 320,
       "documentWidth": 320,
       "opponentHidden": true,
-      "promptHeight": 41,
+      "promptHeight": 46,
       "promptBeforeDuel": true,
       "duelInsideFelt": true,
       "zoneInsideViewport": true,
       "handInsideViewport": true,
       "firstCardVisible": true,
       "feltBeforeZone": true,
-      "maxChoiceHeight": 206,
+      "maxChoiceHeight": 229,
       "rects": {
         "felt": {
-          "top": 130,
-          "bottom": 486,
-          "left": 8,
-          "right": 312
+          "top": 167,
+          "bottom": 462,
+          "left": 5,
+          "right": 315
         },
         "prompt": {
-          "top": 215,
-          "bottom": 256
+          "top": 343,
+          "bottom": 388
         },
         "duel": {
-          "top": 260,
-          "bottom": 418,
-          "left": 17,
-          "right": 303
+          "top": 392,
+          "bottom": 392,
+          "left": 14,
+          "right": 306
         },
         "zone": {
-          "top": 491,
+          "top": 467,
           "bottom": 812,
-          "left": 8,
-          "right": 312
+          "left": 5,
+          "right": 315
         },
         "hand": {
-          "left": 90,
-          "right": 258
+          "left": 87,
+          "right": 309
         },
         "first": {
-          "left": 107,
-          "right": 225
+          "left": 108,
+          "right": 238
         }
       },
       "failures": []
@@ -123,44 +123,44 @@
       "viewport": 360,
       "documentWidth": 360,
       "opponentHidden": true,
-      "promptHeight": 43,
+      "promptHeight": 48,
       "promptBeforeDuel": true,
       "duelInsideFelt": true,
       "zoneInsideViewport": true,
       "handInsideViewport": true,
       "firstCardVisible": true,
       "feltBeforeZone": true,
-      "maxChoiceHeight": 206,
+      "maxChoiceHeight": 229,
       "rects": {
         "felt": {
-          "top": 130,
-          "bottom": 486,
-          "left": 8,
-          "right": 352
+          "top": 167,
+          "bottom": 462,
+          "left": 5,
+          "right": 355
         },
         "prompt": {
-          "top": 215,
-          "bottom": 258
+          "top": 307,
+          "bottom": 355
         },
         "duel": {
-          "top": 262,
-          "bottom": 420,
-          "left": 17,
-          "right": 343
+          "top": 359,
+          "bottom": 359,
+          "left": 14,
+          "right": 346
         },
         "zone": {
-          "top": 491,
+          "top": 467,
           "bottom": 812,
-          "left": 8,
-          "right": 352
+          "left": 5,
+          "right": 355
         },
         "hand": {
-          "left": 90,
-          "right": 298
+          "left": 87,
+          "right": 349
         },
         "first": {
-          "left": 110,
-          "right": 228
+          "left": 108,
+          "right": 238
         }
       },
       "failures": []
@@ -171,44 +171,44 @@
       "viewport": 390,
       "documentWidth": 390,
       "opponentHidden": true,
-      "promptHeight": 47,
+      "promptHeight": 52,
       "promptBeforeDuel": true,
       "duelInsideFelt": true,
       "zoneInsideViewport": true,
       "handInsideViewport": true,
       "firstCardVisible": true,
       "feltBeforeZone": true,
-      "maxChoiceHeight": 250,
+      "maxChoiceHeight": 237,
       "rects": {
         "felt": {
-          "top": 136,
-          "bottom": 458,
-          "left": 8,
-          "right": 382
+          "top": 173,
+          "bottom": 454,
+          "left": 7,
+          "right": 383
         },
         "prompt": {
-          "top": 221,
-          "bottom": 268
+          "top": 313,
+          "bottom": 365
         },
         "duel": {
-          "top": 272,
-          "bottom": 449,
-          "left": 17,
-          "right": 373
+          "top": 369,
+          "bottom": 369,
+          "left": 16,
+          "right": 374
         },
         "zone": {
-          "top": 463,
+          "top": 459,
           "bottom": 812,
-          "left": 8,
-          "right": 382
+          "left": 7,
+          "right": 383
         },
         "hand": {
-          "left": 90,
-          "right": 328
+          "left": 89,
+          "right": 377
         },
         "first": {
-          "left": 111,
-          "right": 253
+          "left": 110,
+          "right": 245
         }
       },
       "failures": []
@@ -219,44 +219,44 @@
       "viewport": 412,
       "documentWidth": 412,
       "opponentHidden": true,
-      "promptHeight": 49,
+      "promptHeight": 55,
       "promptBeforeDuel": true,
       "duelInsideFelt": true,
       "zoneInsideViewport": true,
       "handInsideViewport": true,
       "firstCardVisible": true,
       "feltBeforeZone": true,
-      "maxChoiceHeight": 256,
+      "maxChoiceHeight": 240,
       "rects": {
         "felt": {
-          "top": 136,
+          "top": 181,
           "bottom": 451,
-          "left": 8,
-          "right": 404
+          "left": 7,
+          "right": 405
         },
         "prompt": {
-          "top": 221,
-          "bottom": 270
+          "top": 301,
+          "bottom": 356
         },
         "duel": {
-          "top": 274,
-          "bottom": 442,
-          "left": 17,
-          "right": 395
+          "top": 360,
+          "bottom": 360,
+          "left": 16,
+          "right": 396
         },
         "zone": {
           "top": 456,
           "bottom": 812,
-          "left": 8,
-          "right": 404
+          "left": 7,
+          "right": 405
         },
         "hand": {
-          "left": 90,
-          "right": 350
+          "left": 89,
+          "right": 399
         },
         "first": {
-          "left": 111,
-          "right": 257
+          "left": 110,
+          "right": 246
         }
       },
       "failures": []
@@ -267,44 +267,44 @@
       "viewport": 480,
       "documentWidth": 480,
       "opponentHidden": true,
-      "promptHeight": 33,
+      "promptHeight": 55,
       "promptBeforeDuel": true,
       "duelInsideFelt": true,
       "zoneInsideViewport": true,
       "handInsideViewport": true,
       "firstCardVisible": true,
       "feltBeforeZone": true,
-      "maxChoiceHeight": 256,
+      "maxChoiceHeight": 240,
       "rects": {
         "felt": {
-          "top": 136,
+          "top": 181,
           "bottom": 451,
-          "left": 8,
-          "right": 472
+          "left": 7,
+          "right": 473
         },
         "prompt": {
-          "top": 221,
-          "bottom": 254
+          "top": 301,
+          "bottom": 356
         },
         "duel": {
-          "top": 258,
-          "bottom": 442,
-          "left": 17,
-          "right": 463
+          "top": 360,
+          "bottom": 360,
+          "left": 16,
+          "right": 464
         },
         "zone": {
           "top": 456,
           "bottom": 812,
-          "left": 8,
-          "right": 472
+          "left": 7,
+          "right": 473
         },
         "hand": {
-          "left": 90,
-          "right": 418
+          "left": 89,
+          "right": 467
         },
         "first": {
-          "left": 111,
-          "right": 257
+          "left": 110,
+          "right": 246
         }
       },
       "failures": []
@@ -318,8 +318,8 @@
       "viewport": 320,
       "documentWidth": 320,
       "selected": true,
-      "selectedOutline": 2,
-      "selectionWidth": 117,
+      "selectedOutline": 4,
+      "selectionWidth": 131,
       "transitionActive": true,
       "transitionDelayed": true,
       "inspectorTransitioning": true,
@@ -332,20 +332,20 @@
       "titleVisible": true,
       "promptVisible": true,
       "first": {
-        "left": 17,
-        "right": 138,
-        "width": 121,
-        "height": 229
+        "left": 8,
+        "right": 143,
+        "width": 135,
+        "height": 135
       },
       "second": {
-        "left": 182,
-        "right": 303,
-        "width": 121,
-        "height": 229
+        "left": 177,
+        "right": 312,
+        "width": 135,
+        "height": 135
       },
       "versus": {
-        "left": 144,
-        "right": 176
+        "left": 145,
+        "right": 175
       },
       "failures": []
     },
@@ -355,8 +355,8 @@
       "viewport": 360,
       "documentWidth": 360,
       "selected": true,
-      "selectedOutline": 2,
-      "selectionWidth": 117,
+      "selectedOutline": 4,
+      "selectionWidth": 131,
       "transitionActive": true,
       "transitionDelayed": true,
       "inspectorTransitioning": true,
@@ -372,17 +372,17 @@
         "left": 17,
         "right": 158,
         "width": 141,
-        "height": 258
+        "height": 264
       },
       "second": {
         "left": 202,
         "right": 343,
         "width": 141,
-        "height": 258
+        "height": 264
       },
       "versus": {
-        "left": 164,
-        "right": 196
+        "left": 165,
+        "right": 195
       },
       "failures": []
     },
@@ -392,8 +392,8 @@
       "viewport": 390,
       "documentWidth": 390,
       "selected": true,
-      "selectedOutline": 2,
-      "selectionWidth": 142,
+      "selectedOutline": 4,
+      "selectionWidth": 135,
       "transitionActive": true,
       "transitionDelayed": true,
       "inspectorTransitioning": true,
@@ -409,17 +409,17 @@
         "left": 17,
         "right": 173,
         "width": 155,
-        "height": 279
+        "height": 286
       },
       "second": {
         "left": 217,
         "right": 373,
         "width": 155,
-        "height": 279
+        "height": 286
       },
       "versus": {
-        "left": 179,
-        "right": 211
+        "left": 180,
+        "right": 210
       },
       "failures": []
     },
@@ -429,8 +429,8 @@
       "viewport": 412,
       "documentWidth": 412,
       "selected": true,
-      "selectedOutline": 2,
-      "selectionWidth": 146,
+      "selectedOutline": 4,
+      "selectionWidth": 136,
       "transitionActive": true,
       "transitionDelayed": true,
       "inspectorTransitioning": true,
@@ -444,14 +444,14 @@
       "promptVisible": true,
       "first": {
         "left": 18,
-        "right": 183,
-        "width": 166,
+        "right": 182,
+        "width": 165,
         "height": 295
       },
       "second": {
-        "left": 229,
+        "left": 230,
         "right": 394,
-        "width": 166,
+        "width": 165,
         "height": 295
       },
       "versus": {
@@ -466,8 +466,8 @@
       "viewport": 480,
       "documentWidth": 480,
       "selected": true,
-      "selectedOutline": 2,
-      "selectionWidth": 146,
+      "selectedOutline": 4,
+      "selectionWidth": 136,
       "transitionActive": true,
       "transitionDelayed": true,
       "inspectorTransitioning": true,
@@ -480,14 +480,14 @@
       "titleVisible": true,
       "promptVisible": true,
       "first": {
-        "left": 20,
+        "left": 19,
         "right": 215,
         "width": 196,
         "height": 344
       },
       "second": {
         "left": 265,
-        "right": 460,
+        "right": 461,
         "width": 196,
         "height": 344
       },

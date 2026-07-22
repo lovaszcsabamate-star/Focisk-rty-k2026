@@ -10,9 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Fociskártyák">
   <title>Fociskártyák 2026</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="src/assets/placeholders/app-icon.svg">
-  <style>/* ==========================================================================
+<style>/* ==========================================================================
    SUPER MEGA FOTBAL 2026 — pub card game
    ART SLOTS are marked with  /* ART:  ... they currently render a CSS
    fallback and expect a background-image drop-in later. See assets/README.md
@@ -4555,7 +4553,54 @@ html.reduced-motion *::after {
   #inspector .inspector__centre {
     transition-duration: 1ms !important;
   }
-}</style>
+}
+/* ===== css/usability-audit-2026.css ===== */
+:root{--ui-min-text:16px;--ui-small-text:14px;--ui-panel-scrim:rgba(12,9,7,.84);--ui-panel-scrim-soft:rgba(12,9,7,.66);--ui-line:rgba(239,212,144,.38);--ui-line-strong:rgba(239,212,144,.78);--ui-human:#f0cf7a;--ui-opponent:#a9c6dd;--ui-danger:#ef8f8f;--ui-disabled:.48;}html,body,#pub,#table{max-width:100%;}html,body{overflow-x:hidden;}body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;}button,[role='button'],summary,select,input{min-height:44px;}button,[role='button'],summary,.card.selectable,.card--choice{-webkit-tap-highlight-color:rgba(239,212,144,.2);}button:focus-visible,[role='button']:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,.card.selectable:focus-visible,.card--choice:focus-visible{outline:3px solid var(--focus-ring,#ffe29a) !important;outline-offset:3px !important;box-shadow:0 0 0 6px rgba(0,0,0,.42) !important;}button:active:not(:disabled),[role='button']:active:not([aria-disabled='true']),.card.selectable:active,.card--choice:active{transform:translateY(1px) scale(.985);}button:disabled,[aria-disabled='true'],.is-activating{cursor:wait;}button:disabled,[aria-disabled='true']{opacity:var(--ui-disabled) !important;filter:grayscale(.55) !important;box-shadow:none !important;}#hud{display:grid;grid-template-columns:minmax(140px,auto) minmax(250px,1fr) minmax(150px,auto) auto;grid-template-areas:'context score meta settings';align-items:center;gap:10px 14px;min-height:64px;padding:8px 10px;border:1px solid var(--ui-line);border-radius:16px;background:linear-gradient(135deg,rgba(10,8,6,.88),rgba(34,24,17,.76));box-shadow:0 10px 28px rgba(0,0,0,.36);backdrop-filter:blur(8px);}#hud .title{display:none;}#hud-context{grid-area:context;display:grid;gap:2px;min-width:0;}.hud-context__mode{color:var(--accent-color-light,#efd490);font-family:var(--font-display);font-size:clamp(18px,1.6vw,24px);line-height:1;letter-spacing:.07em;text-transform:uppercase;}.hud-context__turn{color:#f2e6d0;font-size:var(--ui-small-text);font-weight:700;line-height:1.25;}.score-strip{grid-area:score;justify-content:center;gap:clamp(8px,1.4vw,18px);min-width:0;font-size:var(--ui-min-text);}.score,.penalty-score{min-height:48px;border-width:2px;background:rgba(0,0,0,.42);}.score{justify-content:space-between;min-width:min(190px,44%);padding:7px 13px;border-radius:14px;}.score--human{border-color:rgba(240,207,122,.6);}.score--opponent{border-color:rgba(169,198,221,.52);}.score span{min-width:0;overflow:hidden;color:#fff7df;font-size:clamp(14px,1.15vw,17px);font-weight:800;text-overflow:ellipsis;white-space:nowrap;}.score b{font-size:clamp(28px,2.4vw,38px);line-height:.9;}.penalty-score{display:flex;align-items:center;justify-content:center;width:min(100%,520px);padding:7px 14px;border:2px solid var(--ui-line-strong);border-radius:14px;font-size:clamp(21px,2.2vw,32px);text-align:center;}.meta{grid-area:meta;max-width:260px;color:#e8dbc5;font-size:var(--ui-small-text);font-weight:700;line-height:1.35;text-align:right;}.hud-settings{grid-area:settings;}.icon-toggle,.ux-settings__trigger,.mobile-menu-trigger,.mobile-sound-trigger{min-width:44px;min-height:44px;border:1px solid var(--ui-line);background:rgba(0,0,0,.42);color:#fff7df;font-size:var(--ui-small-text);font-weight:800;}.icon-toggle:hover,.ux-settings__trigger:hover,.mobile-menu-trigger:hover,.mobile-sound-trigger:hover{border-color:var(--ui-line-strong);background:rgba(213,170,85,.16);}#felt{isolation:isolate;}#felt::before{content:'';position:absolute;z-index:-1;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(5,12,9,.14),rgba(5,12,9,.3));pointer-events:none;}.game-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;width:min(100%,620px);}.game-step{min-height:30px;display:inline-flex;align-items:center;padding:5px 10px;border:1px solid rgba(239,212,144,.25);border-radius:999px;background:rgba(0,0,0,.28);color:#d8cbb6;font-size:13px;font-weight:800;}.game-step.is-active{border-color:var(--ui-line-strong);background:rgba(213,170,85,.2);color:#fff7df;}.game-step.is-complete::before{content:'✓';margin-right:5px;}#prompt{width:fit-content;max-width:min(96%,900px);min-height:44px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 8px;padding:8px 14px;border:1px solid rgba(239,212,144,.3);border-radius:13px;background:var(--ui-panel-scrim-soft);color:var(--accent-color-light,#efd490);font-size:clamp(19px,2vw,28px);line-height:1.1;text-shadow:0 2px 7px #000;}#prompt .highlight{color:#fff;}#prompt .ux-direction{flex-basis:100%;color:#f0e4ce;font-family:var(--font-body);font-size:clamp(14px,1.2vw,16px);font-weight:750;letter-spacing:normal;line-height:1.3;text-transform:none;}#verdict{width:fit-content;max-width:min(96%,920px);min-height:56px;padding:9px 16px;border:2px solid currentColor;border-radius:14px;background:var(--ui-panel-scrim);font-size:clamp(24px,2.7vw,38px);line-height:1.05;text-shadow:0 2px 8px #000;}#verdict:empty{display:none;}#verdict small{color:#fff7df;font-size:clamp(14px,1.35vw,17px);font-weight:700;line-height:1.35;}#pot-indicator{min-height:32px;display:flex;align-items:center;font-size:13px;font-weight:700;}.btn,.attr-btn,.deck-kind,.deck-selector__apply,.appearance-actions button,.ux-setting-row{min-height:46px;padding-block:10px;font-size:var(--ui-min-text);line-height:1.15;text-wrap:balance;white-space:normal;}.btn{border:1px solid rgba(36,26,18,.55);box-shadow:0 6px 16px rgba(0,0,0,.28);}.btn:hover:not(:disabled){filter:brightness(1.16);box-shadow:0 9px 22px rgba(0,0,0,.4);}.btn--ghost{border:1px solid var(--ui-line-strong);background:rgba(0,0,0,.28);}.btn--danger{border-color:rgba(239,143,143,.72) !important;background:rgba(124,32,32,.72) !important;color:#fff !important;}.next-round-button{min-width:min(280px,92vw);min-height:52px;font-size:clamp(17px,1.7vw,21px);}.attr-btn{border-width:2px;background:rgba(7,6,5,.52);}.attr-btn:hover:not(:disabled),.attr-btn.is-selected{border-color:var(--accent-color-light,#efd490);background:var(--accent-color,#d5aa55);color:#21150e;}.attr-btn__label{font-size:clamp(16px,1.5vw,20px);line-height:1.15;}.attr-btn__value,.attr-btn__direction,.attr-btn small{font-size:var(--ui-small-text);line-height:1.3;}.card{contain:layout;}.card__portrait{aspect-ratio:16 / 9;min-height:58px;}.card__position{min-height:22px;display:inline-flex;align-items:center;padding:3px 7px;border:1px solid rgba(255,255,255,.22);font-size:10px;}.card__name{display:block !important;padding:6px 8px 3px;overflow:visible !important;color:#21160f;font-size:clamp(14px,1.1vw,17px);font-weight:900;line-height:1.03;text-align:center;overflow-wrap:anywhere;white-space:normal !important;}.card__name--compact{font-size:clamp(12px,1vw,15px) !important;}.card__club{min-height:23px;padding:1px 7px 5px;color:#51422f;font-size:clamp(10px,.86vw,12px);font-weight:700;line-height:1.2;}.card__nation-flag{font-size:1.35em;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3));}.card__stats{gap:2px;padding:1px 6px 7px;}.stat{min-height:23px;padding:3px 6px;font-size:clamp(10px,.88vw,12px);line-height:1.1;}.stat__label{min-width:0;overflow:hidden;font-weight:650;text-overflow:ellipsis;white-space:nowrap;}.stat__value{flex:0 0 auto;color:#21160f;font-size:1.06em;font-weight:900;}.stat.active{min-height:29px;border:2px solid rgba(33,22,15,.72);background:#e8bd59;font-size:clamp(12px,1vw,14px);}.stat.active .stat__label,.stat.active .stat__value{color:#1f160e;font-weight:900;}.card--unavailable,.card.disabled{opacity:.54;}.card--unavailable::after{content:'NEM HASZNÁLHATÓ';position:absolute;z-index:10;inset:auto 8px 8px;padding:5px 7px;border-radius:999px;background:rgba(24,18,14,.92);color:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center;}#pub.is-card-selection #player-zone{width:100%;min-width:0;}#player-hand.hand--selection{width:100%;max-width:100%;align-items:flex-end;gap:clamp(10px,1.35vw,18px) !important;padding:16px max(18px,env(safe-area-inset-right,0px)) 22px max(18px,env(safe-area-inset-left,0px));scroll-padding-inline:max(18px,env(safe-area-inset-left,0px));}#player-hand.hand--selection .card--choice{cursor:pointer;}#player-hand.hand--selection .card--choice:hover{transform:translateY(-7px) scale(1.015);}#player-hand.hand--selection .card--choice.is-selected{transform:translateY(-10px) scale(1.025) !important;outline:4px solid var(--accent-color-light,#efd490) !important;outline-offset:3px !important;box-shadow:0 22px 48px rgba(0,0,0,.72),0 0 34px rgba(239,212,144,.48) !important;}#player-hand.hand--selection .card--choice.is-selected::after{min-height:24px;display:inline-flex;align-items:center;font-size:10px;}#pub.is-battle-active #duel{display:grid;}#pub.is-battle-active #duel .duel-slot__who{min-height:32px;display:flex;align-items:center;justify-content:center;width:min(100%,var(--battle-card-width));padding:5px 9px;border:1px solid var(--ui-line);border-radius:999px;background:rgba(0,0,0,.48);color:#fff7df;font-size:clamp(13px,1.25vw,17px);font-weight:900;letter-spacing:.08em;}#pub.is-battle-active #duel .duel-slot--human .duel-slot__who{border-color:rgba(240,207,122,.7);color:var(--ui-human);}#pub.is-battle-active #duel .duel-slot--opponent .duel-slot__who{border-color:rgba(169,198,221,.68);color:var(--ui-opponent);}#pub.is-battle-active #duel>.duel-slot .card{contain:layout;}#pub.is-battle-active #duel .stat.active{box-shadow:inset 0 0 0 2px #fff2bd,0 0 18px rgba(232,189,89,.44);}#pub.is-battle-active #duel.is-tie .duel-slot .card{box-shadow:0 0 0 3px var(--tie),var(--card-shadow) !important;}#pub.is-battle-active #duel.is-tie .duel-slot::after{content:'= DÖNTETLEN';position:absolute;z-index:8;top:26px;left:50%;padding:5px 9px;border-radius:999px;background:rgba(68,59,36,.94);color:#fff7df;font-size:10px;font-weight:900;transform:translateX(-50%);}#penalty-board{gap:7px;padding:10px 12px;border-width:2px;background:rgba(0,0,0,.42);}.attempt-row{grid-template-columns:minmax(88px,auto) 1fr;gap:10px;}.attempt-row strong{color:#fff7df;font-size:12px;}.attempt{min-width:25px;min-height:25px;height:25px;font-size:13px;}.attempt--win::after,.attempt--loss::after,.attempt--tie::after{position:absolute;width:1px;height:1px;overflow:hidden;}.panel,.mobile-home,.mobile-sheet,.confirm-panel,.onboarding-panel,.result-panel{width:min(720px,calc(100vw - 24px));max-width:100%;border-width:2px;background:linear-gradient(160deg,rgba(79,54,34,.98),rgba(31,21,14,.98));}.panel h1,.mobile-home h1,.mobile-sheet h1,.confirm-panel h1,.result-panel h1{font-size:clamp(31px,5vw,48px);line-height:1.02;text-wrap:balance;}.panel p,.mobile-home p,.mobile-sheet p,.confirm-panel p,.result-panel p,.rule-card p,.deck-selector__lead,.deck-selector__note{font-size:var(--ui-min-text);line-height:1.5;}.eyebrow,.result-kicker,.menu-section-title{font-size:var(--ui-small-text) !important;font-weight:900;}.primary-mode-actions{gap:12px;}.mode-start,.btn--continue{min-height:92px;border:2px solid rgba(239,212,144,.34);border-radius:15px;}.mode-start span,.btn--continue span{font-size:clamp(18px,2.2vw,23px);}.mode-start small,.btn--continue small{font-size:var(--ui-small-text);line-height:1.35;}.deck-selector{border-width:2px !important;}.deck-selector>summary{min-height:58px !important;font-size:var(--ui-min-text);}.deck-selector__current,.deck-selector__choice label,.deck-selector__lead,.deck-selector__note{font-size:var(--ui-small-text) !important;}.deck-kind{min-height:58px !important;font-size:var(--ui-small-text) !important;}.deck-selector select,.deck-selector__search{min-height:48px;width:100%;padding:10px 12px;border:1px solid var(--ui-line-strong);border-radius:11px;background:#21150e;color:#fff7df;font-size:var(--ui-min-text);}.deck-selector__search-wrap{display:grid;gap:6px;}.deck-selector__search-label{color:#e9dcc7;font-size:var(--ui-small-text);font-weight:800;}.deck-selector__search-status{min-height:20px;color:#d9c9af;font-size:13px;line-height:1.35;}.deck-selector option:disabled{color:#bba995;}.ux-empty-state,.app-loading__error p{padding:12px 14px;border:1px solid rgba(239,143,143,.52);border-radius:12px;background:rgba(75,20,20,.38);color:#ffe7e7;font-size:var(--ui-min-text);line-height:1.45;}.result-stats div{min-height:38px;align-items:center;font-size:var(--ui-min-text);}.final-score{padding:10px 14px;border:2px solid var(--ui-line-strong);border-radius:14px;background:rgba(0,0,0,.34);font-size:clamp(28px,4vw,42px);}#overlay{padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));}#overlay-body{max-height:calc(100dvh - max(24px,env(safe-area-inset-top,0px)+env(safe-area-inset-bottom,0px)));overflow-y:auto;overscroll-behavior:contain;}#overlay-body:focus-visible{outline:none !important;box-shadow:none !important;}@media (min-width:1024px){#player-hand.hand--selection{flex-wrap:wrap;justify-content:center;overflow-x:visible;}#player-hand.hand--selection .card--choice{--card-w:clamp(172px,12.6vw,var(--selection-card-width)) !important;--card-h:calc(var(--card-w) * 232 / 132) !important;width:var(--card-w) !important;height:var(--card-h) !important;flex-basis:var(--card-w) !important;}}@media (max-width:1023px){#hud{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'context settings' 'score score' 'meta meta';}#hud-context{min-width:0;}.meta{max-width:none;text-align:center;}#player-hand.hand--selection{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto !important;overflow-y:visible !important;scroll-snap-type:x mandatory;}#player-hand.hand--selection .card--choice{--card-w:clamp(144px,38vw,176px) !important;--card-h:calc(var(--card-w) * 232 / 132) !important;width:var(--card-w) !important;height:var(--card-h) !important;flex:0 0 var(--card-w) !important;scroll-snap-align:center;}}@media (max-width:768px){#table{padding-right:max(7px,env(safe-area-inset-right,0px));padding-left:max(7px,env(safe-area-inset-left,0px));}#hud{min-height:0;padding:7px 8px;}.score-strip{width:100%;}.score{min-width:0;flex:1 1 0;}#pub.is-battle-active #felt{width:100%;}#attribute-picker:has(>.attr-btn--mobile){grid-auto-columns:min(86%,350px) !important;}}@media (max-width:620px){:root{--ui-min-text:16px;--ui-small-text:14px;}#hud-context .hud-context__mode{font-size:19px;}#hud-context .hud-context__turn,.meta{font-size:14px;}.score span{font-size:14px;}.score b{font-size:29px;}#prompt{width:100%;max-width:100%;font-size:clamp(19px,5.8vw,25px);}#verdict{width:100%;max-width:100%;font-size:clamp(23px,7vw,30px);}#verdict small{font-size:14px;}.game-step{font-size:12px;}#pub.is-battle-active #duel{grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr) !important;}#pub.is-battle-active #duel .duel-slot__who{font-size:12px;}#pub.is-battle-active #duel .card__name{font-size:clamp(12px,3.8vw,15px) !important;}#pub.is-battle-active #duel .card__club{font-size:clamp(9px,2.7vw,11px) !important;}#pub.is-battle-active #duel .stat{min-height:21px;padding:2px 4px;font-size:clamp(9px,2.7vw,11px) !important;}#pub.is-battle-active #duel .stat.active{min-height:26px;font-size:clamp(10px,3vw,12px) !important;}.primary-mode-actions,.secondary-menu-actions,.result-actions,.pause-actions,.settings-actions{grid-template-columns:1fr !important;}.result-actions{display:grid;}.result-actions .btn,.pause-actions .btn,.settings-actions .btn{width:100%;}.deck-selector__kinds{grid-template-columns:1fr !important;}.attempt-row{grid-template-columns:72px minmax(0,1fr);}.attempt-marks{overflow-x:auto;padding-bottom:4px;}}@media (max-width:390px){#hud{gap:6px;}.hud-context__mode{font-size:17px !important;}.score{padding-inline:8px;}.score span{font-size:13px;}#player-hand.hand--selection .card--choice{--card-w:clamp(138px,42vw,158px) !important;}#pub.is-battle-active{--mobile-battle-card-width:43vw;}#pub.is-battle-active #duel{gap:3px !important;}#pub.is-battle-active #duel .versus{width:30px !important;font-size:17px !important;}}@media (max-width:360px){#table{padding-inline:5px;}#hud{border-radius:12px;}.score-strip{gap:5px;}.score span{max-width:84px;}#player-hand.hand--selection .card--choice{--card-w:142px !important;}.panel,.mobile-home,.mobile-sheet,.confirm-panel,.onboarding-panel,.result-panel{width:calc(100vw - 12px);padding-inline:14px;}}@media (orientation:landscape) and (max-height:650px){#hud{min-height:50px;grid-template-columns:auto 1fr auto auto;grid-template-areas:'context score meta settings';padding-block:4px;}.hud-context__turn{display:none;}#prompt{min-height:36px;padding-block:5px;}#pub.is-battle-active #duel .duel-slot__who{min-height:27px;}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto !important;animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;}}
+
+
+/* ===== css/usability-mobile-selection-fix.css ===== */
+/* Final mobile selection safeguards after the full usability audit layer. */
+#pub.is-card-selection #duel {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 620px) {
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(136px, 36vw, 142px) !important;
+    --card-h: calc(var(--card-w) * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}
+
+@media (max-width: 340px) {
+  #pub.is-battle-active #duel {
+    grid-template-columns: 139px 28px 139px !important;
+    justify-content: center !important;
+    gap: 1px !important;
+  }
+
+  #pub.is-battle-active #duel > .duel-slot .card {
+    --card-w: 139px !important;
+    width: var(--card-w) !important;
+    min-width: var(--card-w) !important;
+    max-width: var(--card-w) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}
+
+</style>
 </head>
 <body>
   <div id="app-loading" hidden role="status" aria-live="polite">
@@ -4625,7 +4670,7 @@ html.reduced-motion *::after {
     allowOfficialBranding: false,
     playerPlaceholderPath: 'src/assets/placeholders/player-silhouette.svg',
     clubPlaceholderPath: 'src/assets/placeholders/club-badge.svg',
-    appIconPath: 'src/assets/placeholders/app-icon.svg',
+    appIconPath: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUgZGVzYyI+CiAgPHRpdGxlIGlkPSJ0aXRsZSI+Rm9jaXNrw6FydHnDoWsgMjAyNiBhbGthbG1hesOhc2lrb248L3RpdGxlPgogIDxkZXNjIGlkPSJkZXNjIj5TYWrDoXQgdGVydmV6w6lzxbEsIHNlbWxlZ2VzIGvDoXJ0eWEgw6lzIEZLMjYgbW9ub2dyYW0sIGhpdmF0YWxvcyBrbHViLSB2YWd5IGxpZ2FqZWx6w6lzIG7DqWxrw7xsLjwvZGVzYz4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmY1MTQyIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzE3MjgyMCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ29sZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmMGQ4OTEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYjc4YzNlIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNiZykiLz4KICA8cmVjdCB4PSIxMTIiIHk9IjcyIiB3aWR0aD0iMjg4IiBoZWlnaHQ9IjM2OCIgcng9IjQyIiBmaWxsPSIjZWZlM2NhIiBzdHJva2U9InVybCgjZ29sZCkiIHN0cm9rZS13aWR0aD0iMTgiLz4KICA8cmVjdCB4PSIxNDQiIHk9IjEwOCIgd2lkdGg9IjIyNCIgaGVpZ2h0PSIxNzAiIHJ4PSIyOCIgZmlsbD0iIzIxM2IzMSIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjE5MyIgcj0iNTciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U2Yzg2ZiIgc3Ryb2tlLXdpZHRoPSIxNCIvPgogIDxwYXRoIGQ9Ik0yNTYgMTQ4bDMwIDIyLTExIDM1aC0zOGwtMTEtMzUgMzAtMjJ6IiBmaWxsPSIjZTZjODZmIi8+CiAgPHRleHQgeD0iMjU2IiB5PSIzNTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNzI4MjAiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGxldHRlci1zcGFjaW5nPSIzIj5GSzI2PC90ZXh0PgogIDxwYXRoIGQ9Ik0xNzYgMzkyaDE2MCIgc3Ryb2tlPSIjYjc4YzNlIiBzdHJva2Utd2lkdGg9IjE0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==',
     blockRemotePlayerPhotos: true,
     blockRemoteClubLogos: true,
   });
@@ -9528,6 +9573,427 @@ if (standaloneFullPayload?.players) {
   installDeckSelectionMenu(standaloneFullPayload, standaloneDeckSelection);
 }
 }
+
+/* ===== js/usability-audit-2026.js ===== */
+/**
+ * Final usability and accessibility audit layer for Fociskártyák 2026.
+ * The game rules and data model are intentionally left untouched.
+ */
+
+
+
+const previous = Object.freeze({
+  renderCard: UI.prototype.renderCard,
+  renderScores: UI.prototype.renderScores,
+  showDuel: UI.prototype.showDuel,
+  showOverlay: UI.prototype.showOverlay,
+  hideOverlay: UI.prototype.hideOverlay,
+  setInteractionBusy: UI.prototype.setInteractionBusy,
+});
+
+const MISSING_TEXT = new Set([
+  '', '-', '—', 'n/a', 'na', 'null', 'undefined', 'nan', 'nincs adat', 'ismeretlen',
+]);
+
+const fold = value => String(value ?? '')
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/gu, '')
+  .toLocaleLowerCase('hu-HU')
+  .replace(/[’']/gu, '')
+  .replace(/[^a-z0-9]+/gu, ' ')
+  .trim();
+
+const visibleFocusable = root => [...(root?.querySelectorAll?.(
+  'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), '
+  + 'textarea:not(:disabled), summary, [tabindex]:not([tabindex="-1"])',
+) ?? [])].filter(node => {
+  if (!(node instanceof HTMLElement)) return false;
+  if (node.hidden || node.getAttribute('aria-hidden') === 'true') return false;
+  const style = getComputedStyle(node);
+  return style.display !== 'none' && style.visibility !== 'hidden';
+});
+
+const setText = (node, text) => {
+  if (node && node.textContent !== text) node.textContent = text;
+};
+
+function removeMissingCardFields(cardNode) {
+  if (!(cardNode instanceof HTMLElement)) return;
+  cardNode.querySelectorAll('.stat').forEach(row => {
+    const value = fold(row.querySelector('.stat__value')?.textContent);
+    if (MISSING_TEXT.has(value)) row.remove();
+  });
+
+  const club = cardNode.querySelector('.card__club');
+  if (club && MISSING_TEXT.has(fold(club.textContent))) club.remove();
+
+  const position = cardNode.querySelector('.card__position');
+  if (position && MISSING_TEXT.has(fold(position.textContent))) position.remove();
+
+  const active = cardNode.querySelector('.stat.active');
+  if (active) {
+    const label = active.querySelector('.stat__label')?.textContent?.trim() || 'Aktuális kategória';
+    const value = active.querySelector('.stat__value')?.textContent?.trim() || '';
+    active.setAttribute('aria-label', `${label}: ${value}`);
+    active.setAttribute('role', 'status');
+  }
+}
+
+UI.prototype.renderCard = function renderAuditedCard(...args) {
+  const cardNode = previous.renderCard.apply(this, args);
+  removeMissingCardFields(cardNode);
+  return cardNode;
+};
+
+function ensureHudContext(ui, game) {
+  const hud = document.querySelector('#hud');
+  if (!hud) return;
+
+  let context = hud.querySelector('#hud-context');
+  if (!context) {
+    context = document.createElement('div');
+    context.id = 'hud-context';
+    context.setAttribute('aria-live', 'polite');
+    context.setAttribute('aria-atomic', 'true');
+    const mode = document.createElement('span');
+    mode.className = 'hud-context__mode';
+    const turn = document.createElement('span');
+    turn.className = 'hud-context__turn';
+    context.append(mode, turn);
+    hud.prepend(context);
+  }
+
+  const isPenalty = game?.mode === 'penalties';
+  const round = Number(game?.round);
+  const chooser = game?.chooser === 'human' ? 'Te választasz' : 'Az ellenfél választ';
+  setText(context.querySelector('.hud-context__mode'), isPenalty ? 'Büntetőpárbaj' : 'Klasszikus mód');
+  setText(
+    context.querySelector('.hud-context__turn'),
+    Number.isFinite(round) && round > 0 ? `${round}. ${isPenalty ? 'párbaj' : 'kör'} · ${chooser}` : chooser,
+  );
+
+  const scores = ui.dom?.hudScores?.querySelectorAll?.('.score') ?? [];
+  scores[0]?.classList.add('score--human');
+  scores[1]?.classList.add('score--opponent');
+  scores[0]?.setAttribute('aria-label', `Saját pontszám: ${scores[0]?.querySelector('b')?.textContent ?? '0'}`);
+  scores[1]?.setAttribute('aria-label', `Ellenfél pontszáma: ${scores[1]?.querySelector('b')?.textContent ?? '0'}`);
+
+  ui.dom?.hudMeta?.setAttribute('role', 'status');
+  ui.dom?.hudMeta?.setAttribute('aria-live', 'polite');
+}
+
+UI.prototype.renderScores = function renderAuditedScores(game) {
+  const output = previous.renderScores.call(this, game);
+  ensureHudContext(this, game);
+  return output;
+};
+
+UI.prototype.showDuel = function showAuditedDuel(game, options = {}) {
+  const output = previous.showDuel.call(this, game, options);
+  const slots = this.dom?.duel?.querySelectorAll?.('.duel-slot') ?? [];
+  slots[0]?.classList.add('duel-slot--human');
+  slots[1]?.classList.add('duel-slot--opponent');
+  slots[0]?.setAttribute('aria-label', 'Saját kijátszott kártya');
+  slots[1]?.setAttribute('aria-label', 'Az ellenfél kijátszott kártyája');
+  this.dom?.duel?.classList.toggle('is-tie', options?.result?.winner === 'tie');
+  return output;
+};
+
+function installOverlayFocus(ui, panel) {
+  const overlay = ui.dom?.overlay;
+  const body = ui.dom?.overlayBody;
+  if (!overlay || !body || overlay.hidden || !(panel instanceof HTMLElement)) return;
+
+  ui._auditOverlayReturnFocus = document.activeElement instanceof HTMLElement
+    ? document.activeElement
+    : null;
+
+  const heading = panel.querySelector('h1, h2');
+  if (heading) {
+    heading.id ||= `dialog-title-${Math.random().toString(36).slice(2, 9)}`;
+    overlay.setAttribute('aria-labelledby', heading.id);
+  } else {
+    overlay.removeAttribute('aria-labelledby');
+    overlay.setAttribute('aria-label', 'Párbeszédablak');
+  }
+
+  body.tabIndex = -1;
+  body.setAttribute('aria-busy', 'false');
+  const safeClose = () => panel.querySelector(
+    '#keep-save-btn, #settings-back-btn, #rules-back-btn, #resume-btn, '
+    + '#onboarding-skip, #menu-btn, [data-dialog-close], .btn--ghost',
+  );
+
+  ui._auditOverlayKeydown = event => {
+    if (event.key === 'Escape') {
+      const close = safeClose();
+      if (close instanceof HTMLElement && !close.hasAttribute('disabled')) {
+        event.preventDefault();
+        close.click();
+      }
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = visibleFocusable(panel);
+    if (!focusable.length) {
+      event.preventDefault();
+      body.focus({ preventScroll: true });
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
+  overlay.addEventListener('keydown', ui._auditOverlayKeydown);
+  queueMicrotask(() => (visibleFocusable(panel)[0] ?? body).focus({ preventScroll: true }));
+}
+
+function cleanupOverlayFocus(ui) {
+  const overlay = ui.dom?.overlay;
+  if (overlay && ui._auditOverlayKeydown) {
+    overlay.removeEventListener('keydown', ui._auditOverlayKeydown);
+  }
+  ui._auditOverlayKeydown = null;
+  const returnFocus = ui._auditOverlayReturnFocus;
+  ui._auditOverlayReturnFocus = null;
+  queueMicrotask(() => {
+    if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
+  });
+}
+
+UI.prototype.showOverlay = function showAuditedOverlay(panel) {
+  const output = previous.showOverlay.call(this, panel);
+  installOverlayFocus(this, panel);
+  return output;
+};
+
+UI.prototype.hideOverlay = function hideAuditedOverlay(...args) {
+  cleanupOverlayFocus(this);
+  return previous.hideOverlay.apply(this, args);
+};
+
+if (typeof previous.setInteractionBusy === 'function') {
+  UI.prototype.setInteractionBusy = function setAuditedInteractionBusy(busy) {
+    const output = previous.setInteractionBusy.call(this, busy);
+    const state = String(Boolean(busy));
+    this.dom?.pub?.setAttribute('aria-busy', state);
+    this.dom?.picker?.setAttribute('aria-busy', state);
+    this.dom?.playerHand?.setAttribute('aria-busy', state);
+    this.dom?.overlayBody?.setAttribute('aria-busy', state);
+    return output;
+  };
+}
+
+const confirmationRules = Object.freeze({
+  'restart-btn': 'Biztosan újrakezded a mérkőzést? A jelenlegi játékállás elvész.',
+  'home-btn': 'Visszalépsz a főmenübe? A folyamatban lévő mérkőzés mentése megmarad.',
+  'delete-save-btn': 'Biztosan törlöd a mentett mérkőzést? Ez nem vonható vissza.',
+});
+
+function installDangerousActionConfirmation() {
+  document.addEventListener('click', event => {
+    const button = event.target.closest?.('button[id]');
+    if (!(button instanceof HTMLButtonElement)) return;
+    const message = confirmationRules[button.id];
+    if (!message || button.dataset.confirmedAction === 'true') {
+      if (button?.dataset.confirmedAction === 'true') delete button.dataset.confirmedAction;
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    if (!window.confirm(message)) return;
+    button.dataset.confirmedAction = 'true';
+    button.click();
+  }, true);
+}
+
+function installTrustedDoubleActivationGuard() {
+  const lastActivation = new WeakMap();
+  document.addEventListener('click', event => {
+    if (!event.isTrusted) return;
+    const target = event.target.closest?.('button, summary, [role="button"]');
+    if (!(target instanceof HTMLElement)) return;
+    if (target.matches(':disabled, [aria-disabled="true"]')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+
+    const now = performance.now();
+    const previousTime = lastActivation.get(target) ?? -Infinity;
+    if (now - previousTime < 500) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    lastActivation.set(target, now);
+    target.classList.add('is-activating');
+    window.setTimeout(() => target.classList.remove('is-activating'), 520);
+  }, true);
+}
+
+function clubGroups(players) {
+  const groups = new Map();
+  for (const player of players) {
+    const label = String(player?.club ?? '').trim();
+    const key = fold(label);
+    if (!key) continue;
+    const current = groups.get(key) ?? { key, label, count: 0 };
+    current.count += 1;
+    groups.set(key, current);
+  }
+  return [...groups.values()].sort((a, b) => a.label.localeCompare(b.label, 'hu-HU'));
+}
+
+function nationGroups(players) {
+  const groups = new Map();
+  for (const player of players) {
+    const key = canonicalNationKey(player?.nation);
+    if (!key) continue;
+    const presentation = nationPresentation(key);
+    const current = groups.get(key) ?? {
+      key,
+      label: presentation.label,
+      flag: presentation.flag,
+      count: 0,
+    };
+    current.count += 1;
+    groups.set(key, current);
+  }
+  return [...groups.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, 'hu-HU'));
+}
+
+function enhanceDeckSelector(selector) {
+  if (!(selector instanceof HTMLElement) || selector.dataset.auditEnhanced === 'true') return;
+  selector.dataset.auditEnhanced = 'true';
+
+  const body = selector.querySelector('.deck-selector__body');
+  const choice = selector.querySelector('.deck-selector__choice');
+  const select = selector.querySelector('select');
+  if (!body || !choice || !(select instanceof HTMLSelectElement)) return;
+
+  const searchWrap = document.createElement('label');
+  searchWrap.className = 'deck-selector__search-wrap';
+  const label = document.createElement('span');
+  label.className = 'deck-selector__search-label';
+  label.textContent = 'Keresés a csapatok és nemzetiségek között';
+  const search = document.createElement('input');
+  search.type = 'search';
+  search.className = 'deck-selector__search';
+  search.placeholder = 'Kezdj el gépelni…';
+  search.autocomplete = 'off';
+  search.setAttribute('aria-label', label.textContent);
+  const status = document.createElement('span');
+  status.className = 'deck-selector__search-status';
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  searchWrap.append(label, search, status);
+  choice.before(searchWrap);
+
+  let refreshing = false;
+  const refresh = () => {
+    if (refreshing) return;
+    refreshing = true;
+    const players = globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__?.players ?? [];
+    const kind = selector.querySelector('.deck-kind.is-active')?.dataset.kind ?? 'random';
+    const groups = kind === 'club' ? clubGroups(players) : kind === 'nation' ? nationGroups(players) : [];
+
+    select.querySelectorAll('option[data-audit-unavailable]').forEach(option => option.remove());
+    const existingLabels = new Set([...select.options].map(option => fold(option.textContent.split('—')[0])));
+    for (const item of groups.filter(entry => entry.count < MIN_FILTERED_DECK_SIZE)) {
+      const labelText = `${kind === 'nation' ? `${item.flag} ` : ''}${item.label}`;
+      if (existingLabels.has(fold(labelText))) continue;
+      const option = document.createElement('option');
+      option.value = `unavailable:${kind}:${item.key}`;
+      option.disabled = true;
+      option.dataset.auditUnavailable = 'true';
+      option.textContent = `${labelText} — ${item.count} kártya (nem választható: legalább ${MIN_FILTERED_DECK_SIZE} szükséges)`;
+      select.appendChild(option);
+    }
+
+    search.disabled = kind === 'random';
+    search.placeholder = kind === 'club' ? 'Csapat keresése…' : kind === 'nation' ? 'Nemzetiség keresése…' : 'Véletlen paklinál nincs szükség keresésre';
+    if (kind === 'random') search.value = '';
+
+    const query = fold(search.value);
+    let shown = 0;
+    let selectable = 0;
+    [...select.options].forEach(option => {
+      const matches = !query || fold(option.textContent).includes(query);
+      option.hidden = !matches;
+      if (matches) {
+        shown += 1;
+        if (!option.disabled) selectable += 1;
+      }
+    });
+
+    const selected = select.selectedOptions[0];
+    if (selected?.hidden || selected?.disabled) {
+      const first = [...select.options].find(option => !option.hidden && !option.disabled);
+      if (first) select.value = first.value;
+    }
+
+    status.textContent = kind === 'random'
+      ? `${players.length} használható kártya áll rendelkezésre.`
+      : `${shown} találat, ebből ${selectable} választható. A többi lehetőségnél látható a kizárás oka.`;
+    refreshing = false;
+  };
+
+  search.addEventListener('input', refresh);
+  selector.querySelectorAll('.deck-kind').forEach(button => button.addEventListener('click', () => queueMicrotask(refresh)));
+  refresh();
+}
+
+function enhanceLiveInterface(root = document) {
+  root.querySelectorAll?.('.deck-selector').forEach(enhanceDeckSelector);
+  root.querySelectorAll?.('.stat').forEach(row => {
+    const value = fold(row.querySelector('.stat__value')?.textContent);
+    if (MISSING_TEXT.has(value)) row.remove();
+  });
+
+  const penaltyBoard = document.querySelector('#penalty-board');
+  if (penaltyBoard) {
+    penaltyBoard.setAttribute('aria-label', 'A Büntetőpárbaj próbálkozásai');
+    penaltyBoard.querySelectorAll('.attempt').forEach(mark => {
+      const text = mark.title || 'Próbálkozás';
+      mark.setAttribute('aria-label', text);
+      mark.setAttribute('role', 'img');
+    });
+  }
+}
+
+function initialiseAuditLayer() {
+  installDangerousActionConfirmation();
+  installTrustedDoubleActivationGuard();
+  enhanceLiveInterface();
+
+  let queued = false;
+  const schedule = () => {
+    if (queued) return;
+    queued = true;
+    queueMicrotask(() => {
+      queued = false;
+      enhanceLiveInterface();
+    });
+  };
+  new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
+  document.documentElement.dataset.usabilityAudit = '2026';
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialiseAuditLayer, { once: true });
+  else initialiseAuditLayer();
+}
+
 
 /* ===== js/main.js ===== */
 /** Browser session controller for Classic and Penalties modes. */
