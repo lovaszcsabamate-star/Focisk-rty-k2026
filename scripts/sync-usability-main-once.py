@@ -19,6 +19,24 @@ def copy_main(path: str) -> None:
 
 copy_main('js/usability-fixes.js')
 
+# A névformázás a központi UI-modulban él. A külön inspector-réteg ugyanazokat a
+# függvényeket importálja, így az összefűzött standalone-ban sincs névütközés.
+usability_path = ROOT / 'js/usability-fixes.js'
+text = usability_path.read_text(encoding='utf-8')
+text = require_replace(
+    text,
+    "import { UI } from './ui.js';",
+    "import { UI, cardNameInitials, cardPlayerDisplayName } from './ui.js';",
+    'usability központi névsegéd import',
+)
+text = text.replace('INSPECTOR_SWIPE_DISTANCE', 'USABILITY_INSPECTOR_SWIPE_DISTANCE')
+name_block_start = text.find('const NAME_PARTICLES = new Set([')
+name_block_end = text.find('const usabilityFocusable = root =>', name_block_start)
+if name_block_start < 0 or name_block_end < 0:
+    raise SystemExit('Az inspector-modul helyi névsegédblokkja nem található.')
+text = text[:name_block_start] + text[name_block_end:]
+usability_path.write_text(text, encoding='utf-8')
+
 index = ROOT / 'index.html'
 text = index.read_text(encoding='utf-8')
 if 'js/usability-fixes.js' not in text:
