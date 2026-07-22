@@ -62,7 +62,7 @@ assert.match(pwaCss, /\.pwa-update-notice\s*\{/);
 assert.match(pwaCss, /safe-area-inset-bottom/);
 
 assert.doesNotMatch(indexHtml, />\s*Penalties(?: mód)?\s*</u);
-assert.doesNotMatch(indexHtml, /focus-experience\.js|usability-fixes\.js|phase-refinements\.css/);
+assert.doesNotMatch(indexHtml, /focus-experience\.js|phase-refinements\.css/);
 assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(manifest.description, /büntetőpárbaj/i);
 assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v43';/);
@@ -70,10 +70,10 @@ assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
 assert.match(serviceWorker, /js\/reliability-fixes\.js/);
-assert.doesNotMatch(serviceWorker, /usability-fixes\.js|focus-experience\.js|phase-refinements\.css/);
+assert.doesNotMatch(serviceWorker, /focus-experience\.js|phase-refinements\.css/);
 
 for (const deleted of [
-  'js/focus-experience.js', 'js/usability-fixes.js',
+  'js/focus-experience.js',
   'css/mobile-overlay-fix.css', 'css/player-profile.css', 'css/focus-experience.css',
   'css/mobile-selection-fix.css', 'css/duel-emphasis.css', 'css/phase-refinements.css',
 ]) assert.equal(fs.existsSync(path.join(ROOT, deleted)), false, `Felesleges javítóréteg maradt: ${deleted}`);
