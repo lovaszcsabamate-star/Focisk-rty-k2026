@@ -38,15 +38,20 @@ jobs:
           cache: npm
       - name: Friss main lekérése
         run: git fetch origin main
-      - name: Main fejlesztések portolása
-        run: |
-          python scripts/sync-main-once.py
-          python scripts/sync-visual-main-once.py
-          python scripts/sync-usability-main-once.py
-          python scripts/fix-visual-tests-once.py
-          python scripts/fix-visual-performance-once.py
-          python scripts/fix-mobile-carousel-once.py
-          python scripts/fix-carousel-e2e-once.py
+      - name: Alap main portolás
+        run: python scripts/sync-main-once.py
+      - name: Vizuális rendszer portolása
+        run: python scripts/sync-visual-main-once.py
+      - name: Inspector rendszer portolása
+        run: python scripts/sync-usability-main-once.py
+      - name: Vizuális tesztek frissítése
+        run: python scripts/fix-visual-tests-once.py
+      - name: Vizuális megfigyelők optimalizálása
+        run: python scripts/fix-visual-performance-once.py
+      - name: Mobil kategóriakarusszel javítása
+        run: python scripts/fix-mobile-carousel-once.py
+      - name: Karusszel E2E frissítése
+        run: python scripts/fix-carousel-e2e-once.py
       - name: Függőségek telepítése
         run: npm ci
       - name: Chromium telepítése
