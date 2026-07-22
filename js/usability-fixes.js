@@ -9,6 +9,7 @@ import { hasAttributeData } from './data/players.js';
 const usabilityPreviousOpenInspector = UI.prototype.openInspector;
 const usabilityPreviousCloseInspector = UI.prototype.closeInspector;
 const usabilityPreviousRenderInspector = UI.prototype._renderInspector;
+const INSPECTOR_SWIPE_DISTANCE = 44;
 
 const usabilityFocusable = root => [...(root?.querySelectorAll?.(
   'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
@@ -45,6 +46,29 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
   usabilityPreviousRenderInspector.apply(this, args);
 
   if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
+
+  const swipeSurface = document.querySelector('#inspector .inspector__centre');
+  let swipeStart = null;
+
+  swipeSurface?.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'mouse' || event.button !== 0) return;
+    swipeStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+  }, { passive: true });
+
+  swipeSurface?.addEventListener('pointerup', event => {
+    if (!swipeStart || swipeStart.pointerId !== event.pointerId) return;
+    const deltaX = event.clientX - swipeStart.x;
+    const deltaY = event.clientY - swipeStart.y;
+    swipeStart = null;
+
+    if (Math.abs(deltaX) < INSPECTOR_SWIPE_DISTANCE) return;
+    if (Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+    this._inspectorStep(deltaX < 0 ? 1 : -1);
+  }, { passive: true });
+
+  swipeSurface?.addEventListener('pointercancel', () => {
+    swipeStart = null;
+  }, { passive: true });
 
   this._inspectorKeys = event => {
     if (!this.inspector) return;

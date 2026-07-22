@@ -19,7 +19,7 @@ assert.match(ai, /const upperBound/);
 assert.match(ai, /strengthCache = new WeakMap/);
 assert.doesNotMatch(ai, /for \(const other of values\)/);
 
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v42';/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v43';/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
 
