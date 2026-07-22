@@ -24,10 +24,10 @@ jobs:
         run: npm ci
       - name: Syntax and static checks
         run: npm run lint
-      - name: Full regression suite
-        run: npm test
       - name: Build standalone game
         run: npm run build
+      - name: Full regression suite
+        run: npm test
       - name: Mobile and runtime smoke tests
         run: npm run test:mobile-layout && npm run test:runtime
       - name: Existing phase previews
