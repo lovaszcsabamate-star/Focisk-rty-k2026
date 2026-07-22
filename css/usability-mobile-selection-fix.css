@@ -1,0 +1,40 @@
+/* Final mobile selection safeguards after the full usability audit layer. */
+#pub.is-card-selection #duel {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 620px) {
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(136px, 36vw, 142px) !important;
+    --card-h: calc(var(--card-w) * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}
+
+@media (max-width: 340px) {
+  #pub.is-battle-active #duel {
+    grid-template-columns: 139px 28px 139px !important;
+    justify-content: center !important;
+    gap: 1px !important;
+  }
+
+  #pub.is-battle-active #duel > .duel-slot .card {
+    --card-w: 139px !important;
+    width: var(--card-w) !important;
+    min-width: var(--card-w) !important;
+    max-width: var(--card-w) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}
