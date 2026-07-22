@@ -22,3 +22,21 @@
     flex: 0 0 var(--card-w) !important;
   }
 }
+
+@media (max-width: 340px) {
+  #pub.is-battle-active #duel {
+    grid-template-columns: 132px 28px 132px !important;
+    justify-content: center !important;
+    gap: 3px !important;
+  }
+
+  #pub.is-battle-active #duel > .duel-slot .card {
+    --card-w: 132px !important;
+    --card-h: calc(var(--card-w) * 232 / 132) !important;
+    width: var(--card-w) !important;
+    min-width: var(--card-w) !important;
+    max-width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}
