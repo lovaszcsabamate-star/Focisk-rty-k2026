@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 
 const memory = new Map();
 globalThis.localStorage = {
@@ -7,6 +8,7 @@ globalThis.localStorage = {
   removeItem: key => memory.delete(key),
 };
 
+const source = fs.readFileSync(new URL('../js/player-profile.js', import.meta.url), 'utf8');
 const {
   DEFAULT_PLAYER_NAME,
   MAX_PLAYER_NAME_LENGTH,
@@ -40,4 +42,11 @@ assert.equal(
   'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.',
 );
 
-console.log('✓ A játékosnév mentése és a Büntetőpárbaj feliratok rendben');
+assert.match(source, /scorePair\s*=\s*value\s*=>\s*String\(value \?\? ''\)\.match/);
+assert.match(source, /UI\.prototype\.renderScores\s*=\s*function renderScoresWithSavedPlayerName/);
+assert.match(source, /PROFILE_BASE_METHODS\.renderScores\.apply\(this, args\)/);
+assert.match(source, /UI\.prototype\.showOverlay\s*=\s*function showOverlayWithSavedPlayerName/);
+assert.match(source, /personalizeGameLabels\(this\.dom\.overlayBody \?\? document\)/);
+assert.match(source, /setNodeText\(finalScore, `\$\{upper\} \$\{score\[1\]\}–\$\{score\[2\]\} GÉP`\)/);
+
+console.log('✓ A mentett játékosnév az eredményjelzőn és a végeredménynél is közvetlenül megjelenik');
