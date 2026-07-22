@@ -43,7 +43,7 @@ jobs:
             test/final-missing-complete.test.mjs \
             test/rules.test.mjs
 
-      - name: Stabilizációs és vizuális rétegek integrálása
+      - name: Stabilizációs és főági funkciók integrálása
         run: |
           python scripts/sync-main-once.py
           python scripts/fix-central-name-export-once.py
@@ -55,66 +55,7 @@ jobs:
           python scripts/fix-carousel-e2e-once.py
           python scripts/fix-hand-inspector-e2e-once.py
           python scripts/fix-selection-smoke-once.py
-
-      - name: Pakliválasztás bekötése
-        shell: bash
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          root = Path('.')
-          package_path = root / 'package.json'
-          package = json.loads(package_path.read_text(encoding='utf-8'))
-          scripts = package['scripts']
-          postprocess = 'node scripts/postprocess-standalone.mjs'
-          for name in ('build', 'build:standalone', 'audit:data', 'review:database'):
-              if postprocess not in scripts[name]:
-                  scripts[name] = f"{scripts[name]} && {postprocess}"
-          for check in (
-              'node --check js/deck-selection.js',
-              'node --check scripts/postprocess-standalone.mjs',
-              'node --check test/deck-selection.test.mjs',
-          ):
-              if check not in scripts['lint']:
-                  scripts['lint'] += f' && {check}'
-          for name in ('test', 'test:all'):
-              deck_test = 'node test/deck-selection.test.mjs'
-              if deck_test not in scripts[name]:
-                  marker = 'node test/rules.test.mjs'
-                  scripts[name] = scripts[name].replace(marker, f'{deck_test} && {marker}', 1)
-          package['version'] = '1.1.0'
-          package_path.write_text(json.dumps(package, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          lock_path = root / 'package-lock.json'
-          lock = json.loads(lock_path.read_text(encoding='utf-8'))
-          lock['version'] = '1.1.0'
-          if isinstance(lock.get('packages', {}).get(''), dict):
-              lock['packages']['']['version'] = '1.1.0'
-          lock_path.write_text(json.dumps(lock, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          sw_path = root / 'sw.js'
-          sw = sw_path.read_text(encoding='utf-8')
-          entry = "  './js/deck-selection.js',"
-          if entry not in sw:
-              sw = sw.replace("  './js/main.js',", entry + "\n  './js/main.js',", 1)
-          sw_path.write_text(sw, encoding='utf-8')
-
-          test_path = root / 'test/stabilization.test.mjs'
-          test = test_path.read_text(encoding='utf-8')
-          if "const deckSelectionSource = text('js/deck-selection.js');" not in test:
-              test += """
-
-          const deckSelectionSource = text('js/deck-selection.js');
-          assert.match(deckSelectionSource, /MIN_FILTERED_DECK_SIZE = 11/);
-          assert.match(text('js/bootstrap.js'), /applyDeckSelectionToPayload/);
-          assert.match(text('js/penalties.js'), /PENALTY_TEAM_SIZE = 11/);
-          assert.match(text('scripts/postprocess-standalone.mjs'), /standalone deck selection bootstrap/);
-          assert.match(text('sw.js'), /js\\/deck-selection\\.js/);
-          assert.match(text('package.json'), /test\\/deck-selection\\.test\\.mjs/);
-          """
-              test_path.write_text(test, encoding='utf-8')
-          PY
+          python scripts/integrate-latest-main-features-once.py
 
       - name: Függőségek és Chromium telepítése
         run: |
@@ -173,6 +114,7 @@ jobs:
           rm -f scripts/sync-main-once.py
           rm -f scripts/sync-visual-main-once.py
           rm -f scripts/sync-usability-main-once.py
+          rm -f scripts/integrate-latest-main-features-once.py
           rm -f scripts/fix-central-name-export-once.py
           rm -f scripts/fix-visual-tests-once.py
           rm -f scripts/fix-visual-performance-once.py
@@ -184,7 +126,10 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           git commit -m 'Véglegesíti a stabil bétát a legfrissebb main fejlesztéseivel'
-          git merge -s ours origin/main -m 'Összehangolja a stabil bétát a legfrissebb main ággal'
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            git merge -s ours origin/main -m 'Összehangolja a stabil bétát a legfrissebb main ággal'
+          fi
           git push origin HEAD:stabilize-beta-2026-07-22
 
       - name: Teszttermékek feltöltése
@@ -199,3 +144,5 @@ jobs:
             playwright-report/
             mobile-layout-report.json
             runtime-browser-report.json
+
+# Újraindítás a konfliktusmentes ág és a legfrissebb main alapján.
