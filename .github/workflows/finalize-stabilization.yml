@@ -92,6 +92,26 @@ jobs:
           }"""
           if old not in text:
               raise SystemExit('A Playwright csatavárakozási pontja nem található.')
+          text = text.replace(old, new)
+          old = """  await page.addInitScript(() => {
+            try {
+              localStorage.clear();
+              localStorage.setItem('fociskartyak:onboarding-complete', 'true');
+            } catch { /* target origin initializes storage later */ }
+            Math.random = () => 0;
+          });"""
+          new = """  await page.addInitScript(() => {
+            try {
+              if (!sessionStorage.getItem('fociskartyak:e2e-initialized')) {
+                localStorage.clear();
+                localStorage.setItem('fociskartyak:onboarding-complete', 'true');
+                sessionStorage.setItem('fociskartyak:e2e-initialized', 'true');
+              }
+            } catch { /* target origin initializes storage later */ }
+            Math.random = () => 0;
+          });"""
+          if old not in text:
+              raise SystemExit('A Playwright kezdeti tárhelytisztítása nem található.')
           path.write_text(text.replace(old, new))
           PY
           rm -f .github/workflows/stabilize-beta-once.yml
