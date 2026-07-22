@@ -114,13 +114,31 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          mkdir -p test-artifacts
           rm -rf playwright-report test-results previews
           rm -f mobile-layout-report.json runtime-browser-report.json
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
-          git commit -m 'Átvezeti a legfrissebb main fejlesztéseit a stabil bétába'
-          git push origin HEAD:stabilize-beta-2026-07-22
+          rm -f test-artifacts/integration-*.log
+          {
+            echo '=== Munkafa commit előtt ==='
+            git status --short
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -A
+            echo '=== Staged változások ==='
+            git diff --cached --stat
+            if git diff --cached --quiet; then
+              echo 'Nincs commitolható változás.'
+              exit 1
+            fi
+            git commit -m 'Átvezeti a legfrissebb main fejlesztéseit a stabil bétába'
+            git fetch origin stabilize-beta-2026-07-22
+            remote_ref='origin/stabilize-beta-2026-07-22'
+            if ! git merge-base --is-ancestor "$remote_ref" HEAD; then
+              echo 'Az ág időközben előrelépett; rebase indul.'
+              git rebase "$remote_ref"
+            fi
+            git push origin HEAD:stabilize-beta-2026-07-22
+          } 2>&1 | tee test-artifacts/git-publish.log
       - name: Teszttermékek feltöltése
         if: always()
         uses: actions/upload-artifact@v4
