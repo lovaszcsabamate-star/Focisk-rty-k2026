@@ -6,23 +6,25 @@
       "titleLocalised": true,
       "loadingHidden": true,
       "loadingError": false,
-      "modeClassPresent": false,
+      "overlayHidden": true,
+      "modeClassPresent": true,
       "visibleCards": 7,
+      "minimumCards": 5,
       "savedNameVisible": true,
       "errors": [],
       "consoleErrors": [],
       "remoteRequests": [],
-      "failures": [
-        "a kiválasztott játékmód nem indult el"
-      ]
+      "failures": []
     },
     {
       "mode": "penalties",
       "titleLocalised": true,
       "loadingHidden": true,
       "loadingError": false,
+      "overlayHidden": true,
       "modeClassPresent": true,
       "visibleCards": 11,
+      "minimumCards": 11,
       "savedNameVisible": true,
       "errors": [],
       "consoleErrors": [],
@@ -30,7 +32,5 @@
       "failures": []
     }
   ],
-  "failures": [
-    "classic: a kiválasztott játékmód nem indult el."
-  ]
+  "failures": []
 }
