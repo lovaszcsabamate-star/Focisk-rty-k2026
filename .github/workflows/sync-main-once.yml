@@ -41,19 +41,24 @@ jobs:
         run: npm ci
       - name: Chromium telepítése
         run: npx playwright install --with-deps chromium
-      - name: Teljes ellenőrzési lánc
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm run lint
-          npm run audit:assets
-          npm run build
-          npm test
-          npm run test:all
-          npm run test:mobile-layout
-          npm run test:runtime
-          npm run preview:desktop
-          git diff --check
+      - name: Szintaxis- és lintellenőrzés
+        run: npm run lint
+      - name: Assetlicenc-ellenőrzés
+        run: npm run audit:assets
+      - name: Standalone build
+        run: npm run build
+      - name: Alaptesztek
+        run: npm test
+      - name: Teljes regressziós tesztcsomag
+        run: npm run test:all
+      - name: Mobil- és Playwright-tesztek
+        run: npm run test:mobile-layout
+      - name: Futásidejű böngészőteszt
+        run: npm run test:runtime
+      - name: Asztali fáziselőnézetek
+        run: npm run preview:desktop
+      - name: Git formázási ellenőrzés
+        run: git diff --check
       - name: Ellenőrzött változások commitolása
         shell: bash
         run: |
