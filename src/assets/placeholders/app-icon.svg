@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Fociskártyák 2026 alkalmazásikon</title>
+  <desc id="desc">Saját tervezésű, semleges kártya és FK26 monogram, hivatalos klub- vagy ligajelzés nélkül.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f5142"/>
+      <stop offset="1" stop-color="#172820"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0d891"/>
+      <stop offset="1" stop-color="#b78c3e"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="112" y="72" width="288" height="368" rx="42" fill="#efe3ca" stroke="url(#gold)" stroke-width="18"/>
+  <rect x="144" y="108" width="224" height="170" rx="28" fill="#213b31"/>
+  <circle cx="256" cy="193" r="57" fill="none" stroke="#e6c86f" stroke-width="14"/>
+  <path d="M256 148l30 22-11 35h-38l-11-35 30-22z" fill="#e6c86f"/>
+  <text x="256" y="352" text-anchor="middle" fill="#172820" font-family="system-ui, sans-serif" font-size="76" font-weight="900" letter-spacing="3">FK26</text>
+  <path d="M176 392h160" stroke="#b78c3e" stroke-width="14" stroke-linecap="round"/>
+</svg>
