@@ -11,7 +11,10 @@ if (!fs.existsSync(outputPath)) {
   throw new Error('Hiányzik a Fociskartyak2026.html; előbb futtasd a build-standalone lépést.');
 }
 
-const STYLE_LINK = '  <link rel="stylesheet" href="css/usability-audit-2026.css">\n';
+const STYLE_LINKS = [
+  '  <link rel="stylesheet" href="css/usability-audit-2026.css">\n',
+  '  <link rel="stylesheet" href="css/usability-mobile-selection-fix.css">\n',
+];
 const SCRIPT_TAG = '  <script type="module" src="js/usability-audit-2026.js"></script>\n';
 const CSS_MARKER = '/* ===== css/usability-audit-2026.css ===== */';
 const JS_MARKER = '/* ===== js/usability-audit-2026.js ===== */';
@@ -23,12 +26,15 @@ const flattenModule = source => source
   .replace(/^export\s+\{[^}]+\};?\s*$/gm, '')
   .replace(/\bexport\s+(?=(?:const|let|var|class|function|async\s+function)\b)/g, '');
 
-let html = fs.readFileSync(outputPath, 'utf8')
-  .replace(STYLE_LINK, '')
-  .replace(SCRIPT_TAG, '');
+let html = fs.readFileSync(outputPath, 'utf8');
+for (const link of STYLE_LINKS) html = html.replace(link, '');
+html = html.replace(SCRIPT_TAG, '');
 
 if (!html.includes(CSS_MARKER)) {
-  const css = `${CSS_MARKER}\n${read('css/usability-audit-2026.css')}`;
+  const css = [
+    `${CSS_MARKER}\n${read('css/usability-audit-2026.css')}`,
+    `/* ===== css/usability-mobile-selection-fix.css ===== */\n${read('css/usability-mobile-selection-fix.css')}`,
+  ].join('\n\n');
   if (!html.includes('</style>')) throw new Error('Az önálló HTML nem tartalmaz beágyazott stílusblokkot.');
   html = html.replace('</style>', `\n${css}\n</style>`);
 }
