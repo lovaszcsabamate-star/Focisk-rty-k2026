@@ -55,7 +55,11 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Szintaxis- és lintellenőrzés
-        run: npm run lint
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          npm run lint 2>&1 | tee test-artifacts/lint.log
 
       - name: Standalone build és adatellenőrzés
         run: npm run build
