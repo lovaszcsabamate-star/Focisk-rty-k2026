@@ -46,8 +46,13 @@ jobs:
           base64 --decode /tmp/fociskartyak-stabilization.patch.b64 | xz --decompress --stdout > /tmp/fociskartyak-stabilization.patch
           git apply --check --exclude=.github/workflows/stabilize-beta-once.yml /tmp/fociskartyak-stabilization.patch
           git apply --exclude=.github/workflows/stabilize-beta-once.yml /tmp/fociskartyak-stabilization.patch
-          echo 'd620267d74b70432a430f6104ec2f05c14dc64ecc64ae6635b0d2eba2019b44f  .stabilization/new-files.tar.xz' | sha256sum -c -
-          tar -xJf .stabilization/new-files.tar.xz
+          cat .stabilization/new-files.part-00 \
+              .stabilization/new-files.part-01 \
+              .stabilization/new-files.part-02 \
+              .stabilization/new-files.part-03 > /tmp/fociskartyak-new-files.tar.xz.b64
+          echo '414acb481183b3a61d704ff723d2771a0d46d225089d677a0a2de1f87cf67959  /tmp/fociskartyak-new-files.tar.xz.b64' | sha256sum -c -
+          base64 --decode /tmp/fociskartyak-new-files.tar.xz.b64 > /tmp/fociskartyak-new-files.tar.xz
+          tar -xJf /tmp/fociskartyak-new-files.tar.xz
           rm -f .github/workflows/stabilize-beta-once.yml
 
       - name: Függőségek telepítése
