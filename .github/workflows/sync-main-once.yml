@@ -62,9 +62,17 @@ jobs:
       - name: Mobil elrendezési smoke
         run: node scripts/mobile-layout-smoke.mjs
       - name: Mobil felületi smoke
-        run: node scripts/mobile-interface-smoke.mjs
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          node scripts/mobile-interface-smoke.mjs 2>&1 | tee test-artifacts/integration-interface-smoke.log
       - name: Mobil fázis-smoke
-        run: node scripts/mobile-phase-smoke.mjs
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          node scripts/mobile-phase-smoke.mjs 2>&1 | tee test-artifacts/integration-phase-smoke.log
       - name: Playwright végponttól végpontig
         shell: bash
         run: |
