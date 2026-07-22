@@ -35,7 +35,7 @@ if (standaloneFullPayload?.players) {
   installDeckSelectionMenu(standaloneFullPayload, standaloneDeckSelection);
 }
 `;
-  html = html.replace(MAIN_MARKER, `${HELPER_MARKER}\n${helper}\n${initialiseSelection}${MAIN_MARKER}`);
+  html = html.replace(MAIN_MARKER, `${HELPER_MARKER}\n{\n${helper}\n${initialiseSelection}}\n${MAIN_MARKER}`);
   fs.writeFileSync(outputPath, html);
 }
 
