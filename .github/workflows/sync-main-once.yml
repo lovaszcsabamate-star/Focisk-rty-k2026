@@ -9,6 +9,7 @@ on:
       - scripts/sync-main-once.py
       - scripts/sync-visual-main-once.py
       - scripts/sync-usability-main-once.py
+      - scripts/fix-central-name-export-once.py
       - scripts/fix-visual-tests-once.py
       - scripts/fix-visual-performance-once.py
       - scripts/fix-mobile-carousel-once.py
@@ -41,6 +42,8 @@ jobs:
         run: git fetch origin main
       - name: Alap main portolás
         run: python scripts/sync-main-once.py
+      - name: Központi névsegéd exportálása
+        run: python scripts/fix-central-name-export-once.py
       - name: Vizuális rendszer portolása
         run: python scripts/sync-visual-main-once.py
       - name: Inspector rendszer portolása
