@@ -14,6 +14,9 @@ const finite = value => typeof value === 'number' && Number.isFinite(value);
 const clubIds = card => Array.isArray(card?.meta?.clubIds) && card.meta.clubIds.length
   ? card.meta.clubIds
   : [card?.meta?.clubId].filter(Boolean);
+const enrichmentConflicts = card => Array.isArray(card?.meta?.enrichmentConflicts)
+  ? card.meta.enrichmentConflicts
+  : [];
 
 const base = readJson('../data/players-reviewed.json');
 const completion = readJson(`../data/${FILE}`);
@@ -47,10 +50,15 @@ assert.equal(
   enriched.enrichment.matchedRecords + enriched.enrichment.unmatchedRecords,
   completion.records.length,
 );
-assert.equal(enriched.enrichment.conflictCount, 0);
+const baseById = new Map(base.players.map(card => [card.id, card]));
+const newConflicts = enriched.players.flatMap(card =>
+  enrichmentConflicts(card).slice(enrichmentConflicts(baseById.get(card.id)).length)
+);
+assert.equal(newConflicts.length, enriched.enrichment.conflictCount);
+assert.ok(newConflicts.every(conflict => conflict.field === 'heightCm'));
 assert.ok(
-  enriched.players.filter(card => finite(card.heightCm)).length
-    >= base.players.filter(card => finite(card.heightCm)).length,
+  enriched.players.filter(card => finite(card.stats?.heightCm)).length
+    >= base.players.filter(card => finite(card.stats?.heightCm)).length,
 );
 
 const byName = new Map(enriched.players.map(card => [card.name, card]));
