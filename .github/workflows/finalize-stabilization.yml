@@ -1,9 +1,10 @@
 name: Béta stabilizáció véglegesítése
 
 on:
-  push:
+  pull_request:
     branches:
-      - stabilize-beta-2026-07-22
+      - main
+    types: [opened, synchronize, reopened]
     paths:
       - '.stabilization/**'
       - '.github/workflows/finalize-stabilization.yml'
@@ -13,10 +14,11 @@ permissions:
 
 concurrency:
   group: fociskartyak-beta-finalization
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   finalize:
+    if: github.event.pull_request.head.ref == 'stabilize-beta-2026-07-22'
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
