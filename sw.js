@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v43
-const PWA_CACHE = 'fociskartyak-2026-v44';
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v44
+const PWA_CACHE = 'fociskartyak-2026-v45';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -18,6 +18,7 @@ const PWA_SHELL = [
   './css/duel-emphasis.css',
   './css/phase-refinements.css',
   './css/visual-system.css',
+  './css/legal-ui.css',
   './js/branding.js',
   './js/bootstrap.js',
   './js/data/complete-cards.js',
@@ -41,6 +42,7 @@ const PWA_SHELL = [
   './js/usability-fixes.js',
   './js/focus-experience.js',
   './js/visual-system.js',
+  './js/legal-ui.js',
   './js/main.js',
   './data/players.json',
   './data/club-official-enrichment.json',
