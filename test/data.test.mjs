@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 import { normaliseCard, validatePlayers } from '../js/data/players.js';
+import { cardPlayerDisplayName } from '../js/usability-fixes.js';
 
 const payload = JSON.parse(fs.readFileSync(new URL('../data/players.json', import.meta.url), 'utf8'));
 const validation = JSON.parse(fs.readFileSync(new URL('../data/validation.json', import.meta.url), 'utf8'));
@@ -52,4 +53,23 @@ assert.equal(payload.coverage.birthDate, 120);
 assert.equal(payload.coverage.appearances, 143);
 assert.equal(validation.sourceValidationSummary.valid, true);
 
-console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, konzisztens');
+assert.equal(cardPlayerDisplayName({ name: 'HAHN JÁNOS' }), 'Hahn János');
+assert.equal(cardPlayerDisplayName({ name: 'JOAO VICTOR' }), 'Joao Victor');
+assert.equal(
+  cardPlayerDisplayName({
+    name: 'BERMEJO ESCRIBANO ALEX',
+    meta: { birthDateSource: 'https://www.transfermarkt.com/alex-bermejo/profil/spieler/473695' },
+  }),
+  'Alex Bermejo',
+);
+assert.equal(
+  cardPlayerDisplayName({
+    name: 'SOISALO MIKAEL MIKA',
+    meta: { birthDateSource: 'https://www.transfermarkt.com/mikael-soisalo/profil/spieler/350181' },
+  }),
+  'Mikael Soisalo',
+);
+assert.equal(cardPlayerDisplayName({ name: 'PESIC... ALEKSANDAR' }), 'Pesic Aleksandar');
+assert.ok(cards.every(card => !cardPlayerDisplayName(card).includes('...')));
+
+console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, konzisztens és olvasható kártyanevek');
