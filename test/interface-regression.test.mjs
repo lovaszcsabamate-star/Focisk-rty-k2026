@@ -42,7 +42,12 @@ assert.doesNotMatch(
 assert.match(duelCss, /\.card--choice\.is-selected\s*\{[^}]*outline:\s*3px\s+solid\s+var\(--brass-light\)/s);
 assert.match(duelCss, /#pub\.is-battle-transition\s+#player-zone/);
 assert.match(refinementCss, /#inspector\.is-battle-transition\s*\{[^}]*opacity:\s*0;/s);
-assert.match(refinementCss, /\.card--choice\.is-selected::before\s*\{[^}]*inset:\s*7px\s+auto\s+auto\s+50%;/s);
+assert.match(refinementCss, /\.card--choice\.is-selected::before\s*\{[^}]*content:\s*none;/s);
+assert.match(refinementCss, /\.card--choice\.is-selected::after\s*\{[^}]*width:\s*max-content;[^}]*height:\s*auto;/s);
+assert.match(refinementCss, /#attribute-picker:has\(> \.attr-btn--mobile\)\s*\{[^}]*grid-auto-flow:\s*column;[^}]*scroll-snap-type:\s*x mandatory;/s);
+assert.match(refinementCss, /#attribute-picker:has\(> \.attr-btn--mobile\) \.attr-btn--mobile\s*\{[^}]*min-height:\s*132px;[^}]*scroll-snap-align:\s*center;/s);
+assert.match(refinementCss, /#inspector \.inspector__shell\s*\{[^}]*grid-template-columns:\s*44px minmax\(0, 1fr\) 44px;/s);
+assert.match(refinementCss, /#inspector \.card--large\s*\{[^}]*calc\(100vw - 116px\)/s);
 assert.match(refinementCss, /#pub\.is-battle-active\s+#felt\s*\{[^}]*battle-card-height[^}]*280px/s);
 assert.doesNotMatch(duelCss, /margin-left:\s*-/i, 'Negatív margó átfedést okozhat a párbajnézetben.');
 
@@ -61,6 +66,9 @@ assert.match(usabilityJs, /document\.removeEventListener\('keydown', this\._insp
 assert.match(usabilityJs, /event\.key === 'Tab'/);
 assert.match(usabilityJs, /_inspectorReturnFocus/);
 assert.match(usabilityJs, /scrollIntoView/);
+assert.match(usabilityJs, /INSPECTOR_SWIPE_DISTANCE\s*=\s*44/);
+assert.match(usabilityJs, /pointerup/);
+assert.match(usabilityJs, /this\._inspectorStep\(deltaX < 0 \? 1 : -1\)/);
 assert.match(usabilityJs, /event\.target\.closest\?\.\('button, a, input, select, textarea, \[role="button"\]'\)/);
 
 assert.match(profileCss, /#hud-scores \.score:first-child span:first-child\s*\{[^}]*text-overflow:\s*ellipsis;/s);
@@ -92,7 +100,7 @@ assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
 assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/usability-fixes\.js[\s\S]*js\/focus-experience\.js/);
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v42';/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v43';/);
 assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
@@ -100,4 +108,4 @@ assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /js\/usability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ A kártyanézegető, frissítés, offline mód, fázisváltás és mentett játék regressziós ellenőrzése rendben');
+console.log('✓ A kategóriakarusszel, kijelölés, kétirányú kártyanézegető, frissítés és offline mód regressziós ellenőrzése rendben');
