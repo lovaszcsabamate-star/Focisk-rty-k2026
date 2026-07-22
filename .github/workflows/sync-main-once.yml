@@ -8,6 +8,7 @@ on:
     paths:
       - scripts/sync-main-once.py
       - scripts/sync-visual-main-once.py
+      - scripts/fix-visual-tests-once.py
       - .github/workflows/sync-main-once.yml
 
 permissions:
@@ -37,6 +38,7 @@ jobs:
         run: |
           python scripts/sync-main-once.py
           python scripts/sync-visual-main-once.py
+          python scripts/fix-visual-tests-once.py
       - name: Függőségek telepítése
         run: npm ci
       - name: Chromium telepítése
