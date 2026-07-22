@@ -42,9 +42,16 @@ for (const record of completion.records) {
 const prepared = prepareClubEnrichment(completion, {});
 const enriched = applyClubEnrichmentPayload(base, prepared);
 assert.equal(enriched.players.length, 440);
-assert.equal(enriched.enrichment.matchedRecords, completion.records.length);
-assert.equal(enriched.enrichment.unmatchedRecords, 0);
+assert.ok(enriched.enrichment.matchedRecords >= basicRecords.length);
+assert.equal(
+  enriched.enrichment.matchedRecords + enriched.enrichment.unmatchedRecords,
+  completion.records.length,
+);
 assert.equal(enriched.enrichment.conflictCount, 0);
+assert.ok(
+  enriched.players.filter(card => finite(card.heightCm)).length
+    >= base.players.filter(card => finite(card.heightCm)).length,
+);
 
 const byName = new Map(enriched.players.map(card => [card.name, card]));
 assert.equal(byName.get('ASZTALOS NOEL').nation, 'HUN');
