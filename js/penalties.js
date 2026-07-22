@@ -9,7 +9,7 @@ export const REGULAR_DUELS = 5;
 export class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
     if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE * 2) {
-      throw new Error(`A Penalties mód két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
+      throw new Error(`A Büntetőpárbaj két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
     }
 
     this.mode = 'penalties';

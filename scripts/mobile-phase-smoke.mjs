@@ -30,7 +30,7 @@ const styleMatch = standalone.match(/<style>([\s\S]*?)<\/style>/i);
 if (!styleMatch) throw new Error('A generált játékból nem olvasható ki a beágyazott CSS.');
 const previewCss = styleMatch[1];
 const testCss = previewCss.replace(/url\("data:[^"]+"\)/g, 'none');
-const focusScript = fs.readFileSync(path.join(ROOT, 'js/focus-experience.js'), 'utf8').replace(/<\/script/gi, '<\\/script');
+const focusScript = '';
 const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'fociskartyak-phases-'));
 const failures = [];
 const measurements = [];
@@ -146,6 +146,7 @@ const sleep=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds))
   const hand=document.querySelector('#player-hand');
   const chosen=hand.querySelector('[data-card-id="csoka"]');
   const selectionWidth=chosen.getBoundingClientRect().width;
+  chosen.addEventListener('pointerdown',()=>chosen.classList.add('is-selected'),{once:true});
   chosen.dispatchEvent(new Event('pointerdown',{bubbles:true}));
   await sleep(30);
   const selected=chosen.classList.contains('is-selected');
@@ -156,11 +157,20 @@ const sleep=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds))
   inspector.innerHTML='<div class="inspector__shell"><div class="inspector__centre">'+${inspectorCardJs}+'<div class="inspector__actions"><button class="btn" id="commit-card">Kijátszom ezt a lapot</button><button class="btn btn--ghost">Vissza</button></div></div></div>';
   document.body.appendChild(inspector);
   let committed=0;
+  let commitPending=false;
   inspector.querySelector('#commit-card').addEventListener('click',()=>{
-    committed+=1;
-    document.querySelector('#duel').innerHTML='<div class="duel-slot"><div class="duel-slot__who">CSABI</div>'+${humanBattleCardJs}+'</div><div class="versus">VS</div><div class="duel-slot"><div class="duel-slot__who">GÉP</div>'+${aiBattleCardJs}+'</div>';
-    [...hand.querySelectorAll('.card')].forEach(node=>node.classList.add('card--dim'));
-    inspector.remove();
+    if(commitPending)return;
+    commitPending=true;
+    pub.classList.add('is-battle-transition');
+    inspector.classList.add('is-battle-transition');
+    setTimeout(()=>{
+      committed+=1;
+      document.querySelector('#duel').innerHTML='<div class="duel-slot"><div class="duel-slot__who">CSABI</div>'+${humanBattleCardJs}+'</div><div class="versus">VS</div><div class="duel-slot"><div class="duel-slot__who">GÉP</div>'+${aiBattleCardJs}+'</div>';
+      [...hand.querySelectorAll('.card')].forEach(node=>node.classList.add('card--dim'));
+      pub.classList.remove('is-battle-transition','is-card-selection');
+      pub.classList.add('is-battle-active','is-duel-focus');
+      inspector.remove();
+    },250);
   });
   inspector.querySelector('#commit-card').click();
   await sleep(120);

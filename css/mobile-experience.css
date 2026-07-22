@@ -1,3 +1,4 @@
+/* ===== Beolvasztva: css/mobile-experience.css ===== */
 /* Mobile application shell and accessibility improvements. */
 
 :root {
@@ -824,5 +825,1023 @@ html.ux-reduced-motion *::after {
 
   .onboarding-slide p {
     margin-block: 5px;
+  }
+}
+
+/* ===== Beolvasztva: css/mobile-overlay-fix.css ===== */
+/* Keep mobile overlay content inside the real #overlay-body panel. */
+
+@media (max-width: 900px) {
+  #overlay-body.panel {
+    width: min(760px, calc(100vw - 24px));
+    max-width: none;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    padding: 0;
+    overflow: hidden;
+  }
+
+  #overlay-body > * {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
+  #overlay-body > .mobile-home,
+  #overlay-body > .mobile-sheet,
+  #overlay-body > .confirm-panel,
+  #overlay-body > .onboarding-panel,
+  #overlay-body > .penalty-intro,
+  #overlay-body > .result-panel {
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  #overlay-body.panel {
+    width: calc(100vw - 16px);
+  }
+}
+
+@media (max-width: 320px) {
+  #overlay-body.panel {
+    width: calc(100vw - 8px);
+  }
+}
+
+/* ===== Beolvasztva: css/player-profile.css ===== */
+/* Persistent player profile editor. */
+
+.player-profile {
+  margin: 16px 0 4px;
+  padding: 14px;
+  border: 1px solid rgba(232, 195, 122, .34);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, .18);
+}
+
+.player-profile h2 {
+  margin: 0 0 5px;
+  color: #fff7df;
+  font-size: 16px;
+}
+
+.player-profile > p {
+  margin: 0 0 11px;
+  color: #ded0b4;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.player-profile__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 10px;
+}
+
+.player-profile__label {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  color: #fff7df;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.player-profile__input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid rgba(232, 195, 122, .45);
+  border-radius: 10px;
+  background: rgba(19, 13, 9, .9);
+  color: #fff7df;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 750;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.player-profile__input::placeholder {
+  color: #a99982;
+  opacity: 1;
+}
+
+.player-profile__input:focus-visible {
+  outline: 3px solid #fff7df;
+  outline-offset: 2px;
+  border-color: #e8c37a;
+}
+
+.player-profile__help {
+  color: #bfae95;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.player-profile__save {
+  min-width: 118px;
+  white-space: nowrap;
+}
+
+.player-profile__status {
+  display: block;
+  min-height: 18px;
+  margin-top: 6px;
+  color: #9ed8a8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.settings-panel .player-profile {
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+/* The saved name must never widen or break the HUD. The score value stays in
+   its own flex item, while only an overlong name is shortened with an ellipsis. */
+#hud-scores {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#hud-scores .score,
+#hud-scores .penalty-score {
+  min-width: 0;
+}
+
+#hud-scores .score:first-child {
+  max-width: min(260px, 42vw);
+}
+
+#hud-scores .score:first-child span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#hud-scores .penalty-score {
+  max-width: min(460px, 76vw);
+  overflow: hidden;
+  font-size: clamp(10px, 2.6vw, 16px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#duel .duel-slot:first-child .duel-slot__who,
+#penalty-board .attempt-row:first-child strong {
+  min-width: 0;
+  max-width: min(220px, 38vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.final-score {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .player-profile__form {
+    grid-template-columns: 1fr;
+  }
+
+  .player-profile__save {
+    width: 100%;
+  }
+
+  #hud-scores .score:first-child {
+    max-width: 44vw;
+  }
+
+  #hud-scores .score:first-child span:first-child {
+    font-size: clamp(9px, 3vw, 12px);
+  }
+
+  #hud-scores .penalty-score {
+    max-width: 84vw;
+    font-size: clamp(9px, 3vw, 12px);
+  }
+}
+
+/* ===== Beolvasztva: css/focus-experience.css ===== */
+#pub,#table,#felt,#hud,.zone,#banter{transition:opacity .2s ease,transform .2s ease,filter .2s ease}#pub.is-card-selection #player-zone{position:relative;width:100%;padding:28px 0 4px;border-top:1px solid rgba(201,162,39,.3);background:linear-gradient(180deg,transparent,rgba(12,8,5,.42))}#pub.is-card-selection #player-zone::before{content:'Válassz egy kártyát · koppints a nagyításhoz';position:absolute;top:4px;left:50%;z-index:8;max-width:calc(100% - 24px);padding:4px 11px;border:1px solid rgba(201,162,39,.4);border-radius:999px;background:rgba(24,16,10,.9);color:var(--brass-light);font-size:10px;font-weight:800;letter-spacing:.04em;text-align:center;white-space:nowrap;transform:translateX(-50%);pointer-events:none}#pub.is-card-selection #opponent-zone,#pub.is-card-selection #banter{filter:saturate(.65) brightness(.68);opacity:.56}#pub.is-card-selection #felt{flex:.62 1 auto}#player-hand.hand--selection{width:100%;min-height:300px;justify-content:flex-start;align-items:flex-end;gap:13px;padding:18px max(18px,2.5vw) 12px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:max(18px,2.5vw);scrollbar-width:thin;scrollbar-color:rgba(201,162,39,.55) transparent;touch-action:pan-x}#player-hand.hand--selection::-webkit-scrollbar{height:7px}#player-hand.hand--selection::-webkit-scrollbar-thumb{border-radius:999px;background:rgba(201,162,39,.55)}#player-hand.hand--selection .card--choice{--card-w:clamp(148px,11.5vw,170px);--card-h:clamp(260px,20vw,300px);scroll-snap-align:center;filter:none;opacity:1;cursor:pointer;box-shadow:0 9px 22px rgba(0,0,0,.56),0 0 0 1px rgba(201,162,39,.38);transform-origin:center bottom;animation:choice-card-enter .24s ease-out both;animation-delay:calc(min(var(--choice-index,0),8) * 24ms)}#player-hand.hand--selection .card--choice .card__portrait{height:clamp(82px,7.5vw,104px)}#player-hand.hand--selection .card--choice .card__name{font-size:clamp(14px,1.05vw,16px)}#player-hand.hand--selection .card--choice .card__club{font-size:9.5px}#player-hand.hand--selection .card--choice .stat{min-height:20px;font-size:10px;padding:2px 5px}#player-hand.hand--selection .card--choice:hover,#player-hand.hand--selection .card--choice:focus-visible{z-index:12;filter:none;outline:none;transform:translateY(-18px) scale(1.045);box-shadow:0 18px 34px rgba(0,0,0,.68),0 0 0 3px var(--brass),0 0 24px rgba(201,162,39,.36)}#player-hand.hand--selection .card--choice:active{transform:translateY(-10px) scale(1.02)}@keyframes choice-card-enter{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}#pub.is-duel-focus{grid-template-columns:minmax(0,1fr)}#pub.is-duel-focus #banter,#pub.is-duel-focus #opponent-zone,#pub.is-duel-focus #player-zone,#pub.is-duel-focus #hud .title,#pub.is-duel-focus #hud .meta,#pub.is-duel-focus #hud .hud-settings{display:none}#pub.is-duel-focus #table{width:100%;padding:max(8px,env(safe-area-inset-top,0px)) clamp(8px,2vw,24px) max(8px,env(safe-area-inset-bottom,0px));gap:7px}#pub.is-duel-focus #hud{min-height:42px;justify-content:center;padding:0;background:transparent;box-shadow:none}#pub.is-duel-focus #hud-scores{gap:9px}#pub.is-duel-focus #felt{flex:1 1 auto;width:min(1180px,100%);align-self:center;justify-content:center;gap:clamp(7px,1.2vh,13px);padding:clamp(9px,1.5vw,18px);overflow:hidden;border-color:rgba(201,162,39,.5);box-shadow:inset 0 0 75px rgba(0,0,0,.58),0 8px 32px rgba(0,0,0,.46)}#pub.is-duel-focus #prompt{min-height:0;font-size:clamp(18px,2.2vw,27px)}#pub.is-duel-focus #duel{--duel-card-w:clamp(184px,18vw,252px);--duel-card-h:clamp(324px,31vw,442px);flex:1 1 auto;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;width:100%;min-height:0;gap:clamp(13px,3.5vw,52px)}#pub.is-duel-focus #duel .duel-slot:first-child{justify-self:end}#pub.is-duel-focus #duel .duel-slot:last-child{justify-self:start}#pub.is-duel-focus .duel-slot{gap:8px}#pub.is-duel-focus .duel-slot__who{color:var(--cream);font-size:clamp(11px,1vw,14px);font-weight:900;letter-spacing:.16em}#pub.is-duel-focus #duel .card{--card-w:var(--duel-card-w);--card-h:var(--duel-card-h);max-width:none;border-radius:13px;box-shadow:0 16px 38px rgba(0,0,0,.68),0 0 0 1px rgba(201,162,39,.3)}#pub.is-duel-focus #duel .card__portrait{height:clamp(112px,11vw,158px)}#pub.is-duel-focus #duel .card__portrait::after{font-size:clamp(34px,4vw,50px)}#pub.is-duel-focus #duel .card__position{top:7px;left:7px;padding:3px 7px;font-size:11px}#pub.is-duel-focus #duel .card__name{padding:7px 9px 2px;font-size:clamp(18px,1.6vw,23px);line-height:1.02}#pub.is-duel-focus #duel .card__club{padding:0 9px 6px;font-size:clamp(10px,.82vw,12px)}#pub.is-duel-focus #duel .card__stats{gap:3px;padding:0 8px 8px}#pub.is-duel-focus #duel .stat{min-height:25px;padding:3px 7px;font-size:clamp(11px,.9vw,13px)}#pub.is-duel-focus #duel .stat.active{box-shadow:0 0 0 2px rgba(42,28,18,.45),0 0 17px rgba(201,162,39,.42)}#pub.is-duel-focus .versus{font-size:clamp(28px,4.2vw,58px);opacity:1;text-shadow:0 4px 18px rgba(0,0,0,.72)}#pub.is-duel-focus .duel-slot.winner .card{opacity:1;transform:translateY(-5px) scale(1.025);box-shadow:0 0 0 4px var(--win),0 18px 42px rgba(0,0,0,.72),0 0 30px rgba(106,191,122,.4)}#pub.is-duel-focus .duel-slot.loser .card{opacity:.7;filter:saturate(.72) brightness(.82);transform:scale(.97)}#pub.is-duel-focus #verdict{min-height:0;font-size:clamp(23px,3vw,38px)}#pub.is-duel-focus #verdict small{font-size:clamp(11px,1.2vw,14px)}#pub.is-duel-focus #attribute-picker{position:relative;z-index:20;max-width:min(620px,100%)}#pub.is-duel-focus .next-round-button{min-height:52px;box-shadow:0 8px 22px rgba(0,0,0,.45)}@media (max-width:900px){#pub.is-card-selection #felt{flex:.48 1 auto;min-height:128px}#player-hand.hand--selection{min-height:276px;gap:11px;padding:17px 16px 10px;scroll-snap-type:x mandatory}#player-hand.hand--selection .card--choice{--card-w:clamp(136px,38vw,154px);--card-h:clamp(238px,66vw,272px)}#player-hand.hand--selection .card--choice .card__portrait{height:clamp(76px,22vw,92px)}#pub.is-duel-focus #table{min-height:100dvh}#pub.is-duel-focus #felt{width:100%;padding:8px 5px 10px}#pub.is-duel-focus #duel{--duel-card-w:clamp(142px,42vw,190px);--duel-card-h:clamp(250px,72vw,334px);grid-template-columns:minmax(0,1fr) clamp(22px,7vw,34px) minmax(0,1fr);gap:clamp(3px,1.2vw,8px)}#pub.is-duel-focus #duel .card__portrait{height:clamp(82px,25vw,118px)}#pub.is-duel-focus #duel .card__name{padding-inline:6px;font-size:clamp(14px,4.1vw,18px)}#pub.is-duel-focus #duel .card__club{padding-inline:6px;font-size:clamp(8px,2.4vw,10px)}#pub.is-duel-focus #duel .card__stats{padding-inline:5px}#pub.is-duel-focus #duel .stat{min-height:21px;padding:2px 4px;font-size:clamp(9px,2.55vw,11px)}#pub.is-duel-focus .versus{font-size:clamp(22px,7vw,34px)}#pub.is-duel-focus #verdict{font-size:clamp(20px,7vw,30px)}}@media (max-width:480px){#pub.is-card-selection #player-zone::before{content:'Húzd oldalra · koppints a választott lapra';font-size:9px}#player-hand.hand--selection{min-height:258px;padding-inline:12px}#player-hand.hand--selection .card--choice{--card-w:clamp(132px,39vw,148px);--card-h:clamp(230px,68vw,258px)}#pub.is-duel-focus #hud{min-height:36px}#pub.is-duel-focus .score{padding:3px 9px}#pub.is-duel-focus #prompt{font-size:clamp(16px,5.2vw,21px)}#pub.is-duel-focus #duel{--duel-card-w:clamp(132px,41.5vw,174px);--duel-card-h:clamp(232px,71vw,306px)}#pub.is-duel-focus .duel-slot__who{font-size:9px}#pub.is-duel-focus #duel .card__portrait{height:clamp(76px,23vw,101px)}#pub.is-duel-focus #duel .stat{min-height:19px;font-size:clamp(8.5px,2.45vw,10px)}#pub.is-duel-focus #verdict small{max-width:94vw}}@media (max-width:360px){#player-hand.hand--selection .card--choice{--card-w:132px;--card-h:232px}#pub.is-duel-focus #duel{--duel-card-w:clamp(126px,40.5vw,146px);--duel-card-h:clamp(222px,69vw,252px);grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);gap:2px}#pub.is-duel-focus #duel .card__name{font-size:13px}#pub.is-duel-focus #duel .card__club{font-size:8px}#pub.is-duel-focus #duel .stat{min-height:18px;padding-inline:3px;font-size:8px}#pub.is-duel-focus .versus{font-size:19px}}@media (orientation:landscape) and (max-height:650px){#pub.is-card-selection #opponent-zone{display:none}#player-hand.hand--selection{min-height:210px}#player-hand.hand--selection .card--choice{--card-w:122px;--card-h:204px}#player-hand.hand--selection .card--choice .card__portrait{height:58px}#pub.is-duel-focus #hud{display:none}#pub.is-duel-focus #felt{gap:4px}#pub.is-duel-focus #duel{--duel-card-w:clamp(128px,19vw,174px);--duel-card-h:clamp(218px,60vh,292px)}#pub.is-duel-focus #duel .card__portrait{height:clamp(66px,19vh,92px)}#pub.is-duel-focus #duel .stat{min-height:17px;padding-block:1px;font-size:8.5px}#pub.is-duel-focus #prompt{font-size:16px}#pub.is-duel-focus #verdict{font-size:20px}#pub.is-duel-focus #verdict small{margin-top:0;font-size:10px}}
+
+/* ===== Beolvasztva: css/mobile-selection-fix.css ===== */
+/* Mobile card-selection layout guard.
+   Keeps the partially revealed duel, prompt and selectable hand inside one screen. */
+
+@media (max-width: 900px) {
+  #pub.is-card-selection #table {
+    height: 100dvh;
+    min-height: 100dvh;
+    gap: 5px;
+    overflow: hidden;
+  }
+
+  /* The face-down fan is redundant while the player is choosing a card and
+     previously consumed almost a full card row of vertical space. */
+  #pub.is-card-selection #opponent-zone {
+    display: none;
+  }
+
+  #pub.is-card-selection #felt {
+    flex: 1 1 auto;
+    min-height: 248px;
+    max-height: none;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 7px;
+    overflow: hidden;
+  }
+
+  #pub.is-card-selection #penalty-board {
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 4px 6px;
+    gap: 3px;
+  }
+
+  #pub.is-card-selection .attempt-row {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  #pub.is-card-selection .attempt-row strong {
+    font-size: 8px;
+  }
+
+  #pub.is-card-selection .attempt {
+    height: 18px;
+    font-size: 9px;
+  }
+
+  #pub.is-card-selection .game-steps {
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  #pub.is-card-selection #prompt {
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 0;
+    max-height: 3.5em;
+    overflow: hidden;
+    font-size: clamp(13px, 3.8vw, 17px);
+    line-height: 1.12;
+    letter-spacing: .45px;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    white-space: normal;
+  }
+
+  #pub.is-card-selection #prompt .highlight {
+    display: inline;
+  }
+
+  #pub.is-card-selection #prompt .ux-direction {
+    display: block;
+    margin: 2px 0 0;
+    font-size: clamp(9px, 2.7vw, 11px);
+    line-height: 1.1;
+    letter-spacing: .1px;
+  }
+
+  /* The pre-duel preview is deliberately compact. The fully revealed result
+     still uses the large two-sided duel focus view. */
+  #pub.is-card-selection #duel {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    min-height: 126px;
+    max-height: 184px;
+    gap: 5px;
+    overflow: hidden;
+  }
+
+  #pub.is-card-selection #duel .duel-slot:first-child {
+    justify-self: end;
+  }
+
+  #pub.is-card-selection #duel .duel-slot:last-child {
+    justify-self: start;
+  }
+
+  #pub.is-card-selection #duel .duel-slot {
+    gap: 2px;
+    min-width: 0;
+  }
+
+  #pub.is-card-selection #duel .duel-slot__who {
+    font-size: 8px;
+    letter-spacing: .8px;
+  }
+
+  #pub.is-card-selection #duel .card {
+    --card-w: clamp(82px, 25vw, 106px);
+    --card-h: clamp(138px, 41vw, 176px);
+    max-width: none;
+  }
+
+  #pub.is-card-selection #duel .card__portrait {
+    height: clamp(42px, 12vw, 54px);
+  }
+
+  #pub.is-card-selection #duel .card__name {
+    min-height: 0;
+    padding: 3px 4px 1px;
+    font-size: 9px;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  #pub.is-card-selection #duel .card__club {
+    padding: 0 4px 2px;
+    font-size: 7px;
+  }
+
+  #pub.is-card-selection #duel .card__stats {
+    padding: 0 4px 4px;
+  }
+
+  #pub.is-card-selection #duel .stat {
+    min-height: 16px;
+    padding: 1px 3px;
+    font-size: 7px;
+  }
+
+  #pub.is-card-selection #duel .versus,
+  #pub.is-card-selection .versus {
+    font-size: 20px;
+  }
+
+  #pub.is-card-selection #verdict:empty,
+  #pub.is-card-selection #attribute-picker:empty {
+    display: none;
+  }
+
+  /* Keep the pile and hand in separate grid columns. A 100%-wide flex hand next
+     to the pile previously made the first card start off-screen. */
+  #pub.is-card-selection #player-zone {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: end;
+    gap: 3px;
+    width: 100%;
+    min-height: 0;
+    padding: 25px 0 max(5px, var(--mobile-safe-bottom));
+  }
+
+  #pub.is-card-selection #player-pile {
+    justify-self: center;
+  }
+
+  #pub.is-card-selection #player-hand {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #pub.is-card-selection #player-hand.has-scroll-hint::after {
+    display: none;
+  }
+
+  #player-hand.hand--selection {
+    height: clamp(214px, 31dvh, 244px);
+    min-height: 0;
+    gap: 9px;
+    padding: 8px 10px 7px;
+    scroll-padding-inline: 10px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(120px, 35vw, 140px);
+    --card-h: clamp(206px, 30dvh, 236px);
+  }
+
+  #player-hand.hand--selection .card--choice .card__portrait {
+    height: clamp(60px, 17vw, 72px);
+  }
+
+  #player-hand.hand--selection .card--choice .card__name {
+    font-size: clamp(11px, 3.2vw, 13px);
+  }
+}
+
+@media (max-width: 480px) {
+  #pub.is-card-selection #player-zone::before {
+    content: 'Húzd oldalra · koppints a választott lapra';
+  }
+
+  #pub.is-card-selection #felt {
+    min-height: 236px;
+  }
+
+  #player-hand.hand--selection {
+    height: clamp(208px, 30dvh, 232px);
+    padding-inline: 8px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(116px, 34vw, 132px);
+    --card-h: clamp(200px, 29dvh, 224px);
+  }
+}
+
+@media (max-width: 380px) {
+  #pub.is-card-selection #felt {
+    min-height: 224px;
+  }
+
+  #pub.is-card-selection #duel {
+    min-height: 112px;
+    max-height: 158px;
+  }
+
+  #pub.is-card-selection #duel .card {
+    --card-w: 78px;
+    --card-h: 132px;
+  }
+
+  #player-hand.hand--selection {
+    height: 212px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: 116px;
+    --card-h: 204px;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 720px) {
+  #pub.is-card-selection #felt {
+    min-height: 206px;
+  }
+
+  #pub.is-card-selection #penalty-board {
+    display: none;
+  }
+
+  #pub.is-card-selection #duel {
+    min-height: 102px;
+    max-height: 142px;
+  }
+
+  #pub.is-card-selection #duel .card {
+    --card-w: 74px;
+    --card-h: 126px;
+  }
+
+  #player-hand.hand--selection {
+    height: 196px;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: 110px;
+    --card-h: 188px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  #player-hand.hand--selection .card--choice:hover {
+    transform: none;
+  }
+
+  #player-hand.hand--selection .card--choice:focus-visible {
+    transform: translateY(-5px) scale(1.015);
+  }
+}
+
+/* ===== Beolvasztva: css/duel-emphasis.css ===== */
+/* ===========================================================================
+   Card selection and battle presentation
+   - selection cards keep their current large, horizontally scrollable size
+   - the committed card receives a clear gold selection state
+   - hand zones fade away before the battle begins
+   - both active battle cards use one shared, responsive size rule
+   =========================================================================== */
+
+:root {
+  --card-aspect-ratio: 132 / 232;
+  --battle-transition-duration: 250ms;
+}
+
+/* The duel always owns three independent columns. The two card slots therefore
+   cannot overlap, even with long names or on narrow mobile screens. */
+#duel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  gap: clamp(5px, 1.6vw, 18px);
+}
+
+#duel > .duel-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
+#duel > .duel-slot:first-child { justify-self: end; }
+#duel > .duel-slot:last-child { justify-self: start; }
+
+#duel > .duel-slot .card {
+  max-width: 100%;
+  aspect-ratio: var(--card-aspect-ratio);
+}
+
+/* ── Selection phase ─────────────────────────────────────────────────────── */
+
+#player-hand.hand--selection {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+}
+
+#player-hand.hand--selection .card--choice {
+  flex: 0 0 var(--card-w);
+  margin: 0 !important;
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+}
+
+/* A tap marks the intended card before the confirmation button starts the
+   battle transition. No extra card is created and the hand size is unchanged. */
+#player-hand.hand--selection .card--choice.is-selected {
+  z-index: 14;
+  filter: none;
+  outline: 3px solid var(--brass-light);
+  outline-offset: 2px;
+  transform: translateY(-8px);
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, .66),
+    0 0 0 3px var(--brass),
+    0 0 28px rgba(232, 195, 122, .54);
+}
+
+#player-hand.hand--selection .card--choice.is-selected::before {
+  content: 'KIVÁLASZTVA';
+  position: absolute;
+  z-index: 4;
+  top: 7px;
+  right: 7px;
+  padding: 3px 6px;
+  border: 1px solid rgba(42, 28, 18, .48);
+  border-radius: 999px;
+  background: var(--brass-light);
+  color: #2a1c12;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, .38);
+}
+
+/* The play confirmation is delayed by the same 250 ms in focus-experience.js,
+   allowing the hand and pile areas to visibly fade instead of disappearing. */
+#pub.is-battle-transition #player-zone,
+#pub.is-battle-transition #opponent-zone {
+  opacity: 0;
+  filter: saturate(.72) brightness(.74);
+  transform: translateY(18px) scale(.985);
+  pointer-events: none;
+  transition:
+    opacity var(--battle-transition-duration) ease,
+    transform var(--battle-transition-duration) ease,
+    filter var(--battle-transition-duration) ease;
+}
+
+#pub.is-battle-transition #felt {
+  border-color: rgba(232, 195, 122, .58);
+  box-shadow:
+    inset 0 0 75px rgba(0, 0, 0, .58),
+    0 0 26px rgba(201, 162, 39, .18);
+  transition: border-color var(--battle-transition-duration) ease, box-shadow var(--battle-transition-duration) ease;
+}
+
+/* ── Active battle phase ─────────────────────────────────────────────────── */
+
+#pub.is-battle-active {
+  --battle-card-width: min(250px, 41vw);
+  --battle-card-height: calc(var(--battle-card-width) * 232 / 132);
+}
+
+/* The normal hand zones are removed by the existing duel-focus layer as soon
+   as the human card reaches the table. This includes both piles and all unused
+   human/opponent cards, while the HUD and category prompt remain visible. */
+#pub.is-battle-active #hud .title,
+#pub.is-battle-active #hud .meta {
+  display: block;
+}
+
+#pub.is-battle-active #hud {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
+  align-items: center;
+  width: 100%;
+  min-height: 46px;
+  gap: clamp(6px, 1.5vw, 16px);
+}
+
+#pub.is-battle-active #hud .title {
+  overflow: hidden;
+  font-size: clamp(12px, 1.7vw, 20px);
+  text-overflow: ellipsis;
+}
+
+#pub.is-battle-active #hud-scores {
+  justify-content: center;
+  min-width: 0;
+}
+
+#pub.is-battle-active #hud .meta {
+  overflow: hidden;
+  font-size: clamp(9px, 1vw, 12px);
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The battlefield follows the real card height instead of reserving a large,
+   mostly empty half-screen panel. */
+#pub.is-battle-active #felt {
+  flex: 0 1 auto;
+  width: min(1180px, 100%);
+  min-height: min(72dvh, calc(var(--battle-card-height) + 150px));
+  max-height: min(82dvh, calc(var(--battle-card-height) + 210px));
+  gap: clamp(5px, .85vh, 10px);
+  padding: clamp(7px, 1.2vw, 14px);
+  overflow: hidden;
+}
+
+#pub.is-battle-active #prompt {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 0;
+  max-height: 3.4em;
+  overflow: hidden;
+  font-size: clamp(14px, 2.1vw, 23px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+#pub.is-battle-active #duel {
+  flex: 0 1 auto;
+  grid-template-columns: minmax(0, 1fr) clamp(22px, 6.5vw, 46px) minmax(0, 1fr);
+  width: 100%;
+  min-height: 0;
+  gap: clamp(3px, 1vw, 10px);
+  overflow: visible;
+}
+
+/* One selector and one pair of custom properties control both sides. There are
+   deliberately no first-child/last-child size rules and no side-specific scale. */
+#pub.is-battle-active #duel > .duel-slot .card {
+  --card-w: var(--battle-card-width);
+  --card-h: var(--battle-card-height);
+  width: var(--battle-card-width);
+  height: var(--battle-card-height);
+  max-width: 100%;
+  aspect-ratio: var(--card-aspect-ratio);
+  border-radius: 12px;
+  box-shadow:
+    0 15px 34px rgba(0, 0, 0, .68),
+    0 0 0 1px rgba(201, 162, 39, .34);
+  animation: battle-card-arrive 240ms ease-out both;
+}
+
+#pub.is-battle-active #duel > .duel-slot:last-child .card {
+  animation-delay: 65ms;
+}
+
+#pub.is-battle-active #duel .card__portrait {
+  height: clamp(76px, 22vw, 132px);
+}
+
+#pub.is-battle-active #duel .card__portrait::after {
+  font-size: clamp(30px, 6vw, 48px);
+}
+
+#pub.is-battle-active #duel .card__position {
+  top: clamp(4px, .8vw, 7px);
+  left: clamp(4px, .8vw, 7px);
+  padding: 3px 6px;
+  font-size: clamp(9px, 1.8vw, 11px);
+}
+
+#pub.is-battle-active #duel .card__name {
+  min-height: 0;
+  padding: clamp(4px, .8vw, 7px) clamp(5px, 1vw, 9px) 2px;
+  overflow: hidden;
+  font-size: clamp(13px, 3.6vw, 21px);
+  line-height: 1.02;
+  text-overflow: ellipsis;
+}
+
+#pub.is-battle-active #duel .card__club {
+  padding: 0 clamp(5px, 1vw, 9px) clamp(3px, .8vw, 6px);
+  font-size: clamp(8px, 2vw, 11px);
+}
+
+#pub.is-battle-active #duel .card__stats {
+  gap: 2px;
+  padding: 0 clamp(4px, .8vw, 8px) clamp(4px, .8vw, 8px);
+}
+
+#pub.is-battle-active #duel .stat {
+  min-height: clamp(18px, 4vw, 24px);
+  padding: 2px clamp(3px, .7vw, 7px);
+  font-size: clamp(8px, 2.25vw, 12px);
+}
+
+#pub.is-battle-active .duel-slot__who {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: clamp(9px, 1.8vw, 13px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#pub.is-battle-active .versus {
+  flex: 0 0 auto;
+  font-size: clamp(19px, 6vw, 42px);
+}
+
+/* Winner and loser styling may change colour/opacity, never card dimensions. */
+#pub.is-battle-active .duel-slot.winner .card,
+#pub.is-battle-active .duel-slot.loser .card {
+  transform: none;
+}
+
+#pub.is-battle-active .duel-slot.winner .card {
+  box-shadow:
+    0 0 0 4px var(--win),
+    0 15px 36px rgba(0, 0, 0, .7),
+    0 0 28px rgba(106, 191, 122, .38);
+}
+
+#pub.is-battle-active #verdict {
+  flex: 0 0 auto;
+  min-height: 0;
+  font-size: clamp(18px, 4.8vw, 32px);
+  line-height: 1.05;
+}
+
+#pub.is-battle-active #verdict small {
+  max-width: 96%;
+  font-size: clamp(9px, 2.5vw, 13px);
+}
+
+#pub.is-battle-active #attribute-picker {
+  flex: 0 0 auto;
+  max-width: min(620px, 100%);
+}
+
+@keyframes battle-card-arrive {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 620px) {
+  #pub.is-battle-active {
+    --battle-card-width: min(250px, 41.5vw);
+  }
+
+  #pub.is-battle-active #table {
+    gap: 5px;
+    padding-inline: 5px;
+  }
+
+  #pub.is-battle-active #hud {
+    grid-template-areas:
+      'title meta'
+      'scores scores';
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    row-gap: 2px;
+    min-height: 58px;
+    padding-inline: 4px;
+  }
+
+  #pub.is-battle-active #hud .title {
+    grid-area: title;
+    font-size: clamp(10px, 3vw, 13px);
+    letter-spacing: 1px;
+  }
+
+  #pub.is-battle-active #hud-scores {
+    grid-area: scores;
+  }
+
+  #pub.is-battle-active #hud .meta {
+    grid-area: meta;
+    max-width: 42vw;
+    font-size: 8.5px;
+  }
+
+  #pub.is-battle-active #felt {
+    min-height: min(74dvh, calc(var(--battle-card-height) + 142px));
+    max-height: min(84dvh, calc(var(--battle-card-height) + 196px));
+    padding: 6px 4px 8px;
+  }
+
+  #pub.is-battle-active #duel {
+    grid-template-columns: minmax(0, 1fr) clamp(20px, 6vw, 30px) minmax(0, 1fr);
+    gap: clamp(2px, .8vw, 5px);
+  }
+
+  #pub.is-battle-active #duel .card__portrait {
+    height: clamp(72px, 23vw, 104px);
+  }
+
+  #pub.is-battle-active #duel .card__name {
+    font-size: clamp(12px, 3.8vw, 17px);
+  }
+
+  #pub.is-battle-active #duel .stat {
+    min-height: 18px;
+    font-size: clamp(8px, 2.45vw, 10px);
+  }
+}
+
+@media (max-width: 360px) {
+  #pub.is-battle-active {
+    --battle-card-width: min(250px, 40.5vw);
+  }
+
+  #pub.is-battle-active #duel {
+    grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  #pub.is-battle-active #duel .card__name { font-size: 12px; }
+  #pub.is-battle-active #duel .card__club { font-size: 7.5px; }
+  #pub.is-battle-active #duel .stat { padding-inline: 3px; font-size: 7.8px; }
+  #pub.is-battle-active .versus { font-size: 18px; }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  #pub.is-battle-active {
+    --battle-card-width: min(174px, 25vw, 36vh);
+  }
+
+  #pub.is-battle-active #hud .title,
+  #pub.is-battle-active #hud .meta {
+    display: none;
+  }
+
+  #pub.is-battle-active #hud {
+    display: flex;
+    min-height: 34px;
+    justify-content: center;
+  }
+
+  #pub.is-battle-active #felt {
+    min-height: calc(var(--battle-card-height) + 90px);
+    max-height: calc(var(--battle-card-height) + 116px);
+    gap: 3px;
+  }
+
+  #pub.is-battle-active #duel .card__portrait { height: clamp(58px, 17vh, 86px); }
+  #pub.is-battle-active #duel .stat { min-height: 16px; padding-block: 1px; font-size: 8px; }
+  #pub.is-battle-active #prompt { font-size: 14px; }
+  #pub.is-battle-active #verdict { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pub.is-battle-transition #player-zone,
+  #pub.is-battle-transition #opponent-zone,
+  #pub.is-battle-active #duel > .duel-slot .card {
+    animation: none;
+    transition-duration: 1ms;
+  }
+}
+
+/* ===== Beolvasztva: css/phase-refinements.css ===== */
+/* Final phase-layout refinements loaded after duel-emphasis.css. */
+
+/* Fade the confirmation inspector away together with the hand, so the player
+   can actually see the 250 ms table transition instead of an abrupt overlay cut. */
+#inspector.is-battle-transition {
+  opacity: 0;
+  transform: translateY(10px) scale(.99);
+  pointer-events: none;
+  transition:
+    opacity var(--battle-transition-duration, 250ms) ease,
+    transform var(--battle-transition-duration, 250ms) ease;
+}
+
+/* The selectable card already uses ::before for the small "Kijátszás" badge.
+   When the same pseudo-element becomes "KIVÁLASZTVA", the inherited bottom
+   offset must be reset; otherwise top + bottom stretch it into a tall pill. */
+#player-hand.hand--selection .card--choice.is-selected::before {
+  inset: 7px auto auto 50%;
+  width: max-content;
+  height: auto;
+  min-width: 0;
+  max-width: calc(100% - 16px);
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+/* The result and next-round control must sit below the cards rather than being
+   compressed into the same vertical space. */
+#pub.is-battle-active #felt {
+  min-height: min(80dvh, calc(var(--battle-card-height) + 220px));
+  max-height: min(90dvh, calc(var(--battle-card-height) + 280px));
+}
+
+#pub.is-battle-active #duel {
+  flex-shrink: 0;
+}
+
+#pub.is-battle-active #verdict,
+#pub.is-battle-active #attribute-picker {
+  position: relative;
+  z-index: 3;
+}
+
+/* Once the verdict is visible both arrival animations must be fully settled.
+   This also makes the generated final-state preview deterministic in Chrome. */
+#pub.is-battle-active:has(#verdict.win, #verdict.lose, #verdict.tie) #duel .card {
+  animation: none !important;
+}
+
+/* Tall mobile viewports otherwise stretch the empty selection battlefield too
+   far. This ratio matches the supplied phone screenshot while keeping the large
+   horizontal hand directly below the field instead of leaving a dead gap. */
+@media (max-width: 900px) and (min-height: 1050px) {
+  #pub.is-card-selection #felt {
+    flex: 0 1 auto;
+    height: clamp(560px, 61dvh, 940px);
+    min-height: 560px;
+    max-height: 940px;
+  }
+
+  #pub.is-card-selection #player-zone {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  #pub.is-battle-active #felt {
+    min-height: min(82dvh, calc(var(--battle-card-height) + 210px));
+    max-height: min(92dvh, calc(var(--battle-card-height) + 265px));
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  #pub.is-battle-active #felt {
+    min-height: calc(var(--battle-card-height) + 104px);
+    max-height: calc(var(--battle-card-height) + 138px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inspector.is-battle-transition {
+    transition-duration: 1ms;
+  }
+}
+
+/* ===== Stabil béta: közös biztonsági szabályok ===== */
+html, body { max-width: 100%; overflow-x: clip; }
+[data-player-name], .match-team__name, .duel-slot__who, .final-score {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }

@@ -76,6 +76,8 @@ const moduleOrder = [
   'js/penalties.js',
   'js/ai.js',
   'js/banter.js',
+  'js/player-profile.js',
+  'js/reliability-fixes.js',
   'js/ui.js',
   'js/ux.js',
   'js/ux-fixes.js',
@@ -83,10 +85,6 @@ const moduleOrder = [
   'js/opponents.js',
   'js/pwa.js',
   'js/mobile-experience.js',
-  'js/player-profile.js',
-  'js/reliability-fixes.js',
-  'js/usability-fixes.js',
-  'js/focus-experience.js',
   'js/main.js',
 ];
 
@@ -123,7 +121,7 @@ const correctedPayload = applyVerifiedPlayerCorrections(basePayload, corrections
 const enrichment = prepareClubEnrichment(rawEnrichment, corrections);
 const enrichedPayload = applyClubEnrichmentPayload(correctedPayload, enrichment);
 const payload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
-const reviewGeneratedAt = new Date().toISOString();
+const reviewGeneratedAt = enrichmentParts.at(-1)?.generatedAt ?? basePayload.generatedAt ?? '2026-07-22T00:00:00.000Z';
 const databaseReview = auditReviewedDatabase(payload, {
   generatedAt: reviewGeneratedAt,
   sourceFiles,
@@ -134,7 +132,7 @@ writeDatabaseReviewFiles(ROOT, payload, databaseReview);
 const playablePayload = filterCompleteCardsPayload(payload);
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}`;
 
 const backgroundFiles = [
   ['assets/pub/background.webp', 'image/webp'],
@@ -155,22 +153,12 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/opponents.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/pwa.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/mobile-experience.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/mobile-overlay-fix.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/player-profile.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/focus-experience.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/mobile-selection-fix.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/duel-emphasis.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/phase-refinements.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/matchday.js"></script>\n', '')
   .replace('  <script type="module" src="js/opponents.js"></script>\n', '')
   .replace('  <script type="module" src="js/pwa.js"></script>\n', '')
-  .replace('  <script type="module" src="js/player-profile.js"></script>\n', '')
-  .replace('  <script type="module" src="js/reliability-fixes.js"></script>\n', '')
-  .replace('  <script type="module" src="js/usability-fixes.js"></script>\n', '')
-  .replace('  <script type="module" src="js/focus-experience.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
     `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson};</script>\n<script type="module">${safeBundle}</script>`

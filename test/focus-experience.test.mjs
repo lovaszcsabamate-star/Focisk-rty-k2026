@@ -1,15 +1,21 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const source = fs.readFileSync(new URL('../js/focus-experience.js', import.meta.url), 'utf8');
+const ui = fs.readFileSync(new URL('../js/ui.js', import.meta.url), 'utf8');
+const main = fs.readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
+const index = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 
-assert.match(source, /new MutationObserver\(scheduleSync\)/);
-assert.match(source, /queueMicrotask/);
-assert.match(source, /syncQueued/);
-assert.match(source, /observer\.observe\(pub, \{ childList: true, subtree: true \}\)/);
-assert.doesNotMatch(source, /attributes:\s*true/);
-assert.doesNotMatch(source, /attributeFilter:\s*\['class'\]/);
-assert.match(source, /observer\.disconnect\(\)/);
-assert.doesNotMatch(source, /requestAnimationFrame\s*\(/);
+assert.match(ui, /setPhaseState\(phase\)/);
+assert.match(ui, /is-card-selection/);
+assert.match(ui, /is-battle-active/);
+assert.match(ui, /is-battle-transition/);
+assert.match(ui, /_inspectorKeys/);
+assert.match(ui, /event\.key === 'Escape'/);
+assert.match(ui, /event\.key === 'Tab'/);
+assert.match(main, /actionToken/);
+assert.match(main, /beginBattleTransition/);
+assert.match(ui, /beginBattleTransition\(cardId\)/);
+assert.doesNotMatch(index, /focus-experience\.js/);
+assert.equal(fs.existsSync(new URL('../js/focus-experience.js', import.meta.url)), false);
 
-console.log('✓ A fókusznézet DOM-figyelője mikrofeládatban frissít és nem figyeli saját osztálymódosításait.');
+console.log('✓ A fókusz- és fázisállapot közvetlen UI-vezérléssel, dupla eseménykezelő nélkül működik');

@@ -9,5 +9,10 @@ if not exist "%GAME%" (
   exit /b 1
 )
 
+if /I "%~1"=="--check" (
+  echo RENDBEN: A Fociskartyak2026.html megtalalhato.
+  exit /b 0
+)
+
 start "" "%GAME%"
 endlocal
