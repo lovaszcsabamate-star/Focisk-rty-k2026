@@ -19,6 +19,8 @@ const SCRIPT_TAG = '  <script type="module" src="js/usability-audit-2026.js"></s
 const CSS_MARKER = '/* ===== css/usability-audit-2026.css ===== */';
 const JS_MARKER = '/* ===== js/usability-audit-2026.js ===== */';
 const MAIN_MARKER = '/* ===== js/main.js ===== */';
+const ICON_PATH = 'src/assets/placeholders/app-icon.svg';
+const iconDataUri = `data:image/svg+xml;base64,${fs.readFileSync(path.join(ROOT, ICON_PATH)).toString('base64')}`;
 
 const flattenModule = source => source
   .replace(/^import\s+[\s\S]*?\s+from\s+['"][^'"]+['"];\s*$/gm, '')
@@ -28,7 +30,9 @@ const flattenModule = source => source
 
 let html = fs.readFileSync(outputPath, 'utf8');
 for (const link of STYLE_LINKS) html = html.replace(link, '');
-html = html.replace(SCRIPT_TAG, '');
+html = html
+  .replace(SCRIPT_TAG, '')
+  .replaceAll(ICON_PATH, iconDataUri);
 
 if (!html.includes(CSS_MARKER)) {
   const css = [
