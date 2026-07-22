@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v44
-const PWA_CACHE = 'fociskartyak-2026-v45';
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v45
+const PWA_CACHE = 'fociskartyak-2026-v46';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -90,7 +90,7 @@ const PWA_SHELL = [
   './src/assets/licenses/assets-licenses.json',
   './src/assets/placeholders/player-silhouette.svg',
   './src/assets/placeholders/club-badge.svg',
-  './assets/icons/icon.svg',
+  './src/assets/placeholders/app-icon.svg',
   './assets/qr/mobil-eleres.svg'
 ];
 
