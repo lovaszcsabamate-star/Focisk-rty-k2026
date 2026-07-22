@@ -8,12 +8,21 @@ on:
       - scripts/stabilize-core.mjs
       - scripts/stabilize-tests.mjs
       - .github/workflows/stabilize-beta-once.yml
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - scripts/stabilize-core.mjs
+      - scripts/stabilize-tests.mjs
+      - .github/workflows/stabilize-beta-once.yml
 
 permissions:
   contents: write
 
 jobs:
   stabilize:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
