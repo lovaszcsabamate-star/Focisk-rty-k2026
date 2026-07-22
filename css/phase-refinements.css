@@ -236,3 +236,45 @@
     text-align: center;
   }
 }
+
+/* ── Readable player names on every card ────────────────────────────────── */
+
+/* Later battle/mobile rules used text-overflow and line clamps. The card name
+   now wraps naturally and is never replaced by an ellipsis. */
+.card__name {
+  display: block !important;
+  min-height: 0;
+  max-height: none !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+}
+
+/* Only reliably shortened names are substituted in JavaScript. Remaining
+   genuinely long names keep every word and receive a slightly smaller type size. */
+.card__name--compact {
+  font-size: 11px;
+  letter-spacing: .2px;
+  line-height: 1.02;
+}
+
+#player-hand.hand--selection .card--choice .card__name--compact {
+  font-size: clamp(9.5px, 2.75vw, 11.5px);
+}
+
+#pub.is-card-selection #duel .card__name--compact {
+  font-size: 7.5px;
+}
+
+#pub.is-battle-active #duel .card__name--compact {
+  font-size: clamp(10px, 2.9vw, 17px);
+}
+
+#inspector .card--large .card__name--compact {
+  font-size: clamp(19px, 5vw, 25px);
+}

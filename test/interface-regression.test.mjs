@@ -49,6 +49,8 @@ assert.match(refinementCss, /#attribute-picker:has\(> \.attr-btn--mobile\) \.att
 assert.match(refinementCss, /#inspector \.inspector__shell\s*\{[^}]*grid-template-columns:\s*44px minmax\(0, 1fr\) 44px;/s);
 assert.match(refinementCss, /#inspector \.card--large\s*\{[^}]*calc\(100vw - 116px\)/s);
 assert.match(refinementCss, /#pub\.is-battle-active\s+#felt\s*\{[^}]*battle-card-height[^}]*280px/s);
+assert.match(refinementCss, /\.card__name\s*\{[^}]*text-overflow:\s*clip\s*!important;[^}]*-webkit-line-clamp:\s*unset\s*!important;/s);
+assert.match(refinementCss, /\.card__name--compact\s*\{/);
 assert.doesNotMatch(duelCss, /margin-left:\s*-/i, 'Negatív margó átfedést okozhat a párbajnézetben.');
 
 assert.match(focusJs, /setClass\(pub,\s*'is-battle-active',\s*battleActive\)/);
@@ -70,6 +72,11 @@ assert.match(usabilityJs, /INSPECTOR_SWIPE_DISTANCE\s*=\s*44/);
 assert.match(usabilityJs, /pointerup/);
 assert.match(usabilityJs, /this\._inspectorStep\(deltaX < 0 \? 1 : -1\)/);
 assert.match(usabilityJs, /event\.target\.closest\?\.\('button, a, input, select, textarea, \[role="button"\]'\)/);
+assert.match(usabilityJs, /export function cardPlayerDisplayName/);
+assert.match(usabilityJs, /profileSlugName/);
+assert.match(usabilityJs, /UI\.prototype\.renderCard\s*=\s*function renderCardWithReadableName/);
+assert.match(usabilityJs, /nameNode\.textContent\s*=\s*displayName/);
+assert.match(usabilityJs, /\.replace\(\/\[…\]\+\/gu,\s*' '\)/);
 
 assert.match(profileCss, /#hud-scores \.score:first-child span:first-child\s*\{[^}]*text-overflow:\s*ellipsis;/s);
 assert.match(profileCss, /#hud-scores \.penalty-score\s*\{[^}]*white-space:\s*nowrap;/s);
@@ -108,4 +115,4 @@ assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /js\/usability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ A kategóriakarusszel, kijelölés, kétirányú kártyanézegető, frissítés és offline mód regressziós ellenőrzése rendben');
+console.log('✓ A kártyanevek, kategóriakarusszel, kijelölés, kétirányú kártyanézegető, frissítés és offline mód rendben');
