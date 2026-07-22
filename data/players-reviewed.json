@@ -1242,6 +1242,42 @@
         "season": "2025/26"
       },
       {
+        "id": "hlsz-paks-heights-2025-26",
+        "clubId": "paksi-fc",
+        "clubName": "Paksi FC",
+        "name": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+        "url": "https://hlsz.hu/paks",
+        "checkedAt": "2026-07-22",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-kisvarda-heights-2025-26",
+        "clubId": "kisvarda-master-good",
+        "clubName": "Kisvárda Master Good",
+        "name": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+        "url": "https://hlsz.hu/kisvarda",
+        "checkedAt": "2026-07-22",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-mtk-heights-2025-26",
+        "clubId": "mtk-budapest",
+        "clubName": "MTK Budapest",
+        "name": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+        "url": "https://hlsz.hu/mtk",
+        "checkedAt": "2026-07-22",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-dvsc-heights-2025-26",
+        "clubId": "dvsc",
+        "clubName": "DVSC",
+        "name": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+        "url": "https://hlsz.hu/debrecen",
+        "checkedAt": "2026-07-22",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1838,7 +1874,7 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 57,
+    "heightCm": 125,
     "shirtNumber": 288,
     "officialMetadata": 85,
     "minutes": 29,
@@ -1885,10 +1921,10 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T16:35:00+02:00",
-    "records": 734,
-    "matchedRecords": 734,
-    "unmatchedRecords": 0,
+    "generatedAt": "2026-07-22T19:15:00+02:00",
+    "records": 825,
+    "matchedRecords": 809,
+    "unmatchedRecords": 16,
     "excludedRecords": 24,
     "correctionsRequested": 1,
     "addedPlayers": 0,
@@ -1913,12 +1949,12 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 0,
+    "conflictCount": 2,
     "appliedFieldCounts": {
       "position": 439,
       "nation": 439,
       "birthDate": 318,
-      "heightCm": 57,
+      "heightCm": 125,
       "shirtNumber": 287,
       "meta.captain": 3,
       "meta.strongFoot": 32,
@@ -1994,7 +2030,7 @@
       "overallScore": 143,
       "position": 440,
       "nation": 440,
-      "heightCm": 57,
+      "heightCm": 125,
       "shirtNumber": 288,
       "officialMetadata": 85
     },
@@ -2068,8 +2104,8 @@
       {
         "field": "heightCm",
         "before": 0,
-        "after": 57,
-        "added": 57
+        "after": 125,
+        "added": 125
       },
       {
         "field": "shirtNumber",
@@ -2089,11 +2125,11 @@
         "clubId": "dvsc",
         "clubName": "DVSC",
         "mlszCards": 38,
-        "officialRecords": 45,
-        "eligibleRecords": 38,
-        "matched": 38,
+        "officialRecords": 72,
+        "eligibleRecords": 65,
+        "matched": 61,
         "excluded": 7,
-        "review": 0,
+        "review": 4,
         "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
       },
@@ -2137,11 +2173,11 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 92,
-        "eligibleRecords": 92,
-        "matched": 92,
+        "officialRecords": 118,
+        "eligibleRecords": 118,
+        "matched": 108,
         "excluded": 0,
-        "review": 0,
+        "review": 10,
         "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
       },
@@ -2161,11 +2197,11 @@
         "clubId": "mtk-budapest",
         "clubName": "MTK Budapest",
         "mlszCards": 36,
-        "officialRecords": 36,
-        "eligibleRecords": 36,
-        "matched": 36,
+        "officialRecords": 57,
+        "eligibleRecords": 57,
+        "matched": 55,
         "excluded": 0,
-        "review": 0,
+        "review": 2,
         "sourceStatus": "complete-36-of-36-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
       },
@@ -2185,9 +2221,9 @@
         "clubId": "paksi-fc",
         "clubName": "Paksi FC",
         "mlszCards": 33,
-        "officialRecords": 61,
-        "eligibleRecords": 60,
-        "matched": 60,
+        "officialRecords": 78,
+        "eligibleRecords": 77,
+        "matched": 77,
         "excluded": 1,
         "review": 0,
         "sourceStatus": "complete-33-of-33-player-review",
@@ -2230,8 +2266,202 @@
         "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
       }
     ],
-    "manualReview": [],
-    "unmatched": []
+    "manualReview": [
+      {
+        "name": "Alic Enes",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Balogh Norbert",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gyenge Szilárd",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Jordanov Toniszlav",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kovacic Dominik",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Matanovics Marko",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Melnik Bohdan",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Nikolov Boban",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Petkovic Danijel",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Rubus Tamás",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Belényesi Csaba",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kosznovszky Márk",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gordic Djordje",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Manzanara Fran",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Ojediran Hamzat",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Oliveira Joao",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      }
+    ],
+    "unmatched": [
+      {
+        "name": "Alic Enes",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Balogh Norbert",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gyenge Szilárd",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Jordanov Toniszlav",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kovacic Dominik",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Matanovics Marko",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Melnik Bohdan",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Nikolov Boban",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Petkovic Danijel",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Rubus Tamás",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Belényesi Csaba",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kosznovszky Márk",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gordic Djordje",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Manzanara Fran",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Ojediran Hamzat",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Oliveira Joao",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      }
+    ]
   },
   "players": [
     {
@@ -2335,6 +2565,7 @@
         "totalDismissals": 0,
         "overallScore": 76,
         "shirtNumber": 17,
+        "heightCm": 179,
         "substituteAppearances": 4
       },
       "meta": {
@@ -2380,6 +2611,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Bárány Donát",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -2418,6 +2662,7 @@
         "totalDismissals": 0,
         "overallScore": 45,
         "shirtNumber": 5,
+        "heightCm": 191,
         "substituteAppearances": 3
       },
       "meta": {
@@ -2463,6 +2708,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Batik Bence",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -2501,6 +2759,7 @@
         "totalDismissals": 0,
         "overallScore": 40,
         "shirtNumber": 95,
+        "heightCm": 183,
         "substituteAppearances": 11
       },
       "meta": {
@@ -2544,6 +2803,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Bermejo Álex",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -2667,6 +2939,7 @@
         "totalDismissals": 0,
         "overallScore": 32,
         "shirtNumber": 6,
+        "heightCm": 183,
         "substituteAppearances": 5
       },
       "meta": {
@@ -2712,6 +2985,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Camarasa Víctor",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -2750,6 +3036,7 @@
         "totalDismissals": 0,
         "overallScore": 51,
         "shirtNumber": 99,
+        "heightCm": 168,
         "substituteAppearances": 9
       },
       "meta": {
@@ -2795,6 +3082,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Cibla Flórián",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -2833,6 +3133,7 @@
         "totalDismissals": 0,
         "overallScore": 40,
         "shirtNumber": 96,
+        "heightCm": 182,
         "substituteAppearances": 2
       },
       "meta": {
@@ -2878,6 +3179,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Dacosta Julien",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -2916,6 +3230,7 @@
         "totalDismissals": 0,
         "overallScore": 28,
         "shirtNumber": 90,
+        "heightCm": 186,
         "substituteAppearances": 5
       },
       "meta": {
@@ -2961,6 +3276,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Djokic Dejan",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -2999,6 +3327,7 @@
         "totalDismissals": 0,
         "overallScore": 76,
         "shirtNumber": 10,
+        "heightCm": 179,
         "substituteAppearances": 1
       },
       "meta": {
@@ -3044,6 +3373,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Dzsudzsák Balázs",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -3336,6 +3678,7 @@
         "totalDismissals": 0,
         "overallScore": 58,
         "shirtNumber": 3,
+        "heightCm": 174,
         "substituteAppearances": 5
       },
       "meta": {
@@ -3381,6 +3724,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Guerrero Adrián",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -3419,6 +3775,7 @@
         "totalDismissals": 0,
         "overallScore": 35,
         "shirtNumber": 28,
+        "heightCm": 183,
         "substituteAppearances": 2
       },
       "meta": {
@@ -3464,6 +3821,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Hofmann Maximilian",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -3550,6 +3920,17 @@
               "heightCm",
               "shirtNumber"
             ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Kocsis Dominik",
+            "fieldsApplied": [],
             "inactiveSince": null
           }
         ],
@@ -3676,6 +4057,7 @@
         "totalDismissals": 0,
         "overallScore": 52,
         "shirtNumber": 11,
+        "heightCm": 179,
         "substituteAppearances": 19
       },
       "meta": {
@@ -3721,6 +4103,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Komáromi György",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -3759,6 +4154,7 @@
         "totalDismissals": 0,
         "overallScore": 30,
         "shirtNumber": 49,
+        "heightCm": 184,
         "substituteAppearances": 3
       },
       "meta": {
@@ -3807,6 +4203,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Kulbachuk Vjacseszlav",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -3845,6 +4254,7 @@
         "totalDismissals": 0,
         "overallScore": 42,
         "shirtNumber": 29,
+        "heightCm": 182,
         "substituteAppearances": 0
       },
       "meta": {
@@ -3890,6 +4300,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Kusnyír Erik",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -3928,6 +4351,7 @@
         "totalDismissals": 0,
         "overallScore": 57,
         "shirtNumber": 26,
+        "heightCm": 186,
         "substituteAppearances": 1
       },
       "meta": {
@@ -3971,6 +4395,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Lang Ádám",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -4097,6 +4534,7 @@
         "totalDismissals": 0,
         "overallScore": 49,
         "shirtNumber": 4,
+        "heightCm": 185,
         "substituteAppearances": 1
       },
       "meta": {
@@ -4143,6 +4581,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Mejías Josua",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -4266,6 +4717,7 @@
         "totalDismissals": 0,
         "overallScore": 24,
         "shirtNumber": 86,
+        "heightCm": 193,
         "substituteAppearances": 0
       },
       "meta": {
@@ -4309,6 +4761,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Pálfi Donát",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -4515,6 +4980,7 @@
         "totalDismissals": 0,
         "overallScore": 23,
         "shirtNumber": 42,
+        "heightCm": 185,
         "substituteAppearances": 0
       },
       "meta": {
@@ -4560,6 +5026,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Silue Yacouba",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -4598,6 +5077,7 @@
         "totalDismissals": 0,
         "overallScore": 30,
         "shirtNumber": 74,
+        "heightCm": 186,
         "substituteAppearances": 7
       },
       "meta": {
@@ -4643,6 +5123,19 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-01-07"
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Sissoko Pape",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -4766,6 +5259,7 @@
         "totalDismissals": 0,
         "overallScore": 50,
         "shirtNumber": 77,
+        "heightCm": 178,
         "substituteAppearances": 12
       },
       "meta": {
@@ -4811,6 +5305,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Szécsi Márk",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -4849,6 +5356,7 @@
         "totalDismissals": 0,
         "overallScore": 51,
         "shirtNumber": 13,
+        "heightCm": 182,
         "substituteAppearances": 7
       },
       "meta": {
@@ -4892,6 +5400,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Szuhodovszki Soma",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -5185,6 +5706,7 @@
         "totalDismissals": 0,
         "overallScore": 45,
         "shirtNumber": 20,
+        "heightCm": 186,
         "substituteAppearances": 4
       },
       "meta": {
@@ -5230,6 +5752,19 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Youga Amos",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -5268,6 +5803,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 47,
+        "heightCm": 191,
         "substituteAppearances": 0
       },
       "meta": {
@@ -5317,6 +5853,19 @@
             "matchedName": "Varga Ádám",
             "fieldsApplied": [],
             "inactiveSince": "2026-01-09"
+          },
+          {
+            "sourceId": "hlsz-dvsc-heights-2025-26",
+            "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "Varga Ádám",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -11358,6 +11907,17 @@
             "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
             "checkedAt": "2026-07-20",
             "season": null,
+            "clubId": "mtk-budapest",
+            "matchedName": "Jurek Gábor",
+            "fieldsApplied": [],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
             "clubId": "mtk-budapest",
             "matchedName": "Jurek Gábor",
             "fieldsApplied": [],
@@ -19999,6 +20559,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 59,
+        "heightCm": 178,
         "substituteAppearances": 4
       },
       "meta": {
@@ -20046,6 +20607,19 @@
             "clubId": "paksi-fc",
             "matchedName": "OSVÁTH ATTILA",
             "fieldsApplied": [],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "OSVÁTH ATTILA",
+            "fieldsApplied": [
+              "heightCm"
+            ],
             "inactiveSince": null
           }
         ],
@@ -20590,6 +21164,17 @@
               "meta.seasonShirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Jovicic Aleksandar",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -20838,6 +21423,7 @@
         "totalDismissals": 0,
         "overallScore": 73,
         "shirtNumber": 29,
+        "heightCm": 185,
         "minutes": 2560,
         "substituteAppearances": 3,
         "assists": 4
@@ -20933,6 +21519,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Bíró Bence",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -21025,6 +21624,7 @@
         "totalDismissals": 0,
         "overallScore": 56,
         "shirtNumber": 5,
+        "heightCm": 183,
         "minutes": 2650,
         "substituteAppearances": 1,
         "assists": 0
@@ -21135,6 +21735,19 @@
               "meta.seasonShirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Chlumecky Martin",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -21227,6 +21840,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 24,
+        "heightCm": 184,
         "minutes": 2251,
         "substituteAppearances": 4,
         "assists": 3
@@ -21329,6 +21943,19 @@
               "meta.seasonShirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Cipetic Branimir",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -21425,6 +22052,7 @@
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 180,
         "minutes": 13,
         "substituteAppearances": 1,
         "assists": 0
@@ -21510,6 +22138,19 @@
             "matchedName": "DANIEL STEPHEN ADAYILO",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Adayilo Stephen",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -21774,6 +22415,7 @@
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 190,
         "substituteAppearances": 0
       },
       "meta": {
@@ -21842,6 +22484,19 @@
             "matchedName": "HRABINA ALEX",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Hrabina Alex",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -22391,6 +23046,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 18,
+        "heightCm": 187,
         "minutes": 237,
         "substituteAppearances": 9,
         "assists": 0
@@ -22494,6 +23150,19 @@
             "matchedName": "KÖRMENDI KEVIN",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Körmendi Kevin",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -23164,6 +23833,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 4,
+        "heightCm": 194,
         "minutes": 870,
         "substituteAppearances": 0,
         "assists": 0
@@ -23240,6 +23910,19 @@
               "meta.seasonShirtNumber",
               "meta.seasonStatus",
               "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Matic Bernardo",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -23339,6 +24022,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 23,
+        "heightCm": 185,
         "minutes": 618,
         "substituteAppearances": 8,
         "assists": 0
@@ -23433,6 +24117,19 @@
               "nation",
               "meta.primaryPosition",
               "meta.strongFoot"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Medgyes Sinan",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -23721,6 +24418,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 27,
+        "heightCm": 183,
         "minutes": 1491,
         "substituteAppearances": 2,
         "assists": 6
@@ -23797,6 +24495,19 @@
               "meta.contractEnd",
               "meta.seasonStatus",
               "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Mesanovic Jasmin",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -23901,6 +24612,7 @@
         "totalDismissals": 1,
         "overallScore": null,
         "shirtNumber": 16,
+        "heightCm": 178,
         "minutes": 863,
         "substituteAppearances": 22,
         "assists": 1
@@ -24004,6 +24716,19 @@
             "matchedName": "MOLNÁR GÁBOR",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Molnár Gábor",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -24178,9 +24903,29 @@
               "meta.currentStatus"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Nagy Krisztián",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "enrichmentConflicts": [
+          {
+            "field": "heightCm",
+            "kept": 180,
+            "offered": 187,
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "clubId": "kisvarda-master-good"
+          }
+        ],
         "clubOfficialStatsByClub": {
           "kisvarda-master-good": {
             "appearances": 23,
@@ -24275,6 +25020,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 86,
+        "heightCm": 185,
         "minutes": 1679,
         "substituteAppearances": 17,
         "assists": 1
@@ -24354,6 +25100,19 @@
               "meta.joinedAt",
               "meta.seasonStatus",
               "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Novothny Soma",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -24526,6 +25285,17 @@
               "meta.seasonStatus",
               "meta.currentStatus"
             ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Oláh Bálint",
+            "fieldsApplied": [],
             "inactiveSince": null
           }
         ],
@@ -25796,6 +26566,7 @@
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 178,
         "substituteAppearances": 0
       },
       "meta": {
@@ -25846,6 +26617,19 @@
               "meta.joinedAt",
               "meta.seasonStatus",
               "meta.currentStatus"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Stefan Raúl",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -26092,6 +26876,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 70,
+        "heightCm": 182,
         "minutes": 840,
         "substituteAppearances": 14,
         "assists": 1
@@ -26162,6 +26947,19 @@
             "matchedName": "SZŐR LEVENTE",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-kisvarda-heights-2025-26",
+            "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/kisvarda",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "Szőr Levente",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -32655,6 +33453,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 26,
+        "heightCm": 192,
         "substituteAppearances": 2
       },
       "meta": {
@@ -32691,6 +33490,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Armalas Vilius",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -32792,6 +33604,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 21,
+        "heightCm": 181,
         "substituteAppearances": 12
       },
       "meta": {
@@ -32828,6 +33641,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Átrok István Zalán",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -33066,6 +33892,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 12,
+        "heightCm": 170,
         "substituteAppearances": 0
       },
       "meta": {
@@ -33104,6 +33931,19 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-03-08"
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Bene Domonkos",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -33203,6 +34043,7 @@
         "totalDismissals": 1,
         "overallScore": null,
         "shirtNumber": 4,
+        "heightCm": 190,
         "substituteAppearances": 0
       },
       "meta": {
@@ -33239,6 +34080,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Beriashvili Ilia",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -33380,9 +34234,29 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Bognár István",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "enrichmentConflicts": [
+          {
+            "field": "heightCm",
+            "kept": 175,
+            "offered": 183,
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "clubId": "mtk-budapest"
+          }
+        ],
         "clubOfficialStatsByClub": {
           "mtk-budapest": {
             "appearances": 17,
@@ -33479,6 +34353,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 24,
+        "heightCm": 188,
         "substituteAppearances": 0
       },
       "meta": {
@@ -33515,6 +34390,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Fadgyas Tamás",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -33757,6 +34645,7 @@
         "totalDismissals": 0,
         "overallScore": 40,
         "shirtNumber": 47,
+        "heightCm": 193,
         "substituteAppearances": 0
       },
       "meta": {
@@ -33795,6 +34684,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Hegyi Krisztián",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -34068,6 +34970,17 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Jurina Marin",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -34304,6 +35217,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 6,
+        "heightCm": 176,
         "substituteAppearances": 2
       },
       "meta": {
@@ -34340,6 +35254,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Kata Mihály",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -34996,6 +35923,7 @@
         "totalDismissals": 0,
         "overallScore": 76,
         "shirtNumber": 7,
+        "heightCm": 181,
         "substituteAppearances": 3
       },
       "meta": {
@@ -35034,6 +35962,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Molnár Ádin",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -35408,6 +36349,7 @@
         "totalDismissals": 1,
         "overallScore": 54,
         "shirtNumber": 8,
+        "heightCm": 182,
         "substituteAppearances": 9
       },
       "meta": {
@@ -35445,6 +36387,19 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Németh Hunor",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -35541,6 +36496,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 18,
+        "heightCm": 179,
         "substituteAppearances": 21
       },
       "meta": {
@@ -35577,6 +36533,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Németh Krisztián",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -35678,6 +36647,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 23,
+        "heightCm": 186,
         "substituteAppearances": 8
       },
       "meta": {
@@ -35714,6 +36684,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Plsek Jakub",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -35815,6 +36798,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 17,
+        "heightCm": 182,
         "substituteAppearances": 10
       },
       "meta": {
@@ -35851,6 +36835,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Polievka Róbert",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -35952,6 +36949,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 15,
+        "heightCm": 196,
         "substituteAppearances": 2
       },
       "meta": {
@@ -35988,6 +36986,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Széles Imre",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -36500,6 +37511,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 2,
+        "heightCm": 181,
         "substituteAppearances": 2
       },
       "meta": {
@@ -36536,6 +37548,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Varju Benedek",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -36775,6 +37800,7 @@
         "totalDismissals": 1,
         "overallScore": null,
         "shirtNumber": 30,
+        "heightCm": 187,
         "substituteAppearances": 8
       },
       "meta": {
@@ -36811,6 +37837,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Vitályos Viktor",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -36912,6 +37951,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 80,
+        "heightCm": 192,
         "substituteAppearances": 1
       },
       "meta": {
@@ -36948,6 +37988,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-mtk-heights-2025-26",
+            "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/mtk",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "Zeljkovic Adrian",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -43747,6 +44800,7 @@
         "totalDismissals": 0,
         "overallScore": 43,
         "shirtNumber": 7,
+        "heightCm": 191,
         "substituteAppearances": 13
       },
       "meta": {
@@ -43804,6 +44858,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "ÁDÁM MARTIN",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -43842,6 +44909,7 @@
         "totalDismissals": 0,
         "overallScore": 42,
         "shirtNumber": 8,
+        "heightCm": 179,
         "substituteAppearances": 5
       },
       "meta": {
@@ -43899,6 +44967,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "BALOGH BALÁZS",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -43937,6 +45018,7 @@
         "totalDismissals": 0,
         "overallScore": 74,
         "shirtNumber": 13,
+        "heightCm": 190,
         "substituteAppearances": 19
       },
       "meta": {
@@ -44000,6 +45082,19 @@
             "matchedName": "BÖDE DÁNIEL",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "BÖDE DÁNIEL",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -44404,6 +45499,7 @@
         "totalDismissals": 0,
         "overallScore": 79,
         "shirtNumber": 9,
+        "heightCm": 183,
         "substituteAppearances": 5
       },
       "meta": {
@@ -44463,6 +45559,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "HAHN JÁNOS",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -44500,6 +45609,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 35,
+        "heightCm": 181,
         "substituteAppearances": 6
       },
       "meta": {
@@ -44540,6 +45650,19 @@
             "fieldsApplied": [
               "position",
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "HARASZTI ZSOLT",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -44772,6 +45895,7 @@
         "totalDismissals": 0,
         "overallScore": 37,
         "shirtNumber": 2,
+        "heightCm": 187,
         "substituteAppearances": 1
       },
       "meta": {
@@ -44829,6 +45953,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "KINYIK ÁKOS",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -44867,6 +46004,7 @@
         "totalDismissals": 0,
         "overallScore": 58,
         "shirtNumber": 1,
+        "heightCm": 193,
         "substituteAppearances": 0
       },
       "meta": {
@@ -44922,6 +46060,19 @@
             "matchedName": "KOVÁCSIK ÁDÁM",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "KOVÁCSIK ÁDÁM",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -45041,6 +46192,7 @@
         "totalDismissals": 1,
         "overallScore": 40,
         "shirtNumber": 24,
+        "heightCm": 186,
         "substituteAppearances": 0
       },
       "meta": {
@@ -45096,6 +46248,19 @@
             "matchedName": "LENZSÉR BENCE",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "LENZSÉR BENCE",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -45425,6 +46590,7 @@
         "totalDismissals": 0,
         "overallScore": 53,
         "shirtNumber": 14,
+        "heightCm": 183,
         "substituteAppearances": 5
       },
       "meta": {
@@ -45482,6 +46648,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SILYE ERIK",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -45520,6 +46699,7 @@
         "totalDismissals": 0,
         "overallScore": 23,
         "shirtNumber": 25,
+        "heightCm": 192,
         "substituteAppearances": 0
       },
       "meta": {
@@ -45577,6 +46757,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SIMON BARNABÁS",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -45615,6 +46808,7 @@
         "totalDismissals": 1,
         "overallScore": 49,
         "shirtNumber": 30,
+        "heightCm": 181,
         "substituteAppearances": 0
       },
       "meta": {
@@ -45670,6 +46864,19 @@
             "matchedName": "SZABÓ JÁNOS",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SZABÓ JÁNOS",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -45807,6 +47014,7 @@
         "totalDismissals": 0,
         "overallScore": 57,
         "shirtNumber": 15,
+        "heightCm": 180,
         "substituteAppearances": 6
       },
       "meta": {
@@ -45862,6 +47070,19 @@
             "matchedName": "SZENDREI ÁKOS",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "SZENDREI ÁKOS",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -45981,6 +47202,7 @@
         "totalDismissals": 0,
         "overallScore": 64,
         "shirtNumber": 29,
+        "heightCm": 198,
         "substituteAppearances": 8
       },
       "meta": {
@@ -46036,6 +47258,19 @@
             "matchedName": "TÓTH BARNA",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "TÓTH BARNA",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -46171,6 +47406,7 @@
         "totalDismissals": 0,
         "overallScore": 57,
         "shirtNumber": 5,
+        "heightCm": 185,
         "substituteAppearances": 2
       },
       "meta": {
@@ -46228,6 +47464,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "VÉCSEI BÁLINT",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -46266,6 +47515,7 @@
         "totalDismissals": 0,
         "overallScore": 69,
         "shirtNumber": 22,
+        "heightCm": 183,
         "substituteAppearances": 11
       },
       "meta": {
@@ -46323,6 +47573,19 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "WINDECKER JÓZSEF",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "clubOfficialStatsByClub": {},
@@ -46361,6 +47624,7 @@
         "totalDismissals": 0,
         "overallScore": 53,
         "shirtNumber": 20,
+        "heightCm": 184,
         "substituteAppearances": 5
       },
       "meta": {
@@ -46416,6 +47680,19 @@
             "matchedName": "ZEKE MÁRIÓ",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-paks-heights-2025-26",
+            "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/paks",
+            "checkedAt": "2026-07-22",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "ZEKE MÁRIÓ",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }

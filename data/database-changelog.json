@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-22T14:51:56.674Z",
+  "generatedAt": "2026-07-22T17:25:13.463Z",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
   "sourceDatasetVersion": "2.3.0-interim",
   "changes": [
@@ -65,6 +65,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-barany-donat",
+      "playerName": "BÁRÁNY DONÁT",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-batik-bence",
       "playerName": "BATIK BENCE",
       "clubId": "dvsc",
@@ -101,6 +113,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-batik-bence",
+      "playerName": "BATIK BENCE",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-bermejo-escribano-alex",
       "playerName": "BERMEJO ESCRIBANO ALEX",
       "clubId": "dvsc",
@@ -133,6 +157,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-bermejo-escribano-alex",
+      "playerName": "BERMEJO ESCRIBANO ALEX",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -209,6 +245,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-camarasa-ferrando-victor",
+      "playerName": "CAMARASA FERRANDO VICTOR",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-cibla-florian",
       "playerName": "CIBLA FLÓRIÁN",
       "clubId": "dvsc",
@@ -241,6 +289,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-cibla-florian",
+      "playerName": "CIBLA FLÓRIÁN",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -281,6 +341,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-dacosta-julien-joachim",
+      "playerName": "DACOSTA JULIEN JOACHIM",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-djokic-dejan",
       "playerName": "DJOKIC DEJAN",
       "clubId": "dvsc",
@@ -317,6 +389,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-djokic-dejan",
+      "playerName": "DJOKIC DEJAN",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-d2b7e604be9d",
       "playerName": "Dzsudzsák Balázs",
       "clubId": "dvsc",
@@ -349,6 +433,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d2b7e604be9d",
+      "playerName": "Dzsudzsák Balázs",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -497,6 +593,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-guerrero-aguilar-adrian",
+      "playerName": "GUERRERO AGUILAR ADRIAN",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-232751bffa85",
       "playerName": "Hofmann Maximilian",
       "clubId": "dvsc",
@@ -529,6 +637,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-232751bffa85",
+      "playerName": "Hofmann Maximilian",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -653,6 +773,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-komaromi-gyorgy",
+      "playerName": "KOMÁROMI GYÖRGY",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-kulbachuk-viacheslav",
       "playerName": "KULBACHUK VIACHESLAV",
       "clubId": "dvsc",
@@ -685,6 +817,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-kulbachuk-viacheslav",
+      "playerName": "KULBACHUK VIACHESLAV",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -725,6 +869,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-kusnyir-erik",
+      "playerName": "KUSNYIR ERIK",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-lang-adam",
       "playerName": "LANG ÁDÁM",
       "clubId": "dvsc",
@@ -757,6 +913,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-lang-adam",
+      "playerName": "LANG ÁDÁM",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -833,6 +1001,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-mejias-garcia-josua-antonio",
+      "playerName": "MEJIAS GARCIA JOSUA ANTONIO",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-odey-stephen-pius",
       "playerName": "ODEY STEPHEN PIUS",
       "clubId": "dvsc",
@@ -901,6 +1081,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-palfi-donat",
+      "playerName": "PÁLFI DONÁT",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -1013,6 +1205,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-silue-dognimani-yacouba",
+      "playerName": "SILUE DOGNIMANI YACOUBA",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-sissoko-niama-pape",
       "playerName": "SISSOKO NIAMA PAPE",
       "clubId": "dvsc",
@@ -1045,6 +1249,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-sissoko-niama-pape",
+      "playerName": "SISSOKO NIAMA PAPE",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -1121,6 +1337,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-dvsc-szecsi-mark",
+      "playerName": "SZÉCSI MÁRK",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-dvsc-szuhodovszki-soma",
       "playerName": "SZUHODOVSZKI SOMA",
       "clubId": "dvsc",
@@ -1153,6 +1381,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-szuhodovszki-soma",
+      "playerName": "SZUHODOVSZKI SOMA",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -1297,6 +1537,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Debreceni VSC",
       "sourceUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-dvsc-youga-christopher-amos",
+      "playerName": "YOUGA CHRISTOPHER AMOS",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -1321,6 +1573,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – Ferencvárosi TC",
       "sourceUrl": "https://www.dvtk.eu/index.php/78-csapat-Ferencvarosi_TC/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-b9770cc7878a",
+      "playerName": "VARGA ÁDÁM GÁBOR",
+      "clubId": "dvsc",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "sourceName": "HLSZ – Debrecen 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/debrecen",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -12641,6 +12905,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-c1ed1ff161bd",
+      "playerName": "OSVÁTH ATTILA",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "nb1-8061aa670d1b",
       "playerName": "ABDULLAHI KAMAL",
       "clubId": "kisvarda-master-good",
@@ -13748,6 +14024,18 @@
       "playerId": "nb1-634e0e27432f",
       "playerName": "Bíró Bence Balázs",
       "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-634e0e27432f",
+      "playerName": "Bíró Bence Balázs",
+      "clubId": "kisvarda-master-good",
       "field": "stats.minutes",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -13952,6 +14240,18 @@
       "playerId": "nb1-fa00a4ac868d",
       "playerName": "Chlumecky Martin",
       "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-fa00a4ac868d",
+      "playerName": "Chlumecky Martin",
+      "clubId": "kisvarda-master-good",
       "field": "stats.minutes",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -14137,6 +14437,18 @@
       "sourceName": "MLSZ jegyzőkönyvek – Kisvárda 2025/26-os mezszámok",
       "sourceUrl": "https://adatbank.mlsz.hu/match/65/0/31362/3/2068840.html",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-fe0b630e6a22",
+      "playerName": "CIPETIC BRANIMIR",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -14377,6 +14689,18 @@
       "sourceName": "HLSZ – Kisvárda II játékoskeret és nemzetiségek",
       "sourceUrl": "https://hlsz.hu/kisvarda-ii",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c41102009eb6",
+      "playerName": "DANIEL STEPHEN ADAYILO",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -14833,6 +15157,18 @@
       "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
       "sourceUrl": "https://hlsz.hu/kisvarda",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-6c24b3629e1e",
+      "playerName": "HRABINA ALEX",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -15685,6 +16021,18 @@
       "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
       "sourceUrl": "https://hlsz.hu/kisvarda",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d41a8ab9b25c",
+      "playerName": "KÖRMENDI KEVIN",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -16796,6 +17144,18 @@
       "playerId": "nb1-194f70766db2",
       "playerName": "MATIC BERNARDO",
       "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-194f70766db2",
+      "playerName": "MATIC BERNARDO",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -17065,6 +17425,18 @@
       "sourceName": "ZTE FC – Medgyes Sinan hivatalos játékosprofil",
       "sourceUrl": "https://www.ztefc.hu/hu/hirek/medgyes-sinan-is-nalunk-folytatja-palyafutasat",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-5617f703b891",
+      "playerName": "MEDGYES SINAN",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -17624,6 +17996,18 @@
       "playerId": "nb1-7bc81b0db266",
       "playerName": "MEŠANOVIĆ JASMIN",
       "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-7bc81b0db266",
+      "playerName": "MEŠANOVIĆ JASMIN",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "kisvarda-official-season-review-2025-26",
       "sourceName": "Kisvárda FC hivatalos 2025/26-os szezonértékelő statisztikái",
@@ -17905,6 +18289,18 @@
       "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
       "sourceUrl": "https://hlsz.hu/kisvarda",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-e262cfc330c5",
+      "playerName": "MOLNÁR GÁBOR",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -18445,6 +18841,18 @@
       "sourceName": "Kisvárda FC – Novothny Soma hivatalos bemutatása",
       "sourceUrl": "https://kisvardafc.hu/hir/magyar-csatar-lengyelorszagbol/8545",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-07dfcc9bf7b9",
+      "playerName": "NOVOTHNY SOMA ZSOMBOR",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -20540,6 +20948,18 @@
       "playerId": "nb1-29c1a2d27f64",
       "playerName": "STEFAN RAUL MARTIN",
       "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-29c1a2d27f64",
+      "playerName": "STEFAN RAUL MARTIN",
+      "clubId": "kisvarda-master-good",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-kisvarda-final8-2025-26",
       "sourceName": "MLSZ Adatbank – a Kisvárda utolsó nyolc rekordjának végleges 2025/26-os Fizz Liga sorai",
@@ -20965,6 +21385,18 @@
       "sourceName": "HLSZ – Kisvárda 2025/26 játékoskeret és nemzetiségek",
       "sourceUrl": "https://hlsz.hu/kisvarda",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c58be98f1211",
+      "playerName": "SZŐR LEVENTE",
+      "clubId": "kisvarda-master-good",
+      "field": "heightCm",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "sourceName": "HLSZ – Kisvárda 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/kisvarda",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -26000,6 +26432,18 @@
       "playerId": "nb1-8510cf207d85",
       "playerName": "ARMALAS VILIUS",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-8510cf207d85",
+      "playerName": "ARMALAS VILIUS",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -26132,6 +26576,18 @@
       "playerId": "nb1-a4aaac37abc7",
       "playerName": "ÁTROK ISTVÁN ZALÁN",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-a4aaac37abc7",
+      "playerName": "ÁTROK ISTVÁN ZALÁN",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -26396,6 +26852,18 @@
       "playerId": "nb1-c434c5268f09",
       "playerName": "BENE DOMONKOS",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c434c5268f09",
+      "playerName": "BENE DOMONKOS",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -26521,6 +26989,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – MTK Budapest",
       "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-b88a5ded16b0",
+      "playerName": "BERIASHVILI ILIA",
+      "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -26797,6 +27277,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – MTK Budapest",
       "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d8aa626614cf",
+      "playerName": "FADGYAS TAMÁS LÁSZLÓ",
+      "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -27068,6 +27560,18 @@
       "playerId": "nb1-1a9c95467df4",
       "playerName": "Hegyi Krisztián",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-1a9c95467df4",
+      "playerName": "Hegyi Krisztián",
+      "clubId": "mtk-budapest",
       "field": "stats.squads",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -27541,6 +28045,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – MTK Budapest",
       "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-7d8faa7d26f4",
+      "playerName": "KATA MIHÁLY",
+      "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -28220,6 +28736,18 @@
       "playerId": "nb1-64a253ee4ea6",
       "playerName": "Molnár Ádin",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-64a253ee4ea6",
+      "playerName": "Molnár Ádin",
+      "clubId": "mtk-budapest",
       "field": "stats.squads",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -28544,6 +29072,18 @@
       "playerId": "nb1-82eb43b7f3b9",
       "playerName": "Németh Hunor Vajk",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-82eb43b7f3b9",
+      "playerName": "Németh Hunor Vajk",
+      "clubId": "mtk-budapest",
       "field": "stats.squads",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -28616,6 +29156,18 @@
       "playerId": "nb1-aa3f243f12da",
       "playerName": "NÉMETH KRISZTIÁN",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-aa3f243f12da",
+      "playerName": "NÉMETH KRISZTIÁN",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -28748,6 +29300,18 @@
       "playerId": "nb1-7ef85b93a10a",
       "playerName": "PLSEK JAKUB",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-7ef85b93a10a",
+      "playerName": "PLSEK JAKUB",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -28880,6 +29444,18 @@
       "playerId": "nb1-c3dc9e617328",
       "playerName": "POLIEVKA RÓBERT",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-c3dc9e617328",
+      "playerName": "POLIEVKA RÓBERT",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -29005,6 +29581,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – MTK Budapest",
       "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-e53b5a2c9b29",
+      "playerName": "SZÉLES IMRE ANTAL",
+      "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -29533,6 +30121,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – MTK Budapest",
       "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-afaab82e9087",
+      "playerName": "VARJU BENEDEK",
+      "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -29744,6 +30344,18 @@
       "playerId": "nb1-cfa5ce032168",
       "playerName": "VITÁLYOS VIKTOR TAMÁS",
       "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-cfa5ce032168",
+      "playerName": "VITÁLYOS VIKTOR TAMÁS",
+      "clubId": "mtk-budapest",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-mtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – MTK Budapest teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -29869,6 +30481,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal – MTK Budapest",
       "sourceUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-d02fee54a435",
+      "playerName": "ZELJKOVIĆ ADRIAN",
+      "clubId": "mtk-budapest",
+      "field": "heightCm",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "sourceName": "HLSZ – MTK 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/mtk",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -34577,6 +35201,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-adam-martin",
+      "playerName": "ÁDÁM MARTIN",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-balogh-balazs",
       "playerName": "BALOGH BALÁZS",
       "clubId": "paksi-fc",
@@ -34609,6 +35245,18 @@
       "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
       "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-balogh-balazs",
+      "playerName": "BALOGH BALÁZS",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -34661,6 +35309,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-bode-daniel",
+      "playerName": "BÖDE DÁNIEL",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-debreceni-akos",
       "playerName": "DEBRECENI ÁKOS",
       "clubId": "paksi-fc",
@@ -34829,6 +35489,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "nb1-8378caea9bbf",
+      "playerName": "Hahn János Csaba",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-haraszti-zsolt",
       "playerName": "HARASZTI ZSOLT",
       "clubId": "paksi-fc",
@@ -34853,6 +35525,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-haraszti-zsolt",
+      "playerName": "HARASZTI ZSOLT",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-hinora-kristof",
       "playerName": "HINORA KRISTÓF",
       "clubId": "paksi-fc",
@@ -34961,6 +35645,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-kinyik-akos",
+      "playerName": "KINYIK ÁKOS",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-kovacsik-adam",
       "playerName": "KOVÁCSIK ÁDÁM",
       "clubId": "paksi-fc",
@@ -34993,6 +35689,18 @@
       "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
       "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-kovacsik-adam",
+      "playerName": "KOVÁCSIK ÁDÁM",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -35057,6 +35765,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-lenzser-bence",
+      "playerName": "LENZSÉR BENCE",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-mate-csaba",
       "playerName": "MÁTÉ CSABA",
       "clubId": "paksi-fc",
@@ -35201,6 +35921,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-silye-erik",
+      "playerName": "SILYE ERIK",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-simon-barnabas",
       "playerName": "SIMON BARNABÁS",
       "clubId": "paksi-fc",
@@ -35237,6 +35969,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-simon-barnabas",
+      "playerName": "SIMON BARNABÁS",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-szabo-janos",
       "playerName": "SZABÓ JÁNOS",
       "clubId": "paksi-fc",
@@ -35269,6 +36013,18 @@
       "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
       "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-szabo-janos",
+      "playerName": "SZABÓ JÁNOS",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -35341,6 +36097,18 @@
       "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
       "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-szendrei-akos",
+      "playerName": "SZENDREI ÁKOS",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -35405,6 +36173,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-toth-barna",
+      "playerName": "TÓTH BARNA",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-vas-gabor",
       "playerName": "VAS GÁBOR",
       "clubId": "paksi-fc",
@@ -35477,6 +36257,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-vecsei-balint-mate",
+      "playerName": "VÉCSEI BÁLINT MÁTÉ",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-windecker-jozsef",
       "playerName": "WINDECKER JÓZSEF",
       "clubId": "paksi-fc",
@@ -35513,6 +36305,18 @@
       "confidence": "high"
     },
     {
+      "playerId": "2025-26-paksi-fc-windecker-jozsef",
+      "playerName": "WINDECKER JÓZSEF",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
       "playerId": "2025-26-paksi-fc-zeke-mario",
       "playerName": "ZEKE MÁRIÓ",
       "clubId": "paksi-fc",
@@ -35545,6 +36349,18 @@
       "sourceName": "Paksi FC hivatalos 2025/26-os keret és magyar játékospolitika",
       "sourceUrl": "https://paksifc.hu/e107_plugins/adatbank/adatbank_osszeallitas.php?csapat=649&szezon=58",
       "checkedAt": "2026-07-21",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "2025-26-paksi-fc-zeke-mario",
+      "playerName": "ZEKE MÁRIÓ",
+      "clubId": "paksi-fc",
+      "field": "heightCm",
+      "sourceId": "hlsz-paks-heights-2025-26",
+      "sourceName": "HLSZ – Paks 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/paks",
+      "checkedAt": "2026-07-22",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -48305,5 +49121,24 @@
       "confidence": "high"
     }
   ],
-  "conflicts": []
+  "conflicts": [
+    {
+      "playerId": "nb1-34295f65a151",
+      "playerName": "NAGY KRISZTIÁN",
+      "field": "heightCm",
+      "kept": 180,
+      "offered": 187,
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "clubId": "kisvarda-master-good"
+    },
+    {
+      "playerId": "nb1-2074fd83bf31",
+      "playerName": "BOGNÁR ISTVÁN",
+      "field": "heightCm",
+      "kept": 175,
+      "offered": 183,
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "clubId": "mtk-budapest"
+    }
+  ]
 }
