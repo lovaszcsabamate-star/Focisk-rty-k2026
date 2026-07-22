@@ -1,5 +1,4 @@
-/** Render the standalone game in a real headless Chrome at common mobile widths. */
-
+/** Render the standalone game in real headless Chrome at required responsive widths. */
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -10,7 +9,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const STANDALONE = path.join(ROOT, 'Fociskartyak2026.html');
 const REPORT = path.join(ROOT, 'mobile-layout-report.json');
-const WIDTHS = [320, 360, 390, 412, 480];
+const WIDTHS = [320, 360, 390, 412, 480, 768, 1024, 1366, 1920];
 const HEIGHT = 900;
 
 const chrome = [
@@ -24,7 +23,7 @@ const chrome = [
   return result.status === 0;
 });
 
-if (!chrome) throw new Error('A mobilos megjelenítési teszthez nem található Chrome vagy Chromium.');
+if (!chrome) throw new Error('A reszponzív megjelenítési teszthez nem található Chrome vagy Chromium.');
 if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskartyak2026.html. Futtasd előbb az npm run build parancsot.');
 
 const original = fs.readFileSync(STANDALONE, 'utf8');
@@ -122,7 +121,7 @@ frame.addEventListener('load', () => setTimeout(() => {
   const overflow = result.documentWidth - result.viewport;
   const widthFailures = [];
   if (result.viewport !== width) widthFailures.push(`a mért viewport ${result.viewport}px a kért ${width}px helyett`);
-  if (!result.hasHome && !result.hasOnboarding) widthFailures.push('nem jelent meg a mobilos kezdőképernyő');
+  if (!result.hasHome && !result.hasOnboarding) widthFailures.push('nem jelent meg a kezdőképernyő');
   if (result.hasLoadingError) widthFailures.push('betöltési hibaképernyő jelent meg');
   if (!result.loadingHidden) widthFailures.push('a betöltőképernyő látható maradt');
   if (overflow > 1) widthFailures.push(`${overflow}px vízszintes dokumentum-kilógás`);
@@ -137,8 +136,8 @@ fs.rmSync(temporaryDirectory, { recursive: true, force: true });
 fs.writeFileSync(REPORT, `${JSON.stringify({ chrome, measurements, failures }, null, 2)}\n`);
 
 if (failures.length) {
-  console.error(`Mobilos megjelenítési hibák:\n- ${failures.join('\n- ')}`);
+  console.error(`Reszponzív megjelenítési hibák:\n- ${failures.join('\n- ')}`);
   process.exitCode = 1;
 } else {
-  console.log('✓ Valódi Chrome mobilnézeti ellenőrzés: rendben');
+  console.log('✓ Valódi Chrome reszponzív szélesség-ellenőrzés: rendben');
 }
