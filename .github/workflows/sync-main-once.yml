@@ -60,7 +60,11 @@ jobs:
       - name: Teljes regressziós tesztcsomag
         run: npm run test:all
       - name: Mobil- és Playwright-tesztek
-        run: npm run test:mobile-layout
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          CI= npm run test:mobile-layout 2>&1 | tee test-artifacts/integration-mobile-tests.log
       - name: Futásidejű böngészőteszt
         run: npm run test:runtime
       - name: Asztali fáziselőnézetek
