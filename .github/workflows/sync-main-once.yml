@@ -91,7 +91,11 @@ jobs:
           set -o pipefail
           node scripts/mobile-phase-smoke.mjs 2>&1 | tee test-artifacts/integration-phase-smoke.log
       - name: Klasszikus kategóriaválasztási E2E kapu
-        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs --grep "mobil Klasszikus mód"
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          CI= npx playwright test test/e2e/mobile-layout.spec.mjs --grep "mobil Klasszikus mód" 2>&1 | tee test-artifacts/integration-classic-gate.log
       - name: Playwright végponttól végpontig
         shell: bash
         run: |
