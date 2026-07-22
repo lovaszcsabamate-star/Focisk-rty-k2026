@@ -2,6 +2,16 @@
 
 Magyar nyelvű, kocsmai hangulatú összehasonlító kártyajáték a 2025/26-os NB I **440 egyedi játékosból és 464 játékos–klub regisztrációból** álló, MLSZ-alapú adatbázisával. Böngészőben, offline PWA-ként és egyfájlos Windows-verzióként is fut.
 
+## Letöltés
+
+### [⬇️ Legújabb önálló játék letöltése](https://github.com/lovaszcsabamate-star/Focisk-rty-k2026/raw/refs/heads/main/Fociskartyak2026.html)
+
+A letöltött `Fociskartyak2026.html` fájl közvetlenül, dupla kattintással megnyitható a böngészőben. Ez a hivatkozás mindig a `main` ág legfrissebb, beágyazott adatbázist tartalmazó verzióját tölti le.
+
+### [📦 Teljes legújabb projekt letöltése ZIP-ben](https://github.com/lovaszcsabamate-star/Focisk-rty-k2026/archive/refs/heads/main.zip)
+
+A teljes csomag tartalmazza a forráskódot, az adatfájlokat, az önálló játékfájlt és a Windows-indítót.
+
 ## Indítás
 
 ### Windows
