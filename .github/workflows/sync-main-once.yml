@@ -9,6 +9,7 @@ on:
       - scripts/sync-main-once.py
       - scripts/sync-visual-main-once.py
       - scripts/sync-usability-main-once.py
+      - scripts/integrate-latest-main-features-once.py
       - scripts/fix-central-name-export-once.py
       - scripts/fix-visual-tests-once.py
       - scripts/fix-visual-performance-once.py
@@ -29,7 +30,7 @@ jobs:
   sync:
     if: github.event.pull_request.head.ref == 'stabilize-beta-2026-07-22'
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,8 +40,20 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Friss main lekérése
-        run: git fetch origin main
+      - name: Friss main és új források átvétele
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout origin/main -- \
+            js/bootstrap.js \
+            js/deck-selection.js \
+            js/penalties.js \
+            scripts/postprocess-standalone.mjs \
+            data/club-official-enrichment-23-final-missing-basic.json \
+            test/deck-selection.test.mjs \
+            test/final-missing-complete.test.mjs \
+            test/rules.test.mjs
       - name: Alap main portolás
         run: python scripts/sync-main-once.py
       - name: Központi névsegéd exportálása
@@ -61,6 +74,8 @@ jobs:
         run: python scripts/fix-hand-inspector-e2e-once.py
       - name: Mobil választási teszthatár frissítése
         run: python scripts/fix-selection-smoke-once.py
+      - name: Pakliválasztás kiadási bekötése
+        run: python scripts/integrate-latest-main-features-once.py
       - name: Függőségek telepítése
         run: npm ci
       - name: Chromium telepítése
@@ -82,29 +97,13 @@ jobs:
       - name: Mobil elrendezési smoke
         run: node scripts/mobile-layout-smoke.mjs
       - name: Mobil kiválasztási smoke
-        shell: bash
-        run: |
-          mkdir -p test-artifacts
-          set -o pipefail
-          node scripts/mobile-selection-smoke.mjs 2>&1 | tee test-artifacts/integration-selection-smoke.log
+        run: node scripts/mobile-selection-smoke.mjs
       - name: Mobil fázis-smoke
-        shell: bash
-        run: |
-          mkdir -p test-artifacts
-          set -o pipefail
-          node scripts/mobile-phase-smoke.mjs 2>&1 | tee test-artifacts/integration-phase-smoke.log
-      - name: Klasszikus kategóriaválasztási E2E kapu
-        shell: bash
-        run: |
-          mkdir -p test-artifacts
-          set -o pipefail
-          CI= npx playwright test test/e2e/mobile-layout.spec.mjs --grep "mobil Klasszikus mód" 2>&1 | tee test-artifacts/integration-classic-gate.log
-      - name: Playwright végponttól végpontig
-        shell: bash
-        run: |
-          mkdir -p test-artifacts
-          set -o pipefail
-          CI= npx playwright test test/e2e/mobile-layout.spec.mjs 2>&1 | tee test-artifacts/integration-playwright.log
+        run: node scripts/mobile-phase-smoke.mjs
+      - name: Gyors Klasszikus E2E kapu
+        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs --grep "mobil Klasszikus mód"
+      - name: Teljes Playwright játékmenet
+        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs
       - name: Futásidejű böngészőteszt
         run: npm run test:runtime
       - name: Asztali fáziselőnézetek
@@ -120,7 +119,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m 'Átvezeti a main vizuális, mobil- és jogi javításait a stabil bétába'
+          git commit -m 'Átvezeti a legfrissebb main fejlesztéseit a stabil bétába'
           git push origin HEAD:stabilize-beta-2026-07-22
       - name: Teszttermékek feltöltése
         if: always()
