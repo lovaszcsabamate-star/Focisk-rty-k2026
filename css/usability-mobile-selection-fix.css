@@ -13,12 +13,8 @@
   pointer-events: none;
 }
 
-/*
- * Default portrait-phone layout.
- * The proportions intentionally follow the approved in-game reference:
- * compact broadcast scoreboard, one toolbar row, short felt and a large
- * horizontally scrollable hand beside the used-card pile.
- */
+/* Approved default portrait-phone layout: compact broadcast header, short felt
+   and a large horizontal hand beside the used-card pile. */
 @media (max-width: 620px) and (orientation: portrait) {
   #pub {
     height: 100dvh;
@@ -38,8 +34,6 @@
     overflow: hidden;
   }
 
-  /* The match strip carries the mode and level, so the additional context
-     block would only duplicate information and steal vertical space. */
   #hud {
     position: relative;
     top: auto;
@@ -113,7 +107,6 @@
     border-radius: 17px !important;
   }
 
-  /* The card-selection screen does not need the opponent's hidden hand. */
   #pub.is-card-selection #opponent-zone,
   #pub.is-card-selection #banter {
     display: none !important;
@@ -158,19 +151,20 @@
     width: 100%;
     max-width: 100%;
     min-height: 0;
-    padding: 2px 5px;
+    gap: 0 4px;
+    padding: 1px 5px;
     border: 0;
     border-radius: 0;
     background: transparent;
-    font-size: clamp(16px, 5.1vw, 20px);
-    line-height: 1.08;
+    font-size: clamp(15px, 4.4vw, 18px);
+    line-height: 1.02;
     text-wrap: balance;
   }
 
   #pub.is-card-selection #prompt .ux-direction {
-    margin-top: 2px;
-    font-size: clamp(11px, 3.3vw, 13px);
-    line-height: 1.15;
+    margin-top: 0;
+    font-size: 11px;
+    line-height: 1;
   }
 
   #pub.is-card-selection #verdict:empty,
