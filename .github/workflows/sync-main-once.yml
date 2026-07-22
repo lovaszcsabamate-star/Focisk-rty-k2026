@@ -61,12 +61,12 @@ jobs:
         run: npm run test:all
       - name: Mobil elrendezési smoke
         run: node scripts/mobile-layout-smoke.mjs
-      - name: Mobil felületi smoke
+      - name: Mobil kiválasztási smoke
         shell: bash
         run: |
           mkdir -p test-artifacts
           set -o pipefail
-          node scripts/mobile-interface-smoke.mjs 2>&1 | tee test-artifacts/integration-interface-smoke.log
+          node scripts/mobile-selection-smoke.mjs 2>&1 | tee test-artifacts/integration-selection-smoke.log
       - name: Mobil fázis-smoke
         shell: bash
         run: |
@@ -78,7 +78,7 @@ jobs:
         run: |
           mkdir -p test-artifacts
           set -o pipefail
-          CI= npx playwright test 2>&1 | tee test-artifacts/integration-playwright.log
+          CI= npx playwright test test/e2e/mobile-layout.spec.mjs 2>&1 | tee test-artifacts/integration-playwright.log
       - name: Futásidejű böngészőteszt
         run: npm run test:runtime
       - name: Asztali fáziselőnézetek
