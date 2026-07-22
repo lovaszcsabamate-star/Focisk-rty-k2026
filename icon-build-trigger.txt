@@ -1,0 +1,1 @@
+FK26 Android application icon build trigger.
