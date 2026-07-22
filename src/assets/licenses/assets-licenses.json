@@ -28,6 +28,20 @@
     "brandingStatus": "placeholder"
   },
   {
+    "assetId": "placeholder-app-icon",
+    "filePath": "src/assets/placeholders/app-icon.svg",
+    "assetType": "icon",
+    "sourceType": "original",
+    "rightsHolder": "Fociskártyák 2026 projekt",
+    "licenseName": "Projektben létrehozott eredeti alkalmazásikon",
+    "proofOfPermission": "A forrásfájl a projekt részeként készült; semleges kártyát és FK26 monogramot használ, hivatalos klub-, liga-, szponzor- vagy gyártói arculat nélkül.",
+    "commercialUseAllowed": true,
+    "modificationAllowed": true,
+    "attributionRequired": false,
+    "approvedForRelease": true,
+    "brandingStatus": "placeholder"
+  },
+  {
     "assetId": "existing-project-icon",
     "filePath": "assets/icons/icon.svg",
     "assetType": "icon",
@@ -100,6 +114,19 @@
     "rightsHolder": "Ellenőrzendő",
     "licenseName": "Forrásigazolás szükséges",
     "proofOfPermission": "TODO: a háttér eredete, felhasználási joga és esetleges AI-generálási nyilvántartása dokumentálandó.",
+    "commercialUseAllowed": false,
+    "modificationAllowed": false,
+    "attributionRequired": false,
+    "approvedForRelease": false
+  },
+  {
+    "assetId": "existing-pub-background-svg",
+    "filePath": "assets/pub/background.svg",
+    "assetType": "background",
+    "sourceType": "original",
+    "rightsHolder": "Ellenőrzendő",
+    "licenseName": "Forrásigazolás szükséges",
+    "proofOfPermission": "TODO: az SVG-be ágyazott WebP-kép eredete, jogosultja, felhasználási és módosítási joga dokumentálandó.",
     "commercialUseAllowed": false,
     "modificationAllowed": false,
     "attributionRequired": false,
