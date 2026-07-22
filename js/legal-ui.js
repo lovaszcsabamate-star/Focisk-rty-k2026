@@ -29,9 +29,21 @@
     panel.appendChild(notice);
   }
 
+  /* A nagyított kártya DOM-ja lapozáskor újraépül, a külön háttérréteg viszont
+     végig megmarad. Lassú Android WebView-ban se engedjük, hogy egy későn
+     érkező osztálymódosítás egy képkockára átlátszóvá tegye. */
+  function preserveInspectorBackdrop() {
+    const inspector = document.querySelector('#inspector');
+    const backdrop = document.querySelector('#inspector-stable-backdrop');
+    if (inspector && backdrop && !backdrop.classList.contains('is-visible')) {
+      backdrop.classList.add('is-visible');
+    }
+  }
+
   function enhance(root = document) {
     localiseText(root);
     ensureTitleNotice(root);
+    preserveInspectorBackdrop();
   }
 
   const start = () => {
@@ -43,8 +55,14 @@
           else if (node instanceof Text) localiseText(node.parentNode);
         });
       }
+      preserveInspectorBackdrop();
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class'],
+    });
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
