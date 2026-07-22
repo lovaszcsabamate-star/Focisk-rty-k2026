@@ -26,7 +26,7 @@ text = usability_path.read_text(encoding='utf-8')
 text = require_replace(
     text,
     "import { UI } from './ui.js';",
-    "import { UI, cardNameInitials, cardPlayerDisplayName } from './ui.js';",
+    "import { UI, cardNameInitials, cardPlayerDisplayName, cleanNameText } from './ui.js';",
     'usability központi névsegéd import',
 )
 text = text.replace('INSPECTOR_SWIPE_DISTANCE', 'USABILITY_INSPECTOR_SWIPE_DISTANCE')
