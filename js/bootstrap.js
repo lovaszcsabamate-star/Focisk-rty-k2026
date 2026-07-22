@@ -5,6 +5,12 @@ import {
 import { applyOfficialStatPatches } from './data/club-stat-patches.js';
 import { filterCompleteCardsPayload } from './data/complete-cards.js';
 import { applyVerifiedPlayerCorrections } from './data/verified-player-corrections.js';
+import {
+  applyDeckSelectionToPayload,
+  describeDeckSelection,
+  installDeckSelectionMenu,
+  readDeckSelection,
+} from './deck-selection.js';
 
 const PLAYER_DATA_URL = 'data/players.json';
 const CLUB_ENRICHMENT_URLS = [
@@ -131,11 +137,21 @@ try {
   const enrichedPayload = enrichment ? applyClubEnrichmentPayload(correctedPayload, enrichment) : correctedPayload;
   const finalPayload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
   const playablePayload = filterCompleteCardsPayload(finalPayload);
-  globalThis.__EMBEDDED_PLAYER_DATA__ = playablePayload;
+  const deckSelection = readDeckSelection(playablePayload.players);
+  const selectedPayload = applyDeckSelectionToPayload(playablePayload, deckSelection);
+
+  globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = playablePayload;
+  globalThis.__FOCISKARTYAK_DECK_SELECTION__ = deckSelection;
+  globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
+  installDeckSelectionMenu(playablePayload, deckSelection);
 
   console.info(
     `[players] Teljes kártyák szűrése: ${playablePayload.players.length} használható · `
     + `${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva`,
+  );
+  console.info(
+    `[deck] ${describeDeckSelection(deckSelection, playablePayload.players)} · `
+    + `${selectedPayload.players.length} lap aktív mindkét játékmódban`,
   );
 
   if (finalPayload?.enrichment) {
@@ -146,7 +162,7 @@ try {
       + `${summary.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve · `
       + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
       + `${summary.unmatchedRecords} kézi ellenőrzésre váró rekord · `
-      + `${summary.conflictCount} megőrzött eltérés`
+      + `${summary.conflictCount} megőrzött eltérés`,
     );
   }
   if (finalPayload?.officialStatPatches) {
@@ -154,7 +170,7 @@ try {
     console.info(
       `[official-stats] ${summary.matchedRecords}/${summary.records} hivatalos szezonstatisztika illesztve · `
       + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés · `
-      + `${summary.correctionCount ?? 0} bizonyított korrekció`
+      + `${summary.correctionCount ?? 0} bizonyított korrekció`,
     );
   }
 
