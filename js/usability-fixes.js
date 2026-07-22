@@ -6,14 +6,115 @@
 import { UI } from './ui.js';
 import { hasAttributeData } from './data/players.js';
 
+const usabilityPreviousRenderCard = UI.prototype.renderCard;
 const usabilityPreviousOpenInspector = UI.prototype.openInspector;
 const usabilityPreviousCloseInspector = UI.prototype.closeInspector;
 const usabilityPreviousRenderInspector = UI.prototype._renderInspector;
 const INSPECTOR_SWIPE_DISTANCE = 44;
 
+const NAME_PARTICLES = new Set([
+  'a', 'al', 'ap', 'da', 'das', 'de', 'del', 'della', 'der', 'di', 'do', 'dos',
+  'du', 'el', 'la', 'le', 'van', 'von',
+]);
+const NAME_SUFFIXES = new Set(['ii', 'iii', 'iv', 'jr', 'jr.', 'sr', 'sr.']);
+
+const cleanNameText = value => String(value ?? '')
+  .normalize('NFKC')
+  .replace(/[…]+/gu, ' ')
+  .replace(/\.{2,}/gu, ' ')
+  .replace(/[,_]+/gu, ' ')
+  .replace(/\s+/gu, ' ')
+  .trim();
+
+const titleCaseName = value => {
+  const words = cleanNameText(value).toLocaleLowerCase('hu-HU').split(' ').filter(Boolean);
+  return words.map((word, index) => {
+    if (NAME_SUFFIXES.has(word)) return word.replace('.', '').toLocaleUpperCase('hu-HU');
+    if (index > 0 && NAME_PARTICLES.has(word)) return word;
+    return word.replace(/(^|[-'’])(\p{L})/gu, (_, prefix, letter) => (
+      `${prefix}${letter.toLocaleUpperCase('hu-HU')}`
+    ));
+  }).join(' ');
+};
+
+const profileSlugName = card => {
+  const candidates = [
+    card?.meta?.profileUrl,
+    card?.meta?.birthDateSource,
+    card?.meta?.sourceUrl,
+  ].filter(value => typeof value === 'string' && value.trim());
+
+  for (const candidate of candidates) {
+    try {
+      const segments = new URL(candidate).pathname.split('/').filter(Boolean);
+      const profileIndex = segments.findIndex(segment => segment.toLocaleLowerCase('hu-HU') === 'profil');
+      if (profileIndex <= 0 || segments[profileIndex + 1]?.toLocaleLowerCase('hu-HU') !== 'spieler') continue;
+      const slug = decodeURIComponent(segments[profileIndex - 1]).replace(/[-_]+/gu, ' ');
+      const words = cleanNameText(slug).split(' ').filter(Boolean);
+      if (words.length >= 1 && words.length <= 3) return slug;
+    } catch {
+      // A hibás vagy relatív forrás-URL nem akadályozhatja a kártya megjelenítését.
+    }
+  }
+  return '';
+};
+
+export function cardPlayerDisplayName(card = {}) {
+  const explicit = cleanNameText(
+    card.shortName
+      ?? card.displayName
+      ?? card.knownAs
+      ?? card.meta?.shortName
+      ?? card.meta?.displayName
+      ?? card.meta?.knownAs,
+  );
+  const original = cleanNameText(card.name);
+  const originalWords = original.split(' ').filter(Boolean);
+
+  let selected = explicit || original;
+  if (!explicit && originalWords.length > 2) {
+    const profileName = profileSlugName(card);
+    if (profileName) selected = profileName;
+  }
+
+  return titleCaseName(selected) || 'Ismeretlen játékos';
+}
+
+export function cardNameInitials(value) {
+  return cardPlayerDisplayName({ name: value })
+    .split(' ')
+    .filter(word => !NAME_PARTICLES.has(word.toLocaleLowerCase('hu-HU')))
+    .map(word => word[0])
+    .join('')
+    .slice(0, 2)
+    .toLocaleUpperCase('hu-HU');
+}
+
 const usabilityFocusable = root => [...(root?.querySelectorAll?.(
   'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
 ) ?? [])].filter(node => !node.hidden && node.getAttribute('aria-hidden') !== 'true');
+
+UI.prototype.renderCard = function renderCardWithReadableName(card, opts = {}) {
+  const node = usabilityPreviousRenderCard.call(this, card, opts);
+  if (!card || opts.faceDown) return node;
+
+  const displayName = cardPlayerDisplayName(card);
+  const nameNode = node.querySelector('.card__name');
+  if (nameNode) {
+    nameNode.textContent = displayName;
+    nameNode.title = cleanNameText(card.name) || displayName;
+    nameNode.setAttribute('aria-label', displayName);
+    nameNode.classList.toggle(
+      'card__name--compact',
+      displayName.length > 20 || displayName.split(' ').length > 2,
+    );
+  }
+
+  const portrait = node.querySelector('.card__portrait');
+  if (portrait) portrait.dataset.initials = cardNameInitials(displayName);
+  node.dataset.displayName = displayName;
+  return node;
+};
 
 UI.prototype.openInspector = function openAccessibleInspector(...args) {
   const active = document.activeElement;
