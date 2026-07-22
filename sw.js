@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30, fociskartyak-2026-v31, fociskartyak-2026-v32, fociskartyak-2026-v33, fociskartyak-2026-v34, fociskartyak-2026-v35, fociskartyak-2026-v36, fociskartyak-2026-v37, fociskartyak-2026-v38, fociskartyak-2026-v39, fociskartyak-2026-v40, fociskartyak-2026-v41, fociskartyak-2026-v42
-const PWA_CACHE = 'fociskartyak-2026-v43';
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v43
+const PWA_CACHE = 'fociskartyak-2026-v44';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -17,6 +17,8 @@ const PWA_SHELL = [
   './css/mobile-selection-fix.css',
   './css/duel-emphasis.css',
   './css/phase-refinements.css',
+  './css/visual-system.css',
+  './js/branding.js',
   './js/bootstrap.js',
   './js/data/complete-cards.js',
   './js/data/club-enrichment.js',
@@ -38,6 +40,7 @@ const PWA_SHELL = [
   './js/reliability-fixes.js',
   './js/usability-fixes.js',
   './js/focus-experience.js',
+  './js/visual-system.js',
   './js/main.js',
   './data/players.json',
   './data/club-official-enrichment.json',
@@ -82,6 +85,9 @@ const PWA_SHELL = [
   './data/club-official-stat-patches-zte.json',
   './data/club-official-stat-patches-puskas.json',
   './data/club-official-sources.json',
+  './src/assets/licenses/assets-licenses.json',
+  './src/assets/placeholders/player-silhouette.svg',
+  './src/assets/placeholders/club-badge.svg',
   './assets/icons/icon.svg',
   './assets/qr/mobil-eleres.svg'
 ];
