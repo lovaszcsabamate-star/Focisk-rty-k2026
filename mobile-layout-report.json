@@ -65,6 +65,58 @@
       "loadingHidden": true,
       "offscreen": [],
       "failures": []
+    },
+    {
+      "width": 768,
+      "overflow": 0,
+      "requestedWidth": 768,
+      "viewport": 768,
+      "documentWidth": 768,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 1024,
+      "overflow": 0,
+      "requestedWidth": 1024,
+      "viewport": 1024,
+      "documentWidth": 1024,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 1366,
+      "overflow": 0,
+      "requestedWidth": 1366,
+      "viewport": 1366,
+      "documentWidth": 1366,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
+    },
+    {
+      "width": 1920,
+      "overflow": 0,
+      "requestedWidth": 1920,
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "hasHome": true,
+      "hasOnboarding": false,
+      "hasLoadingError": false,
+      "loadingHidden": true,
+      "offscreen": [],
+      "failures": []
     }
   ],
   "failures": [],
