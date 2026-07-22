@@ -6,18 +6,34 @@ import { AI, HUMAN, PHASE, compare, shuffle } from './engine.js';
 export const PENALTY_TEAM_SIZE = 11;
 export const REGULAR_DUELS = 5;
 
+const cloneMirrorCard = (card, index) => ({
+  ...card,
+  id: `${card.id}--mirror-ai-${index + 1}`,
+  stats: card?.stats && typeof card.stats === 'object' ? { ...card.stats } : card?.stats,
+  meta: card?.meta && typeof card.meta === 'object'
+    ? { ...card.meta, mirrorOf: card.id }
+    : { mirrorOf: card.id },
+});
+
 export class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
-    if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE * 2) {
-      throw new Error(`A Penalties mód két külön csapatához legalább ${PENALTY_TEAM_SIZE * 2} játékos kell.`);
+    if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE) {
+      throw new Error(`A Büntetőpárbaj módhoz legalább ${PENALTY_TEAM_SIZE} játékos kell.`);
     }
 
     this.mode = 'penalties';
     this.rng = rng;
     const pool = shuffle(players, rng);
     const humanTeam = pool.slice(0, PENALTY_TEAM_SIZE);
-    const aiTeam = pool.slice(PENALTY_TEAM_SIZE, PENALTY_TEAM_SIZE * 2);
+    const distinctAiCards = pool.slice(PENALTY_TEAM_SIZE, PENALTY_TEAM_SIZE * 2);
+    const missingAiCards = PENALTY_TEAM_SIZE - distinctAiCards.length;
+    const mirroredAiCards = missingAiCards > 0
+      ? shuffle(humanTeam, rng).slice(0, missingAiCards).map(cloneMirrorCard)
+      : [];
+    const aiTeam = [...distinctAiCards, ...mirroredAiCards];
 
+    this.sharedPool = players.length < PENALTY_TEAM_SIZE * 2;
+    this.poolSize = players.length;
     this.teams = { [HUMAN]: humanTeam, [AI]: aiTeam };
     this.hands = { [HUMAN]: shuffle(humanTeam, rng), [AI]: shuffle(aiTeam, rng) };
     this.used = { [HUMAN]: [], [AI]: [] };
