@@ -1,0 +1,104 @@
+name: Integráció véglegesítése
+
+on:
+  push:
+    branches:
+      - stabilize-beta-2026-07-22
+    paths:
+      - .github/workflows/finalize-integration-push.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fociskartyak-final-integration
+  cancel-in-progress: true
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stabilize-beta-2026-07-22
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Friss main lekérése
+        run: git fetch origin main
+      - name: Main fejlesztések portolása
+        run: |
+          python scripts/sync-main-once.py
+          python scripts/sync-visual-main-once.py
+          python scripts/sync-usability-main-once.py
+          python scripts/fix-visual-tests-once.py
+          python scripts/fix-visual-performance-once.py
+          python scripts/fix-mobile-carousel-once.py
+          python scripts/fix-carousel-e2e-once.py
+      - name: Függőségek telepítése
+        run: npm ci
+      - name: Chromium telepítése
+        run: npx playwright install --with-deps chromium
+      - name: Szintaxis- és lintellenőrzés
+        run: npm run lint
+      - name: Assetlicenc-ellenőrzés
+        run: npm run audit:assets
+      - name: Standalone build
+        run: npm run build
+      - name: Alaptesztek
+        run: npm test
+      - name: Teljes regressziós tesztcsomag
+        run: npm run test:all
+      - name: Mobil és Playwright végponttól végpontig
+        run: npm run test:mobile-layout
+      - name: Futásidejű böngészőteszt
+        run: npm run test:runtime
+      - name: Asztali fáziselőnézetek
+        run: npm run preview:desktop
+      - name: Determinisztikus standalone újraellenőrzés
+        shell: bash
+        run: |
+          set -euo pipefail
+          before="$(sha256sum Fociskartyak2026.html | cut -d' ' -f1)"
+          npm run build
+          after="$(sha256sum Fociskartyak2026.html | cut -d' ' -f1)"
+          test "$before" = "$after"
+      - name: Git formázási ellenőrzés
+        run: git diff --check
+      - name: Ellenőrzött integráció commitolása és segédek törlése
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf playwright-report test-results previews
+          rm -f mobile-layout-report.json runtime-browser-report.json
+          rm -f test-artifacts/integration-*.log
+          rm -f .github/workflows/sync-main-once.yml
+          rm -f .github/workflows/merge-main-once.yml
+          rm -f .github/workflows/finalize-integration-push.yml
+          rm -f scripts/sync-main-once.py
+          rm -f scripts/sync-visual-main-once.py
+          rm -f scripts/sync-usability-main-once.py
+          rm -f scripts/fix-visual-tests-once.py
+          rm -f scripts/fix-visual-performance-once.py
+          rm -f scripts/fix-mobile-carousel-once.py
+          rm -f scripts/fix-carousel-e2e-once.py
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Véglegesíti a stabil béta vizuális és mobil integrációját'
+          git push origin HEAD:stabilize-beta-2026-07-22
+      - name: Teszttermékek feltöltése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-integration-artifacts
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            test-artifacts/
+            playwright-report/
+            mobile-layout-report.json
+            runtime-browser-report.json
