@@ -4240,7 +4240,322 @@ html.reduced-motion *::after {
     flex: 0 0 var(--card-w) !important;
   }
 }
-</style>
+
+/* ========================================================================
+   Mobilos kártyaválasztás és nagyított kártyanézet – egységes mindkét módban
+   ======================================================================== */
+
+/* A korábbi Büntetőpárbaj-specifikus zsugorítást felülírjuk: a Klasszikus és
+   Büntetőpárbaj kéz ugyanazt a kártyaméretet és tipográfiát használja. */
+#pub #player-hand:not(.hand--selection) .card {
+  --card-w: 148px;
+  --card-h: calc(var(--card-w) * 232 / 132);
+}
+
+#pub #player-hand:not(.hand--selection) .card__portrait {
+  height: 76px;
+}
+
+#pub #player-hand:not(.hand--selection) .card__name {
+  font-size: 14px;
+}
+
+#pub #player-hand:not(.hand--selection) .stat {
+  font-size: 10.5px;
+}
+
+/* Egyetlen, kézszintű nagyító a használt/megnyert lapok blokkja fölött. */
+.pile__inspect {
+  position: absolute;
+  z-index: 24;
+  top: -48px;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(239, 212, 144, .72);
+  border-radius: 15px;
+  background: rgba(17, 14, 11, .94);
+  color: #fff7df;
+  font-size: 22px;
+  line-height: 1;
+  box-shadow: 0 9px 24px rgba(0, 0, 0, .55), 0 0 0 2px rgba(213, 170, 85, .16);
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.pile__inspect:hover,
+.pile__inspect:focus-visible {
+  border-color: var(--accent-color-light);
+  background: var(--accent-color);
+  color: #21150e;
+}
+
+.pile__inspect:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+}
+
+/* A kártyákon többé nincs külön nagyító-overlay. */
+.card__inspect {
+  display: none !important;
+}
+
+/* A nagyított nézet háttere külön stabil réteg, ezért lapozáskor nem villan fel. */
+#inspector-stable-backdrop {
+  position: fixed;
+  z-index: 39;
+  inset: 0;
+  background: rgba(8, 5, 3, .88);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  opacity: 0;
+  transition: opacity 180ms ease;
+  cursor: zoom-out;
+}
+
+#inspector-stable-backdrop.is-visible {
+  opacity: 1;
+}
+
+#inspector {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+}
+
+#inspector .inspector__centre {
+  will-change: opacity, transform;
+  transition: opacity 120ms ease, transform 150ms cubic-bezier(.2, .75, .2, 1);
+}
+
+#inspector[data-switch-direction='next'] .inspector__centre.is-leaving {
+  opacity: 0;
+  transform: translateX(-24px) scale(.985);
+}
+
+#inspector[data-switch-direction='previous'] .inspector__centre.is-leaving {
+  opacity: 0;
+  transform: translateX(24px) scale(.985);
+}
+
+#inspector[data-switch-direction='next'] .inspector__centre.is-entering {
+  opacity: 0;
+  transform: translateX(24px) scale(.985);
+}
+
+#inspector[data-switch-direction='previous'] .inspector__centre.is-entering {
+  opacity: 0;
+  transform: translateX(-24px) scale(.985);
+}
+
+#inspector .inspector__playable-card {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#inspector .inspector__playable-card::before {
+  content: 'KOPPINTS A KIVÁLASZTÁSHOZ';
+  position: absolute;
+  z-index: 12;
+  right: 10px;
+  bottom: 10px;
+  padding: 5px 8px;
+  border: 1px solid rgba(42, 28, 18, .42);
+  border-radius: 999px;
+  background: rgba(239, 212, 144, .94);
+  color: #21150e;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  pointer-events: none;
+}
+
+#inspector .inspector__playable-card.is-committing {
+  box-shadow: 0 0 0 5px var(--accent-color-light), 0 22px 64px rgba(0, 0, 0, .78), 0 0 38px rgba(213, 170, 85, .52) !important;
+  transform: scale(.985);
+}
+
+@media (max-width: 900px) {
+  /* Kényelmesebb felső vezérlők, egységes ikonmérettel. */
+  #hud-settings {
+    gap: 8px !important;
+  }
+
+  #hud-settings .icon-toggle,
+  #hud-settings .mobile-menu-trigger,
+  #hud-settings .mobile-sound-trigger,
+  #hud-settings [data-appearance-button] {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    padding: 0 !important;
+    border-radius: 18px !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+  }
+
+  #hud-settings .icon-toggle::first-letter,
+  #hud-settings .mobile-menu-trigger::first-letter,
+  #hud-settings .mobile-sound-trigger::first-letter,
+  #hud-settings [data-appearance-button]::first-letter {
+    font-size: 25px !important;
+  }
+
+  /* A bal oldali kártya teljesen a görgethető területen belül indul. */
+  #pub.is-card-selection #player-zone,
+  #pub:has(#attribute-picker > .attr-btn--mobile) #player-zone {
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    padding-top: 52px !important;
+    padding-right: max(6px, var(--mobile-safe-right)) !important;
+    padding-left: max(6px, var(--mobile-safe-left)) !important;
+    overflow: visible;
+  }
+
+  #player-hand.hand--selection,
+  #pub:has(#attribute-picker > .attr-btn--mobile) #player-hand {
+    min-width: 0;
+    padding-right: 22px !important;
+    padding-left: 16px !important;
+    scroll-padding-right: 22px !important;
+    scroll-padding-left: 16px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+  }
+
+  #player-hand.hand--selection > .card--choice:first-child,
+  #pub:has(#attribute-picker > .attr-btn--mobile) #player-hand > .card:first-child {
+    margin-left: 2px !important;
+  }
+
+  /* Nagyobb, jobban olvasható kéz mind a két játékmódban. */
+  #pub #player-hand:not(.hand--selection) .card {
+    --card-w: clamp(138px, 39vw, 158px) !important;
+    --card-h: calc(var(--card-w) * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: clamp(132px, 38vw, 152px) !important;
+    --card-h: calc(var(--card-w) * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+
+  #pub #player-hand .card__portrait {
+    height: clamp(70px, 20vw, 84px) !important;
+  }
+
+  #pub #player-hand .card__name {
+    padding: 5px 7px 2px;
+    font-size: clamp(13px, 3.6vw, 15px) !important;
+    line-height: 1.02;
+  }
+
+  #pub #player-hand .card__club {
+    padding: 0 7px 5px;
+    font-size: clamp(9px, 2.5vw, 10.5px) !important;
+  }
+
+  #pub #player-hand .stat {
+    min-height: 21px;
+    padding: 3px 5px;
+    font-size: clamp(10px, 2.8vw, 11.5px) !important;
+  }
+
+  #pub #player-hand .stat.active {
+    font-size: clamp(10.5px, 3vw, 12px) !important;
+  }
+
+  /* Kategóriaválasztáskor a küzdőtér ne nyomja le a nagyobb kártyákat. */
+  #pub:has(#attribute-picker > .attr-btn--mobile) #felt {
+    flex: 0 1 auto !important;
+    height: clamp(350px, 50dvh, 590px) !important;
+    min-height: clamp(330px, 44dvh, 540px) !important;
+    max-height: 58dvh !important;
+    padding-bottom: 10px !important;
+  }
+
+  #pub:has(#attribute-picker > .attr-btn--mobile) #attribute-picker {
+    grid-auto-columns: min(82%, 320px) !important;
+  }
+
+  #pub:has(#attribute-picker > .attr-btn--mobile) .attr-btn--mobile {
+    min-height: 110px !important;
+    padding: 15px !important;
+  }
+
+  #pub:has(#attribute-picker > .attr-btn--mobile) #player-hand {
+    min-height: calc(clamp(138px, 39vw, 158px) * 232 / 132 + 22px);
+  }
+
+  #inspector .card--large {
+    --card-w: min(314px, calc(100vw - 104px));
+  }
+}
+
+@media (max-width: 620px) {
+  #hud-settings .icon-toggle,
+  #hud-settings .mobile-menu-trigger,
+  #hud-settings .mobile-sound-trigger,
+  #hud-settings [data-appearance-button] {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+  }
+
+  #inspector .inspector__nav {
+    width: 38px !important;
+    min-width: 38px;
+    height: 58px !important;
+    font-size: 30px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  #hud-settings .icon-toggle,
+  #hud-settings .mobile-menu-trigger,
+  #hud-settings .mobile-sound-trigger,
+  #hud-settings [data-appearance-button] {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    border-radius: 16px !important;
+  }
+
+  #player-hand.hand--selection .card--choice {
+    --card-w: 122px !important;
+    --card-h: calc(122px * 232 / 132) !important;
+  }
+
+  #pub #player-hand:not(.hand--selection) .card {
+    --card-w: 126px !important;
+    --card-h: calc(126px * 232 / 132) !important;
+  }
+
+  #inspector .card--large {
+    --card-w: min(276px, calc(100vw - 82px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inspector-stable-backdrop,
+  #inspector .inspector__centre {
+    transition-duration: 1ms !important;
+  }
+}</style>
 </head>
 <body>
   <div id="app-loading" hidden role="status" aria-live="polite">
@@ -7650,11 +7965,18 @@ if (typeof document !== 'undefined') {
 
 
 
+
 const usabilityPreviousRenderCard = UI.prototype.renderCard;
+const usabilityPreviousRenderHands = UI.prototype.renderHands;
+const usabilityPreviousRenderPiles = UI.prototype._renderPiles;
 const usabilityPreviousOpenInspector = UI.prototype.openInspector;
 const usabilityPreviousCloseInspector = UI.prototype.closeInspector;
 const usabilityPreviousRenderInspector = UI.prototype._renderInspector;
+const usabilityPreviousInspectorStep = UI.prototype._inspectorStep;
 const INSPECTOR_SWIPE_DISTANCE = 44;
+const INSPECTOR_TRANSITION_MS = 120;
+const INSPECTOR_BACKDROP_ID = 'inspector-stable-backdrop';
+let inspectorBackdropRemovalTimer = 0;
 
 const NAME_PARTICLES = new Set([
   'a', 'al', 'ap', 'da', 'das', 'de', 'del', 'della', 'der', 'di', 'do', 'dos',
@@ -7738,9 +8060,92 @@ const usabilityFocusable = root => [...(root?.querySelectorAll?.(
   'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
 ) ?? [])].filter(node => !node.hidden && node.getAttribute('aria-hidden') !== 'true');
 
+const reducedMotionEnabled = () => (
+  document.documentElement.classList.contains('ux-reduced-motion')
+  || document.documentElement.classList.contains('reduced-motion')
+  || (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
+);
+
+const ensureInspectorBackdrop = ui => {
+  if (inspectorBackdropRemovalTimer) {
+    window.clearTimeout(inspectorBackdropRemovalTimer);
+    inspectorBackdropRemovalTimer = 0;
+  }
+
+  let backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.id = INSPECTOR_BACKDROP_ID;
+    backdrop.setAttribute('aria-hidden', 'true');
+    backdrop.addEventListener('click', () => ui.closeInspector());
+    document.body.appendChild(backdrop);
+  }
+
+  /* Azonnal láthatóvá tesszük. Így a kártya DOM-jának cseréje és egy korábbi
+     bezárási időzítő sem tud egyetlen képkockára világos hátteret mutatni. */
+  backdrop.classList.add('is-visible');
+  return backdrop;
+};
+
+const removeInspectorBackdrop = () => {
+  if (inspectorBackdropRemovalTimer) window.clearTimeout(inspectorBackdropRemovalTimer);
+  const backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
+  if (!backdrop) {
+    inspectorBackdropRemovalTimer = 0;
+    return;
+  }
+
+  /* A háttér a tényleges eltávolításig sötét marad. Nem vesszük le előre az
+     is-visible osztályt, mert egy későn érkező régi bezárás lapozás közben
+     különben rövid felvillanást okozhatna. */
+  inspectorBackdropRemovalTimer = window.setTimeout(() => {
+    inspectorBackdropRemovalTimer = 0;
+    if (!document.querySelector('#inspector')) backdrop.remove();
+  }, reducedMotionEnabled() ? 1 : 190);
+};
+
+const syncHandInspectorButton = ui => {
+  const pile = ui.dom?.playerPile;
+  if (!pile) return;
+  pile.querySelector('.pile__inspect')?.remove();
+
+  const context = ui._handInspectorContext;
+  if (!context?.hand?.length) return;
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'pile__inspect';
+  button.textContent = '🔍';
+  button.title = 'Kéz nagyítása';
+  button.setAttribute('aria-label', `Kéz nagyítása, ${context.hand.length} kártya`);
+  button.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const selectedId = ui.dom.playerHand
+      ?.querySelector('.card--choice.is-selected')
+      ?.dataset.cardId;
+    const selectedIndex = selectedId
+      ? context.hand.findIndex(card => String(card?.id) === String(selectedId))
+      : -1;
+    const index = selectedIndex >= 0 ? selectedIndex : 0;
+
+    ui.openInspector(context.hand, index, {
+      attribute: context.attribute,
+      playable: context.playable,
+      onPlay: chosen => ui.handlers.onCard?.(chosen),
+    });
+  });
+  pile.prepend(button);
+};
+
 UI.prototype.renderCard = function renderCardWithReadableName(card, opts = {}) {
   const node = usabilityPreviousRenderCard.call(this, card, opts);
   if (!card || opts.faceDown) return node;
+
+  /* A nagyító nem kártyánként jelenik meg: egyetlen kézszintű gomb nyitja meg
+     ugyanazt az inspectort a megnyert/használt lapok blokkja fölött. */
+  node.querySelector('.card__inspect')?.remove();
 
   const displayName = cardPlayerDisplayName(card);
   const nameNode = node.querySelector('.card__name');
@@ -7757,12 +8162,38 @@ UI.prototype.renderCard = function renderCardWithReadableName(card, opts = {}) {
   const portrait = node.querySelector('.card__portrait');
   if (portrait) portrait.dataset.initials = cardNameInitials(displayName);
   node.dataset.displayName = displayName;
+
+  if (node.classList.contains('card--direct-play')) {
+    node.setAttribute('aria-label', `${displayName} kijátszása. A részletek a kéz melletti nagyító gombbal nyithatók meg.`);
+  }
   return node;
+};
+
+UI.prototype.renderHands = function renderHandsWithSingleInspectorButton(game, options = {}) {
+  usabilityPreviousRenderHands.call(this, game, options);
+  const hand = Array.isArray(game?.hands?.[HUMAN]) ? game.hands[HUMAN] : [];
+  this._handInspectorContext = {
+    hand,
+    attribute: game?.attribute ?? options.inspectAttribute ?? null,
+    playable: Boolean(options.selectable),
+  };
+  syncHandInspectorButton(this);
+
+  const instruction = document.querySelector('#mobile-hand-instruction');
+  if (instruction) {
+    instruction.textContent = 'A kéz oldalra görgethető. Koppints a lapra a kijátszáshoz, vagy használd a kéz melletti egyetlen nagyító gombot.';
+  }
+};
+
+UI.prototype._renderPiles = function renderPilesWithSingleInspectorButton(...args) {
+  usabilityPreviousRenderPiles.apply(this, args);
+  syncHandInspectorButton(this);
 };
 
 UI.prototype.openInspector = function openAccessibleInspector(...args) {
   const active = document.activeElement;
   this._inspectorReturnFocus = active instanceof HTMLElement && active !== document.body ? active : null;
+  ensureInspectorBackdrop(this);
   usabilityPreviousOpenInspector.apply(this, args);
 
   const layer = document.querySelector('#inspector');
@@ -7775,7 +8206,11 @@ UI.prototype.openInspector = function openAccessibleInspector(...args) {
 UI.prototype.closeInspector = function closeAccessibleInspector(...args) {
   const returnFocus = this._inspectorReturnFocus;
   this._inspectorReturnFocus = null;
+  if (this._inspectorSwitchTimer) window.clearTimeout(this._inspectorSwitchTimer);
+  this._inspectorSwitchTimer = 0;
+  this._inspectorSwitching = false;
   usabilityPreviousCloseInspector.apply(this, args);
+  removeInspectorBackdrop();
 
   queueMicrotask(() => {
     if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') {
@@ -7789,10 +8224,55 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
   this._inspectorKeys = null;
 
   usabilityPreviousRenderInspector.apply(this, args);
+  ensureInspectorBackdrop(this);
 
   if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
 
-  const swipeSurface = document.querySelector('#inspector .inspector__centre');
+  const layer = document.querySelector('#inspector');
+  const swipeSurface = layer?.querySelector('.inspector__centre');
+  const direction = this._inspectorEnteringDirection;
+  this._inspectorEnteringDirection = null;
+
+  if (layer && direction) {
+    layer.dataset.switchDirection = direction;
+    swipeSurface?.classList.add('is-entering');
+    void swipeSurface?.offsetWidth;
+    requestAnimationFrame(() => swipeSurface?.classList.remove('is-entering'));
+  }
+
+  const current = this.inspector?.hand?.[this.inspector.index];
+  const playable = Boolean(
+    this.inspector?.opts?.playable
+    && (!this.inspector.opts.attribute || hasAttributeData(current, this.inspector.opts.attribute)),
+  );
+  const largeCard = layer?.querySelector('.card--large');
+  const playButton = layer?.querySelector('.inspector__actions .btn:not(.btn--ghost)');
+  const hint = layer?.querySelector('.inspector__hint');
+
+  if (hint) {
+    hint.textContent = playable
+      ? '← → kártyaváltás · koppints a lapra a kiválasztáshoz · Esc bezárás'
+      : '← → kártyaváltás · Esc bezárás';
+  }
+
+  if (playable && largeCard && playButton && !playButton.disabled) {
+    largeCard.classList.add('inspector__playable-card');
+    largeCard.tabIndex = 0;
+    largeCard.setAttribute('role', 'button');
+    largeCard.setAttribute('aria-label', `${cardPlayerDisplayName(current)} kiválasztása és kijátszása`);
+
+    const commitLargeCard = event => {
+      if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (this._inspectorSwitching || playButton.disabled) return;
+      largeCard.classList.add('is-committing');
+      playButton.click();
+    };
+    largeCard.addEventListener('click', commitLargeCard);
+    largeCard.addEventListener('keydown', commitLargeCard);
+  }
+
   let swipeStart = null;
 
   swipeSurface?.addEventListener('pointerdown', event => {
@@ -7817,11 +8297,11 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
 
   this._inspectorKeys = event => {
     if (!this.inspector) return;
-    const layer = document.querySelector('#inspector');
-    if (!layer) return;
+    const currentLayer = document.querySelector('#inspector');
+    if (!currentLayer) return;
 
     if (event.key === 'Tab') {
-      const focusable = usabilityFocusable(layer);
+      const focusable = usabilityFocusable(currentLayer);
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable.at(-1);
@@ -7850,18 +8330,42 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
     if (event.key !== 'Enter') return;
     if (event.target.closest?.('button, a, input, select, textarea, [role="button"]')) return;
 
-    const current = this.inspector.hand[this.inspector.index];
-    const playable = this.inspector.opts.playable
-      && (!this.inspector.opts.attribute || hasAttributeData(current, this.inspector.opts.attribute));
-    if (!playable) return;
+    const inspected = this.inspector.hand[this.inspector.index];
+    const canPlay = this.inspector.opts.playable
+      && (!this.inspector.opts.attribute || hasAttributeData(inspected, this.inspector.opts.attribute));
+    if (!canPlay) return;
 
     event.preventDefault();
     const onPlay = this.inspector.opts.onPlay;
     this.closeInspector();
-    onPlay(current);
+    onPlay(inspected);
   };
 
   document.addEventListener('keydown', this._inspectorKeys);
+};
+
+UI.prototype._inspectorStep = function stepInspectorWithoutBackdropFlash(delta) {
+  if (!this.inspector || this._inspectorSwitching) return;
+
+  const layer = document.querySelector('#inspector');
+  const centre = layer?.querySelector('.inspector__centre');
+  if (!layer || !centre || reducedMotionEnabled()) {
+    usabilityPreviousInspectorStep.call(this, delta);
+    return;
+  }
+
+  this._inspectorSwitching = true;
+  const direction = delta > 0 ? 'next' : 'previous';
+  layer.dataset.switchDirection = direction;
+  centre.classList.add('is-leaving');
+
+  if (this._inspectorSwitchTimer) window.clearTimeout(this._inspectorSwitchTimer);
+  this._inspectorSwitchTimer = window.setTimeout(() => {
+    this._inspectorSwitchTimer = 0;
+    this._inspectorEnteringDirection = direction;
+    usabilityPreviousInspectorStep.call(this, delta);
+    this._inspectorSwitching = false;
+  }, INSPECTOR_TRANSITION_MS);
 };
 
 if (typeof document !== 'undefined') {
@@ -8536,9 +9040,21 @@ if (document.readyState === 'loading') {
     panel.appendChild(notice);
   }
 
+  /* A nagyított kártya DOM-ja lapozáskor újraépül, a külön háttérréteg viszont
+     végig megmarad. Lassú Android WebView-ban se engedjük, hogy egy későn
+     érkező osztálymódosítás egy képkockára átlátszóvá tegye. */
+  function preserveInspectorBackdrop() {
+    const inspector = document.querySelector('#inspector');
+    const backdrop = document.querySelector('#inspector-stable-backdrop');
+    if (inspector && backdrop && !backdrop.classList.contains('is-visible')) {
+      backdrop.classList.add('is-visible');
+    }
+  }
+
   function enhance(root = document) {
     localiseText(root);
     ensureTitleNotice(root);
+    preserveInspectorBackdrop();
   }
 
   const start = () => {
@@ -8550,8 +9066,14 @@ if (document.readyState === 'loading') {
           else if (node instanceof Text) localiseText(node.parentNode);
         });
       }
+      preserveInspectorBackdrop();
     });
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class'],
+    });
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
