@@ -5,12 +5,18 @@
 
 import { UI } from './ui.js';
 import { hasAttributeData } from './data/players.js';
+import { HUMAN } from './engine.js';
 
 const usabilityPreviousRenderCard = UI.prototype.renderCard;
+const usabilityPreviousRenderHands = UI.prototype.renderHands;
+const usabilityPreviousRenderPiles = UI.prototype._renderPiles;
 const usabilityPreviousOpenInspector = UI.prototype.openInspector;
 const usabilityPreviousCloseInspector = UI.prototype.closeInspector;
 const usabilityPreviousRenderInspector = UI.prototype._renderInspector;
+const usabilityPreviousInspectorStep = UI.prototype._inspectorStep;
 const INSPECTOR_SWIPE_DISTANCE = 44;
+const INSPECTOR_TRANSITION_MS = 120;
+const INSPECTOR_BACKDROP_ID = 'inspector-stable-backdrop';
 
 const NAME_PARTICLES = new Set([
   'a', 'al', 'ap', 'da', 'das', 'de', 'del', 'della', 'der', 'di', 'do', 'dos',
@@ -94,9 +100,74 @@ const usabilityFocusable = root => [...(root?.querySelectorAll?.(
   'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
 ) ?? [])].filter(node => !node.hidden && node.getAttribute('aria-hidden') !== 'true');
 
+const reducedMotionEnabled = () => (
+  document.documentElement.classList.contains('ux-reduced-motion')
+  || document.documentElement.classList.contains('reduced-motion')
+  || (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
+);
+
+const ensureInspectorBackdrop = ui => {
+  let backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
+  if (backdrop) return backdrop;
+
+  backdrop = document.createElement('div');
+  backdrop.id = INSPECTOR_BACKDROP_ID;
+  backdrop.setAttribute('aria-hidden', 'true');
+  backdrop.addEventListener('click', () => ui.closeInspector());
+  document.body.appendChild(backdrop);
+  requestAnimationFrame(() => backdrop.classList.add('is-visible'));
+  return backdrop;
+};
+
+const removeInspectorBackdrop = () => {
+  const backdrop = document.getElementById(INSPECTOR_BACKDROP_ID);
+  if (!backdrop) return;
+  backdrop.classList.remove('is-visible');
+  window.setTimeout(() => backdrop.remove(), reducedMotionEnabled() ? 1 : 190);
+};
+
+const syncHandInspectorButton = ui => {
+  const pile = ui.dom?.playerPile;
+  if (!pile) return;
+  pile.querySelector('.pile__inspect')?.remove();
+
+  const context = ui._handInspectorContext;
+  if (!context?.hand?.length) return;
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'pile__inspect';
+  button.textContent = '🔍';
+  button.title = 'Kéz nagyítása';
+  button.setAttribute('aria-label', `Kéz nagyítása, ${context.hand.length} kártya`);
+  button.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const selectedId = ui.dom.playerHand
+      ?.querySelector('.card--choice.is-selected')
+      ?.dataset.cardId;
+    const selectedIndex = selectedId
+      ? context.hand.findIndex(card => String(card?.id) === String(selectedId))
+      : -1;
+    const index = selectedIndex >= 0 ? selectedIndex : 0;
+
+    ui.openInspector(context.hand, index, {
+      attribute: context.attribute,
+      playable: context.playable,
+      onPlay: chosen => ui.handlers.onCard?.(chosen),
+    });
+  });
+  pile.prepend(button);
+};
+
 UI.prototype.renderCard = function renderCardWithReadableName(card, opts = {}) {
   const node = usabilityPreviousRenderCard.call(this, card, opts);
   if (!card || opts.faceDown) return node;
+
+  /* A nagyító nem kártyánként jelenik meg: egyetlen kézszintű gomb nyitja meg
+     ugyanazt az inspectort a megnyert/használt lapok blokkja fölött. */
+  node.querySelector('.card__inspect')?.remove();
 
   const displayName = cardPlayerDisplayName(card);
   const nameNode = node.querySelector('.card__name');
@@ -113,12 +184,38 @@ UI.prototype.renderCard = function renderCardWithReadableName(card, opts = {}) {
   const portrait = node.querySelector('.card__portrait');
   if (portrait) portrait.dataset.initials = cardNameInitials(displayName);
   node.dataset.displayName = displayName;
+
+  if (node.classList.contains('card--direct-play')) {
+    node.setAttribute('aria-label', `${displayName} kijátszása. A részletek a kéz melletti nagyító gombbal nyithatók meg.`);
+  }
   return node;
+};
+
+UI.prototype.renderHands = function renderHandsWithSingleInspectorButton(game, options = {}) {
+  usabilityPreviousRenderHands.call(this, game, options);
+  const hand = Array.isArray(game?.hands?.[HUMAN]) ? game.hands[HUMAN] : [];
+  this._handInspectorContext = {
+    hand,
+    attribute: game?.attribute ?? options.inspectAttribute ?? null,
+    playable: Boolean(options.selectable),
+  };
+  syncHandInspectorButton(this);
+
+  const instruction = document.querySelector('#mobile-hand-instruction');
+  if (instruction) {
+    instruction.textContent = 'A kéz oldalra görgethető. Koppints a lapra a kijátszáshoz, vagy használd a kéz melletti egyetlen nagyító gombot.';
+  }
+};
+
+UI.prototype._renderPiles = function renderPilesWithSingleInspectorButton(...args) {
+  usabilityPreviousRenderPiles.apply(this, args);
+  syncHandInspectorButton(this);
 };
 
 UI.prototype.openInspector = function openAccessibleInspector(...args) {
   const active = document.activeElement;
   this._inspectorReturnFocus = active instanceof HTMLElement && active !== document.body ? active : null;
+  ensureInspectorBackdrop(this);
   usabilityPreviousOpenInspector.apply(this, args);
 
   const layer = document.querySelector('#inspector');
@@ -131,7 +228,11 @@ UI.prototype.openInspector = function openAccessibleInspector(...args) {
 UI.prototype.closeInspector = function closeAccessibleInspector(...args) {
   const returnFocus = this._inspectorReturnFocus;
   this._inspectorReturnFocus = null;
+  if (this._inspectorSwitchTimer) window.clearTimeout(this._inspectorSwitchTimer);
+  this._inspectorSwitchTimer = 0;
+  this._inspectorSwitching = false;
   usabilityPreviousCloseInspector.apply(this, args);
+  removeInspectorBackdrop();
 
   queueMicrotask(() => {
     if (returnFocus?.isConnected && typeof returnFocus.focus === 'function') {
@@ -145,10 +246,55 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
   this._inspectorKeys = null;
 
   usabilityPreviousRenderInspector.apply(this, args);
+  ensureInspectorBackdrop(this);
 
   if (this._inspectorKeys) document.removeEventListener('keydown', this._inspectorKeys);
 
-  const swipeSurface = document.querySelector('#inspector .inspector__centre');
+  const layer = document.querySelector('#inspector');
+  const swipeSurface = layer?.querySelector('.inspector__centre');
+  const direction = this._inspectorEnteringDirection;
+  this._inspectorEnteringDirection = null;
+
+  if (layer && direction) {
+    layer.dataset.switchDirection = direction;
+    swipeSurface?.classList.add('is-entering');
+    void swipeSurface?.offsetWidth;
+    requestAnimationFrame(() => swipeSurface?.classList.remove('is-entering'));
+  }
+
+  const current = this.inspector?.hand?.[this.inspector.index];
+  const playable = Boolean(
+    this.inspector?.opts?.playable
+    && (!this.inspector.opts.attribute || hasAttributeData(current, this.inspector.opts.attribute)),
+  );
+  const largeCard = layer?.querySelector('.card--large');
+  const playButton = layer?.querySelector('.inspector__actions .btn:not(.btn--ghost)');
+  const hint = layer?.querySelector('.inspector__hint');
+
+  if (hint) {
+    hint.textContent = playable
+      ? '← → kártyaváltás · koppints a lapra a kiválasztáshoz · Esc bezárás'
+      : '← → kártyaváltás · Esc bezárás';
+  }
+
+  if (playable && largeCard && playButton && !playButton.disabled) {
+    largeCard.classList.add('inspector__playable-card');
+    largeCard.tabIndex = 0;
+    largeCard.setAttribute('role', 'button');
+    largeCard.setAttribute('aria-label', `${cardPlayerDisplayName(current)} kiválasztása és kijátszása`);
+
+    const commitLargeCard = event => {
+      if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (this._inspectorSwitching || playButton.disabled) return;
+      largeCard.classList.add('is-committing');
+      playButton.click();
+    };
+    largeCard.addEventListener('click', commitLargeCard);
+    largeCard.addEventListener('keydown', commitLargeCard);
+  }
+
   let swipeStart = null;
 
   swipeSurface?.addEventListener('pointerdown', event => {
@@ -173,11 +319,11 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
 
   this._inspectorKeys = event => {
     if (!this.inspector) return;
-    const layer = document.querySelector('#inspector');
-    if (!layer) return;
+    const currentLayer = document.querySelector('#inspector');
+    if (!currentLayer) return;
 
     if (event.key === 'Tab') {
-      const focusable = usabilityFocusable(layer);
+      const focusable = usabilityFocusable(currentLayer);
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable.at(-1);
@@ -206,18 +352,42 @@ UI.prototype._renderInspector = function renderAccessibleInspector(...args) {
     if (event.key !== 'Enter') return;
     if (event.target.closest?.('button, a, input, select, textarea, [role="button"]')) return;
 
-    const current = this.inspector.hand[this.inspector.index];
-    const playable = this.inspector.opts.playable
-      && (!this.inspector.opts.attribute || hasAttributeData(current, this.inspector.opts.attribute));
-    if (!playable) return;
+    const inspected = this.inspector.hand[this.inspector.index];
+    const canPlay = this.inspector.opts.playable
+      && (!this.inspector.opts.attribute || hasAttributeData(inspected, this.inspector.opts.attribute));
+    if (!canPlay) return;
 
     event.preventDefault();
     const onPlay = this.inspector.opts.onPlay;
     this.closeInspector();
-    onPlay(current);
+    onPlay(inspected);
   };
 
   document.addEventListener('keydown', this._inspectorKeys);
+};
+
+UI.prototype._inspectorStep = function stepInspectorWithoutBackdropFlash(delta) {
+  if (!this.inspector || this._inspectorSwitching) return;
+
+  const layer = document.querySelector('#inspector');
+  const centre = layer?.querySelector('.inspector__centre');
+  if (!layer || !centre || reducedMotionEnabled()) {
+    usabilityPreviousInspectorStep.call(this, delta);
+    return;
+  }
+
+  this._inspectorSwitching = true;
+  const direction = delta > 0 ? 'next' : 'previous';
+  layer.dataset.switchDirection = direction;
+  centre.classList.add('is-leaving');
+
+  if (this._inspectorSwitchTimer) window.clearTimeout(this._inspectorSwitchTimer);
+  this._inspectorSwitchTimer = window.setTimeout(() => {
+    this._inspectorSwitchTimer = 0;
+    this._inspectorEnteringDirection = direction;
+    usabilityPreviousInspectorStep.call(this, delta);
+    this._inspectorSwitching = false;
+  }, INSPECTOR_TRANSITION_MS);
 };
 
 if (typeof document !== 'undefined') {
