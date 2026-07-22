@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - Fociskartyak2026.html
       - mobile-layout-report.json
+      - runtime-browser-report.json
       - previews/*.png
       - data/enrichment-audit.json
       - data/players-reviewed.json
@@ -55,6 +56,11 @@ jobs:
         continue-on-error: true
         run: npm run test:mobile-layout 2>&1 | tee mobile-layout-test-output.log
 
+      - name: Klasszikus és Büntetőpárbaj futásidejű böngészőteszt
+        id: runtime_browser
+        continue-on-error: true
+        run: npm run test:runtime 2>&1 | tee runtime-browser-test-output.log
+
       - name: Asztali fáziselőnézetek elkészítése
         id: desktop_previews
         continue-on-error: true
@@ -77,6 +83,7 @@ jobs:
           name: visual-layout-report-previews-and-tests
           path: |
             mobile-layout-report.json
+            runtime-browser-report.json
             previews/*.png
             *-output.log
           if-no-files-found: warn
@@ -87,6 +94,10 @@ jobs:
 
       - name: Mobilnézeti eredmény érvényesítése
         if: steps.mobile_layout.outcome == 'failure'
+        run: exit 1
+
+      - name: Futásidejű böngészőteszt eredményének érvényesítése
+        if: steps.runtime_browser.outcome == 'failure'
         run: exit 1
 
       - name: Asztali előnézet eredményének érvényesítése
@@ -104,7 +115,7 @@ jobs:
       - name: Generált játékfájl, riport és előnézetek mentése
         if: github.event_name == 'push' && success()
         run: |
-          GENERATED_FILES="Fociskartyak2026.html mobile-layout-report.json previews/*.png data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
+          GENERATED_FILES="Fociskartyak2026.html mobile-layout-report.json runtime-browser-report.json previews/*.png data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
           if git diff --quiet -- $GENERATED_FILES; then
             echo "Az önálló játékfájl, a riportok és az előnézetek naprakészek."
             exit 0
