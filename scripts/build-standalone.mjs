@@ -92,6 +92,7 @@ const moduleOrder = [
   'js/usability-fixes.js',
   'js/focus-experience.js',
   'js/visual-system.js',
+  'js/legal-ui.js',
   'js/main.js',
 ];
 
@@ -139,7 +140,7 @@ writeDatabaseReviewFiles(ROOT, payload, databaseReview);
 const playablePayload = filterCompleteCardsPayload(payload);
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}`;
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -173,6 +174,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/duel-emphasis.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/phase-refinements.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/visual-system.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/legal-ui.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/branding.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
@@ -185,6 +187,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/usability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/focus-experience.js"></script>\n', '')
   .replace('  <script type="module" src="js/visual-system.js"></script>\n', '')
+  .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
     `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson};</script>\n<script type="module">${safeBundle}</script>`
