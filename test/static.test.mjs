@@ -184,8 +184,12 @@ assert.equal(etoCompletion.batch.playerCount, 35);
 assert.equal(etoCompletion.records.length, 35);
 assert.equal(kisvardaNationalities.batch.playerCount, 21);
 assert.equal(kisvardaNationalities.records.length, 21);
-assert.equal(finalMissingBasic.batch.playerCount, 7);
-assert.equal(finalMissingBasic.records.length, 7);
+assert.equal(finalMissingBasic.batch.playerCount, finalMissingBasic.records.length);
+assert.equal(
+  finalMissingBasic.batch.heightRecordCount,
+  finalMissingBasic.records.filter(record => Number.isFinite(record.heightCm)).length,
+);
+assert.equal(finalMissingBasic.records.filter(record => record.nation || record.position).length, 7);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);

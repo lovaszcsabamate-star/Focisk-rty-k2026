@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v45
-const PWA_CACHE = 'fociskartyak-2026-v46';
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v46
+const PWA_CACHE = 'fociskartyak-2026-v47';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -21,6 +21,7 @@ const PWA_SHELL = [
   './css/legal-ui.css',
   './js/branding.js',
   './js/bootstrap.js',
+  './js/deck-selection.js',
   './js/data/complete-cards.js',
   './js/data/club-enrichment.js',
   './js/data/club-stat-patches.js',
