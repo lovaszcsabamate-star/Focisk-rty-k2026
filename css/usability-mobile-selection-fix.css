@@ -13,13 +13,281 @@
   pointer-events: none;
 }
 
-@media (max-width: 620px) {
+/*
+ * Default portrait-phone layout.
+ * The proportions intentionally follow the approved in-game reference:
+ * compact broadcast scoreboard, one toolbar row, short felt and a large
+ * horizontally scrollable hand beside the used-card pile.
+ */
+@media (max-width: 620px) and (orientation: portrait) {
+  #pub {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+
+  #table {
+    height: 100dvh;
+    min-height: 0;
+    padding:
+      max(8px, var(--mobile-safe-top))
+      max(8px, var(--mobile-safe-right))
+      max(6px, var(--mobile-safe-bottom))
+      max(8px, var(--mobile-safe-left));
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  /* The match strip carries the mode and level, so the additional context
+     block would only duplicate information and steal vertical space. */
+  #hud {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'score score'
+      'meta settings';
+    align-items: center;
+    gap: 5px 8px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  #hud-context,
+  #hud .title {
+    display: none !important;
+  }
+
+  #hud-scores,
+  .score-strip {
+    grid-area: score;
+    width: 100%;
+    min-width: 0;
+    justify-content: stretch;
+  }
+
+  .match-scoreboard {
+    width: 100%;
+    max-width: none;
+    border-radius: 8px;
+  }
+
+  #hud-meta,
+  .meta {
+    grid-area: meta;
+    max-width: none;
+    min-width: 0;
+    padding-left: 6px;
+    color: rgba(242, 230, 208, .66);
+    font-size: clamp(11px, 3.2vw, 13px);
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  #hud-settings,
+  .hud-settings {
+    grid-area: settings;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px !important;
+  }
+
+  #hud-settings .icon-toggle,
+  #hud-settings .mobile-menu-trigger,
+  #hud-settings .mobile-sound-trigger,
+  #hud-settings [data-appearance-button] {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    padding: 0 !important;
+    border-radius: 17px !important;
+  }
+
+  /* The card-selection screen does not need the opponent's hidden hand. */
+  #pub.is-card-selection #opponent-zone,
+  #pub.is-card-selection #banter {
+    display: none !important;
+  }
+
+  #pub.is-card-selection #felt {
+    flex: 0 0 auto !important;
+    width: 100%;
+    height: clamp(200px, 29dvh, 232px) !important;
+    min-height: 200px !important;
+    max-height: 232px !important;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 9px 8px 11px;
+    overflow: hidden;
+    border-width: 2px;
+    border-radius: 18px;
+  }
+
+  #pub.is-card-selection #penalty-board {
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  #pub.is-card-selection .game-steps {
+    flex: 0 0 auto;
+    width: 100%;
+    gap: 4px;
+  }
+
+  #pub.is-card-selection .game-step {
+    min-height: 30px;
+    flex: 1 1 0;
+    justify-content: center;
+    padding: 4px 6px;
+    font-size: clamp(10px, 3vw, 12px);
+    white-space: nowrap;
+  }
+
+  #pub.is-card-selection #prompt {
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    padding: 2px 5px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font-size: clamp(16px, 5.1vw, 20px);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  #pub.is-card-selection #prompt .ux-direction {
+    margin-top: 2px;
+    font-size: clamp(11px, 3.3vw, 13px);
+    line-height: 1.15;
+  }
+
+  #pub.is-card-selection #verdict:empty,
+  #pub.is-card-selection #attribute-picker:empty {
+    display: none;
+  }
+
+  #pub.is-card-selection #player-zone {
+    position: relative;
+    flex: 1 1 auto;
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: end;
+    gap: 0 8px;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 34px 0 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(201, 162, 39, .34);
+    background: linear-gradient(180deg, transparent, rgba(12, 8, 5, .28));
+  }
+
+  #pub.is-card-selection #player-zone::before {
+    content: 'Húzd oldalra · koppints a választott lapra';
+    top: 5px;
+    max-width: calc(100% - 24px);
+    min-height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 11px;
+    font-size: clamp(9px, 2.8vw, 11px);
+  }
+
+  #pub.is-card-selection #player-pile {
+    grid-column: 1;
+    align-self: end;
+    justify-self: center;
+    margin-bottom: 22px;
+  }
+
+  #pub.is-card-selection .pile__inspect {
+    top: -51px;
+  }
+
+  #player-hand.hand--selection {
+    grid-column: 2;
+    align-self: end;
+    width: 100%;
+    min-width: 0;
+    min-height: calc(clamp(132px, 38vw, 142px) * 232 / 132 + 16px) !important;
+    height: auto !important;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 10px !important;
+    padding: 8px 14px 8px 4px !important;
+    scroll-padding-left: 4px !important;
+    scroll-padding-right: 14px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-gutter: auto;
+  }
+
+  #player-hand.has-scroll-hint::after {
+    content: none !important;
+  }
+
   #player-hand.hand--selection .card--choice {
-    --card-w: clamp(136px, 36vw, 142px) !important;
+    --card-w: clamp(132px, 38vw, 142px) !important;
     --card-h: calc(var(--card-w) * 232 / 132) !important;
     width: var(--card-w) !important;
     height: var(--card-h) !important;
     flex: 0 0 var(--card-w) !important;
+  }
+
+  #player-hand.hand--selection .card--choice .card__portrait {
+    height: clamp(68px, 20vw, 78px) !important;
+  }
+
+  #player-hand.hand--selection .card--choice .card__name {
+    padding: 5px 7px 2px;
+    font-size: clamp(13px, 3.8vw, 15px) !important;
+    line-height: 1.02;
+  }
+
+  #player-hand.hand--selection .card--choice .card__club {
+    min-height: 20px;
+    padding: 0 7px 4px;
+    font-size: clamp(9px, 2.7vw, 10.5px) !important;
+  }
+
+  #player-hand.hand--selection .card--choice .card__stats {
+    gap: 1px;
+    padding: 0 5px 6px;
+  }
+
+  #player-hand.hand--selection .card--choice .stat {
+    min-height: 22px;
+    padding: 3px 5px;
+    font-size: clamp(10px, 2.9vw, 11.5px) !important;
+  }
+
+  #player-hand.hand--selection .card--choice .stat.active {
+    min-height: 25px;
+    font-size: clamp(10.5px, 3vw, 12px) !important;
+  }
+}
+
+@media (max-width: 360px) and (orientation: portrait) {
+  #player-hand.hand--selection .card--choice {
+    --card-w: 132px !important;
+  }
+
+  #pub.is-card-selection #player-zone {
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 0 6px;
   }
 }
 
