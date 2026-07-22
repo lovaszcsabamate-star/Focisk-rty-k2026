@@ -16,6 +16,15 @@
   }
 }
 
+/* A kijelölt választási lap maradjon látható akkor is, ha egy korábbi
+   fázisanimációs szabály a kártyára opacity/visibility értéket örökítene. */
+#player-hand.hand--selection .card--choice.is-selected {
+  display: block !important;
+  position: relative !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* 320 px-es portré mobilnézet: a kétoldali csata megtartása mellett
    a választási lap maradjon kisebb a csatakártyánál. */
 @media (max-width: 340px) and (orientation: portrait) {
