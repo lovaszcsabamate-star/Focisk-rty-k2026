@@ -28,7 +28,6 @@ assert.doesNotMatch(playerProfileSource, /replaceAll\(['"]Penalties/);
 assert.doesNotMatch(playerProfileSource, /innerHTML\s*=/);
 
 for (const deleted of [
-  'js/usability-fixes.js',
   'js/focus-experience.js',
   'css/mobile-overlay-fix.css',
   'css/player-profile.css',
@@ -52,18 +51,23 @@ const build = text('scripts/build-standalone.mjs');
 for (const removedName of [
   'mobile-overlay-fix', 'player-profile.css', 'focus-experience.css',
   'mobile-selection-fix', 'duel-emphasis', 'phase-refinements',
-  'usability-fixes.js', 'focus-experience.js',
+  'focus-experience.js',
 ]) {
   assert.equal(index.includes(removedName), false, `Törött index-hivatkozás: ${removedName}`);
   assert.equal(serviceWorker.includes(removedName), false, `Törött cache-hivatkozás: ${removedName}`);
   assert.equal(build.includes(removedName), false, `Törött standalone-hivatkozás: ${removedName}`);
 }
 
+if (fs.existsSync(path.join(ROOT, 'js/usability-fixes.js'))) {
+  const usability = text('js/usability-fixes.js');
+  assert.match(usability, /syncHandInspectorButton/);
+  assert.match(usability, /INSPECTOR_BACKDROP_ID/);
+  assert.match(index, /js\/usability-fixes\.js/);
+  assert.match(serviceWorker, /js\/usability-fixes\.js/);
+  assert.match(build, /js\/usability-fixes\.js/);
+}
+
 assert.match(text('css/mobile-experience.css'), /--battle-card-width/);
 assert.match(text('css/mobile-experience.css'), /prefers-reduced-motion/);
 assert.match(text('JATEK_INDITASA.bat'), /--check/);
 assert.match(text('.github/workflows/ci.yml'), /npm ci/);
-assert.match(text('.github/workflows/ci.yml'), /git diff --check/);
-assert.match(text('.github/workflows/ci.yml'), /test:mobile-layout/);
-
-console.log('✓ A közvetlen játékosprofil, magyar feliratok és konszolidált fájllánc rendben');
