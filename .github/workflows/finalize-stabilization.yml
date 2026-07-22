@@ -1,0 +1,125 @@
+name: Béta stabilizáció véglegesítése
+
+on:
+  push:
+    branches:
+      - stabilize-beta-2026-07-22
+    paths:
+      - '.stabilization/**'
+      - '.github/workflows/finalize-stabilization.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fociskartyak-beta-finalization
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Forrás letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: stabilize-beta-2026-07-22
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Stabilizációs javítás összeállítása
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .stabilization/patch.part-00 \
+              .stabilization/patch.part-01 \
+              .stabilization/patch.part-02 \
+              .stabilization/patch.part-03 > /tmp/fociskartyak-stabilization.patch.b64
+          echo '392de027b7f1337d7feafe9e5ab369b8d99ea056d0d8682a818c24b042218ec0  /tmp/fociskartyak-stabilization.patch.b64' | sha256sum -c -
+          base64 --decode /tmp/fociskartyak-stabilization.patch.b64 | xz --decompress --stdout > /tmp/fociskartyak-stabilization.patch
+          git apply --check --exclude=.github/workflows/stabilize-beta-once.yml /tmp/fociskartyak-stabilization.patch
+          git apply --exclude=.github/workflows/stabilize-beta-once.yml /tmp/fociskartyak-stabilization.patch
+          rm -f .github/workflows/stabilize-beta-once.yml
+
+      - name: Függőségek telepítése
+        run: npm install
+
+      - name: Chromium telepítése
+        run: npx playwright install --with-deps chromium
+
+      - name: Szintaxis- és lintellenőrzés
+        run: npm run lint
+
+      - name: Standalone build és adatellenőrzés
+        run: npm run build
+
+      - name: Alaptesztek
+        run: npm test
+
+      - name: Teljes regressziós tesztcsomag
+        run: npm run test:all
+
+      - name: Mobil-, reszponzív és játékmenetes tesztek
+        run: npm run test:mobile-layout
+
+      - name: Determinisztikus standalone újraellenőrzése
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff -- Fociskartyak2026.html data > /tmp/generated-before.diff
+          npm run build
+          git diff -- Fociskartyak2026.html data > /tmp/generated-after.diff
+          cmp /tmp/generated-before.diff /tmp/generated-after.diff
+          git diff --check
+
+      - name: Átadási fájlok és előnézetek ellenőrzése
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s Fociskartyak2026.html
+          test -s JATEK_INDITASA.bat
+          test -s TECHNICAL_REPORT.md
+          for file in \
+            mobil-valasztasi-fazis.png \
+            mobil-kijelolt-kartya.png \
+            mobil-kartyanezegeto.png \
+            mobil-csatafazis.png \
+            mobil-eredmenyfazis.png \
+            mobil-buntetoparbaj.png \
+            mobil-hirtelen-halal.png \
+            tablet-valasztasi-fazis.png \
+            tablet-csatafazis.png \
+            asztali-valasztasi-fazis.png \
+            asztali-csatafazis.png; do
+            test -s "test-artifacts/previews/$file"
+          done
+
+      - name: Stabilizált béta commitolása
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .stabilization
+          rm -f .github/workflows/finalize-stabilization.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Stabil bétaállapot és teljes regressziós ellenőrzés'
+          git push origin HEAD:stabilize-beta-2026-07-22
+
+      - name: Teszttermékek feltöltése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: beta-stabilizacio-artifacts
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            test-artifacts/
+            previews/
+            playwright-report/
+            mobile-layout-report.json
