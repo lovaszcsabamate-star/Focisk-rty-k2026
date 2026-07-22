@@ -54,8 +54,8 @@
     backdrop-filter: none;
   }
 
-  #hud-context,
-  #hud .title {
+  #pub.is-card-selection #hud-context,
+  #pub.is-card-selection #hud .title {
     display: none !important;
   }
 
