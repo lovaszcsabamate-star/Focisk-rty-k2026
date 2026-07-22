@@ -48,7 +48,11 @@ jobs:
       - name: Standalone build
         run: npm run build
       - name: Alaptesztek
-        run: npm test
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          npm test 2>&1 | tee test-artifacts/integration-base-tests.log
       - name: Teljes regressziós tesztcsomag
         run: npm run test:all
       - name: Mobil- és Playwright-tesztek
