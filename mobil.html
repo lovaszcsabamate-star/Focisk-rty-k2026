@@ -9,8 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="src/assets/placeholders/app-icon.svg">
   <title>Fociskártyák 2026 – mobilos elérés</title>
   <style>
     :root {
@@ -52,6 +51,7 @@
     .actions { display: grid; gap: 10px; max-width: 420px; margin: 0 auto; }
     .button {
       display: block;
+      min-height: 48px;
       padding: 15px 18px;
       border-radius: 14px;
       text-decoration: none;
@@ -61,6 +61,7 @@
       color: #21150e;
       box-shadow: 0 8px 20px rgba(0,0,0,.25);
     }
+    .button:focus-visible { outline: 3px solid #fff0a3; outline-offset: 3px; }
     .button.secondary {
       background: rgba(255,255,255,.08);
       color: var(--cream);
@@ -93,22 +94,34 @@
       user-select: text;
     }
     .desktop-note { color: var(--muted); font-size: .9rem; }
+    .legal-note {
+      margin: 18px auto 0;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.45;
+      text-align: center;
+    }
     @media (max-width: 520px) {
       .qr-panel { display: none; }
       .hero { padding-top: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 1ms !important; }
     }
   </style>
 </head>
 <body>
   <main>
     <section class="hero">
-      <img class="logo" src="assets/icons/icon.svg" alt="Fociskártyák 2026 ikon">
+      <img class="logo" src="src/assets/placeholders/app-icon.svg" alt="Fociskártyák 2026 semleges projektikon">
       <h1>Fociskártyák 2026</h1>
       <p class="lead">Nyisd meg telefonon a teljes NB I-es kártyajátékot. A játék böngészőből fut, és a kezdőképernyőre is telepíthető.</p>
       <div class="actions">
         <a class="button" href="./">⚽ Játék indítása</a>
         <a class="button secondary" href="Fociskartyak2026.html">🃏 Önálló játékfájl megnyitása</a>
       </div>
+      <p class="legal-note">A Fociskártyák 2026 független projekt. Nem áll hivatalos kapcsolatban a játékban megjelenített klubokkal, ligákkal vagy sportszövetségekkel.</p>
     </section>
 
     <section class="panel">

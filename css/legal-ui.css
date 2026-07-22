@@ -1,0 +1,38 @@
+.menu-independent-project-note {
+  margin: 14px 2px 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(213, 170, 85, .2);
+  color: rgba(242, 230, 208, .68);
+  font-size: clamp(10px, 1.6vw, 12px);
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .menu-independent-project-note {
+    margin-top: 10px;
+    padding-top: 9px;
+    font-size: 10px;
+  }
+}
+
+/* A kijelölt választási lap maradjon látható akkor is, ha egy korábbi
+   fázisanimációs szabály a kártyára opacity/visibility értéket örökítene. */
+#player-hand.hand--selection .card--choice.is-selected {
+  display: block !important;
+  position: relative !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 320 px-es portré mobilnézet: a kétoldali csata megtartása mellett
+   a választási lap maradjon kisebb a csatakártyánál. */
+@media (max-width: 340px) and (orientation: portrait) {
+  #player-hand.hand--selection .card--choice {
+    --card-w: 112px !important;
+    --card-h: calc(112px * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}

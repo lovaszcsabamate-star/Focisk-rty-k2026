@@ -11,8 +11,7 @@
   <meta name="apple-mobile-web-app-title" content="Fociskártyák">
   <title>Fociskártyák 2026</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="src/assets/placeholders/app-icon.svg">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/ux.css">
   <link rel="stylesheet" href="css/matchday.css">
@@ -25,6 +24,8 @@
   <link rel="stylesheet" href="css/mobile-selection-fix.css">
   <link rel="stylesheet" href="css/duel-emphasis.css">
   <link rel="stylesheet" href="css/phase-refinements.css">
+  <link rel="stylesheet" href="css/visual-system.css">
+  <link rel="stylesheet" href="css/legal-ui.css">
 </head>
 <body>
   <div id="app-loading" role="status" aria-live="polite">
@@ -35,7 +36,7 @@
     </div>
   </div>
 
-  <!-- ART: assets/pub/background.png is applied to #pub by ui.js when present -->
+  <!-- ART: only license-approved backgrounds may be applied to #pub. -->
   <div id="pub">
 
     <main id="table">
@@ -84,6 +85,7 @@
     <div class="panel" id="overlay-body"></div>
   </div>
 
+  <script type="module" src="js/branding.js"></script>
   <script type="module" src="js/ux.js"></script>
   <script type="module" src="js/ux-fixes.js"></script>
   <script type="module" src="js/matchday.js"></script>
@@ -93,6 +95,8 @@
   <script type="module" src="js/reliability-fixes.js"></script>
   <script type="module" src="js/usability-fixes.js"></script>
   <script type="module" src="js/focus-experience.js"></script>
+  <script type="module" src="js/visual-system.js"></script>
+  <script type="module" src="js/legal-ui.js"></script>
   <script type="module" src="js/bootstrap.js"></script>
 </body>
 </html>

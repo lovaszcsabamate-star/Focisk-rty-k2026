@@ -1,0 +1,36 @@
+{
+  "chrome": "/usr/bin/google-chrome",
+  "results": [
+    {
+      "mode": "classic",
+      "titleLocalised": true,
+      "loadingHidden": true,
+      "loadingError": false,
+      "overlayHidden": true,
+      "modeClassPresent": true,
+      "visibleCards": 5,
+      "minimumCards": 5,
+      "savedNameVisible": true,
+      "errors": [],
+      "consoleErrors": [],
+      "remoteRequests": [],
+      "failures": []
+    },
+    {
+      "mode": "penalties",
+      "titleLocalised": true,
+      "loadingHidden": true,
+      "loadingError": false,
+      "overlayHidden": true,
+      "modeClassPresent": true,
+      "visibleCards": 11,
+      "minimumCards": 11,
+      "savedNameVisible": true,
+      "errors": [],
+      "consoleErrors": [],
+      "remoteRequests": [],
+      "failures": []
+    }
+  ],
+  "failures": []
+}

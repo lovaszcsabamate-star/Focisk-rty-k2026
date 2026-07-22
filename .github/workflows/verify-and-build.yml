@@ -5,8 +5,12 @@ on:
     branches:
       - main
       - ux/felhasznalobarat-jatekmenet
+      - visual-unification-legal-assets
     paths-ignore:
       - Fociskartyak2026.html
+      - mobile-layout-report.json
+      - runtime-browser-report.json
+      - previews/*.png
       - data/enrichment-audit.json
       - data/players-reviewed.json
       - data/database-review.json
@@ -38,6 +42,9 @@ jobs:
       - name: Szintaktikai ellenőrzés
         run: npm run lint
 
+      - name: Assetlicenc-ellenőrzés
+        run: npm run audit:assets
+
       - name: Önálló HTML és teljes adatfelülvizsgálat elkészítése
         run: npm run build
 
@@ -47,22 +54,50 @@ jobs:
       - name: Valódi Chrome mobilnézeti ellenőrzés
         id: mobile_layout
         continue-on-error: true
-        run: npm run test:mobile-layout
+        run: |
+          set -o pipefail
+          npm run test:mobile-layout 2>&1 | tee mobile-layout-test-output.log
 
-      - name: Mobilnézeti riport mentése
+      - name: Klasszikus és Büntetőpárbaj futásidejű böngészőteszt
+        id: runtime_browser
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run test:runtime 2>&1 | tee runtime-browser-test-output.log
+
+      - name: Asztali fáziselőnézetek elkészítése
+        id: desktop_previews
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run preview:desktop 2>&1 | tee desktop-preview-output.log
+
+      - name: Alkalmazástesztek
+        id: app_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee application-test-output.log
+
+      - name: Teljes tesztcsomag
+        id: full_tests
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run test:all 2>&1 | tee full-test-output.log
+
+      - name: Mobil- és asztali előnézetek, tesztnaplók mentése
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-layout-report
-          path: mobile-layout-report.json
+          name: visual-layout-report-previews-and-tests
+          path: |
+            mobile-layout-report.json
+            runtime-browser-report.json
+            previews/*.png
+            *-output.log
           if-no-files-found: warn
-          retention-days: 14
-
-      - name: Alkalmazástesztek
-        run: npm test
-
-      - name: Teljes tesztcsomag
-        run: npm run test:all
+          retention-days: 30
 
       - name: Formázási hibák ellenőrzése
         run: git diff --check
@@ -71,16 +106,32 @@ jobs:
         if: steps.mobile_layout.outcome == 'failure'
         run: exit 1
 
-      - name: Generált játékfájl és adatfelülvizsgálat mentése
-        if: github.event_name == 'push'
+      - name: Futásidejű böngészőteszt eredményének érvényesítése
+        if: steps.runtime_browser.outcome == 'failure'
+        run: exit 1
+
+      - name: Asztali előnézet eredményének érvényesítése
+        if: steps.desktop_previews.outcome == 'failure'
+        run: exit 1
+
+      - name: Alkalmazástesztek eredményének érvényesítése
+        if: steps.app_tests.outcome == 'failure'
+        run: exit 1
+
+      - name: Teljes tesztcsomag eredményének érvényesítése
+        if: steps.full_tests.outcome == 'failure'
+        run: exit 1
+
+      - name: Generált játékfájl, riport és előnézetek mentése
+        if: github.event_name == 'push' && success()
         run: |
-          GENERATED_FILES="Fociskartyak2026.html data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
+          GENERATED_FILES="Fociskartyak2026.html mobile-layout-report.json runtime-browser-report.json previews/*.png data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
           if git diff --quiet -- $GENERATED_FILES; then
-            echo "Az önálló játékfájl és az adatfelülvizsgálati csomag naprakész."
+            echo "Az önálló játékfájl, a riportok és az előnézetek naprakészek."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $GENERATED_FILES
-          git commit -m "Önálló játékfájl és teljes adatfelülvizsgálat frissítése [skip ci]"
+          git commit -m "Önálló build, vizuális előnézetek és audit frissítése [skip ci]"
           git push

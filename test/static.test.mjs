@@ -252,8 +252,14 @@ assert.equal(
 
 assert.equal(manifest.display, 'standalone');
 assert.equal(manifest.orientation, 'portrait-primary');
-assert.ok(manifest.icons.some(icon => icon.sizes === '192x192'));
-assert.ok(manifest.icons.some(icon => icon.sizes === '512x512'));
+const hasScalableApprovedIcon = manifest.icons.some(icon =>
+  icon.sizes === 'any'
+  && icon.type === 'image/svg+xml'
+  && icon.src === 'src/assets/placeholders/app-icon.svg'
+);
+const hasRasterInstallIcons = manifest.icons.some(icon => icon.sizes === '192x192')
+  && manifest.icons.some(icon => icon.sizes === '512x512');
+assert.ok(hasScalableApprovedIcon || hasRasterInstallIcons, 'Hiányzik a skálázható vagy 192/512 px-es PWA-ikon.');
 assert.match(main, /Klasszikus mód/);
 assert.match(main, /Penalties mód/);
 assert.match(main, /Játék folytatása/);
