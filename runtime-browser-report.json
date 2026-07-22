@@ -1,0 +1,36 @@
+{
+  "chrome": "/usr/bin/google-chrome",
+  "results": [
+    {
+      "mode": "classic",
+      "titleLocalised": true,
+      "loadingHidden": true,
+      "loadingError": false,
+      "modeClassPresent": false,
+      "visibleCards": 7,
+      "savedNameVisible": true,
+      "errors": [],
+      "consoleErrors": [],
+      "remoteRequests": [],
+      "failures": [
+        "a kiválasztott játékmód nem indult el"
+      ]
+    },
+    {
+      "mode": "penalties",
+      "titleLocalised": true,
+      "loadingHidden": true,
+      "loadingError": false,
+      "modeClassPresent": true,
+      "visibleCards": 11,
+      "savedNameVisible": true,
+      "errors": [],
+      "consoleErrors": [],
+      "remoteRequests": [],
+      "failures": []
+    }
+  ],
+  "failures": [
+    "classic: a kiválasztott játékmód nem indult el."
+  ]
+}
