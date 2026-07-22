@@ -84,3 +84,155 @@
     transition-duration: 1ms;
   }
 }
+
+/* ── Three supplied mobile regressions ──────────────────────────────────── */
+
+/* Do not reuse the direct-play ::before badge for the selected state. On some
+   Android WebViews its inherited top/bottom anchors stretched into the large
+   yellow pill visible in the screenshot. The normal badge is hidden and a
+   separate, tightly sized status chip is drawn with ::after instead. */
+#player-hand.hand--selection .card--choice.is-selected::before {
+  content: none;
+}
+
+#player-hand.hand--selection .card--choice.is-selected::after {
+  content: '✓ KIVÁLASZTVA';
+  position: absolute;
+  z-index: 9;
+  top: 7px;
+  left: 50%;
+  width: max-content;
+  height: auto;
+  min-width: 0;
+  max-width: calc(100% - 16px);
+  padding: 4px 8px;
+  border: 1px solid rgba(42, 28, 18, .48);
+  border-radius: 999px;
+  background: var(--brass-light);
+  color: #2a1c12;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .08em;
+  white-space: nowrap;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, .38);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* The category chooser is one horizontal row of large tiles. A neighbouring
+   tile deliberately peeks in, making the right/left swipe direction obvious. */
+@media (max-width: 900px) {
+  #attribute-picker:has(> .attr-btn--mobile) {
+    display: grid;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(86%, 330px);
+    align-items: stretch;
+    width: 100%;
+    max-width: none;
+    gap: 12px;
+    padding: 8px 14px 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: 14px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(201, 162, 39, .58) transparent;
+    touch-action: pan-x;
+  }
+
+  #attribute-picker:has(> .attr-btn--mobile)::-webkit-scrollbar {
+    height: 7px;
+  }
+
+  #attribute-picker:has(> .attr-btn--mobile)::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(201, 162, 39, .58);
+  }
+
+  #attribute-picker:has(> .attr-btn--mobile) .attr-btn--mobile {
+    min-height: 132px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 16px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  #attribute-picker:has(> .attr-btn--mobile) .attr-btn__label {
+    font-size: clamp(17px, 5vw, 21px);
+    line-height: 1.08;
+  }
+
+  #attribute-picker:has(> .attr-btn--mobile) .attr-btn__value {
+    font-size: clamp(13px, 3.8vw, 16px);
+  }
+
+  #attribute-picker:has(> .attr-btn--mobile) .attr-btn__direction {
+    justify-self: auto;
+    padding: 5px 9px;
+    font-size: 10px;
+  }
+}
+
+/* Reserve real columns for both inspector arrows. Previously the 84vw card,
+   two 44px buttons and gaps were wider than the phone viewport, so the right
+   arrow was clipped and only backwards paging remained visible. */
+@media (max-width: 620px) {
+  #inspector {
+    padding-inline: max(6px, env(safe-area-inset-left, 0px));
+  }
+
+  #inspector .inspector__shell {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #inspector .inspector__centre {
+    width: 100%;
+    min-width: 0;
+    touch-action: pan-y;
+  }
+
+  #inspector .card--large {
+    --card-w: min(300px, calc(100vw - 116px));
+    width: var(--card-w);
+    max-width: 100%;
+  }
+
+  #inspector .inspector__nav {
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    justify-self: center;
+  }
+
+  #inspector .inspector__actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, .9fr);
+    gap: 8px;
+  }
+
+  #inspector .inspector__actions .btn {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 8px;
+    font-size: clamp(12px, 4vw, 16px);
+  }
+
+  #inspector .inspector__hint {
+    max-width: 100%;
+    font-size: 9px;
+    text-align: center;
+  }
+}
