@@ -46,7 +46,9 @@ jobs:
         run: npm install
 
       - name: JavaScript ellenőrzés
-        run: npm run lint
+        run: |
+          npm run lint
+          node --check scripts/apply-android-icon.mjs
 
       - name: Offline mobil webcsomag készítése
         run: npm run mobile:prepare
@@ -60,20 +62,11 @@ jobs:
       - name: Mobilcsomag szinkronizálása
         run: npx cap sync android
 
-      - name: FK26 alkalmazásikon elkészítése
+      - name: Fociskártyák alkalmazásikon elkészítése
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
-          for item in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
-            density="${item%%:*}"
-            size="${item##*:}"
-            target="android/app/src/main/res/mipmap-${density}"
-            mkdir -p "$target"
-            convert -background none assets/icons/icon.svg -resize "${size}x${size}" -strip "$target/ic_launcher.png"
-            cp "$target/ic_launcher.png" "$target/ic_launcher_round.png"
-          done
-          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-          rm -f android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          node scripts/apply-android-icon.mjs
 
       - name: Álló tájolás beállítása
         run: |
@@ -124,4 +117,4 @@ jobs:
             dist/Fociskartyak2026-Android.sha256 \
             --target "$GITHUB_SHA" \
             --title "Fociskártyák 2026 – Android" \
-            --notes "Telepíthető, offline Android tesztverzió az FK26 alkalmazásikonnal. Az APK közvetlenül telepíthető Android-eszközre; a rendszer az ismeretlen forrásból származó alkalmazások engedélyezését kérheti."
+            --notes "Telepíthető, offline Android tesztverzió a mellékelt FK26 alkalmazásikonnal. Az APK közvetlenül telepíthető Android-eszközre; a rendszer az ismeretlen forrásból származó alkalmazások engedélyezését kérheti."
