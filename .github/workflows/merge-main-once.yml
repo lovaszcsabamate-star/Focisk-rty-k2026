@@ -32,3 +32,5 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git merge -s ours origin/main -m 'Összehangolja a stabil bétát a legfrissebb main ággal'
           git push origin HEAD:stabilize-beta-2026-07-22
+
+# Újraindítás: pakliválasztás és HLSZ-adatok, 2026-07-22.
