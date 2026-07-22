@@ -1,8 +1,15 @@
 /** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
 
+import { UI } from './ui.js';
+
 export const PLAYER_NAME_STORAGE_KEY = 'fociskartyak:player-name:v1';
 export const DEFAULT_PLAYER_NAME = 'Játékos';
 export const MAX_PLAYER_NAME_LENGTH = 24;
+
+const PROFILE_BASE_METHODS = Object.freeze({
+  renderScores: UI.prototype.renderScores,
+  showOverlay: UI.prototype.showOverlay,
+});
 
 const INTERFACE_TEXT_REPLACEMENTS = Object.freeze([
   [
@@ -58,6 +65,7 @@ export function savePlayerName(value) {
 }
 
 const upperName = () => loadPlayerName().toLocaleUpperCase('hu-HU');
+const scorePair = value => String(value ?? '').match(/(\d+)\s*[–-]\s*(\d+)/u);
 
 function replaceTextNode(node, value) {
   if (node && node.nodeValue !== value) node.nodeValue = value;
@@ -109,7 +117,7 @@ function personalizeGameLabels(root = document) {
 
   const penaltyScore = root.querySelector?.('#hud-scores .penalty-score');
   if (penaltyScore) {
-    const score = penaltyScore.textContent.match(/(\d+)\s*[–-]\s*(\d+)\s+GÉP$/u);
+    const score = scorePair(penaltyScore.textContent);
     if (score) setNodeText(penaltyScore, `${upper} ${score[1]}–${score[2]} GÉP`);
     setFullNameHint(penaltyScore, `${name} – Gép`);
   }
@@ -123,7 +131,7 @@ function personalizeGameLabels(root = document) {
   setFullNameHint(humanAttemptLabel, name);
 
   for (const finalScore of root.querySelectorAll?.('.final-score') ?? []) {
-    const score = finalScore.textContent.match(/(\d+)\s*[–-]\s*(\d+)\s+GÉP$/u);
+    const score = scorePair(finalScore.textContent);
     if (score) setNodeText(finalScore, `${upper} ${score[1]}–${score[2]} GÉP`);
     setFullNameHint(finalScore, `${name} – Gép`);
   }
@@ -133,6 +141,20 @@ function personalizeGameLabels(root = document) {
     replaceTextNode(verdict.firstChild, `GÓL: ${upper}`);
   }
 }
+
+/* Apply the saved name in the same synchronous render pass that creates the
+   scoreboard or the final-result overlay. The MutationObserver remains as a
+   fallback, but these hooks prevent a temporary or persistent "Játékos" label
+   in Android WebViews where animation frames may be delayed. */
+UI.prototype.renderScores = function renderScoresWithSavedPlayerName(...args) {
+  PROFILE_BASE_METHODS.renderScores.apply(this, args);
+  personalizeGameLabels(this.dom.pub);
+};
+
+UI.prototype.showOverlay = function showOverlayWithSavedPlayerName(node) {
+  PROFILE_BASE_METHODS.showOverlay.call(this, node);
+  personalizeGameLabels(this.dom.overlayBody ?? document);
+};
 
 function showInlineStatus(editor, message) {
   const status = editor.querySelector('.player-profile__status');
