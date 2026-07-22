@@ -6,16 +6,19 @@ const read = path => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'ut
 const index = read('index.html');
 const manifest = read('manifest.webmanifest');
 const css = read('css/visual-system.css');
+const sizingCss = read('css/visual-settings-persistence.css');
 const legalCss = read('css/legal-ui.css');
 const visual = read('js/visual-system.js');
+const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
 const branding = read('js/branding.js');
 const legalUi = read('js/legal-ui.js');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
+assert.match(index, /css\/visual-settings-persistence\.css/, 'A méretezésmentés visszajelző stílusa nincs betöltve.');
 assert.match(index, /css\/legal-ui\.css/, 'A kezdőképernyős jogi stílus nincs betöltve.');
-assert.match(index, /js\/branding\.js[\s\S]*js\/visual-system\.js[\s\S]*js\/legal-ui\.js[\s\S]*js\/bootstrap\.js/, 'A branding guardnak, a vizuális és jogi felületnek a bootstrap előtt kell futnia.');
+assert.match(index, /js\/branding\.js[\s\S]*js\/visual-settings-persistence\.js[\s\S]*js\/visual-system\.js[\s\S]*js\/legal-ui\.js[\s\S]*js\/bootstrap\.js/, 'A méretezés visszaállításának a vizuális rendszer előtt kell futnia.');
 assert.match(index, /src\/assets\/placeholders\/app-icon\.svg/, 'Az aktív felületnek a jóváhagyott semleges alkalmazásikont kell használnia.');
 assert.doesNotMatch(index, /assets\/icons\/(?:icon|apple-touch-icon)/, 'Jóváhagyatlan korábbi projektikon nem maradhat az aktív felületen.');
 assert.match(manifest, /src\/assets\/placeholders\/app-icon\.svg/, 'A PWA-manifestnek a jóváhagyott semleges alkalmazásikont kell használnia.');
@@ -57,6 +60,14 @@ assert.match(visual, /highContrast/, 'Hiányzik a nagy kontrasztú mód.');
 assert.match(visual, /card\.tabIndex = 0/, 'A választható kártyáknak billentyűzettel fókuszálhatónak kell lenniük.');
 assert.match(visual, /event\.key !== 'Enter' && event\.key !== ' '/, 'Hiányzik az Enter/Szóköz kártyaválasztás.');
 assert.match(visual, /független projekt/, 'Hiányzik a játéktér független projekt jelzése.');
+
+assert.match(sizingPersistence, /SIZING_BACKUP_KEY\s*=\s*'fociskartyak\.visual-sizing\.v1'/, 'Hiányzik a külön méretezési mentési kulcs.');
+assert.match(sizingPersistence, /restoreExplicitSizing\(\)/, 'A mentett méretezést induláskor vissza kell tölteni.');
+assert.match(sizingPersistence, /Méretezés mentése/, 'Hiányzik a méretezés mentése gomb.');
+assert.match(sizingPersistence, /localStorage\.setItem/, 'A méretezés mentésének helyi tárhelyet kell használnia.');
+assert.match(sizingPersistence, /selectionCardWidth[\s\S]*battleCardWidth[\s\S]*cardGap[\s\S]*battlefieldHeight/, 'Nem minden méretérték kerül mentésre.');
+assert.match(sizingCss, /\.appearance-save-status[\s\S]*data-state='saved'/, 'Hiányzik a sikeres méretezésmentés vizuális visszajelzése.');
+
 assert.match(legalUi, /Büntetőpárbaj/, 'A játékmód magyar felirata nincs egységesítve.');
 assert.match(legalUi, /Nem áll hivatalos kapcsolatban/, 'Hiányzik a kezdőképernyős jogi tájékoztatás.');
 
