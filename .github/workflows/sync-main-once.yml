@@ -11,6 +11,7 @@ on:
       - scripts/fix-visual-tests-once.py
       - scripts/fix-visual-performance-once.py
       - scripts/fix-mobile-carousel-once.py
+      - scripts/fix-carousel-e2e-once.py
       - .github/workflows/sync-main-once.yml
 
 permissions:
@@ -43,6 +44,7 @@ jobs:
           python scripts/fix-visual-tests-once.py
           python scripts/fix-visual-performance-once.py
           python scripts/fix-mobile-carousel-once.py
+          python scripts/fix-carousel-e2e-once.py
       - name: Függőségek telepítése
         run: npm ci
       - name: Chromium telepítése
