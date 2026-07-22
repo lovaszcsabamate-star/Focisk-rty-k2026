@@ -30,7 +30,7 @@ fs.writeFileSync(path.join(MOBILE_DIR, 'index.html'), standalone);
 
 const optionalCopies = [
   ['manifest.webmanifest', 'manifest.webmanifest'],
-  ['src/assets/placeholders', 'src/assets/placeholders'],
+  ['assets/icons', 'assets/icons'],
 ];
 
 for (const [sourceRelative, targetRelative] of optionalCopies) {

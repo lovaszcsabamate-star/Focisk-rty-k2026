@@ -10,7 +10,6 @@ const mobileQr = read('../assets/qr/mobil-eleres.svg');
 const css = read('../css/style.css');
 const matchdayCss = read('../css/matchday.css');
 const mobileExperienceCss = read('../css/mobile-experience.css');
-const mobileOverlayFixCss = read('../css/mobile-overlay-fix.css');
 const matchdayJs = read('../js/matchday.js');
 const mobileExperienceJs = read('../js/mobile-experience.js');
 const pwaCss = read('../css/pwa.css');
@@ -52,7 +51,7 @@ const corrections2 = readJson('../data/club-official-corrections-2.json');
 const corrections3 = readJson('../data/club-official-corrections-3.json');
 const manifest = readJson('../manifest.webmanifest');
 const buildScript = read('../scripts/build-standalone.mjs');
-const workflow = read('../.github/workflows/verify-and-build.yml');
+const workflow = read('../.github/workflows/ci.yml');
 const main = read('../js/main.js');
 const launcher = read('../JATEK_INDITASA.bat');
 const standalone = read('../Fociskartyak2026.html');
@@ -63,7 +62,7 @@ for (const id of ['hud-settings', 'penalty-board', 'sudden-death-banner', 'attri
 }
 assert.match(html, /manifest\.webmanifest/);
 assert.match(html, /css\/mobile-experience\.css/);
-assert.match(html, /css\/mobile-overlay-fix\.css/);
+assert.doesNotMatch(html, /css\/mobile-overlay-fix\.css/);
 assert.match(html, /js\/bootstrap\.js/);
 assert.doesNotMatch(html, /<script type="module" src="js\/main\.js"><\/script>/);
 assert.match(mobile, /Játék indítása/);
@@ -81,7 +80,7 @@ assert.match(pwaJs, /serviceWorker\.register/);
 assert.match(mobileExperienceCss, /safe-area-inset-top/);
 assert.match(mobileExperienceCss, /@media \(max-width: 320px\)/);
 assert.match(mobileExperienceCss, /prefers-reduced-motion/);
-assert.match(mobileOverlayFixCss, /#overlay-body\.panel/);
+assert.match(mobileExperienceCss, /#overlay-body\.panel/);
 assert.match(mobileExperienceJs, /saved-match:v2/);
 assert.match(mobileExperienceJs, /hydrateGame/);
 assert.match(mobileExperienceJs, /kevesebb életkor a jobb/);
@@ -151,7 +150,7 @@ assert.match(serviceWorker, /request\.mode === 'navigate'/);
 assert.match(buildScript, /enrichment-audit\.json/);
 assert.match(buildScript, /officialStatFieldCoverage/);
 assert.match(buildScript, /corrections/);
-assert.match(workflow, /data\/enrichment-audit\.json/);
+assert.match(workflow, /git diff --exit-code -- Fociskartyak2026\.html data/);
 assert.match(workflow, /test:mobile-layout/);
 
 assert.equal(directory.clubs.length, 12);
@@ -184,12 +183,8 @@ assert.equal(etoCompletion.batch.playerCount, 35);
 assert.equal(etoCompletion.records.length, 35);
 assert.equal(kisvardaNationalities.batch.playerCount, 21);
 assert.equal(kisvardaNationalities.records.length, 21);
-assert.equal(finalMissingBasic.batch.playerCount, finalMissingBasic.records.length);
-assert.equal(
-  finalMissingBasic.batch.heightRecordCount,
-  finalMissingBasic.records.filter(record => Number.isFinite(record.heightCm)).length,
-);
-assert.equal(finalMissingBasic.records.filter(record => record.nation || record.position).length, 7);
+assert.equal(finalMissingBasic.batch.playerCount, 7);
+assert.equal(finalMissingBasic.records.length, 7);
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);
@@ -256,16 +251,11 @@ assert.equal(
 
 assert.equal(manifest.display, 'standalone');
 assert.equal(manifest.orientation, 'portrait-primary');
-const hasScalableApprovedIcon = manifest.icons.some(icon =>
-  icon.sizes === 'any'
-  && icon.type === 'image/svg+xml'
-  && icon.src === 'src/assets/placeholders/app-icon.svg'
-);
-const hasRasterInstallIcons = manifest.icons.some(icon => icon.sizes === '192x192')
-  && manifest.icons.some(icon => icon.sizes === '512x512');
-assert.ok(hasScalableApprovedIcon || hasRasterInstallIcons, 'Hiányzik a skálázható vagy 192/512 px-es PWA-ikon.');
+assert.ok(manifest.icons.some(icon => icon.sizes === '192x192'));
+assert.ok(manifest.icons.some(icon => icon.sizes === '512x512'));
 assert.match(main, /Klasszikus mód/);
-assert.match(main, /Penalties mód/);
+assert.match(main, /Büntetőpárbaj/);
+assert.doesNotMatch(main, /Penalties mód|Tizenegyes mód/);
 assert.match(main, /Játék folytatása/);
 assert.match(main, /handleBackAction/);
 assert.match(launcher, /Fociskartyak2026\.html/);

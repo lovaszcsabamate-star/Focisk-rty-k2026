@@ -1,0 +1,154 @@
+name: Main fejlesztések ellenőrzött átvétele
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - scripts/sync-main-once.py
+      - scripts/sync-visual-main-once.py
+      - scripts/sync-usability-main-once.py
+      - scripts/integrate-latest-main-features-once.py
+      - scripts/fix-central-name-export-once.py
+      - scripts/fix-visual-tests-once.py
+      - scripts/fix-visual-performance-once.py
+      - scripts/fix-mobile-carousel-once.py
+      - scripts/fix-carousel-e2e-once.py
+      - scripts/fix-hand-inspector-e2e-once.py
+      - scripts/fix-selection-smoke-once.py
+      - .github/workflows/sync-main-once.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fociskartyak-main-sync-once
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: github.event.pull_request.head.ref == 'stabilize-beta-2026-07-22'
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stabilize-beta-2026-07-22
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Friss main és új források átvétele
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout origin/main -- \
+            js/bootstrap.js \
+            js/deck-selection.js \
+            js/penalties.js \
+            scripts/postprocess-standalone.mjs \
+            data/club-official-enrichment-23-final-missing-basic.json \
+            test/deck-selection.test.mjs \
+            test/final-missing-complete.test.mjs \
+            test/rules.test.mjs
+      - name: Alap main portolás
+        run: python scripts/sync-main-once.py
+      - name: Központi névsegéd exportálása
+        run: python scripts/fix-central-name-export-once.py
+      - name: Vizuális rendszer portolása
+        run: python scripts/sync-visual-main-once.py
+      - name: Inspector rendszer portolása
+        run: python scripts/sync-usability-main-once.py
+      - name: Vizuális tesztek frissítése
+        run: python scripts/fix-visual-tests-once.py
+      - name: Vizuális megfigyelők optimalizálása
+        run: python scripts/fix-visual-performance-once.py
+      - name: Mobil kategóriakarusszel javítása
+        run: python scripts/fix-mobile-carousel-once.py
+      - name: Karusszel E2E frissítése
+        run: python scripts/fix-carousel-e2e-once.py
+      - name: Kézszintű nagyító E2E frissítése
+        run: python scripts/fix-hand-inspector-e2e-once.py
+      - name: Mobil választási teszthatár frissítése
+        run: python scripts/fix-selection-smoke-once.py
+      - name: Pakliválasztás kiadási bekötése
+        run: python scripts/integrate-latest-main-features-once.py
+      - name: Függőségek telepítése
+        run: npm ci
+      - name: Chromium telepítése
+        run: npx playwright install --with-deps chromium
+      - name: Szintaxis- és lintellenőrzés
+        run: npm run lint
+      - name: Assetlicenc-ellenőrzés
+        run: npm run audit:assets
+      - name: Standalone build
+        run: npm run build
+      - name: Alaptesztek
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          set -o pipefail
+          npm test 2>&1 | tee test-artifacts/integration-base-tests.log
+      - name: Teljes regressziós tesztcsomag
+        run: npm run test:all
+      - name: Mobil elrendezési smoke
+        run: node scripts/mobile-layout-smoke.mjs
+      - name: Mobil kiválasztási smoke
+        run: node scripts/mobile-selection-smoke.mjs
+      - name: Mobil fázis-smoke
+        run: node scripts/mobile-phase-smoke.mjs
+      - name: Gyors Klasszikus E2E kapu
+        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs --grep "mobil Klasszikus mód"
+      - name: Teljes Playwright játékmenet
+        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs
+      - name: Futásidejű böngészőteszt
+        run: npm run test:runtime
+      - name: Asztali fáziselőnézetek
+        run: npm run preview:desktop
+      - name: Git formázási ellenőrzés
+        run: git diff --check
+      - name: Ellenőrzött változások commitolása
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p test-artifacts
+          rm -rf playwright-report test-results previews
+          rm -f mobile-layout-report.json runtime-browser-report.json
+          rm -f test-artifacts/integration-*.log
+          {
+            echo '=== Munkafa commit előtt ==='
+            git status --short
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -A
+            echo '=== Staged változások ==='
+            git diff --cached --stat
+            if git diff --cached --quiet; then
+              echo 'Nincs commitolható változás.'
+              exit 1
+            fi
+            git commit -m 'Átvezeti a legfrissebb main fejlesztéseit a stabil bétába'
+            git fetch origin stabilize-beta-2026-07-22
+            remote_ref='origin/stabilize-beta-2026-07-22'
+            if ! git merge-base --is-ancestor "$remote_ref" HEAD; then
+              echo 'Az ág időközben előrelépett; rebase indul.'
+              git rebase "$remote_ref"
+            fi
+            git push origin HEAD:stabilize-beta-2026-07-22
+          } 2>&1 | tee test-artifacts/git-publish.log
+      - name: Teszttermékek feltöltése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-sync-artifacts
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            test-artifacts/
+            previews/
+            playwright-report/
+            mobile-layout-report.json
+            runtime-browser-report.json

@@ -1,31 +1,38 @@
-/** Football-broadcast scoreboard and match-rule copy. Loaded after the UX layer. */
+/** Football-broadcast scoreboard rendered directly from session state. */
 
 import { UI, el } from './ui.js';
 import { AI, HUMAN, PHASE } from './engine.js';
 
-const matchdayPreviousClassicScores = UI.prototype._renderClassicScores;
-const matchdayPreviousPenaltyScores = UI.prototype._renderPenaltyScores;
-const matchdayPreviousShowOverlay = UI.prototype.showOverlay;
+const previousClassicScores = UI.prototype._renderClassicScores;
+const previousPenaltyScores = UI.prototype._renderPenaltyScores;
+const sideLabel = (side, playerName) => side === HUMAN ? playerName : 'Gép';
+const otherSide = side => side === HUMAN ? AI : HUMAN;
 
-const matchdaySideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
-const matchdayOtherSide = side => side === HUMAN ? AI : HUMAN;
-
-function matchdayScoreboardStatus(game) {
+function scoreboardStatus(game, playerName) {
   if (game.phase === PHASE.GAME_OVER) return 'VÉGEREDMÉNY';
-  if (game.phase === PHASE.REVEAL) return `KÖVETKEZŐ VÁLASZTÓ: ${matchdaySideLabel(matchdayOtherSide(game.chooser)).toUpperCase()}`;
-  return `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
+  if (game.phase === PHASE.REVEAL) return `KÖVETKEZŐ VÁLASZTÓ: ${sideLabel(otherSide(game.chooser), playerName).toLocaleUpperCase('hu-HU')}`;
+  return `KATEGÓRIÁT VÁLASZT: ${sideLabel(game.chooser, playerName).toLocaleUpperCase('hu-HU')}`;
 }
 
 UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human, ai) {
+  const playerName = this.playerName;
+  const opponentName = globalThis.__FOCISKARTYAK_OPPONENT__?.name ?? 'Gép';
   const board = el('div', `match-scoreboard${game.mode === 'penalties' ? ' match-scoreboard--penalties' : ''}`);
-  const status = matchdayScoreboardStatus(game);
+  const status = scoreboardStatus(game, playerName);
   board.setAttribute('role', 'status');
   board.setAttribute('aria-live', 'polite');
-  board.setAttribute('aria-label', `Játékos ${human}, Gép ${ai}. ${status.toLowerCase()}.`);
+  board.setAttribute('aria-label', `${playerName} ${human}, ${opponentName} ${ai}. ${status.toLocaleLowerCase('hu-HU')}.`);
 
-  const competition = el('div', 'match-scoreboard__competition', game.mode === 'penalties' ? 'TIZENEGYESEK' : 'NB I KÁRTYAMECCS');
+  const opponent = globalThis.__FOCISKARTYAK_OPPONENT__;
+  const prefix = opponent && Number.isFinite(opponent.level) && Number.isFinite(opponent.overall)
+    ? `${opponent.level}. SZINT · OVR ${opponent.overall} · `
+    : '';
+  const competition = el('div', 'match-scoreboard__competition', `${prefix}${game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'NB I KÁRTYAMECCS'}`);
   const home = el('div', 'match-team match-team--home');
-  home.append(el('span', 'match-team__crest', '⚽'), el('span', 'match-team__name', 'JÁTÉKOS'));
+  const homeName = el('span', 'match-team__name', playerName.toLocaleUpperCase('hu-HU'));
+  homeName.dataset.playerName = 'upper';
+  homeName.title = playerName;
+  home.append(el('span', 'match-team__crest', '⚽'), homeName);
 
   const score = el('div', 'match-scoreboard__score');
   score.append(
@@ -35,36 +42,21 @@ UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human
   );
 
   const away = el('div', 'match-team match-team--away');
-  away.append(el('span', 'match-team__name', 'GÉP'), el('span', 'match-team__crest', '🤖'));
-
+  away.append(el('span', 'match-team__name', opponentName.toLocaleUpperCase('hu-HU')), el('span', 'match-team__crest', '🤖'));
   const possession = el('div', 'match-scoreboard__status', status);
   board.append(competition, home, score, away, possession);
   return board;
 };
 
 UI.prototype._renderClassicScores = function renderClassicMatchScore(game) {
-  matchdayPreviousClassicScores.call(this, game);
+  previousClassicScores.call(this, game);
   const { [HUMAN]: human, [AI]: ai } = game.scores;
   this.dom.hudScores.replaceChildren(this._renderMatchScoreboard(game, human, ai));
 };
 
 UI.prototype._renderPenaltyScores = function renderPenaltyMatchScore(game) {
-  matchdayPreviousPenaltyScores.call(this, game);
+  previousPenaltyScores.call(this, game);
   const human = game.scores[HUMAN];
   const ai = game.scores[AI];
   this.dom.hudScores.replaceChildren(this._renderMatchScoreboard(game, human, ai));
-};
-
-UI.prototype.showOverlay = function showAlternatingChooserRules(node) {
-  matchdayPreviousShowOverlay.call(this, node);
-
-  const classicRules = node.querySelector?.('[data-rules="classic"]');
-  if (classicRules) {
-    classicRules.innerHTML = '<b>Klasszikus szabály:</b> A két fél körönként felváltva választ kategóriát. A kör győztese viszi a két lapot és a döntetlenpaklit.';
-  }
-
-  const penaltyRules = node.querySelector?.('[data-rules="penalties"]');
-  if (penaltyRules) {
-    penaltyRules.innerHTML = '<b>Tizenegyes szabály:</b> A két fél párbajonként felváltva választ kategóriát. 11 lap, öt rendes párbaj, döntetlennél hirtelen halál; azonos értéknél nincs gól.';
-  }
 };

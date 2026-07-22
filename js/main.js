@@ -17,7 +17,15 @@ import {
   saveBooleanSetting,
   setOnboardingCompleted,
   writeSavedMatch,
+  adjustedTurnDelay,
 } from './mobile-experience.js';
+import {
+  createPlayerNameEditor,
+  loadPlayerName,
+  savePlayerName,
+  subscribePlayerName,
+} from './player-profile.js';
+import { syncSavedReliabilityOpponent } from './reliability-fixes.js';
 
 const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
@@ -41,7 +49,15 @@ class Session {
       onOpenSettings: () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })),
     }, this.settings);
     this.busy = false;
+    this.actionToken = 0;
     this.game = null;
+    this.playerName = loadPlayerName();
+    this.ui.setPlayerName(this.playerName);
+    this.unsubscribePlayerName = subscribePlayerName(name => {
+      this.playerName = name;
+      this.ui.setPlayerName(name);
+      this.saveCurrentGame();
+    });
     this.overlayReturn = null;
     this.exitTapAt = 0;
     applyExperienceSettings(this.settings);
@@ -50,7 +66,8 @@ class Session {
   }
 
   delay(milliseconds) {
-    return wait(this.settings.animations ? milliseconds : Math.min(milliseconds, 90));
+    if (!this.settings.animations || document.documentElement.classList.contains('ux-reduced-motion')) return Promise.resolve();
+    return wait(adjustedTurnDelay(milliseconds, this.ui.dom.prompt?.textContent ?? ''));
   }
 
   toggleSetting(key, forcedValue) {
@@ -69,13 +86,17 @@ class Session {
     window.addEventListener('pagehide', () => this.saveCurrentGame());
     window.addEventListener('error', event => {
       console.error('[ui] Nem kezelt hiba:', event.error ?? event.message);
-      this.ui.showToast('Váratlan hiba történt. A játékállást megőriztük.', 'error', 3200);
       this.saveCurrentGame();
+      this.busy = false;
+      this.ui.recoverInteraction();
+      this.ui.showToast('Váratlan hiba történt. A játékállást megőriztük. Folytathatod vagy újraindíthatod a mérkőzést.', 'error', 4200);
     });
     window.addEventListener('unhandledrejection', event => {
       console.error('[ui] Nem kezelt aszinkron hiba:', event.reason);
-      this.ui.showToast('Egy művelet nem fejeződött be. Próbáld újra.', 'error', 3200);
       this.saveCurrentGame();
+      this.busy = false;
+      this.ui.recoverInteraction();
+      this.ui.showToast('Egy művelet nem fejeződött be. A mentés megmaradt; próbáld újra.', 'error', 3800);
     });
 
     try {
@@ -148,14 +169,14 @@ class Session {
       ${saved ? `
         <button class="btn btn--continue" id="continue-btn">
           <span>▶ Játék folytatása</span>
-          <small>${saved.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${this._savedTimeLabel(saved.savedAt)}</small>
+          <small>${saved.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'} · ${this._savedTimeLabel(saved.savedAt)}</small>
         </button>
       ` : ''}
 
       <h2 class="menu-section-title">Új játék</h2>
       <div class="primary-mode-actions">
         <button class="btn mode-start" id="start-btn"><span>🃏 Klasszikus mód</span><small>52 lapos kártyameccs</small></button>
-        <button class="btn mode-start" id="penalties-btn"><span>⚽ Penalties mód</span><small>11 lap, öt rendes párbaj</small></button>
+        <button class="btn mode-start" id="penalties-btn"><span>⚽ Büntetőpárbaj</span><small>11 lap, öt rendes párbaj</small></button>
       </div>
 
       <details class="opponent-details">
@@ -173,6 +194,11 @@ class Session {
       </div>
       <div class="deck-source">${this._deckLabel()}</div>
     `;
+
+    const homeProfile = createPlayerNameEditor('home');
+    const intro = [...panel.children].find(node => node.tagName === 'P' && !node.classList.contains('eyebrow'));
+    if (intro) intro.after(homeProfile);
+    else panel.prepend(homeProfile);
 
     panel.querySelector('#continue-btn')?.addEventListener('click', () => this.resumeSavedMatch(), { once: true });
     panel.querySelector('#start-btn').addEventListener('click', () => this.startFromMenu('classic', panel), { once: true });
@@ -234,7 +260,7 @@ class Session {
 
   showOnboarding(forced = false) {
     const slides = [
-      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.'],
+      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.'],
       ['🃏', 'Nézd meg a saját lapjaidat', 'A kéz oldalra húzható. Koppints egy kártyára, a nagyítóval pedig megnyithatod a részleteit.'],
       ['📊', 'Válassz kategóriát', 'A gomb megmutatja, hogy több vagy kevesebb érték számít jobbnak, és a legjobb saját értékedet is.'],
       ['🏆', 'Gyűjts több lapot', 'A kör győztese viszi a lapokat. Döntetlennél a lapok a közös pakliba kerülnek.'],
@@ -293,7 +319,7 @@ class Session {
         <p><b>${Math.min(GAME_DECK_SIZE, this.deck.length)} véletlenszerű lap</b> kerül játékba. A két fél körönként felváltva választ kategóriát. A győztes viszi a két lapot és a döntetlenpaklit.</p>
       </section>
       <section class="rule-card" data-rules="penalties">
-        <h2>⚽ Penalties mód</h2>
+        <h2>⚽ Büntetőpárbaj</h2>
         <p>Mindkét fél 11 lapot kap. Öt rendes párbaj következik; döntetlennél hirtelen halál. Azonos értéknél nincs gól.</p>
       </section>
       <section class="rule-card">
@@ -327,6 +353,7 @@ class Session {
       ['simplified', '◻ Egyszerűsített nézet', 'Kevesebb dekoráció és vizuális zaj'],
     ];
     const list = panel.querySelector('.settings-list');
+    list.before(createPlayerNameEditor('settings'));
     for (const [key, label, description] of rows) {
       const row = el('label', 'setting-switch');
       const copy = el('span', 'setting-switch__copy');
@@ -359,7 +386,7 @@ class Session {
     panel.innerHTML = `
       <p class="eyebrow">A játék szünetel</p>
       <h1>Szünet</h1>
-      <p>${this.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${this.game.round}. ${this.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
+      <p>${this.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'} · ${this.game.round}. ${this.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
       <div class="pause-actions">
         <button class="btn" id="resume-btn">▶ Játék folytatása</button>
         <button class="btn btn--ghost" id="restart-btn">↻ Újrakezdés</button>
@@ -379,6 +406,9 @@ class Session {
 
   start(mode, difficulty) {
     clearSavedMatch();
+    this.actionToken += 1;
+    this.playerName = loadPlayerName();
+    this.ui.setPlayerName(this.playerName);
     this.mode = mode;
     this.difficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
     this.busy = false;
@@ -405,7 +435,7 @@ class Session {
   showPenaltyIntro() {
     const panel = el('div', 'penalty-intro');
     panel.innerHTML = `
-      <p class="eyebrow">Penalties mód</p>
+      <p class="eyebrow">Büntetőpárbaj</p>
       <h1>11 lap. 5 rendes párbaj.</h1>
       <p>Döntetlennél hirtelen halál. A felhasznált lapok külön pakliba kerülnek.</p>
       <button class="btn" id="kickoff-btn">Kezdődhet</button>
@@ -422,6 +452,8 @@ class Session {
 
   beginRound() {
     const game = this.game;
+    this.actionToken += 1;
+    this.ui.setPhaseState('idle');
     if (!game) return;
     this.busy = false;
     this.ui.setInteractionBusy(false);
@@ -447,6 +479,7 @@ class Session {
     this.ui.say(getLine('youChooseAttribute', { attributeKey }));
     this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[attributeKey].label);
     this.ui.renderHands(this.game, { selectable: true, inspectAttribute: attributeKey });
+    this.ui.setPhaseState('selection');
     this.awaitingChooserCard = true;
     this.saveCurrentGame();
   }
@@ -467,6 +500,7 @@ class Session {
     this.ui.setPrompt('A gép ezt választotta:', label);
     this.ui.showDuel(game, { opponentHidden: true });
     this.ui.renderHands(game, { selectable: true });
+    this.ui.setPhaseState('selection');
     this.awaitingChooserCard = false;
     this.busy = false;
     this.ui.setInteractionBusy(false);
@@ -475,14 +509,20 @@ class Session {
 
   async humanPlayedCard(card) {
     if (this.busy || !this.game || this.game.phase === PHASE.GAME_OVER) return;
+    const game = this.game;
+    const token = ++this.actionToken;
     this.busy = true;
     this.ui.setInteractionBusy(true);
+    const transitionDelay = this.ui.beginBattleTransition(card.id);
+    if (transitionDelay) await wait(transitionDelay);
+    if (this.game !== game || token !== this.actionToken) return;
     let result;
 
     try {
       if (this.awaitingChooserCard) {
         this.game.chooseAttribute(this.pendingAttribute, card.id);
         this.awaitingChooserCard = false;
+        this.ui.finishBattleTransition();
         this.ui.showDuel(this.game, { opponentHidden: true });
         this.ui.renderHands(this.game, { selectable: false });
         this.ui.setPrompt('A gép kártyát választ…');
@@ -491,6 +531,7 @@ class Session {
         result = this.game.playCard(AI, aiCardId);
       } else {
         result = this.game.playCard(HUMAN, card.id);
+        this.ui.finishBattleTransition();
         this.ui.renderHands(this.game, { selectable: false });
         await this.delay(250);
       }
@@ -498,13 +539,15 @@ class Session {
     } catch (error) {
       console.error('[round] A kör nem fejezhető be:', error);
       this.busy = false;
-      this.ui.setInteractionBusy(false);
-      this.ui.showToast('A kört nem sikerült lezárni. Próbáld újra.', 'error');
+      this.ui.recoverInteraction();
+      this.ui.setPhaseState('selection');
+      this.ui.showToast('A kört nem sikerült lezárni. A játékállás megmaradt; próbáld újra.', 'error', 3600);
       this.saveCurrentGame();
     }
   }
 
   async revealAndScore(result) {
+    this.ui.finishBattleTransition();
     this.ui.showDuel(this.game, { result });
     this.ui.setPrompt('Eredmény');
     await this.delay(320);
@@ -583,10 +626,12 @@ class Session {
       pendingAttribute: this.pendingAttribute,
       awaitingChooserCard: this.awaitingChooserCard,
       uxStats: this.ui.uxStats,
+      playerName: this.playerName,
     });
   }
 
   resumeSavedMatch() {
+    syncSavedReliabilityOpponent();
     const saved = readSavedMatch();
     if (!saved) {
       this.ui.showToast('Nincs folytatható mentett játék', 'error');
@@ -596,6 +641,9 @@ class Session {
 
     try {
       this.mode = saved.mode;
+      if (saved.playerName) this.playerName = savePlayerName(saved.playerName);
+      else this.playerName = loadPlayerName();
+      this.ui.setPlayerName(this.playerName);
       this.difficulty = validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty();
       this.pendingAttribute = saved.pendingAttribute;
       this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
@@ -613,8 +661,7 @@ class Session {
       this.ui.showToast('Mentett játék folytatva', 'success');
     } catch (error) {
       console.error('[save] A mentett játék nem állítható vissza:', error);
-      clearSavedMatch();
-      this.ui.showToast('A mentés sérült, ezért új játék szükséges.', 'error', 3400);
+      this.ui.showToast('A mentés nem olvasható. Nem töröltük; új játék indítása előtt a Beállításokban eltávolítható.', 'error', 4300);
       this.showTitleScreen({ offerOnboarding: false });
     }
   }
@@ -650,7 +697,7 @@ class Session {
     if (game.phase === PHASE.REVEAL && game.lastResult) {
       this.ui.renderHands(game, { selectable: false });
       this.ui.showDuel(game, { result: game.lastResult });
-      this.ui.showVerdict(game.lastResult, game);
+      this.ui.showVerdict(game.lastResult, game, { silent: true, skipRecord: true });
       this.showContinue();
       return;
     }
@@ -674,7 +721,8 @@ class Session {
     const result = this.game.result();
     const won = result.winner === HUMAN;
     this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
-    const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
+    const resultTone = result.winner === 'tie' ? 'tie' : (won ? 'win' : 'loss');
+    const panel = el('div', `result-panel result-panel--${resultTone}`);
 
     if (this.mode === 'penalties') {
       const best = result.bestCategories.length
@@ -683,7 +731,7 @@ class Session {
       panel.innerHTML = `
         <p class="result-kicker">${result.stage === 'hirtelen halál' ? '⚠ Hirtelen halál' : '⏱ Rendes játékidő'}</p>
         <h1>${won ? 'GYŐZELEM' : 'VERESÉG'}</h1>
-        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
+        <div class="final-score"><span data-player-name="upper"></span> ${result.human}–${result.ai} GÉP</div>
         <dl class="result-stats">
           <div><dt>Felhasznált párbajok</dt><dd>${result.duels}</dd></div>
           <div><dt>Eldőlt</dt><dd>${result.stage}</dd></div>
@@ -701,6 +749,11 @@ class Session {
       `;
     }
 
+    const finalName = panel.querySelector('[data-player-name]');
+    if (finalName) {
+      finalName.textContent = this.playerName.toLocaleUpperCase('hu-HU');
+      finalName.title = this.playerName;
+    }
     panel.querySelector('#rematch-btn').addEventListener('click', () => this.start(this.mode, this.difficulty), { once: true });
     panel.querySelector('#menu-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
     this._showPanel(panel, () => this.showTitleScreen({ offerOnboarding: false }));
@@ -708,4 +761,5 @@ class Session {
 }
 
 const { players, source, meta } = await loadPlayers();
-new Session(players, source, meta);
+const session = new Session(players, source, meta);
+if (new URLSearchParams(location.search).has('e2e')) globalThis.__FOCISKARTYAK_SESSION__ = session;

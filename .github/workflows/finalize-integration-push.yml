@@ -1,0 +1,148 @@
+name: Integráció véglegesítése
+
+on:
+  push:
+    branches:
+      - stabilize-beta-2026-07-22
+    paths:
+      - .github/workflows/finalize-integration-push.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fociskartyak-final-integration
+  cancel-in-progress: true
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stabilize-beta-2026-07-22
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Legfrissebb main és új források átvétele
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout origin/main -- \
+            js/bootstrap.js \
+            js/deck-selection.js \
+            js/penalties.js \
+            scripts/postprocess-standalone.mjs \
+            data/club-official-enrichment-23-final-missing-basic.json \
+            test/deck-selection.test.mjs \
+            test/final-missing-complete.test.mjs \
+            test/rules.test.mjs
+
+      - name: Stabilizációs és főági funkciók integrálása
+        run: |
+          python scripts/sync-main-once.py
+          python scripts/fix-central-name-export-once.py
+          python scripts/sync-visual-main-once.py
+          python scripts/sync-usability-main-once.py
+          python scripts/fix-visual-tests-once.py
+          python scripts/fix-visual-performance-once.py
+          python scripts/fix-mobile-carousel-once.py
+          python scripts/fix-carousel-e2e-once.py
+          python scripts/fix-hand-inspector-e2e-once.py
+          python scripts/fix-selection-smoke-once.py
+          python scripts/integrate-latest-main-features-once.py
+
+      - name: Függőségek és Chromium telepítése
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Lint, assetaudit és build
+        run: |
+          npm run lint
+          npm run audit:assets
+          npm run build
+
+      - name: Alap- és teljes regressziós tesztek
+        run: |
+          npm test
+          npm run test:all
+
+      - name: Mobil Chrome-smoke tesztek
+        run: |
+          node scripts/mobile-layout-smoke.mjs
+          node scripts/mobile-selection-smoke.mjs
+          node scripts/mobile-phase-smoke.mjs
+
+      - name: Gyors Klasszikus E2E kapu
+        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs --grep "mobil Klasszikus mód"
+
+      - name: Teljes Playwright játékmenet
+        run: CI= npx playwright test test/e2e/mobile-layout.spec.mjs
+
+      - name: Runtime és asztali előnézetek
+        run: |
+          npm run test:runtime
+          npm run preview:desktop
+
+      - name: Determinisztikus standalone és formázás
+        shell: bash
+        run: |
+          set -euo pipefail
+          before="$(sha256sum Fociskartyak2026.html | cut -d' ' -f1)"
+          npm run build
+          after="$(sha256sum Fociskartyak2026.html | cut -d' ' -f1)"
+          test "$before" = "$after"
+          git diff --check
+
+      - name: Végleges commit, takarítás és main-szinkron
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf playwright-report test-results previews
+          rm -f mobile-layout-report.json runtime-browser-report.json
+          rm -f test-artifacts/integration-*.log
+          rm -f .github/workflows/sync-main-once.yml
+          rm -f .github/workflows/merge-main-once.yml
+          rm -f .github/workflows/finalize-integration-push.yml
+          rm -f .github/workflows/sync-latest-main-push.yml
+          rm -f scripts/sync-main-once.py
+          rm -f scripts/sync-visual-main-once.py
+          rm -f scripts/sync-usability-main-once.py
+          rm -f scripts/integrate-latest-main-features-once.py
+          rm -f scripts/fix-central-name-export-once.py
+          rm -f scripts/fix-visual-tests-once.py
+          rm -f scripts/fix-visual-performance-once.py
+          rm -f scripts/fix-mobile-carousel-once.py
+          rm -f scripts/fix-carousel-e2e-once.py
+          rm -f scripts/fix-hand-inspector-e2e-once.py
+          rm -f scripts/fix-selection-smoke-once.py
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Véglegesíti a stabil bétát a legfrissebb main fejlesztéseivel'
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            git merge -s ours origin/main -m 'Összehangolja a stabil bétát a legfrissebb main ággal'
+          fi
+          git push origin HEAD:stabilize-beta-2026-07-22
+
+      - name: Teszttermékek feltöltése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-integration-artifacts
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            test-artifacts/
+            playwright-report/
+            mobile-layout-report.json
+            runtime-browser-report.json
+
+# Újraindítás a konfliktusmentes ág és a legfrissebb main alapján.

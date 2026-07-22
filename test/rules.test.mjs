@@ -36,20 +36,9 @@ const newGame = () => {
 };
 
 assert.throws(
-  () => new PenaltyGame({ players: players.slice(0, 10), rng: fixedRng }),
-  /legalább 11 játékos/,
+  () => new PenaltyGame({ players: players.slice(0, 21), rng: fixedRng }),
+  /legalább 22 játékos/,
 );
-
-// A filtered 11-card pool remains playable by mirroring independent AI copies.
-{
-  const game = new PenaltyGame({ players: players.slice(0, 11).map(item => structuredClone(item)), rng: fixedRng });
-  assert.equal(game.sharedPool, true);
-  assert.equal(game.teams[HUMAN].length, 11);
-  assert.equal(game.teams[AI].length, 11);
-  assert.equal(new Set(game.teams[HUMAN].map(item => item.id)).size, 11);
-  assert.equal(new Set(game.teams[AI].map(item => item.id)).size, 11);
-  assert.equal(game.teams[AI].every(item => item.meta?.mirrorOf), true);
-}
 
 const duel = (game, humanGoals, aiGoals, { advance = true } = {}) => {
   const humanCard = game.hands[HUMAN][0];
@@ -71,7 +60,6 @@ const duel = (game, humanGoals, aiGoals, { advance = true } = {}) => {
   assert.equal(new Set(humanIds).size, 11);
   assert.equal(new Set(aiIds).size, 11);
   assert.equal(humanIds.some(id => aiIds.includes(id)), false);
-  assert.equal(game.sharedPool, false);
 }
 
 // Exact dates decide between players who are the same whole-year age.

@@ -140,7 +140,8 @@ UI.prototype.resetTable = function resetFriendlyTable() {
     biggestWin: null,
     closestDuel: null,
   };
-  this.dom.pub.classList.remove('ux-banter-open');
+  this.dom.pub.classList.remove('ux-banter-open', 'is-card-selection', 'is-battle-active', 'is-duel-focus', 'is-battle-transition');
+  this.dom.playerHand.classList.remove('hand--selection');
   this._uxSetStep(0);
 };
 
@@ -171,13 +172,23 @@ UI.prototype.renderCard = function renderFriendlyCard(card, opts = {}) {
     node.appendChild(button);
   }
 
+  const markSelected = () => {
+    if (!directPlay) return;
+    for (const choice of this.dom.playerHand.querySelectorAll('.card--choice')) {
+      const selected = choice === node;
+      choice.classList.toggle('is-selected', selected);
+      choice.setAttribute('aria-pressed', String(selected));
+    }
+  };
   const activate = event => {
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
     if (event.type === 'keydown') event.preventDefault();
     if (event.target.closest?.('.card__inspect')) return;
+    markSelected();
     if (directPlay) directPlay(card);
     else inspect?.(card);
   };
+  node.addEventListener('pointerdown', markSelected, { passive: true });
 
   if (directPlay || inspect) {
     node.tabIndex = 0;
@@ -187,7 +198,8 @@ UI.prototype.renderCard = function renderFriendlyCard(card, opts = {}) {
   }
 
   if (directPlay) {
-    node.classList.add('selectable', 'card--direct-play');
+    node.classList.add('selectable', 'card--direct-play', 'card--choice');
+    node.setAttribute('aria-pressed', 'false');
     node.title = `${card.name} kijátszása`;
     node.setAttribute('aria-label', `${card.name} kijátszása. A nagyítóval a részletek nyithatók meg.`);
   } else if (inspect) {
@@ -222,7 +234,15 @@ UI.prototype.renderHands = function renderFriendlyHands(game, { selectable = fal
     });
   }));
 
-  if (selectable) this._uxSetStep(2);
+  this.dom.pub.classList.toggle('is-card-selection', selectable);
+  this.dom.playerHand.classList.toggle('hand--selection', selectable);
+  if (selectable) {
+    this.dom.pub.classList.remove('is-battle-active', 'is-duel-focus');
+    this.dom.playerHand.setAttribute('aria-label', 'Választható játékoskártyák. Húzd oldalra a sort, majd koppints egy lapra.');
+    this._uxSetStep(2);
+  } else {
+    this.dom.playerHand.removeAttribute('aria-label');
+  }
 
   // The chooser may revise the category until a card has actually been played.
   if (selectable && inspectAttribute) {
@@ -269,7 +289,7 @@ UI.prototype.setPrompt = function setFriendlyPrompt(text, highlight) {
   this.dom.prompt.appendChild(direction);
 };
 
-UI.prototype.showVerdict = function showFriendlyVerdict(result, game) {
+UI.prototype.showVerdict = function showFriendlyVerdict(result, game, { silent = false, skipRecord = false } = {}) {
   const attribute = ATTRIBUTE_BY_KEY[result.attribute];
   const humanValue = formatAttribute(result.humanCard, result.attribute);
   const aiValue = formatAttribute(result.aiCard, result.attribute);
@@ -283,19 +303,19 @@ UI.prototype.showVerdict = function showFriendlyVerdict(result, game) {
   if (result.winner === 'tie') {
     node.className = 'tie';
     node.append('DÖNTETLEN', el('small', null, `${detail}${isPenalty ? ' · nincs gól' : ' · a lapok az asztalon maradnak'}`));
-    this.playSound('tie');
+    if (!silent) this.playSound('tie');
   } else if (result.winner === HUMAN) {
     node.className = 'win';
     node.append(isPenalty ? 'GÓL A JÁTÉKOSNAK' : 'A TIÉD A KÖR', el('small', null, detail + pot));
-    this.playSound('win');
+    if (!silent) this.playSound('win');
   } else {
     node.className = 'lose';
     node.append(isPenalty ? 'GÓL A GÉPNEK' : 'A GÉPÉ A KÖR', el('small', null, detail + pot));
-    this.playSound('loss');
+    if (!silent) this.playSound('loss');
   }
 
   this._uxSetStep(3);
-  this._uxRecordResult(result);
+  if (!skipRecord) this._uxRecordResult(result);
 };
 
 UI.prototype._uxRecordResult = function recordResult(result) {
@@ -333,21 +353,14 @@ UI.prototype._uxRecordResult = function recordResult(result) {
 };
 
 UI.prototype.showOverlay = function showFriendlyOverlay(node) {
-  // The separate penalty introduction duplicated the information from the main
-  // menu. Start immediately after the user presses the main start button.
-  if (node.classList?.contains('penalty-intro')) {
-    node.querySelector('#kickoff-btn')?.click();
-    return;
-  }
-
   const penaltyMode = node.querySelector?.('input[value="penalties"]')?.closest('.mode-card');
   if (penaltyMode) {
     const title = penaltyMode.querySelector('b');
     const description = penaltyMode.querySelector('small');
-    if (title) title.textContent = '⚽ Tizenegyes mód';
+    if (title) title.textContent = '⚽ Büntetőpárbaj';
     if (description) description.textContent = '11–11 lap, öt rendes párbaj, döntetlennél hirtelen halál.';
     const rules = node.querySelector('[data-rules="penalties"]');
-    if (rules) rules.innerHTML = '<b>Tizenegyes szabály:</b> 11 lap. Öt rendes párbaj. Döntetlennél hirtelen halál; azonos értéknél nincs gól.';
+    if (rules) rules.innerHTML = '<b>Büntetőpárbaj szabály:</b> 11 lap. Öt rendes párbaj. Döntetlennél hirtelen halál; azonos értéknél nincs gól.';
   }
 
   // Add a useful match summary to the classic result screen.

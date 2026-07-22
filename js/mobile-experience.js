@@ -22,34 +22,6 @@ export function adjustedTurnDelay(milliseconds, promptText = '') {
   return milliseconds;
 }
 
-const installFastAiTurnTimer = () => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (globalThis.__FOCISKARTYAK_FAST_AI_TIMER__) return;
-
-  const nativeSetTimeout = globalThis.setTimeout.bind(globalThis);
-  globalThis.__FOCISKARTYAK_FAST_AI_TIMER__ = true;
-  globalThis.setTimeout = (callback, milliseconds = 0, ...args) => {
-    const prompt = document.querySelector('#prompt')?.textContent ?? '';
-    return nativeSetTimeout(callback, adjustedTurnDelay(milliseconds, prompt), ...args);
-  };
-};
-
-const installAiTurnRecovery = () => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (globalThis.__FOCISKARTYAK_AI_RECOVERY__) return;
-  globalThis.__FOCISKARTYAK_AI_RECOVERY__ = true;
-
-  window.addEventListener('unhandledrejection', event => {
-    const prompt = document.querySelector('#prompt');
-    const text = prompt?.textContent?.toLocaleLowerCase('hu-HU') ?? '';
-    if (!/a gép(?: kártyát)? választ/.test(text)) return;
-
-    console.warn('[ai] A gépi döntés megszakadt, a mentett állás újratöltése következik.', event.reason);
-    if (prompt) prompt.textContent = 'A gép döntésének újrapróbálása…';
-    window.setTimeout(() => window.location.reload(), 360);
-  });
-};
-
 export const STORAGE_KEYS = {
   save: 'fociskartyak:saved-match:v2',
   onboarding: 'fociskartyak:onboarding-complete',
@@ -200,8 +172,6 @@ const baseMethods = {
   renderScores: UI.prototype.renderScores,
   showVerdict: UI.prototype.showVerdict,
   setSettings: UI.prototype.setSettings,
-  openInspector: UI.prototype.openInspector,
-  closeInspector: UI.prototype.closeInspector,
 };
 
 UI.prototype._renderSettings = function renderMobileToolbar() {
@@ -233,38 +203,11 @@ UI.prototype.setSettings = function setMobileSettings(settings) {
   applyExperienceSettings(this.settings);
 };
 
-UI.prototype.setInteractionBusy = function setInteractionBusy(busy) {
-  this.dom.pub.classList.toggle('is-processing', Boolean(busy));
-  for (const node of this.dom.pub.querySelectorAll('#attribute-picker button, #player-hand .card--direct-play, #inspector button')) {
-    if ('disabled' in node) node.disabled = Boolean(busy);
-    node.setAttribute('aria-disabled', String(Boolean(busy)));
-  }
-};
-
-UI.prototype.showToast = function showToast(message, tone = 'info', duration = 2200) {
-  document.querySelector('#ux-toast')?.remove();
-  const toast = el('div', `ux-toast ux-toast--${tone}`, message);
-  toast.id = 'ux-toast';
-  toast.setAttribute('role', tone === 'error' ? 'alert' : 'status');
-  toast.setAttribute('aria-live', tone === 'error' ? 'assertive' : 'polite');
-  document.body.appendChild(toast);
-  requestAnimationFrame(() => toast.classList.add('is-visible'));
-  window.setTimeout(() => {
-    toast.classList.remove('is-visible');
-    window.setTimeout(() => toast.remove(), 220);
-  }, duration);
-};
-
-UI.prototype.vibrate = function vibrate(pattern) {
-  if (!this.settings.vibration || typeof navigator.vibrate !== 'function') return;
-  navigator.vibrate(pattern);
-};
-
 UI.prototype.renderScores = function renderMobileScores(game) {
   baseMethods.renderScores.call(this, game);
   this.dom.pub.dataset.turn = game.chooser === HUMAN ? 'human' : 'ai';
   this.dom.pub.dataset.gameMode = game.mode;
-  this.dom.hudMeta.setAttribute('aria-label', `${game.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'}. ${this.dom.hudMeta.textContent}`);
+  this.dom.hudMeta.setAttribute('aria-label', `${game.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'}. ${this.dom.hudMeta.textContent}`);
 };
 
 UI.prototype.renderHands = function renderMobileHands(game, options = {}) {
@@ -314,8 +257,8 @@ UI.prototype.showAttributePicker = function showMobileAttributePicker(game) {
   this._uxSetStep?.(1);
 };
 
-UI.prototype.showVerdict = function showMobileVerdict(result, game) {
-  baseMethods.showVerdict.call(this, result, game);
+UI.prototype.showVerdict = function showMobileVerdict(result, game, options = {}) {
+  baseMethods.showVerdict.call(this, result, game, options);
   const node = this.dom.verdict;
   const first = node.firstChild;
   if (first?.nodeType === Node.TEXT_NODE) {
@@ -326,28 +269,12 @@ UI.prototype.showVerdict = function showMobileVerdict(result, game) {
         : (game.mode === 'penalties' ? 'A gép gólt szerzett' : 'A gép nyerte a kört');
   }
   node.classList.add('ux-verdict-pop');
-  if (result.winner === HUMAN) this.vibrate([35, 40, 35]);
-  else if (result.winner === 'ai') this.vibrate(70);
-  else this.vibrate(30);
+  if (!options.silent) {
+    if (result.winner === HUMAN) this.vibrate([35, 40, 35]);
+    else if (result.winner === 'ai') this.vibrate(70);
+    else this.vibrate(30);
+  }
 };
 
-UI.prototype.openInspector = function openMobileInspector(...args) {
-  baseMethods.openInspector.apply(this, args);
-  const layer = document.querySelector('#inspector');
-  const shell = layer?.querySelector('.inspector__shell');
-  shell?.setAttribute('role', 'dialog');
-  shell?.setAttribute('aria-modal', 'true');
-  shell?.setAttribute('aria-label', 'Játékoskártya részletei');
-  layer?.querySelector('.inspector__nav:first-child')?.setAttribute('aria-label', 'Előző kártya');
-  layer?.querySelector('.inspector__nav:last-child')?.setAttribute('aria-label', 'Következő kártya');
-  layer?.querySelector('button')?.focus({ preventScroll: true });
-};
-
-UI.prototype.closeInspector = function closeMobileInspector(...args) {
-  baseMethods.closeInspector.apply(this, args);
-};
-
-installFastAiTurnTimer();
-installAiTurnRecovery();
 applyExperienceSettings(loadSettings());
 installConnectivityBadge();
