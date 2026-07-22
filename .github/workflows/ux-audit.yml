@@ -1,0 +1,42 @@
+name: UX audit and previews
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Syntax and static checks
+        run: npm run lint
+      - name: Full regression suite
+        run: npm test
+      - name: Build standalone game
+        run: npm run build
+      - name: Mobile and runtime smoke tests
+        run: npm run test:mobile-layout && npm run test:runtime
+      - name: Existing phase previews
+        run: npm run preview:all
+      - name: UX handoff previews
+        run: npm run preview:usability
+      - name: Upload previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: fociskartyak-ux-previews
+          path: previews/
+          if-no-files-found: error
