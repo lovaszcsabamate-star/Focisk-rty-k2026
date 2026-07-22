@@ -53,27 +53,34 @@ jobs:
       - name: Valódi Chrome mobilnézeti ellenőrzés
         id: mobile_layout
         continue-on-error: true
-        run: npm run test:mobile-layout
+        run: npm run test:mobile-layout 2>&1 | tee mobile-layout-test-output.log
 
       - name: Asztali fáziselőnézetek elkészítése
-        run: npm run preview:desktop
+        id: desktop_previews
+        continue-on-error: true
+        run: npm run preview:desktop 2>&1 | tee desktop-preview-output.log
 
-      - name: Mobil- és asztali előnézetek mentése
+      - name: Alkalmazástesztek
+        id: app_tests
+        continue-on-error: true
+        run: npm test 2>&1 | tee application-test-output.log
+
+      - name: Teljes tesztcsomag
+        id: full_tests
+        continue-on-error: true
+        run: npm run test:all 2>&1 | tee full-test-output.log
+
+      - name: Mobil- és asztali előnézetek, tesztnaplók mentése
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-layout-report-and-previews
+          name: visual-layout-report-previews-and-tests
           path: |
             mobile-layout-report.json
             previews/*.png
+            *-output.log
           if-no-files-found: warn
           retention-days: 30
-
-      - name: Alkalmazástesztek
-        run: npm test
-
-      - name: Teljes tesztcsomag
-        run: npm run test:all
 
       - name: Formázási hibák ellenőrzése
         run: git diff --check
@@ -82,8 +89,20 @@ jobs:
         if: steps.mobile_layout.outcome == 'failure'
         run: exit 1
 
+      - name: Asztali előnézet eredményének érvényesítése
+        if: steps.desktop_previews.outcome == 'failure'
+        run: exit 1
+
+      - name: Alkalmazástesztek eredményének érvényesítése
+        if: steps.app_tests.outcome == 'failure'
+        run: exit 1
+
+      - name: Teljes tesztcsomag eredményének érvényesítése
+        if: steps.full_tests.outcome == 'failure'
+        run: exit 1
+
       - name: Generált játékfájl, riport és előnézetek mentése
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && success()
         run: |
           GENERATED_FILES="Fociskartyak2026.html mobile-layout-report.json previews/*.png data/enrichment-audit.json data/players-reviewed.json data/database-review.json data/database-review.md data/database-changelog.json data/missing-player-data-reviewed.json"
           if git diff --quiet -- $GENERATED_FILES; then
