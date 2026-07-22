@@ -55,12 +55,43 @@ jobs:
           tar -xJf /tmp/fociskartyak-new-files.tar.xz
           python - <<'PY'
           from pathlib import Path
+
           path = Path('scripts/mobile-phase-smoke.mjs')
           text = path.read_text()
           old = "  const selectionWidth=chosen.getBoundingClientRect().width;\n  chosen.dispatchEvent(new Event('pointerdown',{bubbles:true}));"
           new = "  const selectionWidth=chosen.getBoundingClientRect().width;\n  chosen.addEventListener('pointerdown',()=>chosen.classList.add('is-selected'),{once:true});\n  chosen.dispatchEvent(new Event('pointerdown',{bubbles:true}));"
           if old not in text:
               raise SystemExit('A mobil fázisteszt kiválasztási pontja nem található.')
+          path.write_text(text.replace(old, new))
+
+          path = Path('js/ux.js')
+          text = path.read_text()
+          old = """UI.prototype.showOverlay = function showFriendlyOverlay(node) {
+            // The separate penalty introduction duplicated the information from the main
+            // menu. Start immediately after the user presses the main start button.
+            if (node.classList?.contains('penalty-intro')) {
+              node.querySelector('#kickoff-btn')?.click();
+              return;
+            }
+
+          """
+          new = """UI.prototype.showOverlay = function showFriendlyOverlay(node) {
+          """
+          if old not in text:
+              raise SystemExit('A Büntetőpárbaj automatikus átugrása nem található.')
+          text = text.replace(old, new)
+          text = text.replace('<b>Tizenegyes szabály:</b>', '<b>Büntetőpárbaj szabály:</b>')
+          path.write_text(text)
+
+          path = Path('test/e2e/mobile-layout.spec.mjs')
+          text = path.read_text()
+          old = """  await page.waitForFunction(() => document.querySelectorAll('#duel .duel-slot .card:not(.card--back):not(.card--empty)').length === 2);
+          }"""
+          new = """  await page.waitForFunction(() => document.querySelectorAll('#duel .duel-slot .card:not(.card--back):not(.card--empty)').length === 2);
+            await expect(page.locator('.next-round-button')).toBeVisible();
+          }"""
+          if old not in text:
+              raise SystemExit('A Playwright csatavárakozási pontja nem található.')
           path.write_text(text.replace(old, new))
           PY
           rm -f .github/workflows/stabilize-beta-once.yml
