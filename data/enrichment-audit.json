@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-22T14:51:56.674Z",
+  "generatedAt": "2026-07-22T21:32:09.447Z",
   "baseDataset": "data/players.json",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
@@ -70,7 +70,7 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 57,
+    "heightCm": 125,
     "shirtNumber": 288,
     "officialMetadata": 85,
     "minutes": 29,
@@ -148,8 +148,8 @@
     {
       "field": "heightCm",
       "before": 0,
-      "after": 57,
-      "added": 57
+      "after": 125,
+      "added": 125
     },
     {
       "field": "shirtNumber",
@@ -237,11 +237,11 @@
       "clubId": "dvsc",
       "clubName": "DVSC",
       "mlszCards": 38,
-      "officialRecords": 45,
-      "eligibleRecords": 38,
-      "matched": 38,
+      "officialRecords": 72,
+      "eligibleRecords": 65,
+      "matched": 61,
       "excluded": 7,
-      "review": 0,
+      "review": 4,
       "sourceStatus": "complete-38-of-38-player-review",
       "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
     },
@@ -285,11 +285,11 @@
       "clubId": "kisvarda-master-good",
       "clubName": "Kisvárda Master Good",
       "mlszCards": 38,
-      "officialRecords": 92,
-      "eligibleRecords": 92,
-      "matched": 92,
+      "officialRecords": 118,
+      "eligibleRecords": 118,
+      "matched": 108,
       "excluded": 0,
-      "review": 0,
+      "review": 10,
       "sourceStatus": "complete-38-of-38-player-review",
       "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
     },
@@ -309,11 +309,11 @@
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
       "mlszCards": 36,
-      "officialRecords": 36,
-      "eligibleRecords": 36,
-      "matched": 36,
+      "officialRecords": 57,
+      "eligibleRecords": 57,
+      "matched": 55,
       "excluded": 0,
-      "review": 0,
+      "review": 2,
       "sourceStatus": "complete-36-of-36-player-review",
       "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
     },
@@ -333,9 +333,9 @@
       "clubId": "paksi-fc",
       "clubName": "Paksi FC",
       "mlszCards": 33,
-      "officialRecords": 61,
-      "eligibleRecords": 60,
-      "matched": 60,
+      "officialRecords": 78,
+      "eligibleRecords": 77,
+      "matched": 77,
       "excluded": 1,
       "review": 0,
       "sourceStatus": "complete-33-of-33-player-review",
@@ -378,7 +378,104 @@
       "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
     }
   ],
-  "manualReview": [],
+  "manualReview": [
+    {
+      "name": "Alic Enes",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Balogh Norbert",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Gyenge Szilárd",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Jordanov Toniszlav",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Kovacic Dominik",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Matanovics Marko",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Melnik Bohdan",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Nikolov Boban",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Petkovic Danijel",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Rubus Tamás",
+      "clubId": "kisvarda-master-good",
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Belényesi Csaba",
+      "clubId": "mtk-budapest",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Kosznovszky Márk",
+      "clubId": "mtk-budapest",
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Gordic Djordje",
+      "clubId": "dvsc",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Manzanara Fran",
+      "clubId": "dvsc",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Ojediran Hamzat",
+      "clubId": "dvsc",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "reason": "no-unique-player-match"
+    },
+    {
+      "name": "Oliveira Joao",
+      "clubId": "dvsc",
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "reason": "no-unique-player-match"
+    }
+  ],
   "databaseReview": {
     "players": 440,
     "uniqueIds": 440,
@@ -388,18 +485,18 @@
     "errorCount": 0,
     "warningCount": 2,
     "duplicateCandidateCount": 0,
-    "conflictCount": 0,
-    "changeCount": 4025,
+    "conflictCount": 2,
+    "changeCount": 4093,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-21T16:35:00+02:00",
-    "records": 734,
-    "matchedRecords": 734,
-    "unmatchedRecords": 0,
+    "generatedAt": "2026-07-22T19:15:00+02:00",
+    "records": 825,
+    "matchedRecords": 809,
+    "unmatchedRecords": 16,
     "excludedRecords": 24,
     "correctionsRequested": 1,
     "addedPlayers": 0,
@@ -424,12 +521,12 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 0,
+    "conflictCount": 2,
     "appliedFieldCounts": {
       "position": 439,
       "nation": 439,
       "birthDate": 318,
-      "heightCm": 57,
+      "heightCm": 125,
       "shirtNumber": 287,
       "meta.captain": 3,
       "meta.strongFoot": 32,
@@ -505,7 +602,7 @@
       "overallScore": 143,
       "position": 440,
       "nation": 440,
-      "heightCm": 57,
+      "heightCm": 125,
       "shirtNumber": 288,
       "officialMetadata": 85
     },
@@ -579,8 +676,8 @@
       {
         "field": "heightCm",
         "before": 0,
-        "after": 57,
-        "added": 57
+        "after": 125,
+        "added": 125
       },
       {
         "field": "shirtNumber",
@@ -600,11 +697,11 @@
         "clubId": "dvsc",
         "clubName": "DVSC",
         "mlszCards": 38,
-        "officialRecords": 45,
-        "eligibleRecords": 38,
-        "matched": 38,
+        "officialRecords": 72,
+        "eligibleRecords": 65,
+        "matched": 61,
         "excluded": 7,
-        "review": 0,
+        "review": 4,
         "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/25-csapat-Debreceni_VSC/615-NB_I_2025_2026-szezon/jatekosok"
       },
@@ -648,11 +745,11 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 92,
-        "eligibleRecords": 92,
-        "matched": 92,
+        "officialRecords": 118,
+        "eligibleRecords": 118,
+        "matched": 108,
         "excluded": 0,
-        "review": 0,
+        "review": 10,
         "sourceStatus": "complete-38-of-38-player-review",
         "officialRosterUrl": "https://kisvardafc.hu/hir/az-elsotol-az-utolsoig/9514"
       },
@@ -672,11 +769,11 @@
         "clubId": "mtk-budapest",
         "clubName": "MTK Budapest",
         "mlszCards": 36,
-        "officialRecords": 36,
-        "eligibleRecords": 36,
-        "matched": 36,
+        "officialRecords": 57,
+        "eligibleRecords": 57,
+        "matched": 55,
         "excluded": 0,
-        "review": 0,
+        "review": 2,
         "sourceStatus": "complete-36-of-36-player-review",
         "officialRosterUrl": "https://www.dvtk.eu/index.php/145-csapat-MTK_Budapest/615-NB_I_2025_2026-szezon/jatekosok"
       },
@@ -696,9 +793,9 @@
         "clubId": "paksi-fc",
         "clubName": "Paksi FC",
         "mlszCards": 33,
-        "officialRecords": 61,
-        "eligibleRecords": 60,
-        "matched": 60,
+        "officialRecords": 78,
+        "eligibleRecords": 77,
+        "matched": 77,
         "excluded": 1,
         "review": 0,
         "sourceStatus": "complete-33-of-33-player-review",
@@ -741,8 +838,202 @@
         "officialRosterUrl": "https://www.ztefc.hu/hu/csapat"
       }
     ],
-    "manualReview": [],
-    "unmatched": []
+    "manualReview": [
+      {
+        "name": "Alic Enes",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Balogh Norbert",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gyenge Szilárd",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Jordanov Toniszlav",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kovacic Dominik",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Matanovics Marko",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Melnik Bohdan",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Nikolov Boban",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Petkovic Danijel",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Rubus Tamás",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Belényesi Csaba",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kosznovszky Márk",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gordic Djordje",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Manzanara Fran",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Ojediran Hamzat",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Oliveira Joao",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      }
+    ],
+    "unmatched": [
+      {
+        "name": "Alic Enes",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Balogh Norbert",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gyenge Szilárd",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Jordanov Toniszlav",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kovacic Dominik",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Matanovics Marko",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Melnik Bohdan",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Nikolov Boban",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Petkovic Danijel",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Rubus Tamás",
+        "clubId": "kisvarda-master-good",
+        "sourceId": "hlsz-kisvarda-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Belényesi Csaba",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Kosznovszky Márk",
+        "clubId": "mtk-budapest",
+        "sourceId": "hlsz-mtk-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Gordic Djordje",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Manzanara Fran",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Ojediran Hamzat",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      },
+      {
+        "name": "Oliveira Joao",
+        "clubId": "dvsc",
+        "sourceId": "hlsz-dvsc-heights-2025-26",
+        "reason": "no-unique-player-match"
+      }
+    ]
   },
   "verifiedPlayerCorrections": {
     "requested": 1,
@@ -2870,7 +3161,26 @@
       "sourceUrl": "https://adatbank.mlsz.hu/player/463914.html"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    {
+      "playerId": "nb1-34295f65a151",
+      "playerName": "NAGY KRISZTIÁN",
+      "field": "heightCm",
+      "kept": 180,
+      "offered": 187,
+      "sourceId": "hlsz-kisvarda-heights-2025-26",
+      "clubId": "kisvarda-master-good"
+    },
+    {
+      "playerId": "nb1-2074fd83bf31",
+      "playerName": "BOGNÁR ISTVÁN",
+      "field": "heightCm",
+      "kept": 175,
+      "offered": 183,
+      "sourceId": "hlsz-mtk-heights-2025-26",
+      "clubId": "mtk-budapest"
+    }
+  ],
   "corrections": [
     {
       "playerId": "nb1-0313d575ded4",
