@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Semleges klubjelvény</title>
+  <desc id="desc">Valós klubcímerre nem hasonlító, geometrikus helyettesítő jelvény.</desc>
+  <defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9b45e"/>
+      <stop offset="1" stop-color="#806632"/>
+    </linearGradient>
+  </defs>
+  <circle cx="160" cy="160" r="136" fill="#172820" stroke="#ead08a" stroke-width="12"/>
+  <path d="M160 54l86 50v112l-86 50-86-50V104l86-50z" fill="url(#fill)" opacity=".92"/>
+  <circle cx="160" cy="160" r="62" fill="#172820" stroke="#f3e6c8" stroke-width="8"/>
+  <text x="160" y="178" text-anchor="middle" fill="#f3e6c8" font-family="system-ui, sans-serif" font-size="54" font-weight="900" letter-spacing="2">FK</text>
+</svg>
