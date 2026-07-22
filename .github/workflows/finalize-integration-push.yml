@@ -10,6 +10,7 @@ on:
       - test/stabilization.test.mjs
       - scripts/sync-usability-main-once.py
       - scripts/fix-central-name-export-once.py
+      - scripts/fix-hand-inspector-e2e-once.py
       - scripts/fix-selection-smoke-once.py
 
 permissions:
@@ -44,6 +45,7 @@ jobs:
           python scripts/fix-visual-performance-once.py
           python scripts/fix-mobile-carousel-once.py
           python scripts/fix-carousel-e2e-once.py
+          python scripts/fix-hand-inspector-e2e-once.py
           python scripts/fix-selection-smoke-once.py
       - name: Függőségek telepítése
         run: npm ci
@@ -93,6 +95,7 @@ jobs:
           rm -f scripts/fix-visual-performance-once.py
           rm -f scripts/fix-mobile-carousel-once.py
           rm -f scripts/fix-carousel-e2e-once.py
+          rm -f scripts/fix-hand-inspector-e2e-once.py
           rm -f scripts/fix-selection-smoke-once.py
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
