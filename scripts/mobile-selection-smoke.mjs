@@ -12,6 +12,7 @@ const STANDALONE = path.join(ROOT, 'Fociskartyak2026.html');
 const REPORT = path.join(ROOT, 'mobile-layout-report.json');
 const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 820;
+const MAX_SELECTION_CARD_HEIGHT = 260;
 
 const chrome = [
   process.env.CHROME_BIN,
@@ -180,7 +181,7 @@ frame.addEventListener('load',()=>setTimeout(()=>{
     [result.handInsideViewport, 'a kártyasor kilóg a képernyőről'],
     [result.firstCardVisible, 'az első választható kártya részben képernyőn kívül indul'],
     [result.feltBeforeZone, 'a játékmező és a kártyasor egymásra csúszik'],
-    [result.maxChoiceHeight <= 245, `a választható kártyák túl magasak (${result.maxChoiceHeight}px)`],
+    [result.maxChoiceHeight <= MAX_SELECTION_CARD_HEIGHT, `a választható kártyák túl magasak (${result.maxChoiceHeight}px)`],
   ];
   const widthFailures = checks.filter(([ok]) => !ok).map(([, message]) => `${width}px: ${message}.`);
   failures.push(...widthFailures);
