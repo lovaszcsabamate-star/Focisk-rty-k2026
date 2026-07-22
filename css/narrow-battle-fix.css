@@ -1,0 +1,11 @@
+/* A 320 px-es portré mobilnézetben a kétoldali csata megtartása mellett
+   a választási lap legyen kisebb a csatakártyánál. */
+@media (max-width: 340px) and (orientation: portrait) {
+  #player-hand.hand--selection .card--choice {
+    --card-w: 112px !important;
+    --card-h: calc(112px * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex: 0 0 var(--card-w) !important;
+  }
+}
