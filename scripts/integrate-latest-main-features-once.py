@@ -45,6 +45,18 @@ if entry not in sw:
     sw = sw.replace(marker, entry + '\n' + marker, 1)
 sw_path.write_text(sw, encoding='utf-8')
 
+static_path = ROOT / 'test/static.test.mjs'
+static_test = static_path.read_text(encoding='utf-8')
+old_static = """assert.equal(finalMissingBasic.batch.playerCount, 7);
+assert.equal(finalMissingBasic.records.length, 7);"""
+new_static = """assert.equal(finalMissingBasic.batch.playerCount, finalMissingBasic.records.length);
+assert.ok(finalMissingBasic.records.length >= 98);"""
+if old_static in static_test:
+    static_test = static_test.replace(old_static, new_static, 1)
+elif new_static not in static_test:
+    raise SystemExit('A végső adatkiegészítési csomag statikus szerződése nem található.')
+static_path.write_text(static_test, encoding='utf-8')
+
 stabilization_path = ROOT / 'test/stabilization.test.mjs'
 stabilization = stabilization_path.read_text(encoding='utf-8')
 if "const deckSelectionSource = text('js/deck-selection.js');" not in stabilization:
@@ -60,4 +72,4 @@ assert.match(text('package.json'), /test\\/deck-selection\\.test\\.mjs/);
 """
     stabilization_path.write_text(stabilization, encoding='utf-8')
 
-print('A pakliválasztás és a friss main-adatok kiadási bekötése elkészült.')
+print('A pakliválasztás, a friss main-adatok és a bővülő adatcsomag tesztje bekötve.')
