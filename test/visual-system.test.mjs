@@ -7,10 +7,12 @@ const index = read('index.html');
 const css = read('css/visual-system.css');
 const visual = read('js/visual-system.js');
 const branding = read('js/branding.js');
+const legalUi = read('js/legal-ui.js');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
-assert.match(index, /js\/branding\.js[\s\S]*js\/visual-system\.js[\s\S]*js\/bootstrap\.js/, 'A branding guardnak és a vizuális rendszernek a bootstrap előtt kell futnia.');
+assert.match(index, /css\/legal-ui\.css/, 'A kezdőképernyős jogi stílus nincs betöltve.');
+assert.match(index, /js\/branding\.js[\s\S]*js\/visual-system\.js[\s\S]*js\/legal-ui\.js[\s\S]*js\/bootstrap\.js/, 'A branding guardnak, a vizuális és jogi felületnek a bootstrap előtt kell futnia.');
 
 for (const variable of [
   '--selection-card-width', '--battle-card-target', '--card-aspect-ratio', '--card-gap',
@@ -32,7 +34,9 @@ assert.match(visual, /requestFullscreen/, 'Hiányzik a teljes képernyős beáll
 assert.match(visual, /highContrast/, 'Hiányzik a nagy kontrasztú mód.');
 assert.match(visual, /card\.tabIndex = 0/, 'A választható kártyáknak billentyűzettel fókuszálhatónak kell lenniük.');
 assert.match(visual, /event\.key !== 'Enter' && event\.key !== ' '/, 'Hiányzik az Enter/Szóköz kártyaválasztás.');
-assert.match(visual, /független projekt/, 'Hiányzik a független projekt jelzése.');
+assert.match(visual, /független projekt/, 'Hiányzik a játéktér független projekt jelzése.');
+assert.match(legalUi, /Büntetőpárbaj/, 'A játékmód magyar felirata nincs egységesítve.');
+assert.match(legalUi, /Nem áll hivatalos kapcsolatban/, 'Hiányzik a kezdőképernyős jogi tájékoztatás.');
 
 assert.match(branding, /allowOfficialBranding:\s*false/, 'A hivatalos arculat alapértékének false-nak kell lennie.');
 assert.match(branding, /isRemoteAssetUrl\(value\) \|\| isProtectedUnapprovedArt\(value\)/, 'A külső és jóváhagyatlan képkéréseket blokkolni kell.');
