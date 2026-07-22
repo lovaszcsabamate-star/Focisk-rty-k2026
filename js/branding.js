@@ -5,6 +5,7 @@
     allowOfficialBranding: false,
     playerPlaceholderPath: 'src/assets/placeholders/player-silhouette.svg',
     clubPlaceholderPath: 'src/assets/placeholders/club-badge.svg',
+    appIconPath: 'src/assets/placeholders/app-icon.svg',
     blockRemotePlayerPhotos: true,
     blockRemoteClubLogos: true,
   });
@@ -21,6 +22,7 @@
   const approvedReleaseAssets = new Set([
     brandingConfig.playerPlaceholderPath,
     brandingConfig.clubPlaceholderPath,
+    brandingConfig.appIconPath,
   ].map(canonicalPath));
 
   const protectedArtPrefixes = [
