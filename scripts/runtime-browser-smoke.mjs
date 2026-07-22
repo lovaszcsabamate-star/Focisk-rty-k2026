@@ -11,8 +11,8 @@ const ROOT = path.resolve(HERE, '..');
 const STANDALONE = path.join(ROOT, 'Fociskartyak2026.html');
 const REPORT = path.join(ROOT, 'runtime-browser-report.json');
 const MODES = [
-  { id: 'classic', button: '#start-btn', expectedClass: 'mode-classic' },
-  { id: 'penalties', button: '#penalties-btn', expectedClass: 'mode-penalties' },
+  { id: 'classic', button: '#start-btn', expectedClass: null, minimumCards: 5 },
+  { id: 'penalties', button: '#penalties-btn', expectedClass: 'mode-penalties', minimumCards: 11 },
 ];
 
 const chrome = [
@@ -73,13 +73,17 @@ for (const mode of MODES) {
         const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [] };
         const pub = doc.querySelector('#pub');
         const scoreText = doc.querySelector('#hud-scores')?.textContent || '';
+        const visibleCards = [...doc.querySelectorAll('#player-hand .card, #duel .card')].filter(card => card.getBoundingClientRect().width > 0).length;
+        const expectedClass = ${JSON.stringify(mode.expectedClass)};
         const result = {
           mode: '${mode.id}',
           titleLocalised: /Büntetőpárbaj/.test(titleText),
           loadingHidden: Boolean(doc.querySelector('#app-loading')?.hidden),
           loadingError: Boolean(doc.querySelector('.app-loading__error')),
-          modeClassPresent: Boolean(pub?.classList.contains('${mode.expectedClass}')),
-          visibleCards: [...doc.querySelectorAll('#player-hand .card, #duel .card')].filter(card => card.getBoundingClientRect().width > 0).length,
+          overlayHidden: Boolean(doc.querySelector('#overlay')?.hidden),
+          modeClassPresent: expectedClass ? Boolean(pub?.classList.contains(expectedClass)) : true,
+          visibleCards,
+          minimumCards: ${mode.minimumCards},
           savedNameVisible: /Csabi/i.test(scoreText),
           errors: smoke.errors,
           consoleErrors: smoke.consoleErrors,
@@ -117,8 +121,9 @@ for (const mode of MODES) {
   const modeFailures = [];
   if (!result.titleLocalised) modeFailures.push('a Büntetőpárbaj felirat nem magyar');
   if (!result.loadingHidden || result.loadingError) modeFailures.push('betöltési hibaképernyő vagy látható betöltőréteg');
-  if (!result.modeClassPresent) modeFailures.push('a kiválasztott játékmód nem indult el');
-  if (result.visibleCards < 2) modeFailures.push('nem jelentek meg játékoskártyák');
+  if (!result.overlayHidden) modeFailures.push('a kezdőmenü nem zárult be');
+  if (!result.modeClassPresent) modeFailures.push('a kiválasztott játékmód osztálya nem aktív');
+  if (result.visibleCards < result.minimumCards) modeFailures.push(`csak ${result.visibleCards} kártya jelent meg a várt ${result.minimumCards} helyett`);
   if (!result.savedNameVisible) modeFailures.push('a mentett játékosnév nem jelent meg az eredményjelzőn');
   if (result.errors.length) modeFailures.push(`nem kezelt hibák: ${result.errors.join(' | ')}`);
   if (result.consoleErrors.length) modeFailures.push(`console.error: ${result.consoleErrors.join(' | ')}`);
