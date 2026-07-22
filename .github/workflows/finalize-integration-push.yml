@@ -6,6 +6,8 @@ on:
       - stabilize-beta-2026-07-22
     paths:
       - .github/workflows/finalize-integration-push.yml
+      - test/interface-regression.test.mjs
+      - scripts/sync-usability-main-once.py
 
 permissions:
   contents: write
