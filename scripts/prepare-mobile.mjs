@@ -1,5 +1,4 @@
 /** Build the dependency-free game and prepare Capacitor's mobile web directory. */
-
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,10 +9,16 @@ const ROOT = path.resolve(HERE, '..');
 const MOBILE_DIR = path.join(ROOT, 'mobile-www');
 const STANDALONE_FILE = path.join(ROOT, 'Fociskartyak2026.html');
 
-execFileSync(process.execPath, [path.join(HERE, 'build-standalone.mjs')], {
-  cwd: ROOT,
-  stdio: 'inherit',
-});
+for (const script of [
+  'build-standalone.mjs',
+  'postprocess-standalone.mjs',
+  'finalize-usability-standalone.mjs',
+]) {
+  execFileSync(process.execPath, [path.join(HERE, script)], {
+    cwd: ROOT,
+    stdio: 'inherit',
+  });
+}
 
 fs.rmSync(MOBILE_DIR, { recursive: true, force: true });
 fs.mkdirSync(MOBILE_DIR, { recursive: true });
