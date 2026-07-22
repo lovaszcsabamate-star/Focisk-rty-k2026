@@ -136,11 +136,11 @@ const removeInspectorBackdrop = () => {
     return;
   }
 
-  backdrop.classList.remove('is-visible');
+  /* A háttér a tényleges eltávolításig sötét marad. Nem vesszük le előre az
+     is-visible osztályt, mert egy későn érkező régi bezárás lapozás közben
+     különben rövid felvillanást okozhatna. */
   inspectorBackdropRemovalTimer = window.setTimeout(() => {
     inspectorBackdropRemovalTimer = 0;
-    /* Ha közben újranyílt az inspector, az ensureInspectorBackdrop megszakítja
-       ezt az időzítőt. Ez a feltétel további védelmet ad lassú WebView esetén. */
     if (!document.querySelector('#inspector')) backdrop.remove();
   }, reducedMotionEnabled() ? 1 : 190);
 };
