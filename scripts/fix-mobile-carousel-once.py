@@ -12,27 +12,30 @@ new = """    width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     gap: 12px;"""
-if old not in text:
+if old in text:
+    text = text.replace(old, new)
+elif new not in text:
     raise SystemExit('A mobil kategóriakarusszel szélességi blokkja nem található.')
-text = text.replace(old, new, 1)
 
-old = '    scroll-snap-type: x mandatory;'
-new = '    scroll-snap-type: x proximity;'
-if old not in text:
-    raise SystemExit('A mobil kategóriakarusszel mandatory snap beállítása nem található.')
-text = text.replace(old, new, 1)
+mandatory = '    scroll-snap-type: x mandatory;'
+proximity = '    scroll-snap-type: x proximity;'
+if mandatory in text:
+    text = text.replace(mandatory, proximity)
+elif proximity not in text:
+    raise SystemExit('A mobil kategóriakarusszel snap beállítása nem található.')
 
-old = """    scroll-snap-align: center;
+always_block = """    scroll-snap-align: center;
     scroll-snap-stop: always;
   }"""
-new = """    width: 100%;
+normal_block = """    width: 100%;
     min-width: 0;
     scroll-snap-align: center;
     scroll-snap-stop: normal;
   }"""
-if old not in text:
-    raise SystemExit('A mobil kategóriagomb kényszerített snap-stop blokkja nem található.')
-text = text.replace(old, new, 1)
+if always_block in text:
+    text = text.replace(always_block, normal_block)
+elif normal_block not in text:
+    raise SystemExit('A mobil kategóriagomb snap-stop blokkja nem található.')
 
 path.write_text(text, encoding='utf-8')
-print('A mobil kategóriakarusszel programozott és érintéses lapozása összehangolva.')
+print('Minden mobil kategóriakarusszel proximity/normal lapozást használ.')
