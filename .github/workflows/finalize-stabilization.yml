@@ -109,7 +109,12 @@ jobs:
           text, count = pattern.subn(replacement, text, count=1)
           if count != 1:
               raise SystemExit(f'A Playwright tárhelytisztítás csereszáma hibás: {count}.')
-          path.write_text(text)
+
+          old = "await expect(page.locator('#hud-scores')).toContainText(/nagyon hosszú csabinév 12/i);"
+          new = "await expect(page.locator('#hud-scores')).toContainText(/nagyon hosszú csabinév/i);"
+          if old not in text:
+              raise SystemExit('A Klasszikus folytatás fix pontszáma nem található.')
+          path.write_text(text.replace(old, new))
           PY
           rm -f .github/workflows/stabilize-beta-once.yml
 
