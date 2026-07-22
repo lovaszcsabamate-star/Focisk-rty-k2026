@@ -1,0 +1,50 @@
+name: PR56 Android APK
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-pr56-apk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: PR56 forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: 243879359a6cc948b217726c6977ecfed77ca54b
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Java beállítása
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Függőségek telepítése
+        run: npm ci
+      - name: Mobil webes csomag elkészítése
+        run: npm run mobile:prepare
+      - name: Android projekt létrehozása
+        run: npx cap add android
+      - name: APK elkészítése
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+      - name: APK átnevezése
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Fociskartyak-2026-PR56.apk
+      - name: APK feltöltése
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak-2026-PR56-APK
+          path: Fociskartyak-2026-PR56.apk
+          if-no-files-found: error
+          retention-days: 30
