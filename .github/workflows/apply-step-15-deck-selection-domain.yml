@@ -30,7 +30,21 @@ jobs:
           node --check js/deck-selection.js
           node --check test/deck-selection-domain.test.mjs
       - name: Pakliválasztási domain tesztje
-        run: node test/deck-selection-domain.test.mjs
+        id: domain_test
+        continue-on-error: true
+        run: node test/deck-selection-domain.test.mjs > deck-selection-domain-test.log 2>&1
+      - name: Domainteszt diagnosztika mentése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: step-15-deck-selection-domain-test
+          path: deck-selection-domain-test.log
+          if-no-files-found: error
+      - name: Domainteszt eredményének érvényesítése
+        if: steps.domain_test.outcome != 'success'
+        run: |
+          cat deck-selection-domain-test.log
+          exit 1
       - name: Régi importútvonal regressziója
         run: node test/deck-selection.test.mjs
       - name: Assetlicenc-audit
