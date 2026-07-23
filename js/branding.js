@@ -2,6 +2,7 @@
 
 import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
 
+// Statikus kompatibilitási szerződés: player-silhouette.svg, club-badge.svg, app-icon.svg.
 (() => {
   const brandingConfig = Object.freeze({
     allowOfficialBranding: false,
