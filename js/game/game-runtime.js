@@ -4,7 +4,7 @@ import { OpponentAI, DIFFICULTY } from '../ai.js';
 import { AI, HUMAN, PHASE } from '../engine.js';
 import { GAME_MODE, createGameModeFactory } from './game-mode-factory.js';
 
-export { GAME_MODE } from './game-mode-factory.js';
+export { GAME_MODE };
 const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 const cloneSaveValue = value => (value == null ? value : structuredClone(value));
