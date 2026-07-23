@@ -68,6 +68,7 @@ const moduleOrder = [
   'js/engine.js',
   'js/penalties.js',
   'js/ai.js',
+  'js/services/save-service.js',
   'js/game/game-runtime.js',
   'js/banter.js',
   'js/ui/dom-primitives.js',

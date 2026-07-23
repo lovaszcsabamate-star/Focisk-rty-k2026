@@ -2,13 +2,15 @@
 
 import {
   DEFAULT_EXPERIENCE_SETTINGS,
-  SAVED_MATCH_VERSION,
   APP_STORAGE_KEYS,
   settingStorageKey,
 } from './app/configuration.js';
+import { readStoredBoolean, writeStoredBoolean } from './services/storage-service.js';
 import {
-  readStoredBoolean, readStoredJson, removeStoredValue, writeStoredBoolean, writeStoredJson,
-} from './services/storage-service.js';
+  clearSavedMatch, hydrateGame, readSavedMatch, writeSavedMatch,
+} from './services/save-service.js';
+
+export { clearSavedMatch, hydrateGame, readSavedMatch, writeSavedMatch };
 import { UI, el } from './ui.js';
 import {
   ATTRIBUTES,
@@ -91,45 +93,6 @@ export function onboardingWasCompleted() {
 
 export function setOnboardingCompleted(value) {
   writeStoredBoolean(STORAGE_KEYS.onboarding, value);
-}
-
-export function readSavedMatch() {
-  const parsed = readStoredJson(STORAGE_KEYS.save, null);
-  if (parsed?.version !== SAVED_MATCH_VERSION || !parsed?.game || !['classic', 'penalties'].includes(parsed.mode)) return null;
-  return parsed;
-}
-
-export function writeSavedMatch(payload) {
-  if (!payload?.game || payload.game.isOver) return false;
-  try {
-    const snapshot = {
-      version: SAVED_MATCH_VERSION,
-      savedAt: new Date().toISOString(),
-      mode: payload.mode,
-      difficulty: payload.difficulty,
-      pendingAttribute: payload.pendingAttribute ?? null,
-      awaitingChooserCard: Boolean(payload.awaitingChooserCard),
-      uxStats: payload.uxStats ?? null,
-      game: JSON.parse(JSON.stringify(payload.game)),
-    };
-    return writeStoredJson(STORAGE_KEYS.save, snapshot);
-  } catch (error) {
-    console.warn('[save] A játékállás nem menthető:', error);
-    return false;
-  }
-}
-
-export function clearSavedMatch() {
-  return removeStoredValue(STORAGE_KEYS.save);
-}
-
-export function hydrateGame(instance, savedState) {
-  if (!instance || !savedState || typeof savedState !== 'object') return instance;
-  for (const [key, value] of Object.entries(savedState)) {
-    if (key !== 'rng') instance[key] = value;
-  }
-  instance.rng = Math.random;
-  return instance;
 }
 
 export function installConnectivityBadge() {
