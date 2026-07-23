@@ -1,57 +1,23 @@
-/** Runtime branding policy. Keep this file dependency-free for the standalone build. */
+/** Runtime branding policy backed by the central asset-service. */
+
+import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
 
 (() => {
   const brandingConfig = Object.freeze({
     allowOfficialBranding: false,
-    playerPlaceholderPath: 'src/assets/placeholders/player-silhouette.svg',
-    clubPlaceholderPath: 'src/assets/placeholders/club-badge.svg',
-    appIconPath: 'src/assets/placeholders/app-icon.svg',
+    playerPlaceholderPath: ASSET_PLACEHOLDERS.player,
+    clubPlaceholderPath: ASSET_PLACEHOLDERS.club,
+    appIconPath: ASSET_PLACEHOLDERS.appIcon,
     blockRemotePlayerPhotos: true,
     blockRemoteClubLogos: true,
   });
 
-  const canonicalPath = value => String(value || '')
-    .trim()
-    .replace(/^\.\//, '')
-    .split(/[?#]/, 1)[0];
-
-  /**
-   * Runtime allow-list. An official asset may be added only after the JSON
-   * registry documents permission and approvedForRelease=true.
-   */
-  const approvedReleaseAssets = new Set([
-    brandingConfig.playerPlaceholderPath,
-    brandingConfig.clubPlaceholderPath,
-    brandingConfig.appIconPath,
-  ].map(canonicalPath));
-
-  const protectedArtPrefixes = [
-    'assets/portraits/',
-    'assets/pub/',
-    'assets/cards/',
-    'assets/friends/',
-    'assets/logos/',
-    'assets/clubs/',
-    'assets/leagues/',
-  ];
-
-  const isRemoteAssetUrl = value => {
-    if (typeof value !== 'string' || !value.trim()) return false;
-    try {
-      const parsed = new URL(value, document.baseURI);
-      return parsed.origin !== window.location.origin;
-    } catch {
-      return true;
-    }
-  };
-
-  const isApprovedReleaseAsset = path => approvedReleaseAssets.has(canonicalPath(path));
-
-  const isProtectedUnapprovedArt = path => {
-    const canonical = canonicalPath(path);
-    return protectedArtPrefixes.some(prefix => canonical.includes(prefix))
-      && !isApprovedReleaseAsset(canonical);
-  };
+  const isRemoteAssetUrl = value => assetService.isRemoteAssetUrl(value, {
+    baseUrl: document.baseURI,
+    origin: window.location.origin,
+  });
+  const isApprovedReleaseAsset = path => assetService.isApprovedReleaseAsset(path);
+  const isProtectedUnapprovedArt = path => assetService.isProtectedUnapprovedArt(path);
 
   /**
    * UI.tryArt uses `new Image()` probes. Guard those probes before the game modules
@@ -92,6 +58,7 @@
 
   globalThis.__FOCISKARTYAK_BRANDING__ = Object.freeze({
     config: brandingConfig,
+    canonicalPath: assetService.canonicalPath,
     isRemoteAssetUrl,
     isApprovedReleaseAsset,
     isProtectedUnapprovedArt,

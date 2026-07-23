@@ -25,6 +25,7 @@ export const ASSET_PROTECTED_PREFIXES = Object.freeze([
   'assets/logos/',
   'assets/clubs/',
   'assets/leagues/',
+  'assets/flags/',
 ]);
 
 export class AssetServiceError extends Error {
@@ -69,8 +70,8 @@ const assetWithExtensions = (base, extensions) => {
 };
 
 const assetIdentifier = value => canonicalAssetPath(value)
-  .replace(/^\/+|\/+$/g, '')
   .replace(/\.\./g, '')
+  .replace(/^\/+|\/+$/g, '')
   .trim();
 
 const assetRecordId = (value, candidates) => {
