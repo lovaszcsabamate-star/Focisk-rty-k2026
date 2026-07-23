@@ -3,7 +3,7 @@
 export const STORAGE_SCHEMA_VERSION = 1;
 export const SAVED_MATCH_VERSION = 2;
 
-export const STORAGE_KEYS = Object.freeze({
+export const APP_STORAGE_KEYS = Object.freeze({
   savedMatch: 'fociskartyak:saved-match:v2',
   deckSelection: 'fociskartyak:deck-selection:v1',
   onboardingComplete: 'fociskartyak:onboarding-complete',
@@ -34,10 +34,12 @@ export const DEFAULT_EXPERIENCE_SETTINGS = Object.freeze({
 export const APP_CONFIGURATION = Object.freeze({
   storageSchemaVersion: STORAGE_SCHEMA_VERSION,
   savedMatchVersion: SAVED_MATCH_VERSION,
-  storageKeys: STORAGE_KEYS,
+  storageKeys: APP_STORAGE_KEYS,
   booleanSettingKeys: BOOLEAN_SETTING_KEYS,
   defaultExperienceSettings: DEFAULT_EXPERIENCE_SETTINGS,
 });
+
+export { APP_STORAGE_KEYS as STORAGE_KEYS };
 
 export function settingStorageKey(settingName) {
   return BOOLEAN_SETTING_KEYS[settingName] ?? `fociskartyak:${String(settingName ?? '').trim()}`;

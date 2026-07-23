@@ -1,8 +1,8 @@
-import { STORAGE_KEYS } from './app/configuration.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredJson, writeStoredJson } from './services/storage-service.js';
 
 (() => {
-  const STORAGE_KEY = STORAGE_KEYS.visualSettings;
+  const STORAGE_KEY = APP_STORAGE_KEYS.visualSettings;
   const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
   const DEFAULTS = Object.freeze({

@@ -4,12 +4,12 @@
  */
 
 import './mobile-experience.js';
-import { STORAGE_KEYS } from './app/configuration.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredString } from './services/storage-service.js';
 import { UI } from './ui.js';
 import { loadPlayerName, localizeInterfaceTextValue } from './player-profile.js';
 
-export const SAVED_MATCH_STORAGE_KEY = STORAGE_KEYS.savedMatch;
+export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
 
 const RELIABILITY_LEGACY_OPPONENT_IDS = Object.freeze({
   pub: 'bogdan',

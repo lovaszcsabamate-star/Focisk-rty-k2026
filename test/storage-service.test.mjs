@@ -3,6 +3,7 @@ import fs from 'node:fs';
 
 import {
   APP_CONFIGURATION,
+  APP_STORAGE_KEYS,
   BOOLEAN_SETTING_KEYS,
   DEFAULT_EXPERIENCE_SETTINGS,
   SAVED_MATCH_VERSION,
@@ -21,12 +22,13 @@ class MemoryStorage {
 
 assert.equal(STORAGE_SCHEMA_VERSION, 1);
 assert.equal(SAVED_MATCH_VERSION, 2);
-assert.equal(APP_CONFIGURATION.storageKeys, STORAGE_KEYS);
+assert.equal(APP_CONFIGURATION.storageKeys, APP_STORAGE_KEYS);
+assert.equal(STORAGE_KEYS, APP_STORAGE_KEYS);
 assert.equal(APP_CONFIGURATION.booleanSettingKeys, BOOLEAN_SETTING_KEYS);
 assert.equal(APP_CONFIGURATION.defaultExperienceSettings, DEFAULT_EXPERIENCE_SETTINGS);
-assert.equal(settingStorageKey('sounds'), STORAGE_KEYS.sounds ?? BOOLEAN_SETTING_KEYS.sounds);
+assert.equal(settingStorageKey('sounds'), BOOLEAN_SETTING_KEYS.sounds);
 assert.equal(settingStorageKey('custom'), 'fociskartyak:custom');
-assert.equal(new Set(Object.values(STORAGE_KEYS)).size, Object.keys(STORAGE_KEYS).length);
+assert.equal(new Set(Object.values(APP_STORAGE_KEYS)).size, Object.keys(STORAGE_KEYS).length);
 assert.equal(new Set(Object.values(BOOLEAN_SETTING_KEYS)).size, Object.keys(BOOLEAN_SETTING_KEYS).length);
 
 const memory = new MemoryStorage();
@@ -72,7 +74,7 @@ const consumers = [
   'js/visual-settings-persistence.js',
   'js/visual-system.js',
 ];
-const hardcodedKeys = [...Object.values(STORAGE_KEYS), ...Object.values(BOOLEAN_SETTING_KEYS)];
+const hardcodedKeys = [...Object.values(APP_STORAGE_KEYS), ...Object.values(BOOLEAN_SETTING_KEYS)];
 for (const file of consumers) {
   const source = fs.readFileSync(file, 'utf8');
   assert.match(source, /configuration\.js|storage-service\.js/, `${file}: központi modul importja hiányzik`);

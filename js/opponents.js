@@ -1,11 +1,11 @@
 /** Character ladder and visible pub opponents. Loaded after matchday.js. */
 
-import { STORAGE_KEYS } from './app/configuration.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredString, writeStoredString } from './services/storage-service.js';
 import { DIFFICULTY } from './ai.js';
 import { UI, el } from './ui.js';
 
-const STORAGE_KEY = STORAGE_KEYS.selectedOpponent;
+const STORAGE_KEY = APP_STORAGE_KEYS.selectedOpponent;
 
 export const OPPONENTS = [
   {

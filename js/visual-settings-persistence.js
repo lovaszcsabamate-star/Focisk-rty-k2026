@@ -1,9 +1,9 @@
-import { STORAGE_KEYS } from './app/configuration.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredJson, removeStoredValue, writeStoredJson } from './services/storage-service.js';
 
 (() => {
-  const STORAGE_KEY = STORAGE_KEYS.visualSettings;
-  const SIZING_BACKUP_KEY = STORAGE_KEYS.visualSizingBackup;
+  const STORAGE_KEY = APP_STORAGE_KEYS.visualSettings;
+  const SIZING_BACKUP_KEY = APP_STORAGE_KEYS.visualSizingBackup;
   const SIZING_FIELDS = Object.freeze([
     { key: 'selectionCardWidth', min: 150, max: 280 },
     { key: 'battleCardWidth', min: 220, max: 420 },

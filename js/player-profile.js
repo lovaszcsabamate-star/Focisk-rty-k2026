@@ -1,10 +1,10 @@
 /** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
 
-import { STORAGE_KEYS } from './app/configuration.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredString, removeStoredValue, writeStoredString } from './services/storage-service.js';
 import { UI } from './ui.js';
 
-export const PLAYER_NAME_STORAGE_KEY = STORAGE_KEYS.playerName;
+export const PLAYER_NAME_STORAGE_KEY = APP_STORAGE_KEYS.playerName;
 export const DEFAULT_PLAYER_NAME = 'Játékos';
 export const MAX_PLAYER_NAME_LENGTH = 24;
 

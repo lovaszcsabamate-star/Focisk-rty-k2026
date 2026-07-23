@@ -3,7 +3,7 @@
 import {
   DEFAULT_EXPERIENCE_SETTINGS,
   SAVED_MATCH_VERSION,
-  STORAGE_KEYS as APP_STORAGE_KEYS,
+  APP_STORAGE_KEYS,
   settingStorageKey,
 } from './app/configuration.js';
 import {

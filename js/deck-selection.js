@@ -1,11 +1,11 @@
 /** Deck filtering and menu controls shared by both game modes. */
 
-import { STORAGE_KEYS } from './app/configuration.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredJson, writeStoredJson } from './services/storage-service.js';
 
 export const MIN_FILTERED_DECK_SIZE = 11;
-export const DECK_SELECTION_STORAGE_KEY = STORAGE_KEYS.deckSelection;
-export const SAVED_MATCH_STORAGE_KEY = STORAGE_KEYS.savedMatch;
+export const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
+export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
 
 export const RANDOM_DECK_SELECTION = Object.freeze({
   kind: 'random',
