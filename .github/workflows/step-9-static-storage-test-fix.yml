@@ -1,0 +1,45 @@
+name: 9. lépés statikus mentéskulcs-teszt javítása
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-test:
+    if: github.head_ref == 'refactor/step-9-storage-configuration' || github.ref_name == 'refactor/step-9-storage-configuration'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/step-9-storage-configuration
+          fetch-depth: 0
+      - name: Statikus teszt központi konfigurációra állítása
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('test/static.test.mjs')
+          source = path.read_text(encoding='utf-8')
+          source = source.replace(
+            "const mobileExperienceJs = read('../js/mobile-experience.js');",
+            "const mobileExperienceJs = read('../js/mobile-experience.js');\nconst appConfiguration = read('../js/app/configuration.js');",
+            1,
+          )
+          source = source.replace(
+            "assert.match(mobileExperienceJs, /saved-match:v2/);",
+            "assert.match(mobileExperienceJs, /APP_STORAGE_KEYS\\.savedMatch/);\nassert.match(mobileExperienceJs, /SAVED_MATCH_VERSION/);\nassert.match(appConfiguration, /savedMatch:\\s*'fociskartyak:saved-match:v2'/);",
+            1,
+          )
+          path.write_text(source, encoding='utf-8')
+          PY
+      - name: Javítás commitolása
+        run: |
+          rm .github/workflows/step-9-static-storage-test-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add test/static.test.mjs .github/workflows/step-9-static-storage-test-fix.yml
+          git commit -m "9. lépés: statikus mentéskulcs-teszt központosítása"
+          git push origin HEAD:refactor/step-9-storage-configuration
