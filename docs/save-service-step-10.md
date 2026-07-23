@@ -179,6 +179,8 @@ A hidratálási hibák `SaveValidationError` kivételt dobnak `INVALID_SAVE` kó
 - a standalone modulrendet;
 - a PWA-cache bejegyzését.
 
+A teszt a kompatibilitási façade-t is ellenőrzi, ezért a `Session` és a régebbi fogyasztók importútvonala változatlan maradhat.
+
 ## Nem része ennek a lépésnek
 
 - a mentési verzió növelése;
