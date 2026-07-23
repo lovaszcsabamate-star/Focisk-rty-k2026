@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
+
 const CLUB_ID = 'nyiregyhaza-spartacus-fc';
 const FILE = 'club-official-enrichment-15-nyiregyhaza-nationalities.json';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
-const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 
 const payload = readJson(`../data/${FILE}`);
 
@@ -35,8 +36,6 @@ assert.equal(byName.get('BITRI ENEO').nation, 'ALB');
 assert.equal(byName.get('DRESKOVIC MELDIN').nation, 'MNE');
 assert.equal(byName.get('TIJANI MUHAMED').nation, 'NGA');
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  assert.match(readText(source), new RegExp(FILE.replaceAll('.', '\\.')));
-}
+assertRegisteredDataFile(FILE, 'enrichments');
 
 console.log('✓ Nyíregyháza nemzetiségek: 39/39 forrásolt rekord és kód konzisztens');
