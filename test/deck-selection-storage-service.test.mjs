@@ -113,6 +113,11 @@ const buildSource = readSource('../scripts/build-standalone.mjs');
 const serviceWorkerSource = readSource('../sw.js');
 
 assert.doesNotMatch(serviceSource, /\bdocument\b|\bwindow\b|MutationObserver|location\.reload|confirm\(/);
+assert.doesNotMatch(
+  serviceSource,
+  /export const (?:hasSavedMatch|clearSavedMatch|replaceDeckSelection)\b/,
+  'a mérkőzésmentési metódusok nem hozhatnak létre standalone top-level névütközést',
+);
 assert.match(compatibilitySource, /\.\/services\/deck-selection-storage-service\.js/);
 assert.doesNotMatch(compatibilitySource, /\.\/app\/configuration\.js|\.\/services\/storage-service\.js/);
 assert.doesNotMatch(compatibilitySource, /readStoredJson|readStoredString|writeStoredJson|removeStoredValue/);
