@@ -9,6 +9,7 @@ const normalized = readJson(`../${manifest.files.normalizedPlayers}`);
 const report = readJson(`../${manifest.files.normalizationReport}`);
 const bootstrap = read('../js/bootstrap.js');
 const registry = read('../js/database/database-registry.js');
+const standaloneBuilder = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
 
 assert.equal(manifest.version, '3.0.0');
@@ -36,8 +37,12 @@ assert.match(bootstrap, /fetchJson\(files\.normalizedPlayers\)/);
 assert.match(bootstrap, /source: 'normalized'/);
 assert.match(bootstrap, /source: 'legacy-fallback'/);
 assert.match(bootstrap, /Visszaállás a régi forrásrétegekre/);
+assert.match(standaloneBuilder, /normalizedPlayerFile/);
+assert.match(standaloneBuilder, /buildDataSource = 'normalized'/);
+assert.match(standaloneBuilder, /buildDataSource = 'legacy-layered'/);
+assert.match(standaloneBuilder, /standaloneDataSource: buildDataSource/);
 assert.match(serviceWorker, /players\.normalized\.json/);
 assert.match(serviceWorker, /normalization-report\.json/);
 assert.match(serviceWorker, /fociskartyak-2026-v50/);
 
-console.log('✓ Normalizált adatbázis az elsődleges forrás, validált és offline elérhető; a régi réteges visszaállás megmaradt');
+console.log('✓ Normalizált adatbázis az elsődleges böngészős, önálló és mobilos forrás; a régi réteges visszaállás megmaradt');
