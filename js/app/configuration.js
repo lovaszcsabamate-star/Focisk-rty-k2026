@@ -3,6 +3,7 @@
 export const STORAGE_SCHEMA_VERSION = 1;
 export const SAVED_MATCH_VERSION = 2;
 
+// A kulcsértékek a korábbi kiadáséval azonosak, ezért a meglévő felhasználói adatok migráció nélkül megmaradnak.
 export const APP_STORAGE_KEYS = Object.freeze({
   savedMatch: 'fociskartyak:saved-match:v2',
   deckSelection: 'fociskartyak:deck-selection:v1',
