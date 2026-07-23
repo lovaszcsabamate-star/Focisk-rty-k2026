@@ -1,0 +1,49 @@
+name: 10. lépés statikus save-service szerződés
+
+on:
+  push:
+    branches: [refactor/step-10-save-service]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/step-10-save-service
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Statikus szerződés frissítése
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('test/static.test.mjs')
+          source = path.read_text(encoding='utf-8')
+          source = source.replace(
+              "const appConfiguration = read('../js/app/configuration.js');\n",
+              "const appConfiguration = read('../js/app/configuration.js');\nconst saveServiceModule = read('../js/services/save-service.js');\n",
+          )
+          source = source.replace(
+              "assert.match(mobileExperienceJs, /SAVED_MATCH_VERSION/);\n",
+              "assert.match(saveServiceModule, /SAVED_MATCH_VERSION/);\nassert.match(mobileExperienceJs, /services\\/save-service\\.js/);\n",
+          )
+          path.write_text(source, encoding='utf-8')
+          PY
+      - name: Célzott ellenőrzés
+        run: |
+          node test/static.test.mjs
+          node test/save-service.test.mjs
+      - name: Javítás commitolása
+        run: |
+          rm .github/workflows/step-10-static-contract.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git commit -m "10. lépés: statikus teszt átállítása a save-service-re"
+          git push origin HEAD:refactor/step-10-save-service
