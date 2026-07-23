@@ -59,6 +59,7 @@ export function validateDatabaseRegistry(payload = {}) {
 
 export function normaliseDatabaseManifest(payload = {}, manifestUrl = '') {
   const files = isObject(payload.files) ? payload.files : {};
+  const normalization = isObject(payload.normalization) ? payload.normalization : {};
   return {
     ...payload,
     schemaVersion: Number(payload.schemaVersion),
@@ -77,10 +78,20 @@ export function normaliseDatabaseManifest(payload = {}, manifestUrl = '') {
     manifestUrl: asText(manifestUrl),
     files: {
       players: asText(files.players),
+      normalizedPlayers: asText(files.normalizedPlayers),
+      normalizationReport: asText(files.normalizationReport),
       clubDirectory: asText(files.clubDirectory),
       enrichments: asStringList(files.enrichments),
       corrections: asStringList(files.corrections),
       statPatches: asStringList(files.statPatches),
+    },
+    normalization: {
+      schemaVersion: Number(normalization.schemaVersion),
+      playerModelVersion: Number(normalization.playerModelVersion),
+      primaryFile: asText(normalization.primaryFile),
+      migrationScript: asText(normalization.migrationScript),
+      reproducible: normalization.reproducible === true,
+      fallback: asText(normalization.fallback),
     },
   };
 }
@@ -103,8 +114,21 @@ export function validateDatabaseManifest(payload = {}, manifestUrl = '') {
   }
   if (!manifest.supportedModes.length) errors.push('nincs támogatott játékmód');
 
+  if (manifest.normalization.primaryFile) {
+    if (manifest.normalization.primaryFile !== 'normalizedPlayers') {
+      errors.push('ismeretlen normalizált elsődleges fájltípus');
+    }
+    if (!manifest.files.normalizedPlayers) errors.push('hiányzó normalizált játékosadat-fájl');
+    if (!Number.isInteger(manifest.normalization.playerModelVersion)
+      || manifest.normalization.playerModelVersion < 1) {
+      errors.push('érvénytelen playerModelVersion');
+    }
+  }
+
   const allFiles = [
     manifest.files.players,
+    manifest.files.normalizedPlayers,
+    manifest.files.normalizationReport,
     manifest.files.clubDirectory,
     ...manifest.files.enrichments,
     ...manifest.files.corrections,
