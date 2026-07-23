@@ -35,7 +35,7 @@ export function createCardComponent(card, opts = {}) {
   node.dataset.cardId = card.id;
   const portrait = el('div', 'card__portrait');
   portrait.dataset.initials = initials(card.name);
-  tryArt(portrait, [...ART.portrait(card.id), ...(card.meta?.imageUrl ? [card.meta.imageUrl] : [])]);
+  tryArt(portrait, ART.playerPortrait(card));
   if (card.position) portrait.appendChild(el('span', 'card__position', card.position));
   node.appendChild(portrait);
   node.appendChild(el('div', 'card__name', card.name));

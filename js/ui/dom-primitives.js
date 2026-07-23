@@ -1,14 +1,17 @@
 /** Közös DOM- és képernyőgrafikai primitívek a vizuális komponensekhez. */
 
-const UI_ART_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
-const withUiArtExtensions = base => UI_ART_EXTENSIONS.map(extension => `${base}.${extension}`);
+import { assetService } from '../services/asset-service.js';
 
-// Szándékosan bővíthető: a későbbi kompatibilitási modulok további asset-feloldókat adhatnak hozzá.
+// Szándékosan bővíthető kompatibilitási UI-API, központi asset-service feloldással.
 export const ART = {
-  portrait: id => withUiArtExtensions(`assets/portraits/${id}`),
-  cardBack: () => withUiArtExtensions('assets/cards/back'),
-  friend: id => withUiArtExtensions(`assets/friends/${id}`),
-  pub: () => withUiArtExtensions('assets/pub/background'),
+  portrait: id => assetService.playerPortraitCandidates(id, { includeMetadata: false }),
+  playerPortrait: card => assetService.playerPortraitCandidates(card),
+  cardBack: () => assetService.cardBackCandidates(),
+  friend: id => assetService.friendCandidates(id),
+  pub: () => assetService.pubBackgroundCandidates(),
+  clubLogo: clubOrId => assetService.clubLogoCandidates(clubOrId),
+  flag: nationKey => assetService.flagCandidates(nationKey),
+  placeholder: kind => assetService.placeholder(kind),
 };
 
 export const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';

@@ -61,6 +61,7 @@ const sourceFiles = [
 const moduleOrder = [
   'js/app/configuration.js',
   'js/services/storage-service.js',
+  'js/services/asset-service.js',
   'js/deck-selection.js',
   'js/branding.js',
   'js/data/categories.js',
