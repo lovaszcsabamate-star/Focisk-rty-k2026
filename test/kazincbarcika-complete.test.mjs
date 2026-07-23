@@ -6,12 +6,12 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
 
 const CLUB_ID = 'kolorcity-kazincbarcika-sc';
 const ENRICHMENT_FILE = 'club-official-enrichment-16-kazincbarcika-completion.json';
 const PATCH_FILE = 'club-official-stat-patches-kazincbarcika.json';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
-const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const clubIds = card => Array.isArray(card?.meta?.clubIds) && card.meta.clubIds.length
   ? card.meta.clubIds
   : [card?.meta?.clubId].filter(Boolean);
@@ -99,11 +99,8 @@ for (const card of cards) {
   assert.ok(card.meta.clubOfficialStatsByClub?.[CLUB_ID], `${card.name}: hiányzó klubstatisztikai metaadat`);
 }
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  const text = readText(source);
-  assert.match(text, new RegExp(ENRICHMENT_FILE.replaceAll('.', '\\.')));
-  assert.match(text, new RegExp(PATCH_FILE.replaceAll('.', '\\.')));
-}
+assertRegisteredDataFile(ENRICHMENT_FILE, 'enrichments');
+assertRegisteredDataFile(PATCH_FILE, 'statPatches');
 assert.match(patch.source.scope, /nem közölnek játékpercet és gólpasszt/);
 assert.equal(patch.fields.includes('minutes'), false);
 assert.equal(patch.fields.includes('assists'), false);
