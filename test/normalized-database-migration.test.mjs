@@ -13,13 +13,16 @@ import {
   PLAYER_MODEL_VERSION,
 } from '../js/models/player-model.js';
 
-const result = writeNormalizedDatabase({
+const result = buildNormalizedDatabase({
   root: PROJECT_ROOT,
   manifestFile: DEFAULT_MANIFEST_FILE,
 });
+const outputFile = result.manifest.files.normalizedPlayers;
+const reportFile = result.manifest.files.normalizationReport;
 
 assert.equal(result.output.schemaVersion, 1);
 assert.equal(result.output.databaseId, 'hungary-nb1-2025-26');
+assert.equal(result.output.databaseVersion, '3.0.0');
 assert.equal(result.output.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(result.output.players.length, 440);
 assert.equal(new Set(result.output.players.map(player => player.id)).size, 440);
@@ -47,8 +50,8 @@ for (const player of result.output.players) {
   assert.ok(player.dataCompleteness.ratio >= 0 && player.dataCompleteness.ratio <= 1);
 }
 
-const outputPath = path.join(PROJECT_ROOT, result.outputFile);
-const reportPath = path.join(PROJECT_ROOT, result.reportFile);
+const outputPath = path.join(PROJECT_ROOT, outputFile);
+const reportPath = path.join(PROJECT_ROOT, reportFile);
 assert.equal(fs.existsSync(outputPath), true);
 assert.equal(fs.existsSync(reportPath), true);
 
@@ -58,13 +61,8 @@ assert.equal(committedOutput.players.length, 440);
 assert.equal(committedReport.playerCount, 440);
 assert.equal(committedOutput.migration.playersDigest, committedReport.playersDigest);
 assert.equal(committedOutput.migration.sourceDigest, committedReport.sourceDigest);
-
-const rebuilt = buildNormalizedDatabase({
-  root: PROJECT_ROOT,
-  manifestFile: DEFAULT_MANIFEST_FILE,
-});
-assert.deepEqual(rebuilt.output, committedOutput, 'A migráció nem determinisztikus');
-assert.deepEqual(rebuilt.report, committedReport, 'A migrációs jelentés nem determinisztikus');
+assert.deepEqual(result.output, committedOutput, 'A commitolt adatbázis eltér a reprodukálható migrációtól');
+assert.deepEqual(result.report, committedReport, 'A commitolt jelentés eltér a reprodukálható migrációtól');
 
 writeNormalizedDatabase({
   root: PROJECT_ROOT,
