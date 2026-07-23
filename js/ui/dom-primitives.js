@@ -3,12 +3,13 @@
 const UI_ART_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
 const withUiArtExtensions = base => UI_ART_EXTENSIONS.map(extension => `${base}.${extension}`);
 
-export const ART = Object.freeze({
+// Szándékosan bővíthető: a későbbi kompatibilitási modulok további asset-feloldókat adhatnak hozzá.
+export const ART = {
   portrait: id => withUiArtExtensions(`assets/portraits/${id}`),
   cardBack: () => withUiArtExtensions('assets/cards/back'),
   friend: id => withUiArtExtensions(`assets/friends/${id}`),
   pub: () => withUiArtExtensions('assets/pub/background'),
-});
+};
 
 export const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';
 
