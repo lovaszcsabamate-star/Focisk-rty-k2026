@@ -6,6 +6,8 @@
  * value cannot be used in that comparison.
  */
 
+import { CATEGORY_MINIMUM_COVERAGE, CATEGORY_RATE_MINUTES, createCategoryRegistry } from './categories.js';
+
 const PLACEHOLDER_VALUES = new Set([
   '', '-', '–', '—', 'n/a', 'n.a.', 'na', 'null', 'undefined', 'ismeretlen', 'nincs adat',
 ]);
@@ -14,9 +16,8 @@ const isFiniteNumber = value => typeof value === 'number' && Number.isFinite(val
 const firstValid = values => values.find(value => value != null) ?? null;
 
 export const SEASON_REFERENCE_DATE = new Date('2026-05-16T00:00:00Z');
-export const MIN_MINUTES_FOR_RATE_STATS = 90;
-export const MIN_CATEGORY_COVERAGE = 0.10;
-export const CATEGORY_AVAILABILITY = {};
+export const MIN_MINUTES_FOR_RATE_STATS = CATEGORY_RATE_MINUTES;
+export const MIN_CATEGORY_COVERAGE = CATEGORY_MINIMUM_COVERAGE;
 
 export function normaliseNumber(value) {
   if (isFiniteNumber(value)) return value;
@@ -98,257 +99,32 @@ export function calculateAge(birthDate, reference = SEASON_REFERENCE_DATE) {
   return age;
 }
 
-const integer = value => `${Math.round(value)}`;
-const decimal = value => value.toLocaleString('hu-HU', { maximumFractionDigits: 2 });
-const percent = value => `${decimal(value)}%`;
-const minutes = value => `${Math.round(value)} perc`;
-const centimetres = value => `${decimal(value)} cm`;
-const money = value => new Intl.NumberFormat('hu-HU', {
-  style: 'currency', currency: 'EUR', maximumFractionDigits: value >= 1_000_000 ? 1 : 0,
-}).format(value);
-
-const statValue = key => card => normaliseNumber(card?.stats?.[key]);
-const exactBirthDate = card => parseBirthDate(card?.birthDate);
-const safeRatio = (numerator, denominator, multiplier = 1) => {
-  if (!isFiniteNumber(numerator) || !isFiniteNumber(denominator) || denominator <= 0) return null;
-  const value = numerator / denominator * multiplier;
-  return Number.isFinite(value) ? value : null;
-};
-const ratePer90 = (card, numeratorKey) => {
-  const numerator = normaliseNumber(card?.stats?.[numeratorKey]);
-  const playedMinutes = normaliseNumber(card?.stats?.minutes);
-  if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS) return null;
-  return safeRatio(numerator, playedMinutes, 90);
-};
-const goalContributions = card => {
-  const goals = normaliseNumber(card?.stats?.goals);
-  const assists = normaliseNumber(card?.stats?.assists);
-  return goals == null || assists == null ? null : goals + assists;
-};
-const disciplinaryEvents = card => {
-  const yellows = normaliseNumber(card?.stats?.yellowCards);
-  const dismissals = normaliseNumber(card?.stats?.totalDismissals);
-  return yellows == null || dismissals == null ? null : yellows + dismissals;
-};
-
-const category = config => ({
-  optional: true,
-  precision: null,
-  enabledByDefault: false,
-  cardStatKey: config.key,
-  ...config,
-  higherWins: ['higher', 'later'].includes(config.direction),
+const categoryRegistry = createCategoryRegistry({
+  normaliseNumber,
+  parseBirthDate,
+  calculateAge,
 });
 
-/** Complete requested category catalogue. Unsupported categories stay disabled until data appears. */
-export const ATTRIBUTE_DEFINITIONS = [
-  category({
-    key: 'birthDate', label: 'Fiatalabb játékos', shortLabel: 'Fiatalabb', cardLabel: 'Életkor',
-    icon: '🎂', group: 'Alapadatok', direction: 'later', hint: 'A fiatalabb nyer',
-    getValue: exactBirthDate, format: (value, card) => `${calculateAge(card.birthDate)} év`, enabledByDefault: true,
-  }),
-  category({
-    key: 'birthDateOlder', label: 'Idősebb játékos', shortLabel: 'Idősebb', cardLabel: 'Életkor',
-    icon: '🕰️', group: 'Alapadatok', direction: 'earlier', hint: 'Az idősebb nyer',
-    getValue: exactBirthDate, format: (value, card) => `${calculateAge(card.birthDate)} év`,
-    cardStatKey: 'birthDate', enabledByDefault: true,
-  }),
-  category({
-    key: 'heightCm', label: 'Magasabb játékos', shortLabel: 'Magasabb', cardLabel: 'Magasság',
-    icon: '📏', group: 'Alapadatok', direction: 'higher', hint: 'A magasabb nyer',
-    getValue: statValue('heightCm'), format: centimetres,
-  }),
-  category({
-    key: 'heightCmLower', label: 'Alacsonyabb játékos', shortLabel: 'Alacsonyabb', cardLabel: 'Magasság',
-    icon: '📐', group: 'Alapadatok', direction: 'lower', hint: 'Az alacsonyabb nyer',
-    getValue: statValue('heightCm'), format: centimetres, cardStatKey: 'heightCm',
-  }),
-  category({
-    key: 'marketValue', label: 'Magasabb piaci érték', shortLabel: 'Nagyobb érték', cardLabel: 'Piaci érték',
-    icon: '💶', group: 'Alapadatok', direction: 'higher', hint: 'A nagyobb érték nyer',
-    getValue: statValue('marketValue'), format: money,
-  }),
-  category({
-    key: 'marketValueLower', label: 'Alacsonyabb piaci érték', shortLabel: 'Kisebb érték', cardLabel: 'Piaci érték',
-    icon: '🪙', group: 'Alapadatok', direction: 'lower', hint: 'A kisebb érték nyer',
-    getValue: statValue('marketValue'), format: money, cardStatKey: 'marketValue',
-  }),
-  category({
-    key: 'appearances', label: 'Több mérkőzés', shortLabel: 'Mérkőzések', cardLabel: 'Mérkőzések',
-    icon: '👕', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('appearances'), format: integer, enabledByDefault: true,
-  }),
-  category({
-    key: 'starts', label: 'Több kezdés', shortLabel: 'Kezdések', cardLabel: 'Kezdőként',
-    icon: '▶', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('starts'), format: integer, enabledByDefault: true,
-  }),
-  category({
-    key: 'minutes', label: 'Több játékperc', shortLabel: 'Játékpercek', cardLabel: 'Játékperc',
-    icon: '⏱️', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('minutes'), format: minutes,
-  }),
-  category({
-    key: 'minutesPerAppearance', label: 'Több játékperc mérkőzésenként', shortLabel: 'Perc/meccs', cardLabel: 'Perc/meccs',
-    icon: '⌛', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer', precision: 2,
-    getValue: card => safeRatio(normaliseNumber(card?.stats?.minutes), normaliseNumber(card?.stats?.appearances)),
-    format: value => `${decimal(value)} perc`,
-  }),
-  category({
-    key: 'startRate', label: 'Magasabb kezdési arány', shortLabel: 'Kezdési arány', cardLabel: 'Kezdési arány',
-    icon: '📊', group: 'Pályára lépés', direction: 'higher', hint: 'A magasabb arány nyer', precision: 2,
-    getValue: card => {
-      const starts = normaliseNumber(card?.stats?.starts);
-      const appearances = normaliseNumber(card?.stats?.appearances);
-      if (starts == null || appearances == null || starts < 0 || appearances <= 0 || starts > appearances) return null;
-      return safeRatio(starts, appearances, 100);
-    },
-    format: percent, enabledByDefault: true,
-  }),
-  category({
-    key: 'goals', label: 'Több gól', shortLabel: 'Gólok', cardLabel: 'Gólok',
-    icon: '⚽', group: 'Támadás', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('goals'), format: integer, enabledByDefault: true, optional: false,
-  }),
-  category({
-    key: 'assists', label: 'Több gólpassz', shortLabel: 'Gólpasszok', cardLabel: 'Gólpasszok',
-    icon: '🅰️', group: 'Támadás', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('assists'), format: integer,
-  }),
-  category({
-    key: 'goalContributions', label: 'Több kanadai pont', shortLabel: 'Kanadai pont', cardLabel: 'Kanadai pont',
-    icon: '➕', group: 'Támadás', direction: 'higher', hint: 'A több nyer',
-    getValue: goalContributions, format: integer,
-  }),
-  category({
-    key: 'goalsPer90', label: 'Több gól 90 percenként', shortLabel: 'Gól/90', cardLabel: 'Gól/90',
-    icon: '🎯', group: 'Támadás', direction: 'higher', hint: 'A több nyer', precision: 2,
-    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS, getValue: card => ratePer90(card, 'goals'), format: decimal,
-  }),
-  category({
-    key: 'assistsPer90', label: 'Több gólpassz 90 percenként', shortLabel: 'Gólpassz/90', cardLabel: 'Gólpassz/90',
-    icon: '🧠', group: 'Támadás', direction: 'higher', hint: 'A több nyer', precision: 2,
-    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS, getValue: card => ratePer90(card, 'assists'), format: decimal,
-  }),
-  category({
-    key: 'goalContributionsPer90', label: 'Több kanadai pont 90 percenként', shortLabel: 'Pont/90', cardLabel: 'Pont/90',
-    icon: '🚀', group: 'Támadás', direction: 'higher', hint: 'A több nyer', precision: 2,
-    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
-    getValue: card => {
-      const contributions = goalContributions(card);
-      const playedMinutes = normaliseNumber(card?.stats?.minutes);
-      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS) return null;
-      return safeRatio(contributions, playedMinutes, 90);
-    },
-    format: decimal,
-  }),
-  category({
-    key: 'minutesPerGoal', label: 'Kevesebb játékperc egy gólhoz', shortLabel: 'Perc/gól', cardLabel: 'Perc/gól',
-    icon: '🥅', group: 'Támadás', direction: 'lower', hint: 'A kevesebb nyer', precision: 2,
-    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
-    getValue: card => {
-      const goals = normaliseNumber(card?.stats?.goals);
-      const playedMinutes = normaliseNumber(card?.stats?.minutes);
-      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS || goals == null || goals <= 0) return null;
-      return safeRatio(playedMinutes, goals);
-    },
-    format: minutes,
-  }),
-  category({
-    key: 'minutesPerGoalContribution', label: 'Kevesebb játékperc egy kanadai ponthoz', shortLabel: 'Perc/pont', cardLabel: 'Perc/pont',
-    icon: '⚡', group: 'Támadás', direction: 'lower', hint: 'A kevesebb nyer', precision: 2,
-    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
-    getValue: card => {
-      const contributions = goalContributions(card);
-      const playedMinutes = normaliseNumber(card?.stats?.minutes);
-      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS || contributions == null || contributions <= 0) return null;
-      return safeRatio(playedMinutes, contributions);
-    },
-    format: minutes,
-  }),
-  category({
-    key: 'squads', label: 'Több kerettagság', shortLabel: 'Kerettagság', cardLabel: 'Meccskeretben',
-    icon: '📋', group: 'Pályára lépés', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('squads'), format: integer, enabledByDefault: true,
-  }),
-  category({
-    key: 'yellowCards', label: 'Több sárga lap', shortLabel: 'Több sárga', cardLabel: 'Sárga lap',
-    icon: '🟨', group: 'Fegyelem', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('yellowCards'), format: integer, enabledByDefault: true,
-  }),
-  category({
-    key: 'yellowCardsFewest', label: 'Kevesebb sárga lap', shortLabel: 'Kevesebb sárga', cardLabel: 'Sárga lap',
-    icon: '🟨', group: 'Fegyelem', direction: 'lower', hint: 'A kevesebb nyer',
-    getValue: statValue('yellowCards'), format: integer, cardStatKey: 'yellowCards', enabledByDefault: true,
-  }),
-  category({
-    key: 'totalDismissals', label: 'Több kiállítás', shortLabel: 'Több kiállítás', cardLabel: 'Kiállítás',
-    icon: '🟥', group: 'Fegyelem', direction: 'higher', hint: 'A több nyer',
-    getValue: statValue('totalDismissals'), format: integer, enabledByDefault: true,
-  }),
-  category({
-    key: 'totalDismissalsFewest', label: 'Kevesebb kiállítás', shortLabel: 'Kevesebb kiállítás', cardLabel: 'Kiállítás',
-    icon: '🟥', group: 'Fegyelem', direction: 'lower', hint: 'A kevesebb nyer',
-    getValue: statValue('totalDismissals'), format: integer, cardStatKey: 'totalDismissals', enabledByDefault: true,
-  }),
-  category({
-    key: 'cardsPer90', label: 'Több lap 90 percenként', shortLabel: 'Lap/90', cardLabel: 'Lap/90',
-    icon: '🟨', group: 'Fegyelem', direction: 'higher', hint: 'A több nyer', precision: 2,
-    minimumMinutes: MIN_MINUTES_FOR_RATE_STATS,
-    getValue: card => {
-      const cards = disciplinaryEvents(card);
-      const playedMinutes = normaliseNumber(card?.stats?.minutes);
-      if (playedMinutes == null || playedMinutes < MIN_MINUTES_FOR_RATE_STATS) return null;
-      return safeRatio(cards, playedMinutes, 90);
-    },
-    format: decimal,
-  }),
-  category({
-    key: 'discipline', label: 'Fegyelmezettebb játékos', shortLabel: 'Fegyelmezettebb', cardLabel: 'Összes lap',
-    icon: '🕊️', group: 'Fegyelem', direction: 'lower', hint: 'A kevesebb lap nyer',
-    getValue: disciplinaryEvents, format: value => `${integer(value)} lap`, enabledByDefault: true,
-  }),
-];
+/** Kanonikus kategóriaexportok. */
+export const CATEGORY_DEFINITIONS = categoryRegistry.definitions;
+export const CATEGORY_BY_ID = categoryRegistry.byId;
+export const ENABLED_CATEGORIES = categoryRegistry.enabledCategories;
+export const CARD_CATEGORY_IDS = categoryRegistry.cardCategoryIds;
+export const CATEGORY_AVAILABILITY = categoryRegistry.availability;
+export const categoryValue = categoryRegistry.value;
+export const hasCategoryData = categoryRegistry.hasValue;
+export const formatCategoryValue = categoryRegistry.formatValue;
+export const configureCategories = categoryRegistry.configure;
 
-export const ATTRIBUTE_BY_KEY = Object.fromEntries(ATTRIBUTE_DEFINITIONS.map(attribute => [attribute.key, attribute]));
-export const ATTRIBUTES = ATTRIBUTE_DEFINITIONS.filter(attribute => attribute.enabledByDefault);
-export const CARD_ATTRIBUTE_KEYS = ['birthDate', 'appearances', 'starts', 'goals', 'squads', 'yellowCards', 'totalDismissals'];
-
-/** Return a comparable primitive, or null for unknown/malformed data. */
-export function attributeValue(card, attributeKey) {
-  const attribute = ATTRIBUTE_BY_KEY[attributeKey];
-  if (!card || !attribute) return null;
-  const value = attribute.getValue(card);
-  return isFiniteNumber(value) ? value : null;
-}
-
-export const hasAttributeData = (card, attributeKey) => attributeValue(card, attributeKey) != null;
-
-export function formatAttribute(card, attributeKey) {
-  const attribute = ATTRIBUTE_BY_KEY[attributeKey];
-  if (!attribute) return '';
-  const value = attributeValue(card, attributeKey);
-  return value == null ? '' : attribute.format(value, card);
-}
-
-export function configureAttributes(cards, { minimumCoverage = MIN_CATEGORY_COVERAGE } = {}) {
-  const pool = Array.isArray(cards) ? cards : [];
-  const minimumKnown = Math.max(2, Math.ceil(pool.length * minimumCoverage));
-  const enabled = [];
-
-  for (const attribute of ATTRIBUTE_DEFINITIONS) {
-    const known = pool.filter(card => hasAttributeData(card, attribute.key)).length;
-    const coverage = pool.length ? known / pool.length : 0;
-    const active = known >= minimumKnown || (!attribute.optional && known === pool.length && known > 0);
-    const status = active ? (coverage < 0.5 ? 'experimental' : 'enabled') : 'disabled';
-    Object.assign(attribute, { enabled: active, knownValues: known, coverage, status });
-    CATEGORY_AVAILABILITY[attribute.key] = { enabled: active, knownValues: known, coverage, status };
-    if (active) enabled.push(attribute);
-  }
-
-  ATTRIBUTES.splice(0, ATTRIBUTES.length, ...enabled);
-  return CATEGORY_AVAILABILITY;
-}
+/** Visszafelé kompatibilis attribútumexportok a meglévő motorhoz és UI-hoz. */
+export const ATTRIBUTE_DEFINITIONS = CATEGORY_DEFINITIONS;
+export const ATTRIBUTE_BY_KEY = CATEGORY_BY_ID;
+export const ATTRIBUTES = ENABLED_CATEGORIES;
+export const CARD_ATTRIBUTE_KEYS = CARD_CATEGORY_IDS;
+export const attributeValue = categoryValue;
+export const hasAttributeData = hasCategoryData;
+export const formatAttribute = formatCategoryValue;
+export const configureAttributes = configureCategories;
 
 const pickNumber = (...values) => firstValid(values.map(normaliseNumber));
 

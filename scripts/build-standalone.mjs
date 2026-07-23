@@ -60,6 +60,7 @@ const sourceFiles = [
 
 const moduleOrder = [
   'js/branding.js',
+  'js/data/categories.js',
   'js/data/players.js',
   'js/engine.js',
   'js/penalties.js',
