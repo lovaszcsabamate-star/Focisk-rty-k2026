@@ -5,6 +5,7 @@ import {
   applyClubEnrichmentPayload,
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
 
 const CLUB_ID = 'eto-fc';
 const ENRICHMENT_FILE = 'club-official-enrichment-21-eto-completion.json';
@@ -67,10 +68,7 @@ for (const card of cards) {
 const kocsis = cards.find(card => card.name === 'KOCSIS BOTOND');
 assert.deepEqual(clubIds(kocsis), ['eto-fc', 'kolorcity-kazincbarcika-sc']);
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  const text = readText(source);
-  assert.match(text, new RegExp(ENRICHMENT_FILE.replaceAll('.', '\\.')));
-}
+assertRegisteredDataFile(ENRICHMENT_FILE, 'enrichments');
 assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
 
 const directory = readJson('../data/club-official-sources.json');
