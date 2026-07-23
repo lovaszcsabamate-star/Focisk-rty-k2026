@@ -54,8 +54,8 @@ write('js/game/game-runtime.js', runtime);
 let build = read('scripts/build-standalone.mjs');
 build = replaceRequired(
   build,
-  "  'js/services/turn-timing-service.js',\n  'js/game/game-runtime.js',",
-  "  'js/services/turn-timing-service.js',\n  'js/game/game-mode-factory.js',\n  'js/game/game-runtime.js',",
+  "  'js/app/session-lifecycle-service.js',\n  'js/game/game-runtime.js',",
+  "  'js/app/session-lifecycle-service.js',\n  'js/game/game-mode-factory.js',\n  'js/game/game-runtime.js',",
   'standalone modulrend',
 );
 write('scripts/build-standalone.mjs', build);
