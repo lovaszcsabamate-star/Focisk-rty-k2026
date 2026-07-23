@@ -4,6 +4,7 @@ import { PHASE, HUMAN, AI, GAME_DECK_SIZE } from './engine.js';
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
 import { TURN_DELAY, createTurnTimingService } from './services/turn-timing-service.js';
+import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { UI, el } from './ui.js';
 import { getLine, getIdleChatter } from './banter.js';
 import { ATTRIBUTE_BY_KEY, attributeValue, loadPlayers } from './data/players.js';
@@ -33,6 +34,7 @@ class Session {
     this.meta = meta;
     this.runtime = new GameRuntime({ players: deck });
     this.timing = createTurnTimingService();
+    this.lifecycle = createSessionLifecycleService();
     this.settings = { ...DEFAULT_SETTINGS, ...loadSettings() };
     this.ui = new UI({
       onAttribute: key => this.humanChoseAttribute(key),
@@ -44,7 +46,6 @@ class Session {
     }, this.settings);
     this.busy = false;
     this.overlayReturn = null;
-    this.exitTapAt = 0;
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
@@ -70,32 +71,15 @@ class Session {
   }
 
   installLifecycleHandlers() {
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') this.saveCurrentGame();
+    return this.lifecycle.install({
+      onSave: () => this.saveCurrentGame(),
+      onToast: (message, tone, duration) => this.ui.showToast(message, tone, duration),
+      onBackAction: () => this.handleBackAction(),
     });
-    window.addEventListener('pagehide', () => this.saveCurrentGame());
-    window.addEventListener('error', event => {
-      console.error('[ui] Nem kezelt hiba:', event.error ?? event.message);
-      this.ui.showToast('Váratlan hiba történt. A játékállást megőriztük.', 'error', 3200);
-      this.saveCurrentGame();
-    });
-    window.addEventListener('unhandledrejection', event => {
-      console.error('[ui] Nem kezelt aszinkron hiba:', event.reason);
-      this.ui.showToast('Egy művelet nem fejeződött be. Próbáld újra.', 'error', 3200);
-      this.saveCurrentGame();
-    });
+  }
 
-    try {
-      history.replaceState({ fociskartyak: 'base' }, document.title);
-      history.pushState({ fociskartyak: 'guard' }, document.title);
-      this._popStateHandler = () => {
-        history.pushState({ fociskartyak: 'guard' }, document.title);
-        this.handleBackAction();
-      };
-      window.addEventListener('popstate', this._popStateHandler);
-    } catch {
-      // History integration is optional in restricted embedded browsers.
-    }
+  disposeLifecycleHandlers() {
+    return this.lifecycle.dispose();
   }
 
   handleBackAction() {
@@ -114,14 +98,7 @@ class Session {
       return;
     }
 
-    const now = Date.now();
-    if (now - this.exitTapAt < 1600) {
-      window.removeEventListener('popstate', this._popStateHandler);
-      history.go(-2);
-      return;
-    }
-    this.exitTapAt = now;
-    this.ui.showToast('A kilépéshez nyomd meg újra a Vissza gombot');
+    this.lifecycle.requestExit();
   }
 
   _showPanel(panel, returnAction = null) {
