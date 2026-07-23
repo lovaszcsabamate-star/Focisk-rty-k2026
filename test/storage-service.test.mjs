@@ -86,6 +86,7 @@ for (const file of consumers) {
 const build = fs.readFileSync('scripts/build-standalone.mjs', 'utf8');
 assert.ok(build.indexOf("'js/app/configuration.js'") < build.indexOf("'js/services/storage-service.js'"));
 assert.ok(build.indexOf("'js/services/storage-service.js'") < build.indexOf("'js/deck-selection.js'"));
+assert.match(build, /visual-settings-persistence\.js.*replace|replace.*visual-settings-persistence\.js/s);
 const sw = fs.readFileSync('sw.js', 'utf8');
 assert.match(sw, /\.\/js\/app\/configuration\.js/);
 assert.match(sw, /\.\/js\/services\/storage-service\.js/);

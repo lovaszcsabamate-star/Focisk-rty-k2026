@@ -221,6 +221,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/reliability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/usability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/focus-experience.js"></script>\n', '')
+  .replace('  <script type="module" src="js/visual-settings-persistence.js"></script>\n', '')
   .replace('  <script type="module" src="js/visual-system.js"></script>\n', '')
   .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
   .replace(
