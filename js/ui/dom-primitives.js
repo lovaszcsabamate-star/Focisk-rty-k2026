@@ -2,8 +2,8 @@
 
 import { assetService } from '../services/asset-service.js';
 
-// Kompatibilis UI-API, központi asset-service feloldással.
-export const ART = Object.freeze({
+// Szándékosan bővíthető kompatibilitási UI-API, központi asset-service feloldással.
+export const ART = {
   portrait: id => assetService.playerPortraitCandidates(id, { includeMetadata: false }),
   playerPortrait: card => assetService.playerPortraitCandidates(card),
   cardBack: () => assetService.cardBackCandidates(),
@@ -12,7 +12,7 @@ export const ART = Object.freeze({
   clubLogo: clubOrId => assetService.clubLogoCandidates(clubOrId),
   flag: nationKey => assetService.flagCandidates(nationKey),
   placeholder: kind => assetService.placeholder(kind),
-});
+};
 
 export const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';
 
