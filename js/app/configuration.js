@@ -39,6 +39,7 @@ export const APP_CONFIGURATION = Object.freeze({
   defaultExperienceSettings: DEFAULT_EXPERIENCE_SETTINGS,
 });
 
+// ESM-fogyasztók számára megmarad a korábbi általános exportnév; a standalone bundle belül az egyedi nevet használja.
 export { APP_STORAGE_KEYS as STORAGE_KEYS };
 
 export function settingStorageKey(settingName) {
