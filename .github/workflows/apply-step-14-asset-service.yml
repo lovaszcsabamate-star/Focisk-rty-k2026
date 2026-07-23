@@ -24,18 +24,24 @@ jobs:
           node-version: 22
       - name: Integráció alkalmazása
         run: node scripts/apply-step-14-asset-service.mjs
-      - name: Célzott ellenőrzések
+      - name: Szintaktikai ellenőrzés
         run: |
           node --check js/services/asset-service.js
           node --check js/branding.js
           node --check js/ui/dom-primitives.js
           node --check js/ui/card-component.js
-          node test/asset-service.test.mjs
-          node scripts/audit-assets.mjs
-          npm run build:standalone
-          node test/ui-components.test.mjs
-          node test/static.test.mjs
-          node test/standalone-game-runtime.test.mjs
+      - name: Asset-service egységteszt
+        run: node test/asset-service.test.mjs
+      - name: Assetlicenc-audit
+        run: node scripts/audit-assets.mjs
+      - name: Standalone build
+        run: npm run build:standalone
+      - name: UI-komponens regresszió
+        run: node test/ui-components.test.mjs
+      - name: Statikus regresszió
+        run: node test/static.test.mjs
+      - name: Standalone játékmotor regresszió
+        run: node test/standalone-game-runtime.test.mjs
       - name: Integráció commitolása
         run: |
           git checkout HEAD -- \
