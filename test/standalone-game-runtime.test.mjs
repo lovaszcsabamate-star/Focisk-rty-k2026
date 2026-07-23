@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+// A tesztet a build után kell futtatni, mert a kiadási és Android-folyamat ugyanazt az önálló HTML-t használja.
 const read = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const buildScript = read('../scripts/build-standalone.mjs');
 const standalone = read('../Fociskartyak2026.html');
