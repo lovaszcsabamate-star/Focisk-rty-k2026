@@ -7005,6 +7005,187 @@ function createTurnTimingService({
 const turnTimingService = createTurnTimingService();
 
 
+/* ===== js/app/session-lifecycle-service.js ===== */
+/** Böngésző-életciklus és vissza-navigáció a Session UI-logikájától leválasztva. */
+
+const SESSION_EXIT_CONFIRMATION_MS = 1600;
+
+const SESSION_LIFECYCLE_MESSAGES = Object.freeze({
+  runtimeError: 'Váratlan hiba történt. A játékállást megőriztük.',
+  asyncError: 'Egy művelet nem fejeződött be. Próbáld újra.',
+  exitConfirmation: 'A kilépéshez nyomd meg újra a Vissza gombot',
+});
+
+const sessionLifecycleDefaultWindow = () => globalThis.window;
+const sessionLifecycleDefaultDocument = () => globalThis.document;
+const sessionLifecycleDefaultHistory = () => globalThis.history;
+const sessionLifecycleDefaultLogger = () => globalThis.console;
+const sessionLifecycleDefaultNow = () => Date.now();
+
+const sessionLifecycleRequireFunction = (value, name) => {
+  if (typeof value !== 'function') throw new TypeError(`A lifecycle szolgáltatáshoz ${name} függvény szükséges.`);
+};
+
+function createSessionLifecycleService({
+  windowRef = sessionLifecycleDefaultWindow(),
+  documentRef = sessionLifecycleDefaultDocument(),
+  historyRef = sessionLifecycleDefaultHistory(),
+  logger = sessionLifecycleDefaultLogger(),
+  now = sessionLifecycleDefaultNow,
+  exitConfirmationMs = SESSION_EXIT_CONFIRMATION_MS,
+} = {}) {
+  if (!windowRef?.addEventListener || !windowRef?.removeEventListener) {
+    throw new TypeError('A lifecycle szolgáltatáshoz böngésző window eseménycél szükséges.');
+  }
+  if (!documentRef?.addEventListener || !documentRef?.removeEventListener) {
+    throw new TypeError('A lifecycle szolgáltatáshoz document eseménycél szükséges.');
+  }
+  sessionLifecycleRequireFunction(now, 'now');
+  if (!Number.isFinite(exitConfirmationMs) || exitConfirmationMs <= 0) {
+    throw new TypeError('A kilépési megerősítés időablaka nem érvényes.');
+  }
+
+  let installed = false;
+  let historyGuardInstalled = false;
+  let lastExitRequestAt = null;
+  let handlers = null;
+  let callbacks = null;
+
+  const logError = (...args) => logger?.error?.(...args);
+
+  const saveSafely = () => {
+    try {
+      return Boolean(callbacks?.onSave?.());
+    } catch (error) {
+      logError('[lifecycle] Az automatikus mentés nem sikerült:', error);
+      return false;
+    }
+  };
+
+  const toastSafely = (message, tone = 'info', duration) => {
+    try {
+      if (duration == null) callbacks?.onToast?.(message, tone);
+      else callbacks?.onToast?.(message, tone, duration);
+    } catch (error) {
+      logError('[lifecycle] Az értesítés megjelenítése nem sikerült:', error);
+    }
+  };
+
+  const pushHistoryGuard = () => {
+    if (!historyGuardInstalled) return false;
+    try {
+      historyRef.pushState({ fociskartyak: 'guard' }, documentRef.title);
+      return true;
+    } catch {
+      historyGuardInstalled = false;
+      return false;
+    }
+  };
+
+  const installHistoryGuard = () => {
+    if (!historyRef?.replaceState || !historyRef?.pushState || !historyRef?.go) return false;
+    try {
+      historyRef.replaceState({ fociskartyak: 'base' }, documentRef.title);
+      historyRef.pushState({ fociskartyak: 'guard' }, documentRef.title);
+      windowRef.addEventListener('popstate', handlers.popstate);
+      historyGuardInstalled = true;
+      return true;
+    } catch {
+      historyGuardInstalled = false;
+      return false;
+    }
+  };
+
+  const install = ({ onSave, onToast, onBackAction } = {}) => {
+    if (installed) return false;
+    sessionLifecycleRequireFunction(onSave, 'onSave');
+    sessionLifecycleRequireFunction(onToast, 'onToast');
+    sessionLifecycleRequireFunction(onBackAction, 'onBackAction');
+    callbacks = { onSave, onToast, onBackAction };
+
+    handlers = {
+      visibilitychange: () => {
+        if (documentRef.visibilityState === 'hidden') saveSafely();
+      },
+      pagehide: () => saveSafely(),
+      error: event => {
+        logError('[ui] Nem kezelt hiba:', event?.error ?? event?.message);
+        toastSafely(SESSION_LIFECYCLE_MESSAGES.runtimeError, 'error', 3200);
+        saveSafely();
+      },
+      unhandledrejection: event => {
+        logError('[ui] Nem kezelt aszinkron hiba:', event?.reason);
+        toastSafely(SESSION_LIFECYCLE_MESSAGES.asyncError, 'error', 3200);
+        saveSafely();
+      },
+      popstate: () => {
+        pushHistoryGuard();
+        callbacks?.onBackAction?.();
+      },
+    };
+
+    documentRef.addEventListener('visibilitychange', handlers.visibilitychange);
+    windowRef.addEventListener('pagehide', handlers.pagehide);
+    windowRef.addEventListener('error', handlers.error);
+    windowRef.addEventListener('unhandledrejection', handlers.unhandledrejection);
+    installHistoryGuard();
+    installed = true;
+    return true;
+  };
+
+  const requestExit = () => {
+    if (!installed) return false;
+    const currentTime = Number(now());
+    const confirmed = Number.isFinite(currentTime)
+      && lastExitRequestAt != null
+      && currentTime - lastExitRequestAt >= 0
+      && currentTime - lastExitRequestAt < exitConfirmationMs;
+
+    if (!confirmed) {
+      lastExitRequestAt = Number.isFinite(currentTime) ? currentTime : null;
+      toastSafely(SESSION_LIFECYCLE_MESSAGES.exitConfirmation, 'info');
+      return false;
+    }
+
+    lastExitRequestAt = null;
+    if (historyGuardInstalled) {
+      windowRef.removeEventListener('popstate', handlers.popstate);
+      historyGuardInstalled = false;
+    }
+    try {
+      historyRef?.go?.(-2);
+    } catch {
+      // A tényleges kilépés korlátozott beágyazott böngészőben nem garantálható.
+    }
+    return true;
+  };
+
+  const dispose = () => {
+    if (!installed) return false;
+    documentRef.removeEventListener('visibilitychange', handlers.visibilitychange);
+    windowRef.removeEventListener('pagehide', handlers.pagehide);
+    windowRef.removeEventListener('error', handlers.error);
+    windowRef.removeEventListener('unhandledrejection', handlers.unhandledrejection);
+    if (historyGuardInstalled) windowRef.removeEventListener('popstate', handlers.popstate);
+
+    installed = false;
+    historyGuardInstalled = false;
+    lastExitRequestAt = null;
+    handlers = null;
+    callbacks = null;
+    return true;
+  };
+
+  return Object.freeze({
+    install,
+    dispose,
+    requestExit,
+    isInstalled: () => installed,
+    hasHistoryGuard: () => historyGuardInstalled,
+  });
+}
+
+
 /* ===== js/game/game-runtime.js ===== */
 /** DOM-mentes játékmenet-vezérlő a Klasszikus és Büntetőpárbaj módhoz. */
 
@@ -10749,6 +10930,7 @@ if (document.readyState === 'loading') {
 
 
 
+
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const selectedOpponentDifficulty = () => {
   const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
@@ -10762,6 +10944,7 @@ class Session {
     this.meta = meta;
     this.runtime = new GameRuntime({ players: deck });
     this.timing = createTurnTimingService();
+    this.lifecycle = createSessionLifecycleService();
     this.settings = { ...DEFAULT_SETTINGS, ...loadSettings() };
     this.ui = new UI({
       onAttribute: key => this.humanChoseAttribute(key),
@@ -10773,7 +10956,6 @@ class Session {
     }, this.settings);
     this.busy = false;
     this.overlayReturn = null;
-    this.exitTapAt = 0;
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
@@ -10799,32 +10981,15 @@ class Session {
   }
 
   installLifecycleHandlers() {
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') this.saveCurrentGame();
+    return this.lifecycle.install({
+      onSave: () => this.saveCurrentGame(),
+      onToast: (message, tone, duration) => this.ui.showToast(message, tone, duration),
+      onBackAction: () => this.handleBackAction(),
     });
-    window.addEventListener('pagehide', () => this.saveCurrentGame());
-    window.addEventListener('error', event => {
-      console.error('[ui] Nem kezelt hiba:', event.error ?? event.message);
-      this.ui.showToast('Váratlan hiba történt. A játékállást megőriztük.', 'error', 3200);
-      this.saveCurrentGame();
-    });
-    window.addEventListener('unhandledrejection', event => {
-      console.error('[ui] Nem kezelt aszinkron hiba:', event.reason);
-      this.ui.showToast('Egy művelet nem fejeződött be. Próbáld újra.', 'error', 3200);
-      this.saveCurrentGame();
-    });
+  }
 
-    try {
-      history.replaceState({ fociskartyak: 'base' }, document.title);
-      history.pushState({ fociskartyak: 'guard' }, document.title);
-      this._popStateHandler = () => {
-        history.pushState({ fociskartyak: 'guard' }, document.title);
-        this.handleBackAction();
-      };
-      window.addEventListener('popstate', this._popStateHandler);
-    } catch {
-      // History integration is optional in restricted embedded browsers.
-    }
+  disposeLifecycleHandlers() {
+    return this.lifecycle.dispose();
   }
 
   handleBackAction() {
@@ -10843,14 +11008,7 @@ class Session {
       return;
     }
 
-    const now = Date.now();
-    if (now - this.exitTapAt < 1600) {
-      window.removeEventListener('popstate', this._popStateHandler);
-      history.go(-2);
-      return;
-    }
-    this.exitTapAt = now;
-    this.ui.showToast('A kilépéshez nyomd meg újra a Vissza gombot');
+    this.lifecycle.requestExit();
   }
 
   _showPanel(panel, returnAction = null) {
