@@ -61,6 +61,7 @@ const sourceFiles = [
 const moduleOrder = [
   'js/app/configuration.js',
   'js/services/storage-service.js',
+  'js/deck-selection.js',
   'js/branding.js',
   'js/data/categories.js',
   'js/data/players.js',
@@ -84,6 +85,7 @@ const moduleOrder = [
   'js/reliability-fixes.js',
   'js/usability-fixes.js',
   'js/focus-experience.js',
+  'js/visual-settings-persistence.js',
   'js/visual-system.js',
   'js/legal-ui.js',
   'js/main.js',

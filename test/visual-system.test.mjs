@@ -13,6 +13,8 @@ const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
 const branding = read('js/branding.js');
 const legalUi = read('js/legal-ui.js');
+const configuration = read('js/app/configuration.js');
+const storageService = read('js/services/storage-service.js');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
@@ -54,17 +56,20 @@ assert.match(usability, /largeCard\.classList\.add\('inspector__playable-card'\)
 assert.match(usability, /playButton\.click\(\)/, 'A nagyított lap koppintása nem indítja el a meglévő kiválasztási folyamatot.');
 assert.match(usability, /stepInspectorWithoutBackdropFlash/, 'Hiányzik a simított kártyalapozás.');
 
-assert.match(visual, /localStorage/, 'A megjelenési beállításokat helyben kell menteni.');
+assert.match(visual, /writeStoredJson\(STORAGE_KEY, settings\)/, 'A megjelenési beállításokat a központi storage-szolgáltatással kell menteni.');
+assert.match(visual, /APP_STORAGE_KEYS\.visualSettings/, 'A vizuális rendszernek a központi storage-kulcsot kell használnia.');
 assert.match(visual, /requestFullscreen/, 'Hiányzik a teljes képernyős beállítás.');
 assert.match(visual, /highContrast/, 'Hiányzik a nagy kontrasztú mód.');
 assert.match(visual, /card\.tabIndex = 0/, 'A választható kártyáknak billentyűzettel fókuszálhatónak kell lenniük.');
 assert.match(visual, /event\.key !== 'Enter' && event\.key !== ' '/, 'Hiányzik az Enter/Szóköz kártyaválasztás.');
 assert.match(visual, /független projekt/, 'Hiányzik a játéktér független projekt jelzése.');
 
-assert.match(sizingPersistence, /SIZING_BACKUP_KEY\s*=\s*'fociskartyak\.visual-sizing\.v1'/, 'Hiányzik a külön méretezési mentési kulcs.');
+assert.match(sizingPersistence, /SIZING_BACKUP_KEY\s*=\s*APP_STORAGE_KEYS\.visualSizingBackup/, 'Hiányzik a központi méretezési mentési kulcs.');
 assert.match(sizingPersistence, /restoreExplicitSizing\(\)/, 'A mentett méretezést induláskor vissza kell tölteni.');
 assert.match(sizingPersistence, /Méretezés mentése/, 'Hiányzik a méretezés mentése gomb.');
-assert.match(sizingPersistence, /localStorage\.setItem/, 'A méretezés mentésének helyi tárhelyet kell használnia.');
+assert.match(sizingPersistence, /writeStoredJson/, 'A méretezés mentésének a központi storage-szolgáltatást kell használnia.');
+assert.match(configuration, /visualSizingBackup:\s*'fociskartyak\.visual-sizing\.v1'/, 'A méretezési kulcs értékének változatlannak kell maradnia.');
+assert.match(storageService, /globalThis\.localStorage/, 'A storage-szolgáltatásnak a böngésző helyi tárhelyét kell használnia.');
 assert.match(sizingPersistence, /selectionCardWidth[\s\S]*battleCardWidth[\s\S]*cardGap[\s\S]*battlefieldHeight/, 'Nem minden méretérték kerül mentésre.');
 assert.match(sizingCss, /\.appearance-save-status[\s\S]*data-state='saved'/, 'Hiányzik a sikeres méretezésmentés vizuális visszajelzése.');
 

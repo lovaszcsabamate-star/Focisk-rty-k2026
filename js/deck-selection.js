@@ -1,7 +1,7 @@
 /** Deck filtering and menu controls shared by both game modes. */
 
 import { APP_STORAGE_KEYS } from './app/configuration.js';
-import { readStoredJson, writeStoredJson } from './services/storage-service.js';
+import { readStoredJson, readStoredString, removeStoredValue, writeStoredJson } from './services/storage-service.js';
 
 export const MIN_FILTERED_DECK_SIZE = 11;
 export const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
@@ -361,12 +361,11 @@ function insertDeckSelector(panel, players, activeSelection) {
       return;
     }
 
-    let hasSavedMatch = false;
-    try { hasSavedMatch = Boolean(localStorage.getItem(SAVED_MATCH_STORAGE_KEY)); } catch { /* optional storage */ }
-    if (hasSavedMatch && !window.confirm('A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?')) return;
+    const hasSavedMatch = Boolean(readStoredString(SAVED_MATCH_STORAGE_KEY));
+  if (hasSavedMatch && !window.confirm('A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?')) return;
 
-    try { localStorage.removeItem(SAVED_MATCH_STORAGE_KEY); } catch { /* optional storage */ }
-    saveDeckSelection(next);
+  removeStoredValue(SAVED_MATCH_STORAGE_KEY);
+  saveDeckSelection(next);
     window.location.reload();
   });
 
