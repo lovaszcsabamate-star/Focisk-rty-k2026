@@ -64,6 +64,7 @@ const moduleOrder = [
   'js/engine.js',
   'js/penalties.js',
   'js/ai.js',
+  'js/game/game-runtime.js',
   'js/banter.js',
   'js/ui.js',
   'js/ux.js',
@@ -262,17 +263,5 @@ fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 console.log(`Elkészült: ${outputPath}`);
 console.log(`Adatbázis: ${databaseManifest.name} (${databaseManifest.id})`);
 console.log(`Manifest: ${databaseManifestFile}`);
-console.log(`Önálló build adatforrása: ${buildDataSource}${normalizedPlayerFile ? ` (${normalizedPlayerFile})` : ''}`);
-console.log(`Audit: ${auditPath}`);
-console.log(`Felülvizsgált adatbázis: ${path.join(ROOT, 'data/players-reviewed.json')}`);
-console.log(`${playablePayload.players.length} teljes játékoskártya beágyazva; ${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva.`);
-console.log(`${payload.players.length} forrásrekord és ${payload.selection?.registrationRecords ?? 0} klubregisztráció megőrizve az auditban.`);
-console.log(`${payload.enrichment?.clubSummary?.length ?? 0} klub hivatalos forrása ellenőrizve.`);
-console.log(`${payload.enrichment?.matchedRecords ?? 0}/${payload.enrichment?.records ?? 0} hivatalos klubrekord illesztve.`);
-console.log(`${payload.officialStatPatches?.matchedRecords ?? 0}/${payload.officialStatPatches?.records ?? 0} hivatalos szezonstatisztika illesztve.`);
-console.log(`${(payload.enrichment?.unmatchedRecords ?? 0) + (payload.officialStatPatches?.unmatchedRecords ?? 0)} rekord kézi ellenőrzésre vár.`);
-console.log(`${payload.enrichment?.updatedExistingPlayers ?? 0} meglévő MLSZ-rekord kiegészítve.`);
-console.log(`${payload.enrichment?.addedPlayers ?? 0} új, igazolt játékos hozzáadva.`);
-console.log(`${payload.verifiedPlayerCorrections?.appliedFields ?? 0} bizonyított alapadat-korrekció alkalmazva.`);
-console.log(`${payload.officialStatPatches?.correctionCount ?? 0} bizonyított statisztikai korrekció alkalmazva.`);
-console.log(`Adatellenőrzés: ${databaseReview.summary.errorCount} kritikus hiba, ${databaseReview.summary.warningCount} figyelmeztetés.`);
+console.log(`Elsődleges build-adatforrás: ${buildDataSource}`);
+console.log(`Adatfelülvizsgálati jelentés: ${auditPath}`);
