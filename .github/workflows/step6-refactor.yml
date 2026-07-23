@@ -33,40 +33,21 @@ jobs:
         with:
           node-version: 22
 
-      - name: Diagnosztikai előnézet bekapcsolása
+      - name: Értékadás-ellenőrzés pontosítása
         run: |
           python - <<'PY'
           from pathlib import Path
           path = Path('scripts/apply-step6-game-runtime.mjs')
           source = path.read_text()
-          needle = "const forbidden = ["
-          replacement = "write('step6-main-preview.js', main);\n\nconst forbidden = ["
-          if needle not in source:
-              raise SystemExit('A diagnosztikai beszúrás helye nem található.')
-          path.write_text(source.replace(needle, replacement, 1))
+          before = r"/this\.(game|mode|difficulty|pendingAttribute|awaitingChooserCard)\s*=/"
+          after = r"/this\.(game|mode|difficulty|pendingAttribute|awaitingChooserCard)\s*=(?!=)/"
+          if before not in source:
+              raise SystemExit('Az értékadás-őr mintája nem található.')
+          path.write_text(source.replace(before, after, 1))
           PY
 
       - name: Session leválasztása a játékmotorról
-        id: refactor
-        continue-on-error: true
-        run: |
-          set -o pipefail
-          node scripts/apply-step6-game-runtime.mjs 2>&1 | tee step6-refactor.log
-
-      - name: Refaktornapló és előnézet mentése
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: step6-refactor-diagnostics
-          if-no-files-found: error
-          retention-days: 7
-          path: |
-            step6-refactor.log
-            step6-main-preview.js
-
-      - name: Refaktor eredményének ellenőrzése
-        if: steps.refactor.outcome != 'success'
-        run: exit 1
+        run: node scripts/apply-step6-game-runtime.mjs
 
       - name: Célzott szintaktikai ellenőrzés
         run: |
