@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "databaseId": "hungary-nb1-2025-26",
-  "databaseVersion": "2.3.0-interim",
+  "databaseVersion": "3.0.0",
   "name": "Magyar NB I 2025/26",
   "competition": "Fizz Liga (NB I)",
   "country": "Magyarország",
@@ -104,7 +104,7 @@
       "data/club-official-stat-patches-zte.json",
       "data/club-official-stat-patches-puskas.json"
     ],
-    "sourceDigest": "80bef958390e75a5bbfdda518f8ecf17f7fb94c07f9c4215e4a561cf23c70cc9",
+    "sourceDigest": "dee8ae6249efe7372dd72af054a097492ab09e442a90ca6b510d216aeaed62ff",
     "playersDigest": "078a3dc45893f2e57d56b16a21b30b4b5a39158c0d2e6cdf8f5b8b8d39724e91",
     "canonicalFields": [
       "id",
