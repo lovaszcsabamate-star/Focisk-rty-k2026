@@ -1,15 +1,10 @@
 /** DOM-mentes játékmenet-vezérlő a Klasszikus és Büntetőpárbaj módhoz. */
 
 import { OpponentAI, DIFFICULTY } from '../ai.js';
-import { AI, Game, HUMAN, PHASE } from '../engine.js';
-import { PenaltyGame } from '../penalties.js';
+import { AI, HUMAN, PHASE } from '../engine.js';
+import { GAME_MODE, createGameModeFactory } from './game-mode-factory.js';
 
-export const GAME_MODE = Object.freeze({
-  CLASSIC: 'classic',
-  PENALTIES: 'penalties',
-});
-
-const validMode = mode => Object.values(GAME_MODE).includes(mode);
+export { GAME_MODE };
 const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 const cloneSaveValue = value => (value == null ? value : structuredClone(value));
@@ -28,12 +23,18 @@ export class GameRuntime {
     rng = Math.random,
     aiFactory = (difficulty, deck) => new OpponentAI(difficulty, deck),
     gameFactory = null,
+    modeFactory = null,
   } = {}) {
     if (!Array.isArray(players)) throw new TypeError('A GameRuntime players mezője tömb kell legyen.');
     this.players = players;
     this.rng = rng;
     this.aiFactory = aiFactory;
-    this.gameFactory = gameFactory;
+    this.modeFactory = modeFactory ?? createGameModeFactory({ gameFactory });
+    if (typeof this.modeFactory?.normalize !== 'function'
+      || typeof this.modeFactory?.create !== 'function'
+      || typeof this.modeFactory?.aiDeck !== 'function') {
+      throw new TypeError('A GameRuntime modeFactory mezője nem érvényes játékmód-factory.');
+    }
     this.reset();
   }
 
@@ -68,18 +69,12 @@ export class GameRuntime {
   }
 
   _createGame(mode) {
-    if (!validMode(mode)) throw new GameRuntimeError('UNKNOWN_MODE', `Ismeretlen játékmód: ${mode}`);
-    if (this.gameFactory) return this.gameFactory({ mode, players: this.players, rng: this.rng });
-    return mode === GAME_MODE.PENALTIES
-      ? new PenaltyGame({ players: this.players, rng: this.rng })
-      : new Game({ players: this.players, rng: this.rng });
+    return this.modeFactory.create(mode, { players: this.players, rng: this.rng });
   }
 
   _prepareAi() {
     this._requireGame();
-    const aiDeck = this.mode === GAME_MODE.PENALTIES
-      ? [...this.game.teams[HUMAN], ...this.game.teams[AI]]
-      : this.game.players;
+    const aiDeck = this.modeFactory.aiDeck(this.mode, this.game);
     this.ai = this.aiFactory(this.difficulty, aiDeck);
   }
 
@@ -97,7 +92,7 @@ export class GameRuntime {
   }
 
   start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
-    this.mode = validMode(mode) ? mode : GAME_MODE.CLASSIC;
+    this.mode = this.modeFactory.normalize(mode);
     this.difficulty = this._resolveDifficulty(difficulty);
     this.game = this._createGame(this.mode);
     this.pendingAttribute = null;
@@ -114,7 +109,7 @@ export class GameRuntime {
       throw new TypeError('A mentett játék visszaállításához hydrate függvény szükséges.');
     }
 
-    this.mode = validMode(saved.mode) ? saved.mode : GAME_MODE.CLASSIC;
+    this.mode = this.modeFactory.normalize(saved.mode);
     this.difficulty = this._resolveDifficulty(saved.difficulty);
     const emptyGame = this._createGame(this.mode);
     this.game = hydrate(emptyGame, saved.game);

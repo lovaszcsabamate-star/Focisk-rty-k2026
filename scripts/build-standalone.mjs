@@ -71,6 +71,7 @@ const moduleOrder = [
   'js/services/save-service.js',
   'js/services/turn-timing-service.js',
   'js/app/session-lifecycle-service.js',
+  'js/game/game-mode-factory.js',
   'js/game/game-runtime.js',
   'js/banter.js',
   'js/ui/dom-primitives.js',
