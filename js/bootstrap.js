@@ -11,56 +11,7 @@ import {
   installDeckSelectionMenu,
   readDeckSelection,
 } from './deck-selection.js';
-
-const PLAYER_DATA_URL = 'data/players.json';
-const CLUB_ENRICHMENT_URLS = [
-  'data/club-official-enrichment.json',
-  'data/club-official-enrichment-2.json',
-  'data/club-official-enrichment-3-paks-nyir.json',
-  'data/club-official-enrichment-4-ujpest.json',
-  'data/club-official-enrichment-5-other.json',
-  'data/club-official-enrichment-6-eto-puskas.json',
-  'data/club-official-enrichment-7-kisvarda-selected10.json',
-  'data/club-official-enrichment-8-kisvarda-selected10.json',
-  'data/club-official-enrichment-9-kisvarda-selected10.json',
-  'data/club-official-enrichment-10-kisvarda-final8.json',
-  'data/club-official-enrichment-11-kisvarda-completion.json',
-  'data/club-official-enrichment-12-dvtk-completion.json',
-  'data/club-official-enrichment-13-mtk-completion.json',
-  'data/club-official-enrichment-14-nyiregyhaza-completion.json',
-  'data/club-official-enrichment-15-nyiregyhaza-nationalities.json',
-  'data/club-official-enrichment-16-kazincbarcika-completion.json',
-  'data/club-official-enrichment-17-ujpest-completion.json',
-  'data/club-official-enrichment-18-paks-completion.json',
-  'data/club-official-enrichment-19-zte-completion.json',
-  'data/club-official-enrichment-20-puskas-completion.json',
-  'data/club-official-enrichment-21-eto-completion.json',
-  'data/club-official-enrichment-22-kisvarda-nationalities.json',
-  'data/club-official-enrichment-23-final-missing-basic.json',
-];
-const CLUB_CORRECTION_URLS = [
-  'data/club-official-corrections.json',
-  'data/club-official-corrections-2.json',
-  'data/club-official-corrections-3.json',
-  'data/club-official-corrections-4-kisvarda-selected10-2.json',
-  'data/club-official-corrections-5-puskas.json',
-];
-const CLUB_STAT_PATCH_URLS = [
-  'data/club-official-stat-patches-kisvarda.json',
-  'data/club-official-stat-patches-kisvarda-selected10.json',
-  'data/club-official-stat-patches-kisvarda-selected10-2.json',
-  'data/club-official-stat-patches-kisvarda-selected10-3.json',
-  'data/club-official-stat-patches-kisvarda-final8.json',
-  'data/club-official-stat-patches-ferencvaros.json',
-  'data/club-official-stat-patches-dvtk.json',
-  'data/club-official-stat-patches-mtk.json',
-  'data/club-official-stat-patches-nyiregyhaza.json',
-  'data/club-official-stat-patches-kazincbarcika.json',
-  'data/club-official-stat-patches-ujpest.json',
-  'data/club-official-stat-patches-zte.json',
-  'data/club-official-stat-patches-puskas.json',
-];
-const CLUB_DIRECTORY_URL = 'data/club-official-sources.json';
+import { getDefaultDatabase } from './database/database-registry.js';
 
 async function fetchJson(url) {
   const response = await fetch(url, { cache: 'no-cache' });
@@ -102,7 +53,7 @@ function showFatalError(error) {
     <div class="app-loading__card app-loading__error" role="alert">
       <span class="app-loading__ball" aria-hidden="true">⚠️</span>
       <h1>A játék nem indult el</h1>
-      <p>Az adatok vagy a kezelőfelület betöltése megszakadt.</p>
+      <p>Az adatbázis vagy a kezelőfelület betöltése megszakadt.</p>
       <button class="btn" id="retry-load-btn" type="button">Újrapróbálás</button>
     </div>
   `;
@@ -110,21 +61,23 @@ function showFatalError(error) {
 }
 
 try {
+  const database = await getDefaultDatabase();
+  const files = database.files;
   const [payload, rawParts, correctionParts, statPatchParts, directory] = await Promise.all([
-    fetchJson(PLAYER_DATA_URL),
-    Promise.all(CLUB_ENRICHMENT_URLS.map(url => fetchJson(url).catch(error => {
+    fetchJson(files.players),
+    Promise.all(files.enrichments.map(url => fetchJson(url).catch(error => {
       console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be (${url}): ${error.message}`);
       return null;
     }))),
-    Promise.all(CLUB_CORRECTION_URLS.map(url => fetchJson(url).catch(error => {
+    Promise.all(files.corrections.map(url => fetchJson(url).catch(error => {
       console.warn(`[enrichment] A korrekciós réteg nem tölthető be (${url}): ${error.message}`);
       return null;
     }))),
-    Promise.all(CLUB_STAT_PATCH_URLS.map(url => fetchJson(url).catch(error => {
+    Promise.all(files.statPatches.map(url => fetchJson(url).catch(error => {
       console.warn(`[enrichment] A hivatalos klubstatisztika nem tölthető be (${url}): ${error.message}`);
       return null;
     }))),
-    fetchJson(CLUB_DIRECTORY_URL).catch(error => {
+    fetchJson(files.clubDirectory).catch(error => {
       console.warn(`[enrichment] A klubforrás-jegyzék nem tölthető be: ${error.message}`);
       return null;
     }),
@@ -140,11 +93,15 @@ try {
   const deckSelection = readDeckSelection(playablePayload.players);
   const selectedPayload = applyDeckSelectionToPayload(playablePayload, deckSelection);
 
+  globalThis.__FOCISKARTYAK_DATABASE__ = database;
   globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = playablePayload;
   globalThis.__FOCISKARTYAK_DECK_SELECTION__ = deckSelection;
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
 
+  console.info(
+    `[database] ${database.name} · ${database.season} · manifest: ${database.manifestUrl}`,
+  );
   console.info(
     `[players] Teljes kártyák szűrése: ${playablePayload.players.length} használható · `
     + `${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva`,
