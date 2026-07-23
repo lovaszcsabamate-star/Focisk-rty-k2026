@@ -1,0 +1,44 @@
+name: 9. lépés storage-transzformáció commit
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit-transform:
+    if: github.head_ref == 'refactor/step-9-storage-configuration' || github.ref_name == 'refactor/step-9-storage-configuration'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/step-9-storage-configuration
+          fetch-depth: 0
+
+      - name: Az eredeti determinisztikus transzformáció futtatása
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          source = Path('.github/workflows/step-9-storage-refactor.yml').read_text(encoding='utf-8')
+          match = re.search(r"          python - <<'PY'\n(.*?)\n          PY", source, re.S)
+          if not match:
+              raise SystemExit('A transzformációs Python-blokk nem található.')
+          code = '\n'.join(line[10:] if line.startswith('          ') else line for line in match.group(1).splitlines())
+          exec(compile(code, 'step-9-storage-transform.py', 'exec'), {})
+          PY
+
+      - name: Transzformált forrás commitolása
+        run: |
+          rm .github/workflows/step-9-storage-refactor.yml
+          rm .github/workflows/step-9-commit-transform.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git add js package.json scripts/build-standalone.mjs sw.js
+          git commit -m "9. lépés: központi storage-szolgáltatás bekötése"
+          git push origin HEAD:refactor/step-9-storage-configuration
