@@ -1,0 +1,47 @@
+name: Normalizált adatbázis migráció
+
+on:
+  push:
+    branches:
+      - refactor/step-4-normalized-player-database
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'js/data/**'
+      - 'js/models/player-model.js'
+      - 'scripts/migrate-normalized-database.mjs'
+      - 'test/normalized-database-migration.test.mjs'
+      - 'package.json'
+      - '.github/workflows/normalized-database.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  migrate-normalized-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Normalizált adatbázis előállítása
+        run: npm run migrate:database
+
+      - name: Migrációs teszt
+        run: node test/normalized-database-migration.test.mjs
+
+      - name: Normalizált adatbázis és jelentés mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: normalized-database-step-4
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            data/databases/hungary-nb1-2025-26/players.normalized.json
+            data/databases/hungary-nb1-2025-26/normalization-report.json
