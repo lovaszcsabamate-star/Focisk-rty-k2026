@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - refactor/step-6-game-runtime
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'js/game/game-runtime.js'
+      - 'scripts/apply-step6-game-runtime.mjs'
+      - 'test/game-runtime.test.mjs'
+      - '.github/workflows/step6-refactor.yml'
   workflow_dispatch:
 
 permissions:
