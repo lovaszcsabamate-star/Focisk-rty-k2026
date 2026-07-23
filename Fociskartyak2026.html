@@ -5928,6 +5928,228 @@ class OpponentAI {
 
 
 
+/* ===== js/game/game-runtime.js ===== */
+/** DOM-mentes játékmenet-vezérlő a Klasszikus és Büntetőpárbaj módhoz. */
+
+
+
+
+const GAME_MODE = Object.freeze({
+  CLASSIC: 'classic',
+  PENALTIES: 'penalties',
+});
+
+const validMode = mode => Object.values(GAME_MODE).includes(mode);
+const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
+const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
+const cloneSaveValue = value => (value == null ? value : structuredClone(value));
+
+class GameRuntimeError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'GameRuntimeError';
+    this.code = code;
+  }
+}
+
+class GameRuntime {
+  constructor({
+    players,
+    rng = Math.random,
+    aiFactory = (difficulty, deck) => new OpponentAI(difficulty, deck),
+    gameFactory = null,
+  } = {}) {
+    if (!Array.isArray(players)) throw new TypeError('A GameRuntime players mezője tömb kell legyen.');
+    this.players = players;
+    this.rng = rng;
+    this.aiFactory = aiFactory;
+    this.gameFactory = gameFactory;
+    this.reset();
+  }
+
+  reset() {
+    this.mode = null;
+    this.difficulty = null;
+    this.game = null;
+    this.ai = null;
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    return this.state();
+  }
+
+  state() {
+    return Object.freeze({
+      mode: this.mode,
+      difficulty: this.difficulty,
+      game: this.game,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+      started: Boolean(this.game),
+      isOver: Boolean(this.game?.isOver),
+      phase: this.game?.phase ?? null,
+      chooser: this.game?.chooser ?? null,
+      round: this.game?.round ?? null,
+      attribute: this.game?.attribute ?? this.pendingAttribute,
+    });
+  }
+
+  _resolveDifficulty(difficulty) {
+    return isRuntimeDifficulty(difficulty) ? difficulty : defaultDifficulty();
+  }
+
+  _createGame(mode) {
+    if (!validMode(mode)) throw new GameRuntimeError('UNKNOWN_MODE', `Ismeretlen játékmód: ${mode}`);
+    if (this.gameFactory) return this.gameFactory({ mode, players: this.players, rng: this.rng });
+    return mode === GAME_MODE.PENALTIES
+      ? new PenaltyGame({ players: this.players, rng: this.rng })
+      : new Game({ players: this.players, rng: this.rng });
+  }
+
+  _prepareAi() {
+    this._requireGame();
+    const aiDeck = this.mode === GAME_MODE.PENALTIES
+      ? [...this.game.teams[HUMAN], ...this.game.teams[AI]]
+      : this.game.players;
+    this.ai = this.aiFactory(this.difficulty, aiDeck);
+  }
+
+  _requireGame() {
+    if (!this.game) throw new GameRuntimeError('NO_ACTIVE_GAME', 'Nincs aktív mérkőzés.');
+    return this.game;
+  }
+
+  _requirePhase(phase) {
+    const game = this._requireGame();
+    if (game.phase !== phase) {
+      throw new GameRuntimeError('INVALID_PHASE', `A művelet nem hajtható végre ebben a fázisban: ${game.phase}`);
+    }
+    return game;
+  }
+
+  start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
+    this.mode = validMode(mode) ? mode : GAME_MODE.CLASSIC;
+    this.difficulty = this._resolveDifficulty(difficulty);
+    this.game = this._createGame(this.mode);
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    this._prepareAi();
+    return this.state();
+  }
+
+  restore(saved, hydrate) {
+    if (!saved || typeof saved !== 'object') {
+      throw new GameRuntimeError('INVALID_SAVE', 'A mentett játék adatai hiányoznak.');
+    }
+    if (typeof hydrate !== 'function') {
+      throw new TypeError('A mentett játék visszaállításához hydrate függvény szükséges.');
+    }
+
+    this.mode = validMode(saved.mode) ? saved.mode : GAME_MODE.CLASSIC;
+    this.difficulty = this._resolveDifficulty(saved.difficulty);
+    const emptyGame = this._createGame(this.mode);
+    this.game = hydrate(emptyGame, saved.game);
+    if (!this.game || typeof this.game !== 'object') {
+      throw new GameRuntimeError('INVALID_SAVE', 'A mentett játékmotor nem állítható vissza.');
+    }
+    this.pendingAttribute = typeof saved.pendingAttribute === 'string'
+      ? saved.pendingAttribute
+      : null;
+    this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
+    this._prepareAi();
+    return this.state();
+  }
+
+  availableAttributeKeys() {
+    return this._requireGame().availableAttributeKeys();
+  }
+
+  selectHumanAttribute(attributeKey) {
+    const game = this._requirePhase(PHASE.CHOOSE_ATTRIBUTE);
+    if (game.chooser !== HUMAN) {
+      throw new GameRuntimeError('NOT_HUMAN_TURN', 'Most a gép választ kategóriát.');
+    }
+    if (!game.availableAttributeKeys().includes(attributeKey)) {
+      throw new GameRuntimeError('ATTRIBUTE_UNAVAILABLE', `A kategória most nem játszható: ${attributeKey}`);
+    }
+    this.pendingAttribute = attributeKey;
+    this.awaitingChooserCard = true;
+    return this.state();
+  }
+
+  commitHumanChooserCard(cardId) {
+    const game = this._requirePhase(PHASE.CHOOSE_ATTRIBUTE);
+    if (game.chooser !== HUMAN || !this.awaitingChooserCard || !this.pendingAttribute) {
+      throw new GameRuntimeError('NO_PENDING_HUMAN_CHOICE', 'Nincs befejezetlen játékosi kategóriaválasztás.');
+    }
+    game.chooseAttribute(this.pendingAttribute, cardId);
+    this.awaitingChooserCard = false;
+    return this.state();
+  }
+
+  chooseAiAttribute() {
+    const game = this._requirePhase(PHASE.CHOOSE_ATTRIBUTE);
+    if (game.chooser !== AI) {
+      throw new GameRuntimeError('NOT_AI_TURN', 'Most a játékos választ kategóriát.');
+    }
+    const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
+    game.chooseAttribute(choice.attribute, choice.cardId);
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    return Object.freeze({ ...choice, state: this.state() });
+  }
+
+  playHumanCard(cardId) {
+    const game = this._requirePhase(PHASE.CHOOSE_CARD);
+    if (game.chooser === HUMAN) {
+      throw new GameRuntimeError('HUMAN_ALREADY_PLAYED', 'A játékos kategóriaválasztóként már kijátszotta a lapját.');
+    }
+    return game.playCard(HUMAN, cardId);
+  }
+
+  playAiCard() {
+    const game = this._requirePhase(PHASE.CHOOSE_CARD);
+    if (game.chooser === AI) {
+      throw new GameRuntimeError('AI_ALREADY_PLAYED', 'A gép kategóriaválasztóként már kijátszotta a lapját.');
+    }
+    const aiCardId = this.ai.chooseCard(game.hands[AI], game.attribute);
+    return game.playCard(AI, aiCardId);
+  }
+
+  clearPendingChoice() {
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    return this.state();
+  }
+
+  advance() {
+    const game = this._requireGame();
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    if (this.mode === GAME_MODE.PENALTIES) {
+      return Object.freeze({ ...game.nextDuel(), state: this.state() });
+    }
+    game.nextRound();
+    return Object.freeze({ reshuffled: false, state: this.state() });
+  }
+
+  result() {
+    return this._requireGame().result();
+  }
+
+  toSavePayload(uxStats = null) {
+    const game = this._requireGame();
+    return {
+      game,
+      mode: this.mode,
+      difficulty: this.difficulty,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+      uxStats: cloneSaveValue(uxStats),
+    };
+  }
+}
+
+
 /* ===== js/banter.js ===== */
 /** Short Hungarian pub commentary. Pure flavour; never delays game state. */
 
@@ -9795,6 +10017,7 @@ class Session {
     this.deck = deck;
     this.source = source;
     this.meta = meta;
+    this.runtime = new GameRuntime({ players: deck });
     this.settings = { ...DEFAULT_SETTINGS, ...loadSettings() };
     this.ui = new UI({
       onAttribute: key => this.humanChoseAttribute(key),
@@ -9805,13 +10028,18 @@ class Session {
       onOpenSettings: () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })),
     }, this.settings);
     this.busy = false;
-    this.game = null;
     this.overlayReturn = null;
     this.exitTapAt = 0;
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
   }
+
+  get game() { return this.runtime.game; }
+  get mode() { return this.runtime.mode; }
+  get difficulty() { return this.runtime.difficulty; }
+  get pendingAttribute() { return this.runtime.pendingAttribute; }
+  get awaitingChooserCard() { return this.runtime.awaitingChooserCard; }
 
   delay(milliseconds) {
     return wait(this.settings.animations ? milliseconds : Math.min(milliseconds, 90));
@@ -9896,9 +10124,7 @@ class Session {
     if (this.game && !this.game.isOver) this.saveCurrentGame();
     this.busy = false;
     this.ui.setInteractionBusy(false);
-    this.game = null;
-    this.pendingAttribute = null;
-    this.awaitingChooserCard = false;
+    this.runtime.reset();
     this.ui.setMode('classic');
     this.ui.resetTable();
 
@@ -10143,27 +10369,13 @@ class Session {
 
   start(mode, difficulty) {
     clearSavedMatch();
-    this.mode = mode;
-    this.difficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
+    this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
     this.busy = false;
-    this.pendingAttribute = null;
-    this.awaitingChooserCard = false;
     this.ui.resetTable();
-    this.ui.setMode(mode);
-    this.game = mode === 'penalties'
-      ? new PenaltyGame({ players: this.deck })
-      : new Game({ players: this.deck });
-    this.prepareAI();
+    this.ui.setMode(this.mode);
 
-    if (mode === 'penalties') this.showPenaltyIntro();
+    if (this.mode === 'penalties') this.showPenaltyIntro();
     else this._beginMatch();
-  }
-
-  prepareAI() {
-    const aiDeck = this.mode === 'penalties'
-      ? [...this.game.teams[HUMAN], ...this.game.teams[AI]]
-      : this.game.players;
-    this.ai = new OpponentAI(this.difficulty, aiDeck);
   }
 
   showPenaltyIntro() {
@@ -10206,12 +10418,11 @@ class Session {
 
   humanChoseAttribute(attributeKey) {
     if (this.busy || !this.game.availableAttributeKeys().includes(attributeKey)) return;
-    this.pendingAttribute = attributeKey;
+    this.runtime.selectHumanAttribute(attributeKey);
     this.ui.hideAttributePicker();
     this.ui.say(getLine('youChooseAttribute', { attributeKey }));
     this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[attributeKey].label);
     this.ui.renderHands(this.game, { selectable: true, inspectAttribute: attributeKey });
-    this.awaitingChooserCard = true;
     this.saveCurrentGame();
   }
 
@@ -10224,14 +10435,12 @@ class Session {
     await this.delay(550);
     if (this.game !== game) return;
 
-    const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
-    game.chooseAttribute(choice.attribute, choice.cardId);
+    const choice = this.runtime.chooseAiAttribute();
     const label = ATTRIBUTE_BY_KEY[choice.attribute].label;
     this.ui.say(getLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
     this.ui.setPrompt('A gép ezt választotta:', label);
     this.ui.showDuel(game, { opponentHidden: true });
     this.ui.renderHands(game, { selectable: true });
-    this.awaitingChooserCard = false;
     this.busy = false;
     this.ui.setInteractionBusy(false);
     this.saveCurrentGame();
@@ -10245,16 +10454,14 @@ class Session {
 
     try {
       if (this.awaitingChooserCard) {
-        this.game.chooseAttribute(this.pendingAttribute, card.id);
-        this.awaitingChooserCard = false;
+        this.runtime.commitHumanChooserCard(card.id);
         this.ui.showDuel(this.game, { opponentHidden: true });
         this.ui.renderHands(this.game, { selectable: false });
         this.ui.setPrompt('A gép kártyát választ…');
         await this.delay(500);
-        const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-        result = this.game.playCard(AI, aiCardId);
+        result = this.runtime.playAiCard();
       } else {
-        result = this.game.playCard(HUMAN, card.id);
+        result = this.runtime.playHumanCard(card.id);
         this.ui.renderHands(this.game, { selectable: false });
         await this.delay(250);
       }
@@ -10322,11 +10529,10 @@ class Session {
       this.busy = true;
       this.ui.setInteractionBusy(true);
       this.ui.dom.picker.replaceChildren();
+      const { reshuffled } = this.runtime.advance();
       if (this.mode === 'penalties') {
-        const { reshuffled } = this.game.nextDuel();
         if (reshuffled) this.ui.say(getLine('reshuffle'));
       } else {
-        this.game.nextRound();
         this.ui.say(getIdleChatter());
       }
       this.busy = false;
@@ -10340,14 +10546,7 @@ class Session {
 
   saveCurrentGame() {
     if (!this.game || this.game.isOver) return false;
-    return writeSavedMatch({
-      game: this.game,
-      mode: this.mode,
-      difficulty: this.difficulty,
-      pendingAttribute: this.pendingAttribute,
-      awaitingChooserCard: this.awaitingChooserCard,
-      uxStats: this.ui.uxStats,
-    });
+    return writeSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
 
   resumeSavedMatch() {
@@ -10359,17 +10558,13 @@ class Session {
     }
 
     try {
-      this.mode = saved.mode;
-      this.difficulty = validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty();
-      this.pendingAttribute = saved.pendingAttribute;
-      this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
-      this.game = saved.mode === 'penalties'
-        ? hydrateGame(new PenaltyGame({ players: this.deck }), saved.game)
-        : hydrateGame(new Game({ players: this.deck }), saved.game);
+      this.runtime.restore({
+        ...saved,
+        difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
+      }, hydrateGame);
       this.ui.resetTable();
       this.ui.setMode(this.mode);
       if (saved.uxStats) this.ui.uxStats = saved.uxStats;
-      this.prepareAI();
       this._hidePanel();
       this.busy = false;
       this.ui.setInteractionBusy(false);
@@ -10402,7 +10597,7 @@ class Session {
       if (game.chooser === AI) {
         this.ui.setPrompt('A gép ezt választotta:', ATTRIBUTE_BY_KEY[game.attribute]?.label);
         this.ui.renderHands(game, { selectable: true });
-        this.awaitingChooserCard = false;
+        this.runtime.clearPendingChoice();
       } else {
         this.ui.renderHands(game, { selectable: false });
         this.ui.setPrompt('A gép befejezi a félbemaradt kört…');
@@ -10426,8 +10621,7 @@ class Session {
     this.busy = true;
     this.ui.setInteractionBusy(true);
     await this.delay(350);
-    const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-    const result = this.game.playCard(AI, aiCardId);
+    const result = this.runtime.playAiCard();
     await this.revealAndScore(result);
   }
 
@@ -10435,7 +10629,7 @@ class Session {
     this.busy = true;
     this.ui.setInteractionBusy(false);
     clearSavedMatch();
-    const result = this.game.result();
+    const result = this.runtime.result();
     const won = result.winner === HUMAN;
     this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
     const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
