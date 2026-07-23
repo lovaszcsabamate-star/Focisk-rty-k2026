@@ -1,0 +1,41 @@
+name: 9. lépés standalone névjavítás commit
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit-fix:
+    if: github.head_ref == 'refactor/step-9-storage-configuration' || github.ref_name == 'refactor/step-9-storage-configuration'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/step-9-storage-configuration
+          fetch-depth: 0
+      - name: Javító Python-blokk futtatása
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          workflow = Path('.github/workflows/step-9-standalone-name-fix.yml').read_text(encoding='utf-8')
+          match = re.search(r"          python - <<'PY'\n(.*?)\n          PY", workflow, re.S)
+          if not match:
+              raise SystemExit('A javítóblokk nem található.')
+          code = '\n'.join(line[10:] if line.startswith('          ') else line for line in match.group(1).splitlines())
+          exec(compile(code, 'step-9-name-fix.py', 'exec'), {})
+          PY
+      - name: Javítás commitolása
+        run: |
+          rm .github/workflows/step-9-standalone-name-fix.yml
+          rm .github/workflows/step-9-commit-name-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git add js test/storage-service.test.mjs
+          git commit -m "9. lépés: standalone storage-névütközés megszüntetése"
+          git push origin HEAD:refactor/step-9-storage-configuration
