@@ -1,8 +1,10 @@
 {
-  "generatedAt": "2026-07-23T11:40:53.212Z",
+  "generatedAt": "2026-07-23T12:08:28.362Z",
   "databaseId": "hungary-nb1-2025-26",
   "databaseManifest": "data/databases/hungary-nb1-2025-26/manifest.json",
   "baseDataset": "data/players.json",
+  "normalizedDataset": "data/databases/hungary-nb1-2025-26/players.normalized.json",
+  "standaloneDataSource": "normalized",
   "reviewedDataset": "data/players-reviewed.json",
   "sourceFiles": [
     "data/databases/registry.json",
