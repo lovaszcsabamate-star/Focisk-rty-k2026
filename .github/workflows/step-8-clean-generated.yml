@@ -1,0 +1,50 @@
+name: 8. lépés generált fájlok tisztítása
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean-generated:
+    if: github.head_ref == 'refactor/step-8-category-registry' || github.ref_name == 'refactor/step-8-category-registry'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Branch letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/step-8-category-registry
+          fetch-depth: 0
+
+      - name: Main szinkronizálása és generált fájlok visszaállítása
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git merge origin/main --no-edit || {
+            git checkout --theirs -- \
+              Fociskartyak2026.html \
+              data/database-changelog.json \
+              data/database-review.json \
+              data/database-review.md \
+              data/enrichment-audit.json \
+              data/missing-player-data-reviewed.json
+            git add .
+            git commit --no-edit
+          }
+          git checkout origin/main -- \
+            Fociskartyak2026.html \
+            data/database-changelog.json \
+            data/database-review.json \
+            data/database-review.md \
+            data/enrichment-audit.json \
+            data/missing-player-data-reviewed.json
+          rm .github/workflows/step-8-clean-generated.yml
+          git add -u
+          if ! git diff --cached --quiet; then
+            git commit -m "8. lépés: generált build- és auditfájlok visszaállítása"
+          fi
+          git push origin HEAD:refactor/step-8-category-registry
