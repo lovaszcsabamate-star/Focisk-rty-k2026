@@ -1,6 +1,11 @@
 name: Cleanup step 13 generated files
 
 on:
+  push:
+    branches:
+      - refactor/step-13-game-mode-factory
+    paths:
+      - .github/workflows/cleanup-step-13-generated.yml
   pull_request:
     branches:
       - main
@@ -10,7 +15,7 @@ permissions:
 
 jobs:
   cleanup:
-    if: github.head_ref == 'refactor/step-13-game-mode-factory'
+    if: github.head_ref == 'refactor/step-13-game-mode-factory' || github.ref_name == 'refactor/step-13-game-mode-factory'
     runs-on: ubuntu-latest
     steps:
       - name: Forráskód letöltése
