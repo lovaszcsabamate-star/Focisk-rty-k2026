@@ -34,7 +34,24 @@ jobs:
           node-version: 22
 
       - name: Session leválasztása a játékmotorról
-        run: node scripts/apply-step6-game-runtime.mjs
+        id: refactor
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          node scripts/apply-step6-game-runtime.mjs 2>&1 | tee step6-refactor.log
+
+      - name: Refaktornapló mentése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: step6-refactor-log
+          if-no-files-found: error
+          retention-days: 7
+          path: step6-refactor.log
+
+      - name: Refaktor eredményének ellenőrzése
+        if: steps.refactor.outcome != 'success'
+        run: exit 1
 
       - name: Célzott szintaktikai ellenőrzés
         run: |
