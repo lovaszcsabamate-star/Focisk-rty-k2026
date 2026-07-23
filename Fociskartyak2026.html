@@ -5055,21 +5055,19 @@ function createAssetService({
 const assetService = createAssetService();
 
 
-/* ===== js/deck-selection.js ===== */
-/** Deck filtering and menu controls shared by both game modes. */
-
-
+/* ===== js/domain/deck-selection-domain.js ===== */
+/** DOM- és tárolásfüggetlen pakliválasztási domainlogika. */
 
 const MIN_FILTERED_DECK_SIZE = 11;
-const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
-const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
 
 const RANDOM_DECK_SELECTION = Object.freeze({
   kind: 'random',
   value: '',
 });
 
-const NATION_ALIASES = new Map([
+const DECK_DOMAIN_SELECTION_KINDS = new Set(['random', 'club', 'nation']);
+
+const DECK_DOMAIN_NATION_ALIASES = new Map([
   ['hungary', 'hungary'], ['hungarian', 'hungary'], ['magyar', 'hungary'], ['magyarorszag', 'hungary'], ['hun', 'hungary'],
   ['serbia', 'serbia'], ['serbian', 'serbia'], ['szerb', 'serbia'], ['szerbia', 'serbia'], ['srb', 'serbia'],
   ['romania', 'romania'], ['romanian', 'romania'], ['roman', 'romania'], ['romania', 'romania'], ['rou', 'romania'], ['rom', 'romania'],
@@ -5101,7 +5099,7 @@ const NATION_ALIASES = new Map([
   ['georgia', 'georgia'], ['georgian', 'georgia'], ['gruz', 'georgia'], ['gruzia', 'georgia'], ['geo', 'georgia'],
 ]);
 
-const NATION_PRESENTATION = Object.freeze({
+const DECK_DOMAIN_NATION_PRESENTATION = Object.freeze({
   hungary: ['🇭🇺', 'Magyar'],
   serbia: ['🇷🇸', 'Szerb'],
   romania: ['🇷🇴', 'Román'],
@@ -5131,7 +5129,7 @@ const NATION_PRESENTATION = Object.freeze({
   georgia: ['🇬🇪', 'Grúz'],
 });
 
-const fold = value => String(value ?? '')
+const deckDomainFold = value => String(value ?? '')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '')
   .toLocaleLowerCase('hu-HU')
@@ -5139,25 +5137,11 @@ const fold = value => String(value ?? '')
   .replace(/[^a-z0-9]+/g, ' ')
   .trim();
 
-const safePlayers = players => (Array.isArray(players) ? players : []);
+const deckDomainPlayers = players => (Array.isArray(players) ? players : []);
 
-function canonicalNationKey(value) {
-  const raw = fold(value);
-  if (!raw) return '';
-  return NATION_ALIASES.get(raw) ?? raw.replace(/\s+/g, '-');
-}
-
-function nationPresentation(value) {
-  const key = canonicalNationKey(value);
-  const configured = NATION_PRESENTATION[key];
-  if (configured) return { key, flag: configured[0], label: configured[1] };
-  const fallback = String(value ?? '').trim() || 'Ismeretlen';
-  return { key, flag: '🌍', label: fallback };
-}
-
-const groupBy = (players, keyFor, labelFor) => {
+const deckDomainGroupBy = (players, keyFor, labelFor) => {
   const groups = new Map();
-  for (const player of safePlayers(players)) {
+  for (const player of deckDomainPlayers(players)) {
     const key = keyFor(player);
     if (!key) continue;
     const current = groups.get(key) ?? { key, label: labelFor(player), count: 0 };
@@ -5167,17 +5151,33 @@ const groupBy = (players, keyFor, labelFor) => {
   return [...groups.values()];
 };
 
+const canonicalClubKey = value => deckDomainFold(value);
+
+function canonicalNationKey(value) {
+  const raw = deckDomainFold(value);
+  if (!raw) return '';
+  return DECK_DOMAIN_NATION_ALIASES.get(raw) ?? raw.replace(/\s+/g, '-');
+}
+
+function nationPresentation(value) {
+  const key = canonicalNationKey(value);
+  const configured = DECK_DOMAIN_NATION_PRESENTATION[key];
+  if (configured) return { key, flag: configured[0], label: configured[1] };
+  const fallback = String(value ?? '').trim() || 'Ismeretlen';
+  return { key, flag: '🌍', label: fallback };
+}
+
 function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_SIZE) {
-  const pool = safePlayers(players);
-  const clubs = groupBy(
+  const pool = deckDomainPlayers(players);
+  const clubs = deckDomainGroupBy(
     pool,
-    player => fold(player?.club),
+    player => canonicalClubKey(player?.club),
     player => String(player?.club ?? '').trim(),
   )
     .filter(item => item.count >= minimum)
     .sort((a, b) => a.label.localeCompare(b.label, 'hu-HU'));
 
-  const nations = groupBy(
+  const nations = deckDomainGroupBy(
     pool,
     player => canonicalNationKey(player?.nation),
     player => nationPresentation(player?.nation).label,
@@ -5194,7 +5194,7 @@ function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_SIZE) {
 
 function normaliseDeckSelection(selection) {
   if (!selection || typeof selection !== 'object') return { ...RANDOM_DECK_SELECTION };
-  const kind = ['random', 'club', 'nation'].includes(selection.kind) ? selection.kind : 'random';
+  const kind = DECK_DOMAIN_SELECTION_KINDS.has(selection.kind) ? selection.kind : 'random';
   if (kind === 'random') return { ...RANDOM_DECK_SELECTION };
   const value = String(selection.value ?? '').trim();
   return value ? { kind, value } : { ...RANDOM_DECK_SELECTION };
@@ -5204,17 +5204,17 @@ function selectionEquals(left, right) {
   const a = normaliseDeckSelection(left);
   const b = normaliseDeckSelection(right);
   if (a.kind !== b.kind) return false;
-  if (a.kind === 'club') return fold(a.value) === fold(b.value);
+  if (a.kind === 'club') return canonicalClubKey(a.value) === canonicalClubKey(b.value);
   if (a.kind === 'nation') return canonicalNationKey(a.value) === canonicalNationKey(b.value);
   return true;
 }
 
 function resolveDeckSelection(players, selection) {
-  const pool = safePlayers(players);
+  const pool = deckDomainPlayers(players);
   const normalised = normaliseDeckSelection(selection);
   if (normalised.kind === 'club') {
-    const key = fold(normalised.value);
-    return pool.filter(player => fold(player?.club) === key);
+    const key = canonicalClubKey(normalised.value);
+    return pool.filter(player => canonicalClubKey(player?.club) === key);
   }
   if (normalised.kind === 'nation') {
     const key = canonicalNationKey(normalised.value);
@@ -5227,7 +5227,11 @@ function validateDeckSelection(players, selection, minimum = MIN_FILTERED_DECK_S
   const normalised = normaliseDeckSelection(selection);
   const selectedPlayers = resolveDeckSelection(players, normalised);
   if (normalised.kind !== 'random' && selectedPlayers.length < minimum) {
-    return { selection: { ...RANDOM_DECK_SELECTION }, players: safePlayers(players).slice(), valid: false };
+    return {
+      selection: { ...RANDOM_DECK_SELECTION },
+      players: deckDomainPlayers(players).slice(),
+      valid: false,
+    };
   }
   return { selection: normalised, players: selectedPlayers, valid: true };
 }
@@ -5241,15 +5245,6 @@ function describeDeckSelection(selection, players = []) {
     return `Nemzetiség: ${nation.flag} ${nation.label} · ${count} kártya`;
   }
   return `Véletlen kártyák · ${count} lapos adatbázis`;
-}
-
-function readDeckSelection(players = []) {
-  const parsed = readStoredJson(DECK_SELECTION_STORAGE_KEY, RANDOM_DECK_SELECTION);
-  return validateDeckSelection(players, parsed).selection;
-}
-
-function saveDeckSelection(selection) {
-  return writeStoredJson(DECK_SELECTION_STORAGE_KEY, normaliseDeckSelection(selection));
 }
 
 function applyDeckSelectionToPayload(payload, selection) {
@@ -5272,6 +5267,26 @@ function applyDeckSelectionToPayload(payload, selection) {
       deckSelection: deckMeta,
     },
   };
+}
+
+
+/* ===== js/deck-selection.js ===== */
+/** Deck filtering and menu controls shared by both game modes. */
+
+
+
+
+
+const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
+const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
+
+function readDeckSelection(players = []) {
+  const parsed = readStoredJson(DECK_SELECTION_STORAGE_KEY, RANDOM_DECK_SELECTION);
+  return validateDeckSelection(players, parsed).selection;
+}
+
+function saveDeckSelection(selection) {
+  return writeStoredJson(DECK_SELECTION_STORAGE_KEY, normaliseDeckSelection(selection));
 }
 
 const STYLE_ID = 'deck-selection-styles';
@@ -5390,7 +5405,7 @@ function insertDeckSelector(panel, players, activeSelection) {
     }
 
     const preferred = draft.kind === 'club'
-      ? entries.find(entry => fold(entry.label) === fold(draft.value))
+      ? entries.find(entry => canonicalClubKey(entry.label) === canonicalClubKey(draft.value))
       : entries.find(entry => entry.key === canonicalNationKey(draft.value));
     select.value = preferred?.key ?? entries[0]?.key ?? '';
     if (!select.value && entries.length) select.selectedIndex = 0;
@@ -5435,7 +5450,7 @@ function insertDeckSelector(panel, players, activeSelection) {
 function installDeckSelectionMenu(payload, activeSelection) {
   if (typeof document === 'undefined') return () => {};
   const players = Array.isArray(payload) ? payload : payload?.players;
-  const pool = safePlayers(players);
+  const pool = Array.isArray(players) ? players : [];
   const selection = validateDeckSelection(pool, activeSelection).selection;
   ensureStyles();
 
