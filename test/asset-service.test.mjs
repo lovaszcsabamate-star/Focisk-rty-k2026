@@ -97,7 +97,8 @@ assert.equal(assetService.isRemoteAssetUrl('https://game.local/card.png', {
   baseUrl: 'https://game.local/index.html',
   origin: 'https://game.local',
 }), false);
-assert.equal(assetService.isRemoteAssetUrl('not a valid URL %'), false);
+assert.equal(assetService.isRemoteAssetUrl('not-a-remote-file.png'), false);
+assert.equal(assetService.isRemoteAssetUrl('http://[invalid'), true);
 assert.equal(assetService.isApprovedReleaseAsset(ASSET_PLACEHOLDERS.player), true);
 assert.equal(assetService.isProtectedUnapprovedArt('assets/portraits/player-42.png'), true);
 assert.equal(assetService.isProtectedUnapprovedArt(ASSET_PLACEHOLDERS.player), false);
