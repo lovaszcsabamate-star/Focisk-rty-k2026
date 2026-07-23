@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
+
 const CLUB_ID = 'nyiregyhaza-spartacus-fc';
 const PATCH_FILE = 'club-official-stat-patches-nyiregyhaza.json';
 const COMPLETION_FILE = 'club-official-enrichment-14-nyiregyhaza-completion.json';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
-const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 
 const patch = readJson(`../data/${PATCH_FILE}`);
 const completion = readJson(`../data/${COMPLETION_FILE}`);
@@ -66,11 +67,8 @@ for (const record of completion.records) {
   assert.match(record.sourceUrl, /^https:\/\/adatbank\.mlsz\.hu\/player\/\d+\.html$/);
 }
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  const text = readText(source);
-  assert.match(text, new RegExp(PATCH_FILE.replaceAll('.', '\\.')));
-  assert.match(text, new RegExp(COMPLETION_FILE.replaceAll('.', '\\.')));
-}
+assertRegisteredDataFile(PATCH_FILE, 'statPatches');
+assertRegisteredDataFile(COMPLETION_FILE, 'enrichments');
 
 assert.match(patch.source.scope, /nem közölnek játékpercet és gólpasszt/);
 assert.equal(patch.fields.includes('minutes'), false);

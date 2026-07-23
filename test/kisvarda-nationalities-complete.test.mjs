@@ -78,9 +78,13 @@ assert.equal(byName.get('Osztrovka Maxim').nation, 'UKR / HUN');
 assert.equal(byName.get('POPOVICS ILLYA').nation, 'UKR');
 assert.equal(byName.get('VEPRIK TARASZ').nation, 'UKR');
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  assert.match(readText(source), new RegExp(FILE.replaceAll('.', '\\.')));
-}
+const databaseRegistry = readJson('../data/databases/registry.json');
+const databaseEntry = databaseRegistry.databases.find(entry => entry.id === databaseRegistry.defaultDatabaseId);
+const databaseManifest = readJson(`../${databaseEntry.manifest}`);
+assert.ok(databaseManifest.files.enrichments.some(file => file.endsWith(FILE)));
+assert.match(readText('../js/bootstrap.js'), /getDefaultDatabase/);
+assert.match(readText('../scripts/build-standalone.mjs'), /databaseManifestFile/);
+assert.match(readText('../sw.js'), new RegExp(FILE.replaceAll('.', '\\.')));
 assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
 
 console.log('✓ Kisvárda nemzetiségek lezárva: 21 új forrásolt országadat, összesen 38/38; az alap- és statisztikai értékek változatlanok');

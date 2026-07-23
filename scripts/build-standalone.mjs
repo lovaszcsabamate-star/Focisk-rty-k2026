@@ -23,55 +23,39 @@ const read = relative => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 const assetAudit = auditAssetLicenses();
 if (!assetAudit.ok) throw new Error('Az assetlicenc-ellenőrzés hibát talált; a kiadási build leállt.');
 
-const enrichmentFiles = [
-  'data/club-official-enrichment.json',
-  'data/club-official-enrichment-2.json',
-  'data/club-official-enrichment-3-paks-nyir.json',
-  'data/club-official-enrichment-4-ujpest.json',
-  'data/club-official-enrichment-5-other.json',
-  'data/club-official-enrichment-6-eto-puskas.json',
-  'data/club-official-enrichment-7-kisvarda-selected10.json',
-  'data/club-official-enrichment-8-kisvarda-selected10.json',
-  'data/club-official-enrichment-9-kisvarda-selected10.json',
-  'data/club-official-enrichment-10-kisvarda-final8.json',
-  'data/club-official-enrichment-11-kisvarda-completion.json',
-  'data/club-official-enrichment-12-dvtk-completion.json',
-  'data/club-official-enrichment-13-mtk-completion.json',
-  'data/club-official-enrichment-14-nyiregyhaza-completion.json',
-  'data/club-official-enrichment-15-nyiregyhaza-nationalities.json',
-  'data/club-official-enrichment-16-kazincbarcika-completion.json',
-  'data/club-official-enrichment-17-ujpest-completion.json',
-  'data/club-official-enrichment-18-paks-completion.json',
-  'data/club-official-enrichment-19-zte-completion.json',
-  'data/club-official-enrichment-20-puskas-completion.json',
-  'data/club-official-enrichment-21-eto-completion.json',
-  'data/club-official-enrichment-22-kisvarda-nationalities.json',
-  'data/club-official-enrichment-23-final-missing-basic.json',
+const registryFile = 'data/databases/registry.json';
+const registry = JSON.parse(read(registryFile));
+const defaultEntry = registry.databases?.find(entry => (
+  entry?.enabled !== false && entry?.id === registry.defaultDatabaseId
+));
+if (!defaultEntry?.manifest) {
+  throw new Error(`Az alapértelmezett adatbázis nincs helyesen regisztrálva: ${registry.defaultDatabaseId ?? 'ismeretlen'}`);
+}
+
+const databaseManifestFile = defaultEntry.manifest;
+const databaseManifest = JSON.parse(read(databaseManifestFile));
+if (databaseManifest.id !== defaultEntry.id || databaseManifest.enabled === false) {
+  throw new Error(`Az adatbázis-manifest nem használható: ${databaseManifestFile}`);
+}
+
+const playerFile = databaseManifest.files?.players;
+const enrichmentFiles = databaseManifest.files?.enrichments ?? [];
+const correctionFiles = databaseManifest.files?.corrections ?? [];
+const statPatchFiles = databaseManifest.files?.statPatches ?? [];
+const directoryFile = databaseManifest.files?.clubDirectory;
+if (!playerFile || !directoryFile || !Array.isArray(enrichmentFiles)
+  || !Array.isArray(correctionFiles) || !Array.isArray(statPatchFiles)) {
+  throw new Error(`Az adatbázis-manifest fájllistája hiányos: ${databaseManifestFile}`);
+}
+const sourceFiles = [
+  registryFile,
+  databaseManifestFile,
+  playerFile,
+  ...enrichmentFiles,
+  ...correctionFiles,
+  ...statPatchFiles,
+  directoryFile,
 ];
-const correctionFiles = [
-  'data/club-official-corrections.json',
-  'data/club-official-corrections-2.json',
-  'data/club-official-corrections-3.json',
-  'data/club-official-corrections-4-kisvarda-selected10-2.json',
-  'data/club-official-corrections-5-puskas.json',
-];
-const statPatchFiles = [
-  'data/club-official-stat-patches-kisvarda.json',
-  'data/club-official-stat-patches-kisvarda-selected10.json',
-  'data/club-official-stat-patches-kisvarda-selected10-2.json',
-  'data/club-official-stat-patches-kisvarda-selected10-3.json',
-  'data/club-official-stat-patches-kisvarda-final8.json',
-  'data/club-official-stat-patches-ferencvaros.json',
-  'data/club-official-stat-patches-dvtk.json',
-  'data/club-official-stat-patches-mtk.json',
-  'data/club-official-stat-patches-nyiregyhaza.json',
-  'data/club-official-stat-patches-kazincbarcika.json',
-  'data/club-official-stat-patches-ujpest.json',
-  'data/club-official-stat-patches-zte.json',
-  'data/club-official-stat-patches-puskas.json',
-];
-const directoryFile = 'data/club-official-sources.json';
-const sourceFiles = [...enrichmentFiles, ...correctionFiles, ...statPatchFiles, directoryFile];
 
 const moduleOrder = [
   'js/branding.js',
@@ -104,7 +88,7 @@ const flattenModule = source => source
 const bundle = moduleOrder
   .map(file => `\n/* ===== ${file} ===== */\n${flattenModule(read(file))}`)
   .join('\n');
-const basePayload = JSON.parse(read('data/players.json'));
+const basePayload = JSON.parse(read(playerFile));
 const enrichmentParts = enrichmentFiles.map(file => JSON.parse(read(file)));
 const correctionParts = correctionFiles.map(file => JSON.parse(read(file)));
 const statPatchParts = statPatchFiles.map(file => JSON.parse(read(file)));
@@ -202,7 +186,9 @@ const conflicts = payload.players.flatMap(card =>
 );
 const audit = {
   generatedAt: reviewGeneratedAt,
-  baseDataset: 'data/players.json',
+  databaseId: databaseManifest.id,
+  databaseManifest: databaseManifestFile,
+  baseDataset: playerFile,
   reviewedDataset: 'data/players-reviewed.json',
   sourceFiles,
   playerCount: payload.players.length,
@@ -231,6 +217,8 @@ const auditPath = path.join(ROOT, 'data/enrichment-audit.json');
 fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 
 console.log(`Elkészült: ${outputPath}`);
+console.log(`Adatbázis: ${databaseManifest.name} (${databaseManifest.id})`);
+console.log(`Manifest: ${databaseManifestFile}`);
 console.log(`Audit: ${auditPath}`);
 console.log(`Felülvizsgált adatbázis: ${path.join(ROOT, 'data/players-reviewed.json')}`);
 console.log(`${playablePayload.players.length} teljes játékoskártya beágyazva; ${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva.`);

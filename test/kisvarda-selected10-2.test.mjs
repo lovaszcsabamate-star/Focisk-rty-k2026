@@ -7,9 +7,9 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
 
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
-const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 
 const basePayload = readJson('../data/players.json');
 const directory = readJson('../data/club-official-sources.json');
@@ -159,14 +159,8 @@ for (const record of selectedEnrichment.records) {
   assert.match(record.sourceUrl, /^https:\/\//);
 }
 
-for (const file of [
-  'club-official-enrichment-8-kisvarda-selected10.json',
-  'club-official-corrections-4-kisvarda-selected10-2.json',
-  'club-official-stat-patches-kisvarda-selected10-2.json',
-]) {
-  for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-    assert.match(readText(source), new RegExp(file.replaceAll('.', '\\.')));
-  }
-}
+assertRegisteredDataFile('club-official-enrichment-8-kisvarda-selected10.json', 'enrichments');
+assertRegisteredDataFile('club-official-corrections-4-kisvarda-selected10-2.json', 'corrections');
+assertRegisteredDataFile('club-official-stat-patches-kisvarda-selected10-2.json', 'statPatches');
 
 console.log('✓ Második Kisvárda-tízes: 10/10 játékos forrásolt alapadatai, kerettagsága és két bizonyított MLSZ-korrekciója rendben');

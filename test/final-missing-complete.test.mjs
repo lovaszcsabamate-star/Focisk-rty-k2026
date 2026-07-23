@@ -137,9 +137,13 @@ assert.equal(finalPayload.players.filter(card => finite(card.stats?.minutes)).le
 assert.equal(finalPayload.players.filter(card => finite(card.stats?.assists)).length, 29);
 assert.equal(finalPayload.players.filter(card => finite(card.stats?.secondYellowRedCards)).length, 37);
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  assert.match(readText(source), new RegExp(FILE.replaceAll('.', '\\.')));
-}
+const databaseRegistry = readJson('../data/databases/registry.json');
+const databaseEntry = databaseRegistry.databases.find(entry => entry.id === databaseRegistry.defaultDatabaseId);
+const databaseManifest = readJson(`../${databaseEntry.manifest}`);
+assert.ok(databaseManifest.files.enrichments.some(file => file.endsWith(FILE)));
+assert.match(readText('../js/bootstrap.js'), /getDefaultDatabase/);
+assert.match(readText('../scripts/build-standalone.mjs'), /databaseManifestFile/);
+assert.match(readText('../sw.js'), new RegExp(FILE.replaceAll('.', '\\.')));
 assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
 assert.match(readText('../js/data/club-stat-patches.js'), /officialStatConsensus/);
 

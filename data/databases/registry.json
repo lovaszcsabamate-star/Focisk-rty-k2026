@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "defaultDatabaseId": "hungary-nb1-2025-26",
+  "databases": [
+    {
+      "id": "hungary-nb1-2025-26",
+      "manifest": "data/databases/hungary-nb1-2025-26/manifest.json",
+      "enabled": true
+    }
+  ]
+}

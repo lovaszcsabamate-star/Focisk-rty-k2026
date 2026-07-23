@@ -16,9 +16,13 @@ const mobileExperienceJs = read('../js/mobile-experience.js');
 const pwaCss = read('../css/pwa.css');
 const pwaJs = read('../js/pwa.js');
 const bootstrap = read('../js/bootstrap.js');
+const databaseRegistryModule = read('../js/database/database-registry.js');
 const clubEnrichment = read('../js/data/club-enrichment.js');
 const clubStatPatches = read('../js/data/club-stat-patches.js');
 const serviceWorker = read('../sw.js');
+const databaseRegistry = readJson('../data/databases/registry.json');
+const databaseEntry = databaseRegistry.databases.find(entry => entry.id === databaseRegistry.defaultDatabaseId);
+const databaseManifest = readJson(`../${databaseEntry.manifest}`);
 const directory = readJson('../data/club-official-sources.json');
 const paksNyir = readJson('../data/club-official-enrichment-3-paks-nyir.json');
 const ujpest = readJson('../data/club-official-enrichment-4-ujpest.json');
@@ -87,53 +91,30 @@ assert.match(mobileExperienceJs, /hydrateGame/);
 assert.match(mobileExperienceJs, /kevesebb életkor a jobb/);
 assert.match(bootstrap, /showFatalError/);
 assert.match(bootstrap, /retry-load-btn/);
+assert.match(bootstrap, /getDefaultDatabase/);
+assert.match(databaseRegistryModule, /loadDatabaseRegistry/);
+assert.match(databaseRegistryModule, /validateDatabaseManifest/);
+assert.match(buildScript, /databaseManifestFile/);
+assert.match(serviceWorker, /data\/databases\/registry\.json/);
+assert.match(serviceWorker, /data\/databases\/hungary-nb1-2025-26\/manifest\.json/);
+
+assert.equal(databaseRegistry.defaultDatabaseId, 'hungary-nb1-2025-26');
+assert.equal(databaseEntry.enabled, true);
+assert.equal(databaseManifest.id, databaseEntry.id);
+assert.equal(databaseManifest.files.enrichments.length, 23);
+assert.equal(databaseManifest.files.corrections.length, 5);
+assert.equal(databaseManifest.files.statPatches.length, 13);
 
 const dataFiles = [
-  'club-official-enrichment.json',
-  'club-official-enrichment-2.json',
-  'club-official-enrichment-3-paks-nyir.json',
-  'club-official-enrichment-4-ujpest.json',
-  'club-official-enrichment-5-other.json',
-  'club-official-enrichment-6-eto-puskas.json',
-  'club-official-enrichment-7-kisvarda-selected10.json',
-  'club-official-enrichment-8-kisvarda-selected10.json',
-  'club-official-enrichment-9-kisvarda-selected10.json',
-  'club-official-enrichment-10-kisvarda-final8.json',
-  'club-official-enrichment-11-kisvarda-completion.json',
-  'club-official-enrichment-12-dvtk-completion.json',
-  'club-official-enrichment-13-mtk-completion.json',
-  'club-official-enrichment-14-nyiregyhaza-completion.json',
-  'club-official-enrichment-15-nyiregyhaza-nationalities.json',
-  'club-official-enrichment-16-kazincbarcika-completion.json',
-  'club-official-enrichment-17-ujpest-completion.json',
-  'club-official-enrichment-18-paks-completion.json',
-  'club-official-enrichment-19-zte-completion.json',
-  'club-official-enrichment-21-eto-completion.json',
-  'club-official-enrichment-22-kisvarda-nationalities.json',
-  'club-official-enrichment-23-final-missing-basic.json',
-  'club-official-corrections.json',
-  'club-official-corrections-2.json',
-  'club-official-corrections-3.json',
-  'club-official-corrections-4-kisvarda-selected10-2.json',
-  'club-official-stat-patches-kisvarda.json',
-  'club-official-stat-patches-kisvarda-selected10.json',
-  'club-official-stat-patches-kisvarda-selected10-2.json',
-  'club-official-stat-patches-kisvarda-selected10-3.json',
-  'club-official-stat-patches-kisvarda-final8.json',
-  'club-official-stat-patches-ferencvaros.json',
-  'club-official-stat-patches-dvtk.json',
-  'club-official-stat-patches-mtk.json',
-  'club-official-stat-patches-nyiregyhaza.json',
-  'club-official-stat-patches-kazincbarcika.json',
-  'club-official-stat-patches-ujpest.json',
-  'club-official-stat-patches-zte.json',
-  'club-official-sources.json',
+  databaseManifest.files.players,
+  databaseManifest.files.clubDirectory,
+  ...databaseManifest.files.enrichments,
+  ...databaseManifest.files.corrections,
+  ...databaseManifest.files.statPatches,
 ];
 for (const file of dataFiles) {
-  const pattern = new RegExp(file.replaceAll('.', '\\.'));
-  assert.match(bootstrap, pattern);
-  assert.match(buildScript, pattern);
-  assert.match(serviceWorker, pattern);
+  assert.equal(fs.existsSync(new URL(`../${file}`, import.meta.url)), true, `Hiányzó manifest-fájl: ${file}`);
+  assert.match(serviceWorker, new RegExp(file.replaceAll('.', '\\.').replaceAll('/', '\\/')));
 }
 
 assert.match(bootstrap, /applyOfficialStatPatches/);

@@ -7,10 +7,10 @@ import {
   prepareClubEnrichment,
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
 
 const CLUB_ID = 'kisvarda-master-good';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
-const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const basePayload = readJson('../data/players.json');
 const directory = readJson('../data/club-official-sources.json');
 const finalEnrichment = readJson('../data/club-official-enrichment-10-kisvarda-final8.json');
@@ -129,14 +129,8 @@ for (const file of [
   assert.ok(kisvardaDirectory.recordFiles.includes(file), `Hiányzik a klubforrás-jegyzékből: ${file}`);
 }
 
-for (const file of [
-  'club-official-enrichment-10-kisvarda-final8.json',
-  'club-official-enrichment-11-kisvarda-completion.json',
-  'club-official-stat-patches-kisvarda-final8.json',
-]) {
-  for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-    assert.match(readText(source), new RegExp(file.replaceAll('.', '\\.')));
-  }
-}
+assertRegisteredDataFile('club-official-enrichment-10-kisvarda-final8.json', 'enrichments');
+assertRegisteredDataFile('club-official-enrichment-11-kisvarda-completion.json', 'enrichments');
+assertRegisteredDataFile('club-official-stat-patches-kisvarda-final8.json', 'statPatches');
 
 console.log('✓ Kisvárda lezárva: 38/38 játékos születési dátuma és posztja, valamint a lezáró statisztikai csomag konzisztens');
