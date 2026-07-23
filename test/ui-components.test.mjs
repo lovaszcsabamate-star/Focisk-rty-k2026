@@ -35,7 +35,7 @@ for (const method of [
   'renderScores', '_renderClassicScores', '_renderPenaltyScores', '_renderPiles',
   'showAttributePicker', 'showDuel', 'showVerdict', 'showOverlay',
 ]) {
-  assert.match(ui, new RegExp(`\\n  ${method.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\\(`), `A patch-elhető UI metódus eltűnt: ${method}`);
+  assert.match(ui, new RegExp(`\\n  ${method}\\(`), `A patch-elhető UI metódus eltűnt: ${method}`);
 }
 
 assert.match(card, /card__portrait/);
