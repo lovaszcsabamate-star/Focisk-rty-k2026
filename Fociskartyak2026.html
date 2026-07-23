@@ -5928,6 +5928,228 @@ class OpponentAI {
 
 
 
+/* ===== js/game/game-runtime.js ===== */
+/** DOM-mentes játékmenet-vezérlő a Klasszikus és Büntetőpárbaj módhoz. */
+
+
+
+
+const GAME_MODE = Object.freeze({
+  CLASSIC: 'classic',
+  PENALTIES: 'penalties',
+});
+
+const validMode = mode => Object.values(GAME_MODE).includes(mode);
+const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
+const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
+const cloneSaveValue = value => (value == null ? value : structuredClone(value));
+
+class GameRuntimeError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'GameRuntimeError';
+    this.code = code;
+  }
+}
+
+class GameRuntime {
+  constructor({
+    players,
+    rng = Math.random,
+    aiFactory = (difficulty, deck) => new OpponentAI(difficulty, deck),
+    gameFactory = null,
+  } = {}) {
+    if (!Array.isArray(players)) throw new TypeError('A GameRuntime players mezője tömb kell legyen.');
+    this.players = players;
+    this.rng = rng;
+    this.aiFactory = aiFactory;
+    this.gameFactory = gameFactory;
+    this.reset();
+  }
+
+  reset() {
+    this.mode = null;
+    this.difficulty = null;
+    this.game = null;
+    this.ai = null;
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    return this.state();
+  }
+
+  state() {
+    return Object.freeze({
+      mode: this.mode,
+      difficulty: this.difficulty,
+      game: this.game,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+      started: Boolean(this.game),
+      isOver: Boolean(this.game?.isOver),
+      phase: this.game?.phase ?? null,
+      chooser: this.game?.chooser ?? null,
+      round: this.game?.round ?? null,
+      attribute: this.game?.attribute ?? this.pendingAttribute,
+    });
+  }
+
+  _resolveDifficulty(difficulty) {
+    return isRuntimeDifficulty(difficulty) ? difficulty : defaultDifficulty();
+  }
+
+  _createGame(mode) {
+    if (!validMode(mode)) throw new GameRuntimeError('UNKNOWN_MODE', `Ismeretlen játékmód: ${mode}`);
+    if (this.gameFactory) return this.gameFactory({ mode, players: this.players, rng: this.rng });
+    return mode === GAME_MODE.PENALTIES
+      ? new PenaltyGame({ players: this.players, rng: this.rng })
+      : new Game({ players: this.players, rng: this.rng });
+  }
+
+  _prepareAi() {
+    this._requireGame();
+    const aiDeck = this.mode === GAME_MODE.PENALTIES
+      ? [...this.game.teams[HUMAN], ...this.game.teams[AI]]
+      : this.game.players;
+    this.ai = this.aiFactory(this.difficulty, aiDeck);
+  }
+
+  _requireGame() {
+    if (!this.game) throw new GameRuntimeError('NO_ACTIVE_GAME', 'Nincs aktív mérkőzés.');
+    return this.game;
+  }
+
+  _requirePhase(phase) {
+    const game = this._requireGame();
+    if (game.phase !== phase) {
+      throw new GameRuntimeError('INVALID_PHASE', `A művelet nem hajtható végre ebben a fázisban: ${game.phase}`);
+    }
+    return game;
+  }
+
+  start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
+    this.mode = validMode(mode) ? mode : GAME_MODE.CLASSIC;
+    this.difficulty = this._resolveDifficulty(difficulty);
+    this.game = this._createGame(this.mode);
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    this._prepareAi();
+    return this.state();
+  }
+
+  restore(saved, hydrate) {
+    if (!saved || typeof saved !== 'object') {
+      throw new GameRuntimeError('INVALID_SAVE', 'A mentett játék adatai hiányoznak.');
+    }
+    if (typeof hydrate !== 'function') {
+      throw new TypeError('A mentett játék visszaállításához hydrate függvény szükséges.');
+    }
+
+    this.mode = validMode(saved.mode) ? saved.mode : GAME_MODE.CLASSIC;
+    this.difficulty = this._resolveDifficulty(saved.difficulty);
+    const emptyGame = this._createGame(this.mode);
+    this.game = hydrate(emptyGame, saved.game);
+    if (!this.game || typeof this.game !== 'object') {
+      throw new GameRuntimeError('INVALID_SAVE', 'A mentett játékmotor nem állítható vissza.');
+    }
+    this.pendingAttribute = typeof saved.pendingAttribute === 'string'
+      ? saved.pendingAttribute
+      : null;
+    this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
+    this._prepareAi();
+    return this.state();
+  }
+
+  availableAttributeKeys() {
+    return this._requireGame().availableAttributeKeys();
+  }
+
+  selectHumanAttribute(attributeKey) {
+    const game = this._requirePhase(PHASE.CHOOSE_ATTRIBUTE);
+    if (game.chooser !== HUMAN) {
+      throw new GameRuntimeError('NOT_HUMAN_TURN', 'Most a gép választ kategóriát.');
+    }
+    if (!game.availableAttributeKeys().includes(attributeKey)) {
+      throw new GameRuntimeError('ATTRIBUTE_UNAVAILABLE', `A kategória most nem játszható: ${attributeKey}`);
+    }
+    this.pendingAttribute = attributeKey;
+    this.awaitingChooserCard = true;
+    return this.state();
+  }
+
+  commitHumanChooserCard(cardId) {
+    const game = this._requirePhase(PHASE.CHOOSE_ATTRIBUTE);
+    if (game.chooser !== HUMAN || !this.awaitingChooserCard || !this.pendingAttribute) {
+      throw new GameRuntimeError('NO_PENDING_HUMAN_CHOICE', 'Nincs befejezetlen játékosi kategóriaválasztás.');
+    }
+    game.chooseAttribute(this.pendingAttribute, cardId);
+    this.awaitingChooserCard = false;
+    return this.state();
+  }
+
+  chooseAiAttribute() {
+    const game = this._requirePhase(PHASE.CHOOSE_ATTRIBUTE);
+    if (game.chooser !== AI) {
+      throw new GameRuntimeError('NOT_AI_TURN', 'Most a játékos választ kategóriát.');
+    }
+    const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
+    game.chooseAttribute(choice.attribute, choice.cardId);
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    return Object.freeze({ ...choice, state: this.state() });
+  }
+
+  playHumanCard(cardId) {
+    const game = this._requirePhase(PHASE.CHOOSE_CARD);
+    if (game.chooser === HUMAN) {
+      throw new GameRuntimeError('HUMAN_ALREADY_PLAYED', 'A játékos kategóriaválasztóként már kijátszotta a lapját.');
+    }
+    return game.playCard(HUMAN, cardId);
+  }
+
+  playAiCard() {
+    const game = this._requirePhase(PHASE.CHOOSE_CARD);
+    if (game.chooser === AI) {
+      throw new GameRuntimeError('AI_ALREADY_PLAYED', 'A gép kategóriaválasztóként már kijátszotta a lapját.');
+    }
+    const aiCardId = this.ai.chooseCard(game.hands[AI], game.attribute);
+    return game.playCard(AI, aiCardId);
+  }
+
+  clearPendingChoice() {
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    return this.state();
+  }
+
+  advance() {
+    const game = this._requireGame();
+    this.pendingAttribute = null;
+    this.awaitingChooserCard = false;
+    if (this.mode === GAME_MODE.PENALTIES) {
+      return Object.freeze({ ...game.nextDuel(), state: this.state() });
+    }
+    game.nextRound();
+    return Object.freeze({ reshuffled: false, state: this.state() });
+  }
+
+  result() {
+    return this._requireGame().result();
+  }
+
+  toSavePayload(uxStats = null) {
+    const game = this._requireGame();
+    return {
+      game,
+      mode: this.mode,
+      difficulty: this.difficulty,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+      uxStats: cloneSaveValue(uxStats),
+    };
+  }
+}
+
+
 /* ===== js/banter.js ===== */
 /** Short Hungarian pub commentary. Pure flavour; never delays game state. */
 
@@ -6043,22 +6265,21 @@ function getIdleChatter(chance = 0.35) {
 }
 
 
-/* ===== js/ui.js ===== */
-/** DOM rendering shared by Classic and Penalties modes. */
+/* ===== js/ui/dom.js ===== */
+/** Közös DOM- és assetsegédek a vizuális komponensekhez. */
 
-
-
-const EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
-const withExtensions = base => EXTENSIONS.map(extension => `${base}.${extension}`);
+const UI_ART_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
+const withUiArtExtensions = base => UI_ART_EXTENSIONS.map(extension => `${base}.${extension}`);
 
 const ART = {
-  portrait: id => withExtensions(`assets/portraits/${id}`),
-  cardBack: () => withExtensions('assets/cards/back'),
-  friend: id => withExtensions(`assets/friends/${id}`),
-  pub: () => withExtensions('assets/pub/background'),
+  portrait: id => withUiArtExtensions(`assets/portraits/${id}`),
+  cardBack: () => withUiArtExtensions('assets/cards/back'),
+  friend: id => withUiArtExtensions(`assets/friends/${id}`),
+  pub: () => withUiArtExtensions('assets/pub/background'),
 };
 
 const $ = selector => document.querySelector(selector);
+
 const el = (tag, className, text) => {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -6085,6 +6306,283 @@ const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';
 const initials = name => name.split(' ').filter(Boolean).map(word => word[0]).join('').slice(0, 2).toUpperCase();
 const finiteDetail = value => typeof value === 'number' && Number.isFinite(value) ? String(value) : null;
 
+
+/* ===== js/ui/card-view.js ===== */
+/** Kártya DOM-jának előállítása a játékmenettől függetlenül. */
+
+
+
+class CardView {
+  cardRows(card, activeAttributeKey) {
+    const rows = CARD_ATTRIBUTE_KEYS
+      .map(key => ATTRIBUTE_BY_KEY[key])
+      .filter(attribute => attribute && hasAttributeData(card, attribute.key));
+
+    if (!activeAttributeKey) return rows;
+    const active = ATTRIBUTE_BY_KEY[activeAttributeKey];
+    if (!active || !hasAttributeData(card, activeAttributeKey)) return rows;
+    const existingIndex = rows.findIndex(attribute => attribute.key === active.cardStatKey);
+    if (existingIndex >= 0) {
+      rows[existingIndex] = active;
+      return rows;
+    }
+    return [active, ...rows];
+  }
+
+  renderCard(card, opts = {}) {
+    if (opts.faceDown) {
+      const back = el('div', 'card card--back');
+      tryArt(back, ART.cardBack());
+      return back;
+    }
+
+    const node = el('article', 'card');
+    node.dataset.cardId = card.id;
+    const portrait = el('div', 'card__portrait');
+    portrait.dataset.initials = initials(card.name);
+    tryArt(portrait, [...ART.portrait(card.id), ...(card.meta?.imageUrl ? [card.meta.imageUrl] : [])]);
+    if (card.position) portrait.appendChild(el('span', 'card__position', card.position));
+    node.appendChild(portrait);
+    node.appendChild(el('div', 'card__name', card.name));
+    node.appendChild(el('div', 'card__club', [card.club, card.nation].filter(Boolean).join(' · ')));
+
+    const stats = el('div', 'card__stats');
+    for (const attribute of this.cardRows(card, opts.activeAttribute)) {
+      const active = attribute.key === opts.activeAttribute;
+      const row = el('div', `stat${active ? ' active' : ''}`);
+      row.appendChild(el('span', 'stat__label', `${attribute.icon} ${attribute.cardLabel ?? attribute.shortLabel ?? attribute.label}`));
+      row.appendChild(el('span', 'stat__value', formatAttribute(card, attribute.key)));
+      stats.appendChild(row);
+    }
+    if (stats.childElementCount) node.appendChild(stats);
+
+    if (opts.onClick) {
+      node.classList.add('selectable');
+      node.addEventListener('click', () => opts.onClick(card));
+    }
+    if (opts.dimmed) node.classList.add('card--dim');
+    if (opts.unavailable) {
+      node.classList.add('card--unavailable');
+      node.title = 'Ez a kártya nem használható a kiválasztott kategóriában.';
+    }
+    if (opts.large) node.classList.add('card--large');
+    return node;
+  }
+}
+
+
+/* ===== js/ui/scoreboard-view.js ===== */
+/** Klasszikus és Büntetőpárbaj eredményjelző nézete. */
+
+
+
+class ScoreboardView {
+  constructor(dom, modeProvider) {
+    this.dom = dom;
+    this.modeProvider = modeProvider;
+  }
+
+  renderClassicScores(game, { renderPiles, scoreChip }) {
+    const { [HUMAN]: human, [AI]: ai } = game.scores;
+    this.dom.hudScores.replaceChildren(scoreChip('Játékos', human, human > ai), scoreChip('Gép', ai, ai > human));
+    this.dom.hudMeta.textContent = `${game.round}. kör · ${game.deck.length} lap a pakliban`;
+    renderPiles(human, ai);
+    this.dom.pot.textContent = game.pot.length ? `🃏 ${game.pot.length} lap a döntetlenpakliban` : '';
+  }
+
+  renderPenaltyScores(game, { renderPiles }) {
+    const human = game.scores[HUMAN];
+    const ai = game.scores[AI];
+    this.dom.hudScores.replaceChildren(el('div', 'penalty-score', `JÁTÉKOS ${human}–${ai} GÉP`));
+    this.dom.hudMeta.textContent = game.suddenDeath
+      ? `Hirtelen halál · ${game.log.length} lejátszott párbaj`
+      : `Rendes párbajok: ${game.regularPlayed}/5 · hátra ${game.regularRemaining}`;
+    renderPiles(game.used[HUMAN].length, game.used[AI].length);
+    this.dom.pot.textContent = game.cycle > 1 ? `🔀 ${game.cycle}. kör a változatlan tizeneggyel` : '';
+
+    const attemptRow = side => {
+      const wrapper = el('div', 'attempt-row');
+      wrapper.appendChild(el('strong', null, side === HUMAN ? 'JÁTÉKOS' : 'GÉP'));
+      const marks = el('div', 'attempt-marks');
+      for (let index = 0; index < 11; index += 1) {
+        const outcome = game.attempts[side][index];
+        const symbol = outcome === 'win' ? '⚽' : outcome === 'loss' ? '✕' : outcome === 'tie' ? '—' : '○';
+        const marker = el('span', `attempt attempt--${outcome ?? 'empty'}`, symbol);
+        marker.title = outcome === 'win' ? 'Megnyert párbaj' : outcome === 'loss' ? 'Elveszített párbaj' : outcome === 'tie' ? 'Döntetlen' : 'Hátralévő lap';
+        marks.appendChild(marker);
+      }
+      wrapper.appendChild(marks);
+      return wrapper;
+    };
+    this.dom.penaltyBoard.replaceChildren(attemptRow(HUMAN), attemptRow(AI));
+  }
+
+  renderPiles(human, ai) {
+    const penalties = this.modeProvider() === 'penalties';
+    this.dom.playerPile.replaceChildren(el('span', 'pile__label', penalties ? 'Használt lapok' : 'Megnyert lapok'), document.createTextNode(human ? ` ${human}` : ''));
+    this.dom.opponentPile.replaceChildren(el('span', 'pile__label', penalties ? 'Gép használt lapjai' : 'Gép nyereménye'), document.createTextNode(ai ? ` ${ai}` : ''));
+    this.dom.playerPile.classList.toggle('filled', human > 0);
+    this.dom.opponentPile.classList.toggle('filled', ai > 0);
+  }
+
+  scoreChip(label, value, leading) {
+    const chip = el('div', `score${leading ? ' leading' : ''}`);
+    chip.append(el('span', null, label), el('b', null, String(value)));
+    return chip;
+  }
+}
+
+
+/* ===== js/ui/match-view.js ===== */
+/** Kategóriaválasztó, párbaj és köreredmény vizuális komponense. */
+
+
+
+
+class MatchView {
+  constructor(dom, handlers = {}) {
+    this.dom = dom;
+    this.handlers = handlers;
+  }
+
+  showAttributePicker(game) {
+    this.dom.duel.replaceChildren();
+    this.dom.verdict.replaceChildren();
+    this.dom.verdict.className = '';
+    this.handlers.setPrompt('Te választasz kategóriát');
+    const available = new Set(game.availableAttributeKeys());
+    const playableAttributes = ATTRIBUTES.filter(attribute => available.has(attribute.key));
+
+    this.dom.picker.replaceChildren(...playableAttributes.map(attribute => {
+      const button = el('button', 'attr-btn');
+      button.appendChild(document.createTextNode(`${attribute.icon} ${attribute.label}`));
+      button.appendChild(el('small', null, attribute.hint));
+      button.addEventListener('click', () => this.handlers.onAttribute(attribute.key));
+      return button;
+    }));
+    if (!playableAttributes.length) {
+      this.dom.picker.appendChild(el('div', 'picker-hint', 'Ehhez a leosztáshoz nincs közös, hiteles összehasonlítási adat.'));
+    }
+  }
+
+  hideAttributePicker() {
+    this.dom.picker.replaceChildren();
+  }
+
+  setPrompt(text, highlight) {
+    this.dom.prompt.replaceChildren(document.createTextNode(text));
+    if (highlight) this.dom.prompt.append(document.createTextNode(' '), el('span', 'highlight', highlight));
+  }
+
+  showDuel(game, { opponentHidden = false, result = null } = {}) {
+    const attribute = game.attribute;
+    const mine = el('div', 'duel-slot');
+    mine.append(el('div', 'duel-slot__who', 'Játékos'), game.played[HUMAN]
+      ? this.handlers.renderCard(game.played[HUMAN], { activeAttribute: attribute }) : this.emptySlot());
+    const theirs = el('div', 'duel-slot');
+    theirs.append(el('div', 'duel-slot__who', 'Gép'), opponentHidden || !game.played[AI]
+      ? this.handlers.renderCard(null, { faceDown: true }) : this.handlers.renderCard(game.played[AI], { activeAttribute: attribute }));
+    if (result?.winner === HUMAN) { mine.classList.add('winner'); theirs.classList.add('loser'); }
+    if (result?.winner === AI) { theirs.classList.add('winner'); mine.classList.add('loser'); }
+    this.dom.duel.replaceChildren(mine, el('div', 'versus', 'VS'), theirs);
+  }
+
+  emptySlot() {
+    return el('div', 'card card--empty');
+  }
+
+  showVerdict(result, game) {
+    const attribute = ATTRIBUTE_BY_KEY[result.attribute];
+    const detail = `${attribute.icon} ${attribute.label}: ${formatAttribute(result.humanCard, result.attribute)} – ${formatAttribute(result.aiCard, result.attribute)}`;
+    const node = this.dom.verdict;
+    node.replaceChildren();
+    const isPenalty = game.mode === 'penalties';
+
+    if (result.winner === 'tie') {
+      node.className = 'tie';
+      node.append('DÖNTETLEN', el('small', null, `${detail}${isPenalty ? ' · nincs gól' : ' · a lapok az asztalon maradnak'}`));
+      this.handlers.playSound('tie');
+    } else if (result.winner === HUMAN) {
+      node.className = 'win';
+      const pot = result.potScooped ? ` · +${result.potScooped} lap a döntetlenpakliból` : '';
+      node.append(isPenalty ? 'GÓL A JÁTÉKOSNAK' : 'A TIÉD A KÖR', el('small', null, detail + pot));
+      this.handlers.playSound('win');
+    } else {
+      node.className = 'lose';
+      const pot = result.potScooped ? ` · +${result.potScooped} lap a döntetlenpakliból` : '';
+      node.append(isPenalty ? 'GÓL A GÉPNEK' : 'A GÉPÉ A KÖR', el('small', null, detail + pot));
+      this.handlers.playSound('loss');
+    }
+  }
+
+  async showSuddenDeath() {
+    this.dom.suddenDeath.hidden = false;
+    this.dom.suddenDeath.textContent = '⚠ HIRTELEN HALÁL ⚠';
+    this.handlers.playSound('sudden');
+    await new Promise(resolve => setTimeout(resolve, 1200));
+    this.dom.suddenDeath.hidden = true;
+  }
+}
+
+
+/* ===== js/ui/feedback-view.js ===== */
+/** Kommentárbuborékok és opcionális hangvisszajelzés. */
+
+
+class FeedbackView {
+  constructor(dom) {
+    this.dom = dom;
+    this.audioContext = null;
+  }
+
+  say(line) {
+    const bubble = el('div', 'bubble');
+    const avatar = el('div', 'avatar', line.speaker.name[0]);
+    avatar.style.background = line.speaker.colour;
+    tryArt(avatar, ART.friend(line.speaker.id));
+    const body = el('div', 'bubble__body');
+    const name = el('div', 'bubble__name', line.speaker.name);
+    name.style.color = line.speaker.colour;
+    body.append(name, el('div', 'bubble__text', line.text));
+    bubble.append(avatar, body);
+    this.dom.feed.appendChild(bubble);
+    this.dom.feed.scrollTop = this.dom.feed.scrollHeight;
+    while (this.dom.feed.children.length > 40) this.dom.feed.firstChild.remove();
+  }
+
+  playSound(kind) {
+    try {
+      this.audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
+      const context = this.audioContext;
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      const frequencies = { win: 520, loss: 160, tie: 280, sudden: 110 };
+      oscillator.frequency.value = frequencies[kind] ?? 320;
+      oscillator.type = kind === 'sudden' ? 'sawtooth' : 'triangle';
+      gain.gain.setValueAtTime(0.0001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, context.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + (kind === 'sudden' ? 0.55 : 0.22));
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + (kind === 'sudden' ? 0.6 : 0.25));
+    } catch {
+      // A blokkolt böngészőhang nem akadályozhatja a játékot.
+    }
+  }
+}
+
+
+/* ===== js/ui.js ===== */
+/** Stabil UI homlokzat a Klasszikus és Büntetőpárbaj mód vizuális komponensei előtt. */
+
+
+
+
+
+
+
+
+
 class UI {
   constructor(handlers, settings = {}) {
     this.handlers = handlers;
@@ -6097,9 +6595,21 @@ class UI {
       verdict: $('#verdict'), pot: $('#pot-indicator'), feed: $('#banter-feed'), penaltyBoard: $('#penalty-board'),
       suddenDeath: $('#sudden-death-banner'), overlay: $('#overlay'), overlayBody: $('#overlay-body'),
     };
+    this.cardView = new CardView();
+    this.scoreboardView = new ScoreboardView(this.dom, () => this.mode);
+    this.feedbackView = new FeedbackView(this.dom);
+    this.matchView = new MatchView(this.dom, {
+      onAttribute: key => this.handlers.onAttribute(key),
+      renderCard: (card, opts) => this.renderCard(card, opts),
+      setPrompt: (text, highlight) => this.setPrompt(text, highlight),
+      playSound: kind => this.playSound(kind),
+    });
     tryArt(this.dom.pub, ART.pub(), 'has-art', PUB_SCRIM);
     this._renderSettings();
   }
+
+  get audioContext() { return this.feedbackView.audioContext; }
+  set audioContext(value) { this.feedbackView.audioContext = value; }
 
   setMode(mode) {
     this.mode = mode;
@@ -6136,59 +6646,11 @@ class UI {
   }
 
   _cardRows(card, activeAttributeKey) {
-    const rows = CARD_ATTRIBUTE_KEYS
-      .map(key => ATTRIBUTE_BY_KEY[key])
-      .filter(attribute => attribute && hasAttributeData(card, attribute.key));
-
-    if (!activeAttributeKey) return rows;
-    const active = ATTRIBUTE_BY_KEY[activeAttributeKey];
-    if (!active || !hasAttributeData(card, activeAttributeKey)) return rows;
-    const existingIndex = rows.findIndex(attribute => attribute.key === active.cardStatKey);
-    if (existingIndex >= 0) {
-      rows[existingIndex] = active;
-      return rows;
-    }
-    return [active, ...rows];
+    return this.cardView.cardRows(card, activeAttributeKey);
   }
 
   renderCard(card, opts = {}) {
-    if (opts.faceDown) {
-      const back = el('div', 'card card--back');
-      tryArt(back, ART.cardBack());
-      return back;
-    }
-
-    const node = el('article', 'card');
-    node.dataset.cardId = card.id;
-    const portrait = el('div', 'card__portrait');
-    portrait.dataset.initials = initials(card.name);
-    tryArt(portrait, [...ART.portrait(card.id), ...(card.meta?.imageUrl ? [card.meta.imageUrl] : [])]);
-    if (card.position) portrait.appendChild(el('span', 'card__position', card.position));
-    node.appendChild(portrait);
-    node.appendChild(el('div', 'card__name', card.name));
-    node.appendChild(el('div', 'card__club', [card.club, card.nation].filter(Boolean).join(' · ')));
-
-    const stats = el('div', 'card__stats');
-    for (const attribute of this._cardRows(card, opts.activeAttribute)) {
-      const active = attribute.key === opts.activeAttribute;
-      const row = el('div', `stat${active ? ' active' : ''}`);
-      row.appendChild(el('span', 'stat__label', `${attribute.icon} ${attribute.cardLabel ?? attribute.shortLabel ?? attribute.label}`));
-      row.appendChild(el('span', 'stat__value', formatAttribute(card, attribute.key)));
-      stats.appendChild(row);
-    }
-    if (stats.childElementCount) node.appendChild(stats);
-
-    if (opts.onClick) {
-      node.classList.add('selectable');
-      node.addEventListener('click', () => opts.onClick(card));
-    }
-    if (opts.dimmed) node.classList.add('card--dim');
-    if (opts.unavailable) {
-      node.classList.add('card--unavailable');
-      node.title = 'Ez a kártya nem használható a kiválasztott kategóriában.';
-    }
-    if (opts.large) node.classList.add('card--large');
-    return node;
+    return this.cardView.renderCard(card, opts);
   }
 
   openInspector(hand, index, opts = {}) {
@@ -6303,162 +6765,62 @@ class UI {
   }
 
   _renderClassicScores(game) {
-    const { [HUMAN]: human, [AI]: ai } = game.scores;
-    this.dom.hudScores.replaceChildren(this._scoreChip('Játékos', human, human > ai), this._scoreChip('Gép', ai, ai > human));
-    this.dom.hudMeta.textContent = `${game.round}. kör · ${game.deck.length} lap a pakliban`;
-    this._renderPiles(human, ai);
-    this.dom.pot.textContent = game.pot.length ? `🃏 ${game.pot.length} lap a döntetlenpakliban` : '';
+    return this.scoreboardView.renderClassicScores(game, {
+      renderPiles: (human, ai) => this._renderPiles(human, ai),
+      scoreChip: (label, value, leading) => this._scoreChip(label, value, leading),
+    });
   }
 
   _renderPenaltyScores(game) {
-    const human = game.scores[HUMAN];
-    const ai = game.scores[AI];
-    this.dom.hudScores.replaceChildren(el('div', 'penalty-score', `JÁTÉKOS ${human}–${ai} GÉP`));
-    this.dom.hudMeta.textContent = game.suddenDeath
-      ? `Hirtelen halál · ${game.log.length} lejátszott párbaj`
-      : `Rendes párbajok: ${game.regularPlayed}/5 · hátra ${game.regularRemaining}`;
-    this._renderPiles(game.used[HUMAN].length, game.used[AI].length);
-    this.dom.pot.textContent = game.cycle > 1 ? `🔀 ${game.cycle}. kör a változatlan tizeneggyel` : '';
-
-    const row = side => {
-      const wrapper = el('div', 'attempt-row');
-      wrapper.appendChild(el('strong', null, side === HUMAN ? 'JÁTÉKOS' : 'GÉP'));
-      const marks = el('div', 'attempt-marks');
-      for (let index = 0; index < 11; index += 1) {
-        const outcome = game.attempts[side][index];
-        const symbol = outcome === 'win' ? '⚽' : outcome === 'loss' ? '✕' : outcome === 'tie' ? '—' : '○';
-        const marker = el('span', `attempt attempt--${outcome ?? 'empty'}`, symbol);
-        marker.title = outcome === 'win' ? 'Megnyert párbaj' : outcome === 'loss' ? 'Elveszített párbaj' : outcome === 'tie' ? 'Döntetlen' : 'Hátralévő lap';
-        marks.appendChild(marker);
-      }
-      wrapper.appendChild(marks);
-      return wrapper;
-    };
-    this.dom.penaltyBoard.replaceChildren(row(HUMAN), row(AI));
+    return this.scoreboardView.renderPenaltyScores(game, {
+      renderPiles: (human, ai) => this._renderPiles(human, ai),
+    });
   }
 
   _renderPiles(human, ai) {
-    this.dom.playerPile.replaceChildren(el('span', 'pile__label', this.mode === 'penalties' ? 'Használt lapok' : 'Megnyert lapok'), document.createTextNode(human ? ` ${human}` : ''));
-    this.dom.opponentPile.replaceChildren(el('span', 'pile__label', this.mode === 'penalties' ? 'Gép használt lapjai' : 'Gép nyereménye'), document.createTextNode(ai ? ` ${ai}` : ''));
-    this.dom.playerPile.classList.toggle('filled', human > 0);
-    this.dom.opponentPile.classList.toggle('filled', ai > 0);
+    return this.scoreboardView.renderPiles(human, ai);
   }
 
   _scoreChip(label, value, leading) {
-    const chip = el('div', `score${leading ? ' leading' : ''}`);
-    chip.append(el('span', null, label), el('b', null, String(value)));
-    return chip;
+    return this.scoreboardView.scoreChip(label, value, leading);
   }
 
   showAttributePicker(game) {
-    this.dom.duel.replaceChildren();
-    this.dom.verdict.replaceChildren();
-    this.dom.verdict.className = '';
-    this.setPrompt('Te választasz kategóriát');
-    const available = new Set(game.availableAttributeKeys());
-    const playableAttributes = ATTRIBUTES.filter(attribute => available.has(attribute.key));
-
-    this.dom.picker.replaceChildren(...playableAttributes.map(attribute => {
-      const button = el('button', 'attr-btn');
-      button.appendChild(document.createTextNode(`${attribute.icon} ${attribute.label}`));
-      button.appendChild(el('small', null, attribute.hint));
-      button.addEventListener('click', () => this.handlers.onAttribute(attribute.key));
-      return button;
-    }));
-    if (!playableAttributes.length) {
-      this.dom.picker.appendChild(el('div', 'picker-hint', 'Ehhez a leosztáshoz nincs közös, hiteles összehasonlítási adat.'));
-    }
+    return this.matchView.showAttributePicker(game);
   }
 
-  hideAttributePicker() { this.dom.picker.replaceChildren(); }
+  hideAttributePicker() {
+    return this.matchView.hideAttributePicker();
+  }
 
   setPrompt(text, highlight) {
-    this.dom.prompt.replaceChildren(document.createTextNode(text));
-    if (highlight) this.dom.prompt.append(document.createTextNode(' '), el('span', 'highlight', highlight));
+    return this.matchView.setPrompt(text, highlight);
   }
 
-  showDuel(game, { opponentHidden = false, result = null } = {}) {
-    const attribute = game.attribute;
-    const mine = el('div', 'duel-slot');
-    mine.append(el('div', 'duel-slot__who', 'Játékos'), game.played[HUMAN]
-      ? this.renderCard(game.played[HUMAN], { activeAttribute: attribute }) : this._emptySlot());
-    const theirs = el('div', 'duel-slot');
-    theirs.append(el('div', 'duel-slot__who', 'Gép'), opponentHidden || !game.played[AI]
-      ? this.renderCard(null, { faceDown: true }) : this.renderCard(game.played[AI], { activeAttribute: attribute }));
-    if (result?.winner === HUMAN) { mine.classList.add('winner'); theirs.classList.add('loser'); }
-    if (result?.winner === AI) { theirs.classList.add('winner'); mine.classList.add('loser'); }
-    this.dom.duel.replaceChildren(mine, el('div', 'versus', 'VS'), theirs);
+  showDuel(game, options = {}) {
+    return this.matchView.showDuel(game, options);
   }
 
-  _emptySlot() { return el('div', 'card card--empty'); }
+  _emptySlot() {
+    return this.matchView.emptySlot();
+  }
 
   showVerdict(result, game) {
-    const attribute = ATTRIBUTE_BY_KEY[result.attribute];
-    const detail = `${attribute.icon} ${attribute.label}: ${formatAttribute(result.humanCard, result.attribute)} – ${formatAttribute(result.aiCard, result.attribute)}`;
-    const node = this.dom.verdict;
-    node.replaceChildren();
-    const isPenalty = game.mode === 'penalties';
-
-    if (result.winner === 'tie') {
-      node.className = 'tie';
-      node.append('DÖNTETLEN', el('small', null, `${detail}${isPenalty ? ' · nincs gól' : ' · a lapok az asztalon maradnak'}`));
-      this.playSound('tie');
-    } else if (result.winner === HUMAN) {
-      node.className = 'win';
-      const pot = result.potScooped ? ` · +${result.potScooped} lap a döntetlenpakliból` : '';
-      node.append(isPenalty ? 'GÓL A JÁTÉKOSNAK' : 'A TIÉD A KÖR', el('small', null, detail + pot));
-      this.playSound('win');
-    } else {
-      node.className = 'lose';
-      const pot = result.potScooped ? ` · +${result.potScooped} lap a döntetlenpakliból` : '';
-      node.append(isPenalty ? 'GÓL A GÉPNEK' : 'A GÉPÉ A KÖR', el('small', null, detail + pot));
-      this.playSound('loss');
-    }
+    return this.matchView.showVerdict(result, game);
   }
 
-  async showSuddenDeath() {
-    this.dom.suddenDeath.hidden = false;
-    this.dom.suddenDeath.textContent = '⚠ HIRTELEN HALÁL ⚠';
-    this.playSound('sudden');
-    await new Promise(resolve => setTimeout(resolve, 1200));
-    this.dom.suddenDeath.hidden = true;
+  showSuddenDeath() {
+    return this.matchView.showSuddenDeath();
   }
 
   say(line) {
     if (!line || !this.settings.commentary) return;
-    const bubble = el('div', 'bubble');
-    const avatar = el('div', 'avatar', line.speaker.name[0]);
-    avatar.style.background = line.speaker.colour;
-    tryArt(avatar, ART.friend(line.speaker.id));
-    const body = el('div', 'bubble__body');
-    const name = el('div', 'bubble__name', line.speaker.name);
-    name.style.color = line.speaker.colour;
-    body.append(name, el('div', 'bubble__text', line.text));
-    bubble.append(avatar, body);
-    this.dom.feed.appendChild(bubble);
-    this.dom.feed.scrollTop = this.dom.feed.scrollHeight;
-    while (this.dom.feed.children.length > 40) this.dom.feed.firstChild.remove();
+    this.feedbackView.say(line);
   }
 
   playSound(kind) {
     if (!this.settings.sounds) return;
-    try {
-      this.audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
-      const context = this.audioContext;
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      const frequencies = { win: 520, loss: 160, tie: 280, sudden: 110 };
-      oscillator.frequency.value = frequencies[kind] ?? 320;
-      oscillator.type = kind === 'sudden' ? 'sawtooth' : 'triangle';
-      gain.gain.setValueAtTime(0.0001, context.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.08, context.currentTime + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + (kind === 'sudden' ? 0.55 : 0.22));
-      oscillator.connect(gain).connect(context.destination);
-      oscillator.start();
-      oscillator.stop(context.currentTime + (kind === 'sudden' ? 0.6 : 0.25));
-    } catch {
-      // Audio is an optional enhancement; blocked browser audio never blocks play.
-    }
+    this.feedbackView.playSound(kind);
   }
 
   showOverlay(node) {
@@ -6466,7 +6828,9 @@ class UI {
     this.dom.overlay.hidden = false;
   }
 
-  hideOverlay() { this.dom.overlay.hidden = true; }
+  hideOverlay() {
+    this.dom.overlay.hidden = true;
+  }
 }
 
 
@@ -9795,6 +10159,7 @@ class Session {
     this.deck = deck;
     this.source = source;
     this.meta = meta;
+    this.runtime = new GameRuntime({ players: deck });
     this.settings = { ...DEFAULT_SETTINGS, ...loadSettings() };
     this.ui = new UI({
       onAttribute: key => this.humanChoseAttribute(key),
@@ -9805,13 +10170,18 @@ class Session {
       onOpenSettings: () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })),
     }, this.settings);
     this.busy = false;
-    this.game = null;
     this.overlayReturn = null;
     this.exitTapAt = 0;
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
   }
+
+  get game() { return this.runtime.game; }
+  get mode() { return this.runtime.mode; }
+  get difficulty() { return this.runtime.difficulty; }
+  get pendingAttribute() { return this.runtime.pendingAttribute; }
+  get awaitingChooserCard() { return this.runtime.awaitingChooserCard; }
 
   delay(milliseconds) {
     return wait(this.settings.animations ? milliseconds : Math.min(milliseconds, 90));
@@ -9896,9 +10266,7 @@ class Session {
     if (this.game && !this.game.isOver) this.saveCurrentGame();
     this.busy = false;
     this.ui.setInteractionBusy(false);
-    this.game = null;
-    this.pendingAttribute = null;
-    this.awaitingChooserCard = false;
+    this.runtime.reset();
     this.ui.setMode('classic');
     this.ui.resetTable();
 
@@ -10143,27 +10511,13 @@ class Session {
 
   start(mode, difficulty) {
     clearSavedMatch();
-    this.mode = mode;
-    this.difficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
+    this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
     this.busy = false;
-    this.pendingAttribute = null;
-    this.awaitingChooserCard = false;
     this.ui.resetTable();
-    this.ui.setMode(mode);
-    this.game = mode === 'penalties'
-      ? new PenaltyGame({ players: this.deck })
-      : new Game({ players: this.deck });
-    this.prepareAI();
+    this.ui.setMode(this.mode);
 
-    if (mode === 'penalties') this.showPenaltyIntro();
+    if (this.mode === 'penalties') this.showPenaltyIntro();
     else this._beginMatch();
-  }
-
-  prepareAI() {
-    const aiDeck = this.mode === 'penalties'
-      ? [...this.game.teams[HUMAN], ...this.game.teams[AI]]
-      : this.game.players;
-    this.ai = new OpponentAI(this.difficulty, aiDeck);
   }
 
   showPenaltyIntro() {
@@ -10206,12 +10560,11 @@ class Session {
 
   humanChoseAttribute(attributeKey) {
     if (this.busy || !this.game.availableAttributeKeys().includes(attributeKey)) return;
-    this.pendingAttribute = attributeKey;
+    this.runtime.selectHumanAttribute(attributeKey);
     this.ui.hideAttributePicker();
     this.ui.say(getLine('youChooseAttribute', { attributeKey }));
     this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[attributeKey].label);
     this.ui.renderHands(this.game, { selectable: true, inspectAttribute: attributeKey });
-    this.awaitingChooserCard = true;
     this.saveCurrentGame();
   }
 
@@ -10224,14 +10577,12 @@ class Session {
     await this.delay(550);
     if (this.game !== game) return;
 
-    const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
-    game.chooseAttribute(choice.attribute, choice.cardId);
+    const choice = this.runtime.chooseAiAttribute();
     const label = ATTRIBUTE_BY_KEY[choice.attribute].label;
     this.ui.say(getLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
     this.ui.setPrompt('A gép ezt választotta:', label);
     this.ui.showDuel(game, { opponentHidden: true });
     this.ui.renderHands(game, { selectable: true });
-    this.awaitingChooserCard = false;
     this.busy = false;
     this.ui.setInteractionBusy(false);
     this.saveCurrentGame();
@@ -10245,16 +10596,14 @@ class Session {
 
     try {
       if (this.awaitingChooserCard) {
-        this.game.chooseAttribute(this.pendingAttribute, card.id);
-        this.awaitingChooserCard = false;
+        this.runtime.commitHumanChooserCard(card.id);
         this.ui.showDuel(this.game, { opponentHidden: true });
         this.ui.renderHands(this.game, { selectable: false });
         this.ui.setPrompt('A gép kártyát választ…');
         await this.delay(500);
-        const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-        result = this.game.playCard(AI, aiCardId);
+        result = this.runtime.playAiCard();
       } else {
-        result = this.game.playCard(HUMAN, card.id);
+        result = this.runtime.playHumanCard(card.id);
         this.ui.renderHands(this.game, { selectable: false });
         await this.delay(250);
       }
@@ -10322,11 +10671,10 @@ class Session {
       this.busy = true;
       this.ui.setInteractionBusy(true);
       this.ui.dom.picker.replaceChildren();
+      const { reshuffled } = this.runtime.advance();
       if (this.mode === 'penalties') {
-        const { reshuffled } = this.game.nextDuel();
         if (reshuffled) this.ui.say(getLine('reshuffle'));
       } else {
-        this.game.nextRound();
         this.ui.say(getIdleChatter());
       }
       this.busy = false;
@@ -10340,14 +10688,7 @@ class Session {
 
   saveCurrentGame() {
     if (!this.game || this.game.isOver) return false;
-    return writeSavedMatch({
-      game: this.game,
-      mode: this.mode,
-      difficulty: this.difficulty,
-      pendingAttribute: this.pendingAttribute,
-      awaitingChooserCard: this.awaitingChooserCard,
-      uxStats: this.ui.uxStats,
-    });
+    return writeSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
 
   resumeSavedMatch() {
@@ -10359,17 +10700,13 @@ class Session {
     }
 
     try {
-      this.mode = saved.mode;
-      this.difficulty = validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty();
-      this.pendingAttribute = saved.pendingAttribute;
-      this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
-      this.game = saved.mode === 'penalties'
-        ? hydrateGame(new PenaltyGame({ players: this.deck }), saved.game)
-        : hydrateGame(new Game({ players: this.deck }), saved.game);
+      this.runtime.restore({
+        ...saved,
+        difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
+      }, hydrateGame);
       this.ui.resetTable();
       this.ui.setMode(this.mode);
       if (saved.uxStats) this.ui.uxStats = saved.uxStats;
-      this.prepareAI();
       this._hidePanel();
       this.busy = false;
       this.ui.setInteractionBusy(false);
@@ -10402,7 +10739,7 @@ class Session {
       if (game.chooser === AI) {
         this.ui.setPrompt('A gép ezt választotta:', ATTRIBUTE_BY_KEY[game.attribute]?.label);
         this.ui.renderHands(game, { selectable: true });
-        this.awaitingChooserCard = false;
+        this.runtime.clearPendingChoice();
       } else {
         this.ui.renderHands(game, { selectable: false });
         this.ui.setPrompt('A gép befejezi a félbemaradt kört…');
@@ -10426,8 +10763,7 @@ class Session {
     this.busy = true;
     this.ui.setInteractionBusy(true);
     await this.delay(350);
-    const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-    const result = this.game.playCard(AI, aiCardId);
+    const result = this.runtime.playAiCard();
     await this.revealAndScore(result);
   }
 
@@ -10435,7 +10771,7 @@ class Session {
     this.busy = true;
     this.ui.setInteractionBusy(false);
     clearSavedMatch();
-    const result = this.game.result();
+    const result = this.runtime.result();
     const won = result.winner === HUMAN;
     this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
     const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
