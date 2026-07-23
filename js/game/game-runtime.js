@@ -10,8 +10,8 @@ export const GAME_MODE = Object.freeze({
 });
 
 const validMode = mode => Object.values(GAME_MODE).includes(mode);
-const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
-const defaultDifficulty = () => (validDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
+const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
+const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 const cloneSaveValue = value => (value == null ? value : structuredClone(value));
 
 export class GameRuntimeError extends Error {
@@ -64,7 +64,7 @@ export class GameRuntime {
   }
 
   _resolveDifficulty(difficulty) {
-    return validDifficulty(difficulty) ? difficulty : defaultDifficulty();
+    return isRuntimeDifficulty(difficulty) ? difficulty : defaultDifficulty();
   }
 
   _createGame(mode) {
