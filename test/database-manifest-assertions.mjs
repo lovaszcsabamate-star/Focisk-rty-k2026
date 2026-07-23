@@ -19,8 +19,9 @@ export function assertRegisteredDataFile(fileName, group) {
   assert.ok(Array.isArray(files), `A manifestben nincs ${group} fájllista.`);
   assert.ok(files.some(file => file.endsWith(fileName)), `${fileName} nincs a manifest ${group} listájában.`);
 
-  assert.match(readText('../js/bootstrap.js'), /getDefaultDatabase/);
+  assert.match(readText('../js/bootstrap.js'), /loadDatabase/);
+  assert.match(readText('../js/database/database-service.js'), /getRegisteredDefaultDatabase/);
   assert.match(readText('../scripts/build-standalone.mjs'), /databaseManifestFile/);
-  assert.match(readText('../sw.js'), new RegExp(fileName.replaceAll('.', '\\.')));
+  assert.match(readText('../sw.js'), new RegExp(fileName.replaceAll('.', '\.')));
   return manifest;
 }
