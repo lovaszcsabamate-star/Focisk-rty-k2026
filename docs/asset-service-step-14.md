@@ -110,10 +110,12 @@ A 14. lépés nem kapcsol be új logókat vagy zászlóképeket a felületen. Cs
 Az asset-service központilag kezeli:
 
 - az engedélyezett release asseteket;
-- a védett portré-, logó-, klub-, liga-, háttér- és kártyamappákat;
+- a védett portré-, logó-, klub-, liga-, zászló-, háttér- és kártyamappákat;
 - az útvonalak query/hash nélküli kanonikus alakját;
 - a távoli URL felismerését;
 - a védett, de nem jóváhagyott asset felismerését.
+
+A `assets/flags/` mappa is védett: később sem tölthető be belőle automatikusan nem ellenőrzött zászlóasset.
 
 Publikus policy-műveletek:
 
