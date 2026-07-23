@@ -4856,6 +4856,205 @@ const writeStoredBoolean = (...args) => storageService.writeBoolean(...args);
 const removeStoredValue = (...args) => storageService.remove(...args);
 
 
+/* ===== js/services/asset-service.js ===== */
+/** DOM-mentes assetútvonal-, fallback- és kiadási policy szolgáltatás. */
+
+const ASSET_EXTENSION_ORDER = Object.freeze(['png', 'jpg', 'jpeg', 'webp']);
+
+const ASSET_ROOTS = Object.freeze({
+  portrait: 'assets/portraits',
+  cardBack: 'assets/cards/back',
+  friend: 'assets/friends',
+  pub: 'assets/pub/background',
+  clubLogo: 'assets/clubs',
+  flag: 'assets/flags',
+});
+
+const ASSET_PLACEHOLDERS = Object.freeze({
+  player: 'src/assets/placeholders/player-silhouette.svg',
+  club: 'src/assets/placeholders/club-badge.svg',
+  appIcon: 'src/assets/placeholders/app-icon.svg',
+});
+
+const ASSET_PROTECTED_PREFIXES = Object.freeze([
+  'assets/portraits/',
+  'assets/pub/',
+  'assets/cards/',
+  'assets/friends/',
+  'assets/logos/',
+  'assets/clubs/',
+  'assets/leagues/',
+  'assets/flags/',
+]);
+
+class AssetServiceError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'AssetServiceError';
+    this.code = code;
+  }
+}
+
+const canonicalAssetPath = value => String(value ?? '')
+  .trim()
+  .replace(/^\.\//, '')
+  .split(/[?#]/, 1)[0];
+
+const assetUniqueStrings = values => [...new Set(values
+  .map(value => String(value ?? '').trim())
+  .filter(Boolean))];
+
+const assetValidateExtensions = extensions => {
+  if (!Array.isArray(extensions) || !extensions.length) {
+    throw new AssetServiceError('INVALID_EXTENSIONS', 'Az asset-kiterjesztések nem lehetnek üresek.');
+  }
+  const normalized = assetUniqueStrings(extensions.map(extension => extension.replace(/^\./, '').toLowerCase()));
+  if (!normalized.length || normalized.some(extension => !/^[a-z0-9]+$/u.test(extension))) {
+    throw new AssetServiceError('INVALID_EXTENSIONS', 'Érvénytelen asset-kiterjesztés.');
+  }
+  return Object.freeze(normalized);
+};
+
+const assetValidateRecord = (record, label) => {
+  if (!record || typeof record !== 'object' || Array.isArray(record)) {
+    throw new TypeError(`Az asset-service ${label} mezője objektum kell legyen.`);
+  }
+  return Object.freeze({ ...record });
+};
+
+const assetWithExtensions = (base, extensions) => {
+  const canonical = canonicalAssetPath(base);
+  if (!canonical) return [];
+  return extensions.map(extension => `${canonical}.${extension}`);
+};
+
+const assetIdentifier = value => canonicalAssetPath(value)
+  .replace(/\.\./g, '')
+  .replace(/^\/+|\/+$/g, '')
+  .trim();
+
+const assetRecordId = (value, candidates) => {
+  if (value && typeof value === 'object') {
+    for (const key of candidates) {
+      const resolved = assetIdentifier(value[key]);
+      if (resolved) return resolved;
+    }
+    return '';
+  }
+  return assetIdentifier(value);
+};
+
+const assetOptionalUrl = (value, keys) => {
+  if (!value || typeof value !== 'object') return '';
+  for (const key of keys) {
+    const candidate = String(value[key] ?? '').trim();
+    if (candidate) return candidate;
+  }
+  return '';
+};
+
+function createAssetService({
+  extensions = ASSET_EXTENSION_ORDER,
+  roots = ASSET_ROOTS,
+  placeholders = ASSET_PLACEHOLDERS,
+  protectedPrefixes = ASSET_PROTECTED_PREFIXES,
+  approvedReleaseAssets = Object.values(ASSET_PLACEHOLDERS),
+} = {}) {
+  const configuredExtensions = assetValidateExtensions(extensions);
+  const configuredRoots = assetValidateRecord(roots, 'roots');
+  const configuredPlaceholders = assetValidateRecord(placeholders, 'placeholders');
+  const configuredPrefixes = Object.freeze(assetUniqueStrings(protectedPrefixes).map(canonicalAssetPath));
+  const approved = new Set(assetUniqueStrings(approvedReleaseAssets).map(canonicalAssetPath));
+
+  const extensionCandidates = base => Object.freeze(assetWithExtensions(base, configuredExtensions));
+  const placeholder = kind => {
+    const path = configuredPlaceholders[kind];
+    if (!path) throw new AssetServiceError('UNKNOWN_PLACEHOLDER', `Ismeretlen asset-placeholder: ${kind}`);
+    return path;
+  };
+
+  const isApprovedReleaseAsset = path => approved.has(canonicalAssetPath(path));
+  const isProtectedUnapprovedArt = path => {
+    const canonical = canonicalAssetPath(path);
+    return configuredPrefixes.some(prefix => canonical.includes(prefix))
+      && !isApprovedReleaseAsset(canonical);
+  };
+
+  const isRemoteAssetUrl = (value, {
+    baseUrl = 'http://localhost/',
+    origin = null,
+  } = {}) => {
+    if (typeof value !== 'string' || !value.trim()) return false;
+    try {
+      const base = new URL(baseUrl);
+      const parsed = new URL(value, base);
+      return parsed.origin !== (origin ?? base.origin);
+    } catch {
+      return true;
+    }
+  };
+
+  const playerPortraitCandidates = (playerOrId, {
+    includeMetadata = true,
+    includePlaceholder = false,
+  } = {}) => {
+    const id = assetRecordId(playerOrId, ['id', 'playerId']);
+    const local = id ? assetWithExtensions(`${configuredRoots.portrait}/${id}`, configuredExtensions) : [];
+    const metadata = includeMetadata
+      ? assetOptionalUrl(playerOrId?.meta ?? playerOrId, ['imageUrl', 'photoUrl', 'portraitUrl'])
+      : '';
+    const fallback = includePlaceholder ? configuredPlaceholders.player : '';
+    return Object.freeze(assetUniqueStrings([...local, metadata, fallback]));
+  };
+
+  const clubLogoCandidates = (clubOrId, {
+    includeMetadata = true,
+    includePlaceholder = false,
+  } = {}) => {
+    const id = assetRecordId(clubOrId, ['clubId', 'id']);
+    const local = id ? assetWithExtensions(`${configuredRoots.clubLogo}/${id}`, configuredExtensions) : [];
+    const metadata = includeMetadata
+      ? assetOptionalUrl(clubOrId?.meta ?? clubOrId, ['logoUrl', 'crestUrl', 'clubLogo'])
+      : '';
+    const fallback = includePlaceholder ? configuredPlaceholders.club : '';
+    return Object.freeze(assetUniqueStrings([...local, metadata, fallback]));
+  };
+
+  const flagCandidates = nationKey => {
+    const key = assetIdentifier(nationKey);
+    return Object.freeze(key ? assetWithExtensions(`${configuredRoots.flag}/${key}`, configuredExtensions) : []);
+  };
+
+  const cardBackCandidates = () => extensionCandidates(configuredRoots.cardBack);
+  const friendCandidates = id => {
+    const key = assetIdentifier(id);
+    return Object.freeze(key ? assetWithExtensions(`${configuredRoots.friend}/${key}`, configuredExtensions) : []);
+  };
+  const pubBackgroundCandidates = () => extensionCandidates(configuredRoots.pub);
+
+  return Object.freeze({
+    extensions: configuredExtensions,
+    roots: configuredRoots,
+    placeholders: configuredPlaceholders,
+    protectedPrefixes: configuredPrefixes,
+    canonicalPath: canonicalAssetPath,
+    extensionCandidates,
+    playerPortraitCandidates,
+    clubLogoCandidates,
+    flagCandidates,
+    cardBackCandidates,
+    friendCandidates,
+    pubBackgroundCandidates,
+    placeholder,
+    isRemoteAssetUrl,
+    isApprovedReleaseAsset,
+    isProtectedUnapprovedArt,
+  });
+}
+
+const assetService = createAssetService();
+
+
 /* ===== js/deck-selection.js ===== */
 /** Deck filtering and menu controls shared by both game modes. */
 
@@ -5267,60 +5466,26 @@ function installDeckSelectionMenu(payload, activeSelection) {
 
 
 /* ===== js/branding.js ===== */
-/** Runtime branding policy. Keep this file dependency-free for the standalone build. */
+/** Runtime branding policy backed by the central asset-service. */
 
+
+// Statikus kompatibilitási szerződés: player-silhouette.svg, club-badge.svg, app-icon.svg.
 (() => {
   const brandingConfig = Object.freeze({
     allowOfficialBranding: false,
-    playerPlaceholderPath: 'src/assets/placeholders/player-silhouette.svg',
-    clubPlaceholderPath: 'src/assets/placeholders/club-badge.svg',
-    appIconPath: 'src/assets/placeholders/app-icon.svg',
+    playerPlaceholderPath: ASSET_PLACEHOLDERS.player,
+    clubPlaceholderPath: ASSET_PLACEHOLDERS.club,
+    appIconPath: ASSET_PLACEHOLDERS.appIcon,
     blockRemotePlayerPhotos: true,
     blockRemoteClubLogos: true,
   });
 
-  const canonicalPath = value => String(value || '')
-    .trim()
-    .replace(/^\.\//, '')
-    .split(/[?#]/, 1)[0];
-
-  /**
-   * Runtime allow-list. An official asset may be added only after the JSON
-   * registry documents permission and approvedForRelease=true.
-   */
-  const approvedReleaseAssets = new Set([
-    brandingConfig.playerPlaceholderPath,
-    brandingConfig.clubPlaceholderPath,
-    brandingConfig.appIconPath,
-  ].map(canonicalPath));
-
-  const protectedArtPrefixes = [
-    'assets/portraits/',
-    'assets/pub/',
-    'assets/cards/',
-    'assets/friends/',
-    'assets/logos/',
-    'assets/clubs/',
-    'assets/leagues/',
-  ];
-
-  const isRemoteAssetUrl = value => {
-    if (typeof value !== 'string' || !value.trim()) return false;
-    try {
-      const parsed = new URL(value, document.baseURI);
-      return parsed.origin !== window.location.origin;
-    } catch {
-      return true;
-    }
-  };
-
-  const isApprovedReleaseAsset = path => approvedReleaseAssets.has(canonicalPath(path));
-
-  const isProtectedUnapprovedArt = path => {
-    const canonical = canonicalPath(path);
-    return protectedArtPrefixes.some(prefix => canonical.includes(prefix))
-      && !isApprovedReleaseAsset(canonical);
-  };
+  const isRemoteAssetUrl = value => assetService.isRemoteAssetUrl(value, {
+    baseUrl: document.baseURI,
+    origin: window.location.origin,
+  });
+  const isApprovedReleaseAsset = path => assetService.isApprovedReleaseAsset(path);
+  const isProtectedUnapprovedArt = path => assetService.isProtectedUnapprovedArt(path);
 
   /**
    * UI.tryArt uses `new Image()` probes. Guard those probes before the game modules
@@ -5361,6 +5526,7 @@ function installDeckSelectionMenu(payload, activeSelection) {
 
   globalThis.__FOCISKARTYAK_BRANDING__ = Object.freeze({
     config: brandingConfig,
+    canonicalPath: assetService.canonicalPath,
     isRemoteAssetUrl,
     isApprovedReleaseAsset,
     isProtectedUnapprovedArt,
@@ -7634,15 +7800,17 @@ function getIdleChatter(chance = 0.35) {
 /* ===== js/ui/dom-primitives.js ===== */
 /** Közös DOM- és képernyőgrafikai primitívek a vizuális komponensekhez. */
 
-const UI_ART_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
-const withUiArtExtensions = base => UI_ART_EXTENSIONS.map(extension => `${base}.${extension}`);
 
-// Szándékosan bővíthető: a későbbi kompatibilitási modulok további asset-feloldókat adhatnak hozzá.
+// Szándékosan bővíthető kompatibilitási UI-API, központi asset-service feloldással.
 const ART = {
-  portrait: id => withUiArtExtensions(`assets/portraits/${id}`),
-  cardBack: () => withUiArtExtensions('assets/cards/back'),
-  friend: id => withUiArtExtensions(`assets/friends/${id}`),
-  pub: () => withUiArtExtensions('assets/pub/background'),
+  portrait: id => assetService.playerPortraitCandidates(id, { includeMetadata: false }),
+  playerPortrait: card => assetService.playerPortraitCandidates(card),
+  cardBack: () => assetService.cardBackCandidates(),
+  friend: id => assetService.friendCandidates(id),
+  pub: () => assetService.pubBackgroundCandidates(),
+  clubLogo: clubOrId => assetService.clubLogoCandidates(clubOrId),
+  flag: nationKey => assetService.flagCandidates(nationKey),
+  placeholder: kind => assetService.placeholder(kind),
 };
 
 const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';
@@ -7716,7 +7884,7 @@ function createCardComponent(card, opts = {}) {
   node.dataset.cardId = card.id;
   const portrait = el('div', 'card__portrait');
   portrait.dataset.initials = initials(card.name);
-  tryArt(portrait, [...ART.portrait(card.id), ...(card.meta?.imageUrl ? [card.meta.imageUrl] : [])]);
+  tryArt(portrait, ART.playerPortrait(card));
   if (card.position) portrait.appendChild(el('span', 'card__position', card.position));
   node.appendChild(portrait);
   node.appendChild(el('div', 'card__name', card.name));
