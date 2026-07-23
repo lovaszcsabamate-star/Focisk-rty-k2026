@@ -1,5 +1,8 @@
+import { APP_STORAGE_KEYS } from './app/configuration.js';
+import { readStoredJson, writeStoredJson } from './services/storage-service.js';
+
 (() => {
-  const STORAGE_KEY = 'fociskartyak.visual-settings.v1';
+  const STORAGE_KEY = APP_STORAGE_KEYS.visualSettings;
   const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
   const DEFAULTS = Object.freeze({
@@ -17,22 +20,14 @@
   const clamp = (value, min, max) => Math.min(max, Math.max(min, Number(value)));
 
   function loadSettings() {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-      return { ...DEFAULTS, ...parsed };
-    } catch {
-      return { ...DEFAULTS };
-    }
+    const parsed = readStoredJson(STORAGE_KEY, {});
+    return { ...DEFAULTS, ...(parsed && typeof parsed === 'object' ? parsed : {}) };
   }
 
   let settings = loadSettings();
 
   function saveSettings() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    } catch {
-      // Storage can be unavailable in private or embedded contexts; play still works.
-    }
+    writeStoredJson(STORAGE_KEY, settings);
   }
 
   function applySettings() {

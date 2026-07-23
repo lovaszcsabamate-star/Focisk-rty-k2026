@@ -1,8 +1,11 @@
 /** Deck filtering and menu controls shared by both game modes. */
 
+import { APP_STORAGE_KEYS } from './app/configuration.js';
+import { readStoredJson, readStoredString, removeStoredValue, writeStoredJson } from './services/storage-service.js';
+
 export const MIN_FILTERED_DECK_SIZE = 11;
-export const DECK_SELECTION_STORAGE_KEY = 'fociskartyak:deck-selection:v1';
-export const SAVED_MATCH_STORAGE_KEY = 'fociskartyak:saved-match:v2';
+export const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
+export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
 
 export const RANDOM_DECK_SELECTION = Object.freeze({
   kind: 'random',
@@ -184,23 +187,12 @@ export function describeDeckSelection(selection, players = []) {
 }
 
 export function readDeckSelection(players = []) {
-  try {
-    const raw = localStorage.getItem(DECK_SELECTION_STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : RANDOM_DECK_SELECTION;
-    return validateDeckSelection(players, parsed).selection;
-  } catch {
-    return { ...RANDOM_DECK_SELECTION };
-  }
+  const parsed = readStoredJson(DECK_SELECTION_STORAGE_KEY, RANDOM_DECK_SELECTION);
+  return validateDeckSelection(players, parsed).selection;
 }
 
 export function saveDeckSelection(selection) {
-  const normalised = normaliseDeckSelection(selection);
-  try {
-    localStorage.setItem(DECK_SELECTION_STORAGE_KEY, JSON.stringify(normalised));
-    return true;
-  } catch {
-    return false;
-  }
+  return writeStoredJson(DECK_SELECTION_STORAGE_KEY, normaliseDeckSelection(selection));
 }
 
 export function applyDeckSelectionToPayload(payload, selection) {
@@ -369,12 +361,11 @@ function insertDeckSelector(panel, players, activeSelection) {
       return;
     }
 
-    let hasSavedMatch = false;
-    try { hasSavedMatch = Boolean(localStorage.getItem(SAVED_MATCH_STORAGE_KEY)); } catch { /* optional storage */ }
-    if (hasSavedMatch && !window.confirm('A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?')) return;
+    const hasSavedMatch = Boolean(readStoredString(SAVED_MATCH_STORAGE_KEY));
+  if (hasSavedMatch && !window.confirm('A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?')) return;
 
-    try { localStorage.removeItem(SAVED_MATCH_STORAGE_KEY); } catch { /* optional storage */ }
-    saveDeckSelection(next);
+  removeStoredValue(SAVED_MATCH_STORAGE_KEY);
+  saveDeckSelection(next);
     window.location.reload();
   });
 

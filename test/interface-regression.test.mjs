@@ -17,6 +17,7 @@ const pwaCss = read('css/pwa.css');
 const phaseSmoke = read('scripts/mobile-phase-smoke.mjs');
 const profileCss = read('css/player-profile.css');
 const profileJs = read('js/player-profile.js');
+const configurationJs = read('js/app/configuration.js');
 const indexHtml = read('index.html');
 const manifest = JSON.parse(read('manifest.webmanifest'));
 const serviceWorker = read('sw.js');
@@ -82,7 +83,8 @@ assert.match(profileCss, /#hud-scores \.score:first-child span:first-child\s*\{[
 assert.match(profileCss, /#hud-scores \.penalty-score\s*\{[^}]*white-space:\s*nowrap;/s);
 assert.match(profileCss, /\.final-score\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
 
-assert.match(profileJs, /PLAYER_NAME_STORAGE_KEY\s*=\s*'fociskartyak:player-name:v1'/);
+assert.match(profileJs, /PLAYER_NAME_STORAGE_KEY\s*=\s*APP_STORAGE_KEYS\.playerName/);
+assert.match(configurationJs, /playerName:\s*'fociskartyak:player-name:v1'/, 'A játékosnév tárolási kulcsának változatlannak kell maradnia.');
 assert.match(profileJs, /DEFAULT_PLAYER_NAME\s*=\s*'Játékos'/);
 assert.match(profileJs, /fociskartyak:player-name-changed/);
 assert.match(profileJs, /\['Penalties mód',\s*'Büntetőpárbaj'\]/);

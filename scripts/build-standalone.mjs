@@ -59,6 +59,9 @@ const sourceFiles = [
 ];
 
 const moduleOrder = [
+  'js/app/configuration.js',
+  'js/services/storage-service.js',
+  'js/deck-selection.js',
   'js/branding.js',
   'js/data/categories.js',
   'js/data/players.js',
@@ -82,6 +85,7 @@ const moduleOrder = [
   'js/reliability-fixes.js',
   'js/usability-fixes.js',
   'js/focus-experience.js',
+  'js/visual-settings-persistence.js',
   'js/visual-system.js',
   'js/legal-ui.js',
   'js/main.js',
@@ -217,6 +221,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/reliability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/usability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/focus-experience.js"></script>\n', '')
+  .replace('  <script type="module" src="js/visual-settings-persistence.js"></script>\n', '')
   .replace('  <script type="module" src="js/visual-system.js"></script>\n', '')
   .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
   .replace(

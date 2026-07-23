@@ -4,10 +4,13 @@
  */
 
 import './mobile-experience.js';
+import { APP_STORAGE_KEYS } from './app/configuration.js';
+import { readStoredString } from './services/storage-service.js';
 import { UI } from './ui.js';
 import { loadPlayerName, localizeInterfaceTextValue } from './player-profile.js';
 
-export const SAVED_MATCH_STORAGE_KEY = 'fociskartyak:saved-match:v2';
+const RELIABILITY_SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
+export { RELIABILITY_SAVED_MATCH_STORAGE_KEY as SAVED_MATCH_STORAGE_KEY };
 
 const RELIABILITY_LEGACY_OPPONENT_IDS = Object.freeze({
   pub: 'bogdan',
@@ -72,7 +75,7 @@ function localizeReliabilityTree(root) {
 
 function syncSavedReliabilityOpponent() {
   try {
-    const opponentId = savedOpponentIdFromRawSave(localStorage.getItem(SAVED_MATCH_STORAGE_KEY));
+    const opponentId = savedOpponentIdFromRawSave(readStoredString(RELIABILITY_SAVED_MATCH_STORAGE_KEY));
     if (opponentId) globalThis.__FOCISKARTYAK_SELECT_OPPONENT__?.(opponentId);
   } catch {
     // Local storage is optional in restricted browser contexts.

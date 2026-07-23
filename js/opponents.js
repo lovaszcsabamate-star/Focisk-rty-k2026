@@ -1,9 +1,11 @@
 /** Character ladder and visible pub opponents. Loaded after matchday.js. */
 
+import { APP_STORAGE_KEYS } from './app/configuration.js';
+import { readStoredString, writeStoredString } from './services/storage-service.js';
 import { DIFFICULTY } from './ai.js';
 import { UI, el } from './ui.js';
 
-const STORAGE_KEY = 'fociskartyak:opponent';
+const STORAGE_KEY = APP_STORAGE_KEYS.selectedOpponent;
 
 export const OPPONENTS = [
   {
@@ -55,13 +57,8 @@ for (const opponent of OPPONENTS) {
 const byId = new Map(OPPONENTS.map(opponent => [opponent.id, opponent]));
 
 function loadSelectedOpponent() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && byId.has(stored)) return stored;
-  } catch {
-    // Local storage is optional.
-  }
-  return 'd-raven';
+  const stored = readStoredString(STORAGE_KEY);
+  return stored && byId.has(stored) ? stored : 'd-raven';
 }
 
 let selectedOpponentId = loadSelectedOpponent();
@@ -74,7 +71,7 @@ function saveSelectedOpponent(id) {
   if (!byId.has(id)) return;
   selectedOpponentId = id;
   globalThis.__FOCISKARTYAK_OPPONENT__ = selectedOpponent();
-  try { localStorage.setItem(STORAGE_KEY, id); } catch { /* optional */ }
+  writeStoredString(STORAGE_KEY, id);
 }
 
 export function selectOpponentById(id) {
