@@ -86,6 +86,3 @@ export const deckSelectionStorageService = createDeckSelectionStorageService();
 
 export const readDeckSelection = (...args) => deckSelectionStorageService.read(...args);
 export const saveDeckSelection = (...args) => deckSelectionStorageService.save(...args);
-export const hasSavedMatch = (...args) => deckSelectionStorageService.hasSavedMatch(...args);
-export const clearSavedMatch = (...args) => deckSelectionStorageService.clearSavedMatch(...args);
-export const replaceDeckSelection = (...args) => deckSelectionStorageService.replace(...args);
