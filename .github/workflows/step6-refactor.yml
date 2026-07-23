@@ -1,0 +1,46 @@
+name: 6. lépés runtime refaktor
+
+on:
+  push:
+    branches:
+      - refactor/step-6-game-runtime
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-runtime-refactor:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/step-6-game-runtime
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Session leválasztása a játékmotorról
+        run: node scripts/apply-step6-game-runtime.mjs
+
+      - name: Célzott szintaktikai ellenőrzés
+        run: |
+          node --check js/game/game-runtime.js
+          node --check js/main.js
+          node --check test/game-runtime.test.mjs
+
+      - name: Célzott runtime-teszt
+        run: node test/game-runtime.test.mjs
+
+      - name: Refaktorált fájlok visszaemelése
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "6. lépés: játékmenet leválasztása a vizuális rétegről"
+          git push origin HEAD:refactor/step-6-game-runtime
