@@ -20,31 +20,6 @@ import {
 } from './data/players.js';
 import { HUMAN } from './engine.js';
 
-export const FAST_AI_TURN_DELAYS = Object.freeze({
-  chooseAttribute: 90,
-  chooseCard: 110,
-});
-
-export function adjustedTurnDelay(milliseconds, promptText = '') {
-  const delay = Number(milliseconds);
-  const prompt = String(promptText).toLocaleLowerCase('hu-HU').replace(/\s+/g, ' ').trim();
-  if (delay === 550 && /a gép választ/.test(prompt)) return FAST_AI_TURN_DELAYS.chooseAttribute;
-  if (delay === 500 && /a gép kártyát választ/.test(prompt)) return FAST_AI_TURN_DELAYS.chooseCard;
-  return milliseconds;
-}
-
-const installFastAiTurnTimer = () => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (globalThis.__FOCISKARTYAK_FAST_AI_TIMER__) return;
-
-  const nativeSetTimeout = globalThis.setTimeout.bind(globalThis);
-  globalThis.__FOCISKARTYAK_FAST_AI_TIMER__ = true;
-  globalThis.setTimeout = (callback, milliseconds = 0, ...args) => {
-    const prompt = document.querySelector('#prompt')?.textContent ?? '';
-    return nativeSetTimeout(callback, adjustedTurnDelay(milliseconds, prompt), ...args);
-  };
-};
-
 const installAiTurnRecovery = () => {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   if (globalThis.__FOCISKARTYAK_AI_RECOVERY__) return;
@@ -284,7 +259,6 @@ UI.prototype.closeInspector = function closeMobileInspector(...args) {
   baseMethods.closeInspector.apply(this, args);
 };
 
-installFastAiTurnTimer();
 installAiTurnRecovery();
 applyExperienceSettings(loadSettings());
 installConnectivityBadge();
