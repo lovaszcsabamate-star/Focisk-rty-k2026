@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
+
 const CLUB_ID = 'ferencvarosi-tc';
 const PATCH_FILE = 'club-official-stat-patches-ferencvaros.json';
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
-const readText = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 
 const patch = readJson(`../data/${PATCH_FILE}`);
 
@@ -51,9 +52,7 @@ assert.deepEqual(expected.get('Szécsi Gergő').slice(1, 6), [0, 0, 0, 3, 0]);
 assert.equal(expected.get('Gróf Dávid Attila')[7], 1);
 assert.equal(expected.get('Corbu Marius Dumitru')[7], 1);
 
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  assert.match(readText(source), new RegExp(PATCH_FILE.replaceAll('.', '\\.')));
-}
+assertRegisteredDataFile(PATCH_FILE, 'statPatches');
 
 assert.match(patch.source.scope, /nem közölnek játékpercet és gólpasszt/);
 assert.equal(patch.fields.includes('minutes'), false);
