@@ -1,6 +1,9 @@
+import { STORAGE_KEYS } from './app/configuration.js';
+import { readStoredJson, removeStoredValue, writeStoredJson } from './services/storage-service.js';
+
 (() => {
-  const STORAGE_KEY = 'fociskartyak.visual-settings.v1';
-  const SIZING_BACKUP_KEY = 'fociskartyak.visual-sizing.v1';
+  const STORAGE_KEY = STORAGE_KEYS.visualSettings;
+  const SIZING_BACKUP_KEY = STORAGE_KEYS.visualSizingBackup;
   const SIZING_FIELDS = Object.freeze([
     { key: 'selectionCardWidth', min: 150, max: 280 },
     { key: 'battleCardWidth', min: 220, max: 420 },
@@ -10,23 +13,8 @@
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, Number(value)));
 
-  function readJson(key) {
-    try {
-      const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : null;
-    } catch {
-      return null;
-    }
-  }
-
-  function writeJson(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-      return true;
-    } catch {
-      return false;
-    }
-  }
+  const readJson = key => readStoredJson(key, null);
+  const writeJson = (key, value) => writeStoredJson(key, value);
 
   function normaliseSizing(source = {}) {
     const sizing = {};
@@ -122,11 +110,7 @@
     if (reset && reset.dataset.sizingResetWired !== 'true') {
       reset.dataset.sizingResetWired = 'true';
       reset.addEventListener('click', () => {
-        try {
-          localStorage.removeItem(SIZING_BACKUP_KEY);
-        } catch {
-          // A vizuális rendszer alapérték-visszaállítása ettől még működik.
-        }
+        removeStoredValue(SIZING_BACKUP_KEY);
       });
     }
 

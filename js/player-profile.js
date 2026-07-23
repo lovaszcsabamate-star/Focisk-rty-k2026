@@ -1,8 +1,10 @@
 /** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
 
+import { STORAGE_KEYS } from './app/configuration.js';
+import { readStoredString, removeStoredValue, writeStoredString } from './services/storage-service.js';
 import { UI } from './ui.js';
 
-export const PLAYER_NAME_STORAGE_KEY = 'fociskartyak:player-name:v1';
+export const PLAYER_NAME_STORAGE_KEY = STORAGE_KEYS.playerName;
 export const DEFAULT_PLAYER_NAME = 'Játékos';
 export const MAX_PLAYER_NAME_LENGTH = 24;
 
@@ -37,13 +39,7 @@ export function localizeInterfaceTextValue(value) {
   );
 }
 
-const readStoredName = () => {
-  try {
-    return localStorage.getItem(PLAYER_NAME_STORAGE_KEY);
-  } catch {
-    return null;
-  }
-};
+const readStoredName = () => readStoredString(PLAYER_NAME_STORAGE_KEY);
 
 export function hasSavedPlayerName() {
   return Boolean(normalizePlayerName(readStoredName()));
@@ -55,12 +51,8 @@ export function loadPlayerName() {
 
 export function savePlayerName(value) {
   const normalized = normalizePlayerName(value);
-  try {
-    if (normalized) localStorage.setItem(PLAYER_NAME_STORAGE_KEY, normalized);
-    else localStorage.removeItem(PLAYER_NAME_STORAGE_KEY);
-  } catch {
-    // Storage can be unavailable in restricted or private browser contexts.
-  }
+  if (normalized) writeStoredString(PLAYER_NAME_STORAGE_KEY, normalized);
+  else removeStoredValue(PLAYER_NAME_STORAGE_KEY);
   return normalized || DEFAULT_PLAYER_NAME;
 }
 

@@ -1,5 +1,14 @@
 /** Mobile-first experience helpers layered on top of the existing game UI. */
 
+import {
+  DEFAULT_EXPERIENCE_SETTINGS,
+  SAVED_MATCH_VERSION,
+  STORAGE_KEYS as APP_STORAGE_KEYS,
+  settingStorageKey,
+} from './app/configuration.js';
+import {
+  readStoredBoolean, readStoredJson, removeStoredValue, writeStoredBoolean, writeStoredJson,
+} from './services/storage-service.js';
 import { UI, el } from './ui.js';
 import {
   ATTRIBUTES,
@@ -50,44 +59,16 @@ const installAiTurnRecovery = () => {
   });
 };
 
-export const STORAGE_KEYS = {
-  save: 'fociskartyak:saved-match:v2',
-  onboarding: 'fociskartyak:onboarding-complete',
-};
-
-export const DEFAULT_SETTINGS = Object.freeze({
-  sounds: false,
-  commentary: true,
-  vibration: false,
-  animations: true,
-  largeText: false,
-  simplified: false,
+export const STORAGE_KEYS = Object.freeze({
+  save: APP_STORAGE_KEYS.savedMatch,
+  onboarding: APP_STORAGE_KEYS.onboardingComplete,
 });
 
-const readStorage = (key, fallback = null) => {
-  try {
-    const value = localStorage.getItem(key);
-    return value == null ? fallback : value;
-  } catch {
-    return fallback;
-  }
-};
+export const DEFAULT_SETTINGS = DEFAULT_EXPERIENCE_SETTINGS;
 
-const writeStorage = (key, value) => {
-  try {
-    localStorage.setItem(key, value);
-    return true;
-  } catch {
-    return false;
-  }
-};
+export const loadBooleanSetting = (key, fallback) => readStoredBoolean(settingStorageKey(key), fallback);
 
-export const loadBooleanSetting = (key, fallback) => {
-  const value = readStorage(`fociskartyak:${key}`);
-  return value == null ? fallback : value === 'true';
-};
-
-export const saveBooleanSetting = (key, value) => writeStorage(`fociskartyak:${key}`, String(Boolean(value)));
+export const saveBooleanSetting = (key, value) => writeStoredBoolean(settingStorageKey(key), value);
 
 export function loadSettings() {
   return Object.fromEntries(Object.entries(DEFAULT_SETTINGS).map(([key, fallback]) => [
@@ -105,31 +86,24 @@ export function applyExperienceSettings(settings = {}) {
 }
 
 export function onboardingWasCompleted() {
-  return readStorage(STORAGE_KEYS.onboarding) === 'true';
+  return readStoredBoolean(STORAGE_KEYS.onboarding, false);
 }
 
 export function setOnboardingCompleted(value) {
-  writeStorage(STORAGE_KEYS.onboarding, String(Boolean(value)));
+  writeStoredBoolean(STORAGE_KEYS.onboarding, value);
 }
 
 export function readSavedMatch() {
-  try {
-    const raw = readStorage(STORAGE_KEYS.save);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (parsed?.version !== 2 || !parsed?.game || !['classic', 'penalties'].includes(parsed.mode)) return null;
-    return parsed;
-  } catch (error) {
-    console.warn('[save] A mentett játék nem olvasható:', error);
-    return null;
-  }
+  const parsed = readStoredJson(STORAGE_KEYS.save, null);
+  if (parsed?.version !== SAVED_MATCH_VERSION || !parsed?.game || !['classic', 'penalties'].includes(parsed.mode)) return null;
+  return parsed;
 }
 
 export function writeSavedMatch(payload) {
   if (!payload?.game || payload.game.isOver) return false;
   try {
     const snapshot = {
-      version: 2,
+      version: SAVED_MATCH_VERSION,
       savedAt: new Date().toISOString(),
       mode: payload.mode,
       difficulty: payload.difficulty,
@@ -138,7 +112,7 @@ export function writeSavedMatch(payload) {
       uxStats: payload.uxStats ?? null,
       game: JSON.parse(JSON.stringify(payload.game)),
     };
-    return writeStorage(STORAGE_KEYS.save, JSON.stringify(snapshot));
+    return writeStoredJson(STORAGE_KEYS.save, snapshot);
   } catch (error) {
     console.warn('[save] A játékállás nem menthető:', error);
     return false;
@@ -146,7 +120,7 @@ export function writeSavedMatch(payload) {
 }
 
 export function clearSavedMatch() {
-  try { localStorage.removeItem(STORAGE_KEYS.save); } catch { /* optional storage */ }
+  return removeStoredValue(STORAGE_KEYS.save);
 }
 
 export function hydrateGame(instance, savedState) {
