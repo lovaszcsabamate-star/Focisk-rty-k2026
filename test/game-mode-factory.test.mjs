@@ -77,7 +77,8 @@ assert.doesNotMatch(source, /\bdocument\b|\bwindow\b|HTMLElement|querySelector|i
 assert.match(runtimeSource, /from ['"]\.\/game-mode-factory\.js['"]/);
 assert.doesNotMatch(runtimeSource, /import\s+\{[^}]*\bGame\b[^}]*\}\s+from ['"]\.\.\/engine\.js['"]/s);
 assert.doesNotMatch(runtimeSource, /from ['"]\.\.\/penalties\.js['"]/);
-assert.match(runtimeSource, /export\s+\{\s*GAME_MODE\s*\}\s+from ['"]\.\/game-mode-factory\.js['"]/);
+assert.match(runtimeSource, /export\s+\{\s*GAME_MODE\s*\};/);
+assert.doesNotMatch(runtimeSource, /export\s+\{[^}]+\}\s+from\s+['"]/);
 assert.ok(
   buildSource.indexOf("'js/game/game-mode-factory.js'") < buildSource.indexOf("'js/game/game-runtime.js'"),
   'a játékmód-factory a runtime előtt kerül a standalone bundle-be',
