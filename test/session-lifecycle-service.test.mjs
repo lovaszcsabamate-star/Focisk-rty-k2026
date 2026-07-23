@@ -102,7 +102,7 @@ assert.equal(backCount, 1);
 assert.equal(historyCalls.at(-1)[0], 'pushState', 'visszaeseménynél újra felépül a history guard');
 
 assert.equal(lifecycle.requestExit(), false);
-assert.deepEqual(toasts.at(-1), [SESSION_LIFECYCLE_MESSAGES.exitConfirmation, 'info', undefined]);
+assert.deepEqual(toasts.at(-1), [SESSION_LIFECYCLE_MESSAGES.exitConfirmation, 'info']);
 currentTime += SESSION_EXIT_CONFIRMATION_MS - 1;
 assert.equal(lifecycle.requestExit(), true);
 assert.deepEqual(historyCalls.at(-1), ['go', -2]);
