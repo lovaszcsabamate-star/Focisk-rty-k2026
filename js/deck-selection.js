@@ -1,7 +1,12 @@
 /** Deck filtering and menu controls shared by both game modes. */
 
-import { APP_STORAGE_KEYS } from './app/configuration.js';
-import { readStoredJson, readStoredString, removeStoredValue, writeStoredJson } from './services/storage-service.js';
+import {
+  DECK_SELECTION_STORAGE_KEY,
+  SAVED_MATCH_STORAGE_KEY,
+  deckSelectionStorageService,
+  readDeckSelection,
+  saveDeckSelection,
+} from './services/deck-selection-storage-service.js';
 import {
   MIN_FILTERED_DECK_SIZE,
   RANDOM_DECK_SELECTION,
@@ -32,17 +37,12 @@ export {
   validateDeckSelection,
 };
 
-export const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
-export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
-
-export function readDeckSelection(players = []) {
-  const parsed = readStoredJson(DECK_SELECTION_STORAGE_KEY, RANDOM_DECK_SELECTION);
-  return validateDeckSelection(players, parsed).selection;
-}
-
-export function saveDeckSelection(selection) {
-  return writeStoredJson(DECK_SELECTION_STORAGE_KEY, normaliseDeckSelection(selection));
-}
+export {
+  DECK_SELECTION_STORAGE_KEY,
+  SAVED_MATCH_STORAGE_KEY,
+  readDeckSelection,
+  saveDeckSelection,
+};
 
 const STYLE_ID = 'deck-selection-styles';
 
@@ -188,11 +188,10 @@ function insertDeckSelector(panel, players, activeSelection) {
       return;
     }
 
-    const hasSavedMatch = Boolean(readStoredString(SAVED_MATCH_STORAGE_KEY));
-  if (hasSavedMatch && !window.confirm('A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?')) return;
+    const hasSavedMatch = deckSelectionStorageService.hasSavedMatch();
+    if (hasSavedMatch && !window.confirm('A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?')) return;
 
-  removeStoredValue(SAVED_MATCH_STORAGE_KEY);
-  saveDeckSelection(next);
+    deckSelectionStorageService.replace(next);
     window.location.reload();
   });
 
