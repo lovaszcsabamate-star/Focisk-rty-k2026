@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Telepíthető magyar NB I 2025/26 fociskártya-játék klasszikus és büntetőpárbaj móddal.">
   <meta name="theme-color" content="#2a1c12">
+  <meta name="color-scheme" content="dark">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -4598,9 +4599,14 @@ html.reduced-motion *::after {
 }
 
   </style>
+  <style>
+    .skip-link{position:fixed;z-index:9999;top:max(8px,env(safe-area-inset-top,0px));left:max(8px,env(safe-area-inset-left,0px));max-width:calc(100vw - 16px);padding:10px 14px;border:2px solid currentColor;border-radius:10px;background:#fff7df;color:#21150e;font-weight:900;line-height:1.2;box-shadow:0 8px 24px rgba(0,0,0,.55);transform:translateY(-160%);transition:transform .16s ease}.skip-link:focus{transform:translateY(0)}#felt{scroll-margin-top:12px}#felt:focus{outline:none}:where(button,a,[role='button'],[tabindex]:not([tabindex='-1'])):focus-visible{outline:3px solid #fff3bd;outline-offset:3px}.noscript-warning{position:fixed;z-index:10000;inset:50% auto auto 50%;width:min(520px,calc(100vw - 32px));padding:18px 20px;border:2px solid #fff3bd;border-radius:14px;background:#21150e;color:#fff7df;font-weight:800;line-height:1.5;text-align:center;box-shadow:0 18px 48px rgba(0,0,0,.72);transform:translate(-50%,-50%)}@media (prefers-reduced-motion:reduce){.skip-link{transition:none}}@media (prefers-contrast:more){:where(button,a,[role='button'],[tabindex]:not([tabindex='-1'])):focus-visible{outline-width:4px}.skip-link,.noscript-warning{border-width:3px}}@media (forced-colors:active){.skip-link,.noscript-warning{border-color:ButtonText;background:Canvas;color:CanvasText;forced-color-adjust:auto}}
+  </style>
 </head>
 <body>
-  <div id="app-loading" hidden role="status" aria-live="polite">
+  <a class="skip-link" href="#felt">Ugrás a játéktérhez</a>
+
+  <div id="app-loading" hidden role="status" aria-live="polite" aria-busy="true">
     <div class="app-loading__card">
       <span class="app-loading__ball" aria-hidden="true">⚽</span>
       <h1>Fociskártyák 2026</h1>
@@ -4608,53 +4614,59 @@ html.reduced-motion *::after {
     </div>
   </div>
 
+  <noscript>
+    <div class="noscript-warning" role="alert">
+      A játék futtatásához engedélyezni kell a JavaScriptet a böngészőben.
+    </div>
+  </noscript>
+
   <!-- ART: only license-approved backgrounds may be applied to #pub. -->
   <div id="pub">
 
-    <main id="table">
+    <main id="table" aria-label="Fociskártyák játéktér">
 
-      <header id="hud">
-        <div class="title">Fociskártyák 2026</div>
-        <div class="score-strip" id="hud-scores"></div>
-        <div class="meta" id="hud-meta"></div>
-        <div class="hud-settings" id="hud-settings"></div>
+      <header id="hud" aria-label="Eredményjelző és beállítások">
+        <div class="title" role="heading" aria-level="1">Fociskártyák 2026</div>
+        <div class="score-strip" id="hud-scores" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div class="meta" id="hud-meta" aria-live="polite"></div>
+        <div class="hud-settings" id="hud-settings" aria-label="Játékbeállítások"></div>
       </header>
 
       <!-- Opponent: face-down hand + victory pile -->
-      <section class="zone" id="opponent-zone">
+      <section class="zone" id="opponent-zone" aria-label="A gép kártyái">
         <div class="pile" id="opponent-pile"><span class="pile__label">Gép nyereménye</span></div>
-        <div class="hand hand--opponent" id="opponent-hand"></div>
+        <div class="hand hand--opponent" id="opponent-hand" aria-label="A gép keze"></div>
       </section>
 
       <!-- The table itself -->
-      <section id="felt">
-        <div id="sudden-death-banner" hidden></div>
-        <div id="penalty-board" hidden></div>
-        <div id="pot-indicator"></div>
-        <div id="prompt"></div>
-        <div id="duel"></div>
-        <div id="verdict"></div>
-        <div id="attribute-picker"></div>
+      <section id="felt" tabindex="-1" aria-label="Aktuális kártyapárbaj">
+        <div id="sudden-death-banner" role="status" aria-live="assertive" hidden></div>
+        <div id="penalty-board" aria-label="Büntetőpárbaj eredményjelző" hidden></div>
+        <div id="pot-indicator" aria-live="polite"></div>
+        <div id="prompt" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div id="duel" aria-label="Kártyapárbaj"></div>
+        <div id="verdict" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div id="attribute-picker" aria-label="Összehasonlítási kategóriák"></div>
       </section>
 
       <!-- Player: hand + victory pile -->
-      <section class="zone" id="player-zone">
+      <section class="zone" id="player-zone" aria-label="Saját kártyák">
         <div class="pile" id="player-pile"><span class="pile__label">Megnyert lapok</span></div>
-        <div class="hand" id="player-hand"></div>
+        <div class="hand" id="player-hand" aria-label="Saját kéz"></div>
       </section>
 
     </main>
 
     <!-- Kocsmai kommentár -->
-    <aside id="banter">
-      <h2>A hátsó asztal</h2>
+    <aside id="banter" aria-labelledby="banter-title">
+      <h2 id="banter-title">A hátsó asztal</h2>
       <div id="banter-feed"></div>
     </aside>
 
   </div>
 
   <div id="overlay" hidden>
-    <div class="panel" id="overlay-body"></div>
+    <div class="panel" id="overlay-body" role="dialog" aria-modal="true" aria-label="Játékablak" tabindex="-1"></div>
   </div>
 
   <script>
