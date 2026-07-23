@@ -17,6 +17,7 @@ const pwaCss = read('../css/pwa.css');
 const pwaJs = read('../js/pwa.js');
 const bootstrap = read('../js/bootstrap.js');
 const databaseRegistryModule = read('../js/database/database-registry.js');
+const databaseServiceModule = read('../js/database/database-service.js');
 const clubEnrichment = read('../js/data/club-enrichment.js');
 const clubStatPatches = read('../js/data/club-stat-patches.js');
 const serviceWorker = read('../sw.js');
@@ -91,10 +92,21 @@ assert.match(mobileExperienceJs, /hydrateGame/);
 assert.match(mobileExperienceJs, /kevesebb életkor a jobb/);
 assert.match(bootstrap, /showFatalError/);
 assert.match(bootstrap, /retry-load-btn/);
-assert.match(bootstrap, /getDefaultDatabase/);
+assert.match(bootstrap, /loadDatabase/);
+assert.doesNotMatch(bootstrap, /applyOfficialStatPatches/);
+assert.doesNotMatch(bootstrap, /applyClubEnrichmentPayload/);
 assert.match(databaseRegistryModule, /loadDatabaseRegistry/);
 assert.match(databaseRegistryModule, /validateDatabaseManifest/);
+assert.match(databaseServiceModule, /export const loadDatabase/);
+assert.match(databaseServiceModule, /getPlayersByClub/);
+assert.match(databaseServiceModule, /getPlayersByNationality/);
+assert.match(databaseServiceModule, /getEligibleNationalities/);
+assert.match(databaseServiceModule, /getEligibleTeams/);
+assert.match(databaseServiceModule, /validateDatabase/);
+assert.match(databaseServiceModule, /getDatabaseStatistics/);
+assert.match(databaseServiceModule, /legacy-fallback/);
 assert.match(buildScript, /databaseManifestFile/);
+assert.match(serviceWorker, /js\/database\/database-service\.js/);
 assert.match(serviceWorker, /data\/databases\/registry\.json/);
 assert.match(serviceWorker, /data\/databases\/hungary-nb1-2025-26\/manifest\.json/);
 
@@ -117,7 +129,8 @@ for (const file of dataFiles) {
   assert.match(serviceWorker, new RegExp(file.replaceAll('.', '\\.').replaceAll('/', '\\/')));
 }
 
-assert.match(bootstrap, /applyOfficialStatPatches/);
+assert.match(databaseServiceModule, /applyOfficialStatPatches/);
+assert.match(databaseServiceModule, /applyClubEnrichmentPayload/);
 assert.match(buildScript, /applyOfficialStatPatches/);
 assert.match(clubEnrichment, /existing MLSZ values always win/);
 assert.match(clubEnrichment, /clubShirtNumbers/);
@@ -261,4 +274,4 @@ assert.match(standalone, /saved-match:v2/);
 assert.doesNotMatch(standalone, /<script type="module" src=/);
 assert.doesNotMatch(standalone, /<link rel="stylesheet" href=/);
 
-console.log('✓ Magyar, reszponzív, menthető és mobilbarát offline felületi szerződés: rendben');
+console.log('✓ Magyar, reszponzív, menthető, központi adatbázis-szolgáltatásra épülő és mobilbarát offline felületi szerződés: rendben');

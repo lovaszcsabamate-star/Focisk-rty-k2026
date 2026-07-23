@@ -82,9 +82,10 @@ const databaseRegistry = readJson('../data/databases/registry.json');
 const databaseEntry = databaseRegistry.databases.find(entry => entry.id === databaseRegistry.defaultDatabaseId);
 const databaseManifest = readJson(`../${databaseEntry.manifest}`);
 assert.ok(databaseManifest.files.enrichments.some(file => file.endsWith(FILE)));
-assert.match(readText('../js/bootstrap.js'), /getDefaultDatabase/);
+assert.match(readText('../js/bootstrap.js'), /loadDatabase/);
+assert.match(readText('../js/database/database-service.js'), /getRegisteredDefaultDatabase/);
 assert.match(readText('../scripts/build-standalone.mjs'), /databaseManifestFile/);
-assert.match(readText('../sw.js'), new RegExp(FILE.replaceAll('.', '\\.')));
+assert.match(readText('../sw.js'), new RegExp(FILE.replaceAll('.', '\.')));
 assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
 
 console.log('✓ Kisvárda nemzetiségek lezárva: 21 új forrásolt országadat, összesen 38/38; az alap- és statisztikai értékek változatlanok');

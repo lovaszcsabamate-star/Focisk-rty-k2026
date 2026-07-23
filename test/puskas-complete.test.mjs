@@ -146,7 +146,8 @@ for (const multiClubName of [
 assertRegisteredDataFile(ENRICHMENT_FILE, 'enrichments');
 assertRegisteredDataFile(CORRECTION_FILE, 'corrections');
 assertRegisteredDataFile(PATCH_FILE, 'statPatches');
-for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
+assert.match(readText('../js/bootstrap.js'), /loadDatabase/);
+for (const source of ['../js/database/database-service.js', '../scripts/build-standalone.mjs', '../sw.js']) {
   assert.match(readText(source), /verified-player-corrections/);
 }
 assert.match(patch.source.scope, /nem kerül becslésre/);
