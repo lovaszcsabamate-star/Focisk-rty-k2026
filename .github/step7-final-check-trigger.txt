@@ -1,1 +1,0 @@
-A fájl kizárólag a végső PR-ellenőrzések elindítására szolgál, majd törlésre kerül.
