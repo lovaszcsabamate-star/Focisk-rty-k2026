@@ -65,7 +65,7 @@ A `js/ui.js` továbbra is exportálja:
 - `el`;
 - `ART`.
 
-A `Session` és a többi meglévő modul ezért változtatás nélkül használhatja a vizuális réteget.
+A `Session` és a többi meglévő modul ezért változtatás nélkül használhatja a vizuális réteget. A `UI` osztály tudatos kompatibilitási façade marad: a külső moduloknak nem kell ismerniük, hogy az egyes vizuális részleteket melyik belső komponens állítja elő.
 
 ## Felelősségi határok
 
