@@ -1,0 +1,50 @@
+name: 6. lépés statikus tesztjavítás
+
+on:
+  push:
+    branches:
+      - refactor/step-6-game-runtime
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'scripts/fix-step6-static-test.mjs'
+      - '.github/workflows/step6-static-fix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-static-contract:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/step-6-game-runtime
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Statikus teszt javítása
+        run: node scripts/fix-step6-static-test.mjs
+
+      - name: Szintaktikai és célzott ellenőrzés
+        run: |
+          node --check test/static.test.mjs
+          node test/static.test.mjs
+
+      - name: Ideiglenes fájlok eltávolítása és javítás visszaemelése
+        run: |
+          rm scripts/fix-step6-static-test.mjs
+          rm .github/workflows/step6-static-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "6. lépés: statikus runtime-szerződésteszt javítása"
+          git push origin HEAD:refactor/step-6-game-runtime
