@@ -2,7 +2,7 @@
 
 ## Cél
 
-A 15. lépésben leválasztott pakliválasztási domainlogika után a következő felelősség a tartós tárolás elkülönítése. A cél, hogy a `js/deck-selection.js` ne olvasson és ne írjon közvetlenül tárolási kulcsokat vagy a közös storage-service primitívjeit.
+A 15. lépésben leválasztott pakliválasztási domainlogika után a tartós tárolás is külön rétegbe kerül. A `js/deck-selection.js` többé nem olvas vagy ír közvetlenül tárolási kulcsokat és storage-primitíveket.
 
 Ez a lépés nem módosítja a pakliválasztó menüt, a legalább 11 lapos szabályt, a mentési formátumot vagy a játékmódok működését.
 
@@ -10,9 +10,11 @@ Ez a lépés nem módosítja a pakliválasztó menüt, a legalább 11 lapos szab
 
 Létrejött a `js/services/deck-selection-storage-service.js`.
 
-A szolgáltatás DOM-mentes és injektálható. Alapértelmezésben a meglévő `storageService` adaptert, az `APP_STORAGE_KEYS` kulcsokat és a 15. lépés domainfüggvényeit használja.
+A szolgáltatás DOM-mentes és injektálható. Alapértelmezésben a meglévő `storageService` adaptert, az `APP_STORAGE_KEYS` kulcsokat és a pakliválasztási domainfüggvényeket használja.
 
-## Publikus konfiguráció és API
+## Publikus API
+
+Közvetlen exportok:
 
 - `DECK_SELECTION_STORAGE_KEY`;
 - `SAVED_MATCH_STORAGE_KEY`;
@@ -21,25 +23,30 @@ A szolgáltatás DOM-mentes és injektálható. Alapértelmezésben a meglévő 
 - `createDeckSelectionStorageService(options)`;
 - `deckSelectionStorageService`;
 - `readDeckSelection(players)`;
-- `saveDeckSelection(selection)`;
+- `saveDeckSelection(selection)`.
+
+A `deckSelectionStorageService` objektum metódusai:
+
+- `read(players)`;
+- `save(selection)`;
 - `hasSavedMatch()`;
 - `clearSavedMatch()`;
-- `replaceDeckSelection(selection, options)`.
+- `replace(selection, options)`.
 
-## Felelősségek
+A mentett mérkőzéshez tartozó metódusok szándékosan csak a szolgáltatás objektumán érhetők el. Így a flattenelt standalone bundle-ben nem ütköznek a központi mérkőzésmentési szolgáltatás azonos nevű exportjaival.
 
-### Validált beolvasás
+## Validált beolvasás
 
 A `read()` metódus:
 
 1. beolvassa a tárolt JSON-t;
 2. hiányzó vagy hibás JSON esetén véletlen választást használ;
-3. a jelenlegi játékos-adatbázissal validálja a választást;
-4. nem elérhető klub vagy nemzetiség esetén biztonságosan véletlen paklira esik vissza.
+3. az aktuális játékos-adatbázissal validálja a választást;
+4. nem elérhető klub vagy nemzetiség esetén véletlen paklira esik vissza.
 
-### Normalizált mentés
+## Normalizált mentés
 
-A `save()` metódus mentés előtt a domainmodul `normaliseDeckSelection()` függvényét használja. Ez megőrzi a korábbi adatformátumot:
+A `save()` mentés előtt a domainmodul `normaliseDeckSelection()` függvényét használja. A tárolt séma változatlan:
 
 ```json
 {
@@ -48,15 +55,15 @@ A `save()` metódus mentés előtt a domainmodul `normaliseDeckSelection()` füg
 }
 ```
 
-### Mentett mérkőzés kezelése
+## Mentett mérkőzés kezelése
 
-A szolgáltatás külön kezeli:
+A szolgáltatás objektuma külön kezeli:
 
 - van-e mentett mérkőzés;
 - a mentett mérkőzés törlését;
 - az új pakliválasztás alkalmazását.
 
-A `replace()` alapértelmezett sorrendje változatlan:
+A `replace()` alapértelmezett sorrendje:
 
 1. mentett mérkőzés törlése;
 2. normalizált pakliválasztás mentése.
@@ -65,7 +72,7 @@ A megerősítő párbeszéd továbbra is a UI-réteg felelőssége, ezért a szo
 
 ## Injektálható adapter
 
-A factory egy minimális adaptert vár:
+A factory a következő adaptermetódusokat várja:
 
 - `readJson(key, fallback)`;
 - `readString(key, fallback)`;
@@ -79,36 +86,27 @@ Hibakódok:
 - `INVALID_STORAGE_ADAPTER`;
 - `INVALID_STORAGE_KEYS`.
 
-## `deck-selection.js` kompatibilitás
+## Régi importútvonal kompatibilitása
 
-A korábbi importútvonalak megmaradnak. A `js/deck-selection.js` továbbra is exportálja:
+A `js/deck-selection.js` továbbra is exportálja:
 
 - `DECK_SELECTION_STORAGE_KEY`;
 - `SAVED_MATCH_STORAGE_KEY`;
 - `readDeckSelection()`;
 - `saveDeckSelection()`.
 
-Ezek már az új szolgáltatásból érkeznek.
-
-A fájl többé nem importálja közvetlenül:
-
-- az `APP_STORAGE_KEYS` objektumot;
-- a `storage-service.js` modult;
-- a `readStoredJson()` függvényt;
-- a `readStoredString()` függvényt;
-- a `writeStoredJson()` függvényt;
-- a `removeStoredValue()` függvényt.
+Ezek már az új szolgáltatásból érkeznek. A fájl többé nem importálja közvetlenül az `APP_STORAGE_KEYS` objektumot vagy a `storage-service.js` primitívjeit.
 
 ## UI-határ
 
-A pakliválasztó UI továbbra is a `js/deck-selection.js` fájlban marad. A csere alkalmazásakor:
+Paklicserekor a UI:
 
-1. a UI lekérdezi a szolgáltatástól, van-e mentett mérkőzés;
-2. szükség esetén megjeleníti a magyar megerősítő párbeszédet;
-3. jóváhagyás után a szolgáltatás `replace()` metódusát hívja;
+1. a szolgáltatástól lekérdezi, van-e mentett mérkőzés;
+2. szükség esetén megjeleníti a magyar megerősítő kérdést;
+3. jóváhagyás után meghívja a `replace()` metódust;
 4. újratölti az oldalt.
 
-Így a tárolási döntések központosítottak, de a felhasználói interakció nem kerül a szolgáltatási rétegbe.
+Így a tárolási döntések központosítottak, a felhasználói interakció pedig a megfelelő UI-rétegben marad.
 
 ## Megmaradt működés
 
@@ -116,9 +114,8 @@ Nem változik:
 
 - a pakliválasztó felület;
 - a véletlen, klub- és nemzetiségalapú választás;
-- a legalább 11 használható kártyás feltétel;
-- a tárolási kulcsok;
-- a mentett objektum sémája;
+- a legalább 11 kártyás feltétel;
+- a tárolási kulcsok és a mentett objektum sémája;
 - a mentett mérkőzés törlése paklicserekor;
 - a törlés előtti megerősítő kérdés;
 - a Klasszikus és Büntetőpárbaj mód;
@@ -134,21 +131,20 @@ A modul sorrendje:
 4. pakliválasztási tárolási szolgáltatás;
 5. pakliválasztási UI/kompatibilitási homlokzat.
 
-A service worker cache-verziója `v62`, és az új szolgáltatás bekerül az offline shellbe. Az Android offline webcsomag a meglévő buildfolyamaton keresztül örökli a modult.
+A service worker cache-verziója `v62`, az új szolgáltatás bekerült az offline shellbe, és az Android offline webcsomag is örökli.
 
 ## Tesztelés
 
-Az új `test/deck-selection-storage-service.test.mjs` ellenőrzi:
+A `test/deck-selection-storage-service.test.mjs` ellenőrzi:
 
 - a központi kulcsokat;
 - az érvényes választás beolvasását;
-- a hibás JSON visszaesését;
-- az aktuális adatbázissal érvénytelen választás visszaesését;
+- a hibás JSON és az érvénytelen választás visszaesését;
 - a normalizált mentést;
 - a mentett mérkőzés felismerését és törlését;
-- a törlés–mentés műveleti sorrendjét;
+- a törlés–mentés sorrendjét;
 - az opcionális törlés nélküli mentést;
-- az egyedi tárolási kulcsokat;
+- az egyedi kulcsokat;
 - a hibás adapterek elutasítását;
 - a DOM-függetlenséget;
 - a régi exportútvonalat;
