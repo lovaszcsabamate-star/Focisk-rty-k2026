@@ -46,6 +46,6 @@ assert.match(standaloneBuilder, /buildDataSource = 'legacy-layered'/);
 assert.match(standaloneBuilder, /standaloneDataSource: buildDataSource/);
 assert.match(serviceWorker, /players\.normalized\.json/);
 assert.match(serviceWorker, /normalization-report\.json/);
-assert.match(serviceWorker, /fociskartyak-2026-v51/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+'/);
 
 console.log('✓ Normalizált adatbázis az elsődleges böngészős, önálló és mobilos forrás; a betöltést a központi szolgáltatás kezeli, a régi réteges visszaállás megmaradt');
