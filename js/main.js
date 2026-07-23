@@ -3,6 +3,7 @@
 import { PHASE, HUMAN, AI, GAME_DECK_SIZE } from './engine.js';
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
+import { TURN_DELAY, createTurnTimingService } from './services/turn-timing-service.js';
 import { UI, el } from './ui.js';
 import { getLine, getIdleChatter } from './banter.js';
 import { ATTRIBUTE_BY_KEY, attributeValue, loadPlayers } from './data/players.js';
@@ -19,7 +20,6 @@ import {
   writeSavedMatch,
 } from './mobile-experience.js';
 
-const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const selectedOpponentDifficulty = () => {
   const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
@@ -32,6 +32,7 @@ class Session {
     this.source = source;
     this.meta = meta;
     this.runtime = new GameRuntime({ players: deck });
+    this.timing = createTurnTimingService();
     this.settings = { ...DEFAULT_SETTINGS, ...loadSettings() };
     this.ui = new UI({
       onAttribute: key => this.humanChoseAttribute(key),
@@ -55,8 +56,8 @@ class Session {
   get pendingAttribute() { return this.runtime.pendingAttribute; }
   get awaitingChooserCard() { return this.runtime.awaitingChooserCard; }
 
-  delay(milliseconds) {
-    return wait(this.settings.animations ? milliseconds : Math.min(milliseconds, 90));
+  delay(delayOrKey) {
+    return this.timing.wait(delayOrKey, { animations: this.settings.animations });
   }
 
   toggleSetting(key, forcedValue) {
@@ -446,7 +447,7 @@ class Session {
     this.ui.setInteractionBusy(true);
     this.ui.renderHands(game, { selectable: false });
     this.ui.setPrompt('A gép választ…');
-    await this.delay(550);
+    await this.delay(TURN_DELAY.AI_CHOOSE_ATTRIBUTE);
     if (this.game !== game) return;
 
     const choice = this.runtime.chooseAiAttribute();
@@ -472,7 +473,7 @@ class Session {
         this.ui.showDuel(this.game, { opponentHidden: true });
         this.ui.renderHands(this.game, { selectable: false });
         this.ui.setPrompt('A gép kártyát választ…');
-        await this.delay(500);
+        await this.delay(TURN_DELAY.AI_CHOOSE_CARD);
         result = this.runtime.playAiCard();
       } else {
         result = this.runtime.playHumanCard(card.id);
