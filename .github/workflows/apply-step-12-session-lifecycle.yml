@@ -7,17 +7,22 @@ on:
     paths:
       - scripts/apply-step-12-session-lifecycle.mjs
       - .github/workflows/apply-step-12-session-lifecycle.yml
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
 
 jobs:
   apply:
+    if: github.head_ref == 'refactor/step-12-session-lifecycle-service' || github.ref_name == 'refactor/step-12-session-lifecycle-service'
     runs-on: ubuntu-latest
     steps:
       - name: Forráskód letöltése
         uses: actions/checkout@v4
         with:
+          ref: refactor/step-12-session-lifecycle-service
           fetch-depth: 0
       - name: Node.js beállítása
         uses: actions/setup-node@v4
@@ -41,4 +46,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "12. lépés: Session lifecycle szolgáltatás bekötése"
-          git push
+          git push origin HEAD:refactor/step-12-session-lifecycle-service
