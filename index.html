@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Telepíthető magyar NB I 2025/26 fociskártya-játék klasszikus és büntetőpárbaj móddal.">
   <meta name="theme-color" content="#2a1c12">
+  <meta name="color-scheme" content="dark">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,10 +27,13 @@
   <link rel="stylesheet" href="css/phase-refinements.css">
   <link rel="stylesheet" href="css/visual-system.css">
   <link rel="stylesheet" href="css/visual-settings-persistence.css">
+  <link rel="stylesheet" href="css/accessibility-polish.css">
   <link rel="stylesheet" href="css/legal-ui.css">
 </head>
 <body>
-  <div id="app-loading" role="status" aria-live="polite">
+  <a class="skip-link" href="#felt">Ugrás a játéktérhez</a>
+
+  <div id="app-loading" role="status" aria-live="polite" aria-busy="true">
     <div class="app-loading__card">
       <span class="app-loading__ball" aria-hidden="true">⚽</span>
       <h1>Fociskártyák 2026</h1>
@@ -37,53 +41,59 @@
     </div>
   </div>
 
+  <noscript>
+    <div class="noscript-warning" role="alert">
+      A játék futtatásához engedélyezni kell a JavaScriptet a böngészőben.
+    </div>
+  </noscript>
+
   <!-- ART: only license-approved backgrounds may be applied to #pub. -->
   <div id="pub">
 
-    <main id="table">
+    <main id="table" aria-label="Fociskártyák játéktér">
 
-      <header id="hud">
-        <div class="title">Fociskártyák 2026</div>
-        <div class="score-strip" id="hud-scores"></div>
-        <div class="meta" id="hud-meta"></div>
-        <div class="hud-settings" id="hud-settings"></div>
+      <header id="hud" aria-label="Eredményjelző és beállítások">
+        <div class="title" role="heading" aria-level="1">Fociskártyák 2026</div>
+        <div class="score-strip" id="hud-scores" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div class="meta" id="hud-meta" aria-live="polite"></div>
+        <div class="hud-settings" id="hud-settings" aria-label="Játékbeállítások"></div>
       </header>
 
       <!-- Opponent: face-down hand + victory pile -->
-      <section class="zone" id="opponent-zone">
+      <section class="zone" id="opponent-zone" aria-label="A gép kártyái">
         <div class="pile" id="opponent-pile"><span class="pile__label">Gép nyereménye</span></div>
-        <div class="hand hand--opponent" id="opponent-hand"></div>
+        <div class="hand hand--opponent" id="opponent-hand" aria-label="A gép keze"></div>
       </section>
 
       <!-- The table itself -->
-      <section id="felt">
-        <div id="sudden-death-banner" hidden></div>
-        <div id="penalty-board" hidden></div>
-        <div id="pot-indicator"></div>
-        <div id="prompt"></div>
-        <div id="duel"></div>
-        <div id="verdict"></div>
-        <div id="attribute-picker"></div>
+      <section id="felt" tabindex="-1" aria-label="Aktuális kártyapárbaj">
+        <div id="sudden-death-banner" role="status" aria-live="assertive" hidden></div>
+        <div id="penalty-board" aria-label="Büntetőpárbaj eredményjelző" hidden></div>
+        <div id="pot-indicator" aria-live="polite"></div>
+        <div id="prompt" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div id="duel" aria-label="Kártyapárbaj"></div>
+        <div id="verdict" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div id="attribute-picker" aria-label="Összehasonlítási kategóriák"></div>
       </section>
 
       <!-- Player: hand + victory pile -->
-      <section class="zone" id="player-zone">
+      <section class="zone" id="player-zone" aria-label="Saját kártyák">
         <div class="pile" id="player-pile"><span class="pile__label">Megnyert lapok</span></div>
-        <div class="hand" id="player-hand"></div>
+        <div class="hand" id="player-hand" aria-label="Saját kéz"></div>
       </section>
 
     </main>
 
     <!-- Kocsmai kommentár -->
-    <aside id="banter">
-      <h2>A hátsó asztal</h2>
+    <aside id="banter" aria-labelledby="banter-title">
+      <h2 id="banter-title">A hátsó asztal</h2>
       <div id="banter-feed"></div>
     </aside>
 
   </div>
 
   <div id="overlay" hidden>
-    <div class="panel" id="overlay-body"></div>
+    <div class="panel" id="overlay-body" role="dialog" aria-modal="true" aria-label="Játékablak" tabindex="-1"></div>
   </div>
 
   <script type="module" src="js/branding.js"></script>
