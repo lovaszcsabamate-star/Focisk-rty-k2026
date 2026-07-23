@@ -70,6 +70,7 @@ const moduleOrder = [
   'js/ai.js',
   'js/services/save-service.js',
   'js/services/turn-timing-service.js',
+  'js/app/session-lifecycle-service.js',
   'js/game/game-runtime.js',
   'js/banter.js',
   'js/ui/dom-primitives.js',
