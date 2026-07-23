@@ -1,3 +1,5 @@
+import { normalisePlayerPayload } from '../models/player-model.js';
+
 /**
  * Keep incomplete source records in the database, but exclude them from the playable deck.
  * "Complete" means every field currently printed on a standard card or used by the base
@@ -58,8 +60,9 @@ export function getIncompleteCardFields(card) {
 
 export const isCompleteCard = card => getIncompleteCardFields(card).length === 0;
 
-export function filterCompleteCardsPayload(payload, { minimumCards = 52 } = {}) {
-  const players = Array.isArray(payload?.players) ? payload.players : [];
+export function filterCompleteCardsPayload(payload, { minimumCards = 52, playerModel = {} } = {}) {
+  const modelledPayload = normalisePlayerPayload(payload, playerModel);
+  const players = modelledPayload.players;
   const completePlayers = players.filter(isCompleteCard);
   const excludedPlayers = players.length - completePlayers.length;
 
@@ -71,10 +74,10 @@ export function filterCompleteCardsPayload(payload, { minimumCards = 52 } = {}) 
   }
 
   return {
-    ...payload,
+    ...modelledPayload,
     players: completePlayers,
     selection: {
-      ...(payload?.selection ?? {}),
+      ...(modelledPayload?.selection ?? {}),
       playableCards: completePlayers.length,
       completePlayableCards: completePlayers.length,
       excludedIncompleteCards: excludedPlayers,
