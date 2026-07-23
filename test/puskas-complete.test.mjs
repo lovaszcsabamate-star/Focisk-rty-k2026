@@ -7,6 +7,7 @@ import {
 } from '../js/data/club-enrichment.js';
 import { applyOfficialStatPatches } from '../js/data/club-stat-patches.js';
 import { applyVerifiedPlayerCorrections } from '../js/data/verified-player-corrections.js';
+import { assertRegisteredDataFile } from './database-manifest-assertions.mjs';
 
 const CLUB_ID = 'puskas-akademia-fc';
 const ENRICHMENT_FILE = 'club-official-enrichment-20-puskas-completion.json';
@@ -142,12 +143,11 @@ for (const multiClubName of [
   assert.ok(expected.has(multiClubName), `Hiányzó többklubos statisztikai sor: ${multiClubName}`);
 }
 
+assertRegisteredDataFile(ENRICHMENT_FILE, 'enrichments');
+assertRegisteredDataFile(CORRECTION_FILE, 'corrections');
+assertRegisteredDataFile(PATCH_FILE, 'statPatches');
 for (const source of ['../js/bootstrap.js', '../scripts/build-standalone.mjs', '../sw.js']) {
-  const text = readText(source);
-  assert.match(text, new RegExp(ENRICHMENT_FILE.replaceAll('.', '\\.')));
-  assert.match(text, new RegExp(CORRECTION_FILE.replaceAll('.', '\\.')));
-  assert.match(text, new RegExp(PATCH_FILE.replaceAll('.', '\\.')));
-  assert.match(text, /verified-player-corrections/);
+  assert.match(readText(source), /verified-player-corrections/);
 }
 assert.match(patch.source.scope, /nem kerül becslésre/);
 assert.equal(patch.fields.includes('minutes'), false);
