@@ -1,0 +1,39 @@
+name: 9. lépés storage-diagnosztikai artifact
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: github.head_ref == 'refactor/step-9-storage-configuration' || github.ref_name == 'refactor/step-9-storage-configuration'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Célzott tesztek
+        run: |
+          {
+            echo '=== npm run test:storage-service ==='
+            npm run test:storage-service
+            echo
+            echo '=== node test/deck-selection.test.mjs ==='
+            node test/deck-selection.test.mjs
+            echo
+            echo '=== node test/player-profile.test.mjs ==='
+            node test/player-profile.test.mjs
+            echo
+            echo '=== npm test ==='
+            npm test
+          } > step9-diagnostic.log 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: step9-storage-diagnostic
+          path: step9-diagnostic.log
+          if-no-files-found: error
