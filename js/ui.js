@@ -1,46 +1,13 @@
 /** DOM rendering shared by Classic and Penalties modes. */
 
-import {
-  ATTRIBUTES, ATTRIBUTE_BY_KEY, CARD_ATTRIBUTE_KEYS, formatAttribute, hasAttributeData,
-} from './data/players.js';
+import { ATTRIBUTE_BY_KEY, formatAttribute, hasAttributeData } from './data/players.js';
 import { HUMAN, AI } from './engine.js';
+import { renderAttributePickerComponent } from './ui/attribute-picker-component.js';
+import { createCardComponent } from './ui/card-component.js';
+import { $, ART, el, finiteDetail, PUB_SCRIM, tryArt } from './ui/dom-primitives.js';
+import { renderScoreboardComponent } from './ui/scoreboard-component.js';
 
-const EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp'];
-const withExtensions = base => EXTENSIONS.map(extension => `${base}.${extension}`);
-
-export const ART = {
-  portrait: id => withExtensions(`assets/portraits/${id}`),
-  cardBack: () => withExtensions('assets/cards/back'),
-  friend: id => withExtensions(`assets/friends/${id}`),
-  pub: () => withExtensions('assets/pub/background'),
-};
-
-export const $ = selector => document.querySelector(selector);
-export const el = (tag, className, text) => {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text != null) node.textContent = text;
-  return node;
-};
-
-function tryArt(node, candidates, loadedClass = 'has-art', overlay = null) {
-  const urls = Array.isArray(candidates) ? candidates : [candidates];
-  const attempt = index => {
-    if (index >= urls.length) return;
-    const probe = new Image();
-    probe.onload = () => {
-      node.style.backgroundImage = overlay ? `${overlay}, url("${urls[index]}")` : `url("${urls[index]}")`;
-      node.classList.add(loadedClass);
-    };
-    probe.onerror = () => attempt(index + 1);
-    probe.src = urls[index];
-  };
-  attempt(0);
-}
-
-const PUB_SCRIM = 'linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64))';
-const initials = name => name.split(' ').filter(Boolean).map(word => word[0]).join('').slice(0, 2).toUpperCase();
-const finiteDetail = value => typeof value === 'number' && Number.isFinite(value) ? String(value) : null;
+export { $, ART, el };
 
 export class UI {
   constructor(handlers, settings = {}) {
@@ -92,60 +59,8 @@ export class UI {
     this.dom.suddenDeath.hidden = true;
   }
 
-  _cardRows(card, activeAttributeKey) {
-    const rows = CARD_ATTRIBUTE_KEYS
-      .map(key => ATTRIBUTE_BY_KEY[key])
-      .filter(attribute => attribute && hasAttributeData(card, attribute.key));
-
-    if (!activeAttributeKey) return rows;
-    const active = ATTRIBUTE_BY_KEY[activeAttributeKey];
-    if (!active || !hasAttributeData(card, activeAttributeKey)) return rows;
-    const existingIndex = rows.findIndex(attribute => attribute.key === active.cardStatKey);
-    if (existingIndex >= 0) {
-      rows[existingIndex] = active;
-      return rows;
-    }
-    return [active, ...rows];
-  }
-
   renderCard(card, opts = {}) {
-    if (opts.faceDown) {
-      const back = el('div', 'card card--back');
-      tryArt(back, ART.cardBack());
-      return back;
-    }
-
-    const node = el('article', 'card');
-    node.dataset.cardId = card.id;
-    const portrait = el('div', 'card__portrait');
-    portrait.dataset.initials = initials(card.name);
-    tryArt(portrait, [...ART.portrait(card.id), ...(card.meta?.imageUrl ? [card.meta.imageUrl] : [])]);
-    if (card.position) portrait.appendChild(el('span', 'card__position', card.position));
-    node.appendChild(portrait);
-    node.appendChild(el('div', 'card__name', card.name));
-    node.appendChild(el('div', 'card__club', [card.club, card.nation].filter(Boolean).join(' · ')));
-
-    const stats = el('div', 'card__stats');
-    for (const attribute of this._cardRows(card, opts.activeAttribute)) {
-      const active = attribute.key === opts.activeAttribute;
-      const row = el('div', `stat${active ? ' active' : ''}`);
-      row.appendChild(el('span', 'stat__label', `${attribute.icon} ${attribute.cardLabel ?? attribute.shortLabel ?? attribute.label}`));
-      row.appendChild(el('span', 'stat__value', formatAttribute(card, attribute.key)));
-      stats.appendChild(row);
-    }
-    if (stats.childElementCount) node.appendChild(stats);
-
-    if (opts.onClick) {
-      node.classList.add('selectable');
-      node.addEventListener('click', () => opts.onClick(card));
-    }
-    if (opts.dimmed) node.classList.add('card--dim');
-    if (opts.unavailable) {
-      node.classList.add('card--unavailable');
-      node.title = 'Ez a kártya nem használható a kiválasztott kategóriában.';
-    }
-    if (opts.large) node.classList.add('card--large');
-    return node;
+    return createCardComponent(card, opts);
   }
 
   openInspector(hand, index, opts = {}) {
@@ -255,56 +170,7 @@ export class UI {
   }
 
   renderScores(game) {
-    if (game.mode === 'penalties') this._renderPenaltyScores(game);
-    else this._renderClassicScores(game);
-  }
-
-  _renderClassicScores(game) {
-    const { [HUMAN]: human, [AI]: ai } = game.scores;
-    this.dom.hudScores.replaceChildren(this._scoreChip('Játékos', human, human > ai), this._scoreChip('Gép', ai, ai > human));
-    this.dom.hudMeta.textContent = `${game.round}. kör · ${game.deck.length} lap a pakliban`;
-    this._renderPiles(human, ai);
-    this.dom.pot.textContent = game.pot.length ? `🃏 ${game.pot.length} lap a döntetlenpakliban` : '';
-  }
-
-  _renderPenaltyScores(game) {
-    const human = game.scores[HUMAN];
-    const ai = game.scores[AI];
-    this.dom.hudScores.replaceChildren(el('div', 'penalty-score', `JÁTÉKOS ${human}–${ai} GÉP`));
-    this.dom.hudMeta.textContent = game.suddenDeath
-      ? `Hirtelen halál · ${game.log.length} lejátszott párbaj`
-      : `Rendes párbajok: ${game.regularPlayed}/5 · hátra ${game.regularRemaining}`;
-    this._renderPiles(game.used[HUMAN].length, game.used[AI].length);
-    this.dom.pot.textContent = game.cycle > 1 ? `🔀 ${game.cycle}. kör a változatlan tizeneggyel` : '';
-
-    const row = side => {
-      const wrapper = el('div', 'attempt-row');
-      wrapper.appendChild(el('strong', null, side === HUMAN ? 'JÁTÉKOS' : 'GÉP'));
-      const marks = el('div', 'attempt-marks');
-      for (let index = 0; index < 11; index += 1) {
-        const outcome = game.attempts[side][index];
-        const symbol = outcome === 'win' ? '⚽' : outcome === 'loss' ? '✕' : outcome === 'tie' ? '—' : '○';
-        const marker = el('span', `attempt attempt--${outcome ?? 'empty'}`, symbol);
-        marker.title = outcome === 'win' ? 'Megnyert párbaj' : outcome === 'loss' ? 'Elveszített párbaj' : outcome === 'tie' ? 'Döntetlen' : 'Hátralévő lap';
-        marks.appendChild(marker);
-      }
-      wrapper.appendChild(marks);
-      return wrapper;
-    };
-    this.dom.penaltyBoard.replaceChildren(row(HUMAN), row(AI));
-  }
-
-  _renderPiles(human, ai) {
-    this.dom.playerPile.replaceChildren(el('span', 'pile__label', this.mode === 'penalties' ? 'Használt lapok' : 'Megnyert lapok'), document.createTextNode(human ? ` ${human}` : ''));
-    this.dom.opponentPile.replaceChildren(el('span', 'pile__label', this.mode === 'penalties' ? 'Gép használt lapjai' : 'Gép nyereménye'), document.createTextNode(ai ? ` ${ai}` : ''));
-    this.dom.playerPile.classList.toggle('filled', human > 0);
-    this.dom.opponentPile.classList.toggle('filled', ai > 0);
-  }
-
-  _scoreChip(label, value, leading) {
-    const chip = el('div', `score${leading ? ' leading' : ''}`);
-    chip.append(el('span', null, label), el('b', null, String(value)));
-    return chip;
+    renderScoreboardComponent(this.dom, game, this.mode);
   }
 
   showAttributePicker(game) {
@@ -312,19 +178,11 @@ export class UI {
     this.dom.verdict.replaceChildren();
     this.dom.verdict.className = '';
     this.setPrompt('Te választasz kategóriát');
-    const available = new Set(game.availableAttributeKeys());
-    const playableAttributes = ATTRIBUTES.filter(attribute => available.has(attribute.key));
-
-    this.dom.picker.replaceChildren(...playableAttributes.map(attribute => {
-      const button = el('button', 'attr-btn');
-      button.appendChild(document.createTextNode(`${attribute.icon} ${attribute.label}`));
-      button.appendChild(el('small', null, attribute.hint));
-      button.addEventListener('click', () => this.handlers.onAttribute(attribute.key));
-      return button;
-    }));
-    if (!playableAttributes.length) {
-      this.dom.picker.appendChild(el('div', 'picker-hint', 'Ehhez a leosztáshoz nincs közös, hiteles összehasonlítási adat.'));
-    }
+    renderAttributePickerComponent(
+      this.dom.picker,
+      game,
+      attributeKey => this.handlers.onAttribute(attributeKey),
+    );
   }
 
   hideAttributePicker() { this.dom.picker.replaceChildren(); }
