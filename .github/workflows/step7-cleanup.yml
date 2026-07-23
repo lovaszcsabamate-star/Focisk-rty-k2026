@@ -1,0 +1,46 @@
+name: 7. lépés generált diff tisztítása
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/step7-cleanup.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean-generated-diff:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Branch letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/step-7-ui-components
+          fetch-depth: 0
+
+      - name: Main buildfrissítésének átvétele
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            git merge -s ours origin/main -m "7. lépés: main buildfrissítésének átvétele"
+          fi
+
+      - name: Generált fájlok visszaállítása
+        run: |
+          git checkout origin/main -- \
+            Fociskartyak2026.html \
+            data/database-changelog.json \
+            data/database-review.json \
+            data/database-review.md \
+            data/enrichment-audit.json \
+            data/missing-player-data-reviewed.json
+          git rm .github/workflows/step7-cleanup.yml
+          git add -A
+          git commit -m "7. lépés: generált build- és riportzaj eltávolítása"
+          git push origin HEAD:refactor/step-7-ui-components
