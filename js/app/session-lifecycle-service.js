@@ -56,7 +56,8 @@ export function createSessionLifecycleService({
 
   const toastSafely = (message, tone = 'info', duration) => {
     try {
-      callbacks?.onToast?.(message, tone, duration);
+      if (duration == null) callbacks?.onToast?.(message, tone);
+      else callbacks?.onToast?.(message, tone, duration);
     } catch (error) {
       logError('[lifecycle] Az értesítés megjelenítése nem sikerült:', error);
     }
