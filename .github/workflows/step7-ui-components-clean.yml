@@ -1,0 +1,70 @@
+name: 7. lépés tiszta UI komponensintegráció
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'js/ui.js'
+      - 'js/ui/**'
+      - 'test/ui-components.test.mjs'
+      - 'scripts/apply-step7-ui-components.mjs'
+      - '.github/workflows/step7-ui-components-clean.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  integrate-ui-components:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/step-7-ui-components-clean
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build-, cache- és tesztintegráció
+        run: node scripts/apply-step7-ui-components.mjs
+
+      - name: Célzott szintaktikai ellenőrzés
+        run: |
+          node --check js/ui/dom.js
+          node --check js/ui/card-view.js
+          node --check js/ui/scoreboard-view.js
+          node --check js/ui/match-view.js
+          node --check js/ui/feedback-view.js
+          node --check js/ui.js
+          node --check test/ui-components.test.mjs
+
+      - name: Önálló build elkészítése
+        run: npm run build
+
+      - name: UI komponensszerződés ellenőrzése
+        run: node test/ui-components.test.mjs
+
+      - name: Generált fájlok visszaállítása
+        run: |
+          git checkout HEAD -- \
+            Fociskartyak2026.html \
+            data/database-changelog.json \
+            data/database-review.json \
+            data/database-review.md \
+            data/enrichment-audit.json \
+            data/missing-player-data-reviewed.json
+
+      - name: Forrásmódosítások visszaemelése
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json scripts/build-standalone.mjs sw.js
+          git add -u scripts/apply-step7-ui-components.mjs .github/workflows/step7-ui-components-clean.yml
+          git commit -m "7. lépés: UI komponensek integrálása az offline kiadásokba"
+          git push origin HEAD:refactor/step-7-ui-components-clean
