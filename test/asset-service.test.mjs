@@ -136,9 +136,12 @@ const serviceWorkerSource = read('../sw.js');
 
 assert.doesNotMatch(serviceSource, /\bdocument\b|\bwindow\b|HTMLElement|HTMLImageElement|new Image\s*\(/);
 assert.match(primitivesSource, /services\/asset-service\.js/);
+assert.match(primitivesSource, /export const ART = \{/);
+assert.doesNotMatch(primitivesSource, /export const ART = Object\.freeze/);
 assert.doesNotMatch(primitivesSource, /UI_ART_EXTENSIONS|assets\/portraits\/|assets\/cards\/back|assets\/pub\/background/);
 assert.match(cardSource, /ART\.playerPortrait\(card\)/);
 assert.match(brandingSource, /services\/asset-service\.js/);
+assert.match(brandingSource, /player-silhouette\.svg/);
 assert.doesNotMatch(brandingSource, /const canonicalPath\s*=|const protectedArtPrefixes\s*=|playerPlaceholderPath:\s*['"]/);
 assert.ok(
   buildSource.indexOf("'js/services/asset-service.js'") < buildSource.indexOf("'js/branding.js'"),
