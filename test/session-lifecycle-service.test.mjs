@@ -163,7 +163,7 @@ const main = read('../js/main.js');
 const build = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
 
-assert.match(main, /services\/session-lifecycle-service\.js/);
+assert.match(main, /app\/session-lifecycle-service\.js/);
 assert.match(main, /createSessionLifecycleService\(\)/);
 assert.match(main, /this\.lifecycle\.install\(/);
 assert.match(main, /this\.lifecycle\.requestExit\(\)/);
