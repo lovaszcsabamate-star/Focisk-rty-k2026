@@ -39,7 +39,7 @@ assert.equal(canonicalNationKey('Magyarország'), 'hungary');
 assert.equal(canonicalNationKey('HUN'), 'hungary');
 assert.equal(canonicalNationKey('Szerbia'), 'serbia');
 assert.equal(canonicalNationKey('ROU'), 'romania');
-assert.equal(canonicalNationKey('Bosznia-Hercegovina'), 'bosnia-herzegovina');
+assert.equal(canonicalNationKey('Bosznia-Hercegovina'), 'bosznia-hercegovina');
 assert.deepEqual(nationPresentation('serbia'), { key: 'serbia', flag: '🇷🇸', label: 'Szerb' });
 assert.deepEqual(nationPresentation('Atlantisz'), { key: 'atlantisz', flag: '🌍', label: 'Atlantisz' });
 
@@ -80,7 +80,7 @@ assert.match(describeDeckSelection({ kind: 'nation', value: 'serbia' }, players)
 assert.match(describeDeckSelection({ kind: 'club', value: 'Piros FC' }, players), /Piros FC · 14 kártya/);
 assert.match(describeDeckSelection(RANDOM_DECK_SELECTION, players), /36 lapos adatbázis/);
 
-const payload = applyDeckSelectionToPayload({ season: '2025\/26', players }, { kind: 'club', value: 'Kék SC' });
+const payload = applyDeckSelectionToPayload({ season: '2025/26', players }, { kind: 'club', value: 'Kék SC' });
 assert.equal(payload.players.length, 12);
 assert.equal(payload.deckSelection.kind, 'club');
 assert.equal(payload.deckSelection.availableCards, 12);
