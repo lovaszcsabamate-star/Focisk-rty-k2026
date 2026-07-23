@@ -82,7 +82,7 @@
       "handInsideViewport": true,
       "firstCardVisible": true,
       "feltBeforeZone": true,
-      "maxChoiceHeight": 206,
+      "maxChoiceHeight": 214,
       "rects": {
         "felt": {
           "top": 130,
@@ -111,8 +111,8 @@
           "right": 258
         },
         "first": {
-          "left": 107,
-          "right": 225
+          "left": 108,
+          "right": 230
         }
       },
       "failures": []
