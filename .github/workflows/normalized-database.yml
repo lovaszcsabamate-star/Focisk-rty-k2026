@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   migrate-normalized-database:
@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Forráskód letöltése
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - name: Node.js beállítása
         uses: actions/setup-node@v4
@@ -45,3 +47,19 @@ jobs:
           path: |
             data/databases/hungary-nb1-2025-26/players.normalized.json
             data/databases/hungary-nb1-2025-26/normalization-report.json
+
+      - name: Generált fájlok visszaemelése a branch-be
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/databases/hungary-nb1-2025-26/players.normalized.json
+          git add data/databases/hungary-nb1-2025-26/normalization-report.json
+          if git diff --cached --quiet; then
+            echo "A normalizált adatbázis már naprakész."
+            exit 0
+          fi
+          git commit -m "4. lépés: generált normalizált adatbázis"
+          git push origin "HEAD:${HEAD_BRANCH}"
