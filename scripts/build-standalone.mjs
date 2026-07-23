@@ -39,6 +39,7 @@ if (databaseManifest.id !== defaultEntry.id || databaseManifest.enabled === fals
 }
 
 const playerFile = databaseManifest.files?.players;
+const normalizedPlayerFile = databaseManifest.files?.normalizedPlayers;
 const enrichmentFiles = databaseManifest.files?.enrichments ?? [];
 const correctionFiles = databaseManifest.files?.corrections ?? [];
 const statPatchFiles = databaseManifest.files?.statPatches ?? [];
@@ -121,7 +122,47 @@ const databaseReview = auditReviewedDatabase(payload, {
 });
 writeDatabaseReviewFiles(ROOT, payload, databaseReview);
 
-const playablePayload = filterCompleteCardsPayload(payload);
+let buildPayload = payload;
+let buildDataSource = 'legacy-layered';
+if (normalizedPlayerFile) {
+  try {
+    const normalizedPayload = JSON.parse(read(normalizedPlayerFile));
+    if (normalizedPayload.databaseId !== databaseManifest.id) {
+      throw new Error(`eltérő databaseId: ${normalizedPayload.databaseId ?? 'hiányzik'}`);
+    }
+    if (!Array.isArray(normalizedPayload.players)
+      || normalizedPayload.players.length !== payload.players.length) {
+      throw new Error('eltérő vagy hiányzó játékoslista');
+    }
+    const requiredModelVersion = databaseManifest.normalization?.playerModelVersion;
+    if (requiredModelVersion != null
+      && normalizedPayload.playerModel?.version !== requiredModelVersion) {
+      throw new Error(`nem támogatott játékosmodell: ${normalizedPayload.playerModel?.version ?? 'ismeretlen'}`);
+    }
+    if ((normalizedPayload.playerModel?.validation?.errorCount ?? 0) > 0) {
+      throw new Error('kritikus játékosmodell-validációs hiba');
+    }
+    buildPayload = {
+      ...normalizedPayload,
+      source: normalizedPayload.source ?? payload.source,
+      enrichment: normalizedPayload.enrichment ?? payload.enrichment,
+      verifiedPlayerCorrections: normalizedPayload.verifiedPlayerCorrections
+        ?? payload.verifiedPlayerCorrections,
+      officialStatPatches: normalizedPayload.officialStatPatches
+        ?? payload.officialStatPatches,
+    };
+    buildDataSource = 'normalized';
+  } catch (error) {
+    console.warn(
+      `[standalone] A normalizált adatbázis nem használható (${normalizedPlayerFile}): ${error.message}. `
+      + 'A build a régi forrásrétegeket ágyazza be.',
+    );
+  }
+}
+
+const playablePayload = filterCompleteCardsPayload(buildPayload, {
+  playerModel: { database: databaseManifest },
+});
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
 let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}`;
@@ -189,6 +230,8 @@ const audit = {
   databaseId: databaseManifest.id,
   databaseManifest: databaseManifestFile,
   baseDataset: playerFile,
+  normalizedDataset: normalizedPlayerFile ?? null,
+  standaloneDataSource: buildDataSource,
   reviewedDataset: 'data/players-reviewed.json',
   sourceFiles,
   playerCount: payload.players.length,
@@ -219,6 +262,7 @@ fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 console.log(`Elkészült: ${outputPath}`);
 console.log(`Adatbázis: ${databaseManifest.name} (${databaseManifest.id})`);
 console.log(`Manifest: ${databaseManifestFile}`);
+console.log(`Önálló build adatforrása: ${buildDataSource}${normalizedPlayerFile ? ` (${normalizedPlayerFile})` : ''}`);
 console.log(`Audit: ${auditPath}`);
 console.log(`Felülvizsgált adatbázis: ${path.join(ROOT, 'data/players-reviewed.json')}`);
 console.log(`${playablePayload.players.length} teljes játékoskártya beágyazva; ${playablePayload.completenessFilter.excludedIncompleteCards} hiányos rekord kizárva.`);

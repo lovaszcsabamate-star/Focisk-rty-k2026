@@ -1,5 +1,5 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v48
-const PWA_CACHE = 'fociskartyak-2026-v49';
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v49
+const PWA_CACHE = 'fociskartyak-2026-v50';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -49,6 +49,8 @@ const PWA_SHELL = [
   './js/main.js',
   './data/databases/registry.json',
   './data/databases/hungary-nb1-2025-26/manifest.json',
+  './data/databases/hungary-nb1-2025-26/players.normalized.json',
+  './data/databases/hungary-nb1-2025-26/normalization-report.json',
   './data/players.json',
   './data/club-official-enrichment.json',
   './data/club-official-enrichment-2.json',

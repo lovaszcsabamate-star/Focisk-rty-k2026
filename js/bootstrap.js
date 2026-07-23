@@ -44,6 +44,80 @@ function combineCorrections(parts) {
   };
 }
 
+function validateNormalizedPayload(payload, database) {
+  if (!payload || !Array.isArray(payload.players) || payload.players.length < database.minimumPlayers) {
+    throw new Error('A normalizált adatfájl nem tartalmaz elegendő játékosrekordot.');
+  }
+  if (payload.databaseId && payload.databaseId !== database.id) {
+    throw new Error(`A normalizált adatfájl másik adatbázishoz tartozik: ${payload.databaseId}`);
+  }
+  const requiredModelVersion = database.normalization?.playerModelVersion;
+  if (requiredModelVersion != null && payload.playerModel?.version !== requiredModelVersion) {
+    throw new Error(
+      `Nem támogatott játékosmodell: ${payload.playerModel?.version ?? 'ismeretlen'}; elvárt: ${requiredModelVersion}`,
+    );
+  }
+  if ((payload.playerModel?.validation?.errorCount ?? 0) > 0) {
+    throw new Error('A normalizált adatfájl kritikus validációs hibát jelez.');
+  }
+  return payload;
+}
+
+async function loadLegacyLayeredPayload(files) {
+  const enrichmentFiles = Array.isArray(files.enrichments) ? files.enrichments : [];
+  const correctionFiles = Array.isArray(files.corrections) ? files.corrections : [];
+  const statPatchFiles = Array.isArray(files.statPatches) ? files.statPatches : [];
+
+  const [payload, rawParts, correctionParts, statPatchParts, directory] = await Promise.all([
+    fetchJson(files.players),
+    Promise.all(enrichmentFiles.map(url => fetchJson(url).catch(error => {
+      console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be (${url}): ${error.message}`);
+      return null;
+    }))),
+    Promise.all(correctionFiles.map(url => fetchJson(url).catch(error => {
+      console.warn(`[enrichment] A korrekciós réteg nem tölthető be (${url}): ${error.message}`);
+      return null;
+    }))),
+    Promise.all(statPatchFiles.map(url => fetchJson(url).catch(error => {
+      console.warn(`[enrichment] A hivatalos klubstatisztika nem tölthető be (${url}): ${error.message}`);
+      return null;
+    }))),
+    fetchJson(files.clubDirectory).catch(error => {
+      console.warn(`[enrichment] A klubforrás-jegyzék nem tölthető be: ${error.message}`);
+      return null;
+    }),
+  ]);
+
+  const combined = combineEnrichments(rawParts, directory);
+  const corrections = combineCorrections(correctionParts);
+  const correctedPayload = applyVerifiedPlayerCorrections(payload, corrections.verifiedCorrections);
+  const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
+  const enrichedPayload = enrichment
+    ? applyClubEnrichmentPayload(correctedPayload, enrichment)
+    : correctedPayload;
+  return applyOfficialStatPatches(enrichedPayload, statPatchParts);
+}
+
+async function loadDatabasePayload(database) {
+  const files = database.files ?? {};
+  if (files.normalizedPlayers) {
+    try {
+      const payload = validateNormalizedPayload(await fetchJson(files.normalizedPlayers), database);
+      return { payload, source: 'normalized' };
+    } catch (error) {
+      console.warn(
+        `[database] A normalizált adatbázis nem használható (${files.normalizedPlayers}): ${error.message}. `
+        + 'Visszaállás a régi forrásrétegekre.',
+      );
+    }
+  }
+
+  return {
+    payload: await loadLegacyLayeredPayload(files),
+    source: 'legacy-fallback',
+  };
+}
+
 function showFatalError(error) {
   console.error('[bootstrap] Az alkalmazás nem indítható:', error);
   const loading = document.querySelector('#app-loading');
@@ -62,45 +136,21 @@ function showFatalError(error) {
 
 try {
   const database = await getDefaultDatabase();
-  const files = database.files;
-  const [payload, rawParts, correctionParts, statPatchParts, directory] = await Promise.all([
-    fetchJson(files.players),
-    Promise.all(files.enrichments.map(url => fetchJson(url).catch(error => {
-      console.warn(`[enrichment] A kluboldali kiegészítés nem tölthető be (${url}): ${error.message}`);
-      return null;
-    }))),
-    Promise.all(files.corrections.map(url => fetchJson(url).catch(error => {
-      console.warn(`[enrichment] A korrekciós réteg nem tölthető be (${url}): ${error.message}`);
-      return null;
-    }))),
-    Promise.all(files.statPatches.map(url => fetchJson(url).catch(error => {
-      console.warn(`[enrichment] A hivatalos klubstatisztika nem tölthető be (${url}): ${error.message}`);
-      return null;
-    }))),
-    fetchJson(files.clubDirectory).catch(error => {
-      console.warn(`[enrichment] A klubforrás-jegyzék nem tölthető be: ${error.message}`);
-      return null;
-    }),
-  ]);
-
-  const combined = combineEnrichments(rawParts, directory);
-  const corrections = combineCorrections(correctionParts);
-  const correctedPayload = applyVerifiedPlayerCorrections(payload, corrections.verifiedCorrections);
-  const enrichment = combined ? prepareClubEnrichment(combined, corrections) : null;
-  const enrichedPayload = enrichment ? applyClubEnrichmentPayload(correctedPayload, enrichment) : correctedPayload;
-  const finalPayload = applyOfficialStatPatches(enrichedPayload, statPatchParts);
-  const playablePayload = filterCompleteCardsPayload(finalPayload);
+  const loaded = await loadDatabasePayload(database);
+  const finalPayload = loaded.payload;
+  const playablePayload = filterCompleteCardsPayload(finalPayload, { playerModel: { database } });
   const deckSelection = readDeckSelection(playablePayload.players);
   const selectedPayload = applyDeckSelectionToPayload(playablePayload, deckSelection);
 
   globalThis.__FOCISKARTYAK_DATABASE__ = database;
+  globalThis.__FOCISKARTYAK_DATABASE_SOURCE__ = loaded.source;
   globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = playablePayload;
   globalThis.__FOCISKARTYAK_DECK_SELECTION__ = deckSelection;
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
 
   console.info(
-    `[database] ${database.name} · ${database.season} · manifest: ${database.manifestUrl}`,
+    `[database] ${database.name} · ${database.season} · ${loaded.source} · manifest: ${database.manifestUrl}`,
   );
   console.info(
     `[players] Teljes kártyák szűrése: ${playablePayload.players.length} használható · `

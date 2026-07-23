@@ -5,7 +5,7 @@
   "competition": "Fizz Liga (NB I)",
   "country": "Magyarország",
   "season": "2025/26",
-  "version": "2.3.0-interim",
+  "version": "3.0.0",
   "enabled": true,
   "default": true,
   "minimumPlayers": 22,
@@ -18,9 +18,11 @@
     "club",
     "nation"
   ],
-  "lastUpdated": "2026-07-19",
+  "lastUpdated": "2026-07-23",
   "files": {
     "players": "data/players.json",
+    "normalizedPlayers": "data/databases/hungary-nb1-2025-26/players.normalized.json",
+    "normalizationReport": "data/databases/hungary-nb1-2025-26/normalization-report.json",
     "clubDirectory": "data/club-official-sources.json",
     "enrichments": [
       "data/club-official-enrichment.json",
@@ -70,9 +72,18 @@
       "data/club-official-stat-patches-puskas.json"
     ]
   },
+  "normalization": {
+    "schemaVersion": 1,
+    "playerModelVersion": 1,
+    "primaryFile": "normalizedPlayers",
+    "migrationScript": "scripts/migrate-normalized-database.mjs",
+    "reproducible": true,
+    "fallback": "legacy-layered-database"
+  },
   "compatibility": {
     "legacyPlayerShape": true,
     "legacyGlobals": true,
-    "note": "A manifest a jelenlegi adatfájlokra mutat; ezen a lépésen nincs adatmozgatás vagy adatátalakítás."
+    "legacyLayersRetained": true,
+    "note": "Az alkalmazás elsődlegesen a verziózott normalizált adatfájlt használja; hiány vagy sérülés esetén a régi forrásrétegekből biztonságosan újraépíthető."
   }
 }

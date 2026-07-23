@@ -1,0 +1,65 @@
+name: Normalizált adatbázis migráció
+
+on:
+  push:
+    branches:
+      - refactor/step-4-normalized-player-database
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'js/data/**'
+      - 'js/models/player-model.js'
+      - 'scripts/migrate-normalized-database.mjs'
+      - 'test/normalized-database-migration.test.mjs'
+      - 'package.json'
+      - '.github/workflows/normalized-database.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-normalized-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Normalizált adatbázis előállítása
+        run: npm run migrate:database
+
+      - name: Migrációs teszt
+        run: node test/normalized-database-migration.test.mjs
+
+      - name: Normalizált adatbázis és jelentés mentése
+        uses: actions/upload-artifact@v4
+        with:
+          name: normalized-database-step-4
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            data/databases/hungary-nb1-2025-26/players.normalized.json
+            data/databases/hungary-nb1-2025-26/normalization-report.json
+
+      - name: Generált fájlok visszaemelése a branch-be
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/databases/hungary-nb1-2025-26/players.normalized.json
+          git add data/databases/hungary-nb1-2025-26/normalization-report.json
+          if git diff --cached --quiet; then
+            echo "A normalizált adatbázis már naprakész."
+            exit 0
+          fi
+          git commit -m "4. lépés: generált normalizált adatbázis"
+          git push origin "HEAD:${HEAD_BRANCH}"
