@@ -59,6 +59,7 @@ const manifest = readJson('../manifest.webmanifest');
 const buildScript = read('../scripts/build-standalone.mjs');
 const workflow = read('../.github/workflows/verify-and-build.yml');
 const main = read('../js/main.js');
+const gameRuntime = read('../js/game/game-runtime.js');
 const launcher = read('../JATEK_INDITASA.bat');
 const standalone = read('../Fociskartyak2026.html');
 
@@ -259,6 +260,13 @@ const hasRasterInstallIcons = manifest.icons.some(icon => icon.sizes === '192x19
   && manifest.icons.some(icon => icon.sizes === '512x512');
 assert.ok(hasScalableApprovedIcon || hasRasterInstallIcons, 'Hiányzik a skálázható vagy 192/512 px-es PWA-ikon.');
 assert.match(main, /Klasszikus mód/);
+assert.match(main, /new GameRuntime/);
+assert.match(main, /runtime.start/);
+assert.match(main, /runtime.playHumanCard/);
+assert.match(main, /runtime.playAiCard/);
+assert.doesNotMatch(main, /new (Game|PenaltyGame)(/);
+assert.doesNotMatch(main, /this.game.(chooseAttribute|playCard|nextRound|nextDuel|result)(/);
+assert.doesNotMatch(gameRuntime, /\bdocument\b|\bwindow\b|querySelector|innerHTML|from ['"]..\/ui.js/);
 assert.match(main, /Penalties mód/);
 assert.match(main, /Játék folytatása/);
 assert.match(main, /handleBackAction/);

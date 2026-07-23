@@ -1,8 +1,8 @@
 /** Browser session controller for Classic and Penalties modes. */
 
-import { Game, PHASE, HUMAN, AI, GAME_DECK_SIZE } from './engine.js';
-import { PenaltyGame } from './penalties.js';
-import { OpponentAI, DIFFICULTY } from './ai.js';
+import { PHASE, HUMAN, AI, GAME_DECK_SIZE } from './engine.js';
+import { DIFFICULTY } from './ai.js';
+import { GameRuntime } from './game/game-runtime.js';
 import { UI, el } from './ui.js';
 import { getLine, getIdleChatter } from './banter.js';
 import { ATTRIBUTE_BY_KEY, attributeValue, loadPlayers } from './data/players.js';
@@ -31,6 +31,7 @@ class Session {
     this.deck = deck;
     this.source = source;
     this.meta = meta;
+    this.runtime = new GameRuntime({ players: deck });
     this.settings = { ...DEFAULT_SETTINGS, ...loadSettings() };
     this.ui = new UI({
       onAttribute: key => this.humanChoseAttribute(key),
@@ -41,13 +42,18 @@ class Session {
       onOpenSettings: () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })),
     }, this.settings);
     this.busy = false;
-    this.game = null;
     this.overlayReturn = null;
     this.exitTapAt = 0;
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
   }
+
+  get game() { return this.runtime.game; }
+  get mode() { return this.runtime.mode; }
+  get difficulty() { return this.runtime.difficulty; }
+  get pendingAttribute() { return this.runtime.pendingAttribute; }
+  get awaitingChooserCard() { return this.runtime.awaitingChooserCard; }
 
   delay(milliseconds) {
     return wait(this.settings.animations ? milliseconds : Math.min(milliseconds, 90));
@@ -132,9 +138,7 @@ class Session {
     if (this.game && !this.game.isOver) this.saveCurrentGame();
     this.busy = false;
     this.ui.setInteractionBusy(false);
-    this.game = null;
-    this.pendingAttribute = null;
-    this.awaitingChooserCard = false;
+    this.runtime.reset();
     this.ui.setMode('classic');
     this.ui.resetTable();
 
@@ -379,27 +383,13 @@ class Session {
 
   start(mode, difficulty) {
     clearSavedMatch();
-    this.mode = mode;
-    this.difficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
+    this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
     this.busy = false;
-    this.pendingAttribute = null;
-    this.awaitingChooserCard = false;
     this.ui.resetTable();
-    this.ui.setMode(mode);
-    this.game = mode === 'penalties'
-      ? new PenaltyGame({ players: this.deck })
-      : new Game({ players: this.deck });
-    this.prepareAI();
+    this.ui.setMode(this.mode);
 
-    if (mode === 'penalties') this.showPenaltyIntro();
+    if (this.mode === 'penalties') this.showPenaltyIntro();
     else this._beginMatch();
-  }
-
-  prepareAI() {
-    const aiDeck = this.mode === 'penalties'
-      ? [...this.game.teams[HUMAN], ...this.game.teams[AI]]
-      : this.game.players;
-    this.ai = new OpponentAI(this.difficulty, aiDeck);
   }
 
   showPenaltyIntro() {
@@ -442,12 +432,11 @@ class Session {
 
   humanChoseAttribute(attributeKey) {
     if (this.busy || !this.game.availableAttributeKeys().includes(attributeKey)) return;
-    this.pendingAttribute = attributeKey;
+    this.runtime.selectHumanAttribute(attributeKey);
     this.ui.hideAttributePicker();
     this.ui.say(getLine('youChooseAttribute', { attributeKey }));
     this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[attributeKey].label);
     this.ui.renderHands(this.game, { selectable: true, inspectAttribute: attributeKey });
-    this.awaitingChooserCard = true;
     this.saveCurrentGame();
   }
 
@@ -460,14 +449,12 @@ class Session {
     await this.delay(550);
     if (this.game !== game) return;
 
-    const choice = this.ai.chooseAttribute(game.hands[AI], game.availableAttributeKeys());
-    game.chooseAttribute(choice.attribute, choice.cardId);
+    const choice = this.runtime.chooseAiAttribute();
     const label = ATTRIBUTE_BY_KEY[choice.attribute].label;
     this.ui.say(getLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
     this.ui.setPrompt('A gép ezt választotta:', label);
     this.ui.showDuel(game, { opponentHidden: true });
     this.ui.renderHands(game, { selectable: true });
-    this.awaitingChooserCard = false;
     this.busy = false;
     this.ui.setInteractionBusy(false);
     this.saveCurrentGame();
@@ -481,16 +468,14 @@ class Session {
 
     try {
       if (this.awaitingChooserCard) {
-        this.game.chooseAttribute(this.pendingAttribute, card.id);
-        this.awaitingChooserCard = false;
+        this.runtime.commitHumanChooserCard(card.id);
         this.ui.showDuel(this.game, { opponentHidden: true });
         this.ui.renderHands(this.game, { selectable: false });
         this.ui.setPrompt('A gép kártyát választ…');
         await this.delay(500);
-        const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-        result = this.game.playCard(AI, aiCardId);
+        result = this.runtime.playAiCard();
       } else {
-        result = this.game.playCard(HUMAN, card.id);
+        result = this.runtime.playHumanCard(card.id);
         this.ui.renderHands(this.game, { selectable: false });
         await this.delay(250);
       }
@@ -558,11 +543,10 @@ class Session {
       this.busy = true;
       this.ui.setInteractionBusy(true);
       this.ui.dom.picker.replaceChildren();
+      const { reshuffled } = this.runtime.advance();
       if (this.mode === 'penalties') {
-        const { reshuffled } = this.game.nextDuel();
         if (reshuffled) this.ui.say(getLine('reshuffle'));
       } else {
-        this.game.nextRound();
         this.ui.say(getIdleChatter());
       }
       this.busy = false;
@@ -576,14 +560,7 @@ class Session {
 
   saveCurrentGame() {
     if (!this.game || this.game.isOver) return false;
-    return writeSavedMatch({
-      game: this.game,
-      mode: this.mode,
-      difficulty: this.difficulty,
-      pendingAttribute: this.pendingAttribute,
-      awaitingChooserCard: this.awaitingChooserCard,
-      uxStats: this.ui.uxStats,
-    });
+    return writeSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
 
   resumeSavedMatch() {
@@ -595,17 +572,13 @@ class Session {
     }
 
     try {
-      this.mode = saved.mode;
-      this.difficulty = validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty();
-      this.pendingAttribute = saved.pendingAttribute;
-      this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
-      this.game = saved.mode === 'penalties'
-        ? hydrateGame(new PenaltyGame({ players: this.deck }), saved.game)
-        : hydrateGame(new Game({ players: this.deck }), saved.game);
+      this.runtime.restore({
+        ...saved,
+        difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
+      }, hydrateGame);
       this.ui.resetTable();
       this.ui.setMode(this.mode);
       if (saved.uxStats) this.ui.uxStats = saved.uxStats;
-      this.prepareAI();
       this._hidePanel();
       this.busy = false;
       this.ui.setInteractionBusy(false);
@@ -638,7 +611,7 @@ class Session {
       if (game.chooser === AI) {
         this.ui.setPrompt('A gép ezt választotta:', ATTRIBUTE_BY_KEY[game.attribute]?.label);
         this.ui.renderHands(game, { selectable: true });
-        this.awaitingChooserCard = false;
+        this.runtime.clearPendingChoice();
       } else {
         this.ui.renderHands(game, { selectable: false });
         this.ui.setPrompt('A gép befejezi a félbemaradt kört…');
@@ -662,8 +635,7 @@ class Session {
     this.busy = true;
     this.ui.setInteractionBusy(true);
     await this.delay(350);
-    const aiCardId = this.ai.chooseCard(this.game.hands[AI], this.game.attribute);
-    const result = this.game.playCard(AI, aiCardId);
+    const result = this.runtime.playAiCard();
     await this.revealAndScore(result);
   }
 
@@ -671,7 +643,7 @@ class Session {
     this.busy = true;
     this.ui.setInteractionBusy(false);
     clearSavedMatch();
-    const result = this.game.result();
+    const result = this.runtime.result();
     const won = result.winner === HUMAN;
     this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
     const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
