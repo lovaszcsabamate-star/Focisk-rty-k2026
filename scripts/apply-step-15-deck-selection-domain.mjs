@@ -53,6 +53,14 @@ deckSelection = `${deckSelection.slice(0, domainStart)}export const DECK_SELECTI
 export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
 
 ${deckSelection.slice(storageStart)}`;
+
+const payloadStart = deckSelection.indexOf('export function applyDeckSelectionToPayload');
+const uiStart = deckSelection.indexOf("const STYLE_ID = 'deck-selection-styles';");
+if (payloadStart < 0 || uiStart < 0 || uiStart <= payloadStart) {
+  throw new Error('A payload-domainblokk határai nem találhatók.');
+}
+deckSelection = `${deckSelection.slice(0, payloadStart)}${deckSelection.slice(uiStart)}`;
+
 deckSelection = replaceRequired(
   deckSelection,
   "entries.find(entry => fold(entry.label) === fold(draft.value))",
@@ -65,7 +73,7 @@ deckSelection = replaceRequired(
   '  const pool = Array.isArray(players) ? players : [];',
   'UI játékoslista biztonságos kezelése',
 );
-if (/const NATION_ALIASES|const NATION_PRESENTATION|const fold\s*=|const safePlayers\s*=|function canonicalNationKey|function resolveDeckSelection/.test(deckSelection)) {
+if (/const NATION_ALIASES|const NATION_PRESENTATION|const fold\s*=|const safePlayers\s*=|function canonicalNationKey|function resolveDeckSelection|function applyDeckSelectionToPayload/.test(deckSelection)) {
   throw new Error('A domainlogika nem került ki teljesen a kompatibilitási/UI-modulból.');
 }
 write('js/deck-selection.js', deckSelection);
