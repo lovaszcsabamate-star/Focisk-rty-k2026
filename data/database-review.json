@@ -1,11 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-23T10:30:48.430Z",
+  "generatedAt": "2026-07-23T11:25:51.743Z",
   "season": "2025/26",
   "competition": "Fizz Liga (NB I)",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
   "sourceDatasetVersion": "2.3.0-interim",
   "sourceFiles": [
+    "data/databases/registry.json",
+    "data/databases/hungary-nb1-2025-26/manifest.json",
+    "data/players.json",
     "data/club-official-enrichment.json",
     "data/club-official-enrichment-2.json",
     "data/club-official-enrichment-3-paks-nyir.json",
