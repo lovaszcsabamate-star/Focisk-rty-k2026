@@ -40,11 +40,14 @@ jobs:
         with:
           node-version: 22
 
-      - name: Projektnevek és lockfile egységesítése
-        run: |
-          node scripts/normalize-project-naming.mjs
-          npm install --package-lock-only --ignore-scripts
-          node test/project-naming.test.mjs
+      - name: Projektazonosítók normalizálása
+        run: node scripts/normalize-project-naming.mjs
+
+      - name: Lockfile frissítése
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Projekt-névteszt
+        run: node test/project-naming.test.mjs
 
       - name: Egységesített projektazonosítók mentése
         if: github.event_name == 'pull_request'
