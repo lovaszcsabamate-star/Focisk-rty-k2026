@@ -1,4 +1,5 @@
 // Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v68
+// freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
 const PWA_CACHE = 'fociskartyak-2026-v69';
 const PWA_SHELL = [
   './',
