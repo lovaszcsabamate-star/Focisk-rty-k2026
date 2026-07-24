@@ -2,6 +2,16 @@
 
 Magyar nyelvű, kocsmai hangulatú összehasonlító kártyajáték a 2025/26-os NB I **440 egyedi játékosból és 464 játékos–klub regisztrációból** álló, MLSZ-alapú adatbázisával. Böngészőben, offline PWA-ként és egyfájlos Windows-verzióként is fut.
 
+## Projektazonosítók
+
+- Megjelenített név: **Fociskártyák 2026**
+- NPM-csomagnév: `fociskartyak-2026`
+- Android alkalmazásazonosító: `hu.fociskartyak.game2026`
+- Önálló játékfájl: `Fociskartyak2026.html`
+- Kanonikus repónév: `fociskartyak2026`
+
+A jelenlegi GitHub-technikai útvonal a korábbi hibás karakterátalakítás miatt még `Focisk-rty-k2026`. Az alkalmazáskód és a kiadási csomagok már kizárólag a kanonikus Fociskártyák-neveket használják; a technikai útvonal külön kompatibilitási alias.
+
 ## Letöltés
 
 ### [⬇️ Legújabb önálló játék letöltése](https://github.com/lovaszcsabamate-star/Focisk-rty-k2026/raw/refs/heads/main/Fociskartyak2026.html)

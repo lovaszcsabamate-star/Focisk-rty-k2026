@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "displayName": "Fociskártyák 2026",
+  "shortName": "Fociskártyák",
+  "packageName": "fociskartyak-2026",
+  "version": "1.1.0",
+  "standaloneFile": "Fociskartyak2026.html",
+  "androidAppId": "hu.fociskartyak.game2026",
+  "repositoryOwner": "lovaszcsabamate-star",
+  "canonicalRepositoryName": "fociskartyak2026",
+  "currentRepositoryAlias": "Focisk-rty-k2026",
+  "legacyProductNames": [
+    "super-mega-fotbal-2026",
+    "SUPER MEGA FOTBAL 2026"
+  ]
+}

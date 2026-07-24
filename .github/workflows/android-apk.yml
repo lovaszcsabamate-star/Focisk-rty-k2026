@@ -63,10 +63,7 @@ jobs:
         run: npx cap sync android
 
       - name: Fociskártyák alkalmazásikon elkészítése
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y imagemagick
-          node scripts/apply-android-icon.mjs
+        run: node scripts/apply-android-icon.mjs
 
       - name: Álló tájolás beállítása
         run: |

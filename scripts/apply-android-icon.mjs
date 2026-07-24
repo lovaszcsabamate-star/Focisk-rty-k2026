@@ -29,12 +29,10 @@ const adaptiveSizes = {
   xxxhdpi: 432,
 };
 
-function findImageMagick() {
-  for (const command of ['magick', 'convert']) {
-    const probe = spawnSync(command, ['-version'], { stdio: 'ignore' });
-    if (probe.status === 0) return command;
-  }
-  throw new Error('Az alkalmazásikon generálásához ImageMagick szükséges (magick vagy convert).');
+function findJava() {
+  const probe = spawnSync('java', ['-version'], { stdio: 'ignore' });
+  if (probe.status === 0) return 'java';
+  throw new Error('Az alkalmazásikon generálásához Java 11 vagy újabb szükséges.');
 }
 
 function run(command, args) {
@@ -47,6 +45,66 @@ function ensureDir(relative) {
   return target;
 }
 
+const JAVA_RENDERER = String.raw`
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+class IconRenderer {
+    private static Color parseColor(String value) {
+        if ("transparent".equalsIgnoreCase(value)) return new Color(0, 0, 0, 0);
+        String hex = value.startsWith("#") ? value.substring(1) : value;
+        int rgb = Integer.parseInt(hex, 16);
+        return new Color((rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255, 255);
+    }
+
+    public static void main(String[] args) throws Exception {
+        if (args.length < 5 || (args.length - 1) % 4 != 0) {
+            throw new IllegalArgumentException("Használat: source.png canvas content background output.png [...]");
+        }
+        BufferedImage source = ImageIO.read(new File(args[0]));
+        if (source == null) throw new IllegalArgumentException("A PNG ikonforrás nem olvasható.");
+
+        for (int index = 1; index < args.length; index += 4) {
+            int canvasSize = Integer.parseInt(args[index]);
+            int contentSize = Integer.parseInt(args[index + 1]);
+            Color background = parseColor(args[index + 2]);
+            File output = new File(args[index + 3]);
+
+            BufferedImage canvas = new BufferedImage(canvasSize, canvasSize, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics = canvas.createGraphics();
+            try {
+                graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+                graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                graphics.setColor(background);
+                graphics.fillRect(0, 0, canvasSize, canvasSize);
+
+                double scale = Math.min(
+                    (double) contentSize / source.getWidth(),
+                    (double) contentSize / source.getHeight()
+                );
+                int width = Math.max(1, (int) Math.round(source.getWidth() * scale));
+                int height = Math.max(1, (int) Math.round(source.getHeight() * scale));
+                int x = (canvasSize - width) / 2;
+                int y = (canvasSize - height) / 2;
+                graphics.drawImage(source, x, y, width, height, null);
+            } finally {
+                graphics.dispose();
+            }
+
+            output.getParentFile().mkdirs();
+            if (!ImageIO.write(canvas, "png", output)) {
+                throw new IllegalStateException("A PNG kimenet nem írható: " + output);
+            }
+        }
+    }
+}
+`;
+
 if (!fs.existsSync(SOURCE_BASE64)) {
   throw new Error(`Hiányzó ikonforrás: ${SOURCE_BASE64}`);
 }
@@ -54,9 +112,10 @@ if (!fs.existsSync(RES_DIR)) {
   throw new Error('Az Android projekt még nem létezik. Előbb futtasd: npx cap add android');
 }
 
-const imageMagick = findImageMagick();
+const java = findJava();
 const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'fk26-icon-'));
 const sourcePng = path.join(tempDir, 'fociskartyak-app-icon.png');
+const rendererFile = path.join(tempDir, 'IconRenderer.java');
 
 try {
   const encoded = fs.readFileSync(SOURCE_BASE64, 'utf8').replace(/\s+/g, '');
@@ -65,38 +124,37 @@ try {
     throw new Error('Az ikonforrás nem érvényes PNG-adat.');
   }
   fs.writeFileSync(sourcePng, decoded);
+  fs.writeFileSync(rendererFile, JAVA_RENDERER);
+
+  const renderArguments = [
+    '-Djava.awt.headless=true',
+    rendererFile,
+    sourcePng,
+  ];
+  const legacyLaunchers = [];
 
   for (const [density, size] of Object.entries(legacySizes)) {
     const targetDir = ensureDir(`mipmap-${density}`);
     const contentSize = Math.max(1, Math.round(size * 0.88));
     const launcher = path.join(targetDir, 'ic_launcher.png');
-
-    run(imageMagick, [
-      sourcePng,
-      '-resize', `${contentSize}x${contentSize}`,
-      '-gravity', 'center',
-      '-background', BACKGROUND,
-      '-extent', `${size}x${size}`,
-      '-strip',
-      launcher,
-    ]);
-    fs.copyFileSync(launcher, path.join(targetDir, 'ic_launcher_round.png'));
+    legacyLaunchers.push({ launcher, round: path.join(targetDir, 'ic_launcher_round.png') });
+    renderArguments.push(String(size), String(contentSize), BACKGROUND, launcher);
   }
 
   for (const [density, size] of Object.entries(adaptiveSizes)) {
     const targetDir = ensureDir(`mipmap-${density}`);
     // Keep all important artwork inside Android's adaptive-icon safe zone.
     const contentSize = Math.max(1, Math.round(size * 0.62));
-    run(imageMagick, [
-      sourcePng,
-      '-resize', `${contentSize}x${contentSize}`,
-      '-gravity', 'center',
-      '-background', 'none',
-      '-extent', `${size}x${size}`,
-      '-strip',
+    renderArguments.push(
+      String(size),
+      String(contentSize),
+      'transparent',
       path.join(targetDir, 'ic_launcher_foreground.png'),
-    ]);
+    );
   }
+
+  run(java, renderArguments);
+  for (const { launcher, round } of legacyLaunchers) fs.copyFileSync(launcher, round);
 
   const valuesDir = ensureDir('values');
   fs.writeFileSync(
@@ -117,7 +175,7 @@ try {
     fs.writeFileSync(MANIFEST, manifest);
   }
 
-  console.log('FK26 Android alkalmazásikon elkészült: legacy, round és adaptive változatok.');
+  console.log('FK26 Android alkalmazásikon elkészült: Java-alapú legacy, round és adaptive változatok.');
 } finally {
   fs.rmSync(tempDir, { recursive: true, force: true });
 }
