@@ -22,6 +22,7 @@ assert.deepEqual(UI_ENHANCEMENT_MODULES, [
   '../focus-experience.js',
   '../visual-settings-persistence.js',
   '../visual-system.js',
+  '../visual-hierarchy.js',
   '../legal-ui.js',
 ]);
 assert.equal(UI_ENHANCEMENT_PRELOADED_FLAG, '__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__');
@@ -117,6 +118,8 @@ assert.throws(
 );
 
 const pipelineSource = readSource('../js/ui/ui-enhancement-pipeline.js');
+const hierarchySource = readSource('../js/visual-hierarchy.js');
+const hierarchyCss = readSource('../css/visual-hierarchy.css');
 const uiSource = readSource('../js/ui.js');
 const bootstrapSource = readSource('../js/bootstrap.js');
 const indexSource = readSource('../index.html');
@@ -132,15 +135,26 @@ assert.ok(
 for (const file of [
   'ux.js', 'ux-fixes.js', 'matchday.js', 'opponents.js', 'player-profile.js',
   'reliability-fixes.js', 'usability-fixes.js', 'focus-experience.js',
-  'visual-settings-persistence.js', 'visual-system.js', 'legal-ui.js',
+  'visual-settings-persistence.js', 'visual-system.js', 'visual-hierarchy.js', 'legal-ui.js',
 ]) {
-  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}"></script>`));
+  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}\"></script>`));
 }
+assert.match(indexSource, /css\/visual-hierarchy\.css/);
 assert.match(indexSource, /js\/branding\.js/);
 assert.match(indexSource, /js\/pwa\.js/);
 assert.match(indexSource, /js\/bootstrap\.js/);
 assert.doesNotMatch(indexSource, /js\/ui\/ui-enhancement-pipeline\.js/, 'a pipeline-t a bootstrap importálja és várja meg');
 
+assert.ok(
+  buildSource.indexOf("'js/visual-system.js'")
+    < buildSource.indexOf("'js/visual-hierarchy.js'"),
+  'a vizuális hierarchia az alap vizuális rendszerre épül',
+);
+assert.ok(
+  buildSource.indexOf("'js/visual-hierarchy.js'")
+    < buildSource.indexOf("'js/legal-ui.js'"),
+  'a jogi felület a vizuális hierarchia után marad',
+);
 assert.ok(
   buildSource.indexOf("'js/legal-ui.js'")
     < buildSource.indexOf("'js/ui/ui-enhancement-pipeline.js'"),
@@ -151,12 +165,14 @@ assert.ok(
     < buildSource.indexOf("'js/main.js'"),
   'a standalone pipeline marker a Session előtt szerepel',
 );
+assert.match(buildSource, /css\/visual-hierarchy\.css/);
 assert.match(buildSource, /const uiEnhancementFiles = new Set/);
 assert.match(buildSource, /beginUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /commitUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__/);
-assert.match(serviceWorkerSource, /\.\/js\/ui\/ui-enhancement-pipeline\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v68/);
+assert.match(serviceWorkerSource, /\.\/css\/visual-hierarchy\.css/);
+assert.match(serviceWorkerSource, /\.\/js\/visual-hierarchy\.js/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v69/);
 assert.match(pipelineSource, /beginLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /commitLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /rollbackLayer\(moduleSpecifier\)/);
@@ -165,4 +181,18 @@ assert.match(uiSource, /class UIBase/);
 assert.match(uiSource, /export let UI = UIBase/);
 assert.match(uiSource, /class extends ParentUI/);
 
-console.log('✓ Explicit, rétegenként izolált és standalone-kompatibilis UI enhancement pipeline: rendben');
+assert.match(hierarchySource, /match-context/);
+assert.match(hierarchySource, /next-action-panel/);
+assert.match(hierarchySource, /1\. Kategória/);
+assert.match(hierarchySource, /2\. Kártya/);
+assert.match(hierarchySource, /3\. Eredmény/);
+assert.match(hierarchySource, /visualHierarchyModeLabel/);
+assert.match(hierarchySource, /visualHierarchyRoundLabel/);
+assert.match(hierarchySource, /visualHierarchyCategoryLabel/);
+assert.match(hierarchyCss, /\.match-context/);
+assert.match(hierarchyCss, /\.next-action-panel/);
+assert.match(hierarchyCss, /score-strip--primary/);
+assert.match(hierarchyCss, /#pub\.is-battle-active #duel \.stat\.active/);
+assert.match(hierarchyCss, /#attribute-picker \.next-round-button/);
+
+console.log('✓ Explicit UI-rétegek és a mód–kör–kategória–művelet vizuális hierarchiája: rendben');
