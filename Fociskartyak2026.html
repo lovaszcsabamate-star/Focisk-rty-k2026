@@ -10044,6 +10044,121 @@ function createMenuController({
 }
 
 
+/* ===== js/app/result-controller.js ===== */
+/** Végeredmény-képernyő központi alkalmazási vezérlője. */
+
+
+
+
+
+class ResultControllerError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'ResultControllerError';
+    this.code = code;
+  }
+}
+
+const resultControllerRequiredActions = Object.freeze([
+  'setBusy',
+  'start',
+  'showTitleScreen',
+  'showPanel',
+]);
+
+const resultControllerAssertMethod = (target, method, code) => {
+  if (typeof target?.[method] !== 'function') {
+    throw new ResultControllerError(code, `Az eredményvezérlőből hiányzik a(z) ${method} művelet.`);
+  }
+};
+
+function createResultController({
+  ui,
+  getState,
+  actions,
+  clearSaved,
+  elementFactory = el,
+  attributeRegistry = ATTRIBUTE_BY_KEY,
+  getBanterLine = getLine,
+  humanId = HUMAN,
+  aiId = AI,
+} = {}) {
+  resultControllerAssertMethod(ui, 'setInteractionBusy', 'INVALID_UI');
+  resultControllerAssertMethod(ui, 'say', 'INVALID_UI');
+  if (typeof getState !== 'function') {
+    throw new ResultControllerError('INVALID_STATE_ADAPTER', 'Az eredményvezérlő állapotadaptere kötelező.');
+  }
+  resultControllerRequiredActions.forEach(method => resultControllerAssertMethod(actions, method, 'INVALID_ACTIONS'));
+  if (typeof clearSaved !== 'function') {
+    throw new ResultControllerError('INVALID_PERSISTENCE_ADAPTER', 'A mentés törlőfüggvénye kötelező.');
+  }
+  if (typeof elementFactory !== 'function') {
+    throw new ResultControllerError('INVALID_ELEMENT_FACTORY', 'Az eredményvezérlő elemgyártó függvénye kötelező.');
+  }
+
+  const bestCategoryLabel = result => {
+    if (!Array.isArray(result?.bestCategories) || result.bestCategories.length === 0) {
+      return 'Nem volt megnyert kategória';
+    }
+    return result.bestCategories.map(key => {
+      const attribute = attributeRegistry[key];
+      return attribute ? `${attribute.icon} ${attribute.label}` : key;
+    }).join(', ');
+  };
+
+  const showGameOver = () => {
+    const state = getState() ?? {};
+    const result = state.result;
+    if (!result || typeof result !== 'object') {
+      throw new ResultControllerError('INVALID_RESULT', 'A végeredmény nem érhető el.');
+    }
+
+    actions.setBusy(true);
+    ui.setInteractionBusy(false);
+    clearSaved();
+
+    const won = result.winner === humanId;
+    const lost = result.winner === aiId;
+    ui.say(getBanterLine(won ? 'gameOverWin' : lost ? 'gameOverLose' : 'gameOverTie'));
+
+    const panel = elementFactory('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
+    if (state.mode === 'penalties') {
+      const best = bestCategoryLabel(result);
+      panel.innerHTML = `
+        <p class="result-kicker">${result.stage === 'hirtelen halál' ? '⚠ Hirtelen halál' : '⏱ Rendes játékidő'}</p>
+        <h1>${won ? 'GYŐZELEM' : 'VERESÉG'}</h1>
+        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
+        <dl class="result-stats">
+          <div><dt>Felhasznált párbajok</dt><dd>${result.duels}</dd></div>
+          <div><dt>Eldőlt</dt><dd>${result.stage}</dd></div>
+          <div><dt>Legeredményesebb kategória</dt><dd>${best}${result.bestCategoryWins ? ` (${result.bestCategoryWins} gól)` : ''}</dd></div>
+        </dl>
+        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
+      `;
+    } else {
+      const heading = won ? 'GYŐZELEM' : lost ? 'VERESÉG' : 'DÖNTETLEN';
+      panel.innerHTML = `
+        <h1>${heading}</h1>
+        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
+        ${result.undecided ? `<p>${result.undecided} lap a döntetlenpakliban maradt.</p>` : ''}
+        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
+      `;
+    }
+
+    const showTitle = () => actions.showTitleScreen({ offerOnboarding: false });
+    panel.querySelector('#rematch-btn').addEventListener('click', () => actions.start(state.mode, state.difficulty), { once: true });
+    panel.querySelector('#menu-btn').addEventListener('click', showTitle, { once: true });
+    actions.showPanel(panel, showTitle);
+    return panel;
+  };
+
+  return Object.freeze({
+    bestCategoryLabel,
+    showGameOver,
+  });
+}
+
+
 /* ===== js/player-profile.js ===== */
 /** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
 
@@ -11753,6 +11868,7 @@ if (document.readyState === 'loading') {
 
 
 
+
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const selectedOpponentDifficulty = () => {
   const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
@@ -11806,6 +11922,21 @@ class Session {
       clearSaved: clearSavedMatch,
       onboardingCompleted: onboardingWasCompleted,
       setOnboardingCompletedValue: setOnboardingCompleted,
+    });
+    this.results = createResultController({
+      ui: this.ui,
+      getState: () => ({
+        mode: this.mode,
+        difficulty: this.difficulty,
+        result: this.runtime.result(),
+      }),
+      actions: {
+        setBusy: value => { this.busy = value; },
+        start: (mode, difficulty) => this.start(mode, difficulty),
+        showTitleScreen: options => this.showTitleScreen(options),
+        showPanel: (panel, returnAction) => this._showPanel(panel, returnAction),
+      },
+      clearSaved: clearSavedMatch,
     });
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
@@ -12156,42 +12287,7 @@ class Session {
   }
 
   showGameOver() {
-    this.busy = true;
-    this.ui.setInteractionBusy(false);
-    clearSavedMatch();
-    const result = this.runtime.result();
-    const won = result.winner === HUMAN;
-    this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
-    const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
-
-    if (this.mode === 'penalties') {
-      const best = result.bestCategories.length
-        ? result.bestCategories.map(key => `${ATTRIBUTE_BY_KEY[key].icon} ${ATTRIBUTE_BY_KEY[key].label}`).join(', ')
-        : 'Nem volt megnyert kategória';
-      panel.innerHTML = `
-        <p class="result-kicker">${result.stage === 'hirtelen halál' ? '⚠ Hirtelen halál' : '⏱ Rendes játékidő'}</p>
-        <h1>${won ? 'GYŐZELEM' : 'VERESÉG'}</h1>
-        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
-        <dl class="result-stats">
-          <div><dt>Felhasznált párbajok</dt><dd>${result.duels}</dd></div>
-          <div><dt>Eldőlt</dt><dd>${result.stage}</dd></div>
-          <div><dt>Legeredményesebb kategória</dt><dd>${best}${result.bestCategoryWins ? ` (${result.bestCategoryWins} gól)` : ''}</dd></div>
-        </dl>
-        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
-      `;
-    } else {
-      const heading = result.winner === HUMAN ? 'GYŐZELEM' : result.winner === AI ? 'VERESÉG' : 'DÖNTETLEN';
-      panel.innerHTML = `
-        <h1>${heading}</h1>
-        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
-        ${result.undecided ? `<p>${result.undecided} lap a döntetlenpakliban maradt.</p>` : ''}
-        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
-      `;
-    }
-
-    panel.querySelector('#rematch-btn').addEventListener('click', () => this.start(this.mode, this.difficulty), { once: true });
-    panel.querySelector('#menu-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
-    this._showPanel(panel, () => this.showTitleScreen({ offerOnboarding: false }));
+    return this.results.showGameOver();
   }
 }
 
