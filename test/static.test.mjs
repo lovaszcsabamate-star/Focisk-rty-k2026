@@ -47,6 +47,7 @@ const zteCompletion = readJson('../data/club-official-enrichment-19-zte-completi
 const etoCompletion = readJson('../data/club-official-enrichment-21-eto-completion.json');
 const kisvardaNationalities = readJson('../data/club-official-enrichment-22-kisvarda-nationalities.json');
 const finalMissingBasic = readJson('../data/club-official-enrichment-23-final-missing-basic.json');
+const dvtkHeights = readJson('../data/club-official-enrichment-24-dvtk-heights.json');
 const kisvardaFinalStats = readJson('../data/club-official-stat-patches-kisvarda-final8.json');
 const ferencvarosStats = readJson('../data/club-official-stat-patches-ferencvaros.json');
 const dvtkStats = readJson('../data/club-official-stat-patches-dvtk.json');
@@ -121,7 +122,7 @@ assert.match(serviceWorker, /data\/databases\/hungary-nb1-2025-26\/manifest\.jso
 assert.equal(databaseRegistry.defaultDatabaseId, 'hungary-nb1-2025-26');
 assert.equal(databaseEntry.enabled, true);
 assert.equal(databaseManifest.id, databaseEntry.id);
-assert.equal(databaseManifest.files.enrichments.length, 23);
+assert.equal(databaseManifest.files.enrichments.length, 24);
 assert.equal(databaseManifest.files.corrections.length, 5);
 assert.equal(databaseManifest.files.statPatches.length, 13);
 
@@ -192,6 +193,10 @@ assert.equal(
   finalMissingBasic.records.filter(record => Number.isFinite(record.heightCm)).length,
 );
 assert.equal(finalMissingBasic.records.filter(record => record.nation || record.position).length, 7);
+assert.equal(dvtkHeights.batch.playerCount, 14);
+assert.equal(dvtkHeights.batch.heightRecordCount, 14);
+assert.equal(dvtkHeights.records.length, 14);
+assert.ok(dvtkHeights.records.every(record => Number.isFinite(record.heightCm)));
 assert.equal(kisvardaFinalStats.rows.length, 8);
 assert.equal(ferencvarosStats.rows.length, 42);
 assert.equal(ferencvarosStats.batch.playerCount, 42);
