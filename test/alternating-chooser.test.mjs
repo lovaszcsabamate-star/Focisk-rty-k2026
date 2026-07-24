@@ -36,7 +36,7 @@ const play = (game, chooser, chooserGoals, responderGoals) => {
   return game.playCard(responder, responderCard.id);
 };
 
-// Classic mode: the chooser changes every playable round, independent of the result.
+// Classic mode keeps its original winner-selects-next rule.
 {
   const game = new Game({ players: players.map(item => structuredClone(item)), rng: fixedRng });
   game.chooser = HUMAN;
@@ -45,16 +45,36 @@ const play = (game, chooser, chooserGoals, responderGoals) => {
   assert.equal(first.winner, HUMAN);
   assert.equal(game.chooser, HUMAN);
   game.nextRound();
-  assert.equal(game.chooser, AI);
+  assert.equal(game.chooser, HUMAN);
 
-  const second = play(game, AI, 2, 2);
-  assert.equal(second.winner, 'tie');
+  const second = play(game, HUMAN, 1, 3);
+  assert.equal(second.winner, AI);
   assert.equal(game.chooser, AI);
   game.nextRound();
-  assert.equal(game.chooser, HUMAN);
+  assert.equal(game.chooser, AI);
+
+  const third = play(game, AI, 2, 2);
+  assert.equal(third.winner, 'tie');
+  assert.equal(game.chooser, AI);
+  game.nextRound();
+  assert.equal(game.chooser, AI);
 }
 
-// Penalties mode follows the same strict alternation.
+// Penalties mode randomly selects the opening chooser.
+{
+  const humanStarts = new PenaltyGame({
+    players: players.map(item => structuredClone(item)),
+    rng: () => 0,
+  });
+  const aiStarts = new PenaltyGame({
+    players: players.map(item => structuredClone(item)),
+    rng: () => 0.999999,
+  });
+  assert.equal(humanStarts.chooser, HUMAN);
+  assert.equal(aiStarts.chooser, AI);
+}
+
+// Only penalties mode uses strict alternation, independent of the duel result.
 {
   const game = new PenaltyGame({ players: players.map(item => structuredClone(item)), rng: fixedRng });
   game.chooser = HUMAN;
@@ -68,4 +88,4 @@ const play = (game, chooser, chooserGoals, responderGoals) => {
   assert.equal(game.chooser, HUMAN);
 }
 
-console.log('✓ A kategóriaválasztás mindkét módban felváltva történik');
+console.log('✓ A Büntetőpárbaj véletlen kezdővel és felváltott választással működik');
