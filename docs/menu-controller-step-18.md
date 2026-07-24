@@ -48,9 +48,9 @@ A factory befagyasztott vezérlőt ad vissza a következő metódusokkal:
 - `showPauseMenu()`;
 - `showPenaltyIntro()`.
 
-## Explicit Session-adapter
+## Explicit Session-adapterek
 
-A menüvezérlő nem kapja meg a teljes `Session` objektumot. Ehelyett két explicit adaptert használ.
+A menüvezérlő nem kapja meg a teljes `Session` objektumot. Három szűk, explicit adapteren keresztül működik.
 
 ### Állapotadapter
 
@@ -66,7 +66,7 @@ A `getState()` az aktuális, csak olvasásra használt állapotot adja át:
 
 ### Műveleti adapter
 
-Az `actions` objektum kizárólag a szükséges műveleteket tartalmazza:
+Az `actions` objektum kizárólag a szükséges Session-műveleteket tartalmazza:
 
 - `saveCurrentGame()`;
 - `prepareTitleScreen()`;
@@ -75,7 +75,18 @@ Az `actions` objektum kizárólag a szükséges műveleteket tartalmazza:
 - `toggleSetting(key, value)`;
 - `beginMatch()`.
 
-Ez megakadályozza, hogy a menüvezérlő közvetlenül módosítsa a `Session` teljes belső állapotát.
+### Perzisztencia-adapter
+
+A mentési és onboarding-műveletek külön függvényekként kerülnek átadásra:
+
+- `readSaved()`;
+- `clearSaved()`;
+- `onboardingCompleted()`;
+- `setOnboardingCompletedValue(value)`.
+
+A menüvezérlő ezért nem importálja közvetlenül a DOM-ot indításkor használó `mobile-experience.js` modult. Böngésző nélküli Node-tesztben is önállóan importálható, miközben a produkciós Session továbbra is ugyanazokat a meglévő mentési függvényeket adja át.
+
+Az adapterhatár megakadályozza, hogy a menüvezérlő közvetlenül módosítsa a `Session` teljes belső állapotát vagy rejtett globális tárolási függőségeket vegyen fel.
 
 ## Session-kompatibilitás
 
@@ -135,7 +146,7 @@ A flattenelt standalone buildben a menüvezérlő a következő függőségek ut
 - UI és DOM-primitívek;
 - mobil élmény és mentési kompatibilitási réteg.
 
-A modul a `js/main.js` előtt kerül a bundle-be.
+A modul a `js/main.js` előtt kerül a bundle-be. Saját top-level nevei `menuController` előtagot használnak, így nem ütköznek a flattenelt modulokkal.
 
 A PWA cache-verzió `v64`, az új fájl bekerül az offline shellbe. Az Android offline webcsomag a meglévő buildfolyamaton keresztül örökli a modult.
 
@@ -150,12 +161,15 @@ Az új `test/menu-controller.test.mjs` ellenőrzi:
 - a mentési idő feliratát;
 - a valós és tartalék pakli forrásfeliratát;
 - a nehézségválasztást és fallbacket;
-- a hibás UI-, állapot- és műveleti adapterek elutasítását;
+- a hibás UI-, állapot-, műveleti és perzisztencia-adapterek elutasítását;
+- a DOM-függő mobilélmény-import hiányát;
 - a szükséges magyar menüszövegek jelenlétét;
 - a `Session` integrációját;
 - a nagy menü-HTML blokkok eltűnését a `main.js` fájlból;
 - a standalone modulrendet;
 - a PWA-cache bejegyzést.
+
+A `test/static.test.mjs` továbbra is ellenőrzi a magyar menüszövegeket, de már a tényleges tulajdonosukban, a menüvezérlő modulban.
 
 A teljes mobil-, böngészős runtime-, Klasszikus-, Büntetőpárbaj- és Android-tesztcsomag továbbra is kötelező regressziós védelem.
 
