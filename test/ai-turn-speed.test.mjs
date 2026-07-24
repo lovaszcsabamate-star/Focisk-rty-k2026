@@ -5,6 +5,7 @@ const read = relative => fs.readFileSync(new URL(relative, import.meta.url), 'ut
 const timingService = read('../js/services/turn-timing-service.js');
 const mobileExperience = read('../js/mobile-experience.js');
 const main = read('../js/main.js');
+const roundController = read('../js/app/round-controller.js');
 const ai = read('../js/ai.js');
 const serviceWorker = read('../sw.js');
 
@@ -12,9 +13,10 @@ assert.match(timingService, /AI_CHOOSE_ATTRIBUTE/);
 assert.match(timingService, /AI_CHOOSE_CARD/);
 assert.match(timingService, /ai-choose-attribute[^]*90/);
 assert.match(timingService, /ai-choose-card[^]*110/);
-assert.match(main, /TURN_DELAY\.AI_CHOOSE_ATTRIBUTE/);
-assert.match(main, /TURN_DELAY\.AI_CHOOSE_CARD/);
+assert.match(roundController, /turnDelay\.AI_CHOOSE_ATTRIBUTE/);
+assert.match(roundController, /turnDelay\.AI_CHOOSE_CARD/);
 assert.match(main, /createTurnTimingService/);
+assert.match(main, /wait: delayOrKey => this\.delay\(delayOrKey\)/);
 assert.doesNotMatch(mobileExperience, /globalThis\.setTimeout\s*=/);
 assert.doesNotMatch(mobileExperience, /__FOCISKARTYAK_FAST_AI_TIMER__/);
 assert.match(mobileExperience, /__FOCISKARTYAK_AI_RECOVERY__/);
