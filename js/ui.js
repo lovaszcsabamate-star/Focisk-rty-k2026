@@ -84,11 +84,7 @@ class UIBase {
   _renderInspector() {
     const { hand, index, opts } = this.inspector;
     const card = hand[index];
-    const canPlayFromContext = opts.playable && (!opts.attribute || hasAttributeData(card, opts.attribute));
-    const resolveDirectPlayCard = () => [...(this.dom.playerHand?.querySelectorAll?.(
-      '.card--direct-play:not(.card--unavailable):not(.card--dim)',
-    ) ?? [])].find(node => String(node.dataset.cardId) === String(card?.id));
-    const canPlay = Boolean(canPlayFromContext || resolveDirectPlayCard());
+    const canPlay = opts.playable && (!opts.attribute || hasAttributeData(card, opts.attribute));
     $('#inspector')?.remove();
 
     const layer = el('div');
@@ -103,8 +99,7 @@ class UIBase {
     next.addEventListener('click', () => this._inspectorStep(1));
 
     const centre = el('div', 'inspector__centre');
-    const largeCard = this.renderCard(card, { activeAttribute: opts.attribute, large: true });
-    centre.appendChild(largeCard);
+    centre.appendChild(this.renderCard(card, { activeAttribute: opts.attribute, large: true }));
     centre.appendChild(el('div', 'inspector__counter', `${index + 1}/${hand.length} kártya`));
 
     const detailLines = [
@@ -118,12 +113,11 @@ class UIBase {
     }
 
     const actions = el('div', 'inspector__actions');
-    let play = null;
     if (opts.playable) {
-      play = el('button', 'btn', canPlayFromContext ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
-      play.disabled = !canPlayFromContext;
+      const play = el('button', 'btn', canPlay ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
+      play.disabled = !canPlay;
       play.addEventListener('click', () => {
-        if (!canPlayFromContext || !this.inspector) return;
+        if (!canPlay) return;
         const chosen = hand[this.inspector.index];
         this.closeInspector();
         opts.onPlay(chosen);
@@ -134,43 +128,7 @@ class UIBase {
     close.addEventListener('click', () => this.closeInspector());
     actions.appendChild(close);
     centre.appendChild(actions);
-    centre.appendChild(el(
-      'div',
-      'inspector__hint',
-      canPlay
-        ? '← → kártyaváltás · koppints a lapra a kijátszáshoz · Esc bezárás'
-        : '← → kártyaváltás · Esc bezárás',
-    ));
-
-    if (canPlay) {
-      largeCard.classList.add('inspector__playable-card');
-      largeCard.tabIndex = 0;
-      largeCard.setAttribute('role', 'button');
-      largeCard.setAttribute('aria-label', `${card?.displayName ?? card?.name ?? 'Játékoskártya'} kiválasztása és kijátszása`);
-      largeCard.dataset.inspectorPlayBound = 'core';
-
-      const commitLargeCard = event => {
-        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        if (this._inspectorSwitching || !this.inspector) return;
-        largeCard.classList.add('is-committing');
-
-        if (play && !play.disabled) {
-          play.click();
-          return;
-        }
-
-        const directPlayCard = resolveDirectPlayCard();
-        if (!directPlayCard) return;
-        this.closeInspector();
-        queueMicrotask(() => directPlayCard.click());
-      };
-      largeCard.addEventListener('click', commitLargeCard);
-      largeCard.addEventListener('keydown', commitLargeCard);
-    }
-
+    centre.appendChild(el('div', 'inspector__hint', '← → kártyaváltás · Enter kijátszás · Esc bezárás'));
     shell.append(previous, centre, next);
     layer.appendChild(shell);
     document.body.appendChild(layer);
