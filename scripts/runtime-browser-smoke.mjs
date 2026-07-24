@@ -52,7 +52,7 @@ const instrumentation = `<script>
   const nativeFetch = window.fetch?.bind(window);
   if (nativeFetch) window.fetch = (...args) => {
     const value = typeof args[0] === 'string' ? args[0] : args[0]?.url;
-    if (/^https?:\\/\\//i.test(String(value || ''))) window.__runtimeSmoke.remoteRequests.push(String(value));
+    if (/^https?:\/\//i.test(String(value || ''))) window.__runtimeSmoke.remoteRequests.push(String(value));
     return nativeFetch(...args);
   };
 })();
@@ -92,6 +92,12 @@ for (const mode of MODES) {
             const pileInspectorCount = doc.querySelectorAll('#player-pile .pile__inspect').length;
             const cardInspectorCount = doc.querySelectorAll('#player-hand .card__inspect').length;
             const pileInspector = doc.querySelector('#player-pile .pile__inspect');
+            const handCardsBeforeInspector = [...doc.querySelectorAll('#player-hand .card')].map(card => ({
+              id: card.dataset.cardId || '',
+              classes: card.className,
+              role: card.getAttribute('role'),
+              ariaDisabled: card.getAttribute('aria-disabled'),
+            }));
             pileInspector?.click();
 
             setTimeout(() => {
@@ -100,12 +106,19 @@ for (const mode of MODES) {
               const firstInspectedId = inspectorBefore?.querySelector('.card--large')?.dataset.cardId || '';
               const largeBefore = inspectorBefore?.querySelector('.card--large');
               const largeCardPlayable = Boolean(largeBefore?.classList.contains('inspector__playable-card'));
+              const playButtonBefore = inspectorBefore?.querySelector('.inspector__actions .btn:not(.btn--ghost)');
+              const matchingHandBefore = [...doc.querySelectorAll('#player-hand .card')]
+                .find(card => card.dataset.cardId === firstInspectedId);
               inspectorBefore?.querySelector('.inspector__nav:last-child')?.click();
 
               setTimeout(() => {
                 const inspectorAfter = doc.querySelector('#inspector');
                 const backdropAfter = doc.querySelector('#inspector-stable-backdrop');
                 const nextInspectedId = inspectorAfter?.querySelector('.card--large')?.dataset.cardId || '';
+                const largeAfter = inspectorAfter?.querySelector('.card--large');
+                const matchingHandAfter = [...doc.querySelectorAll('#player-hand .card')]
+                  .find(card => card.dataset.cardId === nextInspectedId);
+                const playButtonAfter = inspectorAfter?.querySelector('.inspector__actions .btn:not(.btn--ghost)');
                 const backdropPersisted = Boolean(
                   backdropBefore
                   && backdropBefore === backdropAfter
@@ -144,6 +157,19 @@ for (const mode of MODES) {
                     inspectorCardChanged: Boolean(firstInspectedId && nextInspectedId && firstInspectedId !== nextInspectedId),
                     largeCardPlayable,
                     battleStartedFromLargeCard,
+                    inspectorDiagnostics: {
+                      handCardsBeforeInspector,
+                      firstInspectedId,
+                      nextInspectedId,
+                      largeBeforeClasses: largeBefore?.className || '',
+                      largeAfterClasses: largeAfter?.className || '',
+                      largeBeforeBound: largeBefore?.dataset.inspectorPlayBound || '',
+                      largeAfterBound: largeAfter?.dataset.inspectorPlayBound || '',
+                      playButtonBefore: playButtonBefore ? { disabled: playButtonBefore.disabled, text: playButtonBefore.textContent } : null,
+                      playButtonAfter: playButtonAfter ? { disabled: playButtonAfter.disabled, text: playButtonAfter.textContent } : null,
+                      matchingHandBeforeClasses: matchingHandBefore?.className || '',
+                      matchingHandAfterClasses: matchingHandAfter?.className || '',
+                    },
                     errors: smoke.errors,
                     consoleErrors: smoke.consoleErrors,
                     remoteRequests: smoke.remoteRequests,
