@@ -95,6 +95,9 @@ for (const mode of MODES) {
           const promptBeforeCategory = doc.querySelector('#prompt')?.textContent || '';
           const pickerBeforeCategory = doc.querySelector('#attribute-picker')?.innerHTML || '';
           category?.click();
+          const categoryNext = doc.querySelector('#attribute-picker .category-picker__next:not(:disabled)');
+          const categoryNextFound = Boolean(categoryNext);
+          categoryNext?.click();
 
           setTimeout(() => {
             const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [], categoryClicks: [] };
@@ -183,6 +186,7 @@ for (const mode of MODES) {
                       categoryBefore,
                       categoryAfter,
                       categoryClicks: smoke.categoryClicks,
+                      categoryNextFound,
                       promptBeforeCategory,
                       promptAfterCategory,
                       pickerBeforeCategory,
@@ -248,6 +252,7 @@ for (const mode of MODES) {
   if (!result.savedNameVisible) modeFailures.push('a mentett játékosnév nem jelent meg az eredményjelzőn');
   if (!result.categoryDiagnostics.categoryBefore) modeFailures.push('nem található aktív kategóriagomb');
   if (!result.categoryDiagnostics.categoryClicks.length) modeFailures.push('a kategóriagomb kattintási eseménye nem futott le');
+  if (!result.categoryDiagnostics.categoryNextFound) modeFailures.push('a kategóriakijelölés után nem jelent meg az aktív Tovább gomb');
   if (!result.singlePileInspector) modeFailures.push(`nem pontosan egy kézszintű nagyító jelent meg (${result.pileInspectorCount})`);
   if (!result.noCardInspectors) modeFailures.push(`kártyánkénti nagyítók maradtak (${result.cardInspectorCount})`);
   if (!result.inspectorOpened || !result.backdropOpened) modeFailures.push('a nagyított kártyanézet vagy a sötét háttér nem nyílt meg');
@@ -260,7 +265,7 @@ for (const mode of MODES) {
   if (result.remoteRequests.length) modeFailures.push(`külső hálózati kérések: ${result.remoteRequests.join(', ')}`);
   failures.push(...modeFailures.map(message => `${mode.id}: ${message}.`));
   results.push({ ...result, failures: modeFailures });
-  console.log(`✓ ${mode.id}: kategóriaválasztás, egy nagyító, stabil háttér és lapozás ellenőrizve`);
+  console.log(`✓ ${mode.id}: kétlépcsős kategóriaválasztás, egy nagyító, stabil háttér és lapozás ellenőrizve`);
 }
 
 if (results.length === MODES.length && results.every(result => !result.failure)) {
