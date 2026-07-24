@@ -1,0 +1,473 @@
+/* ==========================================================================
+   FOCISKÁRTYÁK 2026 — visual hierarchy
+   The match state, compared category and next action remain visually distinct.
+   ========================================================================== */
+
+:root {
+  --hierarchy-surface: rgba(15, 12, 9, .9);
+  --hierarchy-surface-soft: rgba(25, 19, 14, .78);
+  --hierarchy-border: rgba(239, 212, 144, .34);
+  --hierarchy-text: #fff7df;
+  --hierarchy-muted: #c5b79f;
+  --hierarchy-classic: #59b879;
+  --hierarchy-penalties: #d86e5f;
+  --hierarchy-win: #7bd28d;
+  --hierarchy-loss: #e08080;
+  --hierarchy-tie: #e2c879;
+}
+
+#match-context[hidden],
+#next-action-panel[hidden] {
+  display: none !important;
+}
+
+/* ── Match context: mode, round and compared category ───────────────────── */
+
+.match-context {
+  width: min(980px, 100%);
+  display: grid;
+  grid-template-columns: minmax(150px, .85fr) minmax(150px, .85fr) minmax(240px, 1.7fr);
+  align-self: center;
+  gap: 8px;
+  padding: 0 2px;
+  flex: 0 0 auto;
+}
+
+.match-context__item {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 11px;
+  border: 1px solid var(--hierarchy-border);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent),
+    var(--hierarchy-surface-soft);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .28);
+}
+
+.match-context__label {
+  color: var(--hierarchy-muted);
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.match-context__value {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--hierarchy-text);
+  font-size: clamp(12px, 1.15vw, 15px);
+  line-height: 1.1;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.match-context__item--mode {
+  box-shadow: inset 4px 0 0 var(--hierarchy-classic), 0 6px 16px rgba(0, 0, 0, .28);
+}
+
+.match-context[data-mode='penalties'] .match-context__item--mode {
+  box-shadow: inset 4px 0 0 var(--hierarchy-penalties), 0 6px 16px rgba(0, 0, 0, .28);
+}
+
+.match-context__item--category {
+  border-color: rgba(239, 212, 144, .48);
+  background:
+    linear-gradient(90deg, rgba(213, 170, 85, .12), transparent 72%),
+    var(--hierarchy-surface-soft);
+}
+
+.match-context:not(.has-category) .match-context__item--category {
+  opacity: .72;
+}
+
+/* ── Primary action: the one thing the player should do now ─────────────── */
+
+.next-action-panel {
+  width: min(780px, 100%);
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 10px 14px;
+  border: 1px solid rgba(239, 212, 144, .52);
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 0 50%, rgba(213, 170, 85, .16), transparent 46%),
+    var(--hierarchy-surface);
+  color: var(--hierarchy-text);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .38), inset 0 0 0 1px rgba(255,255,255,.025);
+}
+
+.next-action-panel__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid rgba(239, 212, 144, .5);
+  border-radius: 999px;
+  background: rgba(239, 212, 144, .12);
+  color: var(--accent-color-light);
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.next-action-panel__copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.next-action-panel__title {
+  color: #fff;
+  font-size: clamp(16px, 2vw, 23px);
+  line-height: 1.05;
+  letter-spacing: .01em;
+}
+
+.next-action-panel__detail {
+  overflow: hidden;
+  color: var(--hierarchy-muted);
+  font-size: clamp(10px, 1.15vw, 13px);
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.next-action-panel[data-phase='category'] {
+  border-color: rgba(213, 170, 85, .62);
+}
+
+.next-action-panel[data-phase='card'] {
+  border-color: rgba(255, 226, 154, .72);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .42), 0 0 24px rgba(213, 170, 85, .13);
+}
+
+.next-action-panel[data-phase='duel'] {
+  border-color: rgba(121, 181, 208, .58);
+  background:
+    radial-gradient(circle at 0 50%, rgba(85, 160, 194, .15), transparent 46%),
+    var(--hierarchy-surface);
+}
+
+.next-action-panel[data-phase='result-win'] {
+  border-color: rgba(123, 210, 141, .72);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .42), 0 0 25px rgba(123, 210, 141, .16);
+}
+
+.next-action-panel[data-phase='result-loss'] {
+  border-color: rgba(224, 128, 128, .72);
+}
+
+.next-action-panel[data-phase='result-tie'] {
+  border-color: rgba(226, 200, 121, .72);
+}
+
+.next-action-panel[data-phase='continue'] {
+  border-color: rgba(255, 226, 154, .78);
+  background:
+    linear-gradient(90deg, rgba(213, 170, 85, .16), transparent 70%),
+    var(--hierarchy-surface);
+}
+
+/* The old prompt remains an accessible live region, but visually supports the
+   action panel instead of competing with it for first-level attention. */
+#next-action-panel:not([hidden]) + #prompt {
+  min-height: 0;
+  margin-top: -2px;
+  color: rgba(255, 247, 223, .82);
+  font-size: clamp(12px, 1.35vw, 16px);
+  font-weight: 700;
+}
+
+#next-action-panel:not([hidden]) + #prompt .highlight {
+  color: var(--accent-color-light);
+  font-weight: 900;
+}
+
+/* ── Scoreboard and names become the primary match result ───────────────── */
+
+.score-strip--primary .match-scoreboard {
+  border-color: rgba(255, 255, 255, .82);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, .55),
+    0 0 0 2px rgba(213, 170, 85, .16),
+    inset 0 0 0 1px rgba(0, 0, 0, .72);
+}
+
+.score-strip--primary .match-team__name {
+  color: #fff;
+  font-size: clamp(12px, 1.05vw, 15px);
+  font-weight: 900;
+}
+
+.score-strip--primary .match-scoreboard__score {
+  min-width: 104px;
+}
+
+.score-strip--primary .match-scoreboard__number {
+  font-size: clamp(27px, 2.7vw, 34px);
+}
+
+#hud-meta {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 9px;
+  border: 1px solid rgba(213, 170, 85, .26);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .27);
+  color: #d8c9ae;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ── Category, duel cards, verdict and final action ─────────────────────── */
+
+#attribute-picker .attr-btn.is-selected,
+#attribute-picker .attr-btn[aria-pressed='true'] {
+  border-color: var(--accent-color-light) !important;
+  box-shadow: 0 0 0 3px rgba(239, 212, 144, .16), 0 12px 28px rgba(0,0,0,.42) !important;
+}
+
+#duel .duel-slot__who {
+  min-height: 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 9px;
+  border: 1px solid rgba(239, 212, 144, .3);
+  border-radius: 999px;
+  background: rgba(9, 8, 7, .72);
+  color: #fff7df;
+  font-weight: 900;
+}
+
+#pub.is-battle-active #duel .stat.active {
+  outline: 3px solid rgba(239, 212, 144, .72);
+  outline-offset: -2px;
+  background: linear-gradient(90deg, rgba(239, 212, 144, .64), rgba(213, 170, 85, .36));
+  box-shadow: 0 0 20px rgba(239, 212, 144, .28);
+}
+
+#verdict:not(:empty) {
+  width: min(720px, 100%);
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 14px;
+  background: rgba(10, 9, 8, .84);
+  box-shadow: 0 9px 24px rgba(0,0,0,.4);
+}
+
+#verdict.win { border-color: rgba(123, 210, 141, .65); }
+#verdict.lose { border-color: rgba(224, 128, 128, .65); }
+#verdict.tie { border-color: rgba(226, 200, 121, .65); }
+
+#attribute-picker:has(.next-round-button) {
+  width: min(720px, 100%);
+  display: flex;
+  justify-content: center;
+}
+
+#attribute-picker .next-round-button {
+  width: min(440px, 100%);
+  min-height: 56px;
+  border: 2px solid var(--accent-color-light);
+  border-radius: 15px;
+  background: linear-gradient(180deg, #efd490, #c99c42);
+  color: #21150e;
+  font-size: clamp(16px, 2vw, 21px);
+  font-weight: 950;
+  letter-spacing: .02em;
+  box-shadow: 0 11px 28px rgba(0, 0, 0, .48), 0 0 24px rgba(213, 170, 85, .2);
+}
+
+#attribute-picker .next-round-button:hover,
+#attribute-picker .next-round-button:focus-visible {
+  filter: brightness(1.07);
+  transform: translateY(-2px);
+}
+
+/* ── Battle view keeps context visible without stealing card space ──────── */
+
+#pub.is-duel-focus .match-context {
+  width: min(850px, 100%);
+  gap: 6px;
+}
+
+#pub.is-duel-focus .match-context__item {
+  min-height: 32px;
+  padding-block: 4px;
+}
+
+#pub.is-duel-focus .match-context__label {
+  font-size: 8px;
+}
+
+#pub.is-duel-focus .match-context__value {
+  font-size: clamp(11px, 1vw, 13px);
+}
+
+#pub.is-duel-focus .next-action-panel {
+  padding-block: 7px;
+}
+
+/* ── Responsive hierarchy ───────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .match-context {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .match-context__item--category {
+    grid-column: 1 / -1;
+  }
+
+  .match-context__item {
+    min-height: 34px;
+    padding: 5px 8px;
+  }
+
+  .match-context__value {
+    font-size: 12px;
+  }
+
+  .next-action-panel {
+    width: 100%;
+    padding: 9px 11px;
+  }
+
+  .score-strip--primary .match-scoreboard__score {
+    min-width: 88px;
+  }
+}
+
+@media (max-width: 620px) {
+  .match-context {
+    padding-inline: 1px;
+  }
+
+  .match-context__item {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    align-content: center;
+  }
+
+  .match-context__label,
+  .match-context__value {
+    text-align: center;
+  }
+
+  .match-context__label {
+    font-size: 7px;
+  }
+
+  .match-context__value {
+    font-size: 11px;
+  }
+
+  .next-action-panel {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .next-action-panel__step {
+    justify-self: center;
+    min-height: 24px;
+    padding: 4px 8px;
+    font-size: 8px;
+  }
+
+  .next-action-panel__title {
+    font-size: clamp(15px, 5vw, 19px);
+  }
+
+  .next-action-panel__detail {
+    font-size: 10px;
+    white-space: normal;
+  }
+
+  #verdict:not(:empty) {
+    padding: 8px 10px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+  .match-context {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .match-context__item--category {
+    grid-column: auto;
+  }
+
+  .match-context__item {
+    min-height: 27px;
+    padding: 3px 6px;
+  }
+
+  .match-context__label {
+    display: none;
+  }
+
+  .match-context__value {
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .next-action-panel {
+    min-height: 30px;
+    grid-template-columns: max-content minmax(0, 1fr);
+    padding: 4px 8px;
+  }
+
+  .next-action-panel__step {
+    min-height: 22px;
+    padding: 3px 7px;
+  }
+
+  .next-action-panel__title {
+    font-size: 14px;
+  }
+
+  .next-action-panel__detail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #attribute-picker .next-round-button:hover,
+  #attribute-picker .next-round-button:focus-visible {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .match-context__item,
+  .next-action-panel,
+  #verdict:not(:empty),
+  #attribute-picker .next-round-button {
+    border-color: ButtonText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+    forced-color-adjust: auto;
+  }
+}

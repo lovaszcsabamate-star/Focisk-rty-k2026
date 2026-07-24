@@ -1,5 +1,6 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v67
-const PWA_CACHE = 'fociskartyak-2026-v68';
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v68
+// freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
+const PWA_CACHE = 'fociskartyak-2026-v69';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -19,6 +20,7 @@ const PWA_SHELL = [
   './css/phase-refinements.css',
   './css/visual-system.css',
   './css/legal-ui.css',
+  './css/visual-hierarchy.css',
   './js/app/configuration.js',
   './js/services/storage-service.js',
   './js/services/asset-service.js',
@@ -67,6 +69,7 @@ const PWA_SHELL = [
   './js/focus-experience.js',
   './js/visual-settings-persistence.js',
   './js/visual-system.js',
+  './js/visual-hierarchy.js',
   './js/legal-ui.js',
   './js/main.js',
   './data/databases/registry.json',
@@ -180,8 +183,5 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  const freshCodeOrData = ['script', 'style', 'worker', 'manifest'].includes(request.destination)
-    || url.pathname.endsWith('.json');
-
-  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request));
+  event.respondWith(cacheFirstWithRefresh(request));
 });

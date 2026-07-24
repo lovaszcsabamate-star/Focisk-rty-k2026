@@ -18,6 +18,7 @@ export const UI_ENHANCEMENT_MODULES = Object.freeze([
   '../focus-experience.js',
   '../visual-settings-persistence.js',
   '../visual-system.js',
+  '../visual-hierarchy.js',
   '../legal-ui.js',
 ]);
 
