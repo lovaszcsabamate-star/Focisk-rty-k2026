@@ -20,7 +20,7 @@ assert.equal(FirstLayer.prototype.renderCard, baseRenderCard, 'az alapmet√≥dus √
 UI.prototype.testFirstLayer = function testFirstLayer() { return 'first'; };
 const firstRecord = commitUiEnhancementLayer('test/first-layer');
 assert.deepEqual(firstRecord.methods, ['testFirstLayer']);
-assert.equal(new UI().testFirstLayer(), 'first');
+assert.equal(Object.create(UI.prototype).testFirstLayer(), 'first');
 
 const CommittedUI = UI;
 const SecondLayer = beginUiEnhancementLayer('test/second-layer');
@@ -28,7 +28,7 @@ assert.equal(Object.getPrototypeOf(SecondLayer.prototype), CommittedUI.prototype
 UI.prototype.testSecondLayer = function testSecondLayer() { return `${this.testFirstLayer()}-second`; };
 const secondRecord = commitUiEnhancementLayer('test/second-layer');
 assert.deepEqual(secondRecord.methods, ['testSecondLayer']);
-assert.equal(new UI().testSecondLayer(), 'first-second');
+assert.equal(Object.create(UI.prototype).testSecondLayer(), 'first-second');
 assert.equal(Object.prototype.hasOwnProperty.call(UI.prototype, 'testFirstLayer'), false);
 assert.equal(Object.prototype.hasOwnProperty.call(UI.prototype, 'testSecondLayer'), true);
 
