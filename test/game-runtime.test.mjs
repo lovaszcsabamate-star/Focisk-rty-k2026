@@ -45,12 +45,26 @@ assert.equal(runtime.game.phase, PHASE.REVEAL);
 
 runtime.advance();
 assert.equal(runtime.game.round, 2);
-assert.equal(runtime.game.chooser, AI);
-const aiChoice = runtime.chooseAiAttribute();
-assert.ok(runtime.availableAttributeKeys || aiChoice.attribute);
-assert.equal(runtime.game.phase, PHASE.CHOOSE_CARD);
-const humanResponse = runtime.game.availableCards(HUMAN, runtime.game.attribute)[0];
-const secondResult = runtime.playHumanCard(humanResponse.id);
+assert.equal(
+  runtime.game.chooser,
+  firstResult.winner === 'tie' ? HUMAN : firstResult.winner,
+  'Klasszikus módban a kör győztese marad a kategóriaválasztó.',
+);
+
+let secondResult;
+if (runtime.game.chooser === AI) {
+  const aiChoice = runtime.chooseAiAttribute();
+  assert.ok(runtime.availableAttributeKeys || aiChoice.attribute);
+  assert.equal(runtime.game.phase, PHASE.CHOOSE_CARD);
+  const humanResponse = runtime.game.availableCards(HUMAN, runtime.game.attribute)[0];
+  secondResult = runtime.playHumanCard(humanResponse.id);
+} else {
+  const secondAttribute = runtime.availableAttributeKeys()[0];
+  runtime.selectHumanAttribute(secondAttribute);
+  const secondChooserCard = runtime.game.availableCards(HUMAN, secondAttribute)[0];
+  runtime.commitHumanChooserCard(secondChooserCard.id);
+  secondResult = runtime.playAiCard();
+}
 assert.equal(secondResult.round, 2);
 assert.equal(runtime.game.phase, PHASE.REVEAL);
 
@@ -64,6 +78,7 @@ assert.deepEqual(restored.toSavePayload({ roundsViewed: 2 }).uxStats, { roundsVi
 const penalty = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
 state = penalty.start(GAME_MODE.PENALTIES, 'easy');
 assert.equal(state.mode, GAME_MODE.PENALTIES);
+assert.equal(state.chooser, HUMAN);
 assert.equal(penalty.game.teams[HUMAN].length, 11);
 assert.equal(penalty.game.teams[AI].length, 11);
 const penaltyAttribute = penalty.availableAttributeKeys()[0];
@@ -74,7 +89,12 @@ assert.equal(penaltyResult.round, 1);
 if (!penalty.game.isOver) {
   const advanced = penalty.advance();
   assert.equal(typeof advanced.reshuffled, 'boolean');
+  assert.equal(penalty.game.chooser, AI, 'Büntetőpárbajban a felek felváltva választanak.');
 }
+
+const aiStartingPenalty = new GameRuntime({ players, rng: () => 0.999, aiFactory: deterministicAiFactory });
+state = aiStartingPenalty.start(GAME_MODE.PENALTIES, 'easy');
+assert.equal(state.chooser, AI, 'Büntetőpárbajban a gép is kezdhet véletlenszerűen.');
 
 runtime.reset();
 assert.equal(runtime.game, null);
