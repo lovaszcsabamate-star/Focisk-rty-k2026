@@ -38,12 +38,19 @@ const instrumentation = `<script>
     localStorage.setItem('fociskartyak:player-name:v1', 'Csabi');
     localStorage.removeItem('fociskartyak:saved-match:v2');
   } catch {}
-  /* Deterministic human first turn so the inspector can be tested as a real
-     playable-card selector in both game modes. */
   Math.random = () => 0.1;
-  window.__runtimeSmoke = { errors: [], remoteRequests: [], consoleErrors: [] };
+  window.__runtimeSmoke = { errors: [], remoteRequests: [], consoleErrors: [], categoryClicks: [] };
   window.addEventListener('error', event => window.__runtimeSmoke.errors.push(String(event.error?.stack || event.message || 'window error')));
   window.addEventListener('unhandledrejection', event => window.__runtimeSmoke.errors.push(String(event.reason?.stack || event.reason || 'unhandled rejection')));
+  document.addEventListener('click', event => {
+    const button = event.target.closest?.('#attribute-picker .attr-btn');
+    if (!button) return;
+    window.__runtimeSmoke.categoryClicks.push({
+      text: button.textContent,
+      disabled: button.disabled,
+      attribute: button.dataset.attribute || null,
+    });
+  }, true);
   const nativeError = console.error.bind(console);
   console.error = (...args) => {
     window.__runtimeSmoke.consoleErrors.push(args.map(value => String(value?.stack || value)).join(' '));
@@ -75,15 +82,22 @@ for (const mode of MODES) {
       doc.querySelector('${mode.button}')?.click();
 
       setTimeout(() => {
-        /* Penalty mode has a short intro overlay; classic mode simply ignores this. */
         doc.querySelector('#kickoff-btn')?.click();
 
         setTimeout(() => {
           const category = doc.querySelector('#attribute-picker .attr-btn:not(:disabled)');
+          const categoryBefore = category ? {
+            text: category.textContent,
+            disabled: category.disabled,
+            className: category.className,
+            attribute: category.dataset.attribute || null,
+          } : null;
+          const promptBeforeCategory = doc.querySelector('#prompt')?.textContent || '';
+          const pickerBeforeCategory = doc.querySelector('#attribute-picker')?.innerHTML || '';
           category?.click();
 
           setTimeout(() => {
-            const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [] };
+            const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [], categoryClicks: [] };
             const pub = doc.querySelector('#pub');
             const scoreText = doc.querySelector('#hud-scores')?.textContent || '';
             const visibleCards = [...doc.querySelectorAll('#player-hand .card, #duel .card')].filter(card => card.getBoundingClientRect().width > 0).length;
@@ -93,6 +107,13 @@ for (const mode of MODES) {
             const pileInspectorCount = doc.querySelectorAll('#player-pile .pile__inspect').length;
             const cardInspectorCount = doc.querySelectorAll('#player-hand .card__inspect').length;
             const pileInspector = doc.querySelector('#player-pile .pile__inspect');
+            const categoryAfter = category ? {
+              disabled: category.disabled,
+              connected: category.isConnected,
+              className: category.className,
+            } : null;
+            const promptAfterCategory = doc.querySelector('#prompt')?.textContent || '';
+            const pickerAfterCategory = doc.querySelector('#attribute-picker')?.innerHTML || '';
             const handCardsBeforeInspector = [...doc.querySelectorAll('#player-hand .card')].map(card => ({
               id: card.dataset.cardId || '',
               classes: card.className,
@@ -158,6 +179,15 @@ for (const mode of MODES) {
                     inspectorCardChanged: Boolean(firstInspectedId && nextInspectedId && firstInspectedId !== nextInspectedId),
                     largeCardPlayable,
                     battleStartedFromLargeCard,
+                    categoryDiagnostics: {
+                      categoryBefore,
+                      categoryAfter,
+                      categoryClicks: smoke.categoryClicks,
+                      promptBeforeCategory,
+                      promptAfterCategory,
+                      pickerBeforeCategory,
+                      pickerAfterCategory,
+                    },
                     inspectorDiagnostics: {
                       handCardsBeforeInspector,
                       firstInspectedId,
@@ -216,6 +246,8 @@ for (const mode of MODES) {
   if (!result.modeClassPresent) modeFailures.push('a kiválasztott játékmód osztálya nem aktív');
   if (result.visibleCards < result.minimumCards) modeFailures.push(`csak ${result.visibleCards} kártya jelent meg a várt ${result.minimumCards} helyett`);
   if (!result.savedNameVisible) modeFailures.push('a mentett játékosnév nem jelent meg az eredményjelzőn');
+  if (!result.categoryDiagnostics.categoryBefore) modeFailures.push('nem található aktív kategóriagomb');
+  if (!result.categoryDiagnostics.categoryClicks.length) modeFailures.push('a kategóriagomb kattintási eseménye nem futott le');
   if (!result.singlePileInspector) modeFailures.push(`nem pontosan egy kézszintű nagyító jelent meg (${result.pileInspectorCount})`);
   if (!result.noCardInspectors) modeFailures.push(`kártyánkénti nagyítók maradtak (${result.cardInspectorCount})`);
   if (!result.inspectorOpened || !result.backdropOpened) modeFailures.push('a nagyított kártyanézet vagy a sötét háttér nem nyílt meg');
@@ -228,7 +260,7 @@ for (const mode of MODES) {
   if (result.remoteRequests.length) modeFailures.push(`külső hálózati kérések: ${result.remoteRequests.join(', ')}`);
   failures.push(...modeFailures.map(message => `${mode.id}: ${message}.`));
   results.push({ ...result, failures: modeFailures });
-  console.log(`✓ ${mode.id}: egy nagyító, stabil háttér, lapozás és nagyított lapról indított párbaj`);
+  console.log(`✓ ${mode.id}: kategóriaválasztás, egy nagyító, stabil háttér és lapozás ellenőrizve`);
 }
 
 if (results.length === MODES.length && results.every(result => !result.failure)) {
