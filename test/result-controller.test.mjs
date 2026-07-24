@@ -108,11 +108,11 @@ assert.throws(
   error => error instanceof ResultControllerError && error.code === 'INVALID_UI',
 );
 assert.throws(
-  () => createResultController({ ui, getState: null, actions, clearSaved() {} }),
+  () => createResultController({ ui, actions, getState: null }),
   error => error instanceof ResultControllerError && error.code === 'INVALID_STATE_ADAPTER',
 );
 assert.throws(
-  () => createResultController({ ui, getState: () => state, actions: {}, clearSaved() {} }),
+  () => createResultController({ ui, getState: () => state, actions: {} }),
   error => error instanceof ResultControllerError && error.code === 'INVALID_ACTIONS',
 );
 assert.throws(
@@ -154,6 +154,6 @@ assert.ok(
   'az eredményvezérlő a Session belépési pont előtt szerepel',
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/result-controller\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v65/);
+assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
 console.log('✓ Végeredmény-vezérlő és Session-integráció: rendben');
