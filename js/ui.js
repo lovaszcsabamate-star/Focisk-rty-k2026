@@ -84,7 +84,11 @@ class UIBase {
   _renderInspector() {
     const { hand, index, opts } = this.inspector;
     const card = hand[index];
-    const canPlay = opts.playable && (!opts.attribute || hasAttributeData(card, opts.attribute));
+    const canPlayFromContext = opts.playable && (!opts.attribute || hasAttributeData(card, opts.attribute));
+    const resolveDirectPlayCard = () => [...(this.dom.playerHand?.querySelectorAll?.(
+      '.card--direct-play:not(.card--unavailable):not(.card--dim)',
+    ) ?? [])].find(node => String(node.dataset.cardId) === String(card?.id));
+    const canPlay = Boolean(canPlayFromContext || resolveDirectPlayCard());
     $('#inspector')?.remove();
 
     const layer = el('div');
@@ -116,10 +120,10 @@ class UIBase {
     const actions = el('div', 'inspector__actions');
     let play = null;
     if (opts.playable) {
-      play = el('button', 'btn', canPlay ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
-      play.disabled = !canPlay;
+      play = el('button', 'btn', canPlayFromContext ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
+      play.disabled = !canPlayFromContext;
       play.addEventListener('click', () => {
-        if (!canPlay || !this.inspector) return;
+        if (!canPlayFromContext || !this.inspector) return;
         const chosen = hand[this.inspector.index];
         this.closeInspector();
         opts.onPlay(chosen);
@@ -138,7 +142,7 @@ class UIBase {
         : '← → kártyaváltás · Esc bezárás',
     ));
 
-    if (canPlay && play) {
+    if (canPlay) {
       largeCard.classList.add('inspector__playable-card');
       largeCard.tabIndex = 0;
       largeCard.setAttribute('role', 'button');
@@ -150,9 +154,18 @@ class UIBase {
         event.preventDefault();
         event.stopPropagation();
         event.stopImmediatePropagation();
-        if (this._inspectorSwitching || play.disabled || !this.inspector) return;
+        if (this._inspectorSwitching || !this.inspector) return;
         largeCard.classList.add('is-committing');
-        play.click();
+
+        if (play && !play.disabled) {
+          play.click();
+          return;
+        }
+
+        const directPlayCard = resolveDirectPlayCard();
+        if (!directPlayCard) return;
+        this.closeInspector();
+        queueMicrotask(() => directPlayCard.click());
       };
       largeCard.addEventListener('click', commitLargeCard);
       largeCard.addEventListener('keydown', commitLargeCard);
