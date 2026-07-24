@@ -3,12 +3,6 @@
 import { DIFFICULTY } from '../ai.js';
 import { GAME_DECK_SIZE } from '../engine.js';
 import { el } from '../ui.js';
-import {
-  clearSavedMatch,
-  onboardingWasCompleted,
-  readSavedMatch,
-  setOnboardingCompleted,
-} from '../mobile-experience.js';
 
 export class MenuControllerError extends Error {
   constructor(code, message) {
@@ -63,10 +57,10 @@ export function createMenuController({
   elementFactory = el,
   difficultyRegistry = DIFFICULTY,
   gameDeckSize = GAME_DECK_SIZE,
-  readSaved = readSavedMatch,
-  clearSaved = clearSavedMatch,
-  onboardingCompleted = onboardingWasCompleted,
-  setOnboardingCompletedValue = setOnboardingCompleted,
+  readSaved,
+  clearSaved,
+  onboardingCompleted,
+  setOnboardingCompletedValue,
   focusFrame = menuControllerDefaultFocusFrame,
   schedule = menuControllerDefaultSchedule,
 } = {}) {
@@ -79,6 +73,10 @@ export function createMenuController({
   if (typeof elementFactory !== 'function') {
     throw new MenuControllerError('INVALID_ELEMENT_FACTORY', 'A menüvezérlő elemgyártó függvénye kötelező.');
   }
+  const persistence = { readSaved, clearSaved, onboardingCompleted, setOnboardingCompletedValue };
+  Object.keys(persistence).forEach(method => (
+    menuControllerAssertMethod(persistence, method, 'INVALID_PERSISTENCE_ADAPTER')
+  ));
 
   let overlayReturn = null;
   const state = () => getState() ?? {};
