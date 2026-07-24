@@ -1,0 +1,34 @@
+name: Build downloadable package
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forrás letöltése
+        uses: actions/checkout@v4
+
+      - name: Letölthető csomag elkészítése
+        shell: bash
+        run: |
+          mkdir -p dist/project
+          cp Fociskartyak2026.html dist/Fociskartyak2026-legujabb.html
+          rsync -a --exclude='.git' --exclude='dist' ./ dist/project/
+          cd dist/project
+          zip -qr ../Fociskartyak2026-teljes-legujabb.zip .
+
+      - name: Csomag feltöltése
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-letoltes
+          path: |
+            dist/Fociskartyak2026-legujabb.html
+            dist/Fociskartyak2026-teljes-legujabb.zip
+          if-no-files-found: error
+          retention-days: 30
