@@ -186,6 +186,6 @@ assert.ok(
   'a körvezérlő a Session előtt szerepel',
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/round-controller\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v66/);
+assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
 console.log('✓ Körvezérlő alkalmazási szolgáltatás és Session-integráció: rendben');

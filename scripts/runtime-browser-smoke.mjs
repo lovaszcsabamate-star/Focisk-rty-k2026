@@ -38,12 +38,19 @@ const instrumentation = `<script>
     localStorage.setItem('fociskartyak:player-name:v1', 'Csabi');
     localStorage.removeItem('fociskartyak:saved-match:v2');
   } catch {}
-  /* Deterministic human first turn so the inspector can be tested as a real
-     playable-card selector in both game modes. */
   Math.random = () => 0.1;
-  window.__runtimeSmoke = { errors: [], remoteRequests: [], consoleErrors: [] };
+  window.__runtimeSmoke = { errors: [], remoteRequests: [], consoleErrors: [], categoryClicks: [] };
   window.addEventListener('error', event => window.__runtimeSmoke.errors.push(String(event.error?.stack || event.message || 'window error')));
   window.addEventListener('unhandledrejection', event => window.__runtimeSmoke.errors.push(String(event.reason?.stack || event.reason || 'unhandled rejection')));
+  document.addEventListener('click', event => {
+    const button = event.target.closest?.('#attribute-picker .attr-btn');
+    if (!button) return;
+    window.__runtimeSmoke.categoryClicks.push({
+      text: button.textContent,
+      disabled: button.disabled,
+      attribute: button.dataset.attribute || null,
+    });
+  }, true);
   const nativeError = console.error.bind(console);
   console.error = (...args) => {
     window.__runtimeSmoke.consoleErrors.push(args.map(value => String(value?.stack || value)).join(' '));
@@ -52,7 +59,8 @@ const instrumentation = `<script>
   const nativeFetch = window.fetch?.bind(window);
   if (nativeFetch) window.fetch = (...args) => {
     const value = typeof args[0] === 'string' ? args[0] : args[0]?.url;
-    if (/^https?:\\/\\//i.test(String(value || ''))) window.__runtimeSmoke.remoteRequests.push(String(value));
+    const url = String(value || '');
+    if (url.startsWith('http://') || url.startsWith('https://')) window.__runtimeSmoke.remoteRequests.push(url);
     return nativeFetch(...args);
   };
 })();
@@ -74,15 +82,25 @@ for (const mode of MODES) {
       doc.querySelector('${mode.button}')?.click();
 
       setTimeout(() => {
-        /* Penalty mode has a short intro overlay; classic mode simply ignores this. */
         doc.querySelector('#kickoff-btn')?.click();
 
         setTimeout(() => {
           const category = doc.querySelector('#attribute-picker .attr-btn:not(:disabled)');
+          const categoryBefore = category ? {
+            text: category.textContent,
+            disabled: category.disabled,
+            className: category.className,
+            attribute: category.dataset.attribute || null,
+          } : null;
+          const promptBeforeCategory = doc.querySelector('#prompt')?.textContent || '';
+          const pickerBeforeCategory = doc.querySelector('#attribute-picker')?.innerHTML || '';
           category?.click();
+          const categoryNext = doc.querySelector('#attribute-picker .category-picker__next:not(:disabled)');
+          const categoryNextFound = Boolean(categoryNext);
+          categoryNext?.click();
 
           setTimeout(() => {
-            const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [] };
+            const smoke = win.__runtimeSmoke || { errors: ['hiányzó instrumentáció'], remoteRequests: [], consoleErrors: [], categoryClicks: [] };
             const pub = doc.querySelector('#pub');
             const scoreText = doc.querySelector('#hud-scores')?.textContent || '';
             const visibleCards = [...doc.querySelectorAll('#player-hand .card, #duel .card')].filter(card => card.getBoundingClientRect().width > 0).length;
@@ -92,6 +110,19 @@ for (const mode of MODES) {
             const pileInspectorCount = doc.querySelectorAll('#player-pile .pile__inspect').length;
             const cardInspectorCount = doc.querySelectorAll('#player-hand .card__inspect').length;
             const pileInspector = doc.querySelector('#player-pile .pile__inspect');
+            const categoryAfter = category ? {
+              disabled: category.disabled,
+              connected: category.isConnected,
+              className: category.className,
+            } : null;
+            const promptAfterCategory = doc.querySelector('#prompt')?.textContent || '';
+            const pickerAfterCategory = doc.querySelector('#attribute-picker')?.innerHTML || '';
+            const handCardsBeforeInspector = [...doc.querySelectorAll('#player-hand .card')].map(card => ({
+              id: card.dataset.cardId || '',
+              classes: card.className,
+              role: card.getAttribute('role'),
+              ariaDisabled: card.getAttribute('aria-disabled'),
+            }));
             pileInspector?.click();
 
             setTimeout(() => {
@@ -100,12 +131,19 @@ for (const mode of MODES) {
               const firstInspectedId = inspectorBefore?.querySelector('.card--large')?.dataset.cardId || '';
               const largeBefore = inspectorBefore?.querySelector('.card--large');
               const largeCardPlayable = Boolean(largeBefore?.classList.contains('inspector__playable-card'));
+              const playButtonBefore = inspectorBefore?.querySelector('.inspector__actions .btn:not(.btn--ghost)');
+              const matchingHandBefore = [...doc.querySelectorAll('#player-hand .card')]
+                .find(card => card.dataset.cardId === firstInspectedId);
               inspectorBefore?.querySelector('.inspector__nav:last-child')?.click();
 
               setTimeout(() => {
                 const inspectorAfter = doc.querySelector('#inspector');
                 const backdropAfter = doc.querySelector('#inspector-stable-backdrop');
                 const nextInspectedId = inspectorAfter?.querySelector('.card--large')?.dataset.cardId || '';
+                const largeAfter = inspectorAfter?.querySelector('.card--large');
+                const matchingHandAfter = [...doc.querySelectorAll('#player-hand .card')]
+                  .find(card => card.dataset.cardId === nextInspectedId);
+                const playButtonAfter = inspectorAfter?.querySelector('.inspector__actions .btn:not(.btn--ghost)');
                 const backdropPersisted = Boolean(
                   backdropBefore
                   && backdropBefore === backdropAfter
@@ -144,6 +182,29 @@ for (const mode of MODES) {
                     inspectorCardChanged: Boolean(firstInspectedId && nextInspectedId && firstInspectedId !== nextInspectedId),
                     largeCardPlayable,
                     battleStartedFromLargeCard,
+                    categoryDiagnostics: {
+                      categoryBefore,
+                      categoryAfter,
+                      categoryClicks: smoke.categoryClicks,
+                      categoryNextFound,
+                      promptBeforeCategory,
+                      promptAfterCategory,
+                      pickerBeforeCategory,
+                      pickerAfterCategory,
+                    },
+                    inspectorDiagnostics: {
+                      handCardsBeforeInspector,
+                      firstInspectedId,
+                      nextInspectedId,
+                      largeBeforeClasses: largeBefore?.className || '',
+                      largeAfterClasses: largeAfter?.className || '',
+                      largeBeforeBound: largeBefore?.dataset.inspectorPlayBound || '',
+                      largeAfterBound: largeAfter?.dataset.inspectorPlayBound || '',
+                      playButtonBefore: playButtonBefore ? { disabled: playButtonBefore.disabled, text: playButtonBefore.textContent } : null,
+                      playButtonAfter: playButtonAfter ? { disabled: playButtonAfter.disabled, text: playButtonAfter.textContent } : null,
+                      matchingHandBeforeClasses: matchingHandBefore?.className || '',
+                      matchingHandAfterClasses: matchingHandAfter?.className || '',
+                    },
                     errors: smoke.errors,
                     consoleErrors: smoke.consoleErrors,
                     remoteRequests: smoke.remoteRequests,
@@ -189,6 +250,9 @@ for (const mode of MODES) {
   if (!result.modeClassPresent) modeFailures.push('a kiválasztott játékmód osztálya nem aktív');
   if (result.visibleCards < result.minimumCards) modeFailures.push(`csak ${result.visibleCards} kártya jelent meg a várt ${result.minimumCards} helyett`);
   if (!result.savedNameVisible) modeFailures.push('a mentett játékosnév nem jelent meg az eredményjelzőn');
+  if (!result.categoryDiagnostics.categoryBefore) modeFailures.push('nem található aktív kategóriagomb');
+  if (!result.categoryDiagnostics.categoryClicks.length) modeFailures.push('a kategóriagomb kattintási eseménye nem futott le');
+  if (!result.categoryDiagnostics.categoryNextFound) modeFailures.push('a kategóriakijelölés után nem jelent meg az aktív Tovább gomb');
   if (!result.singlePileInspector) modeFailures.push(`nem pontosan egy kézszintű nagyító jelent meg (${result.pileInspectorCount})`);
   if (!result.noCardInspectors) modeFailures.push(`kártyánkénti nagyítók maradtak (${result.cardInspectorCount})`);
   if (!result.inspectorOpened || !result.backdropOpened) modeFailures.push('a nagyított kártyanézet vagy a sötét háttér nem nyílt meg');
@@ -201,7 +265,7 @@ for (const mode of MODES) {
   if (result.remoteRequests.length) modeFailures.push(`külső hálózati kérések: ${result.remoteRequests.join(', ')}`);
   failures.push(...modeFailures.map(message => `${mode.id}: ${message}.`));
   results.push({ ...result, failures: modeFailures });
-  console.log(`✓ ${mode.id}: egy nagyító, stabil háttér, lapozás és nagyított lapról indított párbaj`);
+  console.log(`✓ ${mode.id}: kétlépcsős kategóriaválasztás, egy nagyító, stabil háttér és lapozás ellenőrizve`);
 }
 
 if (results.length === MODES.length && results.every(result => !result.failure)) {

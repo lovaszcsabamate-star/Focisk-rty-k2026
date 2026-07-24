@@ -9,7 +9,7 @@ import { renderScoreboardComponent } from './ui/scoreboard-component.js';
 
 export { $, ART, el };
 
-export class UI {
+class UIBase {
   constructor(handlers, settings = {}) {
     this.handlers = handlers;
     this.settings = { sounds: true, commentary: true, ...settings };
@@ -282,4 +282,71 @@ export class UI {
   }
 
   hideOverlay() { this.dom.overlay.hidden = true; }
+}
+
+export let UI = UIBase;
+
+const uiEnhancementLayers = [];
+let pendingUiEnhancementLayer = null;
+
+const normaliseLayerName = name => String(name ?? '').trim();
+const ownLayerMethods = layer => Reflect.ownKeys(layer.prototype)
+  .filter(key => key !== 'constructor')
+  .map(key => String(key));
+
+/**
+ * Start a new UI class layer before loading one enhancement module.
+ * Every legacy override is therefore attached to its own subclass instead of
+ * repeatedly mutating the same shared prototype object.
+ */
+export function beginUiEnhancementLayer(name) {
+  const layerName = normaliseLayerName(name);
+  if (!layerName) throw new TypeError('Az UI-réteg neve kötelező.');
+  if (pendingUiEnhancementLayer) {
+    throw new Error(`Az előző UI-réteg még nincs lezárva: ${pendingUiEnhancementLayer.name}`);
+  }
+
+  const ParentUI = UI;
+  const LayerUI = class extends ParentUI {};
+  Object.defineProperty(LayerUI, 'name', {
+    value: `UI_${layerName.replace(/[^a-z0-9]+/gi, '_')}`,
+    configurable: true,
+  });
+
+  UI = LayerUI;
+  pendingUiEnhancementLayer = Object.freeze({ name: layerName, ParentUI, LayerUI });
+  return LayerUI;
+}
+
+/** Commit the currently active UI layer after its module has loaded. */
+export function commitUiEnhancementLayer(name) {
+  const layerName = normaliseLayerName(name);
+  if (!pendingUiEnhancementLayer || pendingUiEnhancementLayer.name !== layerName) {
+    throw new Error(`Nincs lezárható UI-réteg: ${layerName || 'ismeretlen'}`);
+  }
+
+  const record = Object.freeze({
+    name: layerName,
+    className: pendingUiEnhancementLayer.LayerUI.name,
+    methods: Object.freeze(ownLayerMethods(pendingUiEnhancementLayer.LayerUI)),
+  });
+  uiEnhancementLayers.push(record);
+  pendingUiEnhancementLayer = null;
+  return record;
+}
+
+/** Roll back only the layer whose module failed during loading. */
+export function rollbackUiEnhancementLayer(name) {
+  const layerName = normaliseLayerName(name);
+  if (!pendingUiEnhancementLayer || pendingUiEnhancementLayer.name !== layerName) return false;
+  UI = pendingUiEnhancementLayer.ParentUI;
+  pendingUiEnhancementLayer = null;
+  return true;
+}
+
+export function getUiEnhancementLayers() {
+  return Object.freeze(uiEnhancementLayers.map(layer => Object.freeze({
+    ...layer,
+    methods: Object.freeze([...layer.methods]),
+  })));
 }

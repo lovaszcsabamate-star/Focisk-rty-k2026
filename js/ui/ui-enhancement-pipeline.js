@@ -1,5 +1,11 @@
 /** Az egymásra épülő UI-, mobil- és accessibility-rétegek explicit betöltési pipeline-ja. */
 
+import {
+  beginUiEnhancementLayer,
+  commitUiEnhancementLayer,
+  rollbackUiEnhancementLayer,
+} from '../ui.js';
+
 export const UI_ENHANCEMENT_MODULES = Object.freeze([
   '../ux.js',
   '../ux-fixes.js',
@@ -23,6 +29,7 @@ export class UiEnhancementPipelineError extends Error {
     this.name = 'UiEnhancementPipelineError';
     this.code = code;
     this.moduleSpecifier = options.moduleSpecifier ?? null;
+    this.stage = options.stage ?? null;
   }
 }
 
@@ -37,30 +44,46 @@ export function createUiEnhancementPipeline({
   importModule = uiEnhancementDefaultImporter,
   isPreloaded = uiEnhancementDefaultPreloaded,
   markPreloaded = uiEnhancementDefaultMarkPreloaded,
+  beginLayer = beginUiEnhancementLayer,
+  commitLayer = commitUiEnhancementLayer,
+  rollbackLayer = rollbackUiEnhancementLayer,
 } = {}) {
   if (!Array.isArray(modules) || modules.some(specifier => typeof specifier !== 'string' || !specifier.trim())) {
     throw new UiEnhancementPipelineError('INVALID_MODULE_LIST', 'Az UI enhancement modulok listája érvénytelen.');
   }
-  if (typeof importModule !== 'function' || typeof isPreloaded !== 'function' || typeof markPreloaded !== 'function') {
+  if ([importModule, isPreloaded, markPreloaded, beginLayer, commitLayer, rollbackLayer]
+    .some(adapter => typeof adapter !== 'function')) {
     throw new UiEnhancementPipelineError('INVALID_ADAPTER', 'Az UI enhancement pipeline adapterei kötelező függvények.');
   }
 
   const orderedModules = Object.freeze([...modules]);
   let installPromise = null;
+  let installedCount = 0;
 
   const install = () => {
     if (isPreloaded()) return Promise.resolve(orderedModules);
     if (installPromise) return installPromise;
 
     installPromise = (async () => {
-      for (const moduleSpecifier of orderedModules) {
+      while (installedCount < orderedModules.length) {
+        const moduleSpecifier = orderedModules[installedCount];
+        let stage = 'begin';
+        let layerStarted = false;
         try {
+          beginLayer(moduleSpecifier);
+          layerStarted = true;
+          stage = 'import';
           await importModule(moduleSpecifier);
+          stage = 'commit';
+          commitLayer(moduleSpecifier);
+          layerStarted = false;
+          installedCount += 1;
         } catch (cause) {
+          if (layerStarted) rollbackLayer(moduleSpecifier);
           throw new UiEnhancementPipelineError(
             'MODULE_LOAD_FAILED',
-            `Az UI enhancement modul nem tölthető be: ${moduleSpecifier}`,
-            { cause, moduleSpecifier },
+            `Az UI enhancement modul nem telepíthető: ${moduleSpecifier}`,
+            { cause, moduleSpecifier, stage },
           );
         }
       }
@@ -78,6 +101,7 @@ export function createUiEnhancementPipeline({
     modules: orderedModules,
     install,
     isInstalled: () => isPreloaded(),
+    installedCount: () => installedCount,
   });
 }
 

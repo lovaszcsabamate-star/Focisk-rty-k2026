@@ -27,6 +27,7 @@ assert.deepEqual(UI_ENHANCEMENT_MODULES, [
 assert.equal(UI_ENHANCEMENT_PRELOADED_FLAG, '__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__');
 
 const loaded = [];
+const layerEvents = [];
 let preloaded = false;
 let marked = 0;
 const pipeline = createUiEnhancementPipeline({
@@ -34,22 +35,33 @@ const pipeline = createUiEnhancementPipeline({
   importModule: async specifier => { loaded.push(specifier); },
   isPreloaded: () => preloaded,
   markPreloaded: () => { preloaded = true; marked += 1; },
+  beginLayer: specifier => { layerEvents.push(`begin:${specifier}`); },
+  commitLayer: specifier => { layerEvents.push(`commit:${specifier}`); },
+  rollbackLayer: specifier => { layerEvents.push(`rollback:${specifier}`); },
 });
 
 assert.equal(Object.isFrozen(pipeline), true);
 assert.equal(Object.isFrozen(pipeline.modules), true);
 assert.equal(pipeline.isInstalled(), false);
+assert.equal(pipeline.installedCount(), 0);
 const firstInstall = pipeline.install();
 const secondInstall = pipeline.install();
 assert.equal(firstInstall, secondInstall, 'a párhuzamos telepítési kérés ugyanazt a Promise-t kapja');
 assert.deepEqual(await firstInstall, ['first.js', 'second.js', 'third.js']);
 assert.deepEqual(loaded, ['first.js', 'second.js', 'third.js']);
+assert.deepEqual(layerEvents, [
+  'begin:first.js', 'commit:first.js',
+  'begin:second.js', 'commit:second.js',
+  'begin:third.js', 'commit:third.js',
+]);
+assert.equal(pipeline.installedCount(), 3);
 assert.equal(marked, 1);
 assert.equal(pipeline.isInstalled(), true);
 assert.deepEqual(await pipeline.install(), ['first.js', 'second.js', 'third.js']);
 assert.deepEqual(loaded, ['first.js', 'second.js', 'third.js'], 'a pipeline másodszor nem importálhat');
 
 let attempts = 0;
+const retryEvents = [];
 const retryPipeline = createUiEnhancementPipeline({
   modules: ['broken.js'],
   importModule: async () => {
@@ -58,15 +70,38 @@ const retryPipeline = createUiEnhancementPipeline({
   },
   isPreloaded: () => false,
   markPreloaded: () => {},
+  beginLayer: specifier => { retryEvents.push(`begin:${specifier}`); },
+  commitLayer: specifier => { retryEvents.push(`commit:${specifier}`); },
+  rollbackLayer: specifier => { retryEvents.push(`rollback:${specifier}`); },
 });
 await assert.rejects(
   retryPipeline.install(),
   error => error instanceof UiEnhancementPipelineError
     && error.code === 'MODULE_LOAD_FAILED'
-    && error.moduleSpecifier === 'broken.js',
+    && error.moduleSpecifier === 'broken.js'
+    && error.stage === 'import',
 );
+assert.equal(retryPipeline.installedCount(), 0);
 await retryPipeline.install();
-assert.equal(attempts, 2, 'hiba után újraindítható a pipeline');
+assert.equal(attempts, 2, 'hiba után csak a sikertelen modul indul újra');
+assert.equal(retryPipeline.installedCount(), 1);
+assert.deepEqual(retryEvents, [
+  'begin:broken.js', 'rollback:broken.js',
+  'begin:broken.js', 'commit:broken.js',
+]);
+
+const preloadedEvents = [];
+const preloadedPipeline = createUiEnhancementPipeline({
+  modules: ['embedded.js'],
+  importModule: async specifier => { preloadedEvents.push(`import:${specifier}`); },
+  isPreloaded: () => true,
+  markPreloaded: () => { preloadedEvents.push('mark'); },
+  beginLayer: specifier => { preloadedEvents.push(`begin:${specifier}`); },
+  commitLayer: specifier => { preloadedEvents.push(`commit:${specifier}`); },
+  rollbackLayer: specifier => { preloadedEvents.push(`rollback:${specifier}`); },
+});
+assert.deepEqual(await preloadedPipeline.install(), ['embedded.js']);
+assert.deepEqual(preloadedEvents, [], 'a standalone build saját rétegezése után a pipeline nem fut újra');
 
 assert.throws(
   () => createUiEnhancementPipeline({ modules: [''] }),
@@ -76,8 +111,13 @@ assert.throws(
   () => createUiEnhancementPipeline({ importModule: null }),
   error => error instanceof UiEnhancementPipelineError && error.code === 'INVALID_ADAPTER',
 );
+assert.throws(
+  () => createUiEnhancementPipeline({ beginLayer: null }),
+  error => error instanceof UiEnhancementPipelineError && error.code === 'INVALID_ADAPTER',
+);
 
 const pipelineSource = readSource('../js/ui/ui-enhancement-pipeline.js');
+const uiSource = readSource('../js/ui.js');
 const bootstrapSource = readSource('../js/bootstrap.js');
 const indexSource = readSource('../index.html');
 const buildSource = readSource('../scripts/build-standalone.mjs');
@@ -104,17 +144,25 @@ assert.doesNotMatch(indexSource, /js\/ui\/ui-enhancement-pipeline\.js/, 'a pipel
 assert.ok(
   buildSource.indexOf("'js/legal-ui.js'")
     < buildSource.indexOf("'js/ui/ui-enhancement-pipeline.js'"),
-  'a standalone buildben a régi enhancement modulok előbb futnak le',
+  'a standalone buildben a rétegezett enhancement modulok előbb futnak le',
 );
 assert.ok(
   buildSource.indexOf("'js/ui/ui-enhancement-pipeline.js'")
     < buildSource.indexOf("'js/main.js'"),
   'a standalone pipeline marker a Session előtt szerepel',
 );
+assert.match(buildSource, /const uiEnhancementFiles = new Set/);
+assert.match(buildSource, /beginUiEnhancementLayer\(\$\{layerName\}\)/);
+assert.match(buildSource, /commitUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__/);
 assert.match(serviceWorkerSource, /\.\/js\/ui\/ui-enhancement-pipeline\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v67/);
-assert.match(pipelineSource, /for \(const moduleSpecifier of orderedModules\)/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v68/);
+assert.match(pipelineSource, /beginLayer\(moduleSpecifier\)/);
+assert.match(pipelineSource, /commitLayer\(moduleSpecifier\)/);
+assert.match(pipelineSource, /rollbackLayer\(moduleSpecifier\)/);
 assert.doesNotMatch(pipelineSource, /UI\.prototype/);
+assert.match(uiSource, /class UIBase/);
+assert.match(uiSource, /export let UI = UIBase/);
+assert.match(uiSource, /class extends ParentUI/);
 
-console.log('✓ Explicit, idempotens és standalone-kompatibilis UI enhancement pipeline: rendben');
+console.log('✓ Explicit, rétegenként izolált és standalone-kompatibilis UI enhancement pipeline: rendben');
