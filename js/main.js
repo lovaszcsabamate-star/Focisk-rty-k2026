@@ -6,6 +6,7 @@ import { GameRuntime } from './game/game-runtime.js';
 import { TURN_DELAY, createTurnTimingService } from './services/turn-timing-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { createMenuController } from './app/menu-controller.js';
+import { createResultController } from './app/result-controller.js';
 import { UI, el } from './ui.js';
 import { getLine, getIdleChatter } from './banter.js';
 import { ATTRIBUTE_BY_KEY, attributeValue, loadPlayers } from './data/players.js';
@@ -75,6 +76,21 @@ class Session {
       clearSaved: clearSavedMatch,
       onboardingCompleted: onboardingWasCompleted,
       setOnboardingCompletedValue: setOnboardingCompleted,
+    });
+    this.results = createResultController({
+      ui: this.ui,
+      getState: () => ({
+        mode: this.mode,
+        difficulty: this.difficulty,
+        result: this.runtime.result(),
+      }),
+      actions: {
+        setBusy: value => { this.busy = value; },
+        start: (mode, difficulty) => this.start(mode, difficulty),
+        showTitleScreen: options => this.showTitleScreen(options),
+        showPanel: (panel, returnAction) => this._showPanel(panel, returnAction),
+      },
+      clearSaved: clearSavedMatch,
     });
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
@@ -425,42 +441,7 @@ class Session {
   }
 
   showGameOver() {
-    this.busy = true;
-    this.ui.setInteractionBusy(false);
-    clearSavedMatch();
-    const result = this.runtime.result();
-    const won = result.winner === HUMAN;
-    this.ui.say(getLine(won ? 'gameOverWin' : result.winner === AI ? 'gameOverLose' : 'gameOverTie'));
-    const panel = el('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
-
-    if (this.mode === 'penalties') {
-      const best = result.bestCategories.length
-        ? result.bestCategories.map(key => `${ATTRIBUTE_BY_KEY[key].icon} ${ATTRIBUTE_BY_KEY[key].label}`).join(', ')
-        : 'Nem volt megnyert kategória';
-      panel.innerHTML = `
-        <p class="result-kicker">${result.stage === 'hirtelen halál' ? '⚠ Hirtelen halál' : '⏱ Rendes játékidő'}</p>
-        <h1>${won ? 'GYŐZELEM' : 'VERESÉG'}</h1>
-        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
-        <dl class="result-stats">
-          <div><dt>Felhasznált párbajok</dt><dd>${result.duels}</dd></div>
-          <div><dt>Eldőlt</dt><dd>${result.stage}</dd></div>
-          <div><dt>Legeredményesebb kategória</dt><dd>${best}${result.bestCategoryWins ? ` (${result.bestCategoryWins} gól)` : ''}</dd></div>
-        </dl>
-        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
-      `;
-    } else {
-      const heading = result.winner === HUMAN ? 'GYŐZELEM' : result.winner === AI ? 'VERESÉG' : 'DÖNTETLEN';
-      panel.innerHTML = `
-        <h1>${heading}</h1>
-        <div class="final-score">JÁTÉKOS ${result.human}–${result.ai} GÉP</div>
-        ${result.undecided ? `<p>${result.undecided} lap a döntetlenpakliban maradt.</p>` : ''}
-        <div class="result-actions"><button class="btn" id="rematch-btn">Visszavágó</button><button class="btn btn--ghost" id="menu-btn">Vissza a főmenübe</button></div>
-      `;
-    }
-
-    panel.querySelector('#rematch-btn').addEventListener('click', () => this.start(this.mode, this.difficulty), { once: true });
-    panel.querySelector('#menu-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
-    this._showPanel(panel, () => this.showTitleScreen({ offerOnboarding: false }));
+    return this.results.showGameOver();
   }
 }
 
