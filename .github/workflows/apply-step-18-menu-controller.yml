@@ -32,15 +32,15 @@ jobs:
       - name: Menüvezérlő regressziós tesztje
         run: |
           set +e
-          node test/menu-controller.test.mjs > /tmp/menu-controller-test.log 2>&1
+          node test/menu-controller.test.mjs > /tmp/menu-controller-test.txt 2>&1
           status=$?
-          cat /tmp/menu-controller-test.log
+          cat /tmp/menu-controller-test.txt
           if [ "$status" -ne 0 ]; then
-            cp /tmp/menu-controller-test.log menu-controller-test-error.log
+            cp /tmp/menu-controller-test.txt menu-controller-test-error.txt
             git config user.name "lovaszcsabamate-star"
             git config user.email "lovaszcsabamate-star@users.noreply.github.com"
-            git add menu-controller-test-error.log
-            git commit -m "18. lépés: menüvezérlő teszthiba diagnosztikája" || true
+            git add -f menu-controller-test-error.txt
+            git commit -m "18. lépés: menüvezérlő teszthiba diagnosztikája"
             git push origin HEAD:refactor/step-18-menu-controller
             exit "$status"
           fi
@@ -70,7 +70,7 @@ jobs:
             previews/selection-phase-desktop.png
           rm scripts/apply-step-18-menu-controller.mjs
           rm .github/workflows/apply-step-18-menu-controller.yml
-          rm -f menu-controller-test-error.log
+          rm -f menu-controller-test-error.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
