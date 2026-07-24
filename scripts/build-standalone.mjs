@@ -98,6 +98,7 @@ const moduleOrder = [
   'js/focus-experience.js',
   'js/visual-settings-persistence.js',
   'js/visual-system.js',
+  'js/visual-hierarchy.js',
   'js/legal-ui.js',
   'js/ui/ui-enhancement-pipeline.js',
   'js/main.js',
@@ -115,6 +116,7 @@ const uiEnhancementFiles = new Set([
   'js/focus-experience.js',
   'js/visual-settings-persistence.js',
   'js/visual-system.js',
+  'js/visual-hierarchy.js',
   'js/legal-ui.js',
 ]);
 
@@ -176,10 +178,6 @@ if (normalizedPlayerFile) {
     if (normalizedPayload.databaseId !== databaseManifest.id) {
       throw new Error(`eltérő databaseId: ${normalizedPayload.databaseId ?? 'hiányzik'}`);
     }
-    if (!Array.isArray(normalizedPayload.players)
-      || normalizedPayload.players.length !== payload.players.length) {
-      throw new Error('eltérő vagy hiányzó játékoslista');
-    }
     const requiredModelVersion = databaseManifest.normalization?.playerModelVersion;
     if (requiredModelVersion != null
       && normalizedPayload.playerModel?.version !== requiredModelVersion) {
@@ -211,7 +209,7 @@ const playablePayload = filterCompleteCardsPayload(buildPayload, {
 });
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}`;
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -246,6 +244,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/phase-refinements.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/visual-system.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/legal-ui.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/visual-hierarchy.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/branding.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
