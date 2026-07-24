@@ -1278,6 +1278,15 @@
         "season": "2025/26"
       },
       {
+        "id": "hlsz-dvtk-heights-2025-26",
+        "clubId": "dvtk",
+        "clubName": "DVTK",
+        "name": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+        "url": "https://hlsz.hu/diosgyor",
+        "checkedAt": "2026-07-24",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1874,7 +1883,7 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 125,
+    "heightCm": 131,
     "shirtNumber": 288,
     "officialMetadata": 85,
     "minutes": 29,
@@ -1921,9 +1930,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-22T19:15:00+02:00",
-    "records": 825,
-    "matchedRecords": 809,
+    "generatedAt": "2026-07-24T16:00:00+02:00",
+    "records": 839,
+    "matchedRecords": 823,
     "unmatchedRecords": 16,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -1949,12 +1958,12 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 2,
+    "conflictCount": 5,
     "appliedFieldCounts": {
       "position": 439,
       "nation": 439,
       "birthDate": 318,
-      "heightCm": 125,
+      "heightCm": 131,
       "shirtNumber": 287,
       "meta.captain": 3,
       "meta.strongFoot": 32,
@@ -2030,7 +2039,7 @@
       "overallScore": 143,
       "position": 440,
       "nation": 440,
-      "heightCm": 125,
+      "heightCm": 131,
       "shirtNumber": 288,
       "officialMetadata": 85
     },
@@ -2104,8 +2113,8 @@
       {
         "field": "heightCm",
         "before": 0,
-        "after": 125,
-        "added": 125
+        "after": 131,
+        "added": 131
       },
       {
         "field": "shirtNumber",
@@ -2137,9 +2146,9 @@
         "clubId": "dvtk",
         "clubName": "DVTK",
         "mlszCards": 45,
-        "officialRecords": 45,
-        "eligibleRecords": 45,
-        "matched": 45,
+        "officialRecords": 59,
+        "eligibleRecords": 59,
+        "matched": 59,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-45-of-45-player-review",
@@ -6856,9 +6865,29 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "BÁRDOS BENCE ZSOLT",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "enrichmentConflicts": [
+          {
+            "field": "heightCm",
+            "kept": 192,
+            "offered": 190,
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "clubId": "dvtk"
+          }
+        ],
         "clubOfficialStatsByClub": {
           "dvtk": {
             "appearances": 18,
@@ -7006,9 +7035,29 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "BÉNYEI ÁGOSTON ANDRÁS",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "enrichmentConflicts": [
+          {
+            "field": "heightCm",
+            "kept": 175,
+            "offered": 177,
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "clubId": "dvtk"
+          }
+        ],
         "clubOfficialStatsByClub": {
           "dvtk": {
             "appearances": 25,
@@ -7988,6 +8037,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 25,
+        "heightCm": 180,
         "substituteAppearances": 12
       },
       "meta": {
@@ -8024,6 +8074,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "HOLDAMPF GERGŐ",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -8134,6 +8197,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 62,
+        "heightCm": 178,
         "substituteAppearances": 2
       },
       "meta": {
@@ -8172,6 +8236,19 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-04-22"
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "KASTRATI LIRIM",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -8319,6 +8396,17 @@
               "heightCm",
               "shirtNumber"
             ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "KECSKÉS ÁKOS",
+            "fieldsApplied": [],
             "inactiveSince": null
           }
         ],
@@ -9156,6 +9244,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 31,
+        "heightCm": 193,
         "substituteAppearances": 0
       },
       "meta": {
@@ -9192,6 +9281,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "MEGYERI GÁBOR",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -9302,6 +9404,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 47,
+        "heightCm": 185,
         "substituteAppearances": 5
       },
       "meta": {
@@ -9338,6 +9441,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "MUCSÁNYI MÁRK ARION",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -9487,6 +9603,17 @@
               "heightCm",
               "shirtNumber"
             ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "NIELSEN MARCO LUND",
+            "fieldsApplied": [],
             "inactiveSince": null
           }
         ],
@@ -10078,6 +10205,17 @@
               "shirtNumber"
             ],
             "inactiveSince": "2025-08-12"
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "SANICANIN SINISA",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -10186,6 +10324,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 8,
+        "heightCm": 190,
         "substituteAppearances": 7
       },
       "meta": {
@@ -10224,6 +10363,19 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-04-24"
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "SAPONJIC IVAN",
+            "fieldsApplied": [
+              "heightCm"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
@@ -10480,6 +10632,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 85,
+        "heightCm": 183,
         "substituteAppearances": 9
       },
       "meta": {
@@ -10516,6 +10669,19 @@
               "nation",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "SZAKOS BENCE",
+            "fieldsApplied": [
+              "heightCm"
             ],
             "inactiveSince": null
           }
@@ -10665,6 +10831,17 @@
               "heightCm",
               "shirtNumber"
             ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "SZATMÁRI CSABA",
+            "fieldsApplied": [],
             "inactiveSince": null
           }
         ],
@@ -10960,9 +11137,29 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "TAMÁS MÁRK",
+            "fieldsApplied": [],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "enrichmentConflicts": [
+          {
+            "field": "heightCm",
+            "kept": 184,
+            "offered": 192,
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "clubId": "dvtk"
+          }
+        ],
         "clubOfficialStatsByClub": {
           "dvtk": {
             "appearances": 21,
@@ -13096,6 +13293,17 @@
             "checkedAt": "2026-07-21",
             "season": "2025/26",
             "clubId": "zte-fc",
+            "matchedName": "CROIZET YOHAN",
+            "fieldsApplied": [],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-dvtk-heights-2025-26",
+            "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+            "sourceUrl": "https://hlsz.hu/diosgyor",
+            "checkedAt": "2026-07-24",
+            "season": "2025/26",
+            "clubId": "dvtk",
             "matchedName": "CROIZET YOHAN",
             "fieldsApplied": [],
             "inactiveSince": null

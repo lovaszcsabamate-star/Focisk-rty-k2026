@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-24T12:30:43.491Z",
+  "generatedAt": "2026-07-24T13:16:44.313Z",
   "databaseId": "hungary-nb1-2025-26",
   "databaseManifest": "data/databases/hungary-nb1-2025-26/manifest.json",
   "baseDataset": "data/players.json",
@@ -33,6 +33,7 @@
     "data/club-official-enrichment-21-eto-completion.json",
     "data/club-official-enrichment-22-kisvarda-nationalities.json",
     "data/club-official-enrichment-23-final-missing-basic.json",
+    "data/club-official-enrichment-24-dvtk-heights.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -77,7 +78,7 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 125,
+    "heightCm": 131,
     "shirtNumber": 288,
     "officialMetadata": 85,
     "minutes": 29,
@@ -155,8 +156,8 @@
     {
       "field": "heightCm",
       "before": 0,
-      "after": 125,
-      "added": 125
+      "after": 131,
+      "added": 131
     },
     {
       "field": "shirtNumber",
@@ -256,9 +257,9 @@
       "clubId": "dvtk",
       "clubName": "DVTK",
       "mlszCards": 45,
-      "officialRecords": 45,
-      "eligibleRecords": 45,
-      "matched": 45,
+      "officialRecords": 59,
+      "eligibleRecords": 59,
+      "matched": 59,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "complete-45-of-45-player-review",
@@ -492,17 +493,17 @@
     "errorCount": 0,
     "warningCount": 2,
     "duplicateCandidateCount": 0,
-    "conflictCount": 2,
-    "changeCount": 4093,
+    "conflictCount": 5,
+    "changeCount": 4099,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-22T19:15:00+02:00",
-    "records": 825,
-    "matchedRecords": 809,
+    "generatedAt": "2026-07-24T16:00:00+02:00",
+    "records": 839,
+    "matchedRecords": 823,
     "unmatchedRecords": 16,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -528,12 +529,12 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 2,
+    "conflictCount": 5,
     "appliedFieldCounts": {
       "position": 439,
       "nation": 439,
       "birthDate": 318,
-      "heightCm": 125,
+      "heightCm": 131,
       "shirtNumber": 287,
       "meta.captain": 3,
       "meta.strongFoot": 32,
@@ -609,7 +610,7 @@
       "overallScore": 143,
       "position": 440,
       "nation": 440,
-      "heightCm": 125,
+      "heightCm": 131,
       "shirtNumber": 288,
       "officialMetadata": 85
     },
@@ -683,8 +684,8 @@
       {
         "field": "heightCm",
         "before": 0,
-        "after": 125,
-        "added": 125
+        "after": 131,
+        "added": 131
       },
       {
         "field": "shirtNumber",
@@ -716,9 +717,9 @@
         "clubId": "dvtk",
         "clubName": "DVTK",
         "mlszCards": 45,
-        "officialRecords": 45,
-        "eligibleRecords": 45,
-        "matched": 45,
+        "officialRecords": 59,
+        "eligibleRecords": 59,
+        "matched": 59,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-45-of-45-player-review",
@@ -3169,6 +3170,33 @@
     }
   ],
   "conflicts": [
+    {
+      "playerId": "nb1-4339560b40f0",
+      "playerName": "BÁRDOS BENCE ZSOLT",
+      "field": "heightCm",
+      "kept": 192,
+      "offered": 190,
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk"
+    },
+    {
+      "playerId": "nb1-d3559b6e27a3",
+      "playerName": "Bényei Ágoston András",
+      "field": "heightCm",
+      "kept": 175,
+      "offered": 177,
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk"
+    },
+    {
+      "playerId": "nb1-b60f7d9906d2",
+      "playerName": "TAMÁS MÁRK",
+      "field": "heightCm",
+      "kept": 184,
+      "offered": 192,
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk"
+    },
     {
       "playerId": "nb1-34295f65a151",
       "playerName": "NAGY KRISZTIÁN",

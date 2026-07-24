@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-24T12:30:43.491Z",
+  "generatedAt": "2026-07-24T13:16:44.313Z",
   "sourceDataset": "nb1-2025-26-webadatbazis-v2-enriched",
   "sourceDatasetVersion": "2.3.0-interim",
   "changes": [
@@ -3356,6 +3356,18 @@
       "playerId": "nb1-3d4f6c6dc1be",
       "playerName": "HOLDAMPF GERGŐ",
       "clubId": "dvtk",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-3d4f6c6dc1be",
+      "playerName": "HOLDAMPF GERGŐ",
+      "clubId": "dvtk",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-dvtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – DVTK teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -3481,6 +3493,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal",
       "sourceUrl": "https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-f50693534e9e",
+      "playerName": "KASTRATI LIRIM",
+      "clubId": "dvtk",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -4364,6 +4388,18 @@
       "playerId": "nb1-1eb0993c17ce",
       "playerName": "MEGYERI GÁBOR",
       "clubId": "dvtk",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-1eb0993c17ce",
+      "playerName": "MEGYERI GÁBOR",
+      "clubId": "dvtk",
       "field": "stats.appearances",
       "sourceId": "mlsz-fizz-liga-dvtk-complete-2025-26",
       "sourceName": "MLSZ Adatbank – DVTK teljes 2025/26-os Fizz Liga játékosprofil-ellenőrzés",
@@ -4489,6 +4525,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal",
       "sourceUrl": "https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-78a142491386",
+      "playerName": "MUCSÁNYI MÁRK ARION",
+      "clubId": "dvtk",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -5329,6 +5377,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal",
       "sourceUrl": "https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-6bac68a2e502",
+      "playerName": "SAPONJIC IVAN",
+      "clubId": "dvtk",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -5605,6 +5665,18 @@
       "sourceName": "DVTK hivatalos NB I 2025/26 keretoldal",
       "sourceUrl": "https://dvtk.eu/2-csapat-Diosgyori_VTK/615-NB_I_2025_2026-szezon/jatekosok",
       "checkedAt": "2026-07-20",
+      "changeType": "missing-field-enrichment",
+      "confidence": "high"
+    },
+    {
+      "playerId": "nb1-105361b23944",
+      "playerName": "SZAKOS BENCE",
+      "clubId": "dvtk",
+      "field": "heightCm",
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "sourceName": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "sourceUrl": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
       "changeType": "missing-field-enrichment",
       "confidence": "high"
     },
@@ -49122,6 +49194,33 @@
     }
   ],
   "conflicts": [
+    {
+      "playerId": "nb1-4339560b40f0",
+      "playerName": "BÁRDOS BENCE ZSOLT",
+      "field": "heightCm",
+      "kept": 192,
+      "offered": 190,
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk"
+    },
+    {
+      "playerId": "nb1-d3559b6e27a3",
+      "playerName": "Bényei Ágoston András",
+      "field": "heightCm",
+      "kept": 175,
+      "offered": 177,
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk"
+    },
+    {
+      "playerId": "nb1-b60f7d9906d2",
+      "playerName": "TAMÁS MÁRK",
+      "field": "heightCm",
+      "kept": 184,
+      "offered": 192,
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk"
+    },
     {
       "playerId": "nb1-34295f65a151",
       "playerName": "NAGY KRISZTIÁN",

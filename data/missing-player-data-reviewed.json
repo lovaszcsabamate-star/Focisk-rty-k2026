@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-24T12:30:43.491Z",
+  "generatedAt": "2026-07-24T13:16:44.313Z",
   "playerCount": 440,
   "missingCounts": {
     "birthDate": 0,
@@ -16,7 +16,7 @@
     "redCards": 0,
     "secondYellowRedCards": 403,
     "totalDismissals": 0,
-    "heightCm": 315,
+    "heightCm": 309,
     "shirtNumber": 152
   },
   "missingByField": {
@@ -1282,17 +1282,11 @@
       "nb1-f050a184fe30",
       "nb1-43f6d4cbd5b5",
       "nb1-4320e9853a76",
-      "nb1-3d4f6c6dc1be",
-      "nb1-f50693534e9e",
       "nb1-c8ce66038cdf",
       "nb1-9a3e10d01a43",
       "nb1-8c8846627b8e",
       "nb1-087c538ae10a",
-      "nb1-1eb0993c17ce",
-      "nb1-78a142491386",
       "nb1-65004939560f",
-      "nb1-6bac68a2e502",
-      "nb1-105361b23944",
       "nb1-bacad253368b",
       "nb1-ab542963c480",
       "nb1-6a4e42738867",
@@ -1791,7 +1785,7 @@
         "redCards": 45,
         "secondYellowRedCards": 0,
         "totalDismissals": 45,
-        "heightCm": 25,
+        "heightCm": 31,
         "shirtNumber": 37
       },
       "missing": {
@@ -1808,7 +1802,7 @@
         "redCards": 0,
         "secondYellowRedCards": 45,
         "totalDismissals": 0,
-        "heightCm": 20,
+        "heightCm": 14,
         "shirtNumber": 8
       }
     },
