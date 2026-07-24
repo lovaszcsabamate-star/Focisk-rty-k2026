@@ -90,6 +90,7 @@ const moduleOrder = [
   'js/pwa.js',
   'js/mobile-experience.js',
   'js/app/menu-controller.js',
+  'js/app/result-controller.js',
   'js/player-profile.js',
   'js/reliability-fixes.js',
   'js/usability-fixes.js',
