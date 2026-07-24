@@ -35,6 +35,7 @@
     "data/club-official-enrichment-21-eto-completion.json",
     "data/club-official-enrichment-22-kisvarda-nationalities.json",
     "data/club-official-enrichment-23-final-missing-basic.json",
+    "data/club-official-enrichment-24-dvtk-heights.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -54,10 +55,10 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "dee8ae6249efe7372dd72af054a097492ab09e442a90ca6b510d216aeaed62ff",
-  "playersDigest": "078a3dc45893f2e57d56b16a21b30b4b5a39158c0d2e6cdf8f5b8b8d39724e91",
+  "sourceDigest": "4af3d6c4c9c4d7d72e4673f9170ba48e317ad617e687ba3b98060bbd82bfb712",
+  "playersDigest": "f934529fda71d54c4b340c55600500b6013a267064931caf8442e572430b2141",
   "sourceLayerCounts": {
-    "enrichments": 23,
+    "enrichments": 24,
     "corrections": 5,
     "statPatches": 13
   },
@@ -70,13 +71,13 @@
     "warnings": []
   },
   "completeness": {
-    "averageRatio": 0.8385,
+    "averageRatio": 0.8393,
     "completeRecords": 20,
     "incompleteRecords": 420,
     "missingFieldCounts": {
       "assists": 411,
       "minutesPlayed": 411,
-      "heightCm": 315
+      "heightCm": 309
     }
   },
   "preservation": {

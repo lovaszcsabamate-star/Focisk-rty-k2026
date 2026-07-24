@@ -32,7 +32,7 @@ assert.equal(result.report.preservation.stableIds, true);
 assert.equal(result.report.preservation.unchangedNames, true);
 assert.equal(result.report.preservation.unchangedStatsObjects, true);
 assert.deepEqual(result.report.sourceLayerCounts, {
-  enrichments: 23,
+  enrichments: 24,
   corrections: 5,
   statPatches: 13,
 });
