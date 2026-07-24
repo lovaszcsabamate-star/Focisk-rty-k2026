@@ -23,6 +23,86 @@
       "inspectorCardChanged": true,
       "largeCardPlayable": true,
       "battleStartedFromLargeCard": true,
+      "categoryDiagnostics": {
+        "categoryBefore": {
+          "text": "🎂 Fiatalabb játékosLegjobb saját: 17 évFiatalabb játékos nyer✓",
+          "disabled": false,
+          "className": "attr-btn attr-btn--mobile category-tile",
+          "attribute": "birthDate"
+        },
+        "categoryAfter": {
+          "disabled": true,
+          "connected": false,
+          "className": "attr-btn attr-btn--mobile category-tile is-selected"
+        },
+        "categoryClicks": [
+          {
+            "text": "🎂 Fiatalabb játékosLegjobb saját: 17 évFiatalabb játékos nyer✓",
+            "disabled": false,
+            "attribute": "birthDate"
+          },
+          {
+            "text": "🎂 Fiatalabb játékosLegjobb saját: 17 évFiatalabb játékos nyer✓",
+            "disabled": false,
+            "attribute": "birthDate"
+          }
+        ],
+        "categoryNextFound": true,
+        "promptBeforeCategory": "Te következel – válassz kategóriát",
+        "promptAfterCategory": "Te következel – válassz kártyát: Fiatalabb játékos— a fiatalabb nyer",
+        "pickerBeforeCategory": "<div class=\"category-grid\" role=\"group\" aria-label=\"Választható összehasonlítási kategóriák\"><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"birthDate\" aria-label=\"🎂 Fiatalabb játékos; Fiatalabb játékos nyer\" data-key=\"birthDate\" aria-pressed=\"false\" aria-describedby=\"category-direction-birthDate\"><span class=\"attr-btn__label\">🎂 Fiatalabb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 17 év</strong><small class=\"attr-btn__direction\" id=\"category-direction-birthDate\">Fiatalabb játékos nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"birthDateOlder\" aria-label=\"🕰️ Idősebb játékos; Idősebb játékos nyer\" data-key=\"birthDateOlder\" aria-pressed=\"false\" aria-describedby=\"category-direction-birthDateOlder\"><span class=\"attr-btn__label\">🕰️ Idősebb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 30 év</strong><small class=\"attr-btn__direction\" id=\"category-direction-birthDateOlder\">Idősebb játékos nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"heightCm\" aria-label=\"📏 Magasabb játékos; Magasabb érték nyer\" data-key=\"heightCm\" aria-pressed=\"false\" aria-describedby=\"category-direction-heightCm\"><span class=\"attr-btn__label\">📏 Magasabb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 180 cm</strong><small class=\"attr-btn__direction\" id=\"category-direction-heightCm\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"heightCmLower\" aria-label=\"📐 Alacsonyabb játékos; Alacsonyabb érték nyer\" data-key=\"heightCmLower\" aria-pressed=\"false\" aria-describedby=\"category-direction-heightCmLower\"><span class=\"attr-btn__label\">📐 Alacsonyabb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 180 cm</strong><small class=\"attr-btn__direction\" id=\"category-direction-heightCmLower\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"appearances\" aria-label=\"👕 Több mérkőzés; Magasabb érték nyer\" data-key=\"appearances\" aria-pressed=\"false\" aria-describedby=\"category-direction-appearances\"><span class=\"attr-btn__label\">👕 Több mérkőzés</span><strong class=\"attr-btn__value\">Legjobb saját: 33</strong><small class=\"attr-btn__direction\" id=\"category-direction-appearances\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"starts\" aria-label=\"▶ Több kezdés; Magasabb érték nyer\" data-key=\"starts\" aria-pressed=\"false\" aria-describedby=\"category-direction-starts\"><span class=\"attr-btn__label\">▶ Több kezdés</span><strong class=\"attr-btn__value\">Legjobb saját: 27</strong><small class=\"attr-btn__direction\" id=\"category-direction-starts\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"startRate\" aria-label=\"📊 Magasabb kezdési arány; Magasabb érték nyer\" data-key=\"startRate\" aria-pressed=\"false\" aria-describedby=\"category-direction-startRate\"><span class=\"attr-btn__label\">📊 Magasabb kezdési arány</span><strong class=\"attr-btn__value\">Legjobb saját: 100%</strong><small class=\"attr-btn__direction\" id=\"category-direction-startRate\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"goals\" aria-label=\"⚽ Több gól; Magasabb érték nyer\" data-key=\"goals\" aria-pressed=\"false\" aria-describedby=\"category-direction-goals\"><span class=\"attr-btn__label\">⚽ Több gól</span><strong class=\"attr-btn__value\">Legjobb saját: 7</strong><small class=\"attr-btn__direction\" id=\"category-direction-goals\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"squads\" aria-label=\"📋 Több kerettagság; Magasabb érték nyer\" data-key=\"squads\" aria-pressed=\"false\" aria-describedby=\"category-direction-squads\"><span class=\"attr-btn__label\">📋 Több kerettagság</span><strong class=\"attr-btn__value\">Legjobb saját: 33</strong><small class=\"attr-btn__direction\" id=\"category-direction-squads\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"yellowCards\" aria-label=\"🟨 Több sárga lap; Magasabb érték nyer\" data-key=\"yellowCards\" aria-pressed=\"false\" aria-describedby=\"category-direction-yellowCards\"><span class=\"attr-btn__label\">🟨 Több sárga lap</span><strong class=\"attr-btn__value\">Legjobb saját: 4</strong><small class=\"attr-btn__direction\" id=\"category-direction-yellowCards\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"yellowCardsFewest\" aria-label=\"🟨 Kevesebb sárga lap; Alacsonyabb érték nyer\" data-key=\"yellowCardsFewest\" aria-pressed=\"false\" aria-describedby=\"category-direction-yellowCardsFewest\"><span class=\"attr-btn__label\">🟨 Kevesebb sárga lap</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-yellowCardsFewest\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"totalDismissals\" aria-label=\"🟥 Több kiállítás; Magasabb érték nyer\" data-key=\"totalDismissals\" aria-pressed=\"false\" aria-describedby=\"category-direction-totalDismissals\"><span class=\"attr-btn__label\">🟥 Több kiállítás</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-totalDismissals\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"totalDismissalsFewest\" aria-label=\"🟥 Kevesebb kiállítás; Alacsonyabb érték nyer\" data-key=\"totalDismissalsFewest\" aria-pressed=\"false\" aria-describedby=\"category-direction-totalDismissalsFewest\"><span class=\"attr-btn__label\">🟥 Kevesebb kiállítás</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-totalDismissalsFewest\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"discipline\" aria-label=\"🕊️ Fegyelmezettebb játékos; Alacsonyabb érték nyer\" data-key=\"discipline\" aria-pressed=\"false\" aria-describedby=\"category-direction-discipline\"><span class=\"attr-btn__label\">🕊️ Fegyelmezettebb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 0 lap</strong><small class=\"attr-btn__direction\" id=\"category-direction-discipline\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button></div><div class=\"category-picker__actions\"><span class=\"category-picker__status\" role=\"status\" aria-live=\"polite\">Válassz egy kategóriát a folytatáshoz.</span><button class=\"category-picker__next\" type=\"button\" disabled=\"\" aria-disabled=\"true\">Tovább a 2. Kártya fázisra</button></div>",
+        "pickerAfterCategory": "<button class=\"btn btn--ghost ux-change-attribute\" type=\"button\">↩ Másik kategória</button>"
+      },
+      "inspectorDiagnostics": {
+        "handCardsBeforeInspector": [
+          {
+            "id": "nb1-f50693534e9e",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-69261242e914",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-4320e9853a76",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-f050a184fe30",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-5edafc396658",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          }
+        ],
+        "firstInspectedId": "nb1-f50693534e9e",
+        "nextInspectedId": "nb1-69261242e914",
+        "largeBeforeClasses": "card card--large inspector__playable-card",
+        "largeAfterClasses": "card card--large inspector__playable-card is-committing",
+        "largeBeforeBound": "",
+        "largeAfterBound": "",
+        "playButtonBefore": {
+          "disabled": false,
+          "text": "Kijátszom ezt a lapot"
+        },
+        "playButtonAfter": {
+          "disabled": false,
+          "text": "Kijátszom ezt a lapot"
+        },
+        "matchingHandBeforeClasses": "card selectable card--direct-play card--choice",
+        "matchingHandAfterClasses": "card selectable card--direct-play card--choice is-selected"
+      },
       "errors": [],
       "consoleErrors": [],
       "remoteRequests": [],
@@ -50,6 +130,122 @@
       "inspectorCardChanged": true,
       "largeCardPlayable": true,
       "battleStartedFromLargeCard": true,
+      "categoryDiagnostics": {
+        "categoryBefore": {
+          "text": "🎂 Fiatalabb játékosLegjobb saját: 17 évFiatalabb játékos nyer✓",
+          "disabled": false,
+          "className": "attr-btn attr-btn--mobile category-tile",
+          "attribute": "birthDate"
+        },
+        "categoryAfter": {
+          "disabled": true,
+          "connected": false,
+          "className": "attr-btn attr-btn--mobile category-tile is-selected"
+        },
+        "categoryClicks": [
+          {
+            "text": "🎂 Fiatalabb játékosLegjobb saját: 17 évFiatalabb játékos nyer✓",
+            "disabled": false,
+            "attribute": "birthDate"
+          },
+          {
+            "text": "🎂 Fiatalabb játékosLegjobb saját: 17 évFiatalabb játékos nyer✓",
+            "disabled": false,
+            "attribute": "birthDate"
+          }
+        ],
+        "categoryNextFound": true,
+        "promptBeforeCategory": "Te következel – válassz kategóriát",
+        "promptAfterCategory": "Te következel – válassz kártyát: Fiatalabb játékos— a fiatalabb nyer",
+        "pickerBeforeCategory": "<div class=\"category-grid\" role=\"group\" aria-label=\"Választható összehasonlítási kategóriák\"><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"birthDate\" aria-label=\"🎂 Fiatalabb játékos; Fiatalabb játékos nyer\" data-key=\"birthDate\" aria-pressed=\"false\" aria-describedby=\"category-direction-birthDate\"><span class=\"attr-btn__label\">🎂 Fiatalabb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 17 év</strong><small class=\"attr-btn__direction\" id=\"category-direction-birthDate\">Fiatalabb játékos nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"birthDateOlder\" aria-label=\"🕰️ Idősebb játékos; Idősebb játékos nyer\" data-key=\"birthDateOlder\" aria-pressed=\"false\" aria-describedby=\"category-direction-birthDateOlder\"><span class=\"attr-btn__label\">🕰️ Idősebb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 36 év</strong><small class=\"attr-btn__direction\" id=\"category-direction-birthDateOlder\">Idősebb játékos nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"heightCm\" aria-label=\"📏 Magasabb játékos; Magasabb érték nyer\" data-key=\"heightCm\" aria-pressed=\"false\" aria-describedby=\"category-direction-heightCm\"><span class=\"attr-btn__label\">📏 Magasabb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 198 cm</strong><small class=\"attr-btn__direction\" id=\"category-direction-heightCm\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"heightCmLower\" aria-label=\"📐 Alacsonyabb játékos; Alacsonyabb érték nyer\" data-key=\"heightCmLower\" aria-pressed=\"false\" aria-describedby=\"category-direction-heightCmLower\"><span class=\"attr-btn__label\">📐 Alacsonyabb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 175 cm</strong><small class=\"attr-btn__direction\" id=\"category-direction-heightCmLower\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"appearances\" aria-label=\"👕 Több mérkőzés; Magasabb érték nyer\" data-key=\"appearances\" aria-pressed=\"false\" aria-describedby=\"category-direction-appearances\"><span class=\"attr-btn__label\">👕 Több mérkőzés</span><strong class=\"attr-btn__value\">Legjobb saját: 27</strong><small class=\"attr-btn__direction\" id=\"category-direction-appearances\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"starts\" aria-label=\"▶ Több kezdés; Magasabb érték nyer\" data-key=\"starts\" aria-pressed=\"false\" aria-describedby=\"category-direction-starts\"><span class=\"attr-btn__label\">▶ Több kezdés</span><strong class=\"attr-btn__value\">Legjobb saját: 22</strong><small class=\"attr-btn__direction\" id=\"category-direction-starts\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"minutes\" aria-label=\"⏱️ Több játékperc; Magasabb érték nyer\" data-key=\"minutes\" aria-pressed=\"false\" aria-describedby=\"category-direction-minutes\"><span class=\"attr-btn__label\">⏱️ Több játékperc</span><strong class=\"attr-btn__value\">Legjobb saját: 107 perc</strong><small class=\"attr-btn__direction\" id=\"category-direction-minutes\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"minutesPerAppearance\" aria-label=\"⌛ Több játékperc mérkőzésenként; Magasabb érték nyer\" data-key=\"minutesPerAppearance\" aria-pressed=\"false\" aria-describedby=\"category-direction-minutesPerAppearance\"><span class=\"attr-btn__label\">⌛ Több játékperc mérkőzésenként</span><strong class=\"attr-btn__value\">Legjobb saját: 21,4 perc</strong><small class=\"attr-btn__direction\" id=\"category-direction-minutesPerAppearance\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"startRate\" aria-label=\"📊 Magasabb kezdési arány; Magasabb érték nyer\" data-key=\"startRate\" aria-pressed=\"false\" aria-describedby=\"category-direction-startRate\"><span class=\"attr-btn__label\">📊 Magasabb kezdési arány</span><strong class=\"attr-btn__value\">Legjobb saját: 100%</strong><small class=\"attr-btn__direction\" id=\"category-direction-startRate\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"goals\" aria-label=\"⚽ Több gól; Magasabb érték nyer\" data-key=\"goals\" aria-pressed=\"false\" aria-describedby=\"category-direction-goals\"><span class=\"attr-btn__label\">⚽ Több gól</span><strong class=\"attr-btn__value\">Legjobb saját: 4</strong><small class=\"attr-btn__direction\" id=\"category-direction-goals\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"assists\" aria-label=\"🅰️ Több gólpassz; Magasabb érték nyer\" data-key=\"assists\" aria-pressed=\"false\" aria-describedby=\"category-direction-assists\"><span class=\"attr-btn__label\">🅰️ Több gólpassz</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-assists\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"goalContributions\" aria-label=\"➕ Több kanadai pont; Magasabb érték nyer\" data-key=\"goalContributions\" aria-pressed=\"false\" aria-describedby=\"category-direction-goalContributions\"><span class=\"attr-btn__label\">➕ Több kanadai pont</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-goalContributions\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"goalsPer90\" aria-label=\"🎯 Több gól 90 percenként; Magasabb érték nyer\" data-key=\"goalsPer90\" aria-pressed=\"false\" aria-describedby=\"category-direction-goalsPer90\"><span class=\"attr-btn__label\">🎯 Több gól 90 percenként</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-goalsPer90\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"assistsPer90\" aria-label=\"🧠 Több gólpassz 90 percenként; Magasabb érték nyer\" data-key=\"assistsPer90\" aria-pressed=\"false\" aria-describedby=\"category-direction-assistsPer90\"><span class=\"attr-btn__label\">🧠 Több gólpassz 90 percenként</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-assistsPer90\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"goalContributionsPer90\" aria-label=\"🚀 Több kanadai pont 90 percenként; Magasabb érték nyer\" data-key=\"goalContributionsPer90\" aria-pressed=\"false\" aria-describedby=\"category-direction-goalContributionsPer90\"><span class=\"attr-btn__label\">🚀 Több kanadai pont 90 percenként</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-goalContributionsPer90\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"squads\" aria-label=\"📋 Több kerettagság; Magasabb érték nyer\" data-key=\"squads\" aria-pressed=\"false\" aria-describedby=\"category-direction-squads\"><span class=\"attr-btn__label\">📋 Több kerettagság</span><strong class=\"attr-btn__value\">Legjobb saját: 32</strong><small class=\"attr-btn__direction\" id=\"category-direction-squads\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"yellowCards\" aria-label=\"🟨 Több sárga lap; Magasabb érték nyer\" data-key=\"yellowCards\" aria-pressed=\"false\" aria-describedby=\"category-direction-yellowCards\"><span class=\"attr-btn__label\">🟨 Több sárga lap</span><strong class=\"attr-btn__value\">Legjobb saját: 2</strong><small class=\"attr-btn__direction\" id=\"category-direction-yellowCards\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"yellowCardsFewest\" aria-label=\"🟨 Kevesebb sárga lap; Alacsonyabb érték nyer\" data-key=\"yellowCardsFewest\" aria-pressed=\"false\" aria-describedby=\"category-direction-yellowCardsFewest\"><span class=\"attr-btn__label\">🟨 Kevesebb sárga lap</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-yellowCardsFewest\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"totalDismissals\" aria-label=\"🟥 Több kiállítás; Magasabb érték nyer\" data-key=\"totalDismissals\" aria-pressed=\"false\" aria-describedby=\"category-direction-totalDismissals\"><span class=\"attr-btn__label\">🟥 Több kiállítás</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-totalDismissals\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"totalDismissalsFewest\" aria-label=\"🟥 Kevesebb kiállítás; Alacsonyabb érték nyer\" data-key=\"totalDismissalsFewest\" aria-pressed=\"false\" aria-describedby=\"category-direction-totalDismissalsFewest\"><span class=\"attr-btn__label\">🟥 Kevesebb kiállítás</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-totalDismissalsFewest\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"cardsPer90\" aria-label=\"🟨 Több lap 90 percenként; Magasabb érték nyer\" data-key=\"cardsPer90\" aria-pressed=\"false\" aria-describedby=\"category-direction-cardsPer90\"><span class=\"attr-btn__label\">🟨 Több lap 90 percenként</span><strong class=\"attr-btn__value\">Legjobb saját: 0</strong><small class=\"attr-btn__direction\" id=\"category-direction-cardsPer90\">Magasabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button><button class=\"attr-btn attr-btn--mobile category-tile\" type=\"button\" data-attribute=\"discipline\" aria-label=\"🕊️ Fegyelmezettebb játékos; Alacsonyabb érték nyer\" data-key=\"discipline\" aria-pressed=\"false\" aria-describedby=\"category-direction-discipline\"><span class=\"attr-btn__label\">🕊️ Fegyelmezettebb játékos</span><strong class=\"attr-btn__value\">Legjobb saját: 0 lap</strong><small class=\"attr-btn__direction\" id=\"category-direction-discipline\">Alacsonyabb érték nyer</small><span class=\"category-tile__check\" aria-hidden=\"true\">✓</span></button></div><div class=\"category-picker__actions\"><span class=\"category-picker__status\" role=\"status\" aria-live=\"polite\">Válassz egy kategóriát a folytatáshoz.</span><button class=\"category-picker__next\" type=\"button\" disabled=\"\" aria-disabled=\"true\">Tovább a 2. Kártya fázisra</button></div>",
+        "pickerAfterCategory": "<button class=\"btn btn--ghost ux-change-attribute\" type=\"button\">↩ Másik kategória</button>"
+      },
+      "inspectorDiagnostics": {
+        "handCardsBeforeInspector": [
+          {
+            "id": "nb1-3228c4eed8dc",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-e2fffe6885ad",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-00550a6ceaf3",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-92a65fdc1c0a",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-1eb0993c17ce",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-c163429452c1",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-101825889dbb",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "2025-26-dvsc-asztalos-noel",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "2025-26-eto-fc-brecska-daniel",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-3c933249d398",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          },
+          {
+            "id": "nb1-b7749b584ff6",
+            "classes": "card selectable card--direct-play card--choice",
+            "role": "button",
+            "ariaDisabled": null
+          }
+        ],
+        "firstInspectedId": "nb1-3228c4eed8dc",
+        "nextInspectedId": "nb1-e2fffe6885ad",
+        "largeBeforeClasses": "card card--large inspector__playable-card",
+        "largeAfterClasses": "card card--large inspector__playable-card is-committing",
+        "largeBeforeBound": "",
+        "largeAfterBound": "",
+        "playButtonBefore": {
+          "disabled": false,
+          "text": "Kijátszom ezt a lapot"
+        },
+        "playButtonAfter": {
+          "disabled": false,
+          "text": "Kijátszom ezt a lapot"
+        },
+        "matchingHandBeforeClasses": "card selectable card--direct-play card--choice",
+        "matchingHandAfterClasses": "card selectable card--direct-play card--choice is-selected"
+      },
       "errors": [],
       "consoleErrors": [],
       "remoteRequests": [],
