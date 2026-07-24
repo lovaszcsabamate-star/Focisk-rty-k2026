@@ -64,6 +64,7 @@ const moduleOrder = [
   'js/services/asset-service.js',
   'js/domain/deck-selection-domain.js',
   'js/services/deck-selection-storage-service.js',
+  'js/ui/deck-selection-menu-component.js',
   'js/deck-selection.js',
   'js/branding.js',
   'js/data/categories.js',
