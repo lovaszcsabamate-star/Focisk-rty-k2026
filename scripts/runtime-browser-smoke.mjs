@@ -52,7 +52,8 @@ const instrumentation = `<script>
   const nativeFetch = window.fetch?.bind(window);
   if (nativeFetch) window.fetch = (...args) => {
     const value = typeof args[0] === 'string' ? args[0] : args[0]?.url;
-    if (/^https?:\/\//i.test(String(value || ''))) window.__runtimeSmoke.remoteRequests.push(String(value));
+    const url = String(value || '');
+    if (url.startsWith('http://') || url.startsWith('https://')) window.__runtimeSmoke.remoteRequests.push(url);
     return nativeFetch(...args);
   };
 })();
