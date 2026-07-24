@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-07-24T16:00:00+02:00",
+  "batch": {
+    "id": "dvtk-hlsz-heights-2025-26",
+    "playerCount": 14,
+    "heightRecordCount": 14,
+    "rule": "Kizárólag a projekt meglévő 2025/26-os DVTK-játékoskártyáihoz egyértelműen illeszkedő, a HLSZ keretoldalán számszerűen közölt magasságadatok pótlása; meglévő érték nem írható felül."
+  },
+  "policy": {
+    "primarySources": [
+      "HLSZ"
+    ],
+    "heightUnit": "cm",
+    "heightRange": {
+      "minimum": 140,
+      "maximum": 220
+    },
+    "rule": "Csak névvel, születési dátummal és szezonklubbal egyértelműen azonosított rekord kaphat új értéket. A forrásban kötőjellel vagy üresen jelölt magasság, illetve a projekt DVTK-keretében nem szereplő játékos nem kerül be."
+  },
+  "sources": [
+    {
+      "id": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "clubName": "DVTK",
+      "name": "HLSZ – Diósgyőr 2025/26-os játékoskeret és magasságadatok",
+      "url": "https://hlsz.hu/diosgyor",
+      "checkedAt": "2026-07-24",
+      "season": "2025/26",
+      "fields": [
+        "heightCm"
+      ],
+      "scope": "A HLSZ kifejezetten 2025/26-os Diósgyőr-keretoldalán számszerűen közölt magasságok; kizárólag meglévő játékoskártyához illesztve."
+    }
+  ],
+  "records": [
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "BÁRDOS BENCE ZSOLT",
+      "aliases": [
+        "Bárdos Bence"
+      ],
+      "heightCm": 190
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "BÉNYEI ÁGOSTON ANDRÁS",
+      "aliases": [
+        "Bényei Ágoston"
+      ],
+      "heightCm": 177
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "CROIZET YOHAN",
+      "aliases": [
+        "Croizet Yohan",
+        "Croizet-Kollár Yohan"
+      ],
+      "heightCm": 180
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "HOLDAMPF GERGŐ",
+      "heightCm": 180
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "KASTRATI LIRIM",
+      "heightCm": 178
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "KECSKÉS ÁKOS",
+      "heightCm": 190
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "NIELSEN MARCO LUND",
+      "aliases": [
+        "Lund Marko",
+        "Marco Lund Nielsen"
+      ],
+      "heightCm": 183
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "MEGYERI GÁBOR",
+      "heightCm": 193
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "MUCSÁNYI MÁRK ARION",
+      "aliases": [
+        "Mucsányi Márk"
+      ],
+      "heightCm": 185
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "SANICANIN SINISA",
+      "aliases": [
+        "Saničanin Siniša"
+      ],
+      "heightCm": 190
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "SAPONJIC IVAN",
+      "aliases": [
+        "Šaponjić Ivan"
+      ],
+      "heightCm": 190
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "SZAKOS BENCE",
+      "heightCm": 183
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "SZATMÁRI CSABA",
+      "heightCm": 198
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "TAMÁS MÁRK",
+      "heightCm": 192
+    }
+  ]
+}
