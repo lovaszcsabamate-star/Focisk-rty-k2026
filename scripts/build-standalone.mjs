@@ -91,6 +91,7 @@ const moduleOrder = [
   'js/mobile-experience.js',
   'js/app/menu-controller.js',
   'js/app/result-controller.js',
+  'js/app/round-controller.js',
   'js/player-profile.js',
   'js/reliability-fixes.js',
   'js/usability-fixes.js',

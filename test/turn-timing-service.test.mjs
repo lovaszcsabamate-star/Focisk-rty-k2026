@@ -49,6 +49,7 @@ assert.throws(() => createTurnTimingService({ delays: { invalid: Number.NaN } })
 
 const read = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const serviceSource = read('../js/services/turn-timing-service.js');
+const roundControllerSource = read('../js/app/round-controller.js');
 const mainSource = read('../js/main.js');
 const mobileSource = read('../js/mobile-experience.js');
 const buildSource = read('../scripts/build-standalone.mjs');
@@ -58,8 +59,9 @@ assert.doesNotMatch(serviceSource, /document\.|querySelector|textContent/);
 assert.doesNotMatch(mobileSource, /globalThis\.setTimeout\s*=/);
 assert.doesNotMatch(mobileSource, /__FOCISKARTYAK_FAST_AI_TIMER__/);
 assert.match(mainSource, /createTurnTimingService/);
-assert.match(mainSource, /TURN_DELAY\.AI_CHOOSE_ATTRIBUTE/);
-assert.match(mainSource, /TURN_DELAY\.AI_CHOOSE_CARD/);
+assert.match(mainSource, /wait: delayOrKey => this\.delay\(delayOrKey\)/);
+assert.match(roundControllerSource, /turnDelay\.AI_CHOOSE_ATTRIBUTE/);
+assert.match(roundControllerSource, /turnDelay\.AI_CHOOSE_CARD/);
 assert.match(buildSource, /js\/services\/turn-timing-service\.js/);
 assert.match(serviceWorker, /js\/services\/turn-timing-service\.js/);
 
