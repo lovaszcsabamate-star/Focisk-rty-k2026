@@ -39,8 +39,13 @@ assert.equal(canonicalNationKey('Magyarország'), 'hungary');
 assert.equal(canonicalNationKey('HUN'), 'hungary');
 assert.equal(canonicalNationKey('Szerbia'), 'serbia');
 assert.equal(canonicalNationKey('ROU'), 'romania');
-assert.equal(canonicalNationKey('Bosznia-Hercegovina'), 'bosznia-hercegovina');
+assert.equal(canonicalNationKey('Bosznia-Hercegovina'), 'bosnia-herzegovina');
+assert.equal(canonicalNationKey('CRO'), 'croatia');
+assert.equal(canonicalNationKey('SLO'), 'slovenia');
+assert.equal(canonicalNationKey('Ír'), 'ireland');
 assert.deepEqual(nationPresentation('serbia'), { key: 'serbia', flag: '🇷🇸', label: 'Szerb' });
+assert.deepEqual(nationPresentation('BEL'), { key: 'belgium', flag: '🇧🇪', label: 'Belga' });
+assert.deepEqual(nationPresentation('GRC'), { key: 'greece', flag: '🇬🇷', label: 'Görög' });
 assert.deepEqual(nationPresentation('Atlantisz'), { key: 'atlantisz', flag: '🌍', label: 'Atlantisz' });
 
 const normalizedDatabase = JSON.parse(read('../data/databases/hungary-nb1-2025-26/players.normalized.json'));
