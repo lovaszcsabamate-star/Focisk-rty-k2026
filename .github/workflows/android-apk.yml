@@ -63,12 +63,7 @@ jobs:
         run: npx cap sync android
 
       - name: Fociskártyák alkalmazásikon elkészítése
-        run: |
-          if ! command -v magick >/dev/null 2>&1 && ! command -v convert >/dev/null 2>&1; then
-            timeout 180s sudo apt-get update -o Acquire::Retries=3
-            sudo apt-get install -y imagemagick
-          fi
-          node scripts/apply-android-icon.mjs
+        run: node scripts/apply-android-icon.mjs
 
       - name: Álló tájolás beállítása
         run: |
