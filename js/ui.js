@@ -99,7 +99,8 @@ class UIBase {
     next.addEventListener('click', () => this._inspectorStep(1));
 
     const centre = el('div', 'inspector__centre');
-    centre.appendChild(this.renderCard(card, { activeAttribute: opts.attribute, large: true }));
+    const largeCard = this.renderCard(card, { activeAttribute: opts.attribute, large: true });
+    centre.appendChild(largeCard);
     centre.appendChild(el('div', 'inspector__counter', `${index + 1}/${hand.length} kártya`));
 
     const detailLines = [
@@ -113,11 +114,12 @@ class UIBase {
     }
 
     const actions = el('div', 'inspector__actions');
+    let play = null;
     if (opts.playable) {
-      const play = el('button', 'btn', canPlay ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
+      play = el('button', 'btn', canPlay ? 'Kijátszom ezt a lapot' : 'Ez a lap nem használható');
       play.disabled = !canPlay;
       play.addEventListener('click', () => {
-        if (!canPlay) return;
+        if (!canPlay || !this.inspector) return;
         const chosen = hand[this.inspector.index];
         this.closeInspector();
         opts.onPlay(chosen);
@@ -128,7 +130,34 @@ class UIBase {
     close.addEventListener('click', () => this.closeInspector());
     actions.appendChild(close);
     centre.appendChild(actions);
-    centre.appendChild(el('div', 'inspector__hint', '← → kártyaváltás · Enter kijátszás · Esc bezárás'));
+    centre.appendChild(el(
+      'div',
+      'inspector__hint',
+      canPlay
+        ? '← → kártyaváltás · koppints a lapra a kijátszáshoz · Esc bezárás'
+        : '← → kártyaváltás · Esc bezárás',
+    ));
+
+    if (canPlay && play) {
+      largeCard.classList.add('inspector__playable-card');
+      largeCard.tabIndex = 0;
+      largeCard.setAttribute('role', 'button');
+      largeCard.setAttribute('aria-label', `${card?.displayName ?? card?.name ?? 'Játékoskártya'} kiválasztása és kijátszása`);
+      largeCard.dataset.inspectorPlayBound = 'core';
+
+      const commitLargeCard = event => {
+        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        if (this._inspectorSwitching || play.disabled || !this.inspector) return;
+        largeCard.classList.add('is-committing');
+        play.click();
+      };
+      largeCard.addEventListener('click', commitLargeCard);
+      largeCard.addEventListener('keydown', commitLargeCard);
+    }
+
     shell.append(previous, centre, next);
     layer.appendChild(shell);
     document.body.appendChild(layer);
