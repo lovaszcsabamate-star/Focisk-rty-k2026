@@ -39,9 +39,36 @@ assert.equal(canonicalNationKey('Magyarország'), 'hungary');
 assert.equal(canonicalNationKey('HUN'), 'hungary');
 assert.equal(canonicalNationKey('Szerbia'), 'serbia');
 assert.equal(canonicalNationKey('ROU'), 'romania');
-assert.equal(canonicalNationKey('Bosznia-Hercegovina'), 'bosznia-hercegovina');
+assert.equal(canonicalNationKey('Bosznia-Hercegovina'), 'bosnia-herzegovina');
+assert.equal(canonicalNationKey('CRO'), 'croatia');
+assert.equal(canonicalNationKey('SLO'), 'slovenia');
+assert.equal(canonicalNationKey('Ír'), 'ireland');
 assert.deepEqual(nationPresentation('serbia'), { key: 'serbia', flag: '🇷🇸', label: 'Szerb' });
+assert.deepEqual(nationPresentation('BEL'), { key: 'belgium', flag: '🇧🇪', label: 'Belga' });
+assert.deepEqual(nationPresentation('GRC'), { key: 'greece', flag: '🇬🇷', label: 'Görög' });
 assert.deepEqual(nationPresentation('Atlantisz'), { key: 'atlantisz', flag: '🌍', label: 'Atlantisz' });
+
+const normalizedDatabase = JSON.parse(read('../data/databases/hungary-nb1-2025-26/players.normalized.json'));
+const databaseNationCodes = [...new Set(
+  normalizedDatabase.players
+    .map(player => player.nationalityCode || player.nation || player.nationality)
+    .flatMap(value => String(value ?? '').split('/'))
+    .map(value => value.trim())
+    .filter(Boolean),
+)].sort();
+const missingFlagCodes = databaseNationCodes.filter(code => nationPresentation(code).flag === '🌍');
+assert.deepEqual(
+  missingFlagCodes,
+  [],
+  `Hiányzó ország- vagy zászló-hozzárendelések: ${missingFlagCodes.join(', ')}`,
+);
+assert.equal(
+  normalizedDatabase.players.every(player => String(
+    player.nationalityCode || player.nation || player.nationality || '',
+  ).trim()),
+  true,
+  'Minden normalizált játékosrekordhoz tartoznia kell nemzetiségnek.',
+);
 
 const options = buildDeckSelectionOptions(players);
 assert.equal(options.minimum, 11);
