@@ -103,13 +103,37 @@ const moduleOrder = [
   'js/main.js',
 ];
 
+const uiEnhancementFiles = new Set([
+  'js/ux.js',
+  'js/ux-fixes.js',
+  'js/matchday.js',
+  'js/opponents.js',
+  'js/mobile-experience.js',
+  'js/player-profile.js',
+  'js/reliability-fixes.js',
+  'js/usability-fixes.js',
+  'js/focus-experience.js',
+  'js/visual-settings-persistence.js',
+  'js/visual-system.js',
+  'js/legal-ui.js',
+]);
+
 const flattenModule = source => source
   .replace(/^import\s+[^;]+;\s*$/gm, '')
   .replace(/^export\s+\{[^}]+\};?\s*$/gm, '')
   .replace(/\bexport\s+(?=(?:const|let|var|class|function|async\s+function)\b)/g, '');
 
+const flattenModuleFile = file => {
+  const flattened = flattenModule(read(file));
+  if (!uiEnhancementFiles.has(file)) {
+    return `\n/* ===== ${file} ===== */\n${flattened}`;
+  }
+  const layerName = JSON.stringify(file);
+  return `\n/* ===== ${file} · isolated UI class layer ===== */\nbeginUiEnhancementLayer(${layerName});\n${flattened}\ncommitUiEnhancementLayer(${layerName});`;
+};
+
 const bundle = moduleOrder
-  .map(file => `\n/* ===== ${file} ===== */\n${flattenModule(read(file))}`)
+  .map(flattenModuleFile)
   .join('\n');
 const basePayload = JSON.parse(read(playerFile));
 const enrichmentParts = enrichmentFiles.map(file => JSON.parse(read(file)));
