@@ -99,6 +99,7 @@ const moduleOrder = [
   'js/visual-settings-persistence.js',
   'js/visual-system.js',
   'js/legal-ui.js',
+  'js/ui/ui-enhancement-pipeline.js',
   'js/main.js',
 ];
 
@@ -237,7 +238,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
-    `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson};</script>\n<script type="module">${safeBundle}</script>`
+    `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`
   );
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');

@@ -7,6 +7,7 @@ import {
   installDeckSelectionMenu,
   readDeckSelection,
 } from './deck-selection.js';
+import { installUiEnhancementPipeline } from './ui/ui-enhancement-pipeline.js';
 
 function showFatalError(error) {
   console.error('[bootstrap] Az alkalmazás nem indítható:', error);
@@ -25,6 +26,7 @@ function showFatalError(error) {
 }
 
 try {
+  await installUiEnhancementPipeline();
   const loaded = await loadDatabase();
   const {
     database,

@@ -12,6 +12,7 @@ const focusJs = read('js/focus-experience.js');
 const reliabilityJs = read('js/reliability-fixes.js');
 const usabilityJs = read('js/usability-fixes.js');
 const opponentsJs = read('js/opponents.js');
+const pipelineJs = read('js/ui/ui-enhancement-pipeline.js');
 const pwaJs = read('js/pwa.js');
 const pwaCss = read('css/pwa.css');
 const phaseSmoke = read('scripts/mobile-phase-smoke.mjs');
@@ -107,7 +108,11 @@ assert.match(pwaCss, /safe-area-inset-bottom/);
 assert.doesNotMatch(indexHtml, />\s*Penalties(?: mód)?\s*</u, 'A fő HTML-ben angol Penalties felirat maradt.');
 assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
-assert.match(indexHtml, /js\/player-profile\.js[\s\S]*js\/reliability-fixes\.js[\s\S]*js\/usability-fixes\.js[\s\S]*js\/focus-experience\.js/);
+assert.doesNotMatch(indexHtml, /js\/(?:player-profile|reliability-fixes|usability-fixes|focus-experience)\.js/);
+assert.match(
+  pipelineJs,
+  /\.\.\/player-profile\.js[\s\S]*\.\.\/reliability-fixes\.js[\s\S]*\.\.\/usability-fixes\.js[\s\S]*\.\.\/focus-experience\.js/,
+);
 assert.match(manifest.description, /büntetőpárbaj/i);
 assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);

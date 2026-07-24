@@ -13,6 +13,7 @@ const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
 const branding = read('js/branding.js');
 const legalUi = read('js/legal-ui.js');
+const enhancementPipeline = read('js/ui/ui-enhancement-pipeline.js');
 const configuration = read('js/app/configuration.js');
 const storageService = read('js/services/storage-service.js');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
@@ -20,7 +21,11 @@ const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
 assert.match(index, /css\/visual-settings-persistence\.css/, 'A méretezésmentés visszajelző stílusa nincs betöltve.');
 assert.match(index, /css\/legal-ui\.css/, 'A kezdőképernyős jogi stílus nincs betöltve.');
-assert.match(index, /js\/branding\.js[\s\S]*js\/visual-settings-persistence\.js[\s\S]*js\/visual-system\.js[\s\S]*js\/legal-ui\.js[\s\S]*js\/bootstrap\.js/, 'A méretezés visszaállításának a vizuális rendszer előtt kell futnia.');
+assert.match(
+  enhancementPipeline,
+  /\.\.\/visual-settings-persistence\.js[\s\S]*\.\.\/visual-system\.js[\s\S]*\.\.\/legal-ui\.js/,
+  'A méretezés visszaállításának a vizuális rendszer előtt kell futnia.',
+);
 assert.match(index, /src\/assets\/placeholders\/app-icon\.svg/, 'Az aktív felületnek a jóváhagyott semleges alkalmazásikont kell használnia.');
 assert.doesNotMatch(index, /assets\/icons\/(?:icon|apple-touch-icon)/, 'Jóváhagyatlan korábbi projektikon nem maradhat az aktív felületen.');
 assert.match(manifest, /src\/assets\/placeholders\/app-icon\.svg/, 'A PWA-manifestnek a jóváhagyott semleges alkalmazásikont kell használnia.');
