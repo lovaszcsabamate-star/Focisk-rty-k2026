@@ -1,9 +1,9 @@
 /**
  * NB I card data contract, normalisation and centrally configured comparison categories.
  *
- * Real card fields are never guessed. Unknown values stay `null`; categories are enabled
- * only when the loaded database contains enough valid values, and cards without a valid
- * value cannot be used in that comparison.
+ * Real card fields are never guessed. Unknown values stay `null`; every category with at
+ * least two verified values in the active deck can participate, while the round logic still
+ * hides categories that are not currently playable by both sides.
  */
 
 import { CATEGORY_MINIMUM_COVERAGE, CATEGORY_RATE_MINUTES, createCategoryRegistry } from './categories.js';
@@ -235,12 +235,15 @@ export async function loadPlayers(url = 'data/players.json') {
     const cards = rawCards.map(normaliseCard);
     const problems = validatePlayers(cards);
     if (problems.length) throw new Error(`${problems.length} invalid card(s): ${problems.slice(0, 5).join('; ')}`);
-    configureAttributes(cards);
+    // Relevance is decided by the active deck and then by the two current hands.
+    // A category with at least two verified deck values must not disappear only
+    // because its overall coverage is below the former 10% presentation threshold.
+    configureAttributes(cards, { minimumCoverage: 0 });
 
     console.info(`[players] ${cards.length} valós NB I-játékos betöltve · ${ATTRIBUTES.length} használható kategória${payload.season ? ` · ${payload.season}` : ''}`);
     return { players: cards, source: 'real', meta: Array.isArray(payload) ? null : payload };
   } catch (error) {
-    configureAttributes(MOCK_PLAYERS);
+    configureAttributes(MOCK_PLAYERS, { minimumCoverage: 0 });
     console.info(`[players] Fiktív tartalékpakli használata: ${error.message}`);
     return { players: MOCK_PLAYERS, source: 'mock', meta: null };
   }
