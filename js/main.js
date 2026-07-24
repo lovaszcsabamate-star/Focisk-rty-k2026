@@ -1,15 +1,15 @@
 /** Browser session controller for Classic and Penalties modes. */
 
-import { PHASE, HUMAN, AI } from './engine.js';
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
-import { TURN_DELAY, createTurnTimingService } from './services/turn-timing-service.js';
+import { createTurnTimingService } from './services/turn-timing-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { createMenuController } from './app/menu-controller.js';
 import { createResultController } from './app/result-controller.js';
-import { UI, el } from './ui.js';
-import { getLine, getIdleChatter } from './banter.js';
-import { ATTRIBUTE_BY_KEY, attributeValue, loadPlayers } from './data/players.js';
+import { createRoundController } from './app/round-controller.js';
+import { UI } from './ui.js';
+import { getLine } from './banter.js';
+import { loadPlayers } from './data/players.js';
 import {
   applyExperienceSettings,
   clearSavedMatch,
@@ -91,6 +91,23 @@ class Session {
         showPanel: (panel, returnAction) => this._showPanel(panel, returnAction),
       },
       clearSaved: clearSavedMatch,
+    });
+    this.rounds = createRoundController({
+      ui: this.ui,
+      runtime: this.runtime,
+      getState: () => ({
+        game: this.game,
+        mode: this.mode,
+        busy: this.busy,
+        pendingAttribute: this.pendingAttribute,
+        awaitingChooserCard: this.awaitingChooserCard,
+      }),
+      actions: {
+        setBusy: value => { this.busy = value; },
+        saveCurrentGame: () => this.saveCurrentGame(),
+        showGameOver: () => this.showGameOver(),
+      },
+      wait: delayOrKey => this.delay(delayOrKey),
     });
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
@@ -212,151 +229,31 @@ class Session {
   }
 
   beginRound() {
-    const game = this.game;
-    if (!game) return;
-    this.busy = false;
-    this.ui.setInteractionBusy(false);
-    this.ui.closeInspector();
-    this.ui.renderScores(game);
-    this.ui.dom.duel.replaceChildren();
-    this.ui.dom.verdict.replaceChildren();
-    this.ui.dom.verdict.className = '';
-
-    if (game.chooser === HUMAN) {
-      this.ui.renderHands(game, { selectable: false });
-      this.ui.showAttributePicker(game);
-      this.saveCurrentGame();
-    } else {
-      this.aiChoosesAttribute();
-    }
+    return this.rounds.beginRound();
   }
 
   humanChoseAttribute(attributeKey) {
-    if (this.busy || !this.game.availableAttributeKeys().includes(attributeKey)) return;
-    this.runtime.selectHumanAttribute(attributeKey);
-    this.ui.hideAttributePicker();
-    this.ui.say(getLine('youChooseAttribute', { attributeKey }));
-    this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[attributeKey].label);
-    this.ui.renderHands(this.game, { selectable: true, inspectAttribute: attributeKey });
-    this.saveCurrentGame();
+    return this.rounds.humanChoseAttribute(attributeKey);
   }
 
-  async aiChoosesAttribute() {
-    const game = this.game;
-    this.busy = true;
-    this.ui.setInteractionBusy(true);
-    this.ui.renderHands(game, { selectable: false });
-    this.ui.setPrompt('A gép választ…');
-    await this.delay(TURN_DELAY.AI_CHOOSE_ATTRIBUTE);
-    if (this.game !== game) return;
-
-    const choice = this.runtime.chooseAiAttribute();
-    const label = ATTRIBUTE_BY_KEY[choice.attribute].label;
-    this.ui.say(getLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
-    this.ui.setPrompt('A gép ezt választotta:', label);
-    this.ui.showDuel(game, { opponentHidden: true });
-    this.ui.renderHands(game, { selectable: true });
-    this.busy = false;
-    this.ui.setInteractionBusy(false);
-    this.saveCurrentGame();
+  aiChoosesAttribute() {
+    return this.rounds.aiChoosesAttribute();
   }
 
-  async humanPlayedCard(card) {
-    if (this.busy || !this.game || this.game.phase === PHASE.GAME_OVER) return;
-    this.busy = true;
-    this.ui.setInteractionBusy(true);
-    let result;
-
-    try {
-      if (this.awaitingChooserCard) {
-        this.runtime.commitHumanChooserCard(card.id);
-        this.ui.showDuel(this.game, { opponentHidden: true });
-        this.ui.renderHands(this.game, { selectable: false });
-        this.ui.setPrompt('A gép kártyát választ…');
-        await this.delay(TURN_DELAY.AI_CHOOSE_CARD);
-        result = this.runtime.playAiCard();
-      } else {
-        result = this.runtime.playHumanCard(card.id);
-        this.ui.renderHands(this.game, { selectable: false });
-        await this.delay(250);
-      }
-      await this.revealAndScore(result);
-    } catch (error) {
-      console.error('[round] A kör nem fejezhető be:', error);
-      this.busy = false;
-      this.ui.setInteractionBusy(false);
-      this.ui.showToast('A kört nem sikerült lezárni. Próbáld újra.', 'error');
-      this.saveCurrentGame();
-    }
+  humanPlayedCard(card) {
+    return this.rounds.humanPlayedCard(card);
   }
 
-  async revealAndScore(result) {
-    this.ui.showDuel(this.game, { result });
-    this.ui.setPrompt('Eredmény');
-    await this.delay(320);
-    this.ui.showVerdict(result, this.game);
-    this.ui.renderScores(this.game);
-    this.sayResultBanter(result);
-    this.saveCurrentGame();
-
-    if (result.enteredSuddenDeath) {
-      this.ui.say(getLine('suddenDeath'));
-      await this.ui.showSuddenDeath();
-    } else {
-      await this.delay(650);
-    }
-
-    if (this.game.isOver) {
-      this.showGameOver();
-      return;
-    }
-    this.busy = false;
-    this.ui.setInteractionBusy(false);
-    this.showContinue();
+  revealAndScore(result) {
+    return this.rounds.revealAndScore(result);
   }
 
   sayResultBanter(result) {
-    const attribute = ATTRIBUTE_BY_KEY[result.attribute];
-    const context = { card: result.humanCard.name, stat: attribute.label, attributeKey: result.attribute };
-    if (result.winner === 'tie') {
-      this.ui.say(getLine('tie', context));
-      return;
-    }
-
-    const mine = attributeValue(result.humanCard, result.attribute);
-    const theirs = attributeValue(result.aiCard, result.attribute);
-    const spread = Math.abs(mine - theirs) / Math.max(Math.abs(mine), Math.abs(theirs), 1);
-    if (result.winner === HUMAN) {
-      this.ui.say(getLine('attributeWin', context));
-      this.ui.say(getLine(spread > 0.55 ? 'youWinBig' : 'youWin', context));
-    } else {
-      this.ui.say(getLine(spread < 0.06 ? 'youLoseClose' : 'youLose', context));
-    }
-    if (result.potScooped > 0) this.ui.say(getLine('potScooped', context));
+    return this.rounds.sayResultBanter(result);
   }
 
   showContinue() {
-    const label = this.mode === 'penalties' ? 'Következő párbaj' : 'Következő kör';
-    const button = el('button', 'btn next-round-button', label);
-    button.setAttribute('aria-label', label);
-    button.addEventListener('click', () => {
-      if (this.busy) return;
-      this.busy = true;
-      this.ui.setInteractionBusy(true);
-      this.ui.dom.picker.replaceChildren();
-      const { reshuffled } = this.runtime.advance();
-      if (this.mode === 'penalties') {
-        if (reshuffled) this.ui.say(getLine('reshuffle'));
-      } else {
-        this.ui.say(getIdleChatter());
-      }
-      this.busy = false;
-      this.ui.setInteractionBusy(false);
-      if (this.game.isOver) this.showGameOver();
-      else this.beginRound();
-    }, { once: true });
-    this.ui.dom.picker.replaceChildren(button);
-    this.saveCurrentGame();
+    return this.rounds.showContinue();
   }
 
   saveCurrentGame() {
@@ -394,50 +291,11 @@ class Session {
   }
 
   restoreSavedView() {
-    const game = this.game;
-    this.ui.renderScores(game);
-
-    if (game.phase === PHASE.CHOOSE_ATTRIBUTE) {
-      if (this.awaitingChooserCard && this.pendingAttribute && game.chooser === HUMAN) {
-        this.ui.setPrompt('Te következel – válassz kártyát:', ATTRIBUTE_BY_KEY[this.pendingAttribute]?.label);
-        this.ui.renderHands(game, { selectable: true, inspectAttribute: this.pendingAttribute });
-      } else {
-        this.beginRound();
-      }
-      return;
-    }
-
-    if (game.phase === PHASE.CHOOSE_CARD) {
-      this.ui.showDuel(game, { opponentHidden: true });
-      if (game.chooser === AI) {
-        this.ui.setPrompt('A gép ezt választotta:', ATTRIBUTE_BY_KEY[game.attribute]?.label);
-        this.ui.renderHands(game, { selectable: true });
-        this.runtime.clearPendingChoice();
-      } else {
-        this.ui.renderHands(game, { selectable: false });
-        this.ui.setPrompt('A gép befejezi a félbemaradt kört…');
-        this.finishRestoredAiMove();
-      }
-      return;
-    }
-
-    if (game.phase === PHASE.REVEAL && game.lastResult) {
-      this.ui.renderHands(game, { selectable: false });
-      this.ui.showDuel(game, { result: game.lastResult });
-      this.ui.showVerdict(game.lastResult, game);
-      this.showContinue();
-      return;
-    }
-
-    if (game.phase === PHASE.GAME_OVER) this.showGameOver();
+    return this.rounds.restoreSavedView();
   }
 
-  async finishRestoredAiMove() {
-    this.busy = true;
-    this.ui.setInteractionBusy(true);
-    await this.delay(350);
-    const result = this.runtime.playAiCard();
-    await this.revealAndScore(result);
+  finishRestoredAiMove() {
+    return this.rounds.finishRestoredAiMove();
   }
 
   showGameOver() {

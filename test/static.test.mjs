@@ -63,6 +63,7 @@ const workflow = read('../.github/workflows/verify-and-build.yml');
 const main = read('../js/main.js');
 const menuController = read('../js/app/menu-controller.js');
 const gameRuntime = read('../js/game/game-runtime.js');
+const roundController = read('../js/app/round-controller.js');
 const launcher = read('../JATEK_INDITASA.bat');
 const standalone = read('../Fociskartyak2026.html');
 
@@ -268,8 +269,8 @@ assert.ok(hasScalableApprovedIcon || hasRasterInstallIcons, 'Hiányzik a skálá
 assert.match(menuController, /Klasszikus mód/);
 assert.match(main, /new GameRuntime/);
 assert.match(main, /runtime.start/);
-assert.match(main, /runtime.playHumanCard/);
-assert.match(main, /runtime.playAiCard/);
+assert.match(roundController, /runtime.playHumanCard/);
+assert.match(roundController, /runtime.playAiCard/);
 assert.doesNotMatch(main, /new (Game|PenaltyGame)\(/);
 assert.doesNotMatch(main, /this\.game\.(chooseAttribute|playCard|nextRound|nextDuel|result)\(/);
 assert.doesNotMatch(gameRuntime, /\bdocument\b|\bwindow\b|querySelector|innerHTML|from ['"]\.\.\/ui\.js/);
