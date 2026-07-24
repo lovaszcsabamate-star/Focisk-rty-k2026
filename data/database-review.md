@@ -1,6 +1,6 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-23T20:28:17.317Z
+Generálva: 2026-07-24T01:29:35.831Z
 
 ## Összefoglaló
 
