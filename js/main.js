@@ -1,10 +1,11 @@
 /** Browser session controller for Classic and Penalties modes. */
 
-import { PHASE, HUMAN, AI, GAME_DECK_SIZE } from './engine.js';
+import { PHASE, HUMAN, AI } from './engine.js';
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
 import { TURN_DELAY, createTurnTimingService } from './services/turn-timing-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
+import { createMenuController } from './app/menu-controller.js';
 import { UI, el } from './ui.js';
 import { getLine, getIdleChatter } from './banter.js';
 import { ATTRIBUTE_BY_KEY, attributeValue, loadPlayers } from './data/players.js';
@@ -45,7 +46,36 @@ class Session {
       onOpenSettings: () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })),
     }, this.settings);
     this.busy = false;
-    this.overlayReturn = null;
+    this.menu = createMenuController({
+      ui: this.ui,
+      getState: () => ({
+        deck: this.deck,
+        source: this.source,
+        meta: this.meta,
+        settings: this.settings,
+        game: this.game,
+        mode: this.mode,
+        difficulty: this.difficulty,
+      }),
+      actions: {
+        saveCurrentGame: () => this.saveCurrentGame(),
+        prepareTitleScreen: () => {
+          this.busy = false;
+          this.ui.setInteractionBusy(false);
+          this.runtime.reset();
+          this.ui.setMode('classic');
+          this.ui.resetTable();
+        },
+        resumeSavedMatch: () => this.resumeSavedMatch(),
+        start: (mode, difficulty) => this.start(mode, difficulty),
+        toggleSetting: (key, value) => this.toggleSetting(key, value),
+        beginMatch: () => this._beginMatch(),
+      },
+      readSaved: readSavedMatch,
+      clearSaved: clearSavedMatch,
+      onboardingCompleted: onboardingWasCompleted,
+      setOnboardingCompletedValue: setOnboardingCompleted,
+    });
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
@@ -87,12 +117,7 @@ class Session {
       this.ui.closeInspector();
       return;
     }
-    if (!this.ui.dom.overlay.hidden && this.overlayReturn) {
-      const action = this.overlayReturn;
-      this.overlayReturn = null;
-      action();
-      return;
-    }
+    if (this.menu.handleBackAction()) return;
     if (this.game && !this.game.isOver) {
       this.showPauseMenu();
       return;
@@ -102,261 +127,51 @@ class Session {
   }
 
   _showPanel(panel, returnAction = null) {
-    this.overlayReturn = returnAction;
-    this.ui.showOverlay(panel);
-    requestAnimationFrame(() => panel.querySelector('button, input, summary')?.focus({ preventScroll: true }));
+    return this.menu.showPanel(panel, returnAction);
   }
 
   _hidePanel() {
-    this.overlayReturn = null;
-    this.ui.hideOverlay();
+    return this.menu.hidePanel();
   }
 
-  showTitleScreen({ offerOnboarding = false } = {}) {
-    if (this.game && !this.game.isOver) this.saveCurrentGame();
-    this.busy = false;
-    this.ui.setInteractionBusy(false);
-    this.runtime.reset();
-    this.ui.setMode('classic');
-    this.ui.resetTable();
-
-    const saved = readSavedMatch();
-    const panel = el('div', 'menu-panel mobile-home');
-    panel.innerHTML = `
-      <p class="eyebrow">A hátsó asztal bajnoksága</p>
-      <h1>Fociskártyák 2026</h1>
-      <p>Válassz ellenfelet és játékmódot. A játék internet nélkül is teljes értékűen működik.</p>
-
-      ${saved ? `
-        <button class="btn btn--continue" id="continue-btn">
-          <span>▶ Játék folytatása</span>
-          <small>${saved.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${this._savedTimeLabel(saved.savedAt)}</small>
-        </button>
-      ` : ''}
-
-      <h2 class="menu-section-title">Új játék</h2>
-      <div class="primary-mode-actions">
-        <button class="btn mode-start" id="start-btn"><span>🃏 Klasszikus mód</span><small>52 lapos kártyameccs</small></button>
-        <button class="btn mode-start" id="penalties-btn"><span>⚽ Penalties mód</span><small>11 lap, öt rendes párbaj</small></button>
-      </div>
-
-      <details class="opponent-details">
-        <summary>👤 Ellenfél kiválasztása</summary>
-        <div class="difficulty" aria-label="Nehézség">
-          ${Object.entries(DIFFICULTY).slice(0, 3).map(([key, difficulty], index) => `
-            <label><input type="radio" name="difficulty" value="${key}" ${index === 1 ? 'checked' : ''}><span>${difficulty.label}</span></label>
-          `).join('')}
-        </div>
-      </details>
-
-      <div class="secondary-menu-actions">
-        <button class="btn btn--ghost" id="rules-btn">📖 Játékszabályok</button>
-        <button class="btn btn--ghost" id="settings-btn">⚙ Beállítások</button>
-      </div>
-      <div class="deck-source">${this._deckLabel()}</div>
-    `;
-
-    panel.querySelector('#continue-btn')?.addEventListener('click', () => this.resumeSavedMatch(), { once: true });
-    panel.querySelector('#start-btn').addEventListener('click', () => this.startFromMenu('classic', panel), { once: true });
-    panel.querySelector('#penalties-btn').addEventListener('click', () => this.startFromMenu('penalties', panel), { once: true });
-    panel.querySelector('#rules-btn').addEventListener('click', () => this.showRules(() => this.showTitleScreen({ offerOnboarding: false })), { once: true });
-    panel.querySelector('#settings-btn').addEventListener('click', () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })), { once: true });
-
-    this._showPanel(panel);
-    if (offerOnboarding && !onboardingWasCompleted()) {
-      setTimeout(() => this.showOnboarding(false), 0);
-    }
+  showTitleScreen(options = {}) {
+    return this.menu.showTitleScreen(options);
   }
 
   _savedTimeLabel(iso) {
-    const date = new Date(iso);
-    if (Number.isNaN(date.getTime())) return 'mentett mérkőzés';
-    return `mentve: ${date.toLocaleDateString('hu-HU')} ${date.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}`;
+    return this.menu.savedTimeLabel(iso);
   }
 
   _deckLabel() {
-    if (this.source !== 'real') return '⚠ Fiktív tartalékpakli – a valós adatfájl nem töltődött be.';
-    const exact = this.meta?.selection?.exactBirthDates;
-    const dateNote = Number.isFinite(exact) ? ` · ${exact} pontos születési dátum` : '';
-    return `✓ ${this.deck.length} valós NB I-kártya · ${this.meta?.season ?? '2025/26'}${dateNote}`;
+    return this.menu.deckLabel();
   }
 
   selectedDifficulty(panel) {
-    const checked = panel?.querySelector('input[name=difficulty]:checked')?.value;
-    return validDifficulty(checked) ? checked : selectedOpponentDifficulty();
+    return this.menu.selectedDifficulty(panel);
   }
 
   startFromMenu(mode, panel) {
-    const difficulty = this.selectedDifficulty(panel);
-    if (readSavedMatch()) {
-      this.confirmReplaceSavedGame(mode, difficulty);
-      return;
-    }
-    this.start(mode, difficulty);
+    return this.menu.startFromMenu(mode, panel);
   }
 
   confirmReplaceSavedGame(mode, difficulty) {
-    const panel = el('div', 'confirm-panel');
-    panel.innerHTML = `
-      <p class="eyebrow">Mentett mérkőzés</p>
-      <h1>Új játékot indítasz?</h1>
-      <p>A jelenlegi mentés törlődik. Ezt később nem lehet visszaállítani.</p>
-      <div class="result-actions">
-        <button class="btn" id="replace-save-btn">Igen, új játék</button>
-        <button class="btn btn--ghost" id="keep-save-btn">Mégse</button>
-      </div>
-    `;
-    panel.querySelector('#replace-save-btn').addEventListener('click', () => {
-      clearSavedMatch();
-      this.start(mode, difficulty);
-    }, { once: true });
-    panel.querySelector('#keep-save-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
-    this._showPanel(panel, () => this.showTitleScreen({ offerOnboarding: false }));
+    return this.menu.confirmReplaceSavedGame(mode, difficulty);
   }
 
   showOnboarding(forced = false) {
-    const slides = [
-      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.'],
-      ['🃏', 'Nézd meg a saját lapjaidat', 'A kéz oldalra húzható. Koppints egy kártyára, a nagyítóval pedig megnyithatod a részleteit.'],
-      ['📊', 'Válassz kategóriát', 'A gomb megmutatja, hogy több vagy kevesebb érték számít jobbnak, és a legjobb saját értékedet is.'],
-      ['🏆', 'Gyűjts több lapot', 'A kör győztese viszi a lapokat. Döntetlennél a lapok a közös pakliba kerülnek.'],
-    ];
-    let index = 0;
-    const panel = el('div', 'onboarding-panel');
-    panel.innerHTML = `
-      <button class="onboarding-skip" id="onboarding-skip" type="button">Átugrás</button>
-      <div class="onboarding-progress" aria-label="Bemutató állapota"></div>
-      <div class="onboarding-slide" aria-live="polite"></div>
-      <label class="onboarding-never"><input type="checkbox" id="onboarding-never" checked> Ne mutasd újra</label>
-      <div class="onboarding-actions">
-        <button class="btn btn--ghost" id="onboarding-back" type="button">Vissza</button>
-        <button class="btn" id="onboarding-next" type="button">Tovább</button>
-      </div>
-    `;
-    const slide = panel.querySelector('.onboarding-slide');
-    const progress = panel.querySelector('.onboarding-progress');
-    const back = panel.querySelector('#onboarding-back');
-    const next = panel.querySelector('#onboarding-next');
-    const never = panel.querySelector('#onboarding-never');
-
-    const finish = () => {
-      if (never.checked) setOnboardingCompleted(true);
-      else if (forced) setOnboardingCompleted(false);
-      this.showTitleScreen({ offerOnboarding: false });
-    };
-    const render = () => {
-      const [icon, title, text] = slides[index];
-      slide.innerHTML = `<div class="onboarding-icon">${icon}</div><h1>${title}</h1><p>${text}</p>`;
-      progress.replaceChildren(...slides.map((_, step) => {
-        const dot = el('span', `onboarding-dot${step === index ? ' is-active' : ''}`);
-        dot.setAttribute('aria-label', `${step + 1}. lépés${step === index ? ', aktuális' : ''}`);
-        return dot;
-      }));
-      back.disabled = index === 0;
-      next.textContent = index === slides.length - 1 ? 'Kezdjük' : 'Tovább';
-    };
-    back.addEventListener('click', () => { if (index > 0) { index -= 1; render(); } });
-    next.addEventListener('click', () => {
-      if (index === slides.length - 1) finish();
-      else { index += 1; render(); }
-    });
-    panel.querySelector('#onboarding-skip').addEventListener('click', finish, { once: true });
-    render();
-    this._showPanel(panel, finish);
+    return this.menu.showOnboarding(forced);
   }
 
   showRules(returnAction) {
-    const panel = el('div', 'rules-panel mobile-sheet');
-    panel.innerHTML = `
-      <p class="eyebrow">Súgó</p>
-      <h1>Játékszabályok</h1>
-      <section class="rule-card" data-rules="classic">
-        <h2>🃏 Klasszikus mód</h2>
-        <p><b>${Math.min(GAME_DECK_SIZE, this.deck.length)} véletlenszerű lap</b> kerül játékba. A két fél körönként felváltva választ kategóriát. A győztes viszi a két lapot és a döntetlenpaklit.</p>
-      </section>
-      <section class="rule-card" data-rules="penalties">
-        <h2>⚽ Penalties mód</h2>
-        <p>Mindkét fél 11 lapot kap. Öt rendes párbaj következik; döntetlennél hirtelen halál. Azonos értéknél nincs gól.</p>
-      </section>
-      <section class="rule-card">
-        <h2>📊 Kategóriák</h2>
-        <p>A kategóriagomb mindig jelzi, hogy a több vagy a kevesebb érték a jobb. Csak olyan kategória választható, amelyhez mindkét oldalon van hiteles adat.</p>
-      </section>
-      <button class="btn" id="rules-back-btn">Vissza</button>
-    `;
-    panel.querySelector('#rules-back-btn').addEventListener('click', returnAction, { once: true });
-    this._showPanel(panel, returnAction);
+    return this.menu.showRules(returnAction);
   }
 
   showSettings(returnAction) {
-    const panel = el('div', 'settings-panel mobile-sheet');
-    panel.innerHTML = `
-      <p class="eyebrow">Személyre szabás</p>
-      <h1>Beállítások</h1>
-      <div class="settings-list"></div>
-      <div class="settings-actions">
-        <button class="btn btn--ghost" id="replay-guide-btn">Útmutató újraindítása</button>
-        ${readSavedMatch() ? '<button class="btn btn--danger" id="delete-save-btn">Mentett játék törlése</button>' : ''}
-        <button class="btn" id="settings-back-btn">Kész</button>
-      </div>
-    `;
-    const rows = [
-      ['sounds', '🔊 Hangok', 'Rövid gomb- és eredményhangok'],
-      ['commentary', '💬 Kommentárok', 'A hátsó asztal beszólásai'],
-      ['vibration', '📳 Rezgés', 'Rövid visszajelzés a kör eredményéről'],
-      ['animations', '✨ Animációk', 'Kártya- és eredményátmenetek'],
-      ['largeText', '🔎 Nagyobb szöveg', 'Nagyobb kezelőelemek és feliratok'],
-      ['simplified', '◻ Egyszerűsített nézet', 'Kevesebb dekoráció és vizuális zaj'],
-    ];
-    const list = panel.querySelector('.settings-list');
-    for (const [key, label, description] of rows) {
-      const row = el('label', 'setting-switch');
-      const copy = el('span', 'setting-switch__copy');
-      copy.append(el('strong', null, label), el('small', null, description));
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.checked = Boolean(this.settings[key]);
-      input.setAttribute('aria-label', label);
-      input.addEventListener('change', () => this.toggleSetting(key, input.checked));
-      row.append(copy, input, el('span', 'setting-switch__visual'));
-      list.appendChild(row);
-    }
-    panel.querySelector('#replay-guide-btn').addEventListener('click', () => {
-      setOnboardingCompleted(false);
-      this.showOnboarding(true);
-    }, { once: true });
-    panel.querySelector('#delete-save-btn')?.addEventListener('click', () => {
-      clearSavedMatch();
-      this.ui.showToast('A mentett játék törölve');
-      this.showSettings(returnAction);
-    }, { once: true });
-    panel.querySelector('#settings-back-btn').addEventListener('click', returnAction, { once: true });
-    this._showPanel(panel, returnAction);
+    return this.menu.showSettings(returnAction);
   }
 
   showPauseMenu() {
-    if (!this.game || this.game.isOver) return;
-    this.saveCurrentGame();
-    const panel = el('div', 'pause-panel mobile-sheet');
-    panel.innerHTML = `
-      <p class="eyebrow">A játék szünetel</p>
-      <h1>Szünet</h1>
-      <p>${this.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${this.game.round}. ${this.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
-      <div class="pause-actions">
-        <button class="btn" id="resume-btn">▶ Játék folytatása</button>
-        <button class="btn btn--ghost" id="restart-btn">↻ Újrakezdés</button>
-        <button class="btn btn--ghost" id="pause-rules-btn">📖 Szabályok</button>
-        <button class="btn btn--ghost" id="pause-settings-btn">⚙ Beállítások</button>
-        <button class="btn btn--ghost" id="home-btn">⌂ Vissza a főmenübe</button>
-      </div>
-    `;
-    const resume = () => this._hidePanel();
-    panel.querySelector('#resume-btn').addEventListener('click', resume, { once: true });
-    panel.querySelector('#restart-btn').addEventListener('click', () => this.start(this.mode, this.difficulty), { once: true });
-    panel.querySelector('#pause-rules-btn').addEventListener('click', () => this.showRules(() => this.showPauseMenu()), { once: true });
-    panel.querySelector('#pause-settings-btn').addEventListener('click', () => this.showSettings(() => this.showPauseMenu()), { once: true });
-    panel.querySelector('#home-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
-    this._showPanel(panel, resume);
+    return this.menu.showPauseMenu();
   }
 
   start(mode, difficulty) {
@@ -371,15 +186,7 @@ class Session {
   }
 
   showPenaltyIntro() {
-    const panel = el('div', 'penalty-intro');
-    panel.innerHTML = `
-      <p class="eyebrow">Penalties mód</p>
-      <h1>11 lap. 5 rendes párbaj.</h1>
-      <p>Döntetlennél hirtelen halál. A felhasznált lapok külön pakliba kerülnek.</p>
-      <button class="btn" id="kickoff-btn">Kezdődhet</button>
-    `;
-    panel.querySelector('#kickoff-btn').addEventListener('click', () => this._beginMatch(), { once: true });
-    this._showPanel(panel, () => this.showTitleScreen({ offerOnboarding: false }));
+    return this.menu.showPenaltyIntro();
   }
 
   _beginMatch() {
