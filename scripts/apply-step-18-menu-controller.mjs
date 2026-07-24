@@ -7,6 +7,53 @@ const replaceOnce = (source, search, replacement, label) => {
   return source.replace(search, replacement);
 };
 
+let menuController = read('js/app/menu-controller.js');
+menuController = replaceOnce(
+  menuController,
+  `import {
+  clearSavedMatch,
+  onboardingWasCompleted,
+  readSavedMatch,
+  setOnboardingCompleted,
+} from '../mobile-experience.js';
+`,
+  '',
+  'DOM-függő mobilélmény-import eltávolítása',
+);
+menuController = replaceOnce(
+  menuController,
+  `  readSaved = readSavedMatch,
+  clearSaved = clearSavedMatch,
+  onboardingCompleted = onboardingWasCompleted,
+  setOnboardingCompletedValue = setOnboardingCompleted,
+`,
+  `  readSaved,
+  clearSaved,
+  onboardingCompleted,
+  setOnboardingCompletedValue,
+`,
+  'perzisztencia alapértelmezések eltávolítása',
+);
+menuController = replaceOnce(
+  menuController,
+  `  if (typeof elementFactory !== 'function') {
+    throw new MenuControllerError('INVALID_ELEMENT_FACTORY', 'A menüvezérlő elemgyártó függvénye kötelező.');
+  }
+
+`,
+  `  if (typeof elementFactory !== 'function') {
+    throw new MenuControllerError('INVALID_ELEMENT_FACTORY', 'A menüvezérlő elemgyártó függvénye kötelező.');
+  }
+  const persistence = { readSaved, clearSaved, onboardingCompleted, setOnboardingCompletedValue };
+  Object.keys(persistence).forEach(method => (
+    menuControllerAssertMethod(persistence, method, 'INVALID_PERSISTENCE_ADAPTER')
+  ));
+
+`,
+  'perzisztencia adapter validációja',
+);
+write('js/app/menu-controller.js', menuController);
+
 let main = read('js/main.js');
 main = replaceOnce(
   main,
@@ -14,8 +61,6 @@ main = replaceOnce(
   "import { createSessionLifecycleService } from './app/session-lifecycle-service.js';\nimport { createMenuController } from './app/menu-controller.js';\n",
   'menu-controller import',
 );
-main = main.replace('  onboardingWasCompleted,\n', '');
-main = main.replace('  setOnboardingCompleted,\n', '');
 main = main.replace(
   "import { PHASE, HUMAN, AI, GAME_DECK_SIZE } from './engine.js';",
   "import { PHASE, HUMAN, AI } from './engine.js';",
@@ -48,6 +93,10 @@ main = replaceOnce(
         toggleSetting: (key, value) => this.toggleSetting(key, value),
         beginMatch: () => this._beginMatch(),
       },
+      readSaved: readSavedMatch,
+      clearSaved: clearSavedMatch,
+      onboardingCompleted: onboardingWasCompleted,
+      setOnboardingCompletedValue: setOnboardingCompleted,
     });
 `,
   'Session menüvezérlő példány',
