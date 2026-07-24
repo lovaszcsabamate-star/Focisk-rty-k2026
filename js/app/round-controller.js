@@ -92,15 +92,7 @@ export function createRoundController({
   const humanChoseAttribute = attributeKey => {
     const current = state();
     const game = current.game;
-    const humanChoiceWindow = game?.phase === phaseRegistry.CHOOSE_ATTRIBUTE
-      && game?.chooser === humanId;
-    if (!humanChoiceWindow || !game.availableAttributeKeys?.().includes(attributeKey)) return false;
-
-    /* A kategóriagomb csak az emberi választási ablakban látható. Egy korábbi
-       animációból vagy overlayből visszamaradt busy jelző ezért nem tilthatja le
-       a valódi választást: az állapotot itt a domainfázis alapján helyreállítjuk. */
-    if (current.busy) setBusy(false);
-
+    if (current.busy || !game?.availableAttributeKeys?.().includes(attributeKey)) return false;
     runtime.selectHumanAttribute(attributeKey);
     ui.hideAttributePicker();
     ui.say(getBanterLine('youChooseAttribute', { attributeKey }));
