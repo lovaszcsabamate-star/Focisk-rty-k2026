@@ -38,10 +38,17 @@ const actions = {
   toggleSetting: (key, value) => calls.push(['toggleSetting', key, value]),
   beginMatch: () => calls.push(['beginMatch']),
 };
+const persistence = {
+  readSaved: () => null,
+  clearSaved: () => calls.push(['clearSaved']),
+  onboardingCompleted: () => true,
+  setOnboardingCompletedValue: value => calls.push(['setOnboardingCompleted', value]),
+};
 const controller = createMenuController({
   ui,
   getState: () => state,
   actions,
+  ...persistence,
   difficultyRegistry: {
     easy: { label: 'Könnyű' },
     medium: { label: 'Közepes' },
@@ -105,12 +112,16 @@ assert.throws(
   error => error instanceof MenuControllerError && error.code === 'INVALID_UI',
 );
 assert.throws(
-  () => createMenuController({ ui, actions, getState: null }),
+  () => createMenuController({ ui, actions, ...persistence, getState: null }),
   error => error instanceof MenuControllerError && error.code === 'INVALID_STATE_ADAPTER',
 );
 assert.throws(
-  () => createMenuController({ ui, getState: () => state, actions: {} }),
+  () => createMenuController({ ui, getState: () => state, ...persistence, actions: {} }),
   error => error instanceof MenuControllerError && error.code === 'INVALID_ACTIONS',
+);
+assert.throws(
+  () => createMenuController({ ui, getState: () => state, actions }),
+  error => error instanceof MenuControllerError && error.code === 'INVALID_PERSISTENCE_ADAPTER',
 );
 
 const controllerSource = readSource('../js/app/menu-controller.js');
@@ -123,8 +134,11 @@ assert.match(controllerSource, /Játékszabályok/);
 assert.match(controllerSource, /Útmutató újraindítása/);
 assert.match(controllerSource, /A játék szünetel/);
 assert.match(controllerSource, /11 lap\. 5 rendes párbaj\./);
+assert.doesNotMatch(controllerSource, /mobile-experience\.js|document\./);
 assert.match(mainSource, /\.\/app\/menu-controller\.js/);
 assert.match(mainSource, /this\.menu\s*=\s*createMenuController/);
+assert.match(mainSource, /readSaved:\s*readSavedMatch/);
+assert.match(mainSource, /onboardingCompleted:\s*onboardingWasCompleted/);
 assert.match(mainSource, /this\.menu\.handleBackAction\(\)/);
 assert.doesNotMatch(mainSource, /this\.overlayReturn|A hátsó asztal bajnoksága|onboarding-progress|settings-list|pause-actions/);
 assert.ok(
