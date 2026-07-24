@@ -33,11 +33,12 @@ jobs:
         run: node test/ui-enhancement-pipeline.test.mjs
       - name: UI komponens regresszió
         run: node test/ui-components.test.mjs
-      - name: Mobil és inspector regresszió
-        run: |
-          node test/interface-regression.test.mjs
-          node test/accessibility-polish.test.mjs
-          node test/focus-experience.test.mjs
+      - name: Interface regresszió
+        run: node test/interface-regression.test.mjs
+      - name: Accessibility regresszió
+        run: node test/accessibility-polish.test.mjs
+      - name: Fókusznézet regresszió
+        run: node test/focus-experience.test.mjs
       - name: Játékruntime regresszió
         run: node test/game-runtime.test.mjs
       - name: Assetlicenc-audit
