@@ -17,8 +17,16 @@ const hierarchyPrevious = Object.freeze({
 
 const contextValue = (root, key) => root?.querySelector(`[data-context-value="${key}"]`);
 
+const visualHierarchyModeKey = mode => {
+  if (mode === 'penalties') return 'penalties';
+  if (mode === 'quick-match') return 'quick-match';
+  return 'classic';
+};
+
 export function visualHierarchyModeLabel(mode) {
-  return mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus';
+  if (mode === 'penalties') return 'Büntetőpárbaj';
+  if (mode === 'quick-match') return 'Gyors meccs';
+  return 'Klasszikus';
 }
 
 export function visualHierarchyRoundLabel(game = {}) {
@@ -114,7 +122,7 @@ function syncMatchContext(ui, game, fallbackAttribute = null) {
   const mode = game?.mode ?? ui.mode;
   const attributeKey = game?.attribute ?? fallbackAttribute;
   context.hidden = false;
-  context.dataset.mode = mode === 'penalties' ? 'penalties' : 'classic';
+  context.dataset.mode = visualHierarchyModeKey(mode);
   const modeNode = contextValue(context, 'mode');
   const roundNode = contextValue(context, 'round');
   const categoryNode = contextValue(context, 'category');
@@ -135,7 +143,7 @@ UI.prototype.setMode = function setModeWithVisualHierarchy(mode) {
   const output = hierarchyPrevious.setMode.call(this, mode);
   const context = document.querySelector('#match-context');
   if (context && !context.hidden) {
-    context.dataset.mode = mode === 'penalties' ? 'penalties' : 'classic';
+    context.dataset.mode = visualHierarchyModeKey(mode);
     const modeNode = contextValue(context, 'mode');
     if (modeNode) modeNode.textContent = visualHierarchyModeLabel(mode);
   }
