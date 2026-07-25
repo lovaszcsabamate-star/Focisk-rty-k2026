@@ -18,6 +18,9 @@ const categoryPickerPrevious = Object.freeze({
   showVerdict: UI.prototype.showVerdict,
 });
 
+const CATEGORY_COMMIT_RETRY_MS = 80;
+const CATEGORY_COMMIT_MAX_ATTEMPTS = 8;
+
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
   .filter(node => node.matches?.('.attr-btn--mobile[data-attribute]'));
 
@@ -75,8 +78,52 @@ function installCategorySelection(ui, picker, sourceButtons) {
   let selectedKey = null;
   let selectedTile = null;
   let committing = false;
+  let commitTimer = 0;
 
   const tiles = sourceButtons.map((button, index) => makeCategoryTile(button, index));
+
+  const setTilesDisabled = disabled => {
+    for (const tile of tiles) tile.disabled = disabled;
+  };
+
+  const restoreSelection = message => {
+    committing = false;
+    if (commitTimer) window.clearTimeout(commitTimer);
+    commitTimer = 0;
+    setTilesDisabled(false);
+    next.disabled = false;
+    next.textContent = 'Tovább a kártyákhoz';
+    next.setAttribute('aria-disabled', 'false');
+    status.textContent = message;
+    ui.dom.pub.classList.add('is-category-selection');
+  };
+
+  const commitSelection = (attempt = 1) => {
+    if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
+
+    let accepted = false;
+    try {
+      accepted = ui.handlers.onAttribute?.(selectedKey) !== false;
+    } catch (error) {
+      console.error('[category-picker] A kategória nem rögzíthető:', error);
+      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
+      return;
+    }
+
+    if (accepted) {
+      status.textContent = `${categoryLabel(selectedTile)} rögzítve. A kártyaválasztás következik.`;
+      leaveCategorySelection(ui);
+      return;
+    }
+
+    if (attempt < CATEGORY_COMMIT_MAX_ATTEMPTS) {
+      status.textContent = 'A játéktér előkészítése folyamatban…';
+      commitTimer = window.setTimeout(() => commitSelection(attempt + 1), CATEGORY_COMMIT_RETRY_MS);
+      return;
+    }
+
+    restoreSelection('A játéktér még nem áll készen. Koppints újra a Tovább gombra.');
+  };
 
   const selectTile = tile => {
     if (committing || tile.disabled) return;
@@ -99,19 +146,21 @@ function installCategorySelection(ui, picker, sourceButtons) {
     grid.appendChild(tile);
   }
 
-  next.addEventListener('click', () => {
+  next.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
     if (committing || !selectedKey || !selectedTile) return;
     committing = true;
 
-    for (const tile of tiles) tile.disabled = true;
+    setTilesDisabled(true);
     selectedTile.classList.add('is-selected');
     selectedTile.setAttribute('aria-pressed', 'true');
     next.disabled = true;
+    next.textContent = 'Továbblépés…';
     next.setAttribute('aria-disabled', 'true');
-    status.textContent = `${categoryLabel(selectedTile)} rögzítve. A kártyaválasztás következik.`;
-    leaveCategorySelection(ui);
+    status.textContent = `${categoryLabel(selectedTile)} rögzítése…`;
 
-    ui.handlers.onAttribute?.(selectedKey);
+    commitSelection();
   });
 
   picker.replaceChildren(grid, actions);
