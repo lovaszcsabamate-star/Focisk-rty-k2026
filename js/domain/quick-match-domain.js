@@ -65,7 +65,6 @@ const NATIONAL_ALPHA2 = Object.freeze({
 const QUICK_MATCH_PLACEHOLDER_LOGO = 'src/assets/placeholders/club-badge.svg';
 const quickMatchPlayers = players => (Array.isArray(players) ? players : []);
 const quickMatchText = value => String(value ?? '').trim();
-const quickMatchOwn = (value, key) => Object.prototype.hasOwnProperty.call(value ?? {}, key);
 
 const quickMatchHash = value => [...String(value ?? '')]
   .reduce((hash, character) => ((hash * 31) + character.codePointAt(0)) >>> 0, 2166136261);
@@ -170,23 +169,26 @@ export function buildQuickMatchTeams(players, {
     }
   }
 
+  const finaliseTeam = team => Object.freeze({
+    ...team,
+    playerIds: Object.freeze([...new Set(team.playerIds)]),
+  });
   const clubTeams = [...clubs.values()]
     .filter(team => team.playerIds.length >= minimum)
     .map(team => createClubTeam({ ...team, competitionId, competitionName }))
-    .sort((left, right) => left.name.localeCompare(right.name, 'hu-HU'));
+    .sort((left, right) => left.name.localeCompare(right.name, 'hu-HU'))
+    .map(finaliseTeam);
 
   const nationalTeams = [...nations.values()]
     .filter(team => team.playerIds.length >= minimum)
     .map(createNationalTeam)
     .sort((left, right) => right.playerIds.length - left.playerIds.length
-      || left.name.localeCompare(right.name, 'hu-HU'));
+      || left.name.localeCompare(right.name, 'hu-HU'))
+    .map(finaliseTeam);
 
   return Object.freeze({
     minimum,
-    teams: Object.freeze([...clubTeams, ...nationalTeams].map(team => Object.freeze({
-      ...team,
-      playerIds: Object.freeze([...new Set(team.playerIds)]),
-    }))),
+    teams: Object.freeze([...clubTeams, ...nationalTeams]),
     byCategory: Object.freeze({
       [QUICK_MATCH_CATEGORY.HUNGARIAN_LEAGUE]: Object.freeze(clubTeams),
       [QUICK_MATCH_CATEGORY.LEAGUE]: Object.freeze([]),
@@ -229,9 +231,13 @@ export function chooseQuickMatchOpponent(selectedTeam, candidates, {
   ));
   if (!eligible.length) return null;
 
-  const recent = new Set(quickMatchPlayers(lastOpponentIds));
-  const fresh = eligible.filter(team => !recent.has(team.id));
-  const pool = fresh.length ? fresh : eligible;
+  const history = quickMatchPlayers(lastOpponentIds).filter(id => typeof id === 'string');
+  const immediatePrevious = history.at(-1) ?? null;
+  const notImmediate = eligible.filter(team => team.id !== immediatePrevious);
+  const repeatSafe = notImmediate.length ? notImmediate : eligible;
+  const recent = new Set(history);
+  const fresh = repeatSafe.filter(team => !recent.has(team.id));
+  const pool = fresh.length ? fresh : repeatSafe;
   const sample = Number(rng());
   const index = Math.min(pool.length - 1, Math.max(0, Math.floor((Number.isFinite(sample) ? sample : 0) * pool.length)));
   return pool[index];
@@ -292,6 +298,7 @@ export function createQuickMatchConfig({
 
 export function normaliseQuickMatchState(value, catalog) {
   const categoryIds = new Set(QUICK_MATCH_CATEGORIES.map(category => category.id));
+  const validTeamIds = new Set(quickMatchPlayers(catalog?.teams).map(team => team.id));
   const category = categoryIds.has(value?.category)
     ? value.category
     : QUICK_MATCH_CATEGORY.HUNGARIAN_LEAGUE;
@@ -307,7 +314,7 @@ export function normaliseQuickMatchState(value, catalog) {
     selectedTeamId: selectionValid ? selectedTeam.id : null,
     opponentTeamId: opponentValid ? opponentTeam.id : null,
     lastOpponentIds: quickMatchPlayers(value?.lastOpponentIds)
-      .filter(id => typeof id === 'string' && quickMatchOwn(Object.fromEntries(catalog.teams.map(team => [team.id, true])), id))
+      .filter(id => typeof id === 'string' && validTeamIds.has(id))
       .slice(-4),
   };
 }
