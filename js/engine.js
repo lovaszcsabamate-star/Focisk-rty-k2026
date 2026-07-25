@@ -1,4 +1,4 @@
-/** Pure rules for the unchanged classic game loop. */
+/** Pure rules for the classic and team-filtered quick-match game loop. */
 
 import { ATTRIBUTE_BY_KEY, ATTRIBUTES, attributeValue, hasAttributeData } from './data/players.js';
 
@@ -51,19 +51,65 @@ export function compare(attributeKey, humanCard, aiCard) {
   return humanAhead ? HUMAN : AI;
 }
 
+const uniqueCards = cards => {
+  const seen = new Set();
+  return cards.filter(card => {
+    if (!card?.id || seen.has(card.id)) return false;
+    seen.add(card.id);
+    return true;
+  });
+};
+
+const validateTeamDecks = teamDecks => {
+  if (!teamDecks || !Array.isArray(teamDecks[HUMAN]) || !Array.isArray(teamDecks[AI])) return null;
+  const human = uniqueCards(teamDecks[HUMAN]);
+  const ai = uniqueCards(teamDecks[AI]);
+  if (human.length !== teamDecks[HUMAN].length || ai.length !== teamDecks[AI].length) {
+    throw new Error('A csapatpaklikban nem szerepelhet ugyanaz a kártya kétszer.');
+  }
+  if (human.length < HAND_SIZE || ai.length < HAND_SIZE) {
+    throw new Error(`A csapatalapú mérkőzéshez oldalanként legalább ${HAND_SIZE} játékos kell.`);
+  }
+  if (human.length !== ai.length) {
+    throw new Error('A csapatalapú mérkőzés két paklijának azonos méretűnek kell lennie.');
+  }
+  return { [HUMAN]: human, [AI]: ai };
+};
+
 export class Game {
-  constructor({ rng = Math.random, players } = {}) {
-    if (!Array.isArray(players) || players.length < 2 * HAND_SIZE) {
+  constructor({ rng = Math.random, players, teamDecks = null, mode = 'classic' } = {}) {
+    const resolvedTeamDecks = validateTeamDecks(teamDecks);
+    if (!resolvedTeamDecks && (!Array.isArray(players) || players.length < 2 * HAND_SIZE)) {
       throw new Error(`A klasszikus módhoz legalább ${2 * HAND_SIZE} játékos kell.`);
     }
 
-    this.mode = 'classic';
+    this.mode = resolvedTeamDecks ? mode : 'classic';
     this.rng = rng;
-    let deckSize = Math.min(GAME_DECK_SIZE, players.length);
-    if (deckSize % 2) deckSize -= 1;
-    this.players = shuffle(players, rng).slice(0, deckSize);
-    this.poolSize = players.length;
-    this.deck = this.players.slice();
+    this.teamBased = Boolean(resolvedTeamDecks);
+
+    if (resolvedTeamDecks) {
+      this.teams = {
+        [HUMAN]: shuffle(resolvedTeamDecks[HUMAN], rng),
+        [AI]: shuffle(resolvedTeamDecks[AI], rng),
+      };
+      this.players = [...this.teams[HUMAN], ...this.teams[AI]];
+      this.poolSize = this.players.length;
+      this.decks = {
+        [HUMAN]: this.teams[HUMAN].slice(),
+        [AI]: this.teams[AI].slice(),
+      };
+      // A régi UI és mentési szerződés számára megmarad a közös deck mező.
+      this.deck = [];
+    } else {
+      let deckSize = Math.min(GAME_DECK_SIZE, players.length);
+      if (deckSize % 2) deckSize -= 1;
+      this.players = shuffle(players, rng).slice(0, deckSize);
+      this.poolSize = players.length;
+      this.deck = this.players.slice();
+      this.decks = null;
+      this.teams = null;
+    }
+
     this.hands = { [HUMAN]: [], [AI]: [] };
     this.won = { [HUMAN]: [], [AI]: [] };
     this.pot = [];
@@ -80,6 +126,11 @@ export class Game {
 
   get scores() {
     return { [HUMAN]: this.won[HUMAN].length, [AI]: this.won[AI].length };
+  }
+
+  get remainingDeckSize() {
+    if (!this.teamBased) return this.deck.length;
+    return this.decks[HUMAN].length + this.decks[AI].length;
   }
 
   get isOver() { return this.phase === PHASE.GAME_OVER; }
@@ -162,6 +213,15 @@ export class Game {
   }
 
   _refillHands() {
+    if (this.teamBased) {
+      for (const side of [HUMAN, AI]) {
+        while (this.hands[side].length < HAND_SIZE && this.decks[side].length > 0) {
+          this.hands[side].push(this.decks[side].pop());
+        }
+      }
+      return;
+    }
+
     while (this.deck.length > 0 && (this.hands[HUMAN].length < HAND_SIZE || this.hands[AI].length < HAND_SIZE)) {
       for (const side of [HUMAN, AI]) {
         if (this.hands[side].length < HAND_SIZE && this.deck.length > 0) this.hands[side].push(this.deck.pop());
