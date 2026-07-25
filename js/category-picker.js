@@ -112,6 +112,16 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
     try {
       const result = ui.handlers.onAttribute?.(selectedKey);
       updateDiagnostics(result);
+      if (result === false) {
+        console.error('[category-picker-debug] handler rejected', JSON.stringify({
+          selectedKey,
+          gamePhase: game?.phase ?? null,
+          gameChooser: game?.chooser ?? null,
+          available: game?.availableAttributeKeys?.() ?? [],
+          processing: ui.dom?.pub?.classList.contains('is-processing') ?? false,
+          pickerConnected: picker.isConnected,
+        }));
+      }
       return result !== false;
     } catch (error) {
       updateDiagnostics(`error:${error?.name ?? 'Error'}`);
