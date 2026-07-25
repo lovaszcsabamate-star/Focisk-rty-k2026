@@ -8,6 +8,7 @@ export const SAVED_MATCH_VERSION = 2;
 export const APP_STORAGE_KEYS = Object.freeze({
   savedMatch: 'fociskartyak:saved-match:v2',
   deckSelection: 'fociskartyak:deck-selection:v1',
+  quickMatchState: 'fociskartyak:quick-match:v1',
   onboardingComplete: 'fociskartyak:onboarding-complete',
   playerName: 'fociskartyak:player-name:v1',
   selectedOpponent: 'fociskartyak:opponent',
