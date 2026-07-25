@@ -24,7 +24,7 @@ const rawManifest = readJson(entry.manifest);
 const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.0.0');
+assert.equal(manifest.version, '3.1.0');
 assert.equal(manifest.files.players, 'data/players.json');
 assert.equal(
   manifest.files.normalizedPlayers,
@@ -43,7 +43,7 @@ assert.equal(manifest.normalization.playerModelVersion, 1);
 assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.reproducible, true);
 assert.equal(manifest.normalization.fallback, 'legacy-layered-database');
-assert.deepEqual(manifest.supportedModes, ['classic', 'penalties']);
+assert.deepEqual(manifest.supportedModes, ['classic', 'penalties', 'quick-match']);
 assert.deepEqual(manifest.supportedDeckSelections, ['random', 'club', 'nation']);
 
 for (const relative of [
@@ -110,4 +110,4 @@ assert.throws(
   /hiányzó normalizált játékosadat-fájl/,
 );
 
-console.log('✓ Adatbázis-regiszter, normalizált manifest és fájlhivatkozások: sikeresek');
+console.log('✓ Adatbázis-regiszter, Gyors meccs manifest és normalizált fájlhivatkozások: sikeresek');
