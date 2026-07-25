@@ -14,7 +14,7 @@ const standaloneBuilder = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
 
 assert.equal(manifest.version, '3.0.0');
-assert.deepEqual(manifest.supportedModes, ['classic', 'penalties', 'quick-match']);
+assert.deepEqual(manifest.supportedModes, ['classic', 'penalties']);
 assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.playerModelVersion, 1);
 assert.equal(manifest.normalization.reproducible, true);
