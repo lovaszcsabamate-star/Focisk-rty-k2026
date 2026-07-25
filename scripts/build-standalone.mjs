@@ -63,6 +63,7 @@ const moduleOrder = [
   'js/services/storage-service.js',
   'js/services/asset-service.js',
   'js/domain/deck-selection-domain.js',
+  'js/domain/quick-match-domain.js',
   'js/services/deck-selection-storage-service.js',
   'js/ui/deck-selection-menu-component.js',
   'js/deck-selection.js',
@@ -87,6 +88,7 @@ const moduleOrder = [
   'js/ux-fixes.js',
   'js/matchday.js',
   'js/opponents.js',
+  'js/quick-match-ui.js',
   'js/pwa.js',
   'js/mobile-experience.js',
   'js/category-picker.js',
@@ -94,6 +96,7 @@ const moduleOrder = [
   'js/app/result-controller.js',
   'js/app/round-controller.js',
   'js/player-profile.js',
+  'js/app/quick-match-controller.js',
   'js/reliability-fixes.js',
   'js/usability-fixes.js',
   'js/focus-experience.js',
@@ -110,6 +113,7 @@ const uiEnhancementFiles = new Set([
   'js/ux-fixes.js',
   'js/matchday.js',
   'js/opponents.js',
+  'js/quick-match-ui.js',
   'js/mobile-experience.js',
   'js/category-picker.js',
   'js/player-profile.js',
@@ -210,8 +214,12 @@ const playablePayload = filterCompleteCardsPayload(buildPayload, {
   playerModel: { database: databaseManifest },
 });
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
-const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}`;
+const clubPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/club-badge.svg')).toString('base64');
+const clubPlaceholderUri = `data:image/svg+xml;base64,${clubPlaceholder}`;
+const safeBundle = bundle
+  .replaceAll('src/assets/placeholders/club-badge.svg', clubPlaceholderUri)
+  .replace(/<\/script/gi, '<\\/script');
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/quick-match.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}`;
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -236,6 +244,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/ux.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/matchday.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/opponents.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/quick-match.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/pwa.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/mobile-experience.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/mobile-overlay-fix.css">', '')
@@ -254,6 +263,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/ux-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/matchday.js"></script>\n', '')
   .replace('  <script type="module" src="js/opponents.js"></script>\n', '')
+  .replace('  <script type="module" src="js/quick-match-ui.js"></script>\n', '')
   .replace('  <script type="module" src="js/pwa.js"></script>\n', '')
   .replace('  <script type="module" src="js/player-profile.js"></script>\n', '')
   .replace('  <script type="module" src="js/reliability-fixes.js"></script>\n', '')
@@ -264,7 +274,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
-    `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`
+    `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_DATABASE__ = ${JSON.stringify(databaseManifest)}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`
   );
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
