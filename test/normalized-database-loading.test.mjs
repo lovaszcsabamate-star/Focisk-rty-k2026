@@ -13,7 +13,8 @@ const databaseService = read('../js/database/database-service.js');
 const standaloneBuilder = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
 
-assert.equal(manifest.version, '3.0.0');
+assert.equal(manifest.version, '3.1.0');
+assert.deepEqual(manifest.supportedModes, ['classic', 'penalties', 'quick-match']);
 assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.playerModelVersion, 1);
 assert.equal(manifest.normalization.reproducible, true);
@@ -35,6 +36,7 @@ assert.match(registry, /normalizedPlayers/);
 assert.match(registry, /normalizationReport/);
 assert.match(registry, /playerModelVersion/);
 assert.match(bootstrap, /loadDatabase/);
+assert.match(bootstrap, /__FOCISKARTYAK_FULL_PLAYER_DATA__/);
 assert.doesNotMatch(bootstrap, /fetchJson\(files\.normalizedPlayers\)/);
 assert.match(databaseService, /fetchCached\(files\.normalizedPlayers/);
 assert.match(databaseService, /source: 'normalized'/);
@@ -44,8 +46,9 @@ assert.match(standaloneBuilder, /normalizedPlayerFile/);
 assert.match(standaloneBuilder, /buildDataSource = 'normalized'/);
 assert.match(standaloneBuilder, /buildDataSource = 'legacy-layered'/);
 assert.match(standaloneBuilder, /standaloneDataSource: buildDataSource/);
+assert.match(standaloneBuilder, /__FOCISKARTYAK_FULL_PLAYER_DATA__/);
 assert.match(serviceWorker, /players\.normalized\.json/);
 assert.match(serviceWorker, /normalization-report\.json/);
 assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+'/);
 
-console.log('✓ Normalizált adatbázis az elsődleges böngészős, önálló és mobilos forrás; a betöltést a központi szolgáltatás kezeli, a régi réteges visszaállás megmaradt');
+console.log('✓ Normalizált adatbázis 3.1.0 az elsődleges forrás, a Gyors meccs a teljes játékoskészletet használja, a régi visszaállás megmaradt');
