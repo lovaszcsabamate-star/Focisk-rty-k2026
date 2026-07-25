@@ -146,10 +146,37 @@ UI.prototype.setSettings = function setMobileSettings(settings) {
 };
 
 UI.prototype.setInteractionBusy = function setInteractionBusy(busy) {
-  this.dom.pub.classList.toggle('is-processing', Boolean(busy));
+  const active = Boolean(busy);
+  this.dom.pub.classList.toggle('is-processing', active);
+
   for (const node of this.dom.pub.querySelectorAll('#attribute-picker button, #player-hand .card--direct-play, #inspector button')) {
-    if ('disabled' in node) node.disabled = Boolean(busy);
-    node.setAttribute('aria-disabled', String(Boolean(busy)));
+    const stateKey = 'interactionBusyState';
+
+    if (active) {
+      if (node.dataset[stateKey] == null) {
+        node.dataset[stateKey] = JSON.stringify({
+          disabled: 'disabled' in node ? Boolean(node.disabled) : null,
+          ariaDisabled: node.hasAttribute('aria-disabled') ? node.getAttribute('aria-disabled') : null,
+        });
+      }
+      if ('disabled' in node) node.disabled = true;
+      node.setAttribute('aria-disabled', 'true');
+      continue;
+    }
+
+    const stored = node.dataset[stateKey];
+    if (stored == null) continue;
+
+    try {
+      const previous = JSON.parse(stored);
+      if ('disabled' in node && previous.disabled != null) node.disabled = Boolean(previous.disabled);
+      if (previous.ariaDisabled == null) node.removeAttribute('aria-disabled');
+      else node.setAttribute('aria-disabled', String(previous.ariaDisabled));
+    } catch {
+      /* Sérült átmeneti állapot esetén sem szabad a tartós UI-állapotot
+         felülírni. A következő render új, konzisztens elemet hoz létre. */
+    }
+    delete node.dataset[stateKey];
   }
 };
 
@@ -260,5 +287,3 @@ UI.prototype.closeInspector = function closeMobileInspector(...args) {
 };
 
 installAiTurnRecovery();
-applyExperienceSettings(loadSettings());
-installConnectivityBadge();
