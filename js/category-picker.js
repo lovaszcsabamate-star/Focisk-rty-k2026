@@ -98,31 +98,33 @@ function installCategorySelection(ui, picker, sourceButtons) {
     ui.dom.pub.classList.add('is-category-selection');
   };
 
-  const commitSelection = (attempt = 1) => {
-    if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
-
-    let accepted = false;
+  const invokeSelection = () => {
     try {
-      accepted = ui.handlers.onAttribute?.(selectedKey) !== false;
+      return ui.handlers.onAttribute?.(selectedKey) !== false;
     } catch (error) {
       console.error('[category-picker] A kategória nem rögzíthető:', error);
-      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
-      return;
+      return null;
     }
+  };
 
-    if (accepted) {
-      status.textContent = `${categoryLabel(selectedTile)} rögzítve. A kártyaválasztás következik.`;
+  const retrySelection = (attempt = 2) => {
+    if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
+    const accepted = invokeSelection();
+
+    if (accepted === true) {
       leaveCategorySelection(ui);
       return;
     }
-
-    if (attempt < CATEGORY_COMMIT_MAX_ATTEMPTS) {
-      status.textContent = 'A játéktér előkészítése folyamatban…';
-      commitTimer = window.setTimeout(() => commitSelection(attempt + 1), CATEGORY_COMMIT_RETRY_MS);
+    if (accepted === null) {
+      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
+      return;
+    }
+    if (attempt >= CATEGORY_COMMIT_MAX_ATTEMPTS) {
+      restoreSelection('A játéktér még nem áll készen. Koppints újra a Tovább gombra.');
       return;
     }
 
-    restoreSelection('A játéktér még nem áll készen. Koppints újra a Tovább gombra.');
+    commitTimer = window.setTimeout(() => retrySelection(attempt + 1), CATEGORY_COMMIT_RETRY_MS);
   };
 
   const selectTile = tile => {
@@ -152,15 +154,27 @@ function installCategorySelection(ui, picker, sourceButtons) {
     if (committing || !selectedKey || !selectedTile) return;
     committing = true;
 
+    /* A játékállapotot még azelőtt rögzítjük, hogy bármely animációs vagy
+       megfigyelőréteg átírhatná a gomb állapotát. Siker esetén a játékmotor
+       szinkron módon lecseréli a kategóriaválasztót a kijátszható kézre. */
+    const accepted = invokeSelection();
+    if (accepted === true) {
+      leaveCategorySelection(ui);
+      return;
+    }
+    if (accepted === null) {
+      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
+      return;
+    }
+
     setTilesDisabled(true);
     selectedTile.classList.add('is-selected');
     selectedTile.setAttribute('aria-pressed', 'true');
     next.disabled = true;
     next.textContent = 'Továbblépés…';
     next.setAttribute('aria-disabled', 'true');
-    status.textContent = `${categoryLabel(selectedTile)} rögzítése…`;
-
-    commitSelection();
+    status.textContent = 'A játéktér előkészítése folyamatban…';
+    commitTimer = window.setTimeout(() => retrySelection(2), CATEGORY_COMMIT_RETRY_MS);
   });
 
   picker.replaceChildren(grid, actions);
