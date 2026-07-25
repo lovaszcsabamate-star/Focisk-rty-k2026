@@ -15,6 +15,7 @@ assert.deepEqual(UI_ENHANCEMENT_MODULES, [
   '../ux-fixes.js',
   '../matchday.js',
   '../opponents.js',
+  '../quick-match-ui.js',
   '../mobile-experience.js',
   '../category-picker.js',
   '../player-profile.js',
@@ -123,6 +124,8 @@ const categoryPickerSource = readSource('../js/category-picker.js');
 const categoryPickerCss = readSource('../css/category-picker.css');
 const hierarchySource = readSource('../js/visual-hierarchy.js');
 const hierarchyCss = readSource('../css/visual-hierarchy.css');
+const quickMatchSource = readSource('../js/quick-match-ui.js');
+const quickMatchCss = readSource('../css/quick-match.css');
 const uiSource = readSource('../js/ui.js');
 const bootstrapSource = readSource('../js/bootstrap.js');
 const indexSource = readSource('../index.html');
@@ -136,19 +139,25 @@ assert.ok(
   'az UI enhancement pipeline az adatbetöltés és a Session előtt fut',
 );
 for (const file of [
-  'ux.js', 'ux-fixes.js', 'matchday.js', 'opponents.js', 'category-picker.js', 'player-profile.js',
+  'ux.js', 'ux-fixes.js', 'matchday.js', 'opponents.js', 'quick-match-ui.js', 'category-picker.js', 'player-profile.js',
   'reliability-fixes.js', 'usability-fixes.js', 'focus-experience.js',
   'visual-settings-persistence.js', 'visual-system.js', 'visual-hierarchy.js', 'legal-ui.js',
 ]) {
-  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}\"></script>`));
+  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}"></script>`));
 }
 assert.match(indexSource, /css\/visual-hierarchy\.css/);
 assert.match(indexSource, /css\/category-picker\.css/);
+assert.match(indexSource, /css\/quick-match\.css/);
 assert.match(indexSource, /js\/branding\.js/);
 assert.match(indexSource, /js\/pwa\.js/);
 assert.match(indexSource, /js\/bootstrap\.js/);
 assert.doesNotMatch(indexSource, /js\/ui\/ui-enhancement-pipeline\.js/, 'a pipeline-t a bootstrap importálja és várja meg');
 
+assert.ok(
+  buildSource.indexOf("'js/opponents.js'")
+    < buildSource.indexOf("'js/quick-match-ui.js'"),
+  'a Gyors meccs belépési réteg az ellenfél-dekoráció után települ',
+);
 assert.ok(
   buildSource.indexOf("'js/mobile-experience.js'")
     < buildSource.indexOf("'js/category-picker.js'"),
@@ -181,15 +190,18 @@ assert.ok(
 );
 assert.match(buildSource, /css\/visual-hierarchy\.css/);
 assert.match(buildSource, /css\/category-picker\.css/);
+assert.match(buildSource, /css\/quick-match\.css/);
 assert.match(buildSource, /const uiEnhancementFiles = new Set/);
 assert.match(buildSource, /beginUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /commitUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__/);
 assert.match(serviceWorkerSource, /\.\/css\/visual-hierarchy\.css/);
 assert.match(serviceWorkerSource, /\.\/css\/category-picker\.css/);
+assert.match(serviceWorkerSource, /\.\/css\/quick-match\.css/);
 assert.match(serviceWorkerSource, /\.\/js\/visual-hierarchy\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/category-picker\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v71/);
+assert.match(serviceWorkerSource, /\.\/js\/quick-match-ui\.js/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v72/);
 assert.match(pipelineSource, /beginLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /commitLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /rollbackLayer\(moduleSpecifier\)/);
@@ -205,6 +217,11 @@ assert.match(categoryPickerCss, /grid-template-columns: repeat\(2, minmax\(0, 1f
 assert.match(categoryPickerCss, /touch-action: pan-y/);
 assert.doesNotMatch(categoryPickerCss, /grid-auto-columns:\s*min\(/);
 
+assert.match(quickMatchSource, /quick-match-btn/);
+assert.match(quickMatchSource, /__FOCISKARTYAK_SHOW_QUICK_MATCH__/);
+assert.match(quickMatchCss, /quick-match-versus-layout/);
+assert.match(quickMatchCss, /quick-match-team-grid/);
+
 assert.match(hierarchySource, /match-context/);
 assert.match(hierarchySource, /next-action-panel/);
 assert.match(hierarchySource, /1\. Kategória/);
@@ -219,4 +236,4 @@ assert.match(hierarchyCss, /score-strip--primary/);
 assert.match(hierarchyCss, /#pub\.is-battle-active #duel \.stat\.active/);
 assert.match(hierarchyCss, /#attribute-picker \.next-round-button/);
 
-console.log('✓ Explicit UI-rétegek, stabil kategóriacsempék és vizuális hierarchia: rendben');
+console.log('✓ Explicit UI-rétegek, Gyors meccs belépés, stabil csempék és vizuális hierarchia: rendben');
