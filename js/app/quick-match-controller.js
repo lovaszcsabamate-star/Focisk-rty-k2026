@@ -30,14 +30,13 @@ export class QuickMatchControllerError extends Error {
 const QUICK_MATCH_EMPTY_CATEGORY_MESSAGE = 'Ebben a kategóriában jelenleg nincs elegendő csapat egy mérkőzés elindításához.';
 const quickMatchRequiredActions = Object.freeze(['showTitleScreen', 'startQuickMatch']);
 
-const assertMethod = (target, method, code) => {
+const quickMatchAssertMethod = (target, method, code) => {
   if (typeof target?.[method] !== 'function') {
     throw new QuickMatchControllerError(code, `A Gyors meccs vezérlőből hiányzik a(z) ${method} művelet.`);
   }
 };
 
-const teamLabel = team => team?.shortName || team?.name || 'Ismeretlen csapat';
-const teamCountLabel = team => `${team?.playerIds?.length ?? 0} kártya`;
+const quickMatchTeamCountLabel = team => `${team?.playerIds?.length ?? 0} kártya`;
 
 export function createQuickMatchController({
   ui,
@@ -50,9 +49,9 @@ export function createQuickMatchController({
   minimumTeamSize = MIN_QUICK_MATCH_TEAM_SIZE,
   defaultDeckSize = DEFAULT_QUICK_MATCH_DECK_SIZE,
 } = {}) {
-  assertMethod(ui, 'showOverlay', 'INVALID_UI');
-  assertMethod(ui, 'showToast', 'INVALID_UI');
-  quickMatchRequiredActions.forEach(method => assertMethod(actions, method, 'INVALID_ACTIONS'));
+  quickMatchAssertMethod(ui, 'showOverlay', 'INVALID_UI');
+  quickMatchAssertMethod(ui, 'showToast', 'INVALID_UI');
+  quickMatchRequiredActions.forEach(method => quickMatchAssertMethod(actions, method, 'INVALID_ACTIONS'));
   if (!Array.isArray(players)) throw new TypeError('A Gyors meccs játékoslistája tömb kell legyen.');
   if (typeof elementFactory !== 'function') throw new TypeError('A Gyors meccs elemgyártó függvénye kötelező.');
 
@@ -128,7 +127,7 @@ export function createQuickMatchController({
     button.append(
       makeTeamMark(team, 'quick-match-team-tile__mark'),
       elementFactory('strong', 'quick-match-team-tile__name', team.name),
-      elementFactory('span', 'quick-match-team-tile__count', teamCountLabel(team)),
+      elementFactory('span', 'quick-match-team-tile__count', quickMatchTeamCountLabel(team)),
       elementFactory('small', 'quick-match-team-tile__competition', teamCategoryLabel(team)),
     );
     if (selected) button.appendChild(elementFactory('span', 'quick-match-team-tile__selected', '✓ Kiválasztva'));
@@ -151,7 +150,7 @@ export function createQuickMatchController({
     preview.append(
       makeTeamMark(team, 'quick-match-preview__mark'),
       elementFactory('strong', 'quick-match-preview__name', team.name),
-      elementFactory('span', 'quick-match-preview__count', teamCountLabel(team)),
+      elementFactory('span', 'quick-match-preview__count', quickMatchTeamCountLabel(team)),
       elementFactory('small', 'quick-match-preview__meta', teamCategoryLabel(team)),
     );
     return preview;
@@ -372,7 +371,7 @@ export function createQuickMatchController({
     panel.querySelector('#quick-back-btn').addEventListener('click', () => actions.showTitleScreen({ offerOnboarding: false }), { once: true });
 
     ui.showOverlay(panel);
-    requestAnimationFrame?.(() => panel.querySelector('.quick-match-category-tab.is-active')?.focus?.({ preventScroll: true }));
+    globalThis.requestAnimationFrame?.(() => panel.querySelector('.quick-match-category-tab.is-active')?.focus?.({ preventScroll: true }));
     return panel;
   };
 
