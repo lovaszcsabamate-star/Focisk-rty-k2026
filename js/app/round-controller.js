@@ -92,7 +92,20 @@ export function createRoundController({
   const humanChoseAttribute = attributeKey => {
     const current = state();
     const game = current.game;
-    if (current.busy || !game?.availableAttributeKeys?.().includes(attributeKey)) return false;
+    const validHumanCategoryPhase = Boolean(
+      game
+      && game.chooser === humanId
+      && game.phase === phaseRegistry.CHOOSE_ATTRIBUTE
+      && game.availableAttributeKeys?.().includes(attributeKey),
+    );
+    if (!validHumanCategoryPhase) return false;
+
+    /* A kategóriaválasztó kizárólag az ember CHOOSE_ATTRIBUTE fázisában látható.
+       Ha itt mégis foglalt maradt a munkamenet, az egy korábbi UI-átmenet
+       beragadt jelzője, nem valódi párhuzamos kör. Helyreállítjuk, hogy a Tovább
+       gomb megbízhatóan átváltson a kártyaválasztásra. */
+    if (current.busy) setBusy(false);
+
     runtime.selectHumanAttribute(attributeKey);
     ui.hideAttributePicker();
     ui.say(getBanterLine('youChooseAttribute', { attributeKey }));
