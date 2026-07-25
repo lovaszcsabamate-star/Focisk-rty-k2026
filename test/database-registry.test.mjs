@@ -24,7 +24,7 @@ const rawManifest = readJson(entry.manifest);
 const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.1.0');
+assert.equal(manifest.version, '3.0.0');
 assert.equal(manifest.files.players, 'data/players.json');
 assert.equal(
   manifest.files.normalizedPlayers,
