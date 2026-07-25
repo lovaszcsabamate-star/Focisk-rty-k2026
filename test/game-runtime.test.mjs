@@ -96,10 +96,50 @@ const aiStartingPenalty = new GameRuntime({ players, rng: () => 0.999, aiFactory
 state = aiStartingPenalty.start(GAME_MODE.PENALTIES, 'easy');
 assert.equal(state.chooser, AI, 'Büntetőpárbajban a gép is kezdhet véletlenszerűen.');
 
+const quickTeamDecks = {
+  [HUMAN]: players.slice(0, 7),
+  [AI]: players.slice(7, 14),
+};
+const quickPlayers = [...quickTeamDecks[HUMAN], ...quickTeamDecks[AI]];
+const quick = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
+state = quick.start(GAME_MODE.QUICK_MATCH, 'medium', {
+  players: quickPlayers,
+  teamDecks: quickTeamDecks,
+  matchConfig: {
+    mode: GAME_MODE.QUICK_MATCH,
+    playerTeamId: 'club:alpha',
+    opponentTeamId: 'club:beta',
+    teamCategory: 'hungarian-league',
+    deckSize: 7,
+    enabledComparisonCategories: ['goals'],
+  },
+});
+assert.equal(state.mode, GAME_MODE.QUICK_MATCH);
+assert.equal(quick.game.mode, GAME_MODE.QUICK_MATCH);
+assert.equal(quick.game.teamBased, true);
+assert.equal(quick.game.teams[HUMAN].length, 7);
+assert.equal(quick.game.teams[AI].length, 7);
+assert.equal(quick.game.hands[HUMAN].length, 5);
+assert.equal(quick.game.hands[AI].length, 5);
+assert.ok(quick.game.hands[HUMAN].every(card => quickTeamDecks[HUMAN].some(teamCard => teamCard.id === card.id)));
+assert.ok(quick.game.hands[AI].every(card => quickTeamDecks[AI].some(teamCard => teamCard.id === card.id)));
+assert.equal(quick.game.remainingDeckSize, 4);
+
+const quickAttribute = quick.availableAttributeKeys()[0];
+quick.selectHumanAttribute(quickAttribute);
+quick.commitHumanChooserCard(quick.game.availableCards(HUMAN, quickAttribute)[0].id);
+const quickResult = quick.playAiCard();
+assert.equal(quickResult.round, 1);
+assert.equal(quick.game.phase, PHASE.REVEAL);
+assert.throws(
+  () => new GameRuntime({ players }).start(GAME_MODE.QUICK_MATCH, 'medium'),
+  error => error instanceof GameRuntimeError && error.code === 'INVALID_QUICK_MATCH',
+);
+
 runtime.reset();
 assert.equal(runtime.game, null);
 assert.throws(() => runtime.playHumanCard('missing'), error => (
   error instanceof GameRuntimeError && error.code === 'NO_ACTIVE_GAME'
 ));
 
-console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, mentés és visszaállítás rendben');
+console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, Gyors meccs, AI-lépések és mentés rendben');
