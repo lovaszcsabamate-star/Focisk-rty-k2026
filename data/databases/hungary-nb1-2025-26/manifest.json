@@ -11,15 +11,14 @@
   "minimumPlayers": 22,
   "supportedModes": [
     "classic",
-    "penalties",
-    "quick-match"
+    "penalties"
   ],
   "supportedDeckSelections": [
     "random",
     "club",
     "nation"
   ],
-  "lastUpdated": "2026-07-25",
+  "lastUpdated": "2026-07-24",
   "files": {
     "players": "data/players.json",
     "normalizedPlayers": "data/databases/hungary-nb1-2025-26/players.normalized.json",
@@ -86,6 +85,6 @@
     "legacyPlayerShape": true,
     "legacyGlobals": true,
     "legacyLayersRetained": true,
-    "note": "Az alkalmazás elsődlegesen a verziózott normalizált adatfájlt használja; hiány vagy sérülés esetén a régi forrásrétegekből biztonságosan újraépíthető. A Gyors meccs ugyanazokra a játékosrekordokra hivatkozik, külön adatmásolat nélkül."
+    "note": "Az alkalmazás elsődlegesen a verziózott normalizált adatfájlt használja; hiány vagy sérülés esetén a régi forrásrétegekből biztonságosan újraépíthető."
   }
 }
