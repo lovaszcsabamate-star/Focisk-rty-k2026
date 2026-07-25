@@ -140,9 +140,13 @@ function enhanceTitleMenu(panel) {
 function ensureOpponentProfile(ui) {
   const zone = ui.dom.opponentHand?.closest('#opponent-zone');
   if (!zone) return;
+  let profile = zone.querySelector('#opponent-profile');
+  if (ui.mode === 'quick-match') {
+    profile?.remove();
+    return;
+  }
 
   const opponent = selectedOpponent();
-  let profile = zone.querySelector('#opponent-profile');
   if (!profile) {
     profile = el('div', 'opponent-profile');
     profile.id = 'opponent-profile';
@@ -162,6 +166,7 @@ function ensureOpponentProfile(ui) {
 }
 
 function decorateScoreboard(board) {
+  if (board?.classList?.contains('match-scoreboard--quick-match')) return board;
   const opponent = selectedOpponent();
   const away = board?.querySelector('.match-team--away');
   const name = away?.querySelector('.match-team__name');
@@ -180,7 +185,9 @@ function decorateScoreboard(board) {
 }
 
 function decorateResultPanel(panel) {
-  if (!panel?.classList?.contains('result-panel') || panel.querySelector('.result-opponent')) return;
+  if (!panel?.classList?.contains('result-panel')
+    || panel.classList.contains('result-panel--quick-match')
+    || panel.querySelector('.result-opponent')) return;
   const opponent = selectedOpponent();
   const summary = el('div', 'result-opponent');
   const portrait = el('div', 'result-opponent__portrait');
