@@ -13,7 +13,7 @@ const databaseService = read('../js/database/database-service.js');
 const standaloneBuilder = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
 
-assert.equal(manifest.version, '3.1.0');
+assert.equal(manifest.version, '3.0.0');
 assert.deepEqual(manifest.supportedModes, ['classic', 'penalties', 'quick-match']);
 assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.playerModelVersion, 1);
@@ -51,4 +51,4 @@ assert.match(serviceWorker, /players\.normalized\.json/);
 assert.match(serviceWorker, /normalization-report\.json/);
 assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+'/);
 
-console.log('✓ Normalizált adatbázis 3.1.0 az elsődleges forrás, a Gyors meccs a teljes játékoskészletet használja, a régi visszaállás megmaradt');
+console.log('✓ Normalizált adatbázis 3.0.0 az elsődleges forrás, a Gyors meccs a teljes játékoskészletet használja, a régi visszaállás megmaradt');
