@@ -6,6 +6,7 @@ import { PenaltyGame } from '../penalties.js';
 export const GAME_MODE = Object.freeze({
   CLASSIC: 'classic',
   PENALTIES: 'penalties',
+  QUICK_MATCH: 'quick-match',
 });
 
 const gameModeDefaultDefinitions = Object.freeze({
@@ -18,6 +19,16 @@ const gameModeDefaultDefinitions = Object.freeze({
     id: GAME_MODE.PENALTIES,
     create: ({ players, rng }) => new PenaltyGame({ players, rng }),
     aiDeck: game => [...game.teams[HUMAN], ...game.teams[AI]],
+  }),
+  [GAME_MODE.QUICK_MATCH]: Object.freeze({
+    id: GAME_MODE.QUICK_MATCH,
+    create: ({ players, rng, teamDecks }) => new Game({
+      players,
+      rng,
+      teamDecks,
+      mode: GAME_MODE.QUICK_MATCH,
+    }),
+    aiDeck: game => game.teams?.[AI] ?? game.players,
   }),
 });
 
@@ -71,14 +82,19 @@ export function createGameModeFactory({
   const normalize = mode => (isSupported(mode) ? mode : fallbackMode);
   const definition = mode => gameModeRequireDefinition(configuredDefinitions, mode);
 
-  const create = (mode, { players, rng = Math.random } = {}) => {
+  const create = (mode, {
+    players,
+    rng = Math.random,
+    teamDecks = null,
+    matchConfig = null,
+  } = {}) => {
     if (!Array.isArray(players)) {
       throw new TypeError('A játékmód létrehozásához players tömb szükséges.');
     }
     const resolvedMode = normalize(mode);
     const game = gameFactory
-      ? gameFactory({ mode: resolvedMode, players, rng })
-      : definition(resolvedMode).create({ players, rng });
+      ? gameFactory({ mode: resolvedMode, players, rng, teamDecks, matchConfig })
+      : definition(resolvedMode).create({ players, rng, teamDecks, matchConfig });
     if (!game || typeof game !== 'object') {
       throw new GameModeFactoryError('INVALID_GAME', `A játékmód nem hozott létre érvényes motort: ${resolvedMode}`);
     }
