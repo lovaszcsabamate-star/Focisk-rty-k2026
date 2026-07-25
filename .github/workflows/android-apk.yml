@@ -27,6 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Java 21 beállítása
         uses: actions/setup-java@v4
@@ -43,7 +44,7 @@ jobs:
           sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
 
       - name: Függőségek telepítése
-        run: npm install
+        run: npm ci
 
       - name: JavaScript ellenőrzés
         run: |
@@ -53,8 +54,31 @@ jobs:
       - name: Offline mobil webcsomag készítése
         run: npm run mobile:prepare
 
-      - name: Játékteszt futtatása
+      - name: Teljes játékteszt futtatása
         run: npm test
+
+      - name: Mobil nézetek ellenőrzése
+        run: npm run test:mobile-layout
+
+      - name: Valódi böngészős futásidejű ellenőrzés
+        id: runtime_check
+        continue-on-error: true
+        run: npm run test:runtime
+
+      - name: Futásidejű diagnosztika mentése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-browser-report
+          path: runtime-browser-report.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Futásidejű hiba megállítja a buildet
+        if: steps.runtime_check.outcome == 'failure'
+        run: |
+          cat runtime-browser-report.json || true
+          exit 1
 
       - name: Android projekt létrehozása
         run: npx cap add android

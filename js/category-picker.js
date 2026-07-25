@@ -1,10 +1,8 @@
 /**
  * Kétlépcsős, csempés kategóriaválasztó.
  *
- * A mobilos kategóriagombokat a meglévő UI-réteg létrehozza, ez a modul pedig
- * eseménykezelők nélküli csempékké alakítja őket. Így az első koppintás csak
- * kijelöl, a külön Tovább gomb rögzíti a választást, tehát téves koppintás után
- * a játékos könnyen válthat másik kategóriára.
+ * Az első koppintás csak kijelöli a kategóriát, a külön Tovább gomb pedig
+ * rögzíti a választást. A kategória interakcióit kizárólag ez a modul kezeli.
  */
 
 import { UI, el } from './ui.js';
@@ -17,6 +15,9 @@ const categoryPickerPrevious = Object.freeze({
   showDuel: UI.prototype.showDuel,
   showVerdict: UI.prototype.showVerdict,
 });
+
+const CATEGORY_COMMIT_RETRY_MS = 80;
+const CATEGORY_COMMIT_MAX_ATTEMPTS = 8;
 
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
   .filter(node => node.matches?.('.attr-btn--mobile[data-attribute]'));
@@ -56,6 +57,8 @@ function makeCategoryTile(source, index) {
 }
 
 function installCategorySelection(ui, picker, sourceButtons) {
+  picker.dataset.categoryPickerController = 'category-picker';
+
   const grid = el('div', 'category-grid');
   grid.setAttribute('role', 'group');
   grid.setAttribute('aria-label', 'Választható összehasonlítási kategóriák');
@@ -75,8 +78,54 @@ function installCategorySelection(ui, picker, sourceButtons) {
   let selectedKey = null;
   let selectedTile = null;
   let committing = false;
+  let commitTimer = 0;
 
   const tiles = sourceButtons.map((button, index) => makeCategoryTile(button, index));
+
+  const setTilesDisabled = disabled => {
+    for (const tile of tiles) tile.disabled = disabled;
+  };
+
+  const restoreSelection = message => {
+    committing = false;
+    if (commitTimer) window.clearTimeout(commitTimer);
+    commitTimer = 0;
+    setTilesDisabled(false);
+    next.disabled = false;
+    next.textContent = 'Tovább a kártyákhoz';
+    next.setAttribute('aria-disabled', 'false');
+    status.textContent = message;
+    ui.dom.pub.classList.add('is-category-selection');
+  };
+
+  const invokeSelection = () => {
+    try {
+      return ui.handlers.onAttribute?.(selectedKey) !== false;
+    } catch (error) {
+      console.error('[category-picker] A kategória nem rögzíthető:', error);
+      return null;
+    }
+  };
+
+  const retrySelection = (attempt = 2) => {
+    if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
+    const accepted = invokeSelection();
+
+    if (accepted === true) {
+      leaveCategorySelection(ui);
+      return;
+    }
+    if (accepted === null) {
+      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
+      return;
+    }
+    if (attempt >= CATEGORY_COMMIT_MAX_ATTEMPTS) {
+      restoreSelection('A játéktér még nem áll készen. Koppints újra a Tovább gombra.');
+      return;
+    }
+
+    commitTimer = window.setTimeout(() => retrySelection(attempt + 1), CATEGORY_COMMIT_RETRY_MS);
+  };
 
   const selectTile = tile => {
     if (committing || tile.disabled) return;
@@ -99,19 +148,30 @@ function installCategorySelection(ui, picker, sourceButtons) {
     grid.appendChild(tile);
   }
 
-  next.addEventListener('click', () => {
+  next.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
     if (committing || !selectedKey || !selectedTile) return;
     committing = true;
 
-    for (const tile of tiles) tile.disabled = true;
+    const accepted = invokeSelection();
+    if (accepted === true) {
+      leaveCategorySelection(ui);
+      return;
+    }
+    if (accepted === null) {
+      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
+      return;
+    }
+
+    setTilesDisabled(true);
     selectedTile.classList.add('is-selected');
     selectedTile.setAttribute('aria-pressed', 'true');
     next.disabled = true;
+    next.textContent = 'Továbblépés…';
     next.setAttribute('aria-disabled', 'true');
-    status.textContent = `${categoryLabel(selectedTile)} rögzítve. A kártyaválasztás következik.`;
-    leaveCategorySelection(ui);
-
-    ui.handlers.onAttribute?.(selectedKey);
+    status.textContent = 'A játéktér előkészítése folyamatban…';
+    commitTimer = window.setTimeout(() => retrySelection(2), CATEGORY_COMMIT_RETRY_MS);
   });
 
   picker.replaceChildren(grid, actions);
