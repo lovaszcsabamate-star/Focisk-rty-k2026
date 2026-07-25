@@ -6,6 +6,7 @@ import { createTurnTimingService } from './services/turn-timing-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { createMenuController } from './app/menu-controller.js';
 import { createQuickMatchController } from './app/quick-match-controller.js';
+import { createQuickMatchPauseController } from './app/quick-match-pause-controller.js';
 import { createResultController } from './app/result-controller.js';
 import { createRoundController } from './app/round-controller.js';
 import { UI } from './ui.js';
@@ -128,6 +129,16 @@ class Session {
         startQuickMatch: payload => this.startQuickMatch(payload),
       },
     });
+    this.quickPause = createQuickMatchPauseController({
+      getState: () => ({ matchContext: this.matchContext }),
+      actions: {
+        showPanel: (panel, returnAction) => this._showPanel(panel, returnAction),
+        hidePanel: () => this._hidePanel(),
+        rematch: () => this.quickMatch.rematch(),
+        chooseAnotherTeam: () => this.quickMatch.chooseAnotherTeam(),
+        showTitleScreen: options => this.showTitleScreen(options),
+      },
+    });
     globalThis.__FOCISKARTYAK_SHOW_QUICK_MATCH__ = () => this.quickMatch.showSelection();
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
@@ -224,26 +235,7 @@ class Session {
   }
 
   showPauseMenu() {
-    if (this.mode === 'quick-match') {
-      const panel = document.createElement('div');
-      panel.className = 'pause-panel mobile-sheet';
-      panel.innerHTML = `
-        <p class="eyebrow">A játék szünetel</p>
-        <h1>Gyors meccs</h1>
-        <p>${this.matchContext?.playerTeam?.name ?? 'Saját csapat'} – ${this.matchContext?.opponentTeam?.name ?? 'Gép csapata'}</p>
-        <div class="pause-actions">
-          <button class="btn" id="resume-btn">▶ Játék folytatása</button>
-          <button class="btn btn--ghost" id="restart-btn">↻ Újrakezdés</button>
-          <button class="btn btn--ghost" id="choose-team-btn">⚽ Másik csapat</button>
-          <button class="btn btn--ghost" id="home-btn">⌂ Vissza a főmenübe</button>
-        </div>
-      `;
-      panel.querySelector('#resume-btn').addEventListener('click', () => this._hidePanel(), { once: true });
-      panel.querySelector('#restart-btn').addEventListener('click', () => this.quickMatch.rematch(), { once: true });
-      panel.querySelector('#choose-team-btn').addEventListener('click', () => this.quickMatch.chooseAnotherTeam(), { once: true });
-      panel.querySelector('#home-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
-      return this._showPanel(panel, () => this._hidePanel());
-    }
+    if (this.mode === 'quick-match') return this.quickPause.showPauseMenu();
     return this.menu.showPauseMenu();
   }
 
