@@ -21,6 +21,11 @@ const categoryPickerPrevious = Object.freeze({
 const CATEGORY_COMMIT_RETRY_MS = 80;
 const CATEGORY_COMMIT_MAX_ATTEMPTS = 8;
 
+const traceCategoryPicker = (...parts) => {
+  const target = globalThis.__runtimeSmoke?.consoleErrors;
+  if (Array.isArray(target)) target.push(`[category-trace] ${parts.map(value => String(value)).join(' | ')}`);
+};
+
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
   .filter(node => node.matches?.('.attr-btn--mobile[data-attribute]'));
 
@@ -97,6 +102,7 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   };
 
   const restoreSelection = message => {
+    traceCategoryPicker('restore', message);
     committing = false;
     if (commitTimer) window.clearTimeout(commitTimer);
     commitTimer = 0;
@@ -109,28 +115,22 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   };
 
   const invokeSelection = () => {
+    traceCategoryPicker('invoke-before', selectedKey, game?.phase, game?.chooser, picker.isConnected);
     try {
       const result = ui.handlers.onAttribute?.(selectedKey);
       updateDiagnostics(result);
-      if (result === false) {
-        console.error('[category-picker-debug] handler rejected', JSON.stringify({
-          selectedKey,
-          gamePhase: game?.phase ?? null,
-          gameChooser: game?.chooser ?? null,
-          available: game?.availableAttributeKeys?.() ?? [],
-          processing: ui.dom?.pub?.classList.contains('is-processing') ?? false,
-          pickerConnected: picker.isConnected,
-        }));
-      }
+      traceCategoryPicker('invoke-after', selectedKey, result, game?.phase, game?.chooser, picker.isConnected);
       return result !== false;
     } catch (error) {
       updateDiagnostics(`error:${error?.name ?? 'Error'}`);
+      traceCategoryPicker('invoke-error', error?.name, error?.message);
       console.error('[category-picker] A kategória nem rögzíthető:', error);
       return null;
     }
   };
 
   const retrySelection = (attempt = 2) => {
+    traceCategoryPicker('retry', attempt, committing, selectedKey, picker.isConnected);
     if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
     const accepted = invokeSelection();
 
@@ -151,6 +151,7 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   };
 
   const selectTile = tile => {
+    traceCategoryPicker('tile-click', tile?.dataset?.attribute, committing, tile?.disabled);
     if (committing || tile.disabled) return;
     selectedKey = tile.dataset.attribute;
     selectedTile = tile;
@@ -172,12 +173,14 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   }
 
   next.addEventListener('click', event => {
+    traceCategoryPicker('next-click', committing, selectedKey, selectedTile?.isConnected, next.disabled);
     event.preventDefault();
     event.stopPropagation();
     if (committing || !selectedKey || !selectedTile) return;
     committing = true;
 
     const accepted = invokeSelection();
+    traceCategoryPicker('next-result', accepted, picker.isConnected);
     if (accepted === true) {
       leaveCategorySelection(ui);
       return;
