@@ -26,6 +26,8 @@ const resultControllerAssertMethod = (target, method, code) => {
   }
 };
 
+const resultTeamLabel = team => team?.shortName || team?.name || 'Csapat';
+
 export function createResultController({
   ui,
   getState,
@@ -60,6 +62,82 @@ export function createResultController({
     }).join(', ');
   };
 
+  const createTeamMark = team => {
+    const wrapper = elementFactory('span', 'quick-match-result-team__mark');
+    if (team?.type === 'national' && team.flag) {
+      const flag = elementFactory('span', 'quick-match-team-flag', team.flag);
+      flag.setAttribute('role', 'img');
+      flag.setAttribute('aria-label', `${team.name} zászlaja`);
+      wrapper.appendChild(flag);
+      return wrapper;
+    }
+
+    if (team?.logoPath) {
+      const image = document.createElement('img');
+      image.src = team.logoPath;
+      image.alt = `${team.name} jogtiszta projektlogója`;
+      image.addEventListener('error', () => {
+        wrapper.replaceChildren(elementFactory('span', 'quick-match-badge-fallback', resultTeamLabel(team)));
+      }, { once: true });
+      wrapper.appendChild(image);
+      return wrapper;
+    }
+
+    wrapper.appendChild(elementFactory('span', 'quick-match-badge-fallback', resultTeamLabel(team)));
+    return wrapper;
+  };
+
+  const createResultTeam = (team, label) => {
+    const section = elementFactory('section', 'quick-match-result-team');
+    section.style.setProperty('--team-primary', team?.primaryColor || '#234a38');
+    section.style.setProperty('--team-secondary', team?.secondaryColor || '#d7b65b');
+    section.append(
+      elementFactory('span', 'quick-match-pairing__side-label', label),
+      createTeamMark(team),
+      elementFactory('strong', 'quick-match-result-team__name', team?.name || 'Ismeretlen csapat'),
+      elementFactory('small', 'quick-match-result-team__category', team?.competitionName || 'Gyors meccs'),
+    );
+    return section;
+  };
+
+  const showQuickMatchResult = (state, result, won, lost) => {
+    const context = state.matchContext;
+    if (!context?.playerTeam || !context?.opponentTeam) {
+      throw new ResultControllerError('INVALID_QUICK_MATCH_CONTEXT', 'A Gyors meccs csapatadatai hiányoznak.');
+    }
+    const heading = won ? 'GYŐZELEM' : lost ? 'VERESÉG' : 'DÖNTETLEN';
+    const winnerName = won
+      ? context.playerTeam.name
+      : lost ? context.opponentTeam.name : 'Döntetlen';
+    const panel = elementFactory('div', `result-panel result-panel--quick-match ${won ? 'result-panel--win' : lost ? 'result-panel--loss' : 'result-panel--tie'}`);
+    panel.append(
+      elementFactory('p', 'result-kicker', `Győztes csapat: ${winnerName}`),
+      elementFactory('h1', null, heading),
+    );
+
+    const matchup = elementFactory('div', 'quick-match-result-matchup');
+    matchup.append(
+      createResultTeam(context.playerTeam, context.playerName || 'Játékos'),
+      elementFactory('div', 'quick-match-result-score', `${result.human} : ${result.ai}`),
+      createResultTeam(context.opponentTeam, 'Gép'),
+    );
+    panel.appendChild(matchup);
+    if (result.undecided) panel.appendChild(elementFactory('p', null, `${result.undecided} lap a döntetlenpakliban maradt.`));
+
+    const actionRow = elementFactory('div', 'result-actions quick-match-actions');
+    const rematch = elementFactory('button', 'btn', 'Visszavágó');
+    const otherOpponent = elementFactory('button', 'btn btn--ghost', 'Másik ellenfél');
+    const otherTeam = elementFactory('button', 'btn btn--ghost', 'Másik csapat választása');
+    const menu = elementFactory('button', 'btn btn--ghost', 'Vissza a főmenübe');
+    rematch.addEventListener('click', () => actions.restartQuickMatch?.(), { once: true });
+    otherOpponent.addEventListener('click', () => actions.quickMatchOtherOpponent?.(), { once: true });
+    otherTeam.addEventListener('click', () => actions.quickMatchChooseTeam?.(), { once: true });
+    menu.addEventListener('click', () => actions.showTitleScreen({ offerOnboarding: false }), { once: true });
+    actionRow.append(rematch, otherOpponent, otherTeam, menu);
+    panel.appendChild(actionRow);
+    return panel;
+  };
+
   const showGameOver = () => {
     const state = getState() ?? {};
     const result = state.result;
@@ -74,6 +152,13 @@ export function createResultController({
     const won = result.winner === humanId;
     const lost = result.winner === aiId;
     ui.say(getBanterLine(won ? 'gameOverWin' : lost ? 'gameOverLose' : 'gameOverTie'));
+
+    if (state.mode === 'quick-match') {
+      const panel = showQuickMatchResult(state, result, won, lost);
+      const showTitle = () => actions.showTitleScreen({ offerOnboarding: false });
+      actions.showPanel(panel, showTitle);
+      return panel;
+    }
 
     const panel = elementFactory('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
     if (state.mode === 'penalties') {
