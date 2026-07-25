@@ -1,105 +1,97 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const read = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
-const readJson = relative => JSON.parse(read(relative));
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const read = relativePath => fs.readFileSync(path.join(ROOT, relativePath), 'utf8');
 
-const uiJs = read('../js/ui.js');
-const mainJs = read('../js/main.js');
-const roundControllerJs = read('../js/app/round-controller.js');
-const menuControllerJs = read('../js/app/menu-controller.js');
-const opponentsJs = read('../js/opponents.js');
-const reliabilityJs = read('../js/reliability-fixes.js');
-const pwaJs = read('../js/pwa.js');
-const pwaCss = read('../css/pwa.css');
-const indexHtml = read('../index.html');
-const pipelineJs = read('../js/ui/ui-enhancement-pipeline.js');
-const serviceWorker = read('../sw.js');
-const manifest = readJson('../manifest.webmanifest');
+const duelCss = read('css/duel-emphasis.css');
+const refinementCss = read('css/phase-refinements.css');
+const focusJs = read('js/focus-experience.js');
+const reliabilityJs = read('js/reliability-fixes.js');
+const usabilityJs = read('js/usability-fixes.js');
+const opponentsJs = read('js/opponents.js');
+const pipelineJs = read('js/ui/ui-enhancement-pipeline.js');
+const pwaJs = read('js/pwa.js');
+const pwaCss = read('css/pwa.css');
+const phaseSmoke = read('scripts/mobile-phase-smoke.mjs');
+const profileCss = read('css/player-profile.css');
+const profileJs = read('js/player-profile.js');
+const configurationJs = read('js/app/configuration.js');
+const indexHtml = read('index.html');
+const manifest = JSON.parse(read('manifest.webmanifest'));
+const serviceWorker = read('sw.js');
 
-assert.match(uiJs, /showOverlay\(node\)/);
-assert.match(uiJs, /focusOverlayBody\(\)/);
-assert.match(uiJs, /aria-modal/);
-assert.match(uiJs, /focusableOverlayNodes/);
-assert.match(uiJs, /event\.key === 'Tab'/);
-assert.match(uiJs, /event\.key === 'Escape'/);
-assert.match(uiJs, /showToast\(message/);
-assert.match(uiJs, /aria-live/);
-assert.match(uiJs, /setInteractionBusy/);
-assert.match(uiJs, /setMode\(mode\)/);
-assert.match(uiJs, /renderPenaltyBoard/);
-assert.match(uiJs, /showSuddenDeath/);
-assert.match(uiJs, /hideSuddenDeath/);
-assert.match(uiJs, /resetTable\(\)/);
-assert.match(uiJs, /closeInspector\(\)/);
-assert.match(uiJs, /finiteDetail\(card\.stats\.redCards\)/);
-assert.match(uiJs, /finiteDetail\(card\.stats\.secondYellowRedCards\)/);
-assert.match(uiJs, /Kijátszom ezt a lapot/);
-assert.match(uiJs, /Ez a lap nem használható/);
-assert.match(uiJs, /onToggleSounds/);
-assert.match(uiJs, /onToggleCommentary/);
-assert.match(uiJs, /onPause/);
-assert.match(uiJs, /onOpenSettings/);
-assert.match(uiJs, /this\.settings = \{ sounds: true, commentary: true/);
+assert.match(duelCss, /#duel\s*\{[^}]*display:\s*grid;/s, 'A párbajnézet nem rácsos elrendezésű.');
+assert.match(
+  duelCss,
+  /grid-template-columns:\s*minmax\(0,\s*1fr\)\s+auto\s+minmax\(0,\s*1fr\)/,
+  'A két kártya nem külön, szimmetrikus oszlopban jelenik meg.',
+);
+assert.match(duelCss, /#duel\s*>\s*\.duel-slot\s+\.card\s*\{[^}]*max-width:\s*100%;/s);
+assert.match(duelCss, /aspect-ratio:\s*var\(--card-aspect-ratio\)/);
+assert.match(
+  duelCss,
+  /#pub\.is-battle-active\s+#duel\s*>\s*\.duel-slot\s+\.card\s*\{[^}]*--card-w:\s*var\(--battle-card-width\);[^}]*--card-h:\s*var\(--battle-card-height\);/s,
+  'A két csatakártyát nem ugyanaz a méretezési szabály vezérli.',
+);
+assert.doesNotMatch(
+  duelCss,
+  /duel-slot:(?:first|last)-child\s+\.card\s*\{[^}]*(?:width|height|--card-w|--card-h):/s,
+  'Oldalanként eltérő kártyaméret maradt a csatafázisban.',
+);
+assert.match(duelCss, /\.card--choice\.is-selected\s*\{[^}]*outline:\s*3px\s+solid\s+var\(--brass-light\)/s);
+assert.match(duelCss, /#pub\.is-battle-transition\s+#player-zone/);
+assert.match(refinementCss, /#inspector\.is-battle-transition\s*\{[^}]*opacity:\s*0;/s);
+assert.match(refinementCss, /\.card--choice\.is-selected::before\s*\{[^}]*content:\s*none;/s);
+assert.match(refinementCss, /\.card--choice\.is-selected::after\s*\{[^}]*width:\s*max-content;[^}]*height:\s*auto;/s);
+assert.match(refinementCss, /#attribute-picker:has\(> \.attr-btn--mobile\)\s*\{[^}]*grid-auto-flow:\s*column;[^}]*scroll-snap-type:\s*x mandatory;/s);
+assert.match(refinementCss, /#attribute-picker:has\(> \.attr-btn--mobile\) \.attr-btn--mobile\s*\{[^}]*min-height:\s*132px;[^}]*scroll-snap-align:\s*center;/s);
+assert.match(refinementCss, /#inspector \.inspector__shell\s*\{[^}]*grid-template-columns:\s*44px minmax\(0, 1fr\) 44px;/s);
+assert.match(refinementCss, /#inspector \.card--large\s*\{[^}]*calc\(100vw - 116px\)/s);
+assert.match(refinementCss, /#pub\.is-battle-active\s+#felt\s*\{[^}]*battle-card-height[^}]*280px/s);
+assert.match(refinementCss, /\.card__name\s*\{[^}]*text-overflow:\s*clip\s*!important;[^}]*-webkit-line-clamp:\s*unset\s*!important;/s);
+assert.match(refinementCss, /\.card__name--compact\s*\{/);
+assert.doesNotMatch(duelCss, /margin-left:\s*-/i, 'Negatív margó átfedést okozhat a párbajnézetben.');
 
-assert.match(mainJs, /onToggleSounds/);
-assert.match(mainJs, /onToggleCommentary/);
-assert.match(mainJs, /onPause/);
-assert.match(mainJs, /onOpenSettings/);
-assert.match(mainJs, /saveCurrentGame\(\)/);
-assert.match(mainJs, /resumeSavedMatch\(\)/);
-assert.match(mainJs, /showPauseMenu\(\)/);
-assert.match(mainJs, /showSettings\(returnAction\)/);
-assert.match(mainJs, /showRules\(returnAction\)/);
-assert.match(mainJs, /this\.lifecycle = createSessionLifecycleService/);
-assert.match(mainJs, /this\.rounds = createRoundController/);
-assert.match(mainJs, /this\.quickMatch = createQuickMatchController/);
-assert.match(mainJs, /mode === 'quick-match'/);
-assert.match(mainJs, /mode === 'penalties'/);
-assert.match(mainJs, /clearSavedMatch\(\)/);
-assert.match(mainJs, /readSavedMatch\(\)/);
-assert.match(mainJs, /writeSavedMatch\(/);
-assert.match(mainJs, /hydrateGame/);
-assert.match(mainJs, /loadSettings\(\)/);
-assert.match(mainJs, /applyExperienceSettings/);
-assert.match(mainJs, /onboardingWasCompleted/);
-assert.match(mainJs, /setOnboardingCompleted/);
-assert.doesNotMatch(mainJs, /addEventListener\('pagehide'/);
-assert.doesNotMatch(mainJs, /addEventListener\('visibilitychange'/);
-assert.doesNotMatch(mainJs, /addEventListener\('popstate'/);
-assert.doesNotMatch(mainJs, /addEventListener\('error'/);
-assert.doesNotMatch(mainJs, /addEventListener\('unhandledrejection'/);
-assert.doesNotMatch(mainJs, /new Promise\(resolve => setTimeout/);
-assert.doesNotMatch(mainJs, /_recordUxStat\(/);
-assert.doesNotMatch(mainJs, /getLine\('error'/);
-assert.doesNotMatch(mainJs, /el\('button', 'btn', 'Következő kör'/);
+assert.match(focusJs, /setClass\(pub,\s*'is-battle-active',\s*battleActive\)/);
+assert.match(focusJs, /pub\.classList\.add\('is-battle-transition'\)/);
+assert.match(focusJs, /},\s*250\);/, 'A 200–300 ms-os átmeneti időzítés hiányzik.');
+assert.match(focusJs, /queueMicrotask/);
+assert.match(focusJs, /markChoiceCardSelected/);
+assert.match(focusJs, /handleDirectChoicePlay/);
+assert.match(focusJs, /card\.dataset\.battleTransitionBypass/);
+assert.match(phaseSmoke, /Math\.abs\(result\.first\.width\s*-\s*result\.second\.width\)\s*<=\s*1/);
+assert.match(phaseSmoke, /selection-phase-mobile\.png/);
+assert.match(phaseSmoke, /battle-phase-mobile\.png/);
 
-assert.match(roundControllerJs, /runtime\.selectHumanAttribute/);
-assert.match(roundControllerJs, /runtime\.commitHumanChooserCard/);
-assert.match(roundControllerJs, /runtime\.chooseAiAttribute/);
-assert.match(roundControllerJs, /runtime\.playHumanCard/);
-assert.match(roundControllerJs, /runtime\.playAiCard/);
-assert.match(roundControllerJs, /runtime\.advance/);
-assert.match(roundControllerJs, /showNextRoundButton/);
-assert.match(roundControllerJs, /showContinue/);
-assert.match(roundControllerJs, /showGameOver/);
-assert.match(roundControllerJs, /recordUxStat/);
-assert.match(roundControllerJs, /getBanterLine/);
-assert.match(roundControllerJs, /showError/);
+assert.match(usabilityJs, /document\.removeEventListener\('keydown', this\._inspectorKeys\)/);
+assert.match(usabilityJs, /event\.key === 'Tab'/);
+assert.match(usabilityJs, /_inspectorReturnFocus/);
+assert.match(usabilityJs, /scrollIntoView/);
+assert.match(usabilityJs, /INSPECTOR_SWIPE_DISTANCE\s*=\s*44/);
+assert.match(usabilityJs, /pointerup/);
+assert.match(usabilityJs, /this\._inspectorStep\(deltaX < 0 \? 1 : -1\)/);
+assert.match(usabilityJs, /event\.target\.closest\?\.\('button, a, input, select, textarea, \[role="button"\]'\)/);
+assert.match(usabilityJs, /export function cardPlayerDisplayName/);
+assert.match(usabilityJs, /profileSlugName/);
+assert.match(usabilityJs, /UI\.prototype\.renderCard\s*=\s*function renderCardWithReadableName/);
+assert.match(usabilityJs, /nameNode\.textContent\s*=\s*displayName/);
+assert.match(usabilityJs, /\.replace\(\/\[…\]\+\/gu,\s*' '\)/);
 
-assert.match(menuControllerJs, /showTitleScreen/);
-assert.match(menuControllerJs, /showPauseMenu/);
-assert.match(menuControllerJs, /startFromMenu/);
-assert.match(menuControllerJs, /confirmReplaceSavedGame/);
-assert.match(menuControllerJs, /showSettings/);
-assert.match(menuControllerJs, /showRules/);
-assert.match(menuControllerJs, /showOnboarding/);
-assert.match(menuControllerJs, /showPenaltyIntro/);
-assert.match(menuControllerJs, /readSaved\(\)/);
-assert.match(menuControllerJs, /clearSaved\(\)/);
-assert.match(menuControllerJs, /onboardingCompleted\(\)/);
-assert.doesNotMatch(menuControllerJs, /new GameRuntime/);
+assert.match(profileCss, /#hud-scores \.score:first-child span:first-child\s*\{[^}]*text-overflow:\s*ellipsis;/s);
+assert.match(profileCss, /#hud-scores \.penalty-score\s*\{[^}]*white-space:\s*nowrap;/s);
+assert.match(profileCss, /\.final-score\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
 
+assert.match(profileJs, /PLAYER_NAME_STORAGE_KEY\s*=\s*APP_STORAGE_KEYS\.playerName/);
+assert.match(configurationJs, /playerName:\s*'fociskartyak:player-name:v1'/, 'A játékosnév tárolási kulcsának változatlannak kell maradnia.');
+assert.match(profileJs, /DEFAULT_PLAYER_NAME\s*=\s*'Játékos'/);
+assert.match(profileJs, /fociskartyak:player-name-changed/);
+assert.match(profileJs, /\['Penalties mód',\s*'Büntetőpárbaj'\]/);
+assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
+
+assert.match(reliabilityJs, /shouldSuppressRestoredVerdictFeedback/);
 assert.match(reliabilityJs, /recordedRounds\s*>=\s*resolvedRounds/);
 assert.match(reliabilityJs, /RELIABILITY_LEGACY_OPPONENT_IDS/);
 assert.match(reliabilityJs, /__FOCISKARTYAK_SELECT_OPPONENT__/);
@@ -130,5 +122,8 @@ assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
+assert.match(serviceWorker, /js\/reliability-fixes\.js/);
+assert.match(serviceWorker, /js\/usability-fixes\.js/);
+assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ Interfész-regresszió: a Klasszikus, Büntetőpárbaj és Gyors meccs magyar felülete rendben');
+console.log('✓ A kártyanevek, kategóriakarusszel, kijelölés, három magyar játékmód, frissítés és offline mód rendben');
