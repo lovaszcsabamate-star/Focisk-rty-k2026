@@ -22,7 +22,7 @@ const reportFile = result.manifest.files.normalizationReport;
 
 assert.equal(result.output.schemaVersion, 1);
 assert.equal(result.output.databaseId, 'hungary-nb1-2025-26');
-assert.equal(result.output.databaseVersion, '3.1.0');
+assert.equal(result.output.databaseVersion, '3.0.0');
 assert.equal(result.output.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(result.output.players.length, 440);
 assert.equal(new Set(result.output.players.map(player => player.id)).size, 440);
@@ -70,4 +70,4 @@ writeNormalizedDatabase({
   check: true,
 });
 
-console.log('✓ Normalizált adatbázis 3.1.0: 440 stabil játékos, 30 kanonikus mező és determinisztikus újragenerálás');
+console.log('✓ Normalizált adatbázis 3.0.0: 440 stabil játékos, 30 kanonikus mező és determinisztikus újragenerálás');
