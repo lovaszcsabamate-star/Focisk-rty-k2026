@@ -1,4 +1,4 @@
-/** DOM-mentes játékmenet-vezérlő a Klasszikus és Büntetőpárbaj módhoz. */
+/** DOM-mentes játékmenet-vezérlő a Klasszikus, Büntetőpárbaj és Gyors meccs módhoz. */
 
 import { OpponentAI, DIFFICULTY } from '../ai.js';
 import { AI, HUMAN, PHASE } from '../engine.js';
@@ -45,6 +45,9 @@ export class GameRuntime {
     this.ai = null;
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
+    this.activePlayers = this.players;
+    this.teamDecks = null;
+    this.matchConfig = null;
     return this.state();
   }
 
@@ -53,6 +56,7 @@ export class GameRuntime {
       mode: this.mode,
       difficulty: this.difficulty,
       game: this.game,
+      matchConfig: this.matchConfig,
       pendingAttribute: this.pendingAttribute,
       awaitingChooserCard: this.awaitingChooserCard,
       started: Boolean(this.game),
@@ -69,7 +73,12 @@ export class GameRuntime {
   }
 
   _createGame(mode) {
-    return this.modeFactory.create(mode, { players: this.players, rng: this.rng });
+    return this.modeFactory.create(mode, {
+      players: this.activePlayers,
+      rng: this.rng,
+      teamDecks: this.teamDecks,
+      matchConfig: this.matchConfig,
+    });
   }
 
   _prepareAi() {
@@ -91,9 +100,19 @@ export class GameRuntime {
     return game;
   }
 
-  start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
+  start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty(), {
+    players = null,
+    teamDecks = null,
+    matchConfig = null,
+  } = {}) {
     this.mode = this.modeFactory.normalize(mode);
     this.difficulty = this._resolveDifficulty(difficulty);
+    this.activePlayers = Array.isArray(players) ? players : this.players;
+    this.teamDecks = teamDecks;
+    this.matchConfig = matchConfig;
+    if (this.mode === GAME_MODE.QUICK_MATCH && (!teamDecks || !matchConfig)) {
+      throw new GameRuntimeError('INVALID_QUICK_MATCH', 'A Gyors meccshez csapatpaklik és mérkőzés-konfiguráció szükséges.');
+    }
     this.game = this._createGame(this.mode);
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
@@ -110,7 +129,13 @@ export class GameRuntime {
     }
 
     this.mode = this.modeFactory.normalize(saved.mode);
+    if (this.mode === GAME_MODE.QUICK_MATCH) {
+      throw new GameRuntimeError('INVALID_SAVE', 'Sérült vagy hiányos Gyors meccs mentés nem állítható vissza.');
+    }
     this.difficulty = this._resolveDifficulty(saved.difficulty);
+    this.activePlayers = this.players;
+    this.teamDecks = null;
+    this.matchConfig = null;
     const emptyGame = this._createGame(this.mode);
     this.game = hydrate(emptyGame, saved.game);
     if (!this.game || typeof this.game !== 'object') {
