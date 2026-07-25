@@ -1,0 +1,44 @@
+name: Gyors meccs ellenőrzés
+
+on:
+  push:
+    branches:
+      - feature/quick-match
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: Szintaktikai és lintellenőrzés
+        run: npm run lint
+
+      - name: Teljes automatikus tesztkészlet
+        run: npm test
+
+      - name: Standalone és adatbázis build
+        run: npm run build
+
+      - name: Mobilnézeti smoke teszt
+        run: npm run test:mobile-layout
+
+      - name: Gyors meccs fókuszteszt
+        run: npm run test:quick-match
