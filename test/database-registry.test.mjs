@@ -43,7 +43,7 @@ assert.equal(manifest.normalization.playerModelVersion, 1);
 assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.reproducible, true);
 assert.equal(manifest.normalization.fallback, 'legacy-layered-database');
-assert.deepEqual(manifest.supportedModes, ['classic', 'penalties', 'quick-match']);
+assert.deepEqual(manifest.supportedModes, ['classic', 'penalties']);
 assert.deepEqual(manifest.supportedDeckSelections, ['random', 'club', 'nation']);
 
 for (const relative of [
@@ -110,4 +110,4 @@ assert.throws(
   /hiányzó normalizált játékosadat-fájl/,
 );
 
-console.log('✓ Adatbázis-regiszter, Gyors meccs manifest és normalizált fájlhivatkozások: sikeresek');
+console.log('✓ Adatbázis-regiszter, manifest és normalizált fájlhivatkozások: sikeresek');
