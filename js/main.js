@@ -1,10 +1,11 @@
-/** Browser session controller for Classic and Penalties modes. */
+/** Browser session controller for Classic, Penalties and Quick Match modes. */
 
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
 import { createTurnTimingService } from './services/turn-timing-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { createMenuController } from './app/menu-controller.js';
+import { createQuickMatchController } from './app/quick-match-controller.js';
 import { createResultController } from './app/result-controller.js';
 import { createRoundController } from './app/round-controller.js';
 import { UI } from './ui.js';
@@ -32,8 +33,10 @@ const selectedOpponentDifficulty = () => {
 class Session {
   constructor(deck, source, meta) {
     this.deck = deck;
+    this.fullDeck = globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__?.players ?? deck;
     this.source = source;
     this.meta = meta;
+    this.matchContext = null;
     this.runtime = new GameRuntime({ players: deck });
     this.timing = createTurnTimingService();
     this.lifecycle = createSessionLifecycleService();
@@ -64,6 +67,9 @@ class Session {
           this.busy = false;
           this.ui.setInteractionBusy(false);
           this.runtime.reset();
+          this.matchContext = null;
+          this.ui.matchContext = null;
+          this.ui.dom.pub.classList.remove('mode-quick-match');
           this.ui.setMode('classic');
           this.ui.resetTable();
         },
@@ -83,12 +89,16 @@ class Session {
         mode: this.mode,
         difficulty: this.difficulty,
         result: this.runtime.result(),
+        matchContext: this.matchContext,
       }),
       actions: {
         setBusy: value => { this.busy = value; },
         start: (mode, difficulty) => this.start(mode, difficulty),
         showTitleScreen: options => this.showTitleScreen(options),
         showPanel: (panel, returnAction) => this._showPanel(panel, returnAction),
+        restartQuickMatch: () => this.quickMatch.rematch(),
+        quickMatchOtherOpponent: () => this.quickMatch.selectAnotherOpponent(),
+        quickMatchChooseTeam: () => this.quickMatch.chooseAnotherTeam(),
       },
       clearSaved: clearSavedMatch,
     });
@@ -109,6 +119,16 @@ class Session {
       },
       wait: delayOrKey => this.delay(delayOrKey),
     });
+    this.quickMatch = createQuickMatchController({
+      ui: this.ui,
+      players: this.fullDeck,
+      database: globalThis.__FOCISKARTYAK_DATABASE__,
+      actions: {
+        showTitleScreen: options => this.showTitleScreen(options),
+        startQuickMatch: payload => this.startQuickMatch(payload),
+      },
+    });
+    globalThis.__FOCISKARTYAK_SHOW_QUICK_MATCH__ = () => this.quickMatch.showSelection();
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
     this.showTitleScreen({ offerOnboarding: true });
@@ -204,18 +224,50 @@ class Session {
   }
 
   showPauseMenu() {
+    if (this.mode === 'quick-match') {
+      const panel = document.createElement('div');
+      panel.className = 'pause-panel mobile-sheet';
+      panel.innerHTML = `
+        <p class="eyebrow">A játék szünetel</p>
+        <h1>Gyors meccs</h1>
+        <p>${this.matchContext?.playerTeam?.name ?? 'Saját csapat'} – ${this.matchContext?.opponentTeam?.name ?? 'Gép csapata'}</p>
+        <div class="pause-actions">
+          <button class="btn" id="resume-btn">▶ Játék folytatása</button>
+          <button class="btn btn--ghost" id="restart-btn">↻ Újrakezdés</button>
+          <button class="btn btn--ghost" id="choose-team-btn">⚽ Másik csapat</button>
+          <button class="btn btn--ghost" id="home-btn">⌂ Vissza a főmenübe</button>
+        </div>
+      `;
+      panel.querySelector('#resume-btn').addEventListener('click', () => this._hidePanel(), { once: true });
+      panel.querySelector('#restart-btn').addEventListener('click', () => this.quickMatch.rematch(), { once: true });
+      panel.querySelector('#choose-team-btn').addEventListener('click', () => this.quickMatch.chooseAnotherTeam(), { once: true });
+      panel.querySelector('#home-btn').addEventListener('click', () => this.showTitleScreen({ offerOnboarding: false }), { once: true });
+      return this._showPanel(panel, () => this._hidePanel());
+    }
     return this.menu.showPauseMenu();
   }
 
-  start(mode, difficulty) {
+  start(mode, difficulty, runtimeOptions = {}) {
     clearSavedMatch();
-    this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
+    this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty(), runtimeOptions);
+    this.matchContext = runtimeOptions.matchContext ?? null;
+    this.ui.matchContext = this.matchContext;
+    this.ui.dom.pub.classList.toggle('mode-quick-match', this.mode === 'quick-match');
     this.busy = false;
     this.ui.resetTable();
     this.ui.setMode(this.mode);
 
     if (this.mode === 'penalties') this.showPenaltyIntro();
     else this._beginMatch();
+  }
+
+  startQuickMatch({ config, decks, context }) {
+    return this.start('quick-match', selectedOpponentDifficulty(), {
+      players: decks.players,
+      teamDecks: decks.teamDecks,
+      matchConfig: config,
+      matchContext: context,
+    });
   }
 
   showPenaltyIntro() {
@@ -257,7 +309,7 @@ class Session {
   }
 
   saveCurrentGame() {
-    if (!this.game || this.game.isOver) return false;
+    if (!this.game || this.game.isOver || this.mode === 'quick-match') return false;
     return writeSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
 
@@ -274,6 +326,9 @@ class Session {
         ...saved,
         difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
       }, hydrateGame);
+      this.matchContext = null;
+      this.ui.matchContext = null;
+      this.ui.dom.pub.classList.remove('mode-quick-match');
       this.ui.resetTable();
       this.ui.setMode(this.mode);
       if (saved.uxStats) this.ui.uxStats = saved.uxStats;
