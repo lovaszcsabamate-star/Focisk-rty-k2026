@@ -6,7 +6,7 @@ import { createTurnTimingService } from './services/turn-timing-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { createMenuController } from './app/menu-controller.js';
 import { createQuickMatchController } from './app/quick-match-controller.js';
-import { createQuickMatchPauseController } from './app/quick-match-pause-controller.js';
+import { createQuickMatchPauseController } from './quick-match-ui.js';
 import { createResultController } from './app/result-controller.js';
 import { createRoundController } from './app/round-controller.js';
 import { UI } from './ui.js';
