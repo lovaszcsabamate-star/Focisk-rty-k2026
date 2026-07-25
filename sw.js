@@ -1,6 +1,6 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v70
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v71
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
-const PWA_CACHE = 'fociskartyak-2026-v71';
+const PWA_CACHE = 'fociskartyak-2026-v72';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const PWA_SHELL = [
   './css/ux.css',
   './css/matchday.css',
   './css/opponents.css',
+  './css/quick-match.css',
   './css/pwa.css',
   './css/mobile-experience.css',
   './css/mobile-overlay-fix.css',
@@ -28,12 +29,14 @@ const PWA_SHELL = [
   './js/services/save-service.js',
   './js/services/turn-timing-service.js',
   './js/app/session-lifecycle-service.js',
+  './js/app/quick-match-controller.js',
   './js/branding.js',
   './js/bootstrap.js',
   './js/database/database-registry.js',
   './js/database/database-service.js',
   './js/models/player-model.js',
   './js/domain/deck-selection-domain.js',
+  './js/domain/quick-match-domain.js',
   './js/services/deck-selection-storage-service.js',
   './js/ui/deck-selection-menu-component.js',
   './js/ui/ui-enhancement-pipeline.js',
@@ -59,6 +62,7 @@ const PWA_SHELL = [
   './js/ux-fixes.js',
   './js/matchday.js',
   './js/opponents.js',
+  './js/quick-match-ui.js',
   './js/pwa.js',
   './js/mobile-experience.js',
   './js/category-picker.js',
