@@ -16,6 +16,7 @@ import {
 } from '../js/domain/quick-match-domain.js';
 
 const read = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
+const readJson = relative => JSON.parse(read(relative));
 
 const aliases = {
   Hungary: ['Hungary', 'HUN', 'Magyarország', 'magyar', 'HU', 'Hungarian', 'HUN'],
@@ -113,6 +114,27 @@ assert.throws(
   /két különböző csapat/i,
 );
 
+// Valós, commitolt NB I adatbázis: legalább két klub és három választható válogatott.
+const realPlayers = readJson('../data/databases/hungary-nb1-2025-26/players.normalized.json').players;
+const realCatalog = buildQuickMatchTeams(realPlayers, { minimum: MIN_QUICK_MATCH_TEAM_SIZE });
+const realClubs = quickMatchTeamsForCategory(realCatalog, QUICK_MATCH_CATEGORY.HUNGARIAN_LEAGUE);
+const realNations = quickMatchTeamsForCategory(realCatalog, QUICK_MATCH_CATEGORY.NATIONAL);
+assert.ok(realClubs.length >= 2, 'a valós NB I adatbázisban legalább két Gyors meccs klub szükséges');
+assert.ok(realNations.length >= 3, 'a valós NB I adatbázisban legalább három hétfős válogatott szükséges');
+
+const paks = realClubs.find(team => /paksi/i.test(team.name));
+const debrecen = realClubs.find(team => /dvsc|debrecen/i.test(team.name));
+assert.ok(paks, 'a Paksi FC választható a valós adatbázisból');
+assert.ok(debrecen, 'a Debreceni VSC választható a valós adatbázisból');
+const realClubDecks = buildQuickMatchDecks(paks, debrecen, realPlayers, { rng: () => 0.4 });
+assert.equal(realClubDecks.matchDeckSize, 7);
+assert.equal(realClubDecks.teamDecks[HUMAN].length, realClubDecks.teamDecks[AI].length);
+
+for (const nationalTeam of realNations.slice(0, 3)) {
+  assert.ok(nationalTeam.playerIds.length >= 7, `${nationalTeam.name}: legalább hét valós játékos szükséges`);
+  assert.equal(new Set(nationalTeam.playerIds).size, nationalTeam.playerIds.length);
+}
+
 const controllerSource = read('../js/app/quick-match-controller.js');
 const resultSource = read('../js/app/result-controller.js');
 const cssSource = read('../css/quick-match.css');
@@ -142,4 +164,4 @@ assert.match(mainSource, /runtime\.start\(mode/);
 assert.match(mainSource, /mode === 'quick-match'/);
 assert.match(mainSource, /mode === 'penalties'/);
 
-console.log('✓ Gyors meccs: csapatok, nemzetiségnormalizálás, ellenfél, paklik, eredmény és mobilrács rendben');
+console.log('✓ Gyors meccs: szintetikus és valós klubok/válogatottak, paklik, eredmény és mobilrács rendben');
