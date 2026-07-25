@@ -58,7 +58,7 @@ function makeCategoryTile(source, index) {
   return tile;
 }
 
-function installCategorySelection(ui, picker, sourceButtons) {
+function installCategorySelection(ui, picker, sourceButtons, game) {
   const grid = el('div', 'category-grid');
   grid.setAttribute('role', 'group');
   grid.setAttribute('aria-label', 'Választható összehasonlítási kategóriák');
@@ -86,6 +86,16 @@ function installCategorySelection(ui, picker, sourceButtons) {
     for (const tile of tiles) tile.disabled = disabled;
   };
 
+  const updateDiagnostics = result => {
+    const available = game?.availableAttributeKeys?.() ?? [];
+    next.dataset.gamePhase = String(game?.phase ?? 'missing');
+    next.dataset.gameChooser = String(game?.chooser ?? 'missing');
+    next.dataset.selectedKey = String(selectedKey ?? 'missing');
+    next.dataset.keyAvailable = String(Array.isArray(available) && available.includes(selectedKey));
+    next.dataset.handlerType = typeof ui.handlers?.onAttribute;
+    next.dataset.handlerResult = String(result);
+  };
+
   const restoreSelection = message => {
     committing = false;
     if (commitTimer) window.clearTimeout(commitTimer);
@@ -100,8 +110,11 @@ function installCategorySelection(ui, picker, sourceButtons) {
 
   const invokeSelection = () => {
     try {
-      return ui.handlers.onAttribute?.(selectedKey) !== false;
+      const result = ui.handlers.onAttribute?.(selectedKey);
+      updateDiagnostics(result);
+      return result !== false;
     } catch (error) {
+      updateDiagnostics(`error:${error?.name ?? 'Error'}`);
       console.error('[category-picker] A kategória nem rögzíthető:', error);
       return null;
     }
@@ -154,9 +167,6 @@ function installCategorySelection(ui, picker, sourceButtons) {
     if (committing || !selectedKey || !selectedTile) return;
     committing = true;
 
-    /* A játékállapotot még azelőtt rögzítjük, hogy bármely animációs vagy
-       megfigyelőréteg átírhatná a gomb állapotát. Siker esetén a játékmotor
-       szinkron módon lecseréli a kategóriaválasztót a kijátszható kézre. */
     const accepted = invokeSelection();
     if (accepted === true) {
       leaveCategorySelection(ui);
@@ -186,7 +196,7 @@ UI.prototype.showAttributePicker = function showTiledAttributePicker(game) {
   const picker = this.dom?.picker;
   const buttons = directCategoryButtons(picker);
 
-  if (buttons.length) installCategorySelection(this, picker, buttons);
+  if (buttons.length) installCategorySelection(this, picker, buttons, game);
   else this.dom?.pub?.classList.add('is-category-selection');
 
   return output;
