@@ -15,12 +15,17 @@ const readJson = relative => JSON.parse(read(relative));
 const players = readJson('../data/databases/hungary-nb1-2025-26/players.normalized.json').players;
 
 assert.equal(players.length, 440);
-assert.deepEqual(Object.keys(GAME_MODE_DEFINITIONS), [GAME_MODE.CLASSIC, GAME_MODE.PENALTIES]);
+assert.deepEqual(Object.keys(GAME_MODE_DEFINITIONS), [
+  GAME_MODE.CLASSIC,
+  GAME_MODE.PENALTIES,
+  GAME_MODE.QUICK_MATCH,
+]);
 
 const factory = createGameModeFactory();
-assert.deepEqual(factory.modes, [GAME_MODE.CLASSIC, GAME_MODE.PENALTIES]);
+assert.deepEqual(factory.modes, [GAME_MODE.CLASSIC, GAME_MODE.PENALTIES, GAME_MODE.QUICK_MATCH]);
 assert.equal(factory.isSupported(GAME_MODE.CLASSIC), true);
 assert.equal(factory.isSupported(GAME_MODE.PENALTIES), true);
+assert.equal(factory.isSupported(GAME_MODE.QUICK_MATCH), true);
 assert.equal(factory.isSupported('unknown'), false);
 assert.equal(factory.normalize('unknown'), GAME_MODE.CLASSIC);
 assert.equal(factory.definition(GAME_MODE.CLASSIC).id, GAME_MODE.CLASSIC);
@@ -42,6 +47,23 @@ assert.deepEqual(
   penaltyAiDeck.map(card => card.id),
   [...penalties.teams[HUMAN], ...penalties.teams[AI]].map(card => card.id),
 );
+
+const teamDecks = {
+  [HUMAN]: players.slice(0, 7),
+  [AI]: players.slice(7, 14),
+};
+const quickMatch = factory.create(GAME_MODE.QUICK_MATCH, {
+  players: [...teamDecks[HUMAN], ...teamDecks[AI]],
+  teamDecks,
+  matchConfig: { mode: GAME_MODE.QUICK_MATCH, deckSize: 7 },
+  rng: () => 0,
+});
+assert.ok(quickMatch instanceof Game);
+assert.equal(quickMatch.mode, GAME_MODE.QUICK_MATCH);
+assert.equal(quickMatch.teamBased, true);
+assert.equal(quickMatch.teams[HUMAN].length, 7);
+assert.equal(quickMatch.teams[AI].length, 7);
+assert.deepEqual(factory.aiDeck(GAME_MODE.QUICK_MATCH, quickMatch), quickMatch.teams[AI]);
 
 let compatibilityArguments = null;
 const compatibilityGame = { mode: GAME_MODE.CLASSIC, players: [] };
@@ -84,5 +106,6 @@ assert.ok(
   'a játékmód-factory a runtime előtt kerül a standalone bundle-be',
 );
 assert.match(serviceWorkerSource, /\.\/js\/game\/game-mode-factory\.js/);
+assert.match(serviceWorkerSource, /\.\/js\/domain\/quick-match-domain\.js/);
 
-console.log('✓ A Klasszikus és Büntetőpárbaj motor külön, DOM-mentes játékmód-factoryból készül');
+console.log('✓ A Klasszikus, Büntetőpárbaj és Gyors meccs motor közös, DOM-mentes játékmód-factoryból készül');
