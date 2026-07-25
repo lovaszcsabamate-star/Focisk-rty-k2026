@@ -1,10 +1,8 @@
 /**
  * Kétlépcsős, csempés kategóriaválasztó.
  *
- * A mobilos kategóriagombokat a meglévő UI-réteg létrehozza, ez a modul pedig
- * eseménykezelők nélküli csempékké alakítja őket. Így az első koppintás csak
- * kijelöl, a külön Tovább gomb rögzíti a választást, tehát téves koppintás után
- * a játékos könnyen válthat másik kategóriára.
+ * Az első koppintás csak kijelöli a kategóriát, a külön Tovább gomb pedig
+ * rögzíti a választást. A kategória interakcióit kizárólag ez a modul kezeli.
  */
 
 import { UI, el } from './ui.js';
@@ -20,11 +18,6 @@ const categoryPickerPrevious = Object.freeze({
 
 const CATEGORY_COMMIT_RETRY_MS = 80;
 const CATEGORY_COMMIT_MAX_ATTEMPTS = 8;
-
-const traceCategoryPicker = (...parts) => {
-  const target = globalThis.__runtimeSmoke?.consoleErrors;
-  if (Array.isArray(target)) target.push(`[category-trace] ${parts.map(value => String(value)).join(' | ')}`);
-};
 
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
   .filter(node => node.matches?.('.attr-btn--mobile[data-attribute]'));
@@ -63,7 +56,9 @@ function makeCategoryTile(source, index) {
   return tile;
 }
 
-function installCategorySelection(ui, picker, sourceButtons, game) {
+function installCategorySelection(ui, picker, sourceButtons) {
+  picker.dataset.categoryPickerController = 'category-picker';
+
   const grid = el('div', 'category-grid');
   grid.setAttribute('role', 'group');
   grid.setAttribute('aria-label', 'Választható összehasonlítási kategóriák');
@@ -91,18 +86,7 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
     for (const tile of tiles) tile.disabled = disabled;
   };
 
-  const updateDiagnostics = result => {
-    const available = game?.availableAttributeKeys?.() ?? [];
-    next.dataset.gamePhase = String(game?.phase ?? 'missing');
-    next.dataset.gameChooser = String(game?.chooser ?? 'missing');
-    next.dataset.selectedKey = String(selectedKey ?? 'missing');
-    next.dataset.keyAvailable = String(Array.isArray(available) && available.includes(selectedKey));
-    next.dataset.handlerType = typeof ui.handlers?.onAttribute;
-    next.dataset.handlerResult = String(result);
-  };
-
   const restoreSelection = message => {
-    traceCategoryPicker('restore', message);
     committing = false;
     if (commitTimer) window.clearTimeout(commitTimer);
     commitTimer = 0;
@@ -115,22 +99,15 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   };
 
   const invokeSelection = () => {
-    traceCategoryPicker('invoke-before', selectedKey, game?.phase, game?.chooser, picker.isConnected);
     try {
-      const result = ui.handlers.onAttribute?.(selectedKey);
-      updateDiagnostics(result);
-      traceCategoryPicker('invoke-after', selectedKey, result, game?.phase, game?.chooser, picker.isConnected);
-      return result !== false;
+      return ui.handlers.onAttribute?.(selectedKey) !== false;
     } catch (error) {
-      updateDiagnostics(`error:${error?.name ?? 'Error'}`);
-      traceCategoryPicker('invoke-error', error?.name, error?.message);
       console.error('[category-picker] A kategória nem rögzíthető:', error);
       return null;
     }
   };
 
   const retrySelection = (attempt = 2) => {
-    traceCategoryPicker('retry', attempt, committing, selectedKey, picker.isConnected);
     if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
     const accepted = invokeSelection();
 
@@ -151,7 +128,6 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   };
 
   const selectTile = tile => {
-    traceCategoryPicker('tile-click', tile?.dataset?.attribute, committing, tile?.disabled);
     if (committing || tile.disabled) return;
     selectedKey = tile.dataset.attribute;
     selectedTile = tile;
@@ -173,14 +149,12 @@ function installCategorySelection(ui, picker, sourceButtons, game) {
   }
 
   next.addEventListener('click', event => {
-    traceCategoryPicker('next-click', committing, selectedKey, selectedTile?.isConnected, next.disabled);
     event.preventDefault();
     event.stopPropagation();
     if (committing || !selectedKey || !selectedTile) return;
     committing = true;
 
     const accepted = invokeSelection();
-    traceCategoryPicker('next-result', accepted, picker.isConnected);
     if (accepted === true) {
       leaveCategorySelection(ui);
       return;
@@ -209,7 +183,7 @@ UI.prototype.showAttributePicker = function showTiledAttributePicker(game) {
   const picker = this.dom?.picker;
   const buttons = directCategoryButtons(picker);
 
-  if (buttons.length) installCategorySelection(this, picker, buttons, game);
+  if (buttons.length) installCategorySelection(this, picker, buttons);
   else this.dom?.pub?.classList.add('is-category-selection');
 
   return output;
