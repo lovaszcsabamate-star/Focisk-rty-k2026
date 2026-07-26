@@ -30,12 +30,12 @@ const roundedForComparison = (value, precision) => {
   return Math.round((value + Number.EPSILON) * factor) / factor;
 };
 
-const quickMatchPools = players => ({
+const engineQuickMatchPools = players => ({
   [HUMAN]: players.filter(player => player?.meta?.quickMatchSide === HUMAN),
   [AI]: players.filter(player => player?.meta?.quickMatchSide === AI),
 });
 
-const pairedQuickMatchDeck = (humanTeam, aiTeam) => {
+const enginePairedQuickMatchDeck = (humanTeam, aiTeam) => {
   const deck = [];
   for (let index = humanTeam.length - 1; index >= 0; index -= 1) {
     deck.push(aiTeam[index], humanTeam[index]);
@@ -72,7 +72,7 @@ export class Game {
 
     this.mode = 'classic';
     this.rng = rng;
-    const sidePools = quickMatchPools(players);
+    const sidePools = engineQuickMatchPools(players);
     const hasQuickMatch = sidePools[HUMAN].length >= HAND_SIZE && sidePools[AI].length >= HAND_SIZE;
 
     if (hasQuickMatch) {
@@ -81,7 +81,7 @@ export class Game {
       const aiTeam = shuffle(sidePools[AI], rng).slice(0, teamSize);
       this.players = [...humanTeam, ...aiTeam];
       this.poolSize = players.length;
-      this.deck = pairedQuickMatchDeck(humanTeam, aiTeam);
+      this.deck = enginePairedQuickMatchDeck(humanTeam, aiTeam);
       this.quickMatch = {
         enabled: true,
         humanTeam: humanTeam[0]?.meta?.quickMatchTeamLabel ?? 'Saját csapat',
