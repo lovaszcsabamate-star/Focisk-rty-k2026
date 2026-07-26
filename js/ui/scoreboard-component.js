@@ -3,6 +3,11 @@
 import { AI, HUMAN } from '../engine.js';
 import { el } from './dom-primitives.js';
 
+const quickMatchLabel = (game, side, fallback) => {
+  const label = side === HUMAN ? game?.quickMatch?.humanTeam : game?.quickMatch?.aiTeam;
+  return String(label ?? fallback).trim() || fallback;
+};
+
 const createScoreChip = (label, value, leading) => {
   const chip = el('div', `score${leading ? ' leading' : ''}`);
   chip.append(el('span', null, label), el('b', null, String(value)));
@@ -24,7 +29,7 @@ const renderPiles = (dom, mode, human, ai) => {
 
 const createAttemptRow = (game, side) => {
   const wrapper = el('div', 'attempt-row');
-  wrapper.appendChild(el('strong', null, side === HUMAN ? 'JÁTÉKOS' : 'GÉP'));
+  wrapper.appendChild(el('strong', null, quickMatchLabel(game, side, side === HUMAN ? 'JÁTÉKOS' : 'GÉP')));
   const marks = el('div', 'attempt-marks');
   for (let index = 0; index < 11; index += 1) {
     const outcome = game.attempts[side][index];
@@ -46,8 +51,8 @@ const createAttemptRow = (game, side) => {
 const renderClassicScoreboard = (dom, game) => {
   const { [HUMAN]: human, [AI]: ai } = game.scores;
   dom.hudScores.replaceChildren(
-    createScoreChip('Játékos', human, human > ai),
-    createScoreChip('Gép', ai, ai > human),
+    createScoreChip(quickMatchLabel(game, HUMAN, 'Játékos'), human, human > ai),
+    createScoreChip(quickMatchLabel(game, AI, 'Gép'), ai, ai > human),
   );
   dom.hudMeta.textContent = `${game.round}. kör · ${game.deck.length} lap a pakliban`;
   renderPiles(dom, 'classic', human, ai);
@@ -57,7 +62,9 @@ const renderClassicScoreboard = (dom, game) => {
 const renderPenaltyScoreboard = (dom, game) => {
   const human = game.scores[HUMAN];
   const ai = game.scores[AI];
-  dom.hudScores.replaceChildren(el('div', 'penalty-score', `JÁTÉKOS ${human}–${ai} GÉP`));
+  const humanLabel = quickMatchLabel(game, HUMAN, 'JÁTÉKOS');
+  const aiLabel = quickMatchLabel(game, AI, 'GÉP');
+  dom.hudScores.replaceChildren(el('div', 'penalty-score', `${humanLabel} ${human}–${ai} ${aiLabel}`));
   dom.hudMeta.textContent = game.suddenDeath
     ? `Hirtelen halál · ${game.log.length} lejátszott párbaj`
     : `Rendes párbajok: ${game.regularPlayed}/5 · hátra ${game.regularRemaining}`;
