@@ -6,14 +6,31 @@ import { AI, HUMAN, PHASE, compare, shuffle } from './engine.js';
 export const PENALTY_TEAM_SIZE = 11;
 export const REGULAR_DUELS = 5;
 
-const cloneMirrorCard = (card, index) => ({
+const cloneMirrorCard = (card, index, side = AI) => ({
   ...card,
-  id: `${card.id}--mirror-ai-${index + 1}`,
+  id: `${card.id}--mirror-${side}-${index + 1}`,
   stats: card?.stats && typeof card.stats === 'object' ? { ...card.stats } : card?.stats,
   meta: card?.meta && typeof card.meta === 'object'
     ? { ...card.meta, mirrorOf: card.id }
     : { mirrorOf: card.id },
 });
+
+const penaltyQuickMatchPools = players => ({
+  [HUMAN]: players.filter(player => player?.meta?.quickMatchSide === HUMAN),
+  [AI]: players.filter(player => player?.meta?.quickMatchSide === AI),
+});
+
+const penaltyBuildQuickMatchTeam = (players, side, rng) => {
+  const source = shuffle(players, rng);
+  const team = source.slice(0, PENALTY_TEAM_SIZE);
+  let mirrorIndex = 0;
+  while (team.length < PENALTY_TEAM_SIZE) {
+    const card = source[mirrorIndex % source.length];
+    team.push(cloneMirrorCard(card, mirrorIndex, side));
+    mirrorIndex += 1;
+  }
+  return team;
+};
 
 export class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
@@ -23,16 +40,34 @@ export class PenaltyGame {
 
     this.mode = 'penalties';
     this.rng = rng;
-    const pool = shuffle(players, rng);
-    const humanTeam = pool.slice(0, PENALTY_TEAM_SIZE);
-    const distinctAiCards = pool.slice(PENALTY_TEAM_SIZE, PENALTY_TEAM_SIZE * 2);
-    const missingAiCards = PENALTY_TEAM_SIZE - distinctAiCards.length;
-    const mirroredAiCards = missingAiCards > 0
-      ? shuffle(humanTeam, rng).slice(0, missingAiCards).map(cloneMirrorCard)
-      : [];
-    const aiTeam = [...distinctAiCards, ...mirroredAiCards];
+    const sidePools = penaltyQuickMatchPools(players);
+    const hasQuickMatch = sidePools[HUMAN].length > 0 && sidePools[AI].length > 0;
+    let humanTeam;
+    let aiTeam;
 
-    this.sharedPool = players.length < PENALTY_TEAM_SIZE * 2;
+    if (hasQuickMatch) {
+      humanTeam = penaltyBuildQuickMatchTeam(sidePools[HUMAN], HUMAN, rng);
+      aiTeam = penaltyBuildQuickMatchTeam(sidePools[AI], AI, rng);
+      this.sharedPool = sidePools[HUMAN].length < PENALTY_TEAM_SIZE
+        || sidePools[AI].length < PENALTY_TEAM_SIZE;
+      this.quickMatch = {
+        enabled: true,
+        humanTeam: humanTeam[0]?.meta?.quickMatchTeamLabel ?? 'Saját csapat',
+        aiTeam: aiTeam[0]?.meta?.quickMatchTeamLabel ?? 'Gép csapata',
+      };
+    } else {
+      const pool = shuffle(players, rng);
+      humanTeam = pool.slice(0, PENALTY_TEAM_SIZE);
+      const distinctAiCards = pool.slice(PENALTY_TEAM_SIZE, PENALTY_TEAM_SIZE * 2);
+      const missingAiCards = PENALTY_TEAM_SIZE - distinctAiCards.length;
+      const mirroredAiCards = missingAiCards > 0
+        ? shuffle(humanTeam, rng).slice(0, missingAiCards).map((card, index) => cloneMirrorCard(card, index, AI))
+        : [];
+      aiTeam = [...distinctAiCards, ...mirroredAiCards];
+      this.sharedPool = players.length < PENALTY_TEAM_SIZE * 2;
+      this.quickMatch = null;
+    }
+
     this.poolSize = players.length;
     this.teams = { [HUMAN]: humanTeam, [AI]: aiTeam };
     this.hands = { [HUMAN]: shuffle(humanTeam, rng), [AI]: shuffle(aiTeam, rng) };
