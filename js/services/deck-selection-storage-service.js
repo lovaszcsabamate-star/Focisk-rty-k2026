@@ -11,7 +11,7 @@ import { storageService } from './storage-service.js';
 
 export const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
 export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
-export const QUICK_MATCH_NATION_MINIMUM = 7;
+const DECK_SELECTION_STORAGE_NATION_MINIMUM = 7;
 
 export const DECK_SELECTION_STORAGE_KEYS = Object.freeze({
   selection: DECK_SELECTION_STORAGE_KEY,
@@ -49,7 +49,7 @@ const deckStorageValidateKeys = keys => {
 
 const deckSelectionMinimum = selection => (
   normaliseDeckSelection(selection).kind === 'nation'
-    ? QUICK_MATCH_NATION_MINIMUM
+    ? DECK_SELECTION_STORAGE_NATION_MINIMUM
     : MIN_FILTERED_DECK_SIZE
 );
 
