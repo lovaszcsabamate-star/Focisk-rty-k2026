@@ -279,6 +279,34 @@
   .result-stats--classic {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  /* A lezárt párbaj története csak eredményfázisban foglal helyet. Ilyenkor a
+     két lap enyhén kompaktabb, így a három sor teljesen látható és egyik elem
+     sem kerül a kártyák vagy a következő kör gombja alá. */
+  #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) {
+    justify-content: flex-start;
+    gap: 5px;
+    overflow-y: auto;
+  }
+
+  #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) #duel {
+    --duel-card-w: clamp(112px, 35vw, 138px);
+    --duel-card-h: clamp(196px, 60vw, 242px);
+    flex: 0 0 auto;
+  }
+
+  #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) #duel .card__portrait {
+    height: clamp(62px, 18vw, 84px);
+  }
+
+  #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) #verdict {
+    font-size: clamp(18px, 5.4vw, 23px);
+  }
+
+  #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) .recent-duels {
+    flex: 0 0 auto;
+    margin-block: 2px;
+  }
 }
 
 /* A 412 px körüli köztes mobilméretet a vizuális rendszer 152 px szélesre
