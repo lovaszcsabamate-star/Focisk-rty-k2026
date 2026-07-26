@@ -15,12 +15,12 @@ const cloneMirrorCard = (card, index, side = AI) => ({
     : { mirrorOf: card.id },
 });
 
-const quickMatchPools = players => ({
+const penaltyQuickMatchPools = players => ({
   [HUMAN]: players.filter(player => player?.meta?.quickMatchSide === HUMAN),
   [AI]: players.filter(player => player?.meta?.quickMatchSide === AI),
 });
 
-const buildQuickMatchTeam = (players, side, rng) => {
+const penaltyBuildQuickMatchTeam = (players, side, rng) => {
   const source = shuffle(players, rng);
   const team = source.slice(0, PENALTY_TEAM_SIZE);
   let mirrorIndex = 0;
@@ -40,14 +40,14 @@ export class PenaltyGame {
 
     this.mode = 'penalties';
     this.rng = rng;
-    const sidePools = quickMatchPools(players);
+    const sidePools = penaltyQuickMatchPools(players);
     const hasQuickMatch = sidePools[HUMAN].length > 0 && sidePools[AI].length > 0;
     let humanTeam;
     let aiTeam;
 
     if (hasQuickMatch) {
-      humanTeam = buildQuickMatchTeam(sidePools[HUMAN], HUMAN, rng);
-      aiTeam = buildQuickMatchTeam(sidePools[AI], AI, rng);
+      humanTeam = penaltyBuildQuickMatchTeam(sidePools[HUMAN], HUMAN, rng);
+      aiTeam = penaltyBuildQuickMatchTeam(sidePools[AI], AI, rng);
       this.sharedPool = sidePools[HUMAN].length < PENALTY_TEAM_SIZE
         || sidePools[AI].length < PENALTY_TEAM_SIZE;
       this.quickMatch = {
