@@ -101,7 +101,7 @@ const categoryPicker = `
 </main></div>`;
 
 const recentDuels = `
-<div id="pub" class="is-battle-active"><main id="table">
+<div id="pub" class="is-battle-active is-duel-focus"><main id="table">
   <header id="hud"><div class="title">Fociskártyák 2026</div><div id="hud-scores"><div class="score leading"><span>CSABI</span><b>12</b></div><div class="score"><span>D. RAVEN</span><b>10</b></div></div><div id="hud-meta">9. kör · 30 lap a pakliban</div><div id="hud-settings"><button class="icon-toggle">☰ Menü</button></div></header>
   <section id="felt">
     <div id="prompt">Eredmény</div>
@@ -155,7 +155,9 @@ for (const viewport of viewports) {
       setTimeout(()=>{
         const root=document.documentElement;const docWidth=Math.max(root.scrollWidth,document.body.scrollWidth);
         const buttons=[...document.querySelectorAll('button')].map(node=>Math.round(node.getBoundingClientRect().height));
-        const result={viewport:innerWidth,documentWidth:docWidth,minButton:buttons.length?Math.min(...buttons):null,recentCount:document.querySelectorAll('.recent-duels__item').length,visible:Boolean(document.body.getBoundingClientRect().height)};
+        const recentItems=[...document.querySelectorAll('.recent-duels__item')];const felt=document.querySelector('#felt');const feltRect=felt?.getBoundingClientRect();
+        const visibleRecentCount=recentItems.filter(node=>{const rect=node.getBoundingClientRect();return rect.height>0&&(!feltRect||(rect.top>=feltRect.top-1&&rect.bottom<=feltRect.bottom+1));}).length;
+        const result={viewport:innerWidth,documentWidth:docWidth,minButton:buttons.length?Math.min(...buttons):null,recentCount:recentItems.length,visibleRecentCount,visible:Boolean(document.body.getBoundingClientRect().height)};
         root.setAttribute('data-ux-preview',encodeURIComponent(JSON.stringify(result)));
       },120);
     </script></body></html>`;
@@ -176,6 +178,7 @@ for (const viewport of viewports) {
     if (result.documentWidth > result.viewport + 1) screenFailures.push(`vízszintes túllógás: ${result.documentWidth}/${result.viewport}px`);
     if (result.minButton != null && result.minButton < 44) screenFailures.push(`44 px alatti gomb: ${result.minButton}px`);
     if (screen === 'recent-duels' && result.recentCount !== 3) screenFailures.push(`az előzménylista ${result.recentCount} sort tartalmaz`);
+    if (screen === 'recent-duels' && result.visibleRecentCount !== 3) screenFailures.push(`csak ${result.visibleRecentCount} előzménysor látható a játéktéren`);
     failures.push(...screenFailures.map(message => `${key}: ${message}.`));
     measurements.push({ screen, viewport: viewport.name, ...result, failures: screenFailures });
 
