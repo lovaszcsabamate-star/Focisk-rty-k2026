@@ -241,6 +241,14 @@
   transition: none !important;
 }
 
+/* A történet megjelenésekor csak az eredményfázis lapjai lesznek kompaktabbak.
+   A játék tényleges csatakártya-változóit állítjuk, így a normál csatafázis és
+   a kártyaválasztás mérete változatlan marad. */
+#pub.is-battle-active.is-duel-focus:has(#felt > .recent-duels:not([hidden])) {
+  --battle-card-width: min(190px, 28vw) !important;
+  --battle-card-height: calc(var(--battle-card-width) * 232 / 132) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   :where(.quick-match-button, .recent-duels, .player-of-match, .category-tile__availability) {
     animation: none !important;
@@ -280,6 +288,11 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  #pub.is-battle-active.is-duel-focus:has(#felt > .recent-duels:not([hidden])) {
+    --battle-card-width: min(138px, 35vw) !important;
+    --battle-card-height: calc(var(--battle-card-width) * 232 / 132) !important;
+  }
+
   /* A lezárt párbaj története csak eredményfázisban foglal helyet. Ilyenkor a
      két lap enyhén kompaktabb, így a három sor teljesen látható és egyik elem
      sem kerül a kártyák vagy a következő kör gombja alá. */
@@ -287,12 +300,6 @@
     justify-content: flex-start;
     gap: 5px;
     overflow-y: auto;
-  }
-
-  #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) #duel {
-    --duel-card-w: clamp(112px, 35vw, 138px);
-    --duel-card-h: clamp(196px, 60vw, 242px);
-    flex: 0 0 auto;
   }
 
   #pub.is-duel-focus #felt:has(> .recent-duels:not([hidden])) #duel .card__portrait {
