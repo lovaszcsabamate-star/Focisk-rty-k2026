@@ -23,7 +23,7 @@ jobs:
       - name: Node.js beállítása
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Függőségek telepítése
@@ -44,21 +44,35 @@ jobs:
         run: npm run build
 
       - name: Alap tesztsor
-        run: npm test
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee npm-test.log
 
       - name: Mobil elrendezési tesztek
-        run: npm run test:mobile-layout
+        if: always()
+        run: |
+          set -o pipefail
+          npm run test:mobile-layout 2>&1 | tee mobile-layout-test.log
 
       - name: Böngészős futásidejű teszt
-        run: npm run test:runtime
+        if: always()
+        run: |
+          set -o pipefail
+          npm run test:runtime 2>&1 | tee runtime-test.log
 
       - name: Teljes tesztsor
-        run: npm run test:all
+        if: always()
+        run: |
+          set -o pipefail
+          npm run test:all 2>&1 | tee test-all.log
 
       - name: UX mobil- és asztali előnézetek
-        run: node scripts/ux-refresh-previews.mjs
+        if: always()
+        run: |
+          set -o pipefail
+          node scripts/ux-refresh-previews.mjs 2>&1 | tee ux-preview.log
 
-      - name: Előnézetek és jelentések feltöltése
+      - name: Előnézetek, naplók és jelentések feltöltése
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -70,3 +84,8 @@ jobs:
             mobile-layout-report.json
             ux-refresh-preview-report.json
             Fociskartyak2026.html
+            npm-test.log
+            mobile-layout-test.log
+            runtime-test.log
+            test-all.log
+            ux-preview.log
