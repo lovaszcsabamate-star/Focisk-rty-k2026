@@ -2,17 +2,17 @@
 
 import { AI, HUMAN } from '../engine.js';
 
-const finiteNumber = value => typeof value === 'number' && Number.isFinite(value);
-const safeLog = value => Array.isArray(value) ? value.filter(Boolean) : [];
-const safeText = value => String(value ?? '').trim();
+const matchSummaryFiniteNumber = value => typeof value === 'number' && Number.isFinite(value);
+const matchSummarySafeLog = value => Array.isArray(value) ? value.filter(Boolean) : [];
+const matchSummarySafeText = value => String(value ?? '').trim();
 
-const resultLabel = (winner, humanId, aiId) => {
+const matchSummaryResultLabel = (winner, humanId, aiId) => {
   if (winner === humanId) return 'Győzelem';
   if (winner === aiId) return 'Vereség';
   return 'Döntetlen';
 };
 
-const formatComparedValues = (entry, formatValue) => {
+const matchSummaryFormatComparedValues = (entry, formatValue) => {
   if (typeof formatValue !== 'function') return '';
   try {
     const human = formatValue(entry.humanCard, entry.attribute);
@@ -32,45 +32,46 @@ export function buildRecentDuelHistory(log, {
 } = {}) {
   const safeLimit = Math.max(0, Math.min(3, Number.isFinite(limit) ? Math.floor(limit) : 3));
   if (!safeLimit) return [];
+  const entries = matchSummarySafeLog(log);
 
-  return safeLog(log).slice(-safeLimit).map((entry, index, items) => {
+  return entries.slice(-safeLimit).map((entry, index, items) => {
     const attribute = attributeRegistry[entry.attribute] ?? {};
     const round = Number.isFinite(entry.round)
       ? entry.round
-      : Math.max(1, safeLog(log).length - items.length + index + 1);
+      : Math.max(1, entries.length - items.length + index + 1);
     return Object.freeze({
       round,
       attribute: entry.attribute ?? null,
-      categoryLabel: safeText(attribute.label ?? attribute.nameHu ?? entry.attribute) || 'Ismeretlen kategória',
-      values: formatComparedValues(entry, formatValue),
-      result: resultLabel(entry.winner, humanId, aiId),
+      categoryLabel: matchSummarySafeText(attribute.label ?? attribute.nameHu ?? entry.attribute) || 'Ismeretlen kategória',
+      values: matchSummaryFormatComparedValues(entry, formatValue),
+      result: matchSummaryResultLabel(entry.winner, humanId, aiId),
       winner: entry.winner,
     });
   });
 }
 
-const comparisonMargin = (entry, attributeValue) => {
+const matchSummaryComparisonMargin = (entry, attributeValue) => {
   if (typeof attributeValue !== 'function') return 0;
   try {
     const human = attributeValue(entry.humanCard, entry.attribute);
     const ai = attributeValue(entry.aiCard, entry.attribute);
-    if (!finiteNumber(human) || !finiteNumber(ai)) return 0;
+    if (!matchSummaryFiniteNumber(human) || !matchSummaryFiniteNumber(ai)) return 0;
     return Math.abs(human - ai) / Math.max(Math.abs(human), Math.abs(ai), 1);
   } catch {
     return 0;
   }
 };
 
-const winningCard = (entry, humanId, aiId) => {
+const matchSummaryWinningCard = (entry, humanId, aiId) => {
   if (entry.winner === humanId) return entry.humanCard;
   if (entry.winner === aiId) return entry.aiCard;
   return null;
 };
 
-const cardIdentity = card => safeText(card?.id)
-  || `${safeText(card?.name)}::${safeText(card?.club)}`;
+const matchSummaryCardIdentity = card => matchSummarySafeText(card?.id)
+  || `${matchSummarySafeText(card?.name)}::${matchSummarySafeText(card?.club)}`;
 
-const bestCategoryFrom = (categoryWins, attributeRegistry) => {
+const matchSummaryBestCategoryFrom = (categoryWins, attributeRegistry) => {
   const entries = [...categoryWins.entries()];
   if (!entries.length) return null;
   entries.sort((left, right) => right[1].wins - left[1].wins || left[1].firstRound - right[1].firstRound);
@@ -78,13 +79,13 @@ const bestCategoryFrom = (categoryWins, attributeRegistry) => {
   const attribute = attributeRegistry[key] ?? {};
   return Object.freeze({
     key,
-    label: safeText(attribute.label ?? attribute.nameHu ?? key) || key,
-    icon: safeText(attribute.icon),
+    label: matchSummarySafeText(attribute.label ?? attribute.nameHu ?? key) || key,
+    icon: matchSummarySafeText(attribute.icon),
     wins: value.wins,
   });
 };
 
-const playerOfMatchFrom = candidates => {
+const matchSummaryPlayerOfMatchFrom = candidates => {
   const ordered = [...candidates.values()]
     .sort((left, right) => right.wins - left.wins || right.bestMargin - left.bestMargin);
   const first = ordered[0];
@@ -93,8 +94,8 @@ const playerOfMatchFrom = candidates => {
   if (second && first.wins === second.wins && Math.abs(first.bestMargin - second.bestMargin) < 1e-12) return null;
   return Object.freeze({
     id: first.card.id ?? null,
-    name: safeText(first.card.name) || 'Ismeretlen játékos',
-    club: safeText(first.card.club) || 'Ismeretlen klub',
+    name: matchSummarySafeText(first.card.name) || 'Ismeretlen játékos',
+    club: matchSummarySafeText(first.card.club) || 'Ismeretlen klub',
     wins: first.wins,
   });
 };
@@ -107,7 +108,7 @@ export function summariseClassicMatch({
   humanId = HUMAN,
   aiId = AI,
 } = {}) {
-  const log = safeLog(game?.log);
+  const log = matchSummarySafeLog(game?.log);
   let humanWins = 0;
   let aiWins = 0;
   let ties = 0;
@@ -126,12 +127,12 @@ export function summariseClassicMatch({
       ties += 1;
     }
 
-    const card = winningCard(entry, humanId, aiId);
-    const identity = cardIdentity(card);
+    const card = matchSummaryWinningCard(entry, humanId, aiId);
+    const identity = matchSummaryCardIdentity(card);
     if (!card || !identity) continue;
     const candidate = playerCandidates.get(identity) ?? { card, wins: 0, bestMargin: 0 };
     candidate.wins += 1;
-    candidate.bestMargin = Math.max(candidate.bestMargin, comparisonMargin(entry, attributeValue));
+    candidate.bestMargin = Math.max(candidate.bestMargin, matchSummaryComparisonMargin(entry, attributeValue));
     playerCandidates.set(identity, candidate);
   }
 
@@ -144,7 +145,7 @@ export function summariseClassicMatch({
     humanWins,
     aiWins,
     ties,
-    bestCategory: bestCategoryFrom(categoryWins, attributeRegistry),
-    playerOfMatch: playerOfMatchFrom(playerCandidates),
+    bestCategory: matchSummaryBestCategoryFrom(categoryWins, attributeRegistry),
+    playerOfMatch: matchSummaryPlayerOfMatchFrom(playerCandidates),
   });
 }
