@@ -18,6 +18,12 @@ const categoryPickerPrevious = Object.freeze({
 
 const CATEGORY_COMMIT_RETRY_MS = 80;
 const CATEGORY_COMMIT_MAX_ATTEMPTS = 8;
+const CATEGORY_GROUP_ORDER = Object.freeze([
+  'Alapadatok',
+  'Pályára lépés',
+  'Támadás',
+  'Fegyelem',
+]);
 
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
   .filter(node => node.matches?.('.attr-btn--mobile[data-attribute]'));
@@ -40,12 +46,30 @@ function makeCategoryTile(source, index) {
   tile.dataset.key = key;
   tile.setAttribute('aria-pressed', 'false');
 
+  const describedBy = [];
   const direction = tile.querySelector('.attr-btn__direction') ?? tile.querySelector('small');
   if (direction) {
     direction.classList.add('attr-btn__direction');
     direction.id = `category-direction-${key || index}`;
-    tile.setAttribute('aria-describedby', direction.id);
+    describedBy.push(direction.id);
   }
+
+  if (source.dataset.categoryStatus === 'experimental') {
+    const known = Number.parseInt(source.dataset.categoryKnown ?? '', 10);
+    const total = Number.parseInt(source.dataset.categoryTotal ?? '', 10);
+    const coverage = Number.isFinite(known) && Number.isFinite(total)
+      ? ` ${known}/${total} játékosnál elérhető.`
+      : '';
+    const explanation = `Nem minden játékoskártyán érhető el.${coverage}`;
+    const badge = el('span', 'category-tile__availability', 'Korlátozott adatok');
+    badge.id = `category-availability-${key || index}`;
+    badge.title = explanation;
+    badge.setAttribute('aria-label', `Korlátozott adatok. ${explanation}`);
+    tile.appendChild(badge);
+    describedBy.push(badge.id);
+  }
+
+  if (describedBy.length) tile.setAttribute('aria-describedby', describedBy.join(' '));
 
   if (!tile.querySelector('.category-tile__check')) {
     const check = el('span', 'category-tile__check', '✓');
@@ -54,6 +78,20 @@ function makeCategoryTile(source, index) {
   }
 
   return tile;
+}
+
+function orderedGroups(sourceButtons) {
+  const grouped = new Map();
+  for (const button of sourceButtons) {
+    const group = button.dataset.categoryGroup || 'Egyéb';
+    const current = grouped.get(group) ?? [];
+    current.push(button);
+    grouped.set(group, current);
+  }
+  return [
+    ...CATEGORY_GROUP_ORDER.filter(group => grouped.has(group)),
+    ...[...grouped.keys()].filter(group => !CATEGORY_GROUP_ORDER.includes(group)),
+  ].map(group => [group, grouped.get(group)]);
 }
 
 function installCategorySelection(ui, picker, sourceButtons) {
@@ -79,8 +117,19 @@ function installCategorySelection(ui, picker, sourceButtons) {
   let selectedTile = null;
   let committing = false;
   let commitTimer = 0;
+  const tiles = [];
 
-  const tiles = sourceButtons.map((button, index) => makeCategoryTile(button, index));
+  for (const [group, buttons] of orderedGroups(sourceButtons)) {
+    const heading = el('h3', 'category-group-title', group);
+    heading.id = `category-group-${group.toLocaleLowerCase('hu-HU').replace(/[^a-z0-9]+/g, '-')}`;
+    grid.appendChild(heading);
+    for (const [index, button] of buttons.entries()) {
+      const tile = makeCategoryTile(button, tiles.length + index);
+      tile.dataset.group = group;
+      tiles.push(tile);
+      grid.appendChild(tile);
+    }
+  }
 
   const setTilesDisabled = disabled => {
     for (const tile of tiles) tile.disabled = disabled;
@@ -143,10 +192,7 @@ function installCategorySelection(ui, picker, sourceButtons) {
     next.setAttribute('aria-disabled', 'false');
   };
 
-  for (const tile of tiles) {
-    tile.addEventListener('click', () => selectTile(tile));
-    grid.appendChild(tile);
-  }
+  for (const tile of tiles) tile.addEventListener('click', () => selectTile(tile));
 
   next.addEventListener('click', event => {
     event.preventDefault();
