@@ -1,20 +1,7 @@
-/** Hungarian wording, independent-project notice and legal UI safeguards. */
+/** Independent-project notice and legal UI safeguards. */
 
 (() => {
   const NOTICE = 'A Fociskártyák 2026 független projekt. Nem áll hivatalos kapcsolatban a játékban megjelenített klubokkal, ligákkal vagy sportszövetségekkel.';
-  const REPLACEMENTS = new Map([
-    ['Penalties mód', 'Büntetőpárbaj'],
-    ['Tizenegyes mód', 'Büntetőpárbaj'],
-  ]);
-
-  function localiseText(root) {
-    if (!(root instanceof Node)) return;
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-      const replacement = REPLACEMENTS.get(node.nodeValue?.trim());
-      if (replacement) node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), replacement);
-    }
-  }
 
   function ensureTitleNotice(root = document) {
     const panel = root.matches?.('.mobile-home') ? root : root.querySelector?.('.mobile-home');
@@ -34,7 +21,6 @@
   }
 
   function enhance(root = document) {
-    localiseText(root);
     ensureTitleNotice(root);
     preserveInspectorBackdrop();
   }
@@ -45,7 +31,6 @@
       for (const mutation of mutations) {
         mutation.addedNodes.forEach(node => {
           if (node instanceof Element) enhance(node);
-          else if (node instanceof Text) localiseText(node.parentNode);
         });
       }
       preserveInspectorBackdrop();
