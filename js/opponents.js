@@ -81,7 +81,7 @@ function publishActiveOpponent() {
   globalThis.__FOCISKARTYAK_OPPONENT__ = getActiveOpponent();
 }
 
-function updateMenuOpponentSummary(root = document, opponent = getSelectedOpponent()) {
+function updateMenuOpponentSummary(root = globalThis.document, opponent = getSelectedOpponent()) {
   const value = root?.querySelector?.('.current-match-summary__opponent-value');
   if (value) value.textContent = `${opponent.name} · ${opponent.level}. szint · OVR ${opponent.overall}`;
 }
@@ -91,7 +91,7 @@ function saveSelectedOpponent(id) {
   selectedOpponentId = id;
   writeStoredString(STORAGE_KEY, id);
   if (!activeMatchOpponentId) publishActiveOpponent();
-  updateMenuOpponentSummary(document, getSelectedOpponent());
+  updateMenuOpponentSummary(globalThis.document, getSelectedOpponent());
   return getSelectedOpponent();
 }
 
