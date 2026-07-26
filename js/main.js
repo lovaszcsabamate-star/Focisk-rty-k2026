@@ -1,4 +1,4 @@
-/** Browser session controller for Classic and Penalties modes. */
+/** Browser session controller for Classic and Büntetőpárbaj modes. */
 
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
@@ -10,6 +10,14 @@ import { createRoundController } from './app/round-controller.js';
 import { UI } from './ui.js';
 import { getLine } from './banter.js';
 import { loadPlayers } from './data/players.js';
+import {
+  activateMatchOpponent,
+  clearMatchOpponent,
+  getActiveOpponent,
+  getSelectedOpponent,
+  isOpponentId,
+  pickRandomOpponent,
+} from './opponents.js';
 import {
   applyExperienceSettings,
   clearSavedMatch,
@@ -25,7 +33,7 @@ import {
 
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const selectedOpponentDifficulty = () => {
-  const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
+  const id = getSelectedOpponent()?.id ?? globalThis.__FOCISKARTYAK_OPPONENT__?.id;
   return validDifficulty(id) ? id : (validDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 };
 
@@ -53,6 +61,9 @@ class Session {
         deck: this.deck,
         source: this.source,
         meta: this.meta,
+        deckSelection: globalThis.__FOCISKARTYAK_DECK_SELECTION__,
+        fullDeckCount: globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__?.players?.length ?? this.deck.length,
+        opponent: getSelectedOpponent(),
         settings: this.settings,
         game: this.game,
         mode: this.mode,
@@ -63,12 +74,14 @@ class Session {
         prepareTitleScreen: () => {
           this.busy = false;
           this.ui.setInteractionBusy(false);
+          clearMatchOpponent();
           this.runtime.reset();
           this.ui.setMode('classic');
           this.ui.resetTable();
         },
         resumeSavedMatch: () => this.resumeSavedMatch(),
         start: (mode, difficulty) => this.start(mode, difficulty),
+        startQuickMatch: () => this.startQuickMatch(),
         toggleSetting: (key, value) => this.toggleSetting(key, value),
         beginMatch: () => this._beginMatch(),
       },
@@ -82,6 +95,8 @@ class Session {
       getState: () => ({
         mode: this.mode,
         difficulty: this.difficulty,
+        game: this.game,
+        opponent: getActiveOpponent(),
         result: this.runtime.result(),
       }),
       actions: {
@@ -187,8 +202,8 @@ class Session {
     return this.menu.startFromMenu(mode, panel);
   }
 
-  confirmReplaceSavedGame(mode, difficulty) {
-    return this.menu.confirmReplaceSavedGame(mode, difficulty);
+  confirmReplaceSavedGame(mode, difficulty, options) {
+    return this.menu.confirmReplaceSavedGame(mode, difficulty, options);
   }
 
   showOnboarding(forced = false) {
@@ -209,6 +224,11 @@ class Session {
 
   start(mode, difficulty) {
     clearSavedMatch();
+    const active = getActiveOpponent();
+    const selected = getSelectedOpponent();
+    const preserveTemporaryOpponent = active?.id === difficulty && active?.id !== selected?.id;
+    if (!preserveTemporaryOpponent) clearMatchOpponent();
+
     this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
     this.busy = false;
     this.ui.resetTable();
@@ -216,6 +236,18 @@ class Session {
 
     if (this.mode === 'penalties') this.showPenaltyIntro();
     else this._beginMatch();
+  }
+
+  startQuickMatch() {
+    const opponent = pickRandomOpponent();
+    if (!opponent) {
+      this.ui.showToast('Nem található elérhető ellenfél.', 'error');
+      return false;
+    }
+    activateMatchOpponent(opponent.id);
+    this.ui.showToast(`Gyors meccs: ${opponent.name} · ${opponent.level}. szint · OVR ${opponent.overall}`, 'success', 2600);
+    this.start('classic', opponent.id);
+    return opponent;
   }
 
   showPenaltyIntro() {
@@ -270,6 +302,8 @@ class Session {
     }
 
     try {
+      if (isOpponentId(saved.difficulty)) activateMatchOpponent(saved.difficulty);
+      else clearMatchOpponent();
       this.runtime.restore({
         ...saved,
         difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
@@ -284,6 +318,7 @@ class Session {
       this.ui.showToast('Mentett játék folytatva', 'success');
     } catch (error) {
       console.error('[save] A mentett játék nem állítható vissza:', error);
+      clearMatchOpponent();
       clearSavedMatch();
       this.ui.showToast('A mentés sérült, ezért új játék szükséges.', 'error', 3400);
       this.showTitleScreen({ offerOnboarding: false });
