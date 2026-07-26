@@ -1,6 +1,7 @@
 /** Főmenü-, onboarding-, beállítás- és szünetképernyők központi vezérlője. */
 
 import { DIFFICULTY } from '../ai.js';
+import { nationPresentation } from '../domain/deck-selection-domain.js';
 import { GAME_DECK_SIZE } from '../engine.js';
 import { el } from '../ui.js';
 
@@ -17,6 +18,7 @@ const menuControllerRequiredActions = Object.freeze([
   'prepareTitleScreen',
   'resumeSavedMatch',
   'start',
+  'startQuickMatch',
   'toggleSetting',
   'beginMatch',
 ]);
@@ -49,6 +51,18 @@ const menuControllerSelectedOpponentDifficulty = registry => {
   if (menuControllerValidDifficulty(registry, 'medium')) return 'medium';
   return Object.keys(registry)[0];
 };
+
+const menuControllerEscapeHtml = value => String(value ?? '')
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&#039;');
+
+const menuControllerDeckSelection = current => current.deckSelection
+  ?? current.meta?.deckSelection
+  ?? current.meta?.selection?.deckSelection
+  ?? { kind: 'random', value: '' };
 
 export function createMenuController({
   ui,
@@ -115,6 +129,31 @@ export function createMenuController({
     return `✓ ${(current.deck ?? []).length} valós NB I-kártya · ${current.meta?.season ?? '2025/26'}${dateNote}`;
   };
 
+  const currentMatchSummary = () => {
+    const current = state();
+    const selection = menuControllerDeckSelection(current);
+    const selectedCount = (current.deck ?? []).length;
+    const fullCount = Number.isFinite(current.fullDeckCount) ? current.fullDeckCount : selectedCount;
+    let deck = `Véletlen NB I-kártyák · ${fullCount} elérhető lap`;
+    if (selection.kind === 'club') deck = `${selection.value} · ${selectedCount} kártya`;
+    if (selection.kind === 'nation') {
+      const nation = nationPresentation(selection.value);
+      deck = `${nation.flag} ${nation.label} · ${selectedCount} kártya`;
+    }
+
+    const opponent = current.opponent ?? globalThis.__FOCISKARTYAK_OPPONENT__ ?? {};
+    const opponentText = opponent.name
+      ? `${opponent.name} · ${opponent.level}. szint · OVR ${opponent.overall}`
+      : 'Nincs kiválasztott ellenfél';
+    return Object.freeze({
+      deck,
+      opponent: opponentText,
+      mode: current.mode === 'classic'
+        ? 'Klasszikus mód'
+        : current.mode === 'penalties' ? 'Büntetőpárbaj' : 'Válassz játékmódot',
+    });
+  };
+
   const selectedDifficulty = panel => {
     const checked = panel?.querySelector?.('input[name=difficulty]:checked')?.value;
     return menuControllerValidDifficulty(difficultyRegistry, checked)
@@ -129,6 +168,7 @@ export function createMenuController({
 
     const current = state();
     const saved = readSaved();
+    const summary = currentMatchSummary();
     const panel = elementFactory('div', 'menu-panel mobile-home');
     panel.innerHTML = `
       <p class="eyebrow">A hátsó asztal bajnoksága</p>
@@ -138,15 +178,24 @@ export function createMenuController({
       ${saved ? `
         <button class="btn btn--continue" id="continue-btn">
           <span>▶ Játék folytatása</span>
-          <small>${saved.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${savedTimeLabel(saved.savedAt)}</small>
+          <small>${saved.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'} · ${savedTimeLabel(saved.savedAt)}</small>
         </button>
       ` : ''}
 
       <h2 class="menu-section-title">Új játék</h2>
+      <section class="current-match-summary" aria-labelledby="current-match-summary-title">
+        <h3 id="current-match-summary-title">Aktuális mérkőzés</h3>
+        <dl>
+          <div><dt>Pakli</dt><dd>${menuControllerEscapeHtml(summary.deck)}</dd></div>
+          <div><dt>Ellenfél</dt><dd class="current-match-summary__opponent-value">${menuControllerEscapeHtml(summary.opponent)}</dd></div>
+          <div><dt>Játékmód</dt><dd>${menuControllerEscapeHtml(summary.mode)}</dd></div>
+        </dl>
+      </section>
       <div class="primary-mode-actions">
         <button class="btn mode-start" id="start-btn"><span>🃏 Klasszikus mód</span><small>52 lapos kártyameccs</small></button>
-        <button class="btn mode-start" id="penalties-btn"><span>⚽ Penalties mód</span><small>11 lap, öt rendes párbaj</small></button>
+        <button class="btn mode-start" id="penalties-btn"><span>⚽ Büntetőpárbaj</span><small>11 lap, öt rendes párbaj</small></button>
       </div>
+      <button class="btn quick-match-button" id="quick-match-btn"><span>⚡ Gyors meccs</span><small>Azonnali Klasszikus mérkőzés véletlen ellenféllel</small></button>
 
       <details class="opponent-details">
         <summary>👤 Ellenfél kiválasztása</summary>
@@ -167,6 +216,7 @@ export function createMenuController({
     panel.querySelector('#continue-btn')?.addEventListener('click', () => actions.resumeSavedMatch(), { once: true });
     panel.querySelector('#start-btn').addEventListener('click', () => startFromMenu('classic', panel), { once: true });
     panel.querySelector('#penalties-btn').addEventListener('click', () => startFromMenu('penalties', panel), { once: true });
+    panel.querySelector('#quick-match-btn').addEventListener('click', () => startQuickMatchFromMenu(), { once: true });
     panel.querySelector('#rules-btn').addEventListener('click', () => showRules(() => showTitleScreen({ offerOnboarding: false })), { once: true });
     panel.querySelector('#settings-btn').addEventListener('click', () => showSettings(() => showTitleScreen({ offerOnboarding: false })), { once: true });
 
@@ -184,20 +234,29 @@ export function createMenuController({
     actions.start(mode, difficulty);
   };
 
-  const confirmReplaceSavedGame = (mode, difficulty) => {
+  const startQuickMatchFromMenu = () => {
+    if (readSaved()) {
+      confirmReplaceSavedGame('classic', null, { quickMatch: true });
+      return;
+    }
+    actions.startQuickMatch();
+  };
+
+  const confirmReplaceSavedGame = (mode, difficulty, { quickMatch = false } = {}) => {
     const panel = elementFactory('div', 'confirm-panel');
     panel.innerHTML = `
       <p class="eyebrow">Mentett mérkőzés</p>
-      <h1>Új játékot indítasz?</h1>
+      <h1>${quickMatch ? 'Gyors meccset indítasz?' : 'Új játékot indítasz?'}</h1>
       <p>A jelenlegi mentés törlődik. Ezt később nem lehet visszaállítani.</p>
       <div class="result-actions">
-        <button class="btn" id="replace-save-btn">Igen, új játék</button>
+        <button class="btn" id="replace-save-btn">${quickMatch ? 'Igen, gyors meccs' : 'Igen, új játék'}</button>
         <button class="btn btn--ghost" id="keep-save-btn">Mégse</button>
       </div>
     `;
     panel.querySelector('#replace-save-btn').addEventListener('click', () => {
       clearSaved();
-      actions.start(mode, difficulty);
+      if (quickMatch) actions.startQuickMatch();
+      else actions.start(mode, difficulty);
     }, { once: true });
     panel.querySelector('#keep-save-btn').addEventListener('click', () => showTitleScreen({ offerOnboarding: false }), { once: true });
     showPanel(panel, () => showTitleScreen({ offerOnboarding: false }));
@@ -205,7 +264,7 @@ export function createMenuController({
 
   const showOnboarding = (forced = false) => {
     const slides = [
-      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.'],
+      ['🎮', 'Válassz játékmódot', 'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.'],
       ['🃏', 'Nézd meg a saját lapjaidat', 'A kéz oldalra húzható. Koppints egy kártyára, a nagyítóval pedig megnyithatod a részleteit.'],
       ['📊', 'Válassz kategóriát', 'A gomb megmutatja, hogy több vagy kevesebb érték számít jobbnak, és a legjobb saját értékedet is.'],
       ['🏆', 'Gyűjts több lapot', 'A kör győztese viszi a lapokat. Döntetlennél a lapok a közös pakliba kerülnek.'],
@@ -265,7 +324,7 @@ export function createMenuController({
         <p><b>${Math.min(gameDeckSize, (current.deck ?? []).length)} véletlenszerű lap</b> kerül játékba. A két fél körönként felváltva választ kategóriát. A győztes viszi a két lapot és a döntetlenpaklit.</p>
       </section>
       <section class="rule-card" data-rules="penalties">
-        <h2>⚽ Penalties mód</h2>
+        <h2>⚽ Büntetőpárbaj</h2>
         <p>Mindkét fél 11 lapot kap. Öt rendes párbaj következik; döntetlennél hirtelen halál. Azonos értéknél nincs gól.</p>
       </section>
       <section class="rule-card">
@@ -333,7 +392,7 @@ export function createMenuController({
     panel.innerHTML = `
       <p class="eyebrow">A játék szünetel</p>
       <h1>Szünet</h1>
-      <p>${current.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'} · ${current.game.round}. ${current.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
+      <p>${current.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'} · ${current.game.round}. ${current.mode === 'penalties' ? 'párbaj' : 'kör'}</p>
       <div class="pause-actions">
         <button class="btn" id="resume-btn">▶ Játék folytatása</button>
         <button class="btn btn--ghost" id="restart-btn">↻ Újrakezdés</button>
@@ -354,7 +413,7 @@ export function createMenuController({
   const showPenaltyIntro = () => {
     const panel = elementFactory('div', 'penalty-intro');
     panel.innerHTML = `
-      <p class="eyebrow">Penalties mód</p>
+      <p class="eyebrow">Büntetőpárbaj</p>
       <h1>11 lap. 5 rendes párbaj.</h1>
       <p>Döntetlennél hirtelen halál. A felhasznált lapok külön pakliba kerülnek.</p>
       <button class="btn" id="kickoff-btn">Kezdődhet</button>
@@ -370,8 +429,10 @@ export function createMenuController({
     showTitleScreen,
     savedTimeLabel,
     deckLabel,
+    currentMatchSummary,
     selectedDifficulty,
     startFromMenu,
+    startQuickMatchFromMenu,
     confirmReplaceSavedGame,
     showOnboarding,
     showRules,
