@@ -107,6 +107,11 @@ const bestHumanCard = (game, attribute) => {
   return cards.sort((a, b) => multiplier * (attributeValue(a, attribute.key) - attributeValue(b, attribute.key)))[0];
 };
 
+const coverageTotal = attribute => {
+  if (!Number.isFinite(attribute?.knownValues) || !Number.isFinite(attribute?.coverage) || attribute.coverage <= 0) return null;
+  return Math.max(attribute.knownValues, Math.round(attribute.knownValues / attribute.coverage));
+};
+
 const baseMethods = {
   renderHands: UI.prototype.renderHands,
   renderScores: UI.prototype.renderScores,
@@ -203,7 +208,7 @@ UI.prototype.renderScores = function renderMobileScores(game) {
   baseMethods.renderScores.call(this, game);
   this.dom.pub.dataset.turn = game.chooser === HUMAN ? 'human' : 'ai';
   this.dom.pub.dataset.gameMode = game.mode;
-  this.dom.hudMeta.setAttribute('aria-label', `${game.mode === 'penalties' ? 'Tizenegyes mód' : 'Klasszikus mód'}. ${this.dom.hudMeta.textContent}`);
+  this.dom.hudMeta.setAttribute('aria-label', `${game.mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus mód'}. ${this.dom.hudMeta.textContent}`);
 };
 
 UI.prototype.renderHands = function renderMobileHands(game, options = {}) {
@@ -227,24 +232,27 @@ UI.prototype.showAttributePicker = function showMobileAttributePicker(game) {
 
   const available = new Set(game.availableAttributeKeys());
   const buttons = ATTRIBUTES
-    .filter(attribute => available.has(attribute.key))
+    .filter(attribute => available.has(attribute.key) && attribute.status !== 'disabled')
     .map(attribute => {
       const best = bestHumanCard(game, attribute);
       const button = el('button', 'attr-btn attr-btn--mobile');
+      const total = coverageTotal(attribute);
+      const limited = attribute.status === 'experimental';
       button.type = 'button';
       button.dataset.attribute = attribute.key;
+      button.dataset.categoryGroup = attribute.group ?? 'Egyéb';
+      button.dataset.categoryStatus = attribute.status ?? 'enabled';
+      if (Number.isFinite(attribute.knownValues)) button.dataset.categoryKnown = String(attribute.knownValues);
+      if (Number.isFinite(total)) button.dataset.categoryTotal = String(total);
       button.append(
         el('span', 'attr-btn__label', `${attribute.icon} ${attribute.label}`),
         el('strong', 'attr-btn__value', best ? `Legjobb saját: ${formatAttribute(best, attribute.key)}` : 'Nincs használható saját lap'),
         el('small', 'attr-btn__direction', directionLabel(attribute)),
       );
-      button.setAttribute('aria-label', `${attribute.label}. ${best ? `Legjobb saját érték: ${formatAttribute(best, attribute.key)}.` : ''} ${directionLabel(attribute)}.`);
-      button.addEventListener('click', () => {
-        if (button.disabled) return;
-        this.dom.picker.querySelectorAll('button').forEach(item => { item.disabled = true; });
-        button.classList.add('is-selected');
-        this.handlers.onAttribute(attribute.key);
-      }, { once: true });
+      const availability = limited
+        ? ` Korlátozott adatok: nem minden játékoskártyán érhető el.${Number.isFinite(total) ? ` ${attribute.knownValues}/${total} játékosnál elérhető.` : ''}`
+        : '';
+      button.setAttribute('aria-label', `${attribute.label}. ${best ? `Legjobb saját érték: ${formatAttribute(best, attribute.key)}.` : ''} ${directionLabel(attribute)}.${availability}`);
       return button;
     });
 
