@@ -96,6 +96,16 @@ assert.match(categorySource, /Tovább a kártyákhoz/);
 assert.match(matchExperienceSource, /slice\(-3\)/);
 assert.match(styleSource, /recent-duels/);
 assert.match(styleSource, /min-height:\s*44px/);
+assert.match(
+  styleSource,
+  /#pub\.is-duel-focus #felt:has\(> \.recent-duels:not\(\[hidden\]\)\)[\s\S]*overflow-y:\s*auto/,
+  'A mobil eredményfázisnak tényleges helyet kell biztosítania a háromsoros párbajtörténetnek.',
+);
+assert.match(
+  styleSource,
+  /#pub\.is-duel-focus #felt:has\(> \.recent-duels:not\(\[hidden\]\)\) #duel[\s\S]*--duel-card-h:\s*clamp\(196px, 60vw, 242px\)/,
+  'A látható mobil előzménylista mellett a csatakártyáknak kompaktabbnak kell lenniük.',
+);
 assert.doesNotMatch(legalSource, /REPLACEMENTS|localiseText/);
 assert.doesNotMatch(profileSource, /INTERFACE_TEXT_REPLACEMENTS|replaceAll\(source/);
 assert.match(configurationSource, /SAVED_MATCH_VERSION\s*=\s*2/);
