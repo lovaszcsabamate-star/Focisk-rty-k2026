@@ -29,8 +29,13 @@ jobs:
       - name: Függőségek telepítése
         run: npm install
 
-      - name: Új előnézeti script szintaxisának ellenőrzése
-        run: node --check scripts/ux-refresh-previews.mjs
+      - name: Új ellenőrző fájlok szintaxisa
+        run: |
+          node --check scripts/ux-refresh-previews.mjs
+          node --check test/visible-mode-name.test.mjs
+
+      - name: Közvetlen magyar elnevezések
+        run: node test/visible-mode-name.test.mjs
 
       - name: Lint
         run: npm run lint
