@@ -267,20 +267,30 @@
   }
 
   #felt .recent-duels {
-    max-height: 104px;
+    max-height: 86px;
     overflow: hidden;
-    padding: 7px 8px;
+    padding: 6px 8px;
+  }
+
+  .recent-duels__title {
+    margin-bottom: 3px;
+  }
+
+  .recent-duels__list {
+    gap: 2px;
   }
 
   .recent-duels__item {
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 3px 6px;
-    padding-block: 2px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 3px 5px;
+    padding-block: 1px;
   }
 
   .recent-duels__result {
-    grid-column: 2;
+    grid-column: auto;
+    max-width: 126px;
     overflow: hidden;
+    font-size: 10px;
     text-overflow: ellipsis;
   }
 
