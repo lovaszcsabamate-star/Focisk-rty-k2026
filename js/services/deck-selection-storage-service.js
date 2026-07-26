@@ -2,6 +2,7 @@
 
 import { APP_STORAGE_KEYS } from '../app/configuration.js';
 import {
+  MIN_FILTERED_DECK_SIZE,
   RANDOM_DECK_SELECTION,
   normaliseDeckSelection,
   validateDeckSelection,
@@ -10,6 +11,7 @@ import { storageService } from './storage-service.js';
 
 export const DECK_SELECTION_STORAGE_KEY = APP_STORAGE_KEYS.deckSelection;
 export const SAVED_MATCH_STORAGE_KEY = APP_STORAGE_KEYS.savedMatch;
+export const QUICK_MATCH_NATION_MINIMUM = 7;
 
 export const DECK_SELECTION_STORAGE_KEYS = Object.freeze({
   selection: DECK_SELECTION_STORAGE_KEY,
@@ -45,6 +47,12 @@ const deckStorageValidateKeys = keys => {
   return Object.freeze({ selection, savedMatch });
 };
 
+const deckSelectionMinimum = selection => (
+  normaliseDeckSelection(selection).kind === 'nation'
+    ? QUICK_MATCH_NATION_MINIMUM
+    : MIN_FILTERED_DECK_SIZE
+);
+
 export function createDeckSelectionStorageService({
   storage = storageService,
   keys = DECK_SELECTION_STORAGE_KEYS,
@@ -54,7 +62,7 @@ export function createDeckSelectionStorageService({
 
   const read = (players = []) => {
     const stored = storage.readJson(configuredKeys.selection, RANDOM_DECK_SELECTION);
-    return validateDeckSelection(players, stored).selection;
+    return validateDeckSelection(players, stored, deckSelectionMinimum(stored)).selection;
   };
 
   const save = selection => storage.writeJson(
