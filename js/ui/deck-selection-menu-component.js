@@ -15,7 +15,7 @@ import {
 import { deckSelectionStorageService } from '../services/deck-selection-storage-service.js';
 
 export const DECK_SELECTION_MENU_STYLE_ID = 'deck-selection-styles';
-export const QUICK_MATCH_NATION_MINIMUM = 7;
+const DECK_SELECTION_MENU_NATION_MINIMUM = 7;
 
 const DECK_SELECTION_MENU_CONFIRM_MESSAGE = 'A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?';
 const DECK_SELECTION_MENU_KIND_DEFINITIONS = Object.freeze([
@@ -24,7 +24,7 @@ const DECK_SELECTION_MENU_KIND_DEFINITIONS = Object.freeze([
   Object.freeze(['nation', '🌍 Ligaválogatottak']),
 ]);
 
-const CLUB_PRESENTATION = Object.freeze({
+const DECK_SELECTION_MENU_CLUB_PRESENTATION = Object.freeze({
   dvsc: Object.freeze({ short: 'DV', primary: '#c8192e', secondary: '#ffffff' }),
   dvtk: Object.freeze({ short: 'DI', primary: '#d71920', secondary: '#ffffff' }),
   'eto fc': Object.freeze({ short: 'ETO', primary: '#159447', secondary: '#ffffff' }),
@@ -98,7 +98,7 @@ const deckSelectionMenuEnsureStyles = documentRef => {
   documentRef.head?.appendChild(style);
 };
 
-const clubInitials = label => String(label ?? '')
+const deckSelectionMenuClubInitials = label => String(label ?? '')
   .split(/\s+/u)
   .filter(Boolean)
   .map(part => part[0])
@@ -106,13 +106,13 @@ const clubInitials = label => String(label ?? '')
   .slice(0, 3)
   .toLocaleUpperCase('hu-HU') || 'FC';
 
-const clubPresentation = label => CLUB_PRESENTATION[canonicalClubKey(label)] ?? {
-  short: clubInitials(label),
+const deckSelectionMenuClubPresentation = label => DECK_SELECTION_MENU_CLUB_PRESENTATION[canonicalClubKey(label)] ?? {
+  short: deckSelectionMenuClubInitials(label),
   primary: '#6d4d2f',
   secondary: '#d5b45d',
 };
 
-const createTeamMark = (documentRef, { kind, label, flag = '', random = false }) => {
+const deckSelectionMenuCreateTeamMark = (documentRef, { kind, label, flag = '', random = false }) => {
   const mark = documentRef.createElement('span');
   mark.className = `team-mark${kind === 'nation' ? ' team-mark--flag' : ''}${random ? ' team-mark--random' : ''}`;
   if (random) {
@@ -123,18 +123,18 @@ const createTeamMark = (documentRef, { kind, label, flag = '', random = false })
     mark.textContent = flag || '🌍';
     return mark;
   }
-  const presentation = clubPresentation(label);
+  const presentation = deckSelectionMenuClubPresentation(label);
   mark.textContent = presentation.short;
   mark.style?.setProperty?.('--team-primary', presentation.primary);
   mark.style?.setProperty?.('--team-secondary', presentation.secondary);
   return mark;
 };
 
-const teamFromSelection = (selection, players) => {
+const deckSelectionMenuTeamFromSelection = (selection, players) => {
   const checked = validateDeckSelection(
     players,
     selection,
-    normaliseDeckSelection(selection).kind === 'nation' ? QUICK_MATCH_NATION_MINIMUM : MIN_FILTERED_DECK_SIZE,
+    normaliseDeckSelection(selection).kind === 'nation' ? DECK_SELECTION_MENU_NATION_MINIMUM : MIN_FILTERED_DECK_SIZE,
   ).selection;
   if (checked.kind === 'club') {
     return {
@@ -152,9 +152,9 @@ const teamFromSelection = (selection, players) => {
   return { kind: 'random', label: 'Véletlen kártyák', flag: '', detail: `${players.length} lapos adatbázis` };
 };
 
-const renderMatchSide = (documentRef, side, team, caption) => {
+const deckSelectionMenuRenderMatchSide = (documentRef, side, team, caption) => {
   side.replaceChildren();
-  side.appendChild(createTeamMark(documentRef, {
+  side.appendChild(deckSelectionMenuCreateTeamMark(documentRef, {
     kind: team.kind,
     label: team.label,
     flag: team.flag,
@@ -167,7 +167,7 @@ const renderMatchSide = (documentRef, side, team, caption) => {
   side.append(name, detail);
 };
 
-const opponentPreview = selection => {
+const deckSelectionMenuOpponentPreview = selection => {
   const matchup = globalThis.__FOCISKARTYAK_QUICK_MATCH__;
   const selectionKey = selection.kind === 'club'
     ? canonicalClubKey(selection.value)
@@ -200,7 +200,7 @@ const deckSelectionMenuInsertSelector = ({
   reload,
 }) => {
   if (panel.querySelector('.deck-selector')) return;
-  const rawOptions = buildDeckSelectionOptions(players, QUICK_MATCH_NATION_MINIMUM);
+  const rawOptions = buildDeckSelectionOptions(players, DECK_SELECTION_MENU_NATION_MINIMUM);
   const options = {
     ...rawOptions,
     clubs: rawOptions.clubs.filter(entry => entry.count >= MIN_FILTERED_DECK_SIZE),
@@ -222,7 +222,7 @@ const deckSelectionMenuInsertSelector = ({
   body.className = 'deck-selector__body';
   const lead = documentRef.createElement('p');
   lead.className = 'deck-selector__lead';
-  lead.textContent = `Válaszd ki a saját klubodat vagy ligaválogatottadat. A gép mindig ugyanabból a kategóriából, de másik csapatot kap. A klubok legalább ${MIN_FILTERED_DECK_SIZE}, a ligaválogatottak legalább ${QUICK_MATCH_NATION_MINIMUM} használható kártyával jelennek meg.`;
+  lead.textContent = `Válaszd ki a saját klubodat vagy ligaválogatottadat. A gép mindig ugyanabból a kategóriából, de másik csapatot kap. A klubok legalább ${MIN_FILTERED_DECK_SIZE}, a ligaválogatottak legalább ${DECK_SELECTION_MENU_NATION_MINIMUM} használható kártyával jelennek meg.`;
 
   const kinds = documentRef.createElement('div');
   kinds.className = 'deck-selector__kinds';
@@ -276,8 +276,8 @@ const deckSelectionMenuInsertSelector = ({
   };
 
   const renderPreview = () => {
-    renderMatchSide(documentRef, humanSide, teamFromSelection(draft, players), 'Saját csapat');
-    renderMatchSide(documentRef, aiSide, opponentPreview(draft), 'Gép');
+    deckSelectionMenuRenderMatchSide(documentRef, humanSide, deckSelectionMenuTeamFromSelection(draft, players), 'Saját csapat');
+    deckSelectionMenuRenderMatchSide(documentRef, aiSide, deckSelectionMenuOpponentPreview(draft), 'Gép');
   };
 
   const renderGrid = () => {
@@ -288,7 +288,7 @@ const deckSelectionMenuInsertSelector = ({
       tile.className = 'team-tile is-selected';
       tile.setAttribute('role', 'option');
       tile.setAttribute('aria-selected', 'true');
-      tile.appendChild(createTeamMark(documentRef, { kind: 'random', label: 'Véletlen', random: true }));
+      tile.appendChild(deckSelectionMenuCreateTeamMark(documentRef, { kind: 'random', label: 'Véletlen', random: true }));
       const label = documentRef.createElement('span');
       label.className = 'team-tile__name';
       label.textContent = 'Teljesen véletlen';
@@ -311,7 +311,7 @@ const deckSelectionMenuInsertSelector = ({
         : canonicalNationKey(draft.value) === entry.key;
       tile.classList.toggle('is-selected', selected);
       tile.setAttribute('aria-selected', String(selected));
-      tile.appendChild(createTeamMark(documentRef, {
+      tile.appendChild(deckSelectionMenuCreateTeamMark(documentRef, {
         kind: draft.kind,
         label: entry.label,
         flag: entry.flag,
@@ -376,7 +376,7 @@ const deckSelectionMenuInsertRule = (documentRef, panel) => {
   const title = documentRef.createElement('h2');
   title.textContent = '⚡ Gyors meccs csapatválasztás';
   const text = documentRef.createElement('p');
-  text.textContent = `Választhatsz legalább ${MIN_FILTERED_DECK_SIZE} kártyás NB I-es klubot vagy legalább ${QUICK_MATCH_NATION_MINIMUM} kártyás ligaválogatottat. A gép automatikusan másik csapatot kap, a párosítás pedig a Klasszikus és a Büntetőpárbaj móddal is használható.`;
+  text.textContent = `Választhatsz legalább ${MIN_FILTERED_DECK_SIZE} kártyás NB I-es klubot vagy legalább ${DECK_SELECTION_MENU_NATION_MINIMUM} kártyás ligaválogatottat. A gép automatikusan másik csapatot kap, a párosítás pedig a Klasszikus és a Büntetőpárbaj móddal is használható.`;
   rule.append(title, text);
   panel.querySelector('#rules-back-btn')?.before(rule);
 };
@@ -396,7 +396,7 @@ export function createDeckSelectionMenuController({
     const selection = validateDeckSelection(
       pool,
       normalizedActive,
-      normalizedActive.kind === 'nation' ? QUICK_MATCH_NATION_MINIMUM : MIN_FILTERED_DECK_SIZE,
+      normalizedActive.kind === 'nation' ? DECK_SELECTION_MENU_NATION_MINIMUM : MIN_FILTERED_DECK_SIZE,
     ).selection;
     deckSelectionMenuEnsureStyles(documentRef);
 
