@@ -199,7 +199,7 @@ assert.match(uiSource, /export let UI = UIBase/);
 assert.match(uiSource, /class extends ParentUI/);
 
 assert.match(categoryPickerSource, /category-grid/);
-assert.match(categoryPickerSource, /Kategória kiválasztása…/);
+assert.match(categoryPickerSource, /Koppints egy kategóriára/);
 assert.match(categoryPickerSource, /aria-pressed/);
 assert.match(categoryPickerCss, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 assert.match(categoryPickerCss, /touch-action: pan-y/);
