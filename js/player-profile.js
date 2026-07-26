@@ -1,4 +1,4 @@
-/** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
+/** Persistent player-name profile and DOM personalization. */
 
 import { APP_STORAGE_KEYS } from './app/configuration.js';
 import { readStoredString, removeStoredValue, writeStoredString } from './services/storage-service.js';
@@ -13,17 +13,6 @@ const PROFILE_BASE_METHODS = Object.freeze({
   showOverlay: UI.prototype.showOverlay,
 });
 
-const INTERFACE_TEXT_REPLACEMENTS = Object.freeze([
-  [
-    'A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.',
-    'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.',
-  ],
-  ['Penalties mód', 'Büntetőpárbaj'],
-  ['Tizenegyes mód', 'Büntetőpárbaj'],
-  ['Penalties', 'Büntetőpárbaj'],
-  ['tizenegyespárbaj', 'büntetőpárbaj'],
-]);
-
 export function normalizePlayerName(value) {
   return String(value ?? '')
     .normalize('NFKC')
@@ -32,11 +21,9 @@ export function normalizePlayerName(value) {
     .slice(0, MAX_PLAYER_NAME_LENGTH);
 }
 
+/** Kompatibilitási export: a felületi szövegek már eleve helyesen szerepelnek a forrásban. */
 export function localizeInterfaceTextValue(value) {
-  return INTERFACE_TEXT_REPLACEMENTS.reduce(
-    (text, [source, replacement]) => text.replaceAll(source, replacement),
-    String(value ?? ''),
-  );
+  return String(value ?? '');
 }
 
 const readStoredName = () => readStoredString(PLAYER_NAME_STORAGE_KEY);
@@ -73,33 +60,7 @@ function setFullNameHint(node, name) {
   node.setAttribute('aria-label', name);
 }
 
-function localizeInterfaceText(root = document) {
-  if (!root?.createTreeWalker && !root?.ownerDocument?.createTreeWalker) return;
-  const documentRoot = root.nodeType === 9 ? root : root.ownerDocument;
-  const walker = documentRoot.createTreeWalker(root, globalThis.NodeFilter?.SHOW_TEXT ?? 4);
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  for (const textNode of textNodes) {
-    const parentTag = textNode.parentElement?.tagName;
-    if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'TEXTAREA') continue;
-    const localized = localizeInterfaceTextValue(textNode.nodeValue);
-    replaceTextNode(textNode, localized);
-  }
-
-  for (const node of root.querySelectorAll?.('[title], [aria-label]') ?? []) {
-    for (const attribute of ['title', 'aria-label']) {
-      if (!node.hasAttribute(attribute)) continue;
-      const current = node.getAttribute(attribute);
-      const localized = localizeInterfaceTextValue(current);
-      if (localized !== current) node.setAttribute(attribute, localized);
-    }
-  }
-}
-
 function personalizeGameLabels(root = document) {
-  localizeInterfaceText(root);
-
   const name = loadPlayerName();
   const upper = upperName();
 
