@@ -1,8 +1,9 @@
 /**
- * Kétlépcsős, csempés kategóriaválasztó.
+ * Egyérintéses, csempés kategóriaválasztó.
  *
- * Az első koppintás csak kijelöli a kategóriát, a külön Tovább gomb pedig
- * rögzíti a választást. A kategória interakcióit kizárólag ez a modul kezeli.
+ * Egyetlen koppintás kijelöli és azonnal rögzíti a kategóriát. A korábbi
+ * „Tovább a kártyákhoz” gomb vizuálisan megszűnt, ezért mobilon és asztali
+ * gépen is gyorsabb és egyértelműbb a továbblépés.
  */
 
 import { UI, el } from './ui.js';
@@ -16,11 +17,11 @@ const categoryPickerPrevious = Object.freeze({
   showVerdict: UI.prototype.showVerdict,
 });
 
-const CATEGORY_COMMIT_RETRY_MS = 80;
-const CATEGORY_COMMIT_MAX_ATTEMPTS = 8;
+const CATEGORY_AUTO_COMMIT_MS = 0;
+const CATEGORY_TRANSITION_CHECK_MS = 140;
 
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
-  .filter(node => node.matches?.('.attr-btn--mobile[data-attribute]'));
+  .filter(node => node.matches?.('button[data-attribute]'));
 
 const categoryLabel = button => button?.querySelector('.attr-btn__label')?.textContent?.trim()
   || button?.getAttribute('aria-label')?.split('.')[0]?.trim()
@@ -33,6 +34,7 @@ function leaveCategorySelection(ui) {
 function makeCategoryTile(source, index) {
   const tile = source.cloneNode(true);
   const key = source.dataset.attribute;
+  tile.type = 'button';
   tile.classList.add('category-tile');
   tile.classList.remove('is-selected');
   tile.disabled = false;
@@ -63,116 +65,125 @@ function installCategorySelection(ui, picker, sourceButtons) {
   grid.setAttribute('role', 'group');
   grid.setAttribute('aria-label', 'Választható összehasonlítási kategóriák');
 
-  const status = el('span', 'category-picker__status', 'Válassz egy kategóriát a folytatáshoz.');
+  const status = el(
+    'span',
+    'category-picker__status',
+    'Koppints egy kategóriára – azonnal továbblépsz a kártyaválasztáshoz.',
+  );
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
 
-  const next = el('button', 'category-picker__next', 'Tovább a kártyákhoz');
-  next.type = 'button';
-  next.disabled = true;
-  next.setAttribute('aria-disabled', 'true');
+  /* Rejtett kompatibilitási művelet: a felhasználónak nem kell megnyomnia,
+     a csempe koppintása automatikusan aktiválja. A régi futásidejű ellenőrzés
+     ugyanakkor továbbra is felismeri a kategória rögzítési pontját. */
+  const commit = el('button', 'category-picker__next sr-only', 'Tovább a kártyákhoz');
+  commit.type = 'button';
+  commit.disabled = true;
+  commit.hidden = true;
+  commit.tabIndex = -1;
+  commit.setAttribute('aria-hidden', 'true');
 
-  const actions = el('div', 'category-picker__actions');
-  actions.append(status, next);
+  const actions = el('div', 'category-picker__actions category-picker__actions--single');
+  actions.append(status, commit);
 
   let selectedKey = null;
   let selectedTile = null;
   let committing = false;
-  let commitTimer = 0;
-
+  let autoCommitTimer = 0;
+  let transitionTimer = 0;
   const tiles = sourceButtons.map((button, index) => makeCategoryTile(button, index));
 
   const setTilesDisabled = disabled => {
-    for (const tile of tiles) tile.disabled = disabled;
+    for (const tile of tiles) {
+      tile.disabled = disabled;
+      tile.setAttribute('aria-disabled', String(disabled));
+    }
   };
 
   const restoreSelection = message => {
     committing = false;
-    if (commitTimer) window.clearTimeout(commitTimer);
-    commitTimer = 0;
-    setTilesDisabled(false);
-    next.disabled = false;
-    next.textContent = 'Tovább a kártyákhoz';
-    next.setAttribute('aria-disabled', 'false');
+    selectedKey = null;
+    selectedTile = null;
+    if (autoCommitTimer) window.clearTimeout(autoCommitTimer);
+    if (transitionTimer) window.clearTimeout(transitionTimer);
+    autoCommitTimer = 0;
+    transitionTimer = 0;
+    commit.disabled = true;
+    for (const tile of tiles) {
+      tile.disabled = false;
+      tile.removeAttribute('aria-disabled');
+      tile.classList.remove('is-selected');
+      tile.setAttribute('aria-pressed', 'false');
+    }
     status.textContent = message;
     ui.dom.pub.classList.add('is-category-selection');
   };
 
-  const invokeSelection = () => {
+  const commitSelection = () => {
+    if (committing || !selectedKey || !selectedTile) return;
+    committing = true;
+    commit.disabled = true;
+
+    let accepted;
     try {
-      return ui.handlers.onAttribute?.(selectedKey) !== false;
+      accepted = ui.handlers.onAttribute?.(selectedKey);
     } catch (error) {
       console.error('[category-picker] A kategória nem rögzíthető:', error);
-      return null;
+      restoreSelection('A kategóriát nem sikerült kiválasztani. Koppints egy másik csempére.');
+      ui.showToast?.('A kategóriaválasztás nem sikerült.', 'error');
+      return;
     }
+
+    if (accepted === false) {
+      restoreSelection('Ez a kategória most nem választható. Koppints egy másik csempére.');
+      ui.showToast?.('Ez a kategória most nem használható.', 'error');
+      return;
+    }
+
+    leaveCategorySelection(ui);
+
+    /* A körvezérlő normál esetben azonnal eltávolítja a választót. Ha egy
+       váratlan állapot miatt ez nem történik meg, a felület ne maradjon lezárva. */
+    transitionTimer = window.setTimeout(() => {
+      if (!picker.isConnected || !picker.contains(grid)) return;
+      restoreSelection('A játéktér még nem áll készen. Koppints újra egy kategóriára.');
+    }, CATEGORY_TRANSITION_CHECK_MS);
   };
 
-  const retrySelection = (attempt = 2) => {
-    if (!committing || !selectedKey || !selectedTile || !picker.isConnected) return;
-    const accepted = invokeSelection();
-
-    if (accepted === true) {
-      leaveCategorySelection(ui);
-      return;
-    }
-    if (accepted === null) {
-      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
-      return;
-    }
-    if (attempt >= CATEGORY_COMMIT_MAX_ATTEMPTS) {
-      restoreSelection('A játéktér még nem áll készen. Koppints újra a Tovább gombra.');
-      return;
-    }
-
-    commitTimer = window.setTimeout(() => retrySelection(attempt + 1), CATEGORY_COMMIT_RETRY_MS);
-  };
-
-  const selectTile = tile => {
-    if (committing || tile.disabled) return;
+  const selectCategory = tile => {
+    if (committing || selectedKey || tile.disabled) return;
     selectedKey = tile.dataset.attribute;
     selectedTile = tile;
+    if (!selectedKey) {
+      selectedTile = null;
+      return;
+    }
 
     for (const item of tiles) {
       const selected = item === tile;
       item.classList.toggle('is-selected', selected);
       item.setAttribute('aria-pressed', String(selected));
     }
-
-    status.textContent = `${categoryLabel(tile)} kijelölve. Még válthatsz, vagy lépj tovább.`;
-    next.disabled = false;
-    next.setAttribute('aria-disabled', 'false');
+    setTilesDisabled(true);
+    status.textContent = `${categoryLabel(tile)} kiválasztva. Kártyák előkészítése…`;
+    commit.disabled = false;
+    autoCommitTimer = window.setTimeout(() => commit.click(), CATEGORY_AUTO_COMMIT_MS);
   };
 
-  for (const tile of tiles) {
-    tile.addEventListener('click', () => selectTile(tile));
-    grid.appendChild(tile);
-  }
-
-  next.addEventListener('click', event => {
+  commit.addEventListener('click', event => {
     event.preventDefault();
     event.stopPropagation();
-    if (committing || !selectedKey || !selectedTile) return;
-    committing = true;
-
-    const accepted = invokeSelection();
-    if (accepted === true) {
-      leaveCategorySelection(ui);
-      return;
-    }
-    if (accepted === null) {
-      restoreSelection('A kategóriát nem sikerült rögzíteni. Próbáld újra.');
-      return;
-    }
-
-    setTilesDisabled(true);
-    selectedTile.classList.add('is-selected');
-    selectedTile.setAttribute('aria-pressed', 'true');
-    next.disabled = true;
-    next.textContent = 'Továbblépés…';
-    next.setAttribute('aria-disabled', 'true');
-    status.textContent = 'A játéktér előkészítése folyamatban…';
-    commitTimer = window.setTimeout(() => retrySelection(2), CATEGORY_COMMIT_RETRY_MS);
+    commitSelection();
   });
+
+  for (const tile of tiles) {
+    tile.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      selectCategory(tile);
+    });
+    grid.appendChild(tile);
+  }
 
   picker.replaceChildren(grid, actions);
   ui.dom.pub.classList.add('is-category-selection');
