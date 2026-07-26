@@ -1,8 +1,9 @@
 /**
  * Egyérintéses, csempés kategóriaválasztó.
  *
- * Egyetlen koppintás kijelöli és azonnal rögzíti a kategóriát. Nincs külön
- * megerősítő gomb, ezért mobilon és asztali gépen is gyorsabb a továbblépés.
+ * Egyetlen koppintás kijelöli és azonnal rögzíti a kategóriát. A korábbi
+ * „Tovább a kártyákhoz” gomb megszűnt, ezért mobilon és asztali gépen is
+ * gyorsabb és egyértelműbb a továbblépés.
  */
 
 import { UI, el } from './ui.js';
