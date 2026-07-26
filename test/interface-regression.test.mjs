@@ -8,6 +8,7 @@ const read = relativePath => fs.readFileSync(path.join(ROOT, relativePath), 'utf
 
 const duelCss = read('css/duel-emphasis.css');
 const refinementCss = read('css/phase-refinements.css');
+const refreshCss = read('css/ux-refresh.css');
 const focusJs = read('js/focus-experience.js');
 const reliabilityJs = read('js/reliability-fixes.js');
 const usabilityJs = read('js/usability-fixes.js');
@@ -88,8 +89,7 @@ assert.match(profileJs, /PLAYER_NAME_STORAGE_KEY\s*=\s*APP_STORAGE_KEYS\.playerN
 assert.match(configurationJs, /playerName:\s*'fociskartyak:player-name:v1'/, 'A játékosnév tárolási kulcsának változatlannak kell maradnia.');
 assert.match(profileJs, /DEFAULT_PLAYER_NAME\s*=\s*'Játékos'/);
 assert.match(profileJs, /fociskartyak:player-name-changed/);
-assert.match(profileJs, /\['Penalties mód',\s*'Büntetőpárbaj'\]/);
-assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
+assert.doesNotMatch(profileJs, /INTERFACE_TEXT_REPLACEMENTS|Penalties mód|Tizenegyes mód/);
 
 assert.match(reliabilityJs, /shouldSuppressRestoredVerdictFeedback/);
 assert.match(reliabilityJs, /recordedRounds\s*>=\s*resolvedRounds/);
@@ -97,8 +97,14 @@ assert.match(reliabilityJs, /RELIABILITY_LEGACY_OPPONENT_IDS/);
 assert.match(reliabilityJs, /__FOCISKARTYAK_SELECT_OPPONENT__/);
 assert.match(reliabilityJs, /game\.mode\s*===\s*'penalties'\s*\?\s*'BÜNTETŐPÁRBAJ'/);
 assert.match(opponentsJs, /export function selectOpponentById/);
+assert.match(opponentsJs, /export function activateMatchOpponent/);
+assert.match(opponentsJs, /export function pickRandomOpponent/);
 assert.match(opponentsJs, /__FOCISKARTYAK_SELECT_OPPONENT__\s*=\s*selectOpponentById/);
 
+assert.match(refreshCss, /current-match-summary/);
+assert.match(refreshCss, /recent-duels/);
+assert.match(refreshCss, /category-group-title/);
+assert.match(refreshCss, /min-height:\s*44px/);
 assert.match(pwaJs, /pwaShowUpdateNotice/);
 assert.match(pwaJs, /navigator\.serviceWorker\.addEventListener\('controllerchange'/);
 assert.match(pwaJs, /30 \* 60 \* 1000/);
@@ -108,18 +114,21 @@ assert.match(pwaCss, /safe-area-inset-bottom/);
 assert.doesNotMatch(indexHtml, />\s*Penalties(?: mód)?\s*</u, 'A fő HTML-ben angol Penalties felirat maradt.');
 assert.match(indexHtml, /büntetőpárbaj móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
-assert.doesNotMatch(indexHtml, /js\/(?:player-profile|reliability-fixes|usability-fixes|focus-experience)\.js/);
+assert.match(indexHtml, /css\/ux-refresh\.css/);
+assert.doesNotMatch(indexHtml, /js\/(?:player-profile|reliability-fixes|usability-fixes|focus-experience|match-experience)\.js/);
 assert.match(
   pipelineJs,
-  /\.\.\/player-profile\.js[\s\S]*\.\.\/reliability-fixes\.js[\s\S]*\.\.\/usability-fixes\.js[\s\S]*\.\.\/focus-experience\.js/,
+  /\.\.\/match-experience\.js[\s\S]*\.\.\/player-profile\.js[\s\S]*\.\.\/reliability-fixes\.js[\s\S]*\.\.\/usability-fixes\.js[\s\S]*\.\.\/focus-experience\.js/,
 );
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
+assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v72';/);
 assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
 assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /js\/usability-fixes\.js/);
+assert.match(serviceWorker, /js\/match-experience\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
+assert.match(serviceWorker, /css\/ux-refresh\.css/);
 
-console.log('✓ A kártyanevek, kategóriakarusszel, kijelölés, kétirányú kártyanézegető, frissítés és offline mód rendben');
+console.log('✓ Kártyanézet, közvetlen magyar módnevek, mérkőzés-UX és offline mód rendben');
