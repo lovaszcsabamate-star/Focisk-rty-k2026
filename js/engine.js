@@ -30,6 +30,19 @@ const roundedForComparison = (value, precision) => {
   return Math.round((value + Number.EPSILON) * factor) / factor;
 };
 
+const quickMatchPools = players => ({
+  [HUMAN]: players.filter(player => player?.meta?.quickMatchSide === HUMAN),
+  [AI]: players.filter(player => player?.meta?.quickMatchSide === AI),
+});
+
+const pairedQuickMatchDeck = (humanTeam, aiTeam) => {
+  const deck = [];
+  for (let index = humanTeam.length - 1; index >= 0; index -= 1) {
+    deck.push(aiTeam[index], humanTeam[index]);
+  }
+  return deck;
+};
+
 /** Compare two verified values according to the category direction. */
 export function compare(attributeKey, humanCard, aiCard) {
   const attribute = ATTRIBUTE_BY_KEY[attributeKey];
@@ -59,11 +72,30 @@ export class Game {
 
     this.mode = 'classic';
     this.rng = rng;
-    let deckSize = Math.min(GAME_DECK_SIZE, players.length);
-    if (deckSize % 2) deckSize -= 1;
-    this.players = shuffle(players, rng).slice(0, deckSize);
-    this.poolSize = players.length;
-    this.deck = this.players.slice();
+    const sidePools = quickMatchPools(players);
+    const hasQuickMatch = sidePools[HUMAN].length >= HAND_SIZE && sidePools[AI].length >= HAND_SIZE;
+
+    if (hasQuickMatch) {
+      const teamSize = Math.min(GAME_DECK_SIZE / 2, sidePools[HUMAN].length, sidePools[AI].length);
+      const humanTeam = shuffle(sidePools[HUMAN], rng).slice(0, teamSize);
+      const aiTeam = shuffle(sidePools[AI], rng).slice(0, teamSize);
+      this.players = [...humanTeam, ...aiTeam];
+      this.poolSize = players.length;
+      this.deck = pairedQuickMatchDeck(humanTeam, aiTeam);
+      this.quickMatch = {
+        enabled: true,
+        humanTeam: humanTeam[0]?.meta?.quickMatchTeamLabel ?? 'Saját csapat',
+        aiTeam: aiTeam[0]?.meta?.quickMatchTeamLabel ?? 'Gép csapata',
+      };
+    } else {
+      let deckSize = Math.min(GAME_DECK_SIZE, players.length);
+      if (deckSize % 2) deckSize -= 1;
+      this.players = shuffle(players, rng).slice(0, deckSize);
+      this.poolSize = players.length;
+      this.deck = this.players.slice();
+      this.quickMatch = null;
+    }
+
     this.hands = { [HUMAN]: [], [AI]: [] };
     this.won = { [HUMAN]: [], [AI]: [] };
     this.pot = [];
