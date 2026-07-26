@@ -28,9 +28,21 @@ const panelFactory = (_tag, className) => {
   return panel;
 };
 
+const cardA = { id: 'a', name: 'A Játékos', club: 'Paksi FC', stats: { goals: 5, cards: 1 } };
+const cardB = { id: 'b', name: 'B Játékos', club: 'DVTK', stats: { goals: 2, cards: 3 } };
+const cardC = { id: 'c', name: 'C Játékos', club: 'Újpest FC', stats: { goals: 4, cards: 0 } };
 const state = {
   mode: 'classic',
-  difficulty: 'medium',
+  difficulty: 'd-raven',
+  opponent: { name: 'D. Raven', level: 5, overall: 87 },
+  game: {
+    log: [
+      { round: 1, attribute: 'goals', humanCard: cardA, aiCard: cardB, winner: 'human' },
+      { round: 2, attribute: 'cards', humanCard: cardB, aiCard: cardC, winner: 'ai' },
+      { round: 3, attribute: 'goals', humanCard: cardA, aiCard: cardC, winner: 'human' },
+      { round: 4, attribute: 'cards', humanCard: cardB, aiCard: cardB, winner: 'tie' },
+    ],
+  },
   result: {
     winner: 'human',
     human: 30,
@@ -60,6 +72,7 @@ const controller = createResultController({
     goals: { icon: '⚽', label: 'Gólok' },
     cards: { icon: '🟨', label: 'Sárga lapok' },
   },
+  attributeValueFn: (card, key) => card.stats[key],
   humanId: 'human',
   aiId: 'ai',
 });
@@ -74,10 +87,19 @@ assert.equal(cleared, 1);
 assert.match(classicPanel.className, /result-panel--win/);
 assert.match(classicPanel.innerHTML, /GYŐZELEM/);
 assert.match(classicPanel.innerHTML, /JÁTÉKOS 30–22 GÉP/);
+assert.match(classicPanel.innerHTML, /Lejátszott körök<\/dt><dd>4/);
+assert.match(classicPanel.innerHTML, /Megnyert párbajok<\/dt><dd>2/);
+assert.match(classicPanel.innerHTML, /A gép nyert párbajai<\/dt><dd>1/);
+assert.match(classicPanel.innerHTML, /Döntetlen párbajok<\/dt><dd>1/);
+assert.match(classicPanel.innerHTML, /⚽ Gólok · 2 győzelem/);
+assert.match(classicPanel.innerHTML, /D\. Raven · 5\. szint · OVR 87/);
+assert.match(classicPanel.innerHTML, /A mérkőzés játékosa/);
+assert.match(classicPanel.innerHTML, /A Játékos/);
+assert.match(classicPanel.innerHTML, /Paksi FC · 2 megnyert párbaj/);
 assert.match(classicPanel.innerHTML, /2 lap a döntetlenpakliban maradt/);
 assert.deepEqual(calls.find(call => call[0] === 'say'), ['say', 'banter:gameOverWin']);
 buttons.get('#rematch-btn').click();
-assert.deepEqual(calls.at(-1), ['start', 'classic', 'medium']);
+assert.deepEqual(calls.at(-1), ['start', 'classic', 'd-raven']);
 buttons.get('#menu-btn').click();
 assert.deepEqual(calls.at(-1), ['title', { offerOnboarding: false }]);
 
@@ -135,18 +157,22 @@ const mainSource = readSource('../js/main.js');
 const buildSource = readSource('../scripts/build-standalone.mjs');
 const serviceWorkerSource = readSource('../sw.js');
 
-assert.match(controllerSource, /Legeredményesebb kategória/);
+assert.match(controllerSource, /summariseClassicMatch/);
+assert.match(controllerSource, /Legsikeresebb kategória/);
+assert.match(controllerSource, /A mérkőzés játékosa/);
 assert.match(controllerSource, /Visszavágó/);
 assert.match(controllerSource, /Vissza a főmenübe/);
 assert.doesNotMatch(controllerSource, /mobile-experience\.js/);
 assert.match(mainSource, /\.\/app\/result-controller\.js/);
 assert.match(mainSource, /this\.results\s*=\s*createResultController/);
+assert.match(mainSource, /game:\s*this\.game/);
+assert.match(mainSource, /opponent:\s*getActiveOpponent\(\)/);
 assert.match(mainSource, /return this\.results\.showGameOver\(\)/);
 assert.doesNotMatch(mainSource, /result-kicker|result-stats|rematch-btn|Nem volt megnyert kategória/);
 assert.ok(
-  buildSource.indexOf("'js/app/menu-controller.js'")
+  buildSource.indexOf("'js/domain/match-summary.js'")
     < buildSource.indexOf("'js/app/result-controller.js'"),
-  'az eredményvezérlő a menüvezérlő után szerepel',
+  'az összesítő domainlogika az eredményvezérlő előtt szerepel',
 );
 assert.ok(
   buildSource.indexOf("'js/app/result-controller.js'")
@@ -154,6 +180,7 @@ assert.ok(
   'az eredményvezérlő a Session belépési pont előtt szerepel',
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/result-controller\.js/);
+assert.match(serviceWorkerSource, /\.\/js\/domain\/match-summary\.js/);
 assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
-console.log('✓ Végeredmény-vezérlő és Session-integráció: rendben');
+console.log('✓ Részletes Klasszikus végeredmény és Büntetőpárbaj-regresszió: rendben');
