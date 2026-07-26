@@ -2,7 +2,8 @@
 
 import { AI, HUMAN, PHASE } from '../engine.js';
 import { TURN_DELAY } from '../services/turn-timing-service.js';
-import { ATTRIBUTE_BY_KEY, attributeValue } from '../data/players.js';
+import { ATTRIBUTE_BY_KEY, attributeValue, formatAttribute } from '../data/players.js';
+import { buildRecentDuelHistory } from '../domain/match-summary.js';
 import { getIdleChatter, getLine } from '../banter.js';
 import { el } from '../ui.js';
 
@@ -37,6 +38,7 @@ export function createRoundController({
   turnDelay = TURN_DELAY,
   attributeRegistry = ATTRIBUTE_BY_KEY,
   attributeValueFn = attributeValue,
+  formatAttributeFn = formatAttribute,
   getBanterLine = getLine,
   getIdleLine = getIdleChatter,
   humanId = HUMAN,
@@ -45,7 +47,7 @@ export function createRoundController({
   for (const method of [
     'setInteractionBusy', 'closeInspector', 'renderScores', 'renderHands',
     'showAttributePicker', 'hideAttributePicker', 'say', 'setPrompt',
-    'showDuel', 'showVerdict', 'showSuddenDeath', 'showToast',
+    'showDuel', 'showVerdict', 'showSuddenDeath', 'showToast', 'renderRecentDuels',
   ]) roundControllerAssertMethod(ui, method, 'INVALID_UI');
   for (const method of [
     'selectHumanAttribute', 'chooseAiAttribute', 'commitHumanChooserCard',
@@ -67,6 +69,12 @@ export function createRoundController({
     actions.setBusy(value);
     ui.setInteractionBusy(value);
   };
+  const renderRecentHistory = game => ui.renderRecentDuels(buildRecentDuelHistory(game?.log, {
+    attributeRegistry,
+    formatValue: formatAttributeFn,
+    humanId,
+    aiId,
+  }));
 
   const beginRound = () => {
     const current = state();
@@ -75,6 +83,7 @@ export function createRoundController({
     setBusy(false);
     ui.closeInspector();
     ui.renderScores(game);
+    renderRecentHistory(game);
     ui.dom?.duel?.replaceChildren?.();
     ui.dom?.verdict?.replaceChildren?.();
     if (ui.dom?.verdict) ui.dom.verdict.className = '';
@@ -189,6 +198,7 @@ export function createRoundController({
     await wait(320);
     ui.showVerdict(result, game);
     ui.renderScores(game);
+    renderRecentHistory(game);
     sayResultBanter(result);
     actions.saveCurrentGame();
 
@@ -251,6 +261,7 @@ export function createRoundController({
     const game = current.game;
     if (!game) return false;
     ui.renderScores(game);
+    renderRecentHistory(game);
 
     if (game.phase === phaseRegistry.CHOOSE_ATTRIBUTE) {
       if (current.awaitingChooserCard && current.pendingAttribute && game.chooser === humanId) {
@@ -280,6 +291,7 @@ export function createRoundController({
       ui.renderHands(game, { selectable: false });
       ui.showDuel(game, { result: game.lastResult });
       ui.showVerdict(game.lastResult, game);
+      renderRecentHistory(game);
       showContinue();
       return true;
     }
