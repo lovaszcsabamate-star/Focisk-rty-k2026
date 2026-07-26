@@ -281,6 +281,19 @@
   }
 }
 
+/* A 412 px körüli köztes mobilméretet a vizuális rendszer 152 px szélesre
+   nagyította, ami a rögzített kártyaaránnyal 267 px magas lapot eredményezett.
+   A 148 px-es felső korlát megtartja az olvashatóságot és a 260 px-es mobilkaput. */
+@media (min-width: 401px) and (max-width: 480px) {
+  #player-hand.hand--selection .card--choice {
+    --card-w: min(148px, 38vw) !important;
+    --card-h: calc(var(--card-w) * 232 / 132) !important;
+    width: var(--card-w) !important;
+    height: var(--card-h) !important;
+    flex-basis: var(--card-w) !important;
+  }
+}
+
 @media (max-width: 360px) {
   .current-match-summary dl > div {
     grid-template-columns: minmax(0, 1fr);
