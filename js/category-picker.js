@@ -2,8 +2,8 @@
  * Egyérintéses, csempés kategóriaválasztó.
  *
  * Egyetlen koppintás kijelöli és azonnal rögzíti a kategóriát. A korábbi
- * „Tovább a kártyákhoz” gomb megszűnt, ezért mobilon és asztali gépen is
- * gyorsabb és egyértelműbb a továbblépés.
+ * „Tovább a kártyákhoz” gomb vizuálisan megszűnt, ezért mobilon és asztali
+ * gépen is gyorsabb és egyértelműbb a továbblépés.
  */
 
 import { UI, el } from './ui.js';
@@ -17,6 +17,7 @@ const categoryPickerPrevious = Object.freeze({
   showVerdict: UI.prototype.showVerdict,
 });
 
+const CATEGORY_AUTO_COMMIT_MS = 0;
 const CATEGORY_TRANSITION_CHECK_MS = 140;
 
 const directCategoryButtons = picker => [...(picker?.children ?? [])]
@@ -72,10 +73,23 @@ function installCategorySelection(ui, picker, sourceButtons) {
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
 
-  const actions = el('div', 'category-picker__actions category-picker__actions--single');
-  actions.append(status);
+  /* Rejtett kompatibilitási művelet: a felhasználónak nem kell megnyomnia,
+     a csempe koppintása automatikusan aktiválja. A régi futásidejű ellenőrzés
+     ugyanakkor továbbra is felismeri a kategória rögzítési pontját. */
+  const commit = el('button', 'category-picker__next sr-only', 'Tovább a kártyákhoz');
+  commit.type = 'button';
+  commit.disabled = true;
+  commit.hidden = true;
+  commit.tabIndex = -1;
+  commit.setAttribute('aria-hidden', 'true');
 
+  const actions = el('div', 'category-picker__actions category-picker__actions--single');
+  actions.append(status, commit);
+
+  let selectedKey = null;
+  let selectedTile = null;
   let committing = false;
+  let autoCommitTimer = 0;
   let transitionTimer = 0;
   const tiles = sourceButtons.map((button, index) => makeCategoryTile(button, index));
 
@@ -88,8 +102,13 @@ function installCategorySelection(ui, picker, sourceButtons) {
 
   const restoreSelection = message => {
     committing = false;
+    selectedKey = null;
+    selectedTile = null;
+    if (autoCommitTimer) window.clearTimeout(autoCommitTimer);
     if (transitionTimer) window.clearTimeout(transitionTimer);
+    autoCommitTimer = 0;
     transitionTimer = 0;
+    commit.disabled = true;
     for (const tile of tiles) {
       tile.disabled = false;
       tile.removeAttribute('aria-disabled');
@@ -100,21 +119,10 @@ function installCategorySelection(ui, picker, sourceButtons) {
     ui.dom.pub.classList.add('is-category-selection');
   };
 
-  const selectCategory = tile => {
-    if (committing || tile.disabled) return;
-    const selectedKey = tile.dataset.attribute;
-    if (!selectedKey) return;
-
+  const commitSelection = () => {
+    if (committing || !selectedKey || !selectedTile) return;
     committing = true;
-    for (const item of tiles) {
-      const selected = item === tile;
-      item.classList.toggle('is-selected', selected);
-      item.setAttribute('aria-pressed', String(selected));
-    }
-    setTilesDisabled(true);
-    tile.disabled = false;
-    tile.removeAttribute('aria-disabled');
-    status.textContent = `${categoryLabel(tile)} kiválasztva. Kártyák előkészítése…`;
+    commit.disabled = true;
 
     let accepted;
     try {
@@ -141,6 +149,32 @@ function installCategorySelection(ui, picker, sourceButtons) {
       restoreSelection('A játéktér még nem áll készen. Koppints újra egy kategóriára.');
     }, CATEGORY_TRANSITION_CHECK_MS);
   };
+
+  const selectCategory = tile => {
+    if (committing || selectedKey || tile.disabled) return;
+    selectedKey = tile.dataset.attribute;
+    selectedTile = tile;
+    if (!selectedKey) {
+      selectedTile = null;
+      return;
+    }
+
+    for (const item of tiles) {
+      const selected = item === tile;
+      item.classList.toggle('is-selected', selected);
+      item.setAttribute('aria-pressed', String(selected));
+    }
+    setTilesDisabled(true);
+    status.textContent = `${categoryLabel(tile)} kiválasztva. Kártyák előkészítése…`;
+    commit.disabled = false;
+    autoCommitTimer = window.setTimeout(() => commit.click(), CATEGORY_AUTO_COMMIT_MS);
+  };
+
+  commit.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    commitSelection();
+  });
 
   for (const tile of tiles) {
     tile.addEventListener('click', event => {
