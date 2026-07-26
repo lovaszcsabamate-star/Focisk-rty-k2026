@@ -236,7 +236,11 @@
   border-color: rgba(242, 230, 208, .28);
 }
 
-.ux-reduced-motion :where(.quick-match-button, .recent-duels, .player-of-match, .category-tile__availability),
+.ux-reduced-motion :where(.quick-match-button, .recent-duels, .player-of-match, .category-tile__availability) {
+  animation: none !important;
+  transition: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   :where(.quick-match-button, .recent-duels, .player-of-match, .category-tile__availability) {
     animation: none !important;
