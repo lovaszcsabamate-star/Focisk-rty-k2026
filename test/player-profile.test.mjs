@@ -35,13 +35,10 @@ assert.equal(savePlayerName('   '), DEFAULT_PLAYER_NAME);
 assert.equal(memory.has(PLAYER_NAME_STORAGE_KEY), false);
 assert.equal(loadPlayerName(), DEFAULT_PLAYER_NAME);
 
-assert.equal(localizeInterfaceTextValue('⚽ Penalties mód'), '⚽ Büntetőpárbaj');
-assert.equal(localizeInterfaceTextValue('Tizenegyes mód · mentett játék'), 'Büntetőpárbaj · mentett játék');
-assert.equal(
-  localizeInterfaceTextValue('A Klasszikus mód hosszabb kártyameccs, a Penalties gyors tizenegyespárbaj.'),
-  'A Klasszikus mód hosszabb kártyameccs, a Büntetőpárbaj gyorsabb, 11 lapos játékmód.',
-);
+assert.equal(localizeInterfaceTextValue('⚽ Büntetőpárbaj'), '⚽ Büntetőpárbaj');
+assert.equal(localizeInterfaceTextValue('Klasszikus mód · mentett játék'), 'Klasszikus mód · mentett játék');
 
+assert.doesNotMatch(source, /INTERFACE_TEXT_REPLACEMENTS|Penalties mód|Tizenegyes mód|replaceAll\(source/);
 assert.match(source, /scorePair\s*=\s*value\s*=>\s*String\(value \?\? ''\)\.match/);
 assert.match(source, /UI\.prototype\.renderScores\s*=\s*function renderScoresWithSavedPlayerName/);
 assert.match(source, /PROFILE_BASE_METHODS\.renderScores\.apply\(this, args\)/);
@@ -49,4 +46,4 @@ assert.match(source, /UI\.prototype\.showOverlay\s*=\s*function showOverlayWithS
 assert.match(source, /personalizeGameLabels\(this\.dom\.overlayBody \?\? document\)/);
 assert.match(source, /setNodeText\(finalScore, `\$\{upper\} \$\{score\[1\]\}–\$\{score\[2\]\} GÉP`\)/);
 
-console.log('✓ A mentett játékosnév az eredményjelzőn és a végeredménynél is közvetlenül megjelenik');
+console.log('✓ A mentett játékosnév és a közvetlen magyar felületi szövegek rendben');
