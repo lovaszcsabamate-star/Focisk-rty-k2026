@@ -15,7 +15,44 @@ const hierarchyPrevious = Object.freeze({
   showVerdict: UI.prototype.showVerdict,
 });
 
+const VISUAL_HIERARCHY_ACTION_STYLE_ID = 'visual-hierarchy-action-fix';
 const contextValue = (root, key) => root?.querySelector(`[data-context-value="${key}"]`);
+
+function ensureVisualHierarchyActionStyles() {
+  if (typeof document === 'undefined' || document.getElementById(VISUAL_HIERARCHY_ACTION_STYLE_ID)) return;
+  const style = document.createElement('style');
+  style.id = VISUAL_HIERARCHY_ACTION_STYLE_ID;
+  style.textContent = `
+    .next-action-panel.is-actionable {
+      cursor: pointer;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-tap-highlight-color: rgba(239, 212, 144, .2);
+      transition: filter .14s ease, transform .14s ease, box-shadow .14s ease;
+    }
+    .next-action-panel.is-actionable:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .46), 0 0 26px rgba(213, 170, 85, .2);
+    }
+    .next-action-panel.is-actionable:focus-visible {
+      outline: 3px solid #fff3bd;
+      outline-offset: 3px;
+    }
+    .next-action-panel.is-actionable:active {
+      transform: translateY(1px) scale(.995);
+    }
+    .next-action-panel.is-actionable[aria-disabled='true'] {
+      cursor: wait;
+      opacity: .72;
+      filter: saturate(.65);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .next-action-panel.is-actionable { transition: none; }
+      .next-action-panel.is-actionable:active { transform: none; }
+    }
+  `;
+  document.head?.appendChild(style);
+}
 
 export function visualHierarchyModeLabel(mode) {
   return mode === 'penalties' ? 'Büntetőpárbaj' : 'Klasszikus';
@@ -58,7 +95,47 @@ function createContextItem(key, label) {
   return item;
 }
 
+function clearContinueActionProxy(action) {
+  const proxy = action?._visualHierarchyContinueProxy;
+  if (proxy) {
+    action.removeEventListener('click', proxy.click);
+    action.removeEventListener('keydown', proxy.keydown);
+    delete action._visualHierarchyContinueProxy;
+  }
+  action?.classList.remove('is-actionable');
+  action?.removeAttribute('tabindex');
+  action?.removeAttribute('aria-disabled');
+  action?.removeAttribute('data-continue-proxy');
+  if (action) action.setAttribute('role', 'status');
+}
+
+function bindContinueActionProxy(action, button) {
+  if (!action || !button) return;
+  clearContinueActionProxy(action);
+
+  const activate = event => {
+    if (event.type === 'keydown' && !['Enter', ' '].includes(event.key)) return;
+    if (event.type === 'keydown') event.preventDefault();
+    if (!button.isConnected || button.disabled) return;
+    action.setAttribute('aria-disabled', 'true');
+    button.click();
+  };
+
+  const click = event => activate(event);
+  const keydown = event => activate(event);
+  action._visualHierarchyContinueProxy = { click, keydown };
+  action.addEventListener('click', click);
+  action.addEventListener('keydown', keydown);
+  action.classList.add('is-actionable');
+  action.dataset.continueProxy = 'true';
+  action.tabIndex = 0;
+  action.setAttribute('role', 'button');
+  action.setAttribute('aria-disabled', String(Boolean(button.disabled)));
+  action.setAttribute('aria-label', `${button.textContent?.trim() || 'Következő kör'}. Koppints ide a folytatáshoz.`);
+}
+
 function ensureVisualHierarchy(ui) {
+  ensureVisualHierarchyActionStyles();
   let context = document.querySelector('#match-context');
   if (!context) {
     context = el('section', 'match-context');
@@ -99,6 +176,7 @@ function ensureVisualHierarchy(ui) {
 
 function updateActionNode(action, { step, title, detail, phase }) {
   if (!action) return;
+  if (phase !== 'continue') clearContinueActionProxy(action);
   action.hidden = false;
   action.dataset.phase = phase;
   const stepNode = action.querySelector('[data-action-part="step"]');
@@ -147,7 +225,10 @@ UI.prototype.resetTable = function resetTableWithVisualHierarchy(...args) {
   const context = document.querySelector('#match-context');
   const action = document.querySelector('#next-action-panel');
   if (context) context.hidden = true;
-  if (action) action.hidden = true;
+  if (action) {
+    clearContinueActionProxy(action);
+    action.hidden = true;
+  }
   this.dom?.pub?.removeAttribute('data-visual-phase');
   return output;
 };
@@ -224,11 +305,12 @@ if (typeof document !== 'undefined') {
       const action = document.querySelector('#next-action-panel');
       if (!button || !action) return;
       updateActionNode(action, {
-        step: 'Következő lépés',
+        step: 'Folytatás',
         title: button.textContent?.trim() || 'Következő kör',
-        detail: 'Az új kör ismét kategóriaválasztással kezdődik.',
+        detail: 'Koppints erre a panelre. Az új kör ismét kategóriaválasztással kezdődik.',
         phase: 'continue',
       });
+      bindContinueActionProxy(action, button);
       document.querySelector('#pub')?.setAttribute('data-visual-phase', 'continue');
     }).observe(picker, { childList: true, subtree: true });
   }
