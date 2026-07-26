@@ -62,21 +62,65 @@ function loadSelectedOpponent() {
 }
 
 let selectedOpponentId = loadSelectedOpponent();
+let activeMatchOpponentId = null;
+let lastQuickOpponentId = null;
 
-function selectedOpponent() {
+export function getSelectedOpponent() {
   return byId.get(selectedOpponentId) ?? OPPONENTS[4];
 }
 
+export function getActiveOpponent() {
+  return byId.get(activeMatchOpponentId) ?? getSelectedOpponent();
+}
+
+export function isOpponentId(id) {
+  return byId.has(id);
+}
+
+function publishActiveOpponent() {
+  globalThis.__FOCISKARTYAK_OPPONENT__ = getActiveOpponent();
+}
+
+function updateMenuOpponentSummary(root = document, opponent = getSelectedOpponent()) {
+  const value = root?.querySelector?.('.current-match-summary__opponent-value');
+  if (value) value.textContent = `${opponent.name} · ${opponent.level}. szint · OVR ${opponent.overall}`;
+}
+
 function saveSelectedOpponent(id) {
-  if (!byId.has(id)) return;
+  if (!byId.has(id)) return getSelectedOpponent();
   selectedOpponentId = id;
-  globalThis.__FOCISKARTYAK_OPPONENT__ = selectedOpponent();
   writeStoredString(STORAGE_KEY, id);
+  if (!activeMatchOpponentId) publishActiveOpponent();
+  updateMenuOpponentSummary(document, getSelectedOpponent());
+  return getSelectedOpponent();
 }
 
 export function selectOpponentById(id) {
-  saveSelectedOpponent(id);
-  return selectedOpponent();
+  return saveSelectedOpponent(id);
+}
+
+export function activateMatchOpponent(id) {
+  if (!byId.has(id)) return null;
+  activeMatchOpponentId = id;
+  publishActiveOpponent();
+  return getActiveOpponent();
+}
+
+export function clearMatchOpponent() {
+  activeMatchOpponentId = null;
+  publishActiveOpponent();
+  return getSelectedOpponent();
+}
+
+export function pickRandomOpponent({ rng = Math.random, excludeId = lastQuickOpponentId } = {}) {
+  const candidates = OPPONENTS.length > 1
+    ? OPPONENTS.filter(opponent => opponent.id !== excludeId)
+    : OPPONENTS.slice();
+  const random = typeof rng === 'function' ? rng() : Math.random();
+  const index = Math.min(candidates.length - 1, Math.max(0, Math.floor(random * candidates.length)));
+  const opponent = candidates[index] ?? OPPONENTS[0];
+  lastQuickOpponentId = opponent?.id ?? null;
+  return opponent;
 }
 
 function applySprite(node, opponent) {
@@ -130,8 +174,13 @@ function enhanceTitleMenu(panel) {
   grid.append(...OPPONENTS.map(buildOpponentCard));
   picker.appendChild(grid);
   oldDifficulty.replaceWith(picker);
+  updateMenuOpponentSummary(panel, getSelectedOpponent());
 
   panel.querySelector('#start-btn')?.addEventListener('click', () => {
+    const checked = panel.querySelector('input[name=difficulty]:checked');
+    if (checked) saveSelectedOpponent(checked.value);
+  }, { capture: true });
+  panel.querySelector('#penalties-btn')?.addEventListener('click', () => {
     const checked = panel.querySelector('input[name=difficulty]:checked');
     if (checked) saveSelectedOpponent(checked.value);
   }, { capture: true });
@@ -141,7 +190,7 @@ function ensureOpponentProfile(ui) {
   const zone = ui.dom.opponentHand?.closest('#opponent-zone');
   if (!zone) return;
 
-  const opponent = selectedOpponent();
+  const opponent = getActiveOpponent();
   let profile = zone.querySelector('#opponent-profile');
   if (!profile) {
     profile = el('div', 'opponent-profile');
@@ -162,7 +211,7 @@ function ensureOpponentProfile(ui) {
 }
 
 function decorateScoreboard(board) {
-  const opponent = selectedOpponent();
+  const opponent = getActiveOpponent();
   const away = board?.querySelector('.match-team--away');
   const name = away?.querySelector('.match-team__name');
   const crest = away?.querySelector('.match-team__crest');
@@ -181,7 +230,7 @@ function decorateScoreboard(board) {
 
 function decorateResultPanel(panel) {
   if (!panel?.classList?.contains('result-panel') || panel.querySelector('.result-opponent')) return;
-  const opponent = selectedOpponent();
+  const opponent = getActiveOpponent();
   const summary = el('div', 'result-opponent');
   const portrait = el('div', 'result-opponent__portrait');
   applySprite(portrait, opponent);
@@ -195,7 +244,7 @@ function decorateResultPanel(panel) {
   panel.prepend(summary);
 }
 
-globalThis.__FOCISKARTYAK_OPPONENT__ = selectedOpponent();
+publishActiveOpponent();
 globalThis.__FOCISKARTYAK_SELECT_OPPONENT__ = selectOpponentById;
 
 const previousShowOverlay = UI.prototype.showOverlay;
