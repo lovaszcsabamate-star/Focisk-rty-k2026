@@ -13,6 +13,7 @@ export const UI_ENHANCEMENT_MODULES = Object.freeze([
   '../opponents.js',
   '../mobile-experience.js',
   '../category-picker.js',
+  '../match-experience.js',
   '../player-profile.js',
   '../reliability-fixes.js',
   '../usability-fixes.js',
