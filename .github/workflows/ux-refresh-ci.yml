@@ -1,0 +1,67 @@
+name: UX refresh validation
+
+on:
+  push:
+    branches:
+      - feature/ux-refresh-2026
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm install
+
+      - name: Új előnézeti script szintaxisának ellenőrzése
+        run: node --check scripts/ux-refresh-previews.mjs
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Alap tesztsor
+        run: npm test
+
+      - name: Mobil elrendezési tesztek
+        run: npm run test:mobile-layout
+
+      - name: Böngészős futásidejű teszt
+        run: npm run test:runtime
+
+      - name: Teljes tesztsor
+        run: npm run test:all
+
+      - name: UX mobil- és asztali előnézetek
+        run: node scripts/ux-refresh-previews.mjs
+
+      - name: Előnézetek és jelentések feltöltése
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fociskartyak-ux-refresh-previews
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            previews/*.png
+            mobile-layout-report.json
+            ux-refresh-preview-report.json
+            Fociskartyak2026.html
