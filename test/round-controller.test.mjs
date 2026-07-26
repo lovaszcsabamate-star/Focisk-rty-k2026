@@ -18,6 +18,7 @@ const ui = {
   closeInspector: () => calls.push(['closeInspector']),
   renderScores: game => calls.push(['scores', game]),
   renderHands: (game, options) => calls.push(['hands', game, options]),
+  renderRecentDuels: rows => calls.push(['recentDuels', rows]),
   showAttributePicker: game => calls.push(['pickerShow', game]),
   hideAttributePicker: () => calls.push(['pickerHide']),
   say: line => calls.push(['say', line]),
@@ -34,6 +35,7 @@ const game = {
   attribute: 'goals',
   isOver: false,
   lastResult: null,
+  log: [],
   availableAttributeKeys: () => ['goals'],
 };
 const state = {
@@ -43,18 +45,19 @@ const state = {
   pendingAttribute: null,
   awaitingChooserCard: false,
 };
+const resultHuman = {
+  round: 1, attribute: 'goals', winner: 'human', humanCard: { name: 'A', stats: { goals: 4 } },
+  aiCard: { name: 'B', stats: { goals: 1 } }, potScooped: 0,
+};
 const runtime = {
   selectHumanAttribute: key => calls.push(['selectAttribute', key]),
   chooseAiAttribute: () => ({ attribute: 'goals' }),
   commitHumanChooserCard: id => calls.push(['commitChooserCard', id]),
   playAiCard: () => ({
-    attribute: 'goals', winner: 'ai', humanCard: { name: 'A', stats: { goals: 1 } },
+    round: 1, attribute: 'goals', winner: 'ai', humanCard: { name: 'A', stats: { goals: 1 } },
     aiCard: { name: 'B', stats: { goals: 2 } }, potScooped: 0,
   }),
-  playHumanCard: id => ({
-    id, attribute: 'goals', winner: 'human', humanCard: { name: 'A', stats: { goals: 4 } },
-    aiCard: { name: 'B', stats: { goals: 1 } }, potScooped: 0,
-  }),
+  playHumanCard: id => ({ ...resultHuman, id }),
   advance: () => ({ reshuffled: false }),
   clearPendingChoice: () => calls.push(['clearPendingChoice']),
 };
@@ -91,6 +94,7 @@ const controller = createRoundController({
   turnDelay: { AI_CHOOSE_ATTRIBUTE: 10, AI_CHOOSE_CARD: 20 },
   attributeRegistry: { goals: { label: 'Gólok' } },
   attributeValueFn: card => card.stats.goals,
+  formatAttributeFn: card => String(card.stats.goals),
   getBanterLine: key => `banter:${key}`,
   getIdleLine: () => 'idle',
   humanId: 'human',
@@ -112,6 +116,7 @@ assert.deepEqual(Object.keys(controller), [
 
 assert.equal(controller.beginRound(), true);
 assert.ok(calls.some(call => call[0] === 'pickerShow'));
+assert.ok(calls.some(call => call[0] === 'recentDuels' && call[1].length === 0));
 assert.ok(calls.some(call => call[0] === 'save'));
 assert.equal(controller.humanChoseAttribute('goals'), true);
 assert.ok(calls.some(call => call[0] === 'selectAttribute' && call[1] === 'goals'));
@@ -124,8 +129,10 @@ assert.ok(calls.some(call => call[0] === 'say' && call[1] === 'banter:aiChooseAt
 
 state.game.chooser = 'human';
 state.busy = false;
+state.game.log = [resultHuman];
 await controller.humanPlayedCard({ id: 'card-1' });
 assert.ok(calls.some(call => call[0] === 'verdictShow'));
+assert.ok(calls.some(call => call[0] === 'recentDuels' && call[1].length === 1));
 assert.ok(calls.some(call => call[0] === 'say' && call[1] === 'banter:attributeWin'));
 assert.ok(buttons.some(button => button.text === 'Következő kör'));
 
@@ -166,6 +173,8 @@ const mainSource = readSource('../js/main.js');
 const buildSource = readSource('../scripts/build-standalone.mjs');
 const serviceWorkerSource = readSource('../sw.js');
 
+assert.match(controllerSource, /buildRecentDuelHistory/);
+assert.match(controllerSource, /renderRecentDuels/);
 assert.match(controllerSource, /A gép választ/);
 assert.match(controllerSource, /Következő párbaj/);
 assert.match(controllerSource, /A gép befejezi a félbemaradt kört/);
@@ -176,9 +185,9 @@ assert.match(mainSource, /return this\.rounds\.beginRound\(\)/);
 assert.match(mainSource, /return this\.rounds\.restoreSavedView\(\)/);
 assert.doesNotMatch(mainSource, /A gép választ…|Következő párbaj|potScooped|finishRestoredAiMove\(\) \{\s*this\.busy/s);
 assert.ok(
-  buildSource.indexOf("'js/app/result-controller.js'")
+  buildSource.indexOf("'js/domain/match-summary.js'")
     < buildSource.indexOf("'js/app/round-controller.js'"),
-  'a körvezérlő az eredményvezérlő után szerepel',
+  'a párbajtörténet domainlogikája a körvezérlő előtt szerepel',
 );
 assert.ok(
   buildSource.indexOf("'js/app/round-controller.js'")
@@ -186,6 +195,7 @@ assert.ok(
   'a körvezérlő a Session előtt szerepel',
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/round-controller\.js/);
+assert.match(serviceWorkerSource, /\.\/js\/match-experience\.js/);
 assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
-console.log('✓ Körvezérlő alkalmazási szolgáltatás és Session-integráció: rendben');
+console.log('✓ Körvezérlő, mentett előzmény és háromsoros párbajtörténet: rendben');
