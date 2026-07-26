@@ -13,6 +13,7 @@ const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
 const branding = read('js/branding.js');
 const legalUi = read('js/legal-ui.js');
+const menuController = read('js/app/menu-controller.js');
 const enhancementPipeline = read('js/ui/ui-enhancement-pipeline.js');
 const configuration = read('js/app/configuration.js');
 const storageService = read('js/services/storage-service.js');
@@ -78,7 +79,9 @@ assert.match(storageService, /globalThis\.localStorage/, 'A storage-szolgáltat�
 assert.match(sizingPersistence, /selectionCardWidth[\s\S]*battleCardWidth[\s\S]*cardGap[\s\S]*battlefieldHeight/, 'Nem minden méretérték kerül mentésre.');
 assert.match(sizingCss, /\.appearance-save-status[\s\S]*data-state='saved'/, 'Hiányzik a sikeres méretezésmentés vizuális visszajelzése.');
 
-assert.match(legalUi, /Büntetőpárbaj/, 'A játékmód magyar felirata nincs egységesítve.');
+assert.match(menuController, /Büntetőpárbaj/, 'A játékmód magyar felirata nincs közvetlenül a felületi forrásban.');
+assert.doesNotMatch(menuController, /Penalties mód|Tizenegyes mód/, 'Régi játékmódnév maradt a felületi forrásban.');
+assert.doesNotMatch(legalUi, /REPLACEMENTS|localiseText/, 'A jogi réteg nem javíthatja futásidőben a játékmód nevét.');
 assert.match(legalUi, /Nem áll hivatalos kapcsolatban/, 'Hiányzik a kezdőképernyős jogi tájékoztatás.');
 
 assert.match(branding, /allowOfficialBranding:\s*false/, 'A hivatalos arculat alapértékének false-nak kell lennie.');
