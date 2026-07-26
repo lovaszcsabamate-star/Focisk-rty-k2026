@@ -70,6 +70,7 @@ const moduleOrder = [
   'js/data/categories.js',
   'js/data/players.js',
   'js/engine.js',
+  'js/domain/match-summary.js',
   'js/penalties.js',
   'js/ai.js',
   'js/services/save-service.js',
@@ -90,6 +91,7 @@ const moduleOrder = [
   'js/pwa.js',
   'js/mobile-experience.js',
   'js/category-picker.js',
+  'js/match-experience.js',
   'js/app/menu-controller.js',
   'js/app/result-controller.js',
   'js/app/round-controller.js',
@@ -112,6 +114,7 @@ const uiEnhancementFiles = new Set([
   'js/opponents.js',
   'js/mobile-experience.js',
   'js/category-picker.js',
+  'js/match-experience.js',
   'js/player-profile.js',
   'js/reliability-fixes.js',
   'js/usability-fixes.js',
@@ -211,7 +214,7 @@ const playablePayload = filterCompleteCardsPayload(buildPayload, {
 });
 const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}\n\n${read('css/ux-refresh.css')}`;
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -248,6 +251,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/legal-ui.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/visual-hierarchy.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/category-picker.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/ux-refresh.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/branding.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
