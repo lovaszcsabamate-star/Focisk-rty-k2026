@@ -1,0 +1,302 @@
+/* Fociskártyák 2026 — kompakt mérkőzés-UX frissítés. */
+
+.current-match-summary {
+  width: 100%;
+  min-width: 0;
+  margin: 10px 0 14px;
+  padding: 13px 14px;
+  border: 1px solid rgba(232, 195, 122, .38);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(23, 54, 43, .92), rgba(31, 39, 31, .94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04), 0 7px 18px rgba(0, 0, 0, .24);
+  box-sizing: border-box;
+}
+
+.current-match-summary h3 {
+  margin: 0 0 9px;
+  color: #f3d487;
+  font-size: clamp(16px, 4vw, 20px);
+  line-height: 1.2;
+}
+
+.current-match-summary dl {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.current-match-summary dl > div {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+  gap: 9px;
+  align-items: baseline;
+}
+
+.current-match-summary dt {
+  color: rgba(242, 230, 208, .7);
+  font-size: .78rem;
+  font-weight: 750;
+}
+
+.current-match-summary dd {
+  min-width: 0;
+  margin: 0;
+  color: #fff7df;
+  font-size: .9rem;
+  font-weight: 780;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.quick-match-button {
+  width: 100%;
+  min-height: 48px;
+  margin: 9px 0 3px;
+  border-color: rgba(243, 212, 135, .82) !important;
+  background: linear-gradient(135deg, rgba(105, 75, 31, .98), rgba(61, 83, 54, .98)) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .27);
+}
+
+.quick-match-button span,
+.quick-match-button small {
+  display: block;
+}
+
+.quick-match-button small {
+  margin-top: 2px;
+  color: rgba(255, 247, 223, .75);
+  font-size: .72rem;
+  font-weight: 650;
+}
+
+#felt .recent-duels {
+  width: min(100%, 780px);
+  min-width: 0;
+  margin: 6px auto 8px;
+  padding: 8px 10px;
+  border: 1px solid rgba(201, 162, 39, .28);
+  border-radius: 12px;
+  background: rgba(14, 38, 30, .78);
+  box-sizing: border-box;
+}
+
+.recent-duels[hidden] {
+  display: none !important;
+}
+
+.recent-duels__title {
+  margin: 0 0 5px;
+  color: rgba(243, 212, 135, .9);
+  font-size: clamp(12px, 2.8vw, 14px);
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.recent-duels__list {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-duels__item {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 7px;
+  align-items: baseline;
+  padding: 3px 5px;
+  border-radius: 7px;
+  color: rgba(255, 247, 223, .9);
+  font-size: clamp(10px, 2.5vw, 12px);
+  line-height: 1.25;
+}
+
+.recent-duels__round {
+  color: rgba(232, 195, 122, .72);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.recent-duels__category {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 720;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-duels__result {
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.recent-duels__item--human .recent-duels__result { color: #bfe6bd; }
+.recent-duels__item--ai .recent-duels__result { color: #f0b2a6; }
+.recent-duels__item--tie .recent-duels__result { color: #f3d487; }
+
+.result-stats--classic {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.result-stats--classic > div {
+  min-width: 0;
+}
+
+.result-stats--classic dd {
+  overflow-wrap: anywhere;
+}
+
+.player-of-match {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(243, 212, 135, .55);
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(52, 83, 65, .92), rgba(51, 38, 24, .92));
+  text-align: left;
+}
+
+.player-of-match .eyebrow {
+  margin: 0 0 4px;
+}
+
+.player-of-match h2 {
+  margin: 0;
+  color: #fff7df;
+  font-size: clamp(18px, 4.5vw, 24px);
+}
+
+.player-of-match p:last-child {
+  margin: 4px 0 0;
+  color: rgba(242, 230, 208, .8);
+}
+
+#attribute-picker > .category-grid > .category-group-title {
+  grid-column: 1 / -1;
+  margin: 7px 2px 1px;
+  padding: 7px 9px 5px;
+  border-bottom: 1px solid rgba(232, 195, 122, .4);
+  color: #f3d487;
+  font-size: clamp(13px, 3.2vw, 16px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: .025em;
+}
+
+#attribute-picker > .category-grid > .category-group-title:first-child {
+  margin-top: 0;
+}
+
+#attribute-picker > .category-grid > .category-tile[data-category-status='experimental'] {
+  grid-template-areas:
+    'title'
+    'direction'
+    'availability'
+    'value';
+}
+
+.category-tile__availability {
+  grid-area: availability;
+  width: max-content;
+  max-width: 100%;
+  margin-top: 2px;
+  padding: 2px 6px;
+  border: 1px solid rgba(243, 212, 135, .5);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .22);
+  color: #f3d487;
+  font-size: clamp(8px, 2.15vw, 10px);
+  font-weight: 850;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+:where(.mode-start, .quick-match-button, .category-picker__next, .result-actions .btn) {
+  min-height: 44px;
+}
+
+.ux-large-text .current-match-summary dd,
+.ux-large-text .recent-duels__item,
+.ux-large-text .category-tile__availability {
+  font-size: 1rem;
+}
+
+.ux-simplified .current-match-summary,
+.ux-simplified #felt .recent-duels,
+.ux-simplified .player-of-match,
+.ux-simplified .quick-match-button {
+  background: rgba(25, 48, 38, .96) !important;
+  box-shadow: none !important;
+}
+
+.ux-simplified #felt .recent-duels {
+  border-color: rgba(242, 230, 208, .28);
+}
+
+.ux-reduced-motion :where(.quick-match-button, .recent-duels, .player-of-match, .category-tile__availability),
+@media (prefers-reduced-motion: reduce) {
+  :where(.quick-match-button, .recent-duels, .player-of-match, .category-tile__availability) {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .current-match-summary {
+    padding: 11px 12px;
+  }
+
+  .current-match-summary dl > div {
+    grid-template-columns: minmax(62px, auto) minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  #felt .recent-duels {
+    max-height: 104px;
+    overflow: hidden;
+    padding: 7px 8px;
+  }
+
+  .recent-duels__item {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 3px 6px;
+    padding-block: 2px;
+  }
+
+  .recent-duels__result {
+    grid-column: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .result-stats--classic {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .current-match-summary dl > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+  }
+
+  .recent-duels__category,
+  .recent-duels__result {
+    font-size: 10px;
+  }
+}
+
+@media (forced-colors: active) {
+  .current-match-summary,
+  #felt .recent-duels,
+  .player-of-match,
+  .category-tile__availability {
+    border-color: ButtonText;
+    background: Canvas !important;
+    color: CanvasText;
+    forced-color-adjust: auto;
+  }
+}
