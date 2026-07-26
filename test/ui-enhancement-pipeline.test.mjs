@@ -215,7 +215,7 @@ assert.match(hierarchySource, /visualHierarchyRoundLabel/);
 assert.match(hierarchySource, /visualHierarchyCategoryLabel/);
 assert.match(hierarchySource, /bindContinueActionProxy/);
 assert.match(hierarchySource, /button\.click\(\)/);
-assert.match(hierarchySource, /data\.continueProxy/);
+assert.match(hierarchySource, /dataset\.continueProxy/);
 assert.match(hierarchySource, /Koppints erre a panelre/);
 assert.match(hierarchyCss, /\.match-context/);
 assert.match(hierarchyCss, /\.next-action-panel/);
