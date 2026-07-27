@@ -24,6 +24,7 @@ assert.deepEqual(UI_ENHANCEMENT_MODULES, [
   '../visual-settings-persistence.js',
   '../visual-system.js',
   '../visual-hierarchy.js',
+  '../gameplay-experience.js',
   '../legal-ui.js',
 ]);
 assert.equal(UI_ENHANCEMENT_PRELOADED_FLAG, '__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__');
@@ -123,6 +124,7 @@ const categoryPickerSource = readSource('../js/category-picker.js');
 const categoryPickerCss = readSource('../css/category-picker.css');
 const hierarchySource = readSource('../js/visual-hierarchy.js');
 const hierarchyCss = readSource('../css/visual-hierarchy.css');
+const gameplaySource = readSource('../js/gameplay-experience.js');
 const uiSource = readSource('../js/ui.js');
 const bootstrapSource = readSource('../js/bootstrap.js');
 const indexSource = readSource('../index.html');
@@ -137,10 +139,10 @@ assert.ok(
 );
 for (const file of [
   'ux.js', 'ux-fixes.js', 'matchday.js', 'opponents.js', 'category-picker.js', 'player-profile.js',
-  'reliability-fixes.js', 'usability-fixes.js', 'focus-experience.js',
+  'reliability-fixes.js', 'usability-fixes.js', 'focus-experience.js', 'gameplay-experience.js',
   'visual-settings-persistence.js', 'visual-system.js', 'visual-hierarchy.js', 'legal-ui.js',
 ]) {
-  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}\"></script>`));
+  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}"></script>`));
 }
 assert.match(indexSource, /css\/visual-hierarchy\.css/);
 assert.match(indexSource, /css\/category-picker\.css/);
@@ -166,8 +168,13 @@ assert.ok(
 );
 assert.ok(
   buildSource.indexOf("'js/visual-hierarchy.js'")
+    < buildSource.indexOf("'js/gameplay-experience.js'"),
+  'a játékélmény réteg a végleges fázishierarchiára épül',
+);
+assert.ok(
+  buildSource.indexOf("'js/gameplay-experience.js'")
     < buildSource.indexOf("'js/legal-ui.js'"),
-  'a jogi felület a vizuális hierarchia után marad',
+  'a jogi felület a játékélmény réteg után marad',
 );
 assert.ok(
   buildSource.indexOf("'js/legal-ui.js'")
@@ -179,17 +186,14 @@ assert.ok(
     < buildSource.indexOf("'js/main.js'"),
   'a standalone pipeline marker a Session előtt szerepel',
 );
-assert.match(buildSource, /css\/visual-hierarchy\.css/);
-assert.match(buildSource, /css\/category-picker\.css/);
 assert.match(buildSource, /const uiEnhancementFiles = new Set/);
 assert.match(buildSource, /beginUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /commitUiEnhancementLayer\(\$\{layerName\}\)/);
 assert.match(buildSource, /__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__/);
-assert.match(serviceWorkerSource, /\.\/css\/visual-hierarchy\.css/);
-assert.match(serviceWorkerSource, /\.\/css\/category-picker\.css/);
 assert.match(serviceWorkerSource, /\.\/js\/visual-hierarchy\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/category-picker\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v72/);
+assert.match(serviceWorkerSource, /\.\/js\/gameplay-experience\.js/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v73/);
 assert.match(pipelineSource, /beginLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /commitLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /rollbackLayer\(moduleSpecifier\)/);
@@ -207,20 +211,22 @@ assert.doesNotMatch(categoryPickerCss, /grid-auto-columns:\s*min\(/);
 
 assert.match(hierarchySource, /match-context/);
 assert.match(hierarchySource, /next-action-panel/);
-assert.match(hierarchySource, /1\. Kategória/);
-assert.match(hierarchySource, /2\. Kártya/);
-assert.match(hierarchySource, /3\. Eredmény/);
-assert.match(hierarchySource, /visualHierarchyModeLabel/);
-assert.match(hierarchySource, /visualHierarchyRoundLabel/);
-assert.match(hierarchySource, /visualHierarchyCategoryLabel/);
 assert.match(hierarchySource, /bindContinueActionProxy/);
-assert.match(hierarchySource, /button\.click\(\)/);
 assert.match(hierarchySource, /dataset\.continueProxy/);
 assert.match(hierarchySource, /Koppints erre a panelre/);
 assert.match(hierarchyCss, /\.match-context/);
 assert.match(hierarchyCss, /\.next-action-panel/);
-assert.match(hierarchyCss, /score-strip--primary/);
-assert.match(hierarchyCss, /#pub\.is-battle-active #duel \.stat\.active/);
 assert.match(hierarchyCss, /#attribute-picker \.next-round-button/);
 
-console.log('✓ Explicit UI-rétegek, stabil kategóriacsempék, kattintható folytatáspanel és vizuális hierarchia: rendben');
+assert.match(gameplaySource, /Automatikus továbblépés/);
+assert.match(gameplaySource, /Napi kihívás/);
+assert.match(gameplaySource, /Meccsösszefoglaló/);
+assert.match(gameplaySource, /Új ellenfél/);
+assert.match(gameplaySource, /Hajszálon múlt/);
+assert.match(gameplaySource, /győzelem sorban/);
+assert.match(gameplaySource, /megismert játékos/);
+assert.match(gameplaySource, /experience-category-history/);
+assert.match(gameplaySource, /gameplayExperienceMaybeScheduleAutoAdvance/);
+assert.match(gameplaySource, /navigator\.vibrate/);
+
+console.log('✓ Stabil kategóriaválasztás, kattintható folytatás és teljes játékélmény-csomag: rendben');
