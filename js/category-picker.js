@@ -30,13 +30,13 @@ const categoryLabel = button => button?.querySelector('.attr-btn__label')?.textC
   || button?.getAttribute('aria-label')?.split('.')[0]?.trim()
   || 'Kategória';
 
-const directionLabel = attribute => {
+const categoryPickerDirectionLabel = attribute => {
   if (attribute.key === 'birthDate') return 'kevesebb életkor a jobb';
   if (attribute.key === 'birthDateOlder') return 'több életkor a jobb';
   return ['higher', 'later'].includes(attribute.direction) ? 'több a jobb' : 'kevesebb a jobb';
 };
 
-const bestHumanCard = (game, attribute) => {
+const categoryPickerBestHumanCard = (game, attribute) => {
   const cards = game.hands[HUMAN]
     .filter(card => hasAttributeData(card, attribute.key))
     .slice();
@@ -134,7 +134,7 @@ function installCategoryVisibilityStyles() {
 
 function makeSourceButton(game, attribute, available) {
   const playable = available.has(attribute.key);
-  const best = playable ? bestHumanCard(game, attribute) : null;
+  const best = playable ? categoryPickerBestHumanCard(game, attribute) : null;
   const button = el('button', `attr-btn attr-btn--mobile${playable ? '' : ' attr-btn--unavailable'}`);
   button.type = 'button';
   button.dataset.attribute = attribute.key;
@@ -148,12 +148,12 @@ function makeSourceButton(game, attribute, available) {
   button.append(
     el('span', 'attr-btn__label', `${attribute.icon} ${attribute.label}`),
     el('strong', 'attr-btn__value', valueText),
-    el('small', 'attr-btn__direction', playable ? directionLabel(attribute) : 'Most nem választható'),
+    el('small', 'attr-btn__direction', playable ? categoryPickerDirectionLabel(attribute) : 'Most nem választható'),
   );
   button.setAttribute(
     'aria-label',
     playable
-      ? `${attribute.label}. ${best ? `Legjobb saját érték: ${formatAttribute(best, attribute.key)}.` : ''} ${directionLabel(attribute)}.`
+      ? `${attribute.label}. ${best ? `Legjobb saját érték: ${formatAttribute(best, attribute.key)}.` : ''} ${categoryPickerDirectionLabel(attribute)}.`
       : `${attribute.label}. Ebben a leosztásban nincs mindkét oldalon hiteles adat, ezért most nem választható.`,
   );
   return button;
