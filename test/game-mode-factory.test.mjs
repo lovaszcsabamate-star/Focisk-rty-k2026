@@ -28,9 +28,10 @@ assert.throws(() => factory.definition('unknown'), error => (
   error instanceof GameModeFactoryError && error.code === 'UNKNOWN_MODE'
 ));
 
-const classic = factory.create(GAME_MODE.CLASSIC, { players, rng: () => 0 });
+const classic = factory.create(GAME_MODE.CLASSIC, { players, rng: () => 0.999999 });
 assert.ok(classic instanceof Game);
 assert.equal(classic.mode, GAME_MODE.CLASSIC);
+assert.equal(classic.chooser, HUMAN, 'A Klasszikus módnak látható játékosi kategóriaválasztással kell indulnia.');
 assert.equal(factory.aiDeck(GAME_MODE.CLASSIC, classic), classic.players);
 
 const penalties = factory.create(GAME_MODE.PENALTIES, { players, rng: () => 0 });
@@ -42,6 +43,9 @@ assert.deepEqual(
   penaltyAiDeck.map(card => card.id),
   [...penalties.teams[HUMAN], ...penalties.teams[AI]].map(card => card.id),
 );
+
+const penaltiesAiStart = factory.create(GAME_MODE.PENALTIES, { players, rng: () => 0.999999 });
+assert.equal(penaltiesAiStart.chooser, AI, 'A Büntetőpárbaj véletlenszerű kezdője nem változhat meg.');
 
 let compatibilityArguments = null;
 const compatibilityGame = { mode: GAME_MODE.CLASSIC, players: [] };
@@ -70,10 +74,15 @@ assert.throws(() => createGameModeFactory({
 
 const source = read('../js/game/game-mode-factory.js');
 const runtimeSource = read('../js/game/game-runtime.js');
+const categoryPickerSource = read('../js/category-picker.js');
 const buildSource = read('../scripts/build-standalone.mjs');
 const serviceWorkerSource = read('../sw.js');
 
 assert.doesNotMatch(source, /\bdocument\b|\bwindow\b|HTMLElement|querySelector|innerHTML/);
+assert.match(categoryPickerSource, /ATTRIBUTES\.map\(attribute => makeSourceButton/);
+assert.match(categoryPickerSource, /data-available/);
+assert.match(categoryPickerSource, /category-tile--unavailable/);
+assert.match(categoryPickerSource, /100dvh/);
 assert.match(runtimeSource, /from ['"]\.\/game-mode-factory\.js['"]/);
 assert.doesNotMatch(runtimeSource, /import\s+\{[^}]*\bGame\b[^}]*\}\s+from ['"]\.\.\/engine\.js['"]/s);
 assert.doesNotMatch(runtimeSource, /from ['"]\.\.\/penalties\.js['"]/);
@@ -85,4 +94,4 @@ assert.ok(
 );
 assert.match(serviceWorkerSource, /\.\/js\/game\/game-mode-factory\.js/);
 
-console.log('✓ A Klasszikus és Büntetőpárbaj motor külön, DOM-mentes játékmód-factoryból készül');
+console.log('✓ A Klasszikus mód látható kategóriaválasztással, a Büntetőpárbaj változatlan szabályokkal indul');

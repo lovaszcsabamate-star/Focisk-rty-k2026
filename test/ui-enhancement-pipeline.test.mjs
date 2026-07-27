@@ -142,7 +142,7 @@ for (const file of [
   'reliability-fixes.js', 'usability-fixes.js', 'focus-experience.js', 'gameplay-experience.js',
   'visual-settings-persistence.js', 'visual-system.js', 'visual-hierarchy.js', 'legal-ui.js',
 ]) {
-  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}"></script>`));
+  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}\"></script>`));
 }
 assert.match(indexSource, /css\/visual-hierarchy\.css/);
 assert.match(indexSource, /css\/category-picker\.css/);
@@ -203,7 +203,8 @@ assert.match(uiSource, /export let UI = UIBase/);
 assert.match(uiSource, /class extends ParentUI/);
 
 assert.match(categoryPickerSource, /category-grid/);
-assert.match(categoryPickerSource, /Koppints egy kategóriára/);
+assert.match(categoryPickerSource, /minden regisztrált összehasonlítási kategória/i);
+assert.match(categoryPickerSource, /kategória látható/);
 assert.match(categoryPickerSource, /aria-pressed/);
 assert.match(categoryPickerCss, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 assert.match(categoryPickerCss, /touch-action: pan-y/);
