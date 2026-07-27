@@ -19,9 +19,9 @@ const DECK_SELECTION_MENU_NATION_MINIMUM = 7;
 
 const DECK_SELECTION_MENU_CONFIRM_MESSAGE = 'A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?';
 const DECK_SELECTION_MENU_KIND_DEFINITIONS = Object.freeze([
-  Object.freeze(['random', '🎲 Véletlen']),
-  Object.freeze(['club', '🛡️ Klubok']),
-  Object.freeze(['nation', '🌍 Ligaválogatottak']),
+  Object.freeze({ kind: 'club', label: 'Klubok', icon: '🛡️', category: 'Magyar bajnokság' }),
+  Object.freeze({ kind: 'nation', label: 'Válogatottak', icon: '🌍', category: 'Ligaválogatott' }),
+  Object.freeze({ kind: 'random', label: 'Véletlen', icon: '🎲', category: 'Véletlen pakli' }),
 ]);
 
 const DECK_SELECTION_MENU_CLUB_PRESENTATION = Object.freeze({
@@ -51,44 +51,7 @@ const deckSelectionMenuDefaultConfirm = message => (
 
 const deckSelectionMenuDefaultReload = () => globalThis.location?.reload?.();
 
-const deckSelectionMenuStyles = `
-  .deck-selector { margin: 12px 0 14px; border: 1px solid rgba(232,195,122,.36); border-radius: 18px; background: linear-gradient(160deg, rgba(27,18,12,.96), rgba(8,8,8,.88)); overflow: hidden; box-shadow: 0 16px 44px rgba(0,0,0,.28); }
-  .deck-selector > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; padding: 13px 15px; cursor: pointer; font-weight: 900; color: var(--cream, #f2e6d0); list-style: none; }
-  .deck-selector > summary::-webkit-details-marker { display: none; }
-  .deck-selector > summary::after { content: '▾'; color: var(--brass-light, #e8c37a); transition: transform .16s ease; }
-  .deck-selector[open] > summary::after { transform: rotate(180deg); }
-  .deck-selector__current { display: block; margin-top: 3px; color: var(--muted, #a08d72); font-size: 11px; font-weight: 650; }
-  .deck-selector__body { display: grid; gap: 13px; padding: 0 14px 15px; border-top: 1px solid rgba(232,195,122,.16); }
-  .deck-selector__lead { margin: 12px 0 0; color: var(--muted, #b5a28a); font-size: 12px; line-height: 1.5; }
-  .deck-selector__kinds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .deck-kind { min-height: 48px; padding: 9px 8px; border: 1px solid rgba(232,195,122,.28); border-radius: 12px; background: rgba(255,255,255,.045); color: var(--cream, #f2e6d0); cursor: pointer; font: inherit; font-size: 12px; font-weight: 850; }
-  .deck-kind.is-active { border-color: var(--brass, #c9a227); background: rgba(201,162,39,.2); box-shadow: 0 0 0 2px rgba(201,162,39,.12); }
-  .quick-match-versus { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 9px; }
-  .quick-match-side { display: grid; place-items: center; align-content: center; gap: 7px; min-height: 132px; padding: 11px 9px; border: 1px solid rgba(232,195,122,.22); border-radius: 15px; background: rgba(255,255,255,.045); text-align: center; }
-  .quick-match-side strong { color: var(--cream, #f2e6d0); font-size: 13px; line-height: 1.25; }
-  .quick-match-side small { color: var(--muted, #a08d72); font-size: 10px; line-height: 1.3; }
-  .quick-match-vs { display: grid; place-items: center; color: var(--brass-light, #e8c37a); font-size: 13px; font-weight: 950; letter-spacing: .08em; }
-  .team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; max-height: 330px; overflow: auto; padding: 2px 2px 4px; scrollbar-width: thin; }
-  .team-tile { display: grid; place-items: center; align-content: start; gap: 7px; min-height: 126px; padding: 11px 7px 9px; border: 1px solid rgba(232,195,122,.22); border-radius: 15px; background: rgba(255,255,255,.045); color: var(--cream, #f2e6d0); cursor: pointer; font: inherit; text-align: center; transition: transform .14s ease, border-color .14s ease, background .14s ease; }
-  .team-tile:hover { transform: translateY(-2px); border-color: rgba(232,195,122,.6); }
-  .team-tile.is-selected { border-color: var(--brass, #c9a227); background: rgba(201,162,39,.18); box-shadow: 0 0 0 2px rgba(201,162,39,.12); }
-  .team-tile__name { display: -webkit-box; min-height: 31px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; font-weight: 850; line-height: 1.3; }
-  .team-tile__count { color: var(--muted, #a08d72); font-size: 9.5px; }
-  .team-mark { --team-primary: #654a2e; --team-secondary: #e8c37a; position: relative; display: grid; place-items: center; width: 62px; height: 62px; border: 3px solid rgba(255,255,255,.78); border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, var(--team-primary) 0 54%, var(--team-secondary) 54% 100%); color: #fff; font-size: 15px; font-weight: 950; letter-spacing: -.04em; text-shadow: 0 1px 3px rgba(0,0,0,.8); box-shadow: 0 7px 18px rgba(0,0,0,.35), inset 0 0 0 2px rgba(0,0,0,.14); }
-  .team-mark::after { content: ''; position: absolute; inset: 5px; border: 1px solid rgba(255,255,255,.38); border-radius: inherit; pointer-events: none; }
-  .team-mark--flag { background: rgba(255,255,255,.92); color: #111; font-size: 35px; text-shadow: none; }
-  .team-mark--random { background: radial-gradient(circle at 35% 30%, #d5b45d, #5c3d20 62%, #1a100a); font-size: 29px; }
-  .deck-selector__apply { width: 100%; min-height: 48px; }
-  .deck-selector__note { margin: 0; color: var(--muted, #a08d72); font-size: 10.5px; line-height: 1.45; }
-  @media (max-width: 620px) {
-    .deck-selector__kinds { grid-template-columns: 1fr 1fr 1fr; }
-    .deck-kind { min-height: 44px; padding-inline: 4px; font-size: 10.5px; }
-    .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 370px; }
-    .quick-match-side { min-height: 118px; padding-inline: 5px; }
-    .quick-match-side strong { font-size: 11px; }
-    .quick-match-vs { font-size: 10px; }
-  }
-`;
+const deckSelectionMenuStyles = `.deck-selector{}`;
 
 const deckSelectionMenuEnsureStyles = documentRef => {
   if (documentRef.querySelector?.(`#${DECK_SELECTION_MENU_STYLE_ID}`)) return;
@@ -112,21 +75,46 @@ const deckSelectionMenuClubPresentation = label => DECK_SELECTION_MENU_CLUB_PRES
   secondary: '#d5b45d',
 };
 
+const deckSelectionMenuKindDefinition = kind => (
+  DECK_SELECTION_MENU_KIND_DEFINITIONS.find(entry => entry.kind === kind)
+  ?? DECK_SELECTION_MENU_KIND_DEFINITIONS.at(-1)
+);
+
+const deckSelectionMenuCategoryLabel = kind => deckSelectionMenuKindDefinition(kind).category;
+
+const deckSelectionMenuApplyPalette = (node, kind, label) => {
+  if (kind === 'club') {
+    const presentation = deckSelectionMenuClubPresentation(label);
+    node.style?.setProperty?.('--team-primary', presentation.primary);
+    node.style?.setProperty?.('--team-secondary', presentation.secondary);
+    return presentation;
+  }
+  if (kind === 'nation') {
+    node.style?.setProperty?.('--team-primary', '#315b95');
+    node.style?.setProperty?.('--team-secondary', '#f2e6d0');
+    return { short: '', primary: '#315b95', secondary: '#f2e6d0' };
+  }
+  node.style?.setProperty?.('--team-primary', '#8b642f');
+  node.style?.setProperty?.('--team-secondary', '#e8c37a');
+  return { short: '', primary: '#8b642f', secondary: '#e8c37a' };
+};
+
 const deckSelectionMenuCreateTeamMark = (documentRef, { kind, label, flag = '', random = false }) => {
   const mark = documentRef.createElement('span');
   mark.className = `team-mark${kind === 'nation' ? ' team-mark--flag' : ''}${random ? ' team-mark--random' : ''}`;
+  mark.setAttribute?.('aria-hidden', 'true');
   if (random) {
     mark.textContent = '🎲';
+    deckSelectionMenuApplyPalette(mark, 'random', label);
     return mark;
   }
   if (kind === 'nation') {
     mark.textContent = flag || '🌍';
+    deckSelectionMenuApplyPalette(mark, 'nation', label);
     return mark;
   }
-  const presentation = deckSelectionMenuClubPresentation(label);
+  const presentation = deckSelectionMenuApplyPalette(mark, 'club', label);
   mark.textContent = presentation.short;
-  mark.style?.setProperty?.('--team-primary', presentation.primary);
-  mark.style?.setProperty?.('--team-secondary', presentation.secondary);
   return mark;
 };
 
@@ -160,11 +148,17 @@ const deckSelectionMenuRenderMatchSide = (documentRef, side, team, caption) => {
     flag: team.flag,
     random: team.kind === 'random',
   }));
+  const copy = documentRef.createElement('span');
+  copy.className = 'quick-match-side__copy';
+  const captionNode = documentRef.createElement('span');
+  captionNode.className = 'quick-match-side__caption';
+  captionNode.textContent = caption;
   const name = documentRef.createElement('strong');
   name.textContent = team.label;
   const detail = documentRef.createElement('small');
-  detail.textContent = `${caption} · ${team.detail}`;
-  side.append(name, detail);
+  detail.textContent = team.detail;
+  copy.append(captionNode, name, detail);
+  side.appendChild(copy);
 };
 
 const deckSelectionMenuOpponentPreview = selection => {
@@ -185,9 +179,15 @@ const deckSelectionMenuOpponentPreview = selection => {
     }
     return { kind: 'club', label: matchup.ai.label, flag: '', detail: `${matchup.ai.count} kártya` };
   }
-  if (selection.kind === 'club') return { kind: 'club', label: 'Másik NB I-es klub', flag: '', detail: 'a gép véletlenszerűen választ' };
-  if (selection.kind === 'nation') return { kind: 'nation', label: 'Másik ligaválogatott', flag: '🌍', detail: 'a gép véletlenszerűen választ' };
-  return { kind: 'random', label: 'Véletlen ellenfél', flag: '', detail: 'a teljes adatbázisból' };
+  if (selection.kind === 'club') return { kind: 'club', label: 'A gép klubja', flag: '', detail: 'másik NB I-es klub sorsolása' };
+  if (selection.kind === 'nation') return { kind: 'nation', label: 'A gép válogatottja', flag: '🌍', detail: 'másik ligaválogatott sorsolása' };
+  return { kind: 'random', label: 'Véletlen ellenfél', flag: '', detail: 'sorsolás a teljes adatbázisból' };
+};
+
+const deckSelectionMenuSelectionFromEntry = (kind, entry) => {
+  if (kind === 'club') return { kind: 'club', value: entry.label };
+  if (kind === 'nation') return { kind: 'nation', value: entry.key };
+  return { ...RANDOM_DECK_SELECTION };
 };
 
 const deckSelectionMenuInsertSelector = ({
@@ -207,35 +207,108 @@ const deckSelectionMenuInsertSelector = ({
   };
   const details = documentRef.createElement('details');
   details.className = 'deck-selector';
-  details.open = true;
+  details.open = false;
 
   const summary = documentRef.createElement('summary');
+  summary.setAttribute('aria-label', 'Gyors meccs csapatválasztó megnyitása');
+  const summaryMark = documentRef.createElement('span');
+  summaryMark.className = 'deck-selector__summary-mark';
+  const activeTeam = deckSelectionMenuTeamFromSelection(activeSelection, players);
+  summaryMark.appendChild(deckSelectionMenuCreateTeamMark(documentRef, {
+    kind: activeTeam.kind,
+    label: activeTeam.label,
+    flag: activeTeam.flag,
+    random: activeTeam.kind === 'random',
+  }));
   const summaryCopy = documentRef.createElement('span');
-  summaryCopy.textContent = '⚡ Gyors meccs – csapatválasztás';
+  summaryCopy.className = 'deck-selector__launch-copy';
+  const summaryTitle = documentRef.createElement('span');
+  summaryTitle.className = 'deck-selector__launch-title';
+  summaryTitle.textContent = '⚡ Gyors meccs – csapatválasztás';
   const current = documentRef.createElement('small');
   current.className = 'deck-selector__current';
   current.textContent = describeDeckSelection(activeSelection, players);
-  summaryCopy.appendChild(current);
-  summary.appendChild(summaryCopy);
+  summaryCopy.append(summaryTitle, current);
+  summary.append(summaryMark, summaryCopy);
 
   const body = documentRef.createElement('div');
   body.className = 'deck-selector__body';
+  body.setAttribute('role', 'dialog');
+  body.setAttribute('aria-modal', 'true');
+  body.setAttribute('aria-labelledby', 'deck-selector-title');
+
+  const header = documentRef.createElement('header');
+  header.className = 'deck-selector__header';
+  const headingCopy = documentRef.createElement('div');
+  const eyebrow = documentRef.createElement('p');
+  eyebrow.className = 'deck-selector__eyebrow';
+  eyebrow.textContent = 'Gyors meccs';
+  const heading = documentRef.createElement('h1');
+  heading.id = 'deck-selector-title';
+  heading.textContent = 'Válaszd ki a csapatodat';
   const lead = documentRef.createElement('p');
   lead.className = 'deck-selector__lead';
-  lead.textContent = `Válaszd ki a saját klubodat vagy ligaválogatottadat. A gép mindig ugyanabból a kategóriából, de másik csapatot kap. A klubok legalább ${MIN_FILTERED_DECK_SIZE}, a ligaválogatottak legalább ${DECK_SELECTION_MENU_NATION_MINIMUM} használható kártyával jelennek meg.`;
+  lead.textContent = 'A gép egy másik klubot választ ellenfélnek. A választott csapatod a Klasszikus és a Büntetőpárbaj módban is ténylegesen bekerül a meccsbe.';
+  headingCopy.append(eyebrow, heading, lead);
+  const close = documentRef.createElement('button');
+  close.type = 'button';
+  close.className = 'deck-selector__close';
+  close.textContent = '×';
+  close.setAttribute('aria-label', 'Csapatválasztó bezárása');
+  header.append(headingCopy, close);
 
   const kinds = documentRef.createElement('div');
   kinds.className = 'deck-selector__kinds';
-  const kindButtons = DECK_SELECTION_MENU_KIND_DEFINITIONS.map(([kind, label]) => {
+  kinds.setAttribute('role', 'tablist');
+  kinds.setAttribute('aria-label', 'Csapatválasztási kategória');
+  const kindButtons = DECK_SELECTION_MENU_KIND_DEFINITIONS.map(definition => {
     const button = documentRef.createElement('button');
     button.type = 'button';
     button.className = 'deck-kind';
-    button.dataset.kind = kind;
-    button.textContent = label;
+    button.dataset.kind = definition.kind;
+    button.setAttribute('role', 'tab');
+    const icon = documentRef.createElement('span');
+    icon.className = 'deck-kind__icon';
+    icon.textContent = definition.icon;
+    icon.setAttribute('aria-hidden', 'true');
+    const copy = documentRef.createElement('span');
+    copy.className = 'deck-kind__copy';
+    const label = documentRef.createElement('strong');
+    label.textContent = definition.label;
+    const category = documentRef.createElement('small');
+    category.textContent = definition.category;
+    copy.append(label, category);
+    button.append(icon, copy);
     kinds.appendChild(button);
     return button;
   });
 
+  const arena = documentRef.createElement('div');
+  arena.className = 'deck-selector__arena';
+
+  const teamsPanel = documentRef.createElement('section');
+  teamsPanel.className = 'deck-selector__teams-panel';
+  const sectionHead = documentRef.createElement('div');
+  sectionHead.className = 'deck-selector__section-head';
+  const sectionCopy = documentRef.createElement('div');
+  const sectionTitle = documentRef.createElement('h2');
+  const sectionDescription = documentRef.createElement('p');
+  sectionCopy.append(sectionTitle, sectionDescription);
+  const optionCount = documentRef.createElement('span');
+  optionCount.className = 'deck-selector__option-count';
+  sectionHead.append(sectionCopy, optionCount);
+
+  const grid = documentRef.createElement('div');
+  grid.className = 'team-grid';
+  grid.setAttribute('role', 'listbox');
+  grid.setAttribute('aria-label', 'Választható csapatok');
+  teamsPanel.append(sectionHead, grid);
+
+  const matchPanel = documentRef.createElement('aside');
+  matchPanel.className = 'deck-selector__match-panel';
+  const matchTitle = documentRef.createElement('p');
+  matchTitle.className = 'deck-selector__match-title';
+  matchTitle.textContent = 'Meccspárosítás';
   const versus = documentRef.createElement('div');
   versus.className = 'quick-match-versus';
   const humanSide = documentRef.createElement('div');
@@ -246,21 +319,25 @@ const deckSelectionMenuInsertSelector = ({
   const aiSide = documentRef.createElement('div');
   aiSide.className = 'quick-match-side quick-match-side--ai';
   versus.append(humanSide, vs, aiSide);
+  const opponentNote = documentRef.createElement('p');
+  opponentNote.className = 'deck-selector__opponent-note';
+  opponentNote.textContent = 'Az ellenfél csak a meccs indításakor kerül kisorsolásra, és nem lehet azonos a saját csapatoddal.';
+  matchPanel.append(matchTitle, versus, opponentNote);
+  arena.append(teamsPanel, matchPanel);
 
-  const grid = documentRef.createElement('div');
-  grid.className = 'team-grid';
-  grid.setAttribute('role', 'listbox');
-  grid.setAttribute('aria-label', 'Választható csapatok');
-
+  const footer = documentRef.createElement('footer');
+  footer.className = 'deck-selector__footer';
+  const note = documentRef.createElement('p');
+  note.className = 'deck-selector__note';
+  note.textContent = `Csak legalább ${MIN_FILTERED_DECK_SIZE} használható kártyával rendelkező klubok és legalább ${DECK_SELECTION_MENU_NATION_MINIMUM} kártyás ligaválogatottak jelennek meg. A címerek a játék jogtiszta, generált klubszíneit használják.`;
   const apply = documentRef.createElement('button');
   apply.type = 'button';
   apply.className = 'btn deck-selector__apply';
-  apply.textContent = 'Csapat kiválasztása';
   apply.setAttribute('aria-label', 'Pakli alkalmazása');
+  footer.append(note, apply);
 
-  const note = documentRef.createElement('p');
-  note.className = 'deck-selector__note';
-  note.textContent = 'A kiválasztott párosítás a Klasszikus és a Büntetőpárbaj módban is működik. A klubjelvények jogtiszta, színezett körlogók; a ligaválogatottaknál országzászló jelenik meg.';
+  body.append(header, kinds, arena, footer);
+  details.append(summary, body);
 
   let draft = normaliseDeckSelection(activeSelection);
 
@@ -271,13 +348,35 @@ const deckSelectionMenuInsertSelector = ({
   };
 
   const setDraftValue = entry => {
-    if (draft.kind === 'club') draft = { kind: 'club', value: entry.label };
-    else if (draft.kind === 'nation') draft = { kind: 'nation', value: entry.key };
+    draft = deckSelectionMenuSelectionFromEntry(draft.kind, entry);
   };
 
   const renderPreview = () => {
-    deckSelectionMenuRenderMatchSide(documentRef, humanSide, deckSelectionMenuTeamFromSelection(draft, players), 'Saját csapat');
-    deckSelectionMenuRenderMatchSide(documentRef, aiSide, deckSelectionMenuOpponentPreview(draft), 'Gép');
+    deckSelectionMenuRenderMatchSide(
+      documentRef,
+      humanSide,
+      deckSelectionMenuTeamFromSelection(draft, players),
+      'Saját csapat',
+    );
+    deckSelectionMenuRenderMatchSide(
+      documentRef,
+      aiSide,
+      deckSelectionMenuOpponentPreview(draft),
+      'Gép',
+    );
+  };
+
+  const appendTileMeta = (tile, kind, count) => {
+    const meta = documentRef.createElement('span');
+    meta.className = 'team-tile__meta';
+    const category = documentRef.createElement('span');
+    category.className = 'team-tile__category';
+    category.textContent = deckSelectionMenuCategoryLabel(kind);
+    const cardCount = documentRef.createElement('small');
+    cardCount.className = 'team-tile__count';
+    cardCount.textContent = `${count} kártya`;
+    meta.append(category, cardCount);
+    tile.appendChild(meta);
   };
 
   const renderGrid = () => {
@@ -285,17 +384,21 @@ const deckSelectionMenuInsertSelector = ({
     if (draft.kind === 'random') {
       const tile = documentRef.createElement('button');
       tile.type = 'button';
-      tile.className = 'team-tile is-selected';
+      tile.className = 'team-tile team-tile--random is-selected';
       tile.setAttribute('role', 'option');
       tile.setAttribute('aria-selected', 'true');
+      tile.setAttribute('aria-label', `Teljesen véletlen csapat, ${options.total} használható kártya`);
+      deckSelectionMenuApplyPalette(tile, 'random', 'Véletlen');
       tile.appendChild(deckSelectionMenuCreateTeamMark(documentRef, { kind: 'random', label: 'Véletlen', random: true }));
       const label = documentRef.createElement('span');
       label.className = 'team-tile__name';
       label.textContent = 'Teljesen véletlen';
-      const count = documentRef.createElement('small');
-      count.className = 'team-tile__count';
-      count.textContent = `${options.total} használható kártya`;
-      tile.append(label, count);
+      tile.appendChild(label);
+      appendTileMeta(tile, 'random', options.total);
+      const colours = documentRef.createElement('span');
+      colours.className = 'team-tile__colours';
+      colours.setAttribute('aria-hidden', 'true');
+      tile.appendChild(colours);
       grid.appendChild(tile);
       return;
     }
@@ -311,6 +414,9 @@ const deckSelectionMenuInsertSelector = ({
         : canonicalNationKey(draft.value) === entry.key;
       tile.classList.toggle('is-selected', selected);
       tile.setAttribute('aria-selected', String(selected));
+      const visibleLabel = draft.kind === 'nation' ? `${entry.label} ligaválogatott` : entry.label;
+      tile.setAttribute('aria-label', `${visibleLabel}, ${deckSelectionMenuCategoryLabel(draft.kind)}, ${entry.count} kártya`);
+      deckSelectionMenuApplyPalette(tile, draft.kind, entry.label);
       tile.appendChild(deckSelectionMenuCreateTeamMark(documentRef, {
         kind: draft.kind,
         label: entry.label,
@@ -318,11 +424,13 @@ const deckSelectionMenuInsertSelector = ({
       }));
       const label = documentRef.createElement('span');
       label.className = 'team-tile__name';
-      label.textContent = draft.kind === 'nation' ? `${entry.label} ligaválogatott` : entry.label;
-      const count = documentRef.createElement('small');
-      count.className = 'team-tile__count';
-      count.textContent = `${entry.count} kártya`;
-      tile.append(label, count);
+      label.textContent = visibleLabel;
+      tile.appendChild(label);
+      appendTileMeta(tile, draft.kind, entry.count);
+      const colours = documentRef.createElement('span');
+      colours.className = 'team-tile__colours';
+      colours.setAttribute('aria-hidden', 'true');
+      tile.appendChild(colours);
       tile.addEventListener('click', () => {
         setDraftValue(entry);
         render();
@@ -331,8 +439,25 @@ const deckSelectionMenuInsertSelector = ({
     }
   };
 
+  const renderSectionHeader = () => {
+    const definition = deckSelectionMenuKindDefinition(draft.kind);
+    const entries = entriesForDraft();
+    sectionTitle.textContent = definition.category;
+    sectionDescription.textContent = draft.kind === 'club'
+      ? 'Válassz egy NB I-es klubot a játékban elérhető kártyák alapján.'
+      : draft.kind === 'nation'
+        ? 'Legalább hét azonos nemzetiségű NB I-es játékosból álló keretek.'
+        : 'A saját és a gépi pakli is a teljes adatbázisból készül.';
+    optionCount.textContent = draft.kind === 'random' ? '1 lehetőség' : `${entries.length} csapat`;
+  };
+
   const render = () => {
-    kindButtons.forEach(button => button.classList.toggle('is-active', button.dataset.kind === draft.kind));
+    kindButtons.forEach(button => {
+      const active = button.dataset.kind === draft.kind;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
     const entries = entriesForDraft();
     if (draft.kind !== 'random') {
       const exists = draft.kind === 'club'
@@ -340,22 +465,46 @@ const deckSelectionMenuInsertSelector = ({
         : entries.some(entry => entry.key === canonicalNationKey(draft.value));
       if (!exists && entries[0]) setDraftValue(entries[0]);
     }
+    renderSectionHeader();
     renderPreview();
     renderGrid();
     apply.disabled = draft.kind !== 'random' && entriesForDraft().length === 0;
+    apply.textContent = draft.kind === 'random' ? 'Véletlen csapattal játszom' : 'Ezzel a csapattal játszom';
+  };
+
+  const closeSelector = () => {
+    details.open = false;
+    summary.focus?.({ preventScroll: true });
   };
 
   for (const button of kindButtons) {
     button.addEventListener('click', () => {
-      draft = { kind: button.dataset.kind, value: '' };
+      draft = button.dataset.kind === 'random'
+        ? { ...RANDOM_DECK_SELECTION }
+        : { kind: button.dataset.kind, value: '' };
       render();
     });
   }
 
+  close.addEventListener('click', closeSelector);
+  body.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    event.preventDefault();
+    closeSelector();
+  });
+  details.addEventListener('toggle', () => {
+    if (!details.open) {
+      draft = normaliseDeckSelection(activeSelection);
+      render();
+      return;
+    }
+    globalThis.requestAnimationFrame?.(() => close.focus?.({ preventScroll: true }));
+  });
+
   apply.addEventListener('click', () => {
     const next = normaliseDeckSelection(draft);
     if (selectionEquals(next, activeSelection)) {
-      details.open = false;
+      closeSelector();
       return;
     }
     if (storage.hasSavedMatch() && !confirmReplace(DECK_SELECTION_MENU_CONFIRM_MESSAGE)) return;
@@ -363,8 +512,6 @@ const deckSelectionMenuInsertSelector = ({
     reload();
   });
 
-  body.append(lead, kinds, versus, grid, apply, note);
-  details.append(summary, body);
   panel.querySelector('.primary-mode-actions')?.before(details);
   render();
 };
