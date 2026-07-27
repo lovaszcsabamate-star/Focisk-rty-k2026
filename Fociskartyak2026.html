@@ -5474,6 +5474,783 @@ html.reduced-motion *::after {
 
   </style>
   <style>
+.deck-selector {
+  margin: 12px 0 16px;
+  border: 1px solid rgba(232, 195, 122, .38);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(232, 195, 122, .14), transparent 38%),
+    linear-gradient(145deg, rgba(48, 31, 20, .96), rgba(13, 11, 9, .96));
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .34);
+  color: var(--cream, #f2e6d0);
+}
+
+.deck-selector > summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 10px 14px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: inherit;
+  transition: border-color .16s ease, background .16s ease, transform .16s ease;
+}
+
+.deck-selector > summary::-webkit-details-marker { display: none; }
+
+.deck-selector > summary::after {
+  content: '›';
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(232, 195, 122, .32);
+  border-radius: 50%;
+  color: var(--brass-light, #e8c37a);
+  font-size: 24px;
+  line-height: 1;
+  background: rgba(255, 255, 255, .05);
+}
+
+.deck-selector > summary:hover {
+  background: rgba(232, 195, 122, .07);
+  transform: translateY(-1px);
+}
+
+.deck-selector > summary:focus-visible {
+  outline: 3px solid #fff3bd;
+  outline-offset: 3px;
+}
+
+.deck-selector__summary-mark .team-mark {
+  width: 54px;
+  height: 54px;
+  font-size: 13px;
+}
+
+.deck-selector__launch-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.deck-selector__launch-title {
+  font-size: clamp(.98rem, 2.8vw, 1.18rem);
+  font-weight: 950;
+  line-height: 1.15;
+}
+
+.deck-selector__current {
+  overflow: hidden;
+  color: var(--muted, #b8a68e);
+  font-size: .76rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-selector:not([open]) > .deck-selector__body { display: none; }
+
+.deck-selector[open] > .deck-selector__body {
+  position: fixed;
+  z-index: 10020;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 14px;
+  min-height: 100dvh;
+  padding:
+    max(18px, env(safe-area-inset-top))
+    max(22px, env(safe-area-inset-right))
+    max(18px, env(safe-area-inset-bottom))
+    max(22px, env(safe-area-inset-left));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 7%, rgba(232, 195, 122, .18), transparent 28%),
+    radial-gradient(circle at 85% 88%, rgba(35, 134, 74, .12), transparent 30%),
+    linear-gradient(150deg, #2b1b11 0%, #15100c 52%, #090807 100%);
+  color: var(--cream, #f2e6d0);
+  isolation: isolate;
+}
+
+.deck-selector[open] > .deck-selector__body::before {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .022) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.deck-selector__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+  width: min(1320px, 100%);
+  margin: 0 auto;
+}
+
+.deck-selector__eyebrow {
+  margin: 0 0 5px;
+  color: var(--brass-light, #e8c37a);
+  font-size: .73rem;
+  font-weight: 950;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.deck-selector__header h1 {
+  margin: 0;
+  color: var(--cream, #f2e6d0);
+  font-size: clamp(1.7rem, 4vw, 3.15rem);
+  line-height: 1;
+  letter-spacing: -.035em;
+}
+
+.deck-selector__lead {
+  max-width: 760px;
+  margin: 9px 0 0;
+  color: var(--muted, #b8a68e);
+  font-size: clamp(.83rem, 1.5vw, 1rem);
+  line-height: 1.45;
+}
+
+.deck-selector__close {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(232, 195, 122, .34);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  color: var(--cream, #f2e6d0);
+  cursor: pointer;
+  font: inherit;
+  font-size: 30px;
+  line-height: 1;
+  transition: background .14s ease, transform .14s ease;
+}
+
+.deck-selector__close:hover {
+  background: rgba(232, 195, 122, .15);
+  transform: rotate(4deg) scale(1.04);
+}
+
+.deck-selector__kinds {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.deck-kind {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 9px 15px;
+  border: 1px solid rgba(232, 195, 122, .25);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .045);
+  color: var(--cream, #f2e6d0);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: transform .14s ease, border-color .14s ease, background .14s ease, box-shadow .14s ease;
+}
+
+.deck-kind:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 195, 122, .58);
+}
+
+.deck-kind.is-active {
+  border-color: var(--brass, #c9a227);
+  background: linear-gradient(135deg, rgba(201, 162, 39, .28), rgba(255, 255, 255, .055));
+  box-shadow: 0 0 0 2px rgba(201, 162, 39, .11), 0 10px 24px rgba(0, 0, 0, .2);
+}
+
+.deck-kind__icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.deck-kind__copy {
+  display: grid;
+  gap: 2px;
+}
+
+.deck-kind__copy strong {
+  font-size: .88rem;
+  line-height: 1.1;
+}
+
+.deck-kind__copy small {
+  color: var(--muted, #b8a68e);
+  font-size: .66rem;
+  line-height: 1.15;
+}
+
+.deck-selector__arena {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 350px);
+  gap: 16px;
+  width: min(1320px, 100%);
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.deck-selector__teams-panel,
+.deck-selector__match-panel {
+  min-height: 0;
+  border: 1px solid rgba(232, 195, 122, .22);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .038);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .035), 0 18px 40px rgba(0, 0, 0, .18);
+  backdrop-filter: blur(10px);
+}
+
+.deck-selector__teams-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 15px;
+}
+
+.deck-selector__section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 2px 12px;
+}
+
+.deck-selector__section-head h2 {
+  margin: 0 0 3px;
+  color: var(--cream, #f2e6d0);
+  font-size: 1.05rem;
+}
+
+.deck-selector__section-head p {
+  margin: 0;
+  color: var(--muted, #b8a68e);
+  font-size: .72rem;
+  line-height: 1.35;
+}
+
+.deck-selector__option-count {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid rgba(232, 195, 122, .25);
+  border-radius: 999px;
+  color: var(--brass-light, #e8c37a);
+  font-size: .68rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  gap: 11px;
+  min-height: 0;
+  padding: 3px 4px 8px 2px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(232, 195, 122, .45) transparent;
+}
+
+.team-tile {
+  --team-primary: #6d4d2f;
+  --team-secondary: #d5b45d;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  place-items: center;
+  align-content: start;
+  gap: 8px;
+  min-height: 190px;
+  padding: 15px 10px 0;
+  overflow: hidden;
+  border: 1px solid rgba(232, 195, 122, .19);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 20%, color-mix(in srgb, var(--team-primary) 25%, transparent), transparent 54%),
+    rgba(255, 255, 255, .035);
+  color: var(--cream, #f2e6d0);
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.team-tile:hover {
+  transform: translateY(-3px);
+  border-color: rgba(232, 195, 122, .58);
+  box-shadow: 0 13px 25px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+
+.team-tile.is-selected {
+  border-color: var(--brass-light, #e8c37a);
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--team-primary) 38%, transparent), transparent 57%),
+    linear-gradient(160deg, rgba(201, 162, 39, .16), rgba(255, 255, 255, .05));
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, .13), 0 16px 30px rgba(0, 0, 0, .3);
+}
+
+.team-tile.is-selected::after {
+  content: '✓';
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--brass-light, #e8c37a);
+  color: #21150e;
+  font-size: .78rem;
+  font-weight: 950;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, .3);
+}
+
+.team-mark {
+  --team-primary: #654a2e;
+  --team-secondary: #e8c37a;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, .84);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--team-primary) 0 54%, var(--team-secondary) 54% 100%);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: -.045em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .8);
+  box-shadow: 0 10px 23px rgba(0, 0, 0, .4), inset 0 0 0 2px rgba(0, 0, 0, .14);
+}
+
+.team-mark::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(255, 255, 255, .42);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.team-mark--flag {
+  background: rgba(255, 255, 255, .94);
+  color: #111;
+  font-size: 41px;
+  text-shadow: none;
+}
+
+.team-mark--random {
+  background: radial-gradient(circle at 35% 28%, #e9cc79, #74501f 60%, #1a100a);
+  font-size: 35px;
+  text-shadow: none;
+}
+
+.team-tile__name {
+  display: -webkit-box;
+  min-height: 2.55em;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: .8rem;
+  font-weight: 900;
+  line-height: 1.27;
+}
+
+.team-tile__meta {
+  display: grid;
+  gap: 3px;
+  justify-items: center;
+}
+
+.team-tile__category {
+  color: var(--brass-light, #e8c37a);
+  font-size: .61rem;
+  font-weight: 850;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.team-tile__count {
+  color: var(--muted, #b8a68e);
+  font-size: .68rem;
+}
+
+.team-tile__colours {
+  align-self: end;
+  width: calc(100% + 20px);
+  height: 9px;
+  margin-top: auto;
+  background: linear-gradient(90deg, var(--team-primary) 0 50%, var(--team-secondary) 50% 100%);
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, .08);
+}
+
+.team-tile--random { grid-column: 1 / -1; }
+
+.deck-selector__match-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 17px;
+}
+
+.deck-selector__match-title {
+  margin: 0;
+  color: var(--brass-light, #e8c37a);
+  font-size: .73rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.quick-match-versus {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 9px;
+  min-height: 0;
+}
+
+.quick-match-side {
+  --team-primary: #654a2e;
+  --team-secondary: #e8c37a;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  min-height: 118px;
+  padding: 14px;
+  border: 1px solid rgba(232, 195, 122, .18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .035);
+}
+
+.quick-match-side .team-mark {
+  width: 70px;
+  height: 70px;
+  font-size: 16px;
+}
+
+.quick-match-side .team-mark--flag { font-size: 37px; }
+.quick-match-side .team-mark--random { font-size: 31px; }
+
+.quick-match-side__copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.quick-match-side__caption {
+  color: var(--brass-light, #e8c37a);
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.quick-match-side strong {
+  color: var(--cream, #f2e6d0);
+  font-size: .87rem;
+  line-height: 1.2;
+}
+
+.quick-match-side small {
+  color: var(--muted, #b8a68e);
+  font-size: .68rem;
+  line-height: 1.3;
+}
+
+.quick-match-vs {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 32px;
+  margin: 0 auto;
+  border: 1px solid rgba(232, 195, 122, .3);
+  border-radius: 999px;
+  background: #1d140e;
+  color: var(--brass-light, #e8c37a);
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .08em;
+  box-shadow: 0 7px 16px rgba(0, 0, 0, .3);
+}
+
+.deck-selector__opponent-note,
+.deck-selector__note {
+  margin: 0;
+  color: var(--muted, #b8a68e);
+  font-size: .68rem;
+  line-height: 1.4;
+}
+
+.deck-selector__opponent-note { text-align: center; }
+
+.deck-selector__footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
+  align-items: center;
+  gap: 16px;
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: 12px 14px;
+  border: 1px solid rgba(232, 195, 122, .22);
+  border-radius: 18px;
+  background: rgba(16, 12, 9, .86);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, .22);
+  backdrop-filter: blur(12px);
+}
+
+.deck-selector__apply {
+  min-height: 52px;
+  width: 100%;
+  font-size: .9rem;
+}
+
+.deck-selector__apply:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+@media (max-width: 900px) {
+  .deck-selector__arena {
+    grid-template-columns: minmax(0, 1fr) 290px;
+  }
+
+  .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .team-tile--random { grid-column: 1 / -1; }
+}
+
+@media (max-width: 700px) {
+  .deck-selector { margin-block: 10px 13px; }
+
+  .deck-selector > summary {
+    min-height: 70px;
+    padding: 9px 11px;
+  }
+
+  .deck-selector__summary-mark .team-mark {
+    width: 49px;
+    height: 49px;
+  }
+
+  .deck-selector > summary::after {
+    width: 30px;
+    height: 30px;
+  }
+
+  .deck-selector[open] > .deck-selector__body {
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    gap: 10px;
+    padding:
+      max(10px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      max(9px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
+  }
+
+  .deck-selector__header { gap: 10px; }
+
+  .deck-selector__header h1 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+  }
+
+  .deck-selector__lead {
+    margin-top: 5px;
+    font-size: .72rem;
+    line-height: 1.35;
+  }
+
+  .deck-selector__eyebrow { margin-bottom: 3px; font-size: .62rem; }
+
+  .deck-selector__close {
+    width: 39px;
+    height: 39px;
+    font-size: 25px;
+  }
+
+  .deck-selector__kinds { gap: 6px; }
+
+  .deck-kind {
+    display: grid;
+    justify-items: center;
+    gap: 3px;
+    min-height: 52px;
+    padding: 6px 3px;
+    text-align: center;
+  }
+
+  .deck-kind__icon { font-size: 1.15rem; }
+  .deck-kind__copy strong { font-size: .69rem; }
+  .deck-kind__copy small { display: none; }
+
+  .deck-selector__arena {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  .deck-selector__match-panel {
+    order: -1;
+    flex: 0 0 auto;
+    grid-template-rows: auto auto;
+    gap: 7px;
+    padding: 10px;
+    border-radius: 17px;
+  }
+
+  .deck-selector__match-title,
+  .deck-selector__opponent-note { display: none; }
+
+  .quick-match-versus {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-rows: auto;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .quick-match-side {
+    grid-template-columns: 1fr;
+    place-items: center;
+    align-content: center;
+    gap: 5px;
+    min-height: 100px;
+    padding: 8px 5px;
+    text-align: center;
+  }
+
+  .quick-match-side .team-mark {
+    width: 51px;
+    height: 51px;
+    border-width: 3px;
+    font-size: 12px;
+  }
+
+  .quick-match-side .team-mark--flag { font-size: 28px; }
+  .quick-match-side .team-mark--random { font-size: 24px; }
+  .quick-match-side__caption { font-size: .53rem; }
+  .quick-match-side strong { font-size: .67rem; }
+  .quick-match-side small { display: none; }
+
+  .quick-match-vs {
+    align-self: center;
+    width: 34px;
+    height: 28px;
+    font-size: .6rem;
+  }
+
+  .deck-selector__teams-panel {
+    flex: 1 0 auto;
+    min-height: min(420px, 56vh);
+    padding: 10px;
+    border-radius: 17px;
+  }
+
+  .deck-selector__section-head {
+    align-items: center;
+    padding-bottom: 8px;
+  }
+
+  .deck-selector__section-head h2 { font-size: .86rem; }
+  .deck-selector__section-head p { display: none; }
+  .deck-selector__option-count { padding: 4px 7px; font-size: .58rem; }
+
+  .team-grid { gap: 8px; }
+
+  .team-tile {
+    min-height: 157px;
+    padding: 11px 7px 0;
+    border-radius: 15px;
+  }
+
+  .team-mark {
+    width: 61px;
+    height: 61px;
+    border-width: 3px;
+    font-size: 14px;
+  }
+
+  .team-mark--flag { font-size: 34px; }
+  .team-mark--random { font-size: 28px; }
+  .team-tile__name { min-height: 2.4em; font-size: .69rem; }
+  .team-tile__category { font-size: .52rem; }
+  .team-tile__count { font-size: .6rem; }
+  .team-tile__colours { width: calc(100% + 14px); height: 7px; }
+
+  .deck-selector__footer {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 7px;
+    border-radius: 15px;
+  }
+
+  .deck-selector__note { display: none; }
+  .deck-selector__apply { min-height: 48px; font-size: .8rem; }
+}
+
+@media (max-width: 390px) {
+  .deck-selector__launch-title { font-size: .88rem; }
+  .deck-selector__current { font-size: .66rem; }
+  .deck-selector__lead { max-width: 290px; }
+  .team-tile { min-height: 150px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-selector *,
+  .deck-selector *::before,
+  .deck-selector *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .deck-selector,
+  .deck-selector__body,
+  .deck-selector__teams-panel,
+  .deck-selector__match-panel,
+  .team-tile,
+  .deck-kind,
+  .quick-match-side,
+  .deck-selector__footer {
+    border-color: ButtonText;
+    background: Canvas;
+    color: CanvasText;
+    forced-color-adjust: auto;
+  }
+}
+
+  </style>
+  <style>
     .skip-link{position:fixed;z-index:9999;top:max(8px,env(safe-area-inset-top,0px));left:max(8px,env(safe-area-inset-left,0px));max-width:calc(100vw - 16px);padding:10px 14px;border:2px solid currentColor;border-radius:10px;background:#fff7df;color:#21150e;font-weight:900;line-height:1.2;box-shadow:0 8px 24px rgba(0,0,0,.55);transform:translateY(-160%);transition:transform .16s ease}.skip-link:focus{transform:translateY(0)}#felt{scroll-margin-top:12px}#felt:focus{outline:none}:where(button,a,[role='button'],[tabindex]:not([tabindex='-1'])):focus-visible{outline:3px solid #fff3bd;outline-offset:3px}.noscript-warning{position:fixed;z-index:10000;inset:50% auto auto 50%;width:min(520px,calc(100vw - 32px));padding:18px 20px;border:2px solid #fff3bd;border-radius:14px;background:#21150e;color:#fff7df;font-weight:800;line-height:1.5;text-align:center;box-shadow:0 18px 48px rgba(0,0,0,.72);transform:translate(-50%,-50%)}@media (prefers-reduced-motion:reduce){.skip-link{transition:none}}@media (prefers-contrast:more){:where(button,a,[role='button'],[tabindex]:not([tabindex='-1'])):focus-visible{outline-width:4px}.skip-link,.noscript-warning{border-width:3px}}@media (forced-colors:active){.skip-link,.noscript-warning{border-color:ButtonText;background:Canvas;color:CanvasText;forced-color-adjust:auto}}
   </style>
 </head>
@@ -6293,9 +7070,9 @@ const DECK_SELECTION_MENU_NATION_MINIMUM = 7;
 
 const DECK_SELECTION_MENU_CONFIRM_MESSAGE = 'A pakli cseréje törli a jelenlegi mentett mérkőzést. Folytatod?';
 const DECK_SELECTION_MENU_KIND_DEFINITIONS = Object.freeze([
-  Object.freeze(['random', '🎲 Véletlen']),
-  Object.freeze(['club', '🛡️ Klubok']),
-  Object.freeze(['nation', '🌍 Ligaválogatottak']),
+  Object.freeze({ kind: 'club', label: 'Klubok', icon: '🛡️', category: 'Magyar bajnokság' }),
+  Object.freeze({ kind: 'nation', label: 'Válogatottak', icon: '🌍', category: 'Ligaválogatott' }),
+  Object.freeze({ kind: 'random', label: 'Véletlen', icon: '🎲', category: 'Véletlen pakli' }),
 ]);
 
 const DECK_SELECTION_MENU_CLUB_PRESENTATION = Object.freeze({
@@ -6325,44 +7102,7 @@ const deckSelectionMenuDefaultConfirm = message => (
 
 const deckSelectionMenuDefaultReload = () => globalThis.location?.reload?.();
 
-const deckSelectionMenuStyles = `
-  .deck-selector { margin: 12px 0 14px; border: 1px solid rgba(232,195,122,.36); border-radius: 18px; background: linear-gradient(160deg, rgba(27,18,12,.96), rgba(8,8,8,.88)); overflow: hidden; box-shadow: 0 16px 44px rgba(0,0,0,.28); }
-  .deck-selector > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; padding: 13px 15px; cursor: pointer; font-weight: 900; color: var(--cream, #f2e6d0); list-style: none; }
-  .deck-selector > summary::-webkit-details-marker { display: none; }
-  .deck-selector > summary::after { content: '▾'; color: var(--brass-light, #e8c37a); transition: transform .16s ease; }
-  .deck-selector[open] > summary::after { transform: rotate(180deg); }
-  .deck-selector__current { display: block; margin-top: 3px; color: var(--muted, #a08d72); font-size: 11px; font-weight: 650; }
-  .deck-selector__body { display: grid; gap: 13px; padding: 0 14px 15px; border-top: 1px solid rgba(232,195,122,.16); }
-  .deck-selector__lead { margin: 12px 0 0; color: var(--muted, #b5a28a); font-size: 12px; line-height: 1.5; }
-  .deck-selector__kinds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .deck-kind { min-height: 48px; padding: 9px 8px; border: 1px solid rgba(232,195,122,.28); border-radius: 12px; background: rgba(255,255,255,.045); color: var(--cream, #f2e6d0); cursor: pointer; font: inherit; font-size: 12px; font-weight: 850; }
-  .deck-kind.is-active { border-color: var(--brass, #c9a227); background: rgba(201,162,39,.2); box-shadow: 0 0 0 2px rgba(201,162,39,.12); }
-  .quick-match-versus { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 9px; }
-  .quick-match-side { display: grid; place-items: center; align-content: center; gap: 7px; min-height: 132px; padding: 11px 9px; border: 1px solid rgba(232,195,122,.22); border-radius: 15px; background: rgba(255,255,255,.045); text-align: center; }
-  .quick-match-side strong { color: var(--cream, #f2e6d0); font-size: 13px; line-height: 1.25; }
-  .quick-match-side small { color: var(--muted, #a08d72); font-size: 10px; line-height: 1.3; }
-  .quick-match-vs { display: grid; place-items: center; color: var(--brass-light, #e8c37a); font-size: 13px; font-weight: 950; letter-spacing: .08em; }
-  .team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; max-height: 330px; overflow: auto; padding: 2px 2px 4px; scrollbar-width: thin; }
-  .team-tile { display: grid; place-items: center; align-content: start; gap: 7px; min-height: 126px; padding: 11px 7px 9px; border: 1px solid rgba(232,195,122,.22); border-radius: 15px; background: rgba(255,255,255,.045); color: var(--cream, #f2e6d0); cursor: pointer; font: inherit; text-align: center; transition: transform .14s ease, border-color .14s ease, background .14s ease; }
-  .team-tile:hover { transform: translateY(-2px); border-color: rgba(232,195,122,.6); }
-  .team-tile.is-selected { border-color: var(--brass, #c9a227); background: rgba(201,162,39,.18); box-shadow: 0 0 0 2px rgba(201,162,39,.12); }
-  .team-tile__name { display: -webkit-box; min-height: 31px; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; font-weight: 850; line-height: 1.3; }
-  .team-tile__count { color: var(--muted, #a08d72); font-size: 9.5px; }
-  .team-mark { --team-primary: #654a2e; --team-secondary: #e8c37a; position: relative; display: grid; place-items: center; width: 62px; height: 62px; border: 3px solid rgba(255,255,255,.78); border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, var(--team-primary) 0 54%, var(--team-secondary) 54% 100%); color: #fff; font-size: 15px; font-weight: 950; letter-spacing: -.04em; text-shadow: 0 1px 3px rgba(0,0,0,.8); box-shadow: 0 7px 18px rgba(0,0,0,.35), inset 0 0 0 2px rgba(0,0,0,.14); }
-  .team-mark::after { content: ''; position: absolute; inset: 5px; border: 1px solid rgba(255,255,255,.38); border-radius: inherit; pointer-events: none; }
-  .team-mark--flag { background: rgba(255,255,255,.92); color: #111; font-size: 35px; text-shadow: none; }
-  .team-mark--random { background: radial-gradient(circle at 35% 30%, #d5b45d, #5c3d20 62%, #1a100a); font-size: 29px; }
-  .deck-selector__apply { width: 100%; min-height: 48px; }
-  .deck-selector__note { margin: 0; color: var(--muted, #a08d72); font-size: 10.5px; line-height: 1.45; }
-  @media (max-width: 620px) {
-    .deck-selector__kinds { grid-template-columns: 1fr 1fr 1fr; }
-    .deck-kind { min-height: 44px; padding-inline: 4px; font-size: 10.5px; }
-    .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 370px; }
-    .quick-match-side { min-height: 118px; padding-inline: 5px; }
-    .quick-match-side strong { font-size: 11px; }
-    .quick-match-vs { font-size: 10px; }
-  }
-`;
+const deckSelectionMenuStyles = `.deck-selector{}`;
 
 const deckSelectionMenuEnsureStyles = documentRef => {
   if (documentRef.querySelector?.(`#${DECK_SELECTION_MENU_STYLE_ID}`)) return;
@@ -6386,21 +7126,46 @@ const deckSelectionMenuClubPresentation = label => DECK_SELECTION_MENU_CLUB_PRES
   secondary: '#d5b45d',
 };
 
+const deckSelectionMenuKindDefinition = kind => (
+  DECK_SELECTION_MENU_KIND_DEFINITIONS.find(entry => entry.kind === kind)
+  ?? DECK_SELECTION_MENU_KIND_DEFINITIONS.at(-1)
+);
+
+const deckSelectionMenuCategoryLabel = kind => deckSelectionMenuKindDefinition(kind).category;
+
+const deckSelectionMenuApplyPalette = (node, kind, label) => {
+  if (kind === 'club') {
+    const presentation = deckSelectionMenuClubPresentation(label);
+    node.style?.setProperty?.('--team-primary', presentation.primary);
+    node.style?.setProperty?.('--team-secondary', presentation.secondary);
+    return presentation;
+  }
+  if (kind === 'nation') {
+    node.style?.setProperty?.('--team-primary', '#315b95');
+    node.style?.setProperty?.('--team-secondary', '#f2e6d0');
+    return { short: '', primary: '#315b95', secondary: '#f2e6d0' };
+  }
+  node.style?.setProperty?.('--team-primary', '#8b642f');
+  node.style?.setProperty?.('--team-secondary', '#e8c37a');
+  return { short: '', primary: '#8b642f', secondary: '#e8c37a' };
+};
+
 const deckSelectionMenuCreateTeamMark = (documentRef, { kind, label, flag = '', random = false }) => {
   const mark = documentRef.createElement('span');
   mark.className = `team-mark${kind === 'nation' ? ' team-mark--flag' : ''}${random ? ' team-mark--random' : ''}`;
+  mark.setAttribute?.('aria-hidden', 'true');
   if (random) {
     mark.textContent = '🎲';
+    deckSelectionMenuApplyPalette(mark, 'random', label);
     return mark;
   }
   if (kind === 'nation') {
     mark.textContent = flag || '🌍';
+    deckSelectionMenuApplyPalette(mark, 'nation', label);
     return mark;
   }
-  const presentation = deckSelectionMenuClubPresentation(label);
+  const presentation = deckSelectionMenuApplyPalette(mark, 'club', label);
   mark.textContent = presentation.short;
-  mark.style?.setProperty?.('--team-primary', presentation.primary);
-  mark.style?.setProperty?.('--team-secondary', presentation.secondary);
   return mark;
 };
 
@@ -6434,11 +7199,17 @@ const deckSelectionMenuRenderMatchSide = (documentRef, side, team, caption) => {
     flag: team.flag,
     random: team.kind === 'random',
   }));
+  const copy = documentRef.createElement('span');
+  copy.className = 'quick-match-side__copy';
+  const captionNode = documentRef.createElement('span');
+  captionNode.className = 'quick-match-side__caption';
+  captionNode.textContent = caption;
   const name = documentRef.createElement('strong');
   name.textContent = team.label;
   const detail = documentRef.createElement('small');
-  detail.textContent = `${caption} · ${team.detail}`;
-  side.append(name, detail);
+  detail.textContent = team.detail;
+  copy.append(captionNode, name, detail);
+  side.appendChild(copy);
 };
 
 const deckSelectionMenuOpponentPreview = selection => {
@@ -6459,9 +7230,15 @@ const deckSelectionMenuOpponentPreview = selection => {
     }
     return { kind: 'club', label: matchup.ai.label, flag: '', detail: `${matchup.ai.count} kártya` };
   }
-  if (selection.kind === 'club') return { kind: 'club', label: 'Másik NB I-es klub', flag: '', detail: 'a gép véletlenszerűen választ' };
-  if (selection.kind === 'nation') return { kind: 'nation', label: 'Másik ligaválogatott', flag: '🌍', detail: 'a gép véletlenszerűen választ' };
-  return { kind: 'random', label: 'Véletlen ellenfél', flag: '', detail: 'a teljes adatbázisból' };
+  if (selection.kind === 'club') return { kind: 'club', label: 'A gép klubja', flag: '', detail: 'másik NB I-es klub sorsolása' };
+  if (selection.kind === 'nation') return { kind: 'nation', label: 'A gép válogatottja', flag: '🌍', detail: 'másik ligaválogatott sorsolása' };
+  return { kind: 'random', label: 'Véletlen ellenfél', flag: '', detail: 'sorsolás a teljes adatbázisból' };
+};
+
+const deckSelectionMenuSelectionFromEntry = (kind, entry) => {
+  if (kind === 'club') return { kind: 'club', value: entry.label };
+  if (kind === 'nation') return { kind: 'nation', value: entry.key };
+  return { ...RANDOM_DECK_SELECTION };
 };
 
 const deckSelectionMenuInsertSelector = ({
@@ -6481,35 +7258,108 @@ const deckSelectionMenuInsertSelector = ({
   };
   const details = documentRef.createElement('details');
   details.className = 'deck-selector';
-  details.open = true;
+  details.open = false;
 
   const summary = documentRef.createElement('summary');
+  summary.setAttribute('aria-label', 'Gyors meccs csapatválasztó megnyitása');
+  const summaryMark = documentRef.createElement('span');
+  summaryMark.className = 'deck-selector__summary-mark';
+  const activeTeam = deckSelectionMenuTeamFromSelection(activeSelection, players);
+  summaryMark.appendChild(deckSelectionMenuCreateTeamMark(documentRef, {
+    kind: activeTeam.kind,
+    label: activeTeam.label,
+    flag: activeTeam.flag,
+    random: activeTeam.kind === 'random',
+  }));
   const summaryCopy = documentRef.createElement('span');
-  summaryCopy.textContent = '⚡ Gyors meccs – csapatválasztás';
+  summaryCopy.className = 'deck-selector__launch-copy';
+  const summaryTitle = documentRef.createElement('span');
+  summaryTitle.className = 'deck-selector__launch-title';
+  summaryTitle.textContent = '⚡ Gyors meccs – csapatválasztás';
   const current = documentRef.createElement('small');
   current.className = 'deck-selector__current';
   current.textContent = describeDeckSelection(activeSelection, players);
-  summaryCopy.appendChild(current);
-  summary.appendChild(summaryCopy);
+  summaryCopy.append(summaryTitle, current);
+  summary.append(summaryMark, summaryCopy);
 
   const body = documentRef.createElement('div');
   body.className = 'deck-selector__body';
+  body.setAttribute('role', 'dialog');
+  body.setAttribute('aria-modal', 'true');
+  body.setAttribute('aria-labelledby', 'deck-selector-title');
+
+  const header = documentRef.createElement('header');
+  header.className = 'deck-selector__header';
+  const headingCopy = documentRef.createElement('div');
+  const eyebrow = documentRef.createElement('p');
+  eyebrow.className = 'deck-selector__eyebrow';
+  eyebrow.textContent = 'Gyors meccs';
+  const heading = documentRef.createElement('h1');
+  heading.id = 'deck-selector-title';
+  heading.textContent = 'Válaszd ki a csapatodat';
   const lead = documentRef.createElement('p');
   lead.className = 'deck-selector__lead';
-  lead.textContent = `Válaszd ki a saját klubodat vagy ligaválogatottadat. A gép mindig ugyanabból a kategóriából, de másik csapatot kap. A klubok legalább ${MIN_FILTERED_DECK_SIZE}, a ligaválogatottak legalább ${DECK_SELECTION_MENU_NATION_MINIMUM} használható kártyával jelennek meg.`;
+  lead.textContent = 'A gép egy másik klubot választ ellenfélnek. A választott csapatod a Klasszikus és a Büntetőpárbaj módban is ténylegesen bekerül a meccsbe.';
+  headingCopy.append(eyebrow, heading, lead);
+  const close = documentRef.createElement('button');
+  close.type = 'button';
+  close.className = 'deck-selector__close';
+  close.textContent = '×';
+  close.setAttribute('aria-label', 'Csapatválasztó bezárása');
+  header.append(headingCopy, close);
 
   const kinds = documentRef.createElement('div');
   kinds.className = 'deck-selector__kinds';
-  const kindButtons = DECK_SELECTION_MENU_KIND_DEFINITIONS.map(([kind, label]) => {
+  kinds.setAttribute('role', 'tablist');
+  kinds.setAttribute('aria-label', 'Csapatválasztási kategória');
+  const kindButtons = DECK_SELECTION_MENU_KIND_DEFINITIONS.map(definition => {
     const button = documentRef.createElement('button');
     button.type = 'button';
     button.className = 'deck-kind';
-    button.dataset.kind = kind;
-    button.textContent = label;
+    button.dataset.kind = definition.kind;
+    button.setAttribute('role', 'tab');
+    const icon = documentRef.createElement('span');
+    icon.className = 'deck-kind__icon';
+    icon.textContent = definition.icon;
+    icon.setAttribute('aria-hidden', 'true');
+    const copy = documentRef.createElement('span');
+    copy.className = 'deck-kind__copy';
+    const label = documentRef.createElement('strong');
+    label.textContent = definition.label;
+    const category = documentRef.createElement('small');
+    category.textContent = definition.category;
+    copy.append(label, category);
+    button.append(icon, copy);
     kinds.appendChild(button);
     return button;
   });
 
+  const arena = documentRef.createElement('div');
+  arena.className = 'deck-selector__arena';
+
+  const teamsPanel = documentRef.createElement('section');
+  teamsPanel.className = 'deck-selector__teams-panel';
+  const sectionHead = documentRef.createElement('div');
+  sectionHead.className = 'deck-selector__section-head';
+  const sectionCopy = documentRef.createElement('div');
+  const sectionTitle = documentRef.createElement('h2');
+  const sectionDescription = documentRef.createElement('p');
+  sectionCopy.append(sectionTitle, sectionDescription);
+  const optionCount = documentRef.createElement('span');
+  optionCount.className = 'deck-selector__option-count';
+  sectionHead.append(sectionCopy, optionCount);
+
+  const grid = documentRef.createElement('div');
+  grid.className = 'team-grid';
+  grid.setAttribute('role', 'listbox');
+  grid.setAttribute('aria-label', 'Választható csapatok');
+  teamsPanel.append(sectionHead, grid);
+
+  const matchPanel = documentRef.createElement('aside');
+  matchPanel.className = 'deck-selector__match-panel';
+  const matchTitle = documentRef.createElement('p');
+  matchTitle.className = 'deck-selector__match-title';
+  matchTitle.textContent = 'Meccspárosítás';
   const versus = documentRef.createElement('div');
   versus.className = 'quick-match-versus';
   const humanSide = documentRef.createElement('div');
@@ -6520,21 +7370,25 @@ const deckSelectionMenuInsertSelector = ({
   const aiSide = documentRef.createElement('div');
   aiSide.className = 'quick-match-side quick-match-side--ai';
   versus.append(humanSide, vs, aiSide);
+  const opponentNote = documentRef.createElement('p');
+  opponentNote.className = 'deck-selector__opponent-note';
+  opponentNote.textContent = 'Az ellenfél csak a meccs indításakor kerül kisorsolásra, és nem lehet azonos a saját csapatoddal.';
+  matchPanel.append(matchTitle, versus, opponentNote);
+  arena.append(teamsPanel, matchPanel);
 
-  const grid = documentRef.createElement('div');
-  grid.className = 'team-grid';
-  grid.setAttribute('role', 'listbox');
-  grid.setAttribute('aria-label', 'Választható csapatok');
-
+  const footer = documentRef.createElement('footer');
+  footer.className = 'deck-selector__footer';
+  const note = documentRef.createElement('p');
+  note.className = 'deck-selector__note';
+  note.textContent = `Csak legalább ${MIN_FILTERED_DECK_SIZE} használható kártyával rendelkező klubok és legalább ${DECK_SELECTION_MENU_NATION_MINIMUM} kártyás ligaválogatottak jelennek meg. A címerek a játék jogtiszta, generált klubszíneit használják.`;
   const apply = documentRef.createElement('button');
   apply.type = 'button';
   apply.className = 'btn deck-selector__apply';
-  apply.textContent = 'Csapat kiválasztása';
   apply.setAttribute('aria-label', 'Pakli alkalmazása');
+  footer.append(note, apply);
 
-  const note = documentRef.createElement('p');
-  note.className = 'deck-selector__note';
-  note.textContent = 'A kiválasztott párosítás a Klasszikus és a Büntetőpárbaj módban is működik. A klubjelvények jogtiszta, színezett körlogók; a ligaválogatottaknál országzászló jelenik meg.';
+  body.append(header, kinds, arena, footer);
+  details.append(summary, body);
 
   let draft = normaliseDeckSelection(activeSelection);
 
@@ -6545,13 +7399,35 @@ const deckSelectionMenuInsertSelector = ({
   };
 
   const setDraftValue = entry => {
-    if (draft.kind === 'club') draft = { kind: 'club', value: entry.label };
-    else if (draft.kind === 'nation') draft = { kind: 'nation', value: entry.key };
+    draft = deckSelectionMenuSelectionFromEntry(draft.kind, entry);
   };
 
   const renderPreview = () => {
-    deckSelectionMenuRenderMatchSide(documentRef, humanSide, deckSelectionMenuTeamFromSelection(draft, players), 'Saját csapat');
-    deckSelectionMenuRenderMatchSide(documentRef, aiSide, deckSelectionMenuOpponentPreview(draft), 'Gép');
+    deckSelectionMenuRenderMatchSide(
+      documentRef,
+      humanSide,
+      deckSelectionMenuTeamFromSelection(draft, players),
+      'Saját csapat',
+    );
+    deckSelectionMenuRenderMatchSide(
+      documentRef,
+      aiSide,
+      deckSelectionMenuOpponentPreview(draft),
+      'Gép',
+    );
+  };
+
+  const appendTileMeta = (tile, kind, count) => {
+    const meta = documentRef.createElement('span');
+    meta.className = 'team-tile__meta';
+    const category = documentRef.createElement('span');
+    category.className = 'team-tile__category';
+    category.textContent = deckSelectionMenuCategoryLabel(kind);
+    const cardCount = documentRef.createElement('small');
+    cardCount.className = 'team-tile__count';
+    cardCount.textContent = `${count} kártya`;
+    meta.append(category, cardCount);
+    tile.appendChild(meta);
   };
 
   const renderGrid = () => {
@@ -6559,17 +7435,21 @@ const deckSelectionMenuInsertSelector = ({
     if (draft.kind === 'random') {
       const tile = documentRef.createElement('button');
       tile.type = 'button';
-      tile.className = 'team-tile is-selected';
+      tile.className = 'team-tile team-tile--random is-selected';
       tile.setAttribute('role', 'option');
       tile.setAttribute('aria-selected', 'true');
+      tile.setAttribute('aria-label', `Teljesen véletlen csapat, ${options.total} használható kártya`);
+      deckSelectionMenuApplyPalette(tile, 'random', 'Véletlen');
       tile.appendChild(deckSelectionMenuCreateTeamMark(documentRef, { kind: 'random', label: 'Véletlen', random: true }));
       const label = documentRef.createElement('span');
       label.className = 'team-tile__name';
       label.textContent = 'Teljesen véletlen';
-      const count = documentRef.createElement('small');
-      count.className = 'team-tile__count';
-      count.textContent = `${options.total} használható kártya`;
-      tile.append(label, count);
+      tile.appendChild(label);
+      appendTileMeta(tile, 'random', options.total);
+      const colours = documentRef.createElement('span');
+      colours.className = 'team-tile__colours';
+      colours.setAttribute('aria-hidden', 'true');
+      tile.appendChild(colours);
       grid.appendChild(tile);
       return;
     }
@@ -6585,6 +7465,9 @@ const deckSelectionMenuInsertSelector = ({
         : canonicalNationKey(draft.value) === entry.key;
       tile.classList.toggle('is-selected', selected);
       tile.setAttribute('aria-selected', String(selected));
+      const visibleLabel = draft.kind === 'nation' ? `${entry.label} ligaválogatott` : entry.label;
+      tile.setAttribute('aria-label', `${visibleLabel}, ${deckSelectionMenuCategoryLabel(draft.kind)}, ${entry.count} kártya`);
+      deckSelectionMenuApplyPalette(tile, draft.kind, entry.label);
       tile.appendChild(deckSelectionMenuCreateTeamMark(documentRef, {
         kind: draft.kind,
         label: entry.label,
@@ -6592,11 +7475,13 @@ const deckSelectionMenuInsertSelector = ({
       }));
       const label = documentRef.createElement('span');
       label.className = 'team-tile__name';
-      label.textContent = draft.kind === 'nation' ? `${entry.label} ligaválogatott` : entry.label;
-      const count = documentRef.createElement('small');
-      count.className = 'team-tile__count';
-      count.textContent = `${entry.count} kártya`;
-      tile.append(label, count);
+      label.textContent = visibleLabel;
+      tile.appendChild(label);
+      appendTileMeta(tile, draft.kind, entry.count);
+      const colours = documentRef.createElement('span');
+      colours.className = 'team-tile__colours';
+      colours.setAttribute('aria-hidden', 'true');
+      tile.appendChild(colours);
       tile.addEventListener('click', () => {
         setDraftValue(entry);
         render();
@@ -6605,8 +7490,25 @@ const deckSelectionMenuInsertSelector = ({
     }
   };
 
+  const renderSectionHeader = () => {
+    const definition = deckSelectionMenuKindDefinition(draft.kind);
+    const entries = entriesForDraft();
+    sectionTitle.textContent = definition.category;
+    sectionDescription.textContent = draft.kind === 'club'
+      ? 'Válassz egy NB I-es klubot a játékban elérhető kártyák alapján.'
+      : draft.kind === 'nation'
+        ? 'Legalább hét azonos nemzetiségű NB I-es játékosból álló keretek.'
+        : 'A saját és a gépi pakli is a teljes adatbázisból készül.';
+    optionCount.textContent = draft.kind === 'random' ? '1 lehetőség' : `${entries.length} csapat`;
+  };
+
   const render = () => {
-    kindButtons.forEach(button => button.classList.toggle('is-active', button.dataset.kind === draft.kind));
+    kindButtons.forEach(button => {
+      const active = button.dataset.kind === draft.kind;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
     const entries = entriesForDraft();
     if (draft.kind !== 'random') {
       const exists = draft.kind === 'club'
@@ -6614,22 +7516,46 @@ const deckSelectionMenuInsertSelector = ({
         : entries.some(entry => entry.key === canonicalNationKey(draft.value));
       if (!exists && entries[0]) setDraftValue(entries[0]);
     }
+    renderSectionHeader();
     renderPreview();
     renderGrid();
     apply.disabled = draft.kind !== 'random' && entriesForDraft().length === 0;
+    apply.textContent = draft.kind === 'random' ? 'Véletlen csapattal játszom' : 'Ezzel a csapattal játszom';
+  };
+
+  const closeSelector = () => {
+    details.open = false;
+    summary.focus?.({ preventScroll: true });
   };
 
   for (const button of kindButtons) {
     button.addEventListener('click', () => {
-      draft = { kind: button.dataset.kind, value: '' };
+      draft = button.dataset.kind === 'random'
+        ? { ...RANDOM_DECK_SELECTION }
+        : { kind: button.dataset.kind, value: '' };
       render();
     });
   }
 
+  close.addEventListener('click', closeSelector);
+  body.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    event.preventDefault();
+    closeSelector();
+  });
+  details.addEventListener('toggle', () => {
+    if (!details.open) {
+      draft = normaliseDeckSelection(activeSelection);
+      render();
+      return;
+    }
+    globalThis.requestAnimationFrame?.(() => close.focus?.({ preventScroll: true }));
+  });
+
   apply.addEventListener('click', () => {
     const next = normaliseDeckSelection(draft);
     if (selectionEquals(next, activeSelection)) {
-      details.open = false;
+      closeSelector();
       return;
     }
     if (storage.hasSavedMatch() && !confirmReplace(DECK_SELECTION_MENU_CONFIRM_MESSAGE)) return;
@@ -6637,8 +7563,6 @@ const deckSelectionMenuInsertSelector = ({
     reload();
   });
 
-  body.append(lead, kinds, versus, grid, apply, note);
-  details.append(summary, body);
   panel.querySelector('.primary-mode-actions')?.before(details);
   render();
 };
