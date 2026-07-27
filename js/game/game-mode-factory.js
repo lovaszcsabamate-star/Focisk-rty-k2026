@@ -8,10 +8,18 @@ export const GAME_MODE = Object.freeze({
   PENALTIES: 'penalties',
 });
 
+const createClassicGame = ({ players, rng }) => {
+  const game = new Game({ players, rng });
+  /* A Klasszikus mód minden új meccse látható kategóriaválasztással indul.
+     A Büntetőpárbaj saját motorja továbbra is véletlenszerű kezdőt használ. */
+  game.chooser = HUMAN;
+  return game;
+};
+
 const gameModeDefaultDefinitions = Object.freeze({
   [GAME_MODE.CLASSIC]: Object.freeze({
     id: GAME_MODE.CLASSIC,
-    create: ({ players, rng }) => new Game({ players, rng }),
+    create: createClassicGame,
     aiDeck: game => game.players,
   }),
   [GAME_MODE.PENALTIES]: Object.freeze({
