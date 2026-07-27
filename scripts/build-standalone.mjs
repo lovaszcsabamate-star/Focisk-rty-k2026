@@ -100,6 +100,7 @@ const moduleOrder = [
   'js/visual-settings-persistence.js',
   'js/visual-system.js',
   'js/visual-hierarchy.js',
+  'js/gameplay-experience.js',
   'js/legal-ui.js',
   'js/ui/ui-enhancement-pipeline.js',
   'js/main.js',
@@ -119,6 +120,7 @@ const uiEnhancementFiles = new Set([
   'js/visual-settings-persistence.js',
   'js/visual-system.js',
   'js/visual-hierarchy.js',
+  'js/gameplay-experience.js',
   'js/legal-ui.js',
 ]);
 
