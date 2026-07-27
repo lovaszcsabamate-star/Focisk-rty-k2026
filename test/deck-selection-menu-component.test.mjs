@@ -111,8 +111,11 @@ assert.equal(typeof defaultCleanup, 'function');
 defaultCleanup();
 
 const componentSource = readSource('../js/ui/deck-selection-menu-component.js');
+const selectorCss = readSource('../css/deck-selection-menu.css');
 const compatibilitySource = readSource('../js/deck-selection.js');
 const buildSource = readSource('../scripts/build-standalone.mjs');
+const buildWithSettingsSource = readSource('../scripts/build-standalone-with-settings.mjs');
+const indexSource = readSource('../index.html');
 const serviceWorkerSource = readSource('../sw.js');
 
 assert.match(componentSource, /createDeckSelectionMenuController/);
@@ -121,6 +124,23 @@ assert.match(componentSource, /deck-selection-styles/);
 assert.match(componentSource, /Pakli alkalmazása/);
 assert.match(componentSource, /A pakli cseréje törli a jelenlegi mentett mérkőzést/);
 assert.match(componentSource, /deckSelectionStorageService/);
+assert.match(componentSource, /Válaszd ki a csapatodat/);
+assert.match(componentSource, /A gép egy másik klubot választ ellenfélnek/);
+assert.match(componentSource, /Magyar bajnokság/);
+assert.match(componentSource, /team-tile__colours/);
+assert.match(componentSource, /Ezzel a csapattal játszom/);
+assert.match(componentSource, /role', 'dialog/);
+assert.match(componentSource, /aria-modal/);
+assert.match(selectorCss, /\.deck-selector\[open\] > \.deck-selector__body/);
+assert.match(selectorCss, /position:\s*fixed/);
+assert.match(selectorCss, /grid-template-columns:\s*repeat\(3/);
+assert.match(selectorCss, /@media \(max-width: 700px\)/);
+assert.match(selectorCss, /prefers-reduced-motion/);
+assert.match(indexSource, /css\/deck-selection-menu\.css/);
+assert.match(buildWithSettingsSource, /TEAM_SELECTOR_CSS_LINK/);
+assert.match(buildWithSettingsSource, /teamSelectorCss/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v74/);
+assert.match(serviceWorkerSource, /\.\/css\/deck-selection-menu\.css/);
 assert.match(compatibilitySource, /\.\/ui\/deck-selection-menu-component\.js/);
 assert.match(compatibilitySource, /installDeckSelectionMenu/);
 assert.doesNotMatch(
@@ -134,4 +154,4 @@ assert.ok(
 );
 assert.match(serviceWorkerSource, /\.\/js\/ui\/deck-selection-menu-component\.js/);
 
-console.log('✓ Pakliválasztó DOM-komponens, observer-életciklus és kompatibilis homlokzat: rendben');
+console.log('✓ Teljes képernyős Gyors meccs csapatválasztó, reszponzív stílus, PWA és kompatibilis homlokzat: rendben');
