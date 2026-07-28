@@ -2,6 +2,7 @@ import {
   UNKNOWN_NATIONALITY,
   countryCodeToFlagAsset,
   countryCodeToFlagEmoji,
+  countryCodeToNationality,
   normaliseCountryCode,
   resolvePlayerNationality,
 } from '../data/nationalities.js';
@@ -25,7 +26,7 @@ export function createCountryFlagElement(documentRef, {
   compact = false,
 } = {}) {
   const code = normaliseCountryCode(countryCode);
-  const label = nationality || UNKNOWN_NATIONALITY;
+  const label = nationality || (code ? countryCodeToNationality[code] : null) || UNKNOWN_NATIONALITY;
   const wrapper = documentRef.createElement('span');
   wrapper.className = `nationality-flag${compact ? ' nationality-flag--compact' : ''}${className ? ` ${className}` : ''}`;
   wrapper.title = label;
@@ -61,7 +62,14 @@ export function createCountryFlagElement(documentRef, {
 }
 
 export function createPlayerFlagElement(documentRef, player, options = {}) {
-  const resolved = resolvePlayerNationality(player);
+  const countryCode = normaliseCountryCode(player?.countryCode);
+  const resolved = countryCode
+    ? {
+      countryCode,
+      nationality: player?.nationality ?? countryCodeToNationality[countryCode],
+      known: true,
+    }
+    : resolvePlayerNationality(player);
   if (!resolved.known) warnUnknownFlag(player);
   return createCountryFlagElement(documentRef, {
     countryCode: resolved.countryCode,
