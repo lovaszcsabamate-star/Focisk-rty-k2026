@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "databaseId": "hungary-nb1-2025-26",
-  "databaseVersion": "3.1.0",
+  "databaseVersion": "3.2.0",
   "competitionId": "hungary-nb1",
   "seasonId": "2025-26",
   "season": "2025/26",
@@ -15,7 +15,7 @@
   "generatedAt": "2026-07-19T17:51:18.342Z",
   "outputFile": "data/databases/hungary-nb1-2025-26/players.normalized.json",
   "reportFile": "data/databases/hungary-nb1-2025-26/normalization-report.json",
-  "playerModelVersion": 1,
+  "playerModelVersion": 2,
   "playerCount": 440,
   "registrationRecords": 464,
   "sourceFiles": [
@@ -51,6 +51,7 @@
     "data/club-official-corrections-3.json",
     "data/club-official-corrections-4-kisvarda-selected10-2.json",
     "data/club-official-corrections-5-puskas.json",
+    "data/club-official-corrections-6-nationalities.json",
     "data/club-official-stat-patches-kisvarda.json",
     "data/club-official-stat-patches-kisvarda-selected10.json",
     "data/club-official-stat-patches-kisvarda-selected10-2.json",
@@ -65,11 +66,11 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "5b2ccddcc9af766dfde6f7d59f6881d885070347f71ab44fd363e4d61c89bfb4",
-  "playersDigest": "f934529fda71d54c4b340c55600500b6013a267064931caf8442e572430b2141",
+  "sourceDigest": "ba640fa0e42350d4b0c32c496fbec126aab6d6c91cf7febaf2a73762c182f4cd",
+  "playersDigest": "e7597dc8ec411f318be5e4d5d42d26061551cf029330901304dcb97ff5da27a0",
   "sourceLayerCounts": {
     "enrichments": 24,
-    "corrections": 5,
+    "corrections": 6,
     "statPatches": 13
   },
   "validation": {
@@ -77,11 +78,20 @@
     "errorCount": 0,
     "warningCount": 0,
     "informationCount": 440,
+    "nationality": {
+      "playerCount": 440,
+      "missingNationalityCount": 0,
+      "missingCountryCodeCount": 0,
+      "unknownCountryCodeCount": 0,
+      "britishMisassignmentCount": 0,
+      "contradictionCount": 0,
+      "validCount": 440
+    },
     "errors": [],
     "warnings": []
   },
   "completeness": {
-    "averageRatio": 0.8393,
+    "averageRatio": 0.8488,
     "completeRecords": 20,
     "incompleteRecords": 420,
     "missingFieldCounts": {
