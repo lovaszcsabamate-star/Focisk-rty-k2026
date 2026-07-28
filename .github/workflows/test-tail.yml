@@ -1,0 +1,30 @@
+name: Test tail diagnostics
+
+on:
+  pull_request:
+    paths:
+      - '**/*.js'
+      - '**/*.mjs'
+      - '**/*.json'
+      - 'index.html'
+      - 'css/**'
+      - '.github/workflows/test-tail.yml'
+
+jobs:
+  test-tail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Full test with concise failure output
+        shell: bash
+        run: |
+          set +e
+          npm test > /tmp/full-test.log 2>&1
+          status=$?
+          tail -n 140 /tmp/full-test.log
+          exit $status
