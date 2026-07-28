@@ -68,6 +68,7 @@ const moduleOrder = [
   'js/app/configuration.js',
   'js/services/storage-service.js',
   'js/services/asset-service.js',
+  'js/data/nationalities.js',
   'js/domain/deck-selection-domain.js',
   'js/services/deck-selection-storage-service.js',
   'js/ui/deck-selection-menu-component.js',
@@ -86,12 +87,14 @@ const moduleOrder = [
   'js/game/game-runtime.js',
   'js/banter.js',
   'js/ui/dom-primitives.js',
+  'js/ui/flag-component.js',
   'js/ui/card-component.js',
   'js/ui/scoreboard-component.js',
   'js/ui/attribute-picker-component.js',
   'js/ui.js',
   'js/ux.js',
   'js/ux-fixes.js',
+  'js/nationality-ui-enhancement.js',
   'js/matchday.js',
   'js/opponents.js',
   'js/pwa.js',
@@ -116,6 +119,7 @@ const moduleOrder = [
 const uiEnhancementFiles = new Set([
   'js/ux.js',
   'js/ux-fixes.js',
+  'js/nationality-ui-enhancement.js',
   'js/matchday.js',
   'js/opponents.js',
   'js/mobile-experience.js',
@@ -145,9 +149,23 @@ const flattenModuleFile = file => {
   return `\n/* ===== ${file} · isolated UI class layer ===== */\nbeginUiEnhancementLayer(${layerName});\n${flattened}\ncommitUiEnhancementLayer(${layerName});`;
 };
 
-const bundle = moduleOrder
+const flagAssetDataUris = Object.fromEntries([
+  'assets/flags/gb-eng.svg',
+  'assets/flags/gb-sct.svg',
+  'assets/flags/gb-wls.svg',
+  'assets/flags/gb-nir.svg',
+].map(relative => [
+  relative,
+  `data:image/svg+xml;base64,${fs.readFileSync(path.join(ROOT, relative)).toString('base64')}`,
+]));
+
+let bundle = moduleOrder
   .map(flattenModuleFile)
   .join('\n');
+for (const [assetPath, dataUri] of Object.entries(flagAssetDataUris)) {
+  bundle = bundle.replaceAll(assetPath, dataUri);
+}
+
 const basePayload = JSON.parse(read(playerFile));
 const enrichmentParts = enrichmentFiles.map(file => JSON.parse(read(file)));
 const correctionParts = correctionFiles.map(file => JSON.parse(read(file)));
@@ -232,7 +250,7 @@ const standalonePayload = {
 const safeJson = JSON.stringify(standalonePayload).replace(/<\/script/gi, '<\\/script');
 const safeDatabase = JSON.stringify(databaseManifest).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}\n\n${read('css/nationality-flags.css')}`;
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -269,6 +287,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/legal-ui.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/visual-hierarchy.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/category-picker.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/nationality-flags.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/branding.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
