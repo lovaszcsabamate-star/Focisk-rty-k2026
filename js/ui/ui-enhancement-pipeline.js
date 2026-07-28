@@ -21,7 +21,6 @@ export const UI_ENHANCEMENT_MODULES = Object.freeze([
   '../visual-system.js',
   '../visual-hierarchy.js',
   '../gameplay-experience.js',
-  '../playability-visual-upgrade.js',
   '../legal-ui.js',
 ]);
 
