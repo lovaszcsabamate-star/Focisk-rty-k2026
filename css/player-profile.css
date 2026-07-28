@@ -1,6 +1,30 @@
-/* Persistent player profile editor. */
+/* Persistent player profile creation and settings editor. */
+
+.player-profile-create-action {
+  margin: 14px 0 6px;
+}
+
+.btn--profile {
+  width: 100%;
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+
+.btn--profile small {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+  opacity: .78;
+}
+
+.player-profile-host,
+.player-profile-settings-host {
+  min-width: 0;
+}
 
 .player-profile {
+  min-width: 0;
   margin: 16px 0 4px;
   padding: 14px;
   border: 1px solid rgba(232, 195, 122, .34);
@@ -21,10 +45,42 @@
   line-height: 1.45;
 }
 
+.player-profile__details {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.player-profile__detail {
+  display: grid;
+  grid-template-columns: minmax(96px, .7fr) minmax(0, 1.3fr);
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(232, 195, 122, .22);
+  border-radius: 10px;
+  background: rgba(19, 13, 9, .48);
+}
+
+.player-profile__detail dt {
+  color: #bfae95;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.player-profile__detail dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #fff7df;
+  font-size: 15px;
+  font-weight: 850;
+}
+
 .player-profile__form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
   gap: 10px;
 }
 
@@ -65,6 +121,11 @@
   border-color: #e8c37a;
 }
 
+.player-profile__input[aria-invalid='true'] {
+  border-color: #e28a8a;
+  box-shadow: 0 0 0 1px rgba(226, 138, 138, .32);
+}
+
 .player-profile__help {
   color: #bfae95;
   font-size: 10px;
@@ -74,23 +135,47 @@
   text-transform: none;
 }
 
-.player-profile__save {
-  min-width: 118px;
-  white-space: nowrap;
+.player-profile__actions,
+.player-profile__form-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.player-profile__actions .btn,
+.player-profile__form-actions .btn {
+  min-width: 0;
+  width: 100%;
 }
 
 .player-profile__status {
   display: block;
   min-height: 18px;
-  margin-top: 6px;
-  color: #9ed8a8;
+  color: #e6a0a0;
   font-size: 12px;
   font-weight: 800;
+  line-height: 1.35;
+}
+
+.player-profile__status[data-tone='success'] {
+  color: #9ed8a8;
+}
+
+.player-profile__empty {
+  padding: 10px 12px;
+  border: 1px dashed rgba(232, 195, 122, .3);
+  border-radius: 10px;
+  background: rgba(19, 13, 9, .35);
 }
 
 .settings-panel .player-profile {
   margin-top: 12px;
   margin-bottom: 16px;
+}
+
+.player-profile-delete-confirm strong {
+  overflow-wrap: anywhere;
+  color: #fff7df;
 }
 
 /* The saved name must never widen or break the HUD. The score value stays in
@@ -140,11 +225,24 @@
 }
 
 @media (max-width: 520px) {
-  .player-profile__form {
+  .player-profile {
+    padding: 12px;
+  }
+
+  .player-profile__detail {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .player-profile__actions,
+  .player-profile__form-actions {
     grid-template-columns: 1fr;
   }
 
-  .player-profile__save {
+  .player-profile__save,
+  .player-profile__cancel,
+  .player-profile__edit,
+  .player-profile__delete {
     width: 100%;
   }
 
@@ -159,5 +257,17 @@
   #hud-scores .penalty-score {
     max-width: 84vw;
     font-size: clamp(9px, 3vw, 12px);
+  }
+}
+
+@media (forced-colors: active) {
+  .player-profile,
+  .player-profile__detail,
+  .player-profile__empty,
+  .player-profile__input {
+    border-color: ButtonText;
+    background: Canvas;
+    color: CanvasText;
+    forced-color-adjust: auto;
   }
 }

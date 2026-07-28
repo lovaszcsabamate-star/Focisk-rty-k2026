@@ -80,14 +80,32 @@ assert.match(usabilityJs, /UI\.prototype\.renderCard\s*=\s*function renderCardWi
 assert.match(usabilityJs, /nameNode\.textContent\s*=\s*displayName/);
 assert.match(usabilityJs, /\.replace\(\/\[…\]\+\/gu,\s*' '\)/);
 
+assert.match(profileCss, /\.player-profile-create-action\s*\{/);
+assert.match(profileCss, /\.player-profile__actions,[\s\S]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+assert.match(profileCss, /@media \(max-width: 520px\)[\s\S]*\.player-profile__form-actions\s*\{[\s\S]*grid-template-columns:\s*1fr;/);
 assert.match(profileCss, /#hud-scores \.score:first-child span:first-child\s*\{[^}]*text-overflow:\s*ellipsis;/s);
 assert.match(profileCss, /#hud-scores \.penalty-score\s*\{[^}]*white-space:\s*nowrap;/s);
 assert.match(profileCss, /\.final-score\s*\{[^}]*overflow-wrap:\s*anywhere;/s);
 
 assert.match(profileJs, /PLAYER_NAME_STORAGE_KEY\s*=\s*APP_STORAGE_KEYS\.playerName/);
+assert.match(profileJs, /PLAYER_PROFILE_SAVED_STORAGE_KEY\s*=\s*APP_STORAGE_KEYS\.playerProfileSaved/);
 assert.match(configurationJs, /playerName:\s*'fociskartyak:player-name:v1'/, 'A játékosnév tárolási kulcsának változatlannak kell maradnia.');
+assert.match(configurationJs, /playerProfileSaved:\s*'fociskartyak:player-profile-saved:v1'/);
 assert.match(profileJs, /DEFAULT_PLAYER_NAME\s*=\s*'Játékos'/);
+assert.match(profileJs, /fociskartyak:player-profile-changed/);
 assert.match(profileJs, /fociskartyak:player-name-changed/);
+assert.match(profileJs, /export function hasPlayerProfile\(\)/);
+assert.match(profileJs, /export function loadPlayerProfile\(\)/);
+assert.match(profileJs, /export function savePlayerProfile\(value\)/);
+assert.match(profileJs, /export function deletePlayerProfile\(\)/);
+assert.match(profileJs, /createPlayerProfileEditor/);
+assert.doesNotMatch(profileJs, /function injectEditors|injectEditors\(\)/);
+assert.match(profileJs, /root\.matches\?\.\('\.mobile-home'\)/);
+assert.match(profileJs, /root\.matches\?\.\('\.settings-panel'\)/);
+assert.match(profileJs, /Játékosprofil sikeresen elmentve\./);
+assert.match(profileJs, /A profil módosításai elmentve\./);
+assert.match(profileJs, /A játékosprofil törölve\./);
+assert.match(profileJs, /playerProfileRenderDeleteConfirmation/);
 assert.match(profileJs, /\['Penalties mód',\s*'Büntetőpárbaj'\]/);
 assert.match(profileJs, /\['Tizenegyes mód',\s*'Büntetőpárbaj'\]/);
 
@@ -122,4 +140,4 @@ assert.match(serviceWorker, /js\/reliability-fixes\.js/);
 assert.match(serviceWorker, /js\/usability-fixes\.js/);
 assert.match(serviceWorker, /css\/phase-refinements\.css/);
 
-console.log('✓ A kártyanevek, kategóriakarusszel, kijelölés, kétirányú kártyanézegető, frissítés és offline mód rendben');
+console.log('✓ A profilállapot, kártyanevek, kategóriakarusszel, kijelölés, frissítés és offline mód rendben');
