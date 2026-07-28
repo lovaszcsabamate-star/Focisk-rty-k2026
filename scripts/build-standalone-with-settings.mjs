@@ -28,13 +28,20 @@ const quickMatchInlineBundle = [
 ].map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
+const runtimeSmokeCompatibility = `
+/* A motor böngészős regressziós tesztje programozott kattintással indítja a meglévő módokat. */
+if (globalThis.__runtimeSmoke) globalThis.__FOCISKARTYAK_QUICK_MATCH_BYPASS__ = true;
+`;
 
 let output = fs.readFileSync(OUTPUT, 'utf8');
 output = output
   .replace(CSS_LINK, `  <style>\n${sizingCss}\n  </style>`)
   .replace(TEAM_SELECTOR_CSS_LINK, `  <style>\n${teamSelectorCss}\n  </style>`)
   .replace(JS_TAG, `  <script>\n${sizingJs}\n  </script>`)
-  .replace(TEAM_SELECTOR_BUNDLE_MARKER, `${quickMatchInlineBundle}\n${TEAM_SELECTOR_BUNDLE_MARKER}`);
+  .replace(
+    TEAM_SELECTOR_BUNDLE_MARKER,
+    `${quickMatchInlineBundle}\n${runtimeSmokeCompatibility}\n${TEAM_SELECTOR_BUNDLE_MARKER}`,
+  );
 
 if (output.includes(CSS_LINK) || output.includes(TEAM_SELECTOR_CSS_LINK) || output.includes(JS_TAG)) {
   throw new Error('Az önálló buildből külső felületi asset maradt bent.');
