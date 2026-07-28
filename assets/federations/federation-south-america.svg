@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Dél-Amerika régiócsapat embléma</title>
+  <desc id="desc">Egyedi sötétzöld kör alakú embléma világoskék stilizált Dél-Amerika térképpel.</desc>
+  <circle cx="80" cy="80" r="75" fill="#155b48"/>
+  <circle cx="80" cy="80" r="65" fill="none" stroke="#75c7e8" stroke-width="5"/>
+  <path fill="#75c7e8" d="M48 37 70 28l28 8 15 15-7 13-15 8-3 18-10 12-5 24-11 9-5-18-9-14-2-20-12-12 6-13-6-10z"/>
+  <path fill="#f5fbfc" d="m58 42 13-6 19 5 11 9-6 8-13 6-4 17-8 10-6-8 1-15-12-9 5-8z" opacity=".9"/>
+  <path fill="#155b48" d="m67 101 8 3-4 19-8 7-3-13z"/>
+</svg>
