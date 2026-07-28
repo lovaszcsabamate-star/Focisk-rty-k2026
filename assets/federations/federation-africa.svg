@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Afrika régiócsapat embléma</title>
+  <desc id="desc">Egyedi zöld pajzs arany stilizált Afrika térképpel.</desc>
+  <path fill="#15583a" d="M80 6 145 30v48c0 38-24 62-65 77C39 140 15 116 15 78V30z"/>
+  <path fill="none" stroke="#d6ad42" stroke-width="5" d="M80 15 136 36v42c0 31-19 52-56 67-37-15-56-36-56-67V36z"/>
+  <path fill="#d6ad42" d="M58 38 78 30l22 8 13 17-6 13-10 5-4 18-9 10-3 22-9-6-6-16-10-8-5-18-10-9 7-15z"/>
+  <path fill="#111713" d="m66 46 12-6 14 5 10 12-6 8-10 3-5 14-7 7-7-5-3-13-9-8 5-8z" opacity=".78"/>
+  <circle cx="81" cy="65" r="4" fill="#f4ead0"/>
+</svg>
