@@ -2,14 +2,11 @@ import {
   loadDatabase,
 } from './database/database-service.js';
 import {
-  applyDeckSelectionToPayload,
-  buildDeckSelectionOptions,
-  canonicalClubKey,
+  buildQuickMatchPayload,
   describeDeckSelection,
   installDeckSelectionMenu,
-  nationPresentation,
   readDeckSelection,
-  resolveDeckSelection,
+  readQuickMatchSetup,
 } from './deck-selection.js';
 import { installUiEnhancementPipeline } from './ui/ui-enhancement-pipeline.js';
 
@@ -29,112 +26,6 @@ function showFatalError(error) {
   loading.querySelector('#retry-load-btn')?.addEventListener('click', () => location.reload(), { once: true });
 }
 
-const quickMatchTeam = (selection, count) => {
-  if (selection.kind === 'nation') {
-    const nation = nationPresentation(selection.value);
-    return Object.freeze({
-      kind: 'nation',
-      key: nation.key,
-      value: nation.key,
-      label: `${nation.label} ligaválogatott`,
-      icon: nation.flag,
-      count,
-    });
-  }
-  return Object.freeze({
-    kind: 'club',
-    key: canonicalClubKey(selection.value),
-    value: String(selection.value ?? '').trim(),
-    label: String(selection.value ?? '').trim(),
-    icon: '🛡️',
-    count,
-  });
-};
-
-const quickMatchDecorate = (players, side, team) => players.map(player => ({
-  ...player,
-  meta: {
-    ...(player?.meta ?? {}),
-    quickMatchSide: side,
-    quickMatchTeamKind: team.kind,
-    quickMatchTeamKey: team.key,
-    quickMatchTeamLabel: team.label,
-  },
-}));
-
-function buildQuickMatchPayload(playablePayload, selection) {
-  if (!selection || selection.kind === 'random') {
-    return { payload: applyDeckSelectionToPayload(playablePayload, selection), matchup: null };
-  }
-
-  const humanPlayers = resolveDeckSelection(playablePayload.players, selection);
-  const minimum = selection.kind === 'nation' ? 7 : 11;
-  if (humanPlayers.length < minimum) {
-    return { payload: applyDeckSelectionToPayload(playablePayload, { kind: 'random', value: '' }), matchup: null };
-  }
-  const humanDeckMeta = {
-    ...selection,
-    label: describeDeckSelection(selection, playablePayload.players),
-    availableCards: humanPlayers.length,
-    minimumCards: minimum,
-  };
-  const basePayload = {
-    ...(playablePayload ?? {}),
-    players: humanPlayers,
-    deckSelection: humanDeckMeta,
-    selection: {
-      ...(playablePayload?.selection ?? {}),
-      deckSelection: humanDeckMeta,
-    },
-  };
-  const options = buildDeckSelectionOptions(playablePayload.players, 7);
-  const entries = selection.kind === 'club'
-    ? options.clubs.filter(entry => entry.count >= 11)
-    : options.nations;
-  const selectedKey = selection.kind === 'club'
-    ? canonicalClubKey(selection.value)
-    : nationPresentation(selection.value).key;
-  const opponents = entries.filter(entry => entry.key !== selectedKey);
-  if (!humanPlayers.length || !opponents.length) {
-    return { payload: applyDeckSelectionToPayload(playablePayload, { kind: 'random', value: '' }), matchup: null };
-  }
-
-  const opponentEntry = opponents[Math.floor(Math.random() * opponents.length)];
-  const opponentSelection = selection.kind === 'club'
-    ? { kind: 'club', value: opponentEntry.label }
-    : { kind: 'nation', value: opponentEntry.key };
-  const aiPlayers = resolveDeckSelection(playablePayload.players, opponentSelection);
-  if (!aiPlayers.length) {
-    return { payload: applyDeckSelectionToPayload(playablePayload, { kind: 'random', value: '' }), matchup: null };
-  }
-
-  const humanTeam = quickMatchTeam(selection, humanPlayers.length);
-  const aiTeam = quickMatchTeam(opponentSelection, aiPlayers.length);
-  const matchup = Object.freeze({
-    enabled: true,
-    category: selection.kind,
-    human: humanTeam,
-    ai: aiTeam,
-  });
-  const players = [
-    ...quickMatchDecorate(humanPlayers, 'human', humanTeam),
-    ...quickMatchDecorate(aiPlayers, 'ai', aiTeam),
-  ];
-
-  return {
-    matchup,
-    payload: {
-      ...basePayload,
-      players,
-      quickMatch: matchup,
-      selection: {
-        ...(basePayload.selection ?? {}),
-        quickMatch: matchup,
-      },
-    },
-  };
-}
-
 try {
   await installUiEnhancementPipeline();
   const loaded = await loadDatabase();
@@ -146,8 +37,13 @@ try {
     validation,
     statistics,
   } = loaded;
-  const deckSelection = readDeckSelection(playablePayload.players);
-  const quickMatch = buildQuickMatchPayload(playablePayload, deckSelection);
+  const quickMatchSetup = readQuickMatchSetup(playablePayload.players);
+  const deckSelection = quickMatchSetup?.playerSelection ?? readDeckSelection(playablePayload.players);
+  const quickMatch = buildQuickMatchPayload(
+    playablePayload,
+    deckSelection,
+    quickMatchSetup?.opponentSelection ?? null,
+  );
   const selectedPayload = quickMatch.payload;
 
   globalThis.__FOCISKARTYAK_DATABASE__ = database;
@@ -156,6 +52,7 @@ try {
   globalThis.__FOCISKARTYAK_DATABASE_STATISTICS__ = statistics;
   globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = playablePayload;
   globalThis.__FOCISKARTYAK_DECK_SELECTION__ = deckSelection;
+  globalThis.__FOCISKARTYAK_QUICK_MATCH_SETUP__ = quickMatchSetup;
   globalThis.__FOCISKARTYAK_QUICK_MATCH__ = quickMatch.matchup;
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
@@ -168,8 +65,10 @@ try {
     + `${statistics.excludedPlayerCount} hiányos rekord kizárva`,
   );
   console.info(
-    `[deck] ${describeDeckSelection(deckSelection, playablePayload.players)} · `
-    + `${selectedPayload.players.length} lap aktív mindkét játékmódban`,
+    quickMatch.matchup
+      ? `[deck] ${quickMatch.matchup.human.label} · ${quickMatch.matchup.human.count} lap aktív mindkét játékmódban`
+      : `[deck] ${describeDeckSelection(deckSelection, playablePayload.players)} · `
+        + `${selectedPayload.players.length} lap aktív mindkét játékmódban`,
   );
   if (quickMatch.matchup) {
     console.info(

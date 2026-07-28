@@ -4,10 +4,12 @@ export const STORAGE_SCHEMA_VERSION = 1;
 // A save-service ezt a verziót validálja; a 10. lépés nem változtatja meg a meglévő v2 mentéseket.
 export const SAVED_MATCH_VERSION = 2;
 
-// A korábbi kulcsok változatlanok; az új profiljelző csak a mentett profil explicit állapotát tárolja.
+// A korábbi kulcsok változatlanok; a Gyors meccs kétlépcsős folyamata külön, verziózott állapotot használ.
 export const APP_STORAGE_KEYS = Object.freeze({
   savedMatch: 'fociskartyak:saved-match:v2',
   deckSelection: 'fociskartyak:deck-selection:v1',
+  quickMatchSetup: 'fociskartyak:quick-match-setup:v1',
+  quickMatchLaunch: 'fociskartyak:quick-match-launch:v1',
   onboardingComplete: 'fociskartyak:onboarding-complete',
   playerName: 'fociskartyak:player-name:v1',
   playerProfileSaved: 'fociskartyak:player-profile-saved:v1',

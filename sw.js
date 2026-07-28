@@ -1,6 +1,6 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v74
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v75
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
-const PWA_CACHE = 'fociskartyak-2026-v75';
+const PWA_CACHE = 'fociskartyak-2026-v76';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -36,7 +36,9 @@ const PWA_SHELL = [
   './js/database/database-service.js',
   './js/models/player-model.js',
   './js/domain/deck-selection-domain.js',
+  './js/domain/quick-match-domain.js',
   './js/services/deck-selection-storage-service.js',
+  './js/services/quick-match-storage-service.js',
   './js/ui/deck-selection-menu-component.js',
   './js/ui/ui-enhancement-pipeline.js',
   './js/deck-selection.js',
