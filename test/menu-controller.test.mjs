@@ -137,7 +137,8 @@ assert.match(controllerSource, /11 lap\. 5 rendes párbaj\./);
 assert.doesNotMatch(controllerSource, /mobile-experience\.js|document\./);
 assert.match(mainSource, /\.\/app\/menu-controller\.js/);
 assert.match(mainSource, /this\.menu\s*=\s*createMenuController/);
-assert.match(mainSource, /readSaved:\s*readSavedMatch/);
+assert.match(mainSource, /readSaved:\s*readSeasonSavedMatch/);
+assert.match(mainSource, /clearSaved:\s*clearSeasonSavedMatch/);
 assert.match(mainSource, /onboardingCompleted:\s*onboardingWasCompleted/);
 assert.match(mainSource, /this\.menu\.handleBackAction\(\)/);
 assert.doesNotMatch(mainSource, /this\.overlayReturn|A hátsó asztal bajnoksága|onboarding-progress|settings-list|pause-actions/);
@@ -153,4 +154,4 @@ assert.ok(
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/menu-controller\.js/);
 
-console.log('✓ Menüvezérlő alkalmazási szolgáltatás és Session-integráció: rendben');
+console.log('✓ Menüvezérlő alkalmazási szolgáltatás és szezonhoz kötött Session-integráció: rendben');
