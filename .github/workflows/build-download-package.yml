@@ -1,0 +1,73 @@
+name: Letölthető játékcsomag
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: Új modul szintaktikai ellenőrzése
+        run: node --check js/recent-duels-experience.js
+
+      - name: Release-, UX- és PWA-integráció ellenőrzése
+        run: node test/release-ux-pwa.test.mjs
+
+      - name: Teljes alkalmazásellenőrzés
+        run: |
+          npm run lint
+          npm test
+
+      - name: Friss önálló játék elkészítése
+        run: npm run build
+
+      - name: Letölthető csomag összeállítása
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f Fociskartyak2026.html
+          rm -rf dist
+          mkdir -p dist/project
+          cp Fociskartyak2026.html dist/Fociskartyak2026-legujabb.html
+          rsync -a \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='dist' \
+            --exclude='test-artifacts' \
+            --exclude='*.log' \
+            ./ dist/project/
+          cd dist/project
+          zip -qr ../Fociskartyak2026-teljes-legujabb.zip .
+
+      - name: Csomag feltöltése
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-letoltes-${{ github.run_number }}
+          path: |
+            dist/Fociskartyak2026-legujabb.html
+            dist/Fociskartyak2026-teljes-legujabb.zip
+          if-no-files-found: error
+          retention-days: 30
