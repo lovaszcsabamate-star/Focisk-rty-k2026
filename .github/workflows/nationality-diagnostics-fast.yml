@@ -37,13 +37,25 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const report = JSON.parse(fs.readFileSync('data/databases/hungary-nb1-2025-26/nationality-audit-report.json', 'utf8'));
-          console.log(JSON.stringify({
-            summary: report.summary,
-            britishMisassignments: report.britishMisassignments,
-            contradictions: report.contradictions,
-            missingNationality: report.missingNationality,
-            missingCountryCode: report.missingCountryCode,
-            unknownCountryCode: report.unknownCountryCode,
-          }, null, 2));
+          const database = JSON.parse(fs.readFileSync('data/databases/hungary-nb1-2025-26/players.normalized.json', 'utf8'));
+          const missing = new Set(report.missingCountryCode);
+          const records = database.players
+            .filter(player => missing.has(player.name))
+            .map(player => ({
+              id: player.id,
+              name: player.name,
+              club: player.club,
+              clubName: player.clubName,
+              nation: player.nation,
+              nationality: player.nationality,
+              nationalityCode: player.nationalityCode,
+              country: player.country,
+              countryCode: player.countryCode,
+              flagCode: player.flagCode,
+              nationalTeam: player.nationalTeam,
+              sourceUrl: player.sourceUrl,
+              meta: player.meta,
+            }));
+          console.log(JSON.stringify({ summary: report.summary, records }, null, 2));
           NODE
           node test/nationalities.test.mjs
