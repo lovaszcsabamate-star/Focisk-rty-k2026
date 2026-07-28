@@ -1,6 +1,6 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v77
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v78
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
-const PWA_CACHE = 'fociskartyak-2026-v78';
+const PWA_CACHE = 'fociskartyak-2026-v79';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -24,6 +24,7 @@ const PWA_SHELL = [
   './css/visual-hierarchy.css',
   './css/category-picker.css',
   './css/deck-selection-menu.css',
+  './css/federation-teams.css',
   './css/nationality-flags.css',
   './js/app/configuration.js',
   './js/services/storage-service.js',
@@ -39,6 +40,8 @@ const PWA_SHELL = [
   './js/database/database-service.js',
   './js/database/season-service.js',
   './js/models/player-model.js',
+  './js/data/federations.js',
+  './js/domain/federation-domain.js',
   './js/domain/deck-selection-domain.js',
   './js/domain/quick-match-domain.js',
   './js/services/deck-selection-storage-service.js',
@@ -91,6 +94,7 @@ const PWA_SHELL = [
   './data/databases/hungary-nb1-2025-26/players.normalized.json',
   './data/databases/hungary-nb1-2025-26/normalization-report.json',
   './data/databases/hungary-nb1-2025-26/nationality-audit-report.json',
+  './data/databases/hungary-nb1-2025-26/federation-audit-report.json',
   './data/players.json',
   './data/club-official-enrichment.json',
   './data/club-official-enrichment-2.json',
@@ -139,6 +143,12 @@ const PWA_SHELL = [
   './assets/flags/gb-sct.svg',
   './assets/flags/gb-wls.svg',
   './assets/flags/gb-nir.svg',
+  './assets/federations/federation-europe.svg',
+  './assets/federations/federation-africa.svg',
+  './assets/federations/federation-south-america.svg',
+  './assets/federations/federation-concacaf.svg',
+  './assets/federations/federation-asia.svg',
+  './assets/federations/federation-oceania.svg',
   './src/assets/licenses/assets-licenses.json',
   './src/assets/placeholders/player-silhouette.svg',
   './src/assets/placeholders/club-badge.svg',
