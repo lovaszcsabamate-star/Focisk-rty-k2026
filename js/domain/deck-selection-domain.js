@@ -50,11 +50,16 @@ const playerNationValue = player => {
 export const canonicalClubKey = value => deckDomainFold(value);
 
 export function canonicalNationKey(value) {
-  return canonicalNationalityKey(value);
+  return canonicalNationalityKey(value) || deckDomainFold(value).replace(/\s+/g, '-');
 }
 
 export function nationPresentation(value) {
-  return centralNationalityPresentation(value);
+  const presentation = centralNationalityPresentation(value);
+  return {
+    key: presentation.known ? presentation.key : canonicalNationKey(value),
+    flag: presentation.known ? presentation.flag : '🌍',
+    label: presentation.label,
+  };
 }
 
 export function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_SIZE) {
@@ -75,11 +80,12 @@ export function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_S
     .filter(item => item.count >= minimum)
     .map(item => {
       const presentation = nationPresentation(item.key);
+      const centralPresentation = centralNationalityPresentation(item.key);
       return {
         ...item,
         label: presentation.label,
         flag: presentation.flag,
-        countryCode: presentation.countryCode,
+        countryCode: centralPresentation.countryCode,
       };
     })
     .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, 'hu-HU'));
