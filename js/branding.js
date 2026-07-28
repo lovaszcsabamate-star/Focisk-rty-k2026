@@ -57,6 +57,131 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
     window.Image = GuardedImage;
   };
 
+  const TEAM_LOGO_RESTORATION_KEY = '__FOCISKARTYAK_TEAM_LOGO_RESTORATION__';
+  const TEAM_LOGO_SELECTOR = '.quick-team-mark--text:not([data-generated-club-logo])';
+  const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+
+  const teamLogoColour = (value, fallback) => {
+    const colour = String(value ?? '').trim();
+    return /^#[0-9a-f]{3,8}$/iu.test(colour) ? colour : fallback;
+  };
+
+  const teamLogoSvgElement = (documentRef, name, attributes = {}) => {
+    const node = documentRef.createElementNS(SVG_NAMESPACE, name);
+    for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, String(value));
+    return node;
+  };
+
+  /**
+   * Jogtiszta, generált klubembléma: kizárólag a játék saját színpalettáját és
+   * rövid klubjelét használja, hivatalos címerből vagy külső képből nem vesz át elemet.
+   */
+  const createGeneratedClubLogo = (documentRef, mark) => {
+    const shortLabel = String(mark.textContent ?? '').trim().slice(0, 4).toLocaleUpperCase('hu-HU') || 'FC';
+    const computed = typeof globalThis.getComputedStyle === 'function'
+      ? globalThis.getComputedStyle(mark)
+      : null;
+    const primary = teamLogoColour(computed?.getPropertyValue('--team-primary'), '#6d4d2f');
+    const secondary = teamLogoColour(computed?.getPropertyValue('--team-secondary'), '#d5b45d');
+    const fontSize = shortLabel.length > 3 ? 27 : shortLabel.length > 2 ? 31 : 38;
+
+    const svg = teamLogoSvgElement(documentRef, 'svg', {
+      class: 'quick-team-mark__image',
+      viewBox: '0 0 160 160',
+      width: '160',
+      height: '160',
+      focusable: 'false',
+      'aria-hidden': 'true',
+    });
+    const shield = teamLogoSvgElement(documentRef, 'path', {
+      d: 'M80 6 145 30v50c0 38-24 64-65 76C39 144 15 118 15 80V30z',
+      fill: primary,
+      stroke: secondary,
+      'stroke-width': '8',
+      'stroke-linejoin': 'round',
+    });
+    const band = teamLogoSvgElement(documentRef, 'path', {
+      d: 'M29 55h102v24H29z',
+      fill: secondary,
+      opacity: '.96',
+    });
+    const ballRing = teamLogoSvgElement(documentRef, 'circle', {
+      cx: '80',
+      cy: '105',
+      r: '25',
+      fill: 'none',
+      stroke: secondary,
+      'stroke-width': '5',
+      opacity: '.9',
+    });
+    const centre = teamLogoSvgElement(documentRef, 'circle', {
+      cx: '80',
+      cy: '105',
+      r: '7',
+      fill: secondary,
+    });
+    const label = teamLogoSvgElement(documentRef, 'text', {
+      x: '80',
+      y: '73',
+      fill: primary,
+      'font-family': 'Arial, Helvetica, sans-serif',
+      'font-size': fontSize,
+      'font-weight': '900',
+      'letter-spacing': '-1',
+      'text-anchor': 'middle',
+    });
+    label.textContent = shortLabel;
+    svg.append(shield, band, ballRing, centre, label);
+    return svg;
+  };
+
+  const restoreClubLogo = (mark, documentRef) => {
+    if (!mark?.matches?.(TEAM_LOGO_SELECTOR)) return false;
+    const svg = createGeneratedClubLogo(documentRef, mark);
+    mark.replaceChildren(svg);
+    mark.classList.remove('quick-team-mark--text');
+    mark.classList.add('quick-team-mark--club');
+    mark.dataset.generatedClubLogo = 'true';
+    return true;
+  };
+
+  const restoreClubLogosWithin = (root, documentRef) => {
+    if (!root) return 0;
+    let restored = 0;
+    if (root.matches?.(TEAM_LOGO_SELECTOR) && restoreClubLogo(root, documentRef)) restored += 1;
+    root.querySelectorAll?.(TEAM_LOGO_SELECTOR).forEach(mark => {
+      if (restoreClubLogo(mark, documentRef)) restored += 1;
+    });
+    return restored;
+  };
+
+  const installTeamLogoRestoration = () => {
+    if (typeof document === 'undefined' || globalThis[TEAM_LOGO_RESTORATION_KEY]) return;
+
+    const start = () => {
+      if (globalThis[TEAM_LOGO_RESTORATION_KEY]) return;
+      restoreClubLogosWithin(document, document);
+      const observer = typeof globalThis.MutationObserver === 'function'
+        ? new globalThis.MutationObserver(records => {
+          for (const record of records) {
+            record.addedNodes?.forEach(node => restoreClubLogosWithin(node, document));
+          }
+        })
+        : null;
+      observer?.observe(document.documentElement ?? document.body, { childList: true, subtree: true });
+      globalThis[TEAM_LOGO_RESTORATION_KEY] = Object.freeze({
+        refresh: () => restoreClubLogosWithin(document, document),
+        disconnect: () => observer?.disconnect(),
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start, { once: true });
+    } else {
+      start();
+    }
+  };
+
   globalThis.__FOCISKARTYAK_BRANDING__ = Object.freeze({
     config: brandingConfig,
     canonicalPath: assetService.canonicalPath,
@@ -66,4 +191,5 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
   });
 
   installImageRequestGuard();
+  installTeamLogoRestoration();
 })();
