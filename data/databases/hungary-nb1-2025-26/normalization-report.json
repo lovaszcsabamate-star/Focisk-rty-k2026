@@ -66,7 +66,7 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "ba640fa0e42350d4b0c32c496fbec126aab6d6c91cf7febaf2a73762c182f4cd",
+  "sourceDigest": "4c8a95d5857c3a9aa62bc4d233c139d367c96117dab694d32f426618872ae788",
   "playersDigest": "e7597dc8ec411f318be5e4d5d42d26061551cf029330901304dcb97ff5da27a0",
   "sourceLayerCounts": {
     "enrichments": 24,
