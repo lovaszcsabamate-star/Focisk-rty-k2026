@@ -193,7 +193,7 @@ assert.match(buildSource, /__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__/);
 assert.match(serviceWorkerSource, /\.\/js\/visual-hierarchy\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/category-picker\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/gameplay-experience\.js/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v73/);
+assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 assert.match(pipelineSource, /beginLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /commitLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /rollbackLayer\(moduleSpecifier\)/);
