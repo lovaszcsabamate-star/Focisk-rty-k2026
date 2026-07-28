@@ -1,6 +1,6 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v76
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v77
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
-const PWA_CACHE = 'fociskartyak-2026-v77';
+const PWA_CACHE = 'fociskartyak-2026-v78';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -24,6 +24,7 @@ const PWA_SHELL = [
   './css/visual-hierarchy.css',
   './css/category-picker.css',
   './css/deck-selection-menu.css',
+  './css/nationality-flags.css',
   './js/app/configuration.js',
   './js/services/storage-service.js',
   './js/services/asset-service.js',
@@ -45,6 +46,7 @@ const PWA_SHELL = [
   './js/ui/deck-selection-menu-component.js',
   './js/ui/ui-enhancement-pipeline.js',
   './js/deck-selection.js',
+  './js/data/nationalities.js',
   './js/data/complete-cards.js',
   './js/data/club-enrichment.js',
   './js/data/club-stat-patches.js',
@@ -59,11 +61,13 @@ const PWA_SHELL = [
   './js/banter.js',
   './js/ui/dom-primitives.js',
   './js/ui/card-component.js',
+  './js/ui/flag-component.js',
   './js/ui/scoreboard-component.js',
   './js/ui/attribute-picker-component.js',
   './js/ui.js',
   './js/ux.js',
   './js/ux-fixes.js',
+  './js/nationality-ui-enhancement.js',
   './js/matchday.js',
   './js/opponents.js',
   './js/pwa.js',
@@ -86,6 +90,7 @@ const PWA_SHELL = [
   './data/databases/hungary-nb1-2025-26/manifest.json',
   './data/databases/hungary-nb1-2025-26/players.normalized.json',
   './data/databases/hungary-nb1-2025-26/normalization-report.json',
+  './data/databases/hungary-nb1-2025-26/nationality-audit-report.json',
   './data/players.json',
   './data/club-official-enrichment.json',
   './data/club-official-enrichment-2.json',
@@ -116,6 +121,7 @@ const PWA_SHELL = [
   './data/club-official-corrections-3.json',
   './data/club-official-corrections-4-kisvarda-selected10-2.json',
   './data/club-official-corrections-5-puskas.json',
+  './data/club-official-corrections-6-nationalities.json',
   './data/club-official-stat-patches-kisvarda.json',
   './data/club-official-stat-patches-kisvarda-selected10.json',
   './data/club-official-stat-patches-kisvarda-selected10-2.json',
@@ -130,6 +136,10 @@ const PWA_SHELL = [
   './data/club-official-stat-patches-zte.json',
   './data/club-official-stat-patches-puskas.json',
   './data/club-official-sources.json',
+  './assets/flags/gb-eng.svg',
+  './assets/flags/gb-sct.svg',
+  './assets/flags/gb-wls.svg',
+  './assets/flags/gb-nir.svg',
   './src/assets/licenses/assets-licenses.json',
   './src/assets/placeholders/player-silhouette.svg',
   './src/assets/placeholders/club-badge.svg',
@@ -181,18 +191,12 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
-
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-
   if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      const response = await networkFirst(request);
-      if (response.ok) return response;
-      return (await caches.match(request)) || (await caches.match('./index.html')) || response;
-    })());
+    event.respondWith(networkFirst(request));
     return;
   }
-
-  event.respondWith(cacheFirstWithRefresh(request));
+  const freshCodeOrData = /\.(?:js|css|json|html|webmanifest)$/i.test(url.pathname);
+  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request));
 });
