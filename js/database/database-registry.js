@@ -1,5 +1,11 @@
 /** Central database registry and manifest validation. */
 
+import {
+  deriveSeasonId,
+  normaliseSeasonDefinition,
+  validateSeasonDefinition,
+} from './season-model.js';
+
 export const DATABASE_REGISTRY_URL = 'data/databases/registry.json';
 
 const registryCache = new Map();
@@ -22,6 +28,8 @@ export function normaliseDatabaseRegistry(payload = {}) {
     ? payload.databases.map(entry => ({
       id: asText(entry?.id),
       manifest: asText(entry?.manifest),
+      competitionId: asText(entry?.competitionId),
+      seasonId: deriveSeasonId(entry?.seasonId),
       enabled: entry?.enabled !== false,
     }))
     : [];
@@ -29,6 +37,7 @@ export function normaliseDatabaseRegistry(payload = {}) {
   return {
     schemaVersion: Number(payload.schemaVersion),
     defaultDatabaseId: asText(payload.defaultDatabaseId),
+    defaultSeasonId: deriveSeasonId(payload.defaultSeasonId),
     databases,
   };
 }
@@ -48,9 +57,26 @@ export function validateDatabaseRegistry(payload = {}) {
   if (new Set(ids).size !== ids.length) errors.push('duplikált adatbázis-azonosító');
   if (registry.databases.some(entry => !entry.manifest)) errors.push('hiányzó manifest útvonal');
 
-  const enabledIds = new Set(registry.databases.filter(entry => entry.enabled).map(entry => entry.id));
+  const enabled = registry.databases.filter(entry => entry.enabled);
+  const enabledIds = new Set(enabled.map(entry => entry.id));
   if (registry.defaultDatabaseId && !enabledIds.has(registry.defaultDatabaseId)) {
     errors.push('az alapértelmezett adatbázis nem elérhető');
+  }
+
+  if (registry.schemaVersion >= 2) {
+    if (!registry.defaultSeasonId) errors.push('hiányzó defaultSeasonId');
+    if (registry.databases.some(entry => !entry.competitionId)) errors.push('hiányzó competitionId');
+    if (registry.databases.some(entry => !entry.seasonId)) errors.push('hiányzó seasonId');
+    const seasonKeys = registry.databases
+      .map(entry => entry.competitionId && entry.seasonId ? `${entry.competitionId}:${entry.seasonId}` : '')
+      .filter(Boolean);
+    if (new Set(seasonKeys).size !== seasonKeys.length) {
+      errors.push('egy versenysorozathoz ugyanaz a szezon többször van regisztrálva');
+    }
+    const defaultEntry = enabled.find(entry => entry.id === registry.defaultDatabaseId);
+    if (defaultEntry && registry.defaultSeasonId && defaultEntry.seasonId !== registry.defaultSeasonId) {
+      errors.push('az alapértelmezett adatbázis és szezon nem egyezik');
+    }
   }
 
   throwValidationError('Hibás adatbázis-regiszter', errors);
@@ -60,14 +86,24 @@ export function validateDatabaseRegistry(payload = {}) {
 export function normaliseDatabaseManifest(payload = {}, manifestUrl = '') {
   const files = isObject(payload.files) ? payload.files : {};
   const normalization = isObject(payload.normalization) ? payload.normalization : {};
+  const seasonMeta = normaliseSeasonDefinition(payload.seasonMeta ?? payload.season, {
+    id: payload.seasonId,
+    label: asText(payload.season),
+    startYear: payload.seasonStartYear,
+    endYear: payload.seasonEndYear,
+    status: payload.seasonStatus,
+  });
   return {
     ...payload,
     schemaVersion: Number(payload.schemaVersion),
     id: asText(payload.id),
     name: asText(payload.name),
+    competitionId: asText(payload.competitionId),
     competition: asText(payload.competition),
     country: asText(payload.country),
-    season: asText(payload.season),
+    season: seasonMeta.label,
+    seasonId: seasonMeta.id,
+    seasonMeta,
     version: asText(payload.version),
     enabled: payload.enabled !== false,
     default: payload.default === true,
@@ -114,6 +150,15 @@ export function validateDatabaseManifest(payload = {}, manifestUrl = '') {
   }
   if (!manifest.supportedModes.length) errors.push('nincs támogatott játékmód');
 
+  if (manifest.schemaVersion >= 2) {
+    if (!manifest.competitionId) errors.push('hiányzó competitionId');
+    try {
+      validateSeasonDefinition(manifest.seasonMeta);
+    } catch (error) {
+      errors.push(error.message);
+    }
+  }
+
   if (manifest.normalization.primaryFile) {
     if (manifest.normalization.primaryFile !== 'normalizedPlayers') {
       errors.push('ismeretlen normalizált elsődleges fájltípus');
@@ -148,6 +193,12 @@ async function createRegistrySnapshot(url) {
     if (manifest.id !== entry.id) {
       throw new Error(`Az adatbázis-regiszter azonosítója (${entry.id}) nem egyezik a manifest azonosítójával (${manifest.id}).`);
     }
+    if (entry.competitionId && manifest.competitionId !== entry.competitionId) {
+      throw new Error(`A regiszter competitionId értéke (${entry.competitionId}) nem egyezik a manifest értékével (${manifest.competitionId}).`);
+    }
+    if (entry.seasonId && manifest.seasonId !== entry.seasonId) {
+      throw new Error(`A regiszter seasonId értéke (${entry.seasonId}) nem egyezik a manifest értékével (${manifest.seasonId}).`);
+    }
     return manifest;
   }));
 
@@ -158,6 +209,9 @@ async function createRegistrySnapshot(url) {
   return Object.freeze({
     schemaVersion: registry.schemaVersion,
     defaultDatabaseId: registry.defaultDatabaseId,
+    defaultSeasonId: registry.defaultSeasonId
+      || databases.find(item => item.id === registry.defaultDatabaseId)?.seasonId
+      || '',
     databases: Object.freeze(databases),
   });
 }
@@ -178,10 +232,37 @@ export async function getAvailableDatabases(url = DATABASE_REGISTRY_URL) {
   return registry.databases.filter(database => database.enabled);
 }
 
+export async function getAvailableSeasons(url = DATABASE_REGISTRY_URL) {
+  const databases = await getAvailableDatabases(url);
+  return databases
+    .map(database => Object.freeze({
+      ...database.seasonMeta,
+      databaseId: database.id,
+      databaseName: database.name,
+      competitionId: database.competitionId,
+      competition: database.competition,
+      country: database.country,
+      enabled: database.enabled,
+    }))
+    .sort((a, b) => b.sortOrder - a.sortOrder
+      || a.competition.localeCompare(b.competition, 'hu-HU'));
+}
+
 export async function getDatabaseById(databaseId, url = DATABASE_REGISTRY_URL) {
   const id = asText(databaseId);
   const databases = await getAvailableDatabases(url);
   return databases.find(database => database.id === id) ?? null;
+}
+
+export async function getDatabaseBySeason(seasonId, {
+  competitionId = '',
+  url = DATABASE_REGISTRY_URL,
+} = {}) {
+  const season = deriveSeasonId(seasonId);
+  const competition = asText(competitionId);
+  const databases = await getAvailableDatabases(url);
+  return databases.find(database => database.seasonId === season
+    && (!competition || database.competitionId === competition)) ?? null;
 }
 
 export async function getDefaultDatabase(url = DATABASE_REGISTRY_URL) {
@@ -189,6 +270,18 @@ export async function getDefaultDatabase(url = DATABASE_REGISTRY_URL) {
   const database = registry.databases.find(item => item.id === registry.defaultDatabaseId);
   if (!database) throw new Error(`Nincs használható alapértelmezett adatbázis: ${registry.defaultDatabaseId}`);
   return database;
+}
+
+export async function getDefaultSeason(url = DATABASE_REGISTRY_URL) {
+  const registry = await loadDatabaseRegistry(url);
+  const database = registry.databases.find(item => item.id === registry.defaultDatabaseId);
+  if (!database) throw new Error(`Nincs használható alapértelmezett szezon: ${registry.defaultSeasonId}`);
+  return Object.freeze({
+    ...database.seasonMeta,
+    databaseId: database.id,
+    competitionId: database.competitionId,
+    competition: database.competition,
+  });
 }
 
 export function clearDatabaseRegistryCache() {
