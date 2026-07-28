@@ -1,3 +1,5 @@
+import { resolveFederationByCountryCode } from './federations.js';
+
 const UNKNOWN_NATIONALITY = 'Nem ismert';
 
 const HOME_NATIONS = Object.freeze({
@@ -185,15 +187,19 @@ export function resolveNationality(value) {
   const parts = splitNationalityValues(value);
   const countryCodes = [...new Set(parts.map(normaliseCountryCode).filter(Boolean))];
   const countryCode = countryCodes[0] ?? normaliseCountryCode(value);
+  const federation = resolveFederationByCountryCode(countryCode);
   return Object.freeze({
     input: String(value ?? '').trim(),
     countryCode: countryCode ?? null,
     countryCodes: Object.freeze(countryCodes),
     nationality: countryCode ? countryCodeToNationality[countryCode] ?? String(value ?? '').trim() : null,
+    federation: federation.federation,
+    federationCode: federation.federationCode,
+    federationLabel: federation.federationLabel,
     key: countryCode
       ? HOME_NATIONS[countryCode]?.key ?? COUNTRY_CODE_TO_KEY[countryCode] ?? foldNationality(value).replace(/\s+/g, '-')
       : '',
-    known: Boolean(countryCode),
+    known: Boolean(countryCode && federation.known),
   });
 }
 
@@ -211,9 +217,19 @@ const normalisePlayerName = value => String(value ?? '')
   .trim()
   .replace(/\s+/g, ' ');
 
+const withFederation = data => {
+  const federation = resolveFederationByCountryCode(data.countryCode);
+  return Object.freeze({
+    ...data,
+    federation: federation.federation,
+    federationCode: federation.federationCode,
+    federationLabel: federation.federationLabel,
+  });
+};
+
 export function resolvePlayerNationality(player = {}) {
   const override = PLAYER_NATIONALITY_OVERRIDES[normalisePlayerName(player.name ?? player.displayName)];
-  if (override) return Object.freeze({ ...override, source: 'verified-player-override', known: true });
+  if (override) return withFederation({ ...override, source: 'verified-player-override', known: true });
 
   const candidates = [
     ['nationalTeam', player.nationalTeam],
@@ -230,12 +246,18 @@ export function resolvePlayerNationality(player = {}) {
     return Object.freeze({
       nationality: resolved.nationality,
       countryCode: resolved.countryCode,
+      federation: resolved.federation,
+      federationCode: resolved.federationCode,
+      federationLabel: resolved.federationLabel,
       nationalTeam: source === 'nationalTeam' ? resolved.nationality : null,
       source,
       known: true,
     });
   }
-  return Object.freeze({ nationality: null, countryCode: null, nationalTeam: null, source: null, known: false });
+  return Object.freeze({
+    nationality: null, countryCode: null, federation: null, federationCode: null,
+    federationLabel: null, nationalTeam: null, source: null, known: false,
+  });
 }
 
 export function canonicalNationalityKey(value) {
@@ -255,7 +277,8 @@ export function nationalityPresentation(value) {
   if (!resolved.known) {
     const fallback = String(value ?? '').trim() || UNKNOWN_NATIONALITY;
     return Object.freeze({
-      key: '', countryCode: null, nationality: null, flag: '🌐', label: fallback, asset: null, known: false,
+      key: '', countryCode: null, nationality: null, federation: null, federationCode: null,
+      federationLabel: null, flag: '🌐', label: fallback, asset: null, known: false,
     });
   }
   const countryCode = resolved.countryCode;
@@ -263,6 +286,9 @@ export function nationalityPresentation(value) {
     key: resolved.key,
     countryCode,
     nationality: resolved.nationality,
+    federation: resolved.federation,
+    federationCode: resolved.federationCode,
+    federationLabel: resolved.federationLabel,
     flag: countryCodeToFlagEmoji(countryCode),
     label: HOME_NATIONS[countryCode]?.label ?? COUNTRY_CODE_TO_HUNGARIAN_LABEL[countryCode] ?? resolved.nationality,
     asset: countryCodeToFlagAsset[countryCode] ?? null,
@@ -289,9 +315,11 @@ export function validateNationalityAssignments(players) {
   const list = Array.isArray(players) ? players : [];
   const missingNationality = [];
   const missingCountryCode = [];
+  const missingFederation = [];
   const unknownCountryCode = [];
   const britishMisassignments = [];
   const contradictions = [];
+  const federationContradictions = [];
 
   for (const player of list) {
     const name = player?.name ?? player?.id ?? 'Ismeretlen játékos';
@@ -301,6 +329,7 @@ export function validateNationalityAssignments(players) {
     if (!rawNationality && !player?.nationalTeam) missingNationality.push(name);
     if (!player?.countryCode) missingCountryCode.push(name);
     else if (!actualCode) unknownCountryCode.push({ name, countryCode: player.countryCode });
+    if (!expected.federationCode) missingFederation.push(name);
 
     const homeCode = expectedHomeNationCode(player);
     if (homeCode && actualCode && homeCode !== actualCode) {
@@ -309,29 +338,44 @@ export function validateNationalityAssignments(players) {
     if (expected.countryCode && actualCode && expected.countryCode !== actualCode) {
       contradictions.push({ name, nationality: rawNationality, expected: expected.countryCode, actual: actualCode });
     }
+    const explicitFederationCode = String(player?.federationCode ?? '').trim().toLocaleUpperCase('en-US');
+    if (explicitFederationCode && expected.federationCode && explicitFederationCode !== expected.federationCode) {
+      federationContradictions.push({
+        name,
+        countryCode: actualCode,
+        expected: expected.federationCode,
+        actual: explicitFederationCode,
+      });
+    }
   }
 
   const invalidNames = new Set([
     ...missingNationality,
     ...missingCountryCode,
+    ...missingFederation,
     ...unknownCountryCode.map(item => item.name),
     ...britishMisassignments.map(item => item.name),
     ...contradictions.map(item => item.name),
+    ...federationContradictions.map(item => item.name),
   ]);
 
   return Object.freeze({
     missingNationality: Object.freeze(missingNationality),
     missingCountryCode: Object.freeze(missingCountryCode),
+    missingFederation: Object.freeze(missingFederation),
     unknownCountryCode: Object.freeze(unknownCountryCode),
     britishMisassignments: Object.freeze(britishMisassignments),
     contradictions: Object.freeze(contradictions),
+    federationContradictions: Object.freeze(federationContradictions),
     summary: Object.freeze({
       playerCount: list.length,
       missingNationalityCount: missingNationality.length,
       missingCountryCodeCount: missingCountryCode.length,
+      missingFederationCount: missingFederation.length,
       unknownCountryCodeCount: unknownCountryCode.length,
       britishMisassignmentCount: britishMisassignments.length,
       contradictionCount: contradictions.length,
+      federationContradictionCount: federationContradictions.length,
       validCount: list.length - invalidNames.size,
     }),
   });
