@@ -142,6 +142,13 @@ assert.doesNotMatch(primitivesSource, /UI_ART_EXTENSIONS|assets\/portraits\/|ass
 assert.match(cardSource, /ART\.playerPortrait\(card\)/);
 assert.match(brandingSource, /services\/asset-service\.js/);
 assert.match(brandingSource, /player-silhouette\.svg/);
+assert.match(brandingSource, /TEAM_LOGO_RESTORATION_KEY/);
+assert.match(brandingSource, /quick-team-mark--text/);
+assert.match(brandingSource, /createGeneratedClubLogo/);
+assert.match(brandingSource, /createElementNS/);
+assert.match(brandingSource, /MutationObserver/);
+assert.match(brandingSource, /data-generated-club-logo|generatedClubLogo/);
+assert.doesNotMatch(brandingSource, /assets\/clubs\//);
 assert.doesNotMatch(brandingSource, /const canonicalPath\s*=|const protectedArtPrefixes\s*=|playerPlaceholderPath:\s*['"]/);
 assert.ok(
   buildSource.indexOf("'js/services/asset-service.js'") < buildSource.indexOf("'js/branding.js'"),
@@ -153,4 +160,4 @@ assert.ok(
 );
 assert.match(serviceWorkerSource, /\.\/js\/services\/asset-service\.js/);
 
-console.log('✓ Központi, DOM-mentes assetútvonal-, fallback- és jogi policy szolgáltatás: rendben');
+console.log('✓ Központi assetpolicy és jogtiszta, generált klublogó-helyreállítás: rendben');
