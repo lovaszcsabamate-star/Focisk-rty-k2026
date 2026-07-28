@@ -30,8 +30,15 @@ jobs:
       - name: Typecheck when configured
         run: npm run typecheck --if-present
 
-      - name: Tests
+      - name: Player profile tests
+        run: node test/player-profile.test.mjs
+
+      - name: Interface regression tests
+        run: node test/interface-regression.test.mjs
+
+      - name: Full test suite
         run: npm test
 
       - name: Build
+        if: always()
         run: npm run build
