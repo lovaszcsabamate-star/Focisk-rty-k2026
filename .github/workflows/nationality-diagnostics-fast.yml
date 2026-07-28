@@ -19,43 +19,24 @@ jobs:
         run: |
           git clone --quiet --depth=1 --branch fix/nationality-flags-2026 https://github.com/lovaszcsabamate-star/Focisk-rty-k2026.git repo
           cd repo
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const file = 'js/data/nationalities.js';
-          let text = fs.readFileSync(file, 'utf8');
-          const replacements = [
-            ["HND: 'HN', HRV: 'HR', HUN: 'HU', IRL: 'IE', ISL: 'IS'", "HND: 'HN', HRV: 'HR', HUN: 'HU', IRI: 'IR', IRN: 'IR', IRL: 'IE', ISL: 'IS'"],
-            ["HT: 'haiti', HU: 'hungary', IE: 'ireland', IL: 'israel'", "HT: 'haiti', HU: 'hungary', IE: 'ireland', IL: 'israel', IR: 'iran'"],
-            ["['countryCode', player.countryCode],\n    ['flagCode', player.flagCode],\n    ['nationalityCode', player.nationalityCode],\n    ['nation', player.nation],\n    ['nationality', player.nationality],\n    ['country', player.country],", "['nationalityCode', player.nationalityCode],\n    ['nation', player.nation],\n    ['nationality', player.nationality],\n    ['country', player.country],\n    ['countryCode', player.countryCode],\n    ['flagCode', player.flagCode],"],
-            ["['ireland', 'IE'], ['republic of ireland', 'IE'], ['irish', 'IE'],\n  ['scotland', 'GB-SCT'], ['scottish', 'GB-SCT'],\n  ['wales', 'GB-WLS'], ['welsh', 'GB-WLS'],\n  ['northern ireland', 'GB-NIR'], ['northern irish', 'GB-NIR'],", "['northern ireland', 'GB-NIR'], ['northern irish', 'GB-NIR'],\n  ['republic of ireland', 'IE'], ['ireland', 'IE'], ['irish', 'IE'],\n  ['scotland', 'GB-SCT'], ['scottish', 'GB-SCT'],\n  ['wales', 'GB-WLS'], ['welsh', 'GB-WLS'],"],
-          ];
-          for (const [from, to] of replacements) text = text.replace(from, to);
-          fs.writeFileSync(file, text);
-          NODE
           node scripts/migrate-normalized-database.mjs >/dev/null
           node scripts/audit-nationalities.mjs >/dev/null
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const report = JSON.parse(fs.readFileSync('data/databases/hungary-nb1-2025-26/nationality-audit-report.json', 'utf8'));
-          const database = JSON.parse(fs.readFileSync('data/databases/hungary-nb1-2025-26/players.normalized.json', 'utf8'));
-          const missing = new Set(report.missingCountryCode);
-          const records = database.players
-            .filter(player => missing.has(player.name))
-            .map(player => ({
-              id: player.id,
-              name: player.name,
-              club: player.club,
-              clubName: player.clubName,
-              nation: player.nation,
-              nationality: player.nationality,
-              nationalityCode: player.nationalityCode,
-              country: player.country,
-              countryCode: player.countryCode,
-              flagCode: player.flagCode,
-              nationalTeam: player.nationalTeam,
-              sourceUrl: player.sourceUrl,
-              meta: player.meta,
-            }));
-          console.log(JSON.stringify({ summary: report.summary, records }, null, 2));
+          console.log(JSON.stringify({
+            checkedPlayers: report.checkedPlayers,
+            correctedAssignments: report.correctedAssignments,
+            corrections: report.corrections,
+            validFlagCount: report.validFlagCount,
+            fallbackIconCount: report.fallbackIconCount,
+            everyPlayerHasValidFlagOrFallback: report.everyPlayerHasValidFlagOrFallback,
+            missingNationality: report.missingNationality,
+            missingCountryCode: report.missingCountryCode,
+            unknownCountryCode: report.unknownCountryCode,
+            britishMisassignments: report.britishMisassignments,
+            contradictions: report.contradictions,
+            summary: report.summary,
+          }, null, 2));
           NODE
           node test/nationalities.test.mjs
