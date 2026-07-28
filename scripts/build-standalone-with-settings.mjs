@@ -1,4 +1,4 @@
-/** Build the standalone game, then inline sizing, team-selector, federation, playability and Quick Match assets. */
+/** Build the standalone game, then inline sizing, team-selector, federation, playability, duel-history and Quick Match assets. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -13,6 +13,7 @@ const CSS_LINK = '  <link rel="stylesheet" href="css/visual-settings-persistence
 const TEAM_SELECTOR_CSS_LINK = '  <link rel="stylesheet" href="css/deck-selection-menu.css">';
 const FEDERATION_CSS_LINK = '  <link rel="stylesheet" href="css/federation-teams.css">';
 const JS_TAG = '  <script type="module" src="js/visual-settings-persistence.js"></script>';
+const RECENT_DUELS_JS_TAG = '  <script type="module" src="js/recent-duels-experience.js"></script>';
 const TEAM_SELECTOR_BUNDLE_MARKER = '/* ===== js/ui/deck-selection-menu-component.js ===== */';
 const LEGAL_LAYER_MARKER = '/* ===== js/legal-ui.js · isolated UI class layer ===== */';
 
@@ -56,6 +57,17 @@ const playabilityInlineBundle = `
  })();
  commitUiEnhancementLayer(${JSON.stringify(playabilityFile)});
  `;
+const recentDuelsFile = 'js/recent-duels-experience.js';
+const recentDuelsSource = flattenInlineModule(fs.readFileSync(path.join(ROOT, recentDuelsFile), 'utf8'))
+  .replace(/<\/script/gi, '<\\/script');
+const recentDuelsInlineBundle = `
+ /* ===== ${recentDuelsFile} · isolated UI class layer ===== */
+ beginUiEnhancementLayer(${JSON.stringify(recentDuelsFile)});
+ (() => {
+ ${recentDuelsSource}
+ })();
+ commitUiEnhancementLayer(${JSON.stringify(recentDuelsFile)});
+ `;
 const runtimeSmokeCompatibility = `
  /* A motor böngészős regressziós tesztje programozott kattintással indítja a meglévő módokat. */
  if (globalThis.__runtimeSmoke) globalThis.__FOCISKARTYAK_QUICK_MATCH_BYPASS__ = true;
@@ -67,20 +79,22 @@ output = output
   .replace(TEAM_SELECTOR_CSS_LINK, `  <style>\n${teamSelectorCss}\n  </style>`)
   .replace(FEDERATION_CSS_LINK, `  <style>\n${federationCss}\n  </style>`)
   .replace(JS_TAG, `  <script>\n${sizingJs}\n  </script>`)
+  .replace(RECENT_DUELS_JS_TAG, '')
   .replace(
     TEAM_SELECTOR_BUNDLE_MARKER,
     `${quickMatchInlineBundle}\n${runtimeSmokeCompatibility}\n${TEAM_SELECTOR_BUNDLE_MARKER}`,
   )
   .replace(
     LEGAL_LAYER_MARKER,
-    `${playabilityInlineBundle}\n${LEGAL_LAYER_MARKER}`,
+    `${recentDuelsInlineBundle}\n${playabilityInlineBundle}\n${LEGAL_LAYER_MARKER}`,
   );
 for (const [assetPath, dataUri] of Object.entries(federationAssetDataUris)) {
   output = output.replaceAll(assetPath, dataUri);
 }
 
 if (output.includes(CSS_LINK) || output.includes(TEAM_SELECTOR_CSS_LINK)
-  || output.includes(FEDERATION_CSS_LINK) || output.includes(JS_TAG)) {
+  || output.includes(FEDERATION_CSS_LINK) || output.includes(JS_TAG)
+  || output.includes(RECENT_DUELS_JS_TAG)) {
   throw new Error('Az önálló buildből külső felületi asset maradt bent.');
 }
 if (!output.includes('Méretezés mentése') || !output.includes('fociskartyak.visual-sizing.v1')) {
@@ -101,6 +115,9 @@ if (!output.includes('federation-europe') && !output.includes('data:image/svg+xm
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
+if (!output.includes('Legutóbbi párbajok') || !output.includes('A mérkőzés játékosa')) {
+  throw new Error('A párbajelőzmény vagy a mérkőzés játékosa nem került be az önálló buildbe.');
+}
 if (!output.includes('.nationality-flag') || !output.includes('data:image/svg+xml;base64,')) {
   throw new Error('A nemzetiségi zászlóstílus vagy a helyi zászló-SVG nem került be az önálló buildbe.');
 }
@@ -109,4 +126,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, háromkategóriás Gyors meccs, föderációs emblémák, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
