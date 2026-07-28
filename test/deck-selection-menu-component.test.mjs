@@ -12,6 +12,8 @@ import {
   buildQuickMatchPayload,
   chooseQuickMatchOpponent,
   quickMatchEntriesForCategory,
+  quickMatchOpponentEntries,
+  quickMatchSelectionsCompatible,
   validateQuickMatchPairing,
 } from '../js/domain/quick-match-domain.js';
 
@@ -134,28 +136,42 @@ const catalog = buildQuickMatchCatalog(players);
 assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.HUNGARIAN).length, 4);
 assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.LEAGUE).length, 2);
 assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.NATIONAL).length, 2);
+assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.FEDERATION).length, 1);
 const clubs = quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.HUNGARIAN);
+const nations = quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.NATIONAL);
+const federations = quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.FEDERATION);
 const chosenOpponent = chooseQuickMatchOpponent(clubs, clubs[0].id, { rng: () => 0 });
 assert.notEqual(chosenOpponent.id, clubs[0].id);
 const pairing = validateQuickMatchPairing(players, clubs[0].selection, clubs[1].selection);
 assert.equal(pairing.valid, true);
+assert.equal(quickMatchSelectionsCompatible(nations[0].selection, federations[0].selection), true);
+assert.equal(quickMatchSelectionsCompatible(clubs[0].selection, federations[0].selection), false);
+assert.equal(validateQuickMatchPairing(players, nations[0].selection, federations[0].selection).valid, true);
+assert.equal(quickMatchOpponentEntries(catalog, nations[0]).length, 3);
 const prepared = buildQuickMatchPayload(
   { players, selection: {} },
-  clubs[0].selection,
-  clubs[1].selection,
+  nations[0].selection,
+  federations[0].selection,
   () => 0,
 );
 assert.equal(prepared.matchup.enabled, true);
+assert.equal(prepared.matchup.human.kind, 'nation');
+assert.equal(prepared.matchup.ai.kind, 'federation');
 assert.notEqual(prepared.matchup.human.key, prepared.matchup.ai.key);
-assert.equal(prepared.payload.players.filter(player => player.meta.quickMatchSide === 'human').length, 11);
-assert.equal(prepared.payload.players.filter(player => player.meta.quickMatchSide === 'ai').length, 11);
+assert.equal(prepared.payload.players.filter(player => player.meta.quickMatchSide === 'human').length, 22);
+assert.equal(prepared.payload.players.filter(player => player.meta.quickMatchSide === 'ai').length, 44);
 assert.equal(
   validateQuickMatchPairing(players, clubs[0].selection, clubs[0].selection).code,
   'INVALID_OPPONENT',
 );
+assert.equal(
+  validateQuickMatchPairing(players, clubs[0].selection, federations[0].selection).code,
+  'INCOMPATIBLE_OPPONENT',
+);
 
 const componentSource = readSource('../js/ui/deck-selection-menu-component.js');
 const selectorCss = readSource('../css/deck-selection-menu.css');
+const federationCss = readSource('../css/federation-teams.css');
 const compatibilitySource = readSource('../js/deck-selection.js');
 const quickMatchDomainSource = readSource('../js/domain/quick-match-domain.js');
 const quickMatchStorageSource = readSource('../js/services/quick-match-storage-service.js');
@@ -178,8 +194,10 @@ assert.match(componentSource, /EZZEL A CSAPATTAL JÁTSZOM/);
 assert.match(componentSource, /ELLENFELED/);
 assert.match(componentSource, /MÁSIK ELLENFELET KÉREK/);
 assert.match(componentSource, /MECCS INDÍTÁSA/);
-assert.match(componentSource, /Magyar bajnokság/);
-assert.match(componentSource, /Válogatott/);
+assert.match(componentSource, /Klubcsapatok/);
+assert.match(componentSource, /Válogatottak/);
+assert.match(componentSource, /Föderációk/);
+assert.match(componentSource, /quickMatchOpponentEntries/);
 assert.match(componentSource, /pointerdown/);
 assert.match(componentSource, /ArrowLeft/);
 assert.match(componentSource, /popstate/);
@@ -196,16 +214,24 @@ assert.match(selectorCss, /min-width:\s*48px/);
 assert.match(selectorCss, /min-height:\s*56px/);
 assert.match(selectorCss, /orientation:\s*landscape/);
 assert.match(selectorCss, /prefers-reduced-motion/);
+assert.match(federationCss, /\.quick-team-mark--federation/);
+assert.match(federationCss, /\.quick-team-mark__image/);
 assert.match(quickMatchDomainSource, /buildQuickMatchCatalog/);
 assert.match(quickMatchDomainSource, /buildQuickMatchPayload/);
+assert.match(quickMatchDomainSource, /quickMatchSelectionsCompatible/);
 assert.match(quickMatchStorageSource, /quick-match-setup:v1|QUICK_MATCH_SETUP_STORAGE_KEY/);
 assert.match(indexSource, /css\/deck-selection-menu\.css/);
+assert.match(indexSource, /css\/federation-teams\.css/);
 assert.match(buildWithSettingsSource, /quick-match-domain\.js/);
+assert.match(buildWithSettingsSource, /federation-domain\.js/);
+assert.match(buildWithSettingsSource, /federation-teams\.css/);
 assert.match(buildWithSettingsSource, /quick-match-storage-service\.js/);
 assert.match(buildWithSettingsSource, /quick-team-card/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v76/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v79/);
 assert.match(serviceWorkerSource, /\.\/js\/domain\/quick-match-domain\.js/);
+assert.match(serviceWorkerSource, /\.\/js\/domain\/federation-domain\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/services\/quick-match-storage-service\.js/);
+assert.match(serviceWorkerSource, /assets\/federations\/federation-europe\.svg/);
 assert.match(compatibilitySource, /\.\/ui\/deck-selection-menu-component\.js/);
 assert.match(compatibilitySource, /buildQuickMatchPayload/);
 assert.match(compatibilitySource, /readQuickMatchSetup/);
@@ -215,4 +241,4 @@ assert.ok(
   'a pakliválasztó UI-komponens a kompatibilitási homlokzat előtt szerepel',
 );
 
-console.log('✓ Kétlépcsős Gyors meccs csapatválasztó, pontos párosítás, mobilbiztonság és PWA: rendben');
+console.log('✓ Háromkategóriás Gyors meccs, ország–föderáció párosítás, mobilbiztonság és PWA: rendben');
