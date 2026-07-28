@@ -90,6 +90,8 @@ assert.match(source, /isProfileSaved:\s*true/);
 assert.match(source, /createPlayerProfileEditor/);
 assert.match(source, /root\.matches\?\.\('\.mobile-home'\)/);
 assert.match(source, /root\.matches\?\.\('\.settings-panel'\)/);
+assert.match(source, /root\.querySelector\?\.\('\.mobile-home'\)/);
+assert.match(source, /root\.querySelector\?\.\('\.settings-panel'\)/);
 assert.match(source, /Játékosprofil sikeresen elmentve\./);
 assert.match(source, /A profil módosításai elmentve\./);
 assert.match(source, /A játékosprofil törölve\./);
@@ -102,6 +104,7 @@ assert.match(source, /UI\.prototype\.renderScores\s*=\s*function renderScoresWit
 assert.match(source, /PROFILE_BASE_METHODS\.renderScores\.apply\(this, args\)/);
 assert.match(source, /UI\.prototype\.showOverlay\s*=\s*function showOverlayWithSavedPlayerName/);
 assert.match(source, /personalizeGameLabels\(this\.dom\.overlayBody \?\? document\)/);
+assert.match(source, /syncPlayerProfileSurface\(this, node \?\? this\.dom\.overlayBody\)/);
 assert.match(source, /setNodeText\(finalScore, `\$\{upper\} \$\{score\[1\]\}–\$\{score\[2\]\} GÉP`\)/);
 
 console.log('✓ A játékosprofil explicit mentett állapota, migrációja, szerkesztése és törlése rendben');
