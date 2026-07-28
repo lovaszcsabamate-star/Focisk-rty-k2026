@@ -12,6 +12,7 @@ import {
   applyDeckSelectionToPayload,
   buildDeckSelectionOptions,
   canonicalClubKey,
+  canonicalFederationKey,
   canonicalNationKey,
   describeDeckSelection,
   nationPresentation,
@@ -21,7 +22,19 @@ import {
   validateDeckSelection,
 } from './domain/deck-selection-domain.js';
 import {
+  MINIMUM_TEAM_SIZE,
+  getCountryData,
+  getPlayableFederationTeams,
+  getPlayableNationalTeams,
+  getPlayerFederation,
+  groupPlayersByCountry,
+  groupPlayersByFederation,
+  isPlayablePlayer,
+  validatePlayerFederationData,
+} from './domain/federation-domain.js';
+import {
   QUICK_MATCH_CATEGORY,
+  QUICK_MATCH_FEDERATION_MINIMUM,
   QUICK_MATCH_LEAGUE_MINIMUM,
   QUICK_MATCH_NATION_MINIMUM,
   QUICK_MATCH_SELECTION_STEP,
@@ -37,8 +50,10 @@ import {
   quickMatchEntryFromSelection,
   quickMatchKindToCategory,
   quickMatchMinimumForKind,
+  quickMatchOpponentEntries,
   quickMatchSelectionEquals,
   quickMatchSelectionKey,
+  quickMatchSelectionsCompatible,
   resolveQuickMatchSelection,
   validateQuickMatchPairing,
 } from './domain/quick-match-domain.js';
@@ -65,6 +80,7 @@ export {
   applyDeckSelectionToPayload,
   buildDeckSelectionOptions,
   canonicalClubKey,
+  canonicalFederationKey,
   canonicalNationKey,
   describeDeckSelection,
   nationPresentation,
@@ -72,6 +88,18 @@ export {
   resolveDeckSelection,
   selectionEquals,
   validateDeckSelection,
+};
+
+export {
+  MINIMUM_TEAM_SIZE,
+  getCountryData,
+  getPlayableFederationTeams,
+  getPlayableNationalTeams,
+  getPlayerFederation,
+  groupPlayersByCountry,
+  groupPlayersByFederation,
+  isPlayablePlayer,
+  validatePlayerFederationData,
 };
 
 export {
@@ -83,6 +111,7 @@ export {
 
 export {
   QUICK_MATCH_CATEGORY,
+  QUICK_MATCH_FEDERATION_MINIMUM,
   QUICK_MATCH_LEAGUE_MINIMUM,
   QUICK_MATCH_NATION_MINIMUM,
   QUICK_MATCH_SELECTION_STEP,
@@ -98,8 +127,10 @@ export {
   quickMatchEntryFromSelection,
   quickMatchKindToCategory,
   quickMatchMinimumForKind,
+  quickMatchOpponentEntries,
   quickMatchSelectionEquals,
   quickMatchSelectionKey,
+  quickMatchSelectionsCompatible,
   resolveQuickMatchSelection,
   validateQuickMatchPairing,
 };
