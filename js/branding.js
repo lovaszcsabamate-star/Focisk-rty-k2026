@@ -61,6 +61,39 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
   const TEAM_LOGO_SELECTOR = '.quick-team-mark--text:not([data-generated-club-logo])';
   const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
+  /**
+   * Kanonikus NB I-klubjelek. A bal oldali értékek a korábbi felületi rövidítések,
+   * a jobb oldali értékek a pajzsokon és minden generált klubemblémán megjelenő jelek.
+   */
+  const TEAM_LOGO_SHORT_LABELS = Object.freeze({
+    DV: 'DVSC',
+    DVSC: 'DVSC',
+    DI: 'DVTK',
+    DVTK: 'DVTK',
+    ETO: 'ETO',
+    FTC: 'FTC',
+    KIS: 'KISV',
+    KISV: 'KISV',
+    KB: 'KBSC',
+    KBSC: 'KBSC',
+    MTK: 'MTK',
+    NY: 'NYÍR',
+    'NYÍR': 'NYÍR',
+    PFC: 'PAKS',
+    PAKS: 'PAKS',
+    PA: 'PAFC',
+    PUSK: 'PAFC',
+    PAFC: 'PAFC',
+    UTE: 'UTE',
+    ZTE: 'ZTE',
+  });
+
+  const teamLogoShortLabel = value => {
+    const candidate = String(value ?? '').trim().toLocaleUpperCase('hu-HU');
+    if (!candidate) return 'FC';
+    return TEAM_LOGO_SHORT_LABELS[candidate] ?? candidate.slice(0, 4);
+  };
+
   const teamLogoColour = (value, fallback) => {
     const colour = String(value ?? '').trim();
     return /^#[0-9a-f]{3,8}$/iu.test(colour) ? colour : fallback;
@@ -77,7 +110,7 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
    * rövid klubjelét használja, hivatalos címerből vagy külső képből nem vesz át elemet.
    */
   const createGeneratedClubLogo = (documentRef, mark) => {
-    const shortLabel = String(mark.textContent ?? '').trim().slice(0, 4).toLocaleUpperCase('hu-HU') || 'FC';
+    const shortLabel = teamLogoShortLabel(mark.textContent);
     const computed = typeof globalThis.getComputedStyle === 'function'
       ? globalThis.getComputedStyle(mark)
       : null;
@@ -92,6 +125,7 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
       height: '160',
       focusable: 'false',
       'aria-hidden': 'true',
+      'data-club-short-label': shortLabel,
     });
     const shield = teamLogoSvgElement(documentRef, 'path', {
       d: 'M80 6 145 30v50c0 38-24 64-65 76C39 144 15 118 15 80V30z',
@@ -142,6 +176,7 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
     mark.classList.remove('quick-team-mark--text');
     mark.classList.add('quick-team-mark--club');
     mark.dataset.generatedClubLogo = 'true';
+    mark.dataset.clubShortLabel = svg.getAttribute('data-club-short-label') ?? '';
     return true;
   };
 
@@ -188,6 +223,8 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
     isRemoteAssetUrl,
     isApprovedReleaseAsset,
     isProtectedUnapprovedArt,
+    clubShortLabels: TEAM_LOGO_SHORT_LABELS,
+    resolveClubShortLabel: teamLogoShortLabel,
   });
 
   installImageRequestGuard();
