@@ -1,0 +1,37 @@
+name: Nationality diagnostics fast
+
+on:
+  pull_request:
+    paths:
+      - 'js/data/nationalities.js'
+      - 'js/models/player-model.js'
+      - 'data/**'
+      - 'scripts/audit-nationalities.mjs'
+      - 'test/nationalities.test.mjs'
+      - '.github/workflows/nationality-diagnostics-fast.yml'
+
+jobs:
+  audit-fast:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run focused nationality audit
+        shell: bash
+        run: |
+          git clone --quiet --depth=1 --branch fix/nationality-flags-2026 https://github.com/lovaszcsabamate-star/Focisk-rty-k2026.git repo
+          cd repo
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const file = 'js/data/nationalities.js';
+          let text = fs.readFileSync(file, 'utf8');
+          const replacements = [
+            ["HND: 'HN', HRV: 'HR', HUN: 'HU', IRL: 'IE', ISL: 'IS'", "HND: 'HN', HRV: 'HR', HUN: 'HU', IRI: 'IR', IRN: 'IR', IRL: 'IE', ISL: 'IS'"],
+            ["HT: 'haiti', HU: 'hungary', IE: 'ireland', IL: 'israel'", "HT: 'haiti', HU: 'hungary', IE: 'ireland', IL: 'israel', IR: 'iran'"],
+            ["['countryCode', player.countryCode],\n    ['flagCode', player.flagCode],\n    ['nationalityCode', player.nationalityCode],\n    ['nation', player.nation],\n    ['nationality', player.nationality],\n    ['country', player.country],", "['nationalityCode', player.nationalityCode],\n    ['nation', player.nation],\n    ['nationality', player.nationality],\n    ['country', player.country],\n    ['countryCode', player.countryCode],\n    ['flagCode', player.flagCode],"],
+            ["['ireland', 'IE'], ['republic of ireland', 'IE'], ['irish', 'IE'],\n  ['scotland', 'GB-SCT'], ['scottish', 'GB-SCT'],\n  ['wales', 'GB-WLS'], ['welsh', 'GB-WLS'],\n  ['northern ireland', 'GB-NIR'], ['northern irish', 'GB-NIR'],", "['northern ireland', 'GB-NIR'], ['northern irish', 'GB-NIR'],\n  ['republic of ireland', 'IE'], ['ireland', 'IE'], ['irish', 'IE'],\n  ['scotland', 'GB-SCT'], ['scottish', 'GB-SCT'],\n  ['wales', 'GB-WLS'], ['welsh', 'GB-WLS'],"],
+          ];
+          for (const [from, to] of replacements) text = text.replace(from, to);
+          fs.writeFileSync(file, text);
+          NODE
+          node scripts/migrate-normalized-database.mjs >/dev/null
+          node scripts/audit-nationalities.mjs >/dev/null
+          node test/nationalities.test.mjs
