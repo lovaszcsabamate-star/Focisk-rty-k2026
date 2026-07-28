@@ -249,7 +249,9 @@ UI.prototype.renderScores = function renderScoresWithSavedPlayerName(...args) {
 
 UI.prototype.showOverlay = function showOverlayWithSavedPlayerName(node) {
   PROFILE_BASE_METHODS.showOverlay.call(this, node);
+  activePlayerProfileUi = this;
   personalizeGameLabels(this.dom.overlayBody ?? document);
+  syncPlayerProfileSurface(this, this.dom.overlayBody);
 };
 
 function playerProfileCreateStatus(elementFactory) {
@@ -425,23 +427,134 @@ export function createPlayerProfileEditor({
   return editor;
 }
 
+let activePlayerProfileUi = null;
+
+function playerProfileInsertBeforeMenuTitle(panel, node) {
+  const title = panel.querySelector?.('.menu-section-title');
+  if (title?.parentNode === panel) panel.insertBefore(node, title);
+  else panel.appendChild(node);
+}
+
+function playerProfileRenderMainAction(ui, panel) {
+  const existing = panel.querySelector?.('.player-profile-create-action');
+  if (hasPlayerProfile()) {
+    existing?.remove();
+    return;
+  }
+  if (existing) return;
+
+  const host = el('div', 'player-profile-create-action');
+  host.dataset.playerProfileMode = 'action';
+  const button = el('button', 'btn btn--profile');
+  button.type = 'button';
+  button.append(
+    el('span', null, '👤 Játékosprofil létrehozása'),
+    el('small', null, 'A saját neved jelenik meg az eredményjelzőn'),
+  );
+  button.addEventListener('click', () => {
+    host.dataset.playerProfileMode = 'editor';
+    host.replaceChildren(createPlayerProfileEditor({
+      context: 'create',
+      onSaved: () => {
+        ui.showToast?.('Játékosprofil sikeresen elmentve.', 'success');
+        host.remove();
+      },
+      onCancel: () => {
+        host.remove();
+        playerProfileRenderMainAction(ui, panel);
+      },
+    }));
+    host.querySelector?.('input')?.focus?.({ preventScroll: true });
+  });
+  host.appendChild(button);
+  playerProfileInsertBeforeMenuTitle(panel, host);
+}
+
+function playerProfileRenderDeleteConfirmation(ui, host) {
+  const profile = loadPlayerProfile();
+  if (!profile) {
+    playerProfileRenderSettingsEditor(ui, host);
+    return;
+  }
+
+  const confirmation = el('section', 'player-profile player-profile-delete-confirm');
+  confirmation.append(
+    el('h2', null, '👤 Játékosprofil törlése'),
+    el('p', null, `Biztosan törlöd a(z) ${profile.playerName} profilt? A meccseredmények és statisztikák megmaradnak.`),
+  );
+  const actions = el('div', 'player-profile__actions');
+  const deleteButton = el('button', 'btn btn--danger', 'Profil törlése');
+  deleteButton.type = 'button';
+  const cancelButton = el('button', 'btn btn--ghost', 'Mégse');
+  cancelButton.type = 'button';
+  deleteButton.addEventListener('click', () => {
+    if (!deletePlayerProfile()) {
+      ui.showToast?.('A játékosprofil törlése nem sikerült.', 'error');
+      return;
+    }
+    ui.showToast?.('A játékosprofil törölve.', 'success');
+    playerProfileRenderSettingsEditor(ui, host);
+  }, { once: true });
+  cancelButton.addEventListener('click', () => playerProfileRenderSettingsEditor(ui, host), { once: true });
+  actions.append(deleteButton, cancelButton);
+  confirmation.appendChild(actions);
+  host.replaceChildren(confirmation);
+}
+
+function playerProfileRenderSettingsEditor(ui, host) {
+  host.replaceChildren(createPlayerProfileEditor({
+    context: 'settings',
+    onSaved: (_profile, operation) => {
+      ui.showToast?.(
+        operation === 'created'
+          ? 'Játékosprofil sikeresen elmentve.'
+          : 'A profil módosításai elmentve.',
+        'success',
+      );
+      playerProfileRenderSettingsEditor(ui, host);
+    },
+    onDeleteRequest: () => playerProfileRenderDeleteConfirmation(ui, host),
+  }));
+}
+
+function playerProfileRenderSettingsSection(ui, panel, force = false) {
+  let host = panel.querySelector?.('.player-profile-settings-host');
+  if (!host) {
+    host = el('div', 'player-profile-settings-host');
+    const settingsList = panel.querySelector?.('.settings-list');
+    if (settingsList?.parentNode === panel) panel.insertBefore(host, settingsList);
+    else panel.appendChild(host);
+    playerProfileRenderSettingsEditor(ui, host);
+    return;
+  }
+  if (force) playerProfileRenderSettingsEditor(ui, host);
+}
+
+function syncPlayerProfileSurface(ui, root, force = false) {
+  if (!ui || !root) return;
+  if (root.matches?.('.mobile-home')) playerProfileRenderMainAction(ui, root);
+  if (root.matches?.('.settings-panel')) playerProfileRenderSettingsSection(ui, root, force);
+}
+
 function startPlayerProfile() {
   if (!document.body || document.documentElement.dataset.playerProfileReady === 'true') return;
   document.documentElement.dataset.playerProfileReady = 'true';
 
   let scheduled = false;
-  const refresh = () => {
+  const refresh = (force = false) => {
     scheduled = false;
     personalizeGameLabels(document);
+    syncPlayerProfileSurface(activePlayerProfileUi, activePlayerProfileUi?.dom?.overlayBody, force);
   };
   const scheduleRefresh = () => {
     if (scheduled) return;
     scheduled = true;
-    requestAnimationFrame(refresh);
+    requestAnimationFrame(() => refresh(false));
   };
+  const handleProfileChange = () => requestAnimationFrame(() => refresh(true));
 
   new MutationObserver(scheduleRefresh).observe(document.body, { childList: true, subtree: true, characterData: true });
-  globalThis.addEventListener(PLAYER_PROFILE_CHANGED_EVENT, scheduleRefresh);
+  globalThis.addEventListener(PLAYER_PROFILE_CHANGED_EVENT, handleProfileChange);
   globalThis.addEventListener(LEGACY_PLAYER_NAME_CHANGED_EVENT, scheduleRefresh);
   refresh();
 }
