@@ -1,12 +1,28 @@
-/** Persistent player-name profile, Hungarian mode labels and DOM personalization. */
+/** Tartós játékosprofil-állapot, szerkesztő és felületi névszinkronizáció. */
 
 import { APP_STORAGE_KEYS } from './app/configuration.js';
-import { readStoredString, removeStoredValue, writeStoredString } from './services/storage-service.js';
-import { UI } from './ui.js';
+import {
+  readStoredString,
+  removeStoredValue,
+  writeStoredBoolean,
+  writeStoredString,
+} from './services/storage-service.js';
+import { UI, el } from './ui.js';
 
 export const PLAYER_NAME_STORAGE_KEY = APP_STORAGE_KEYS.playerName;
+export const PLAYER_PROFILE_SAVED_STORAGE_KEY = APP_STORAGE_KEYS.playerProfileSaved;
 export const DEFAULT_PLAYER_NAME = 'Játékos';
 export const MAX_PLAYER_NAME_LENGTH = 24;
+export const PLAYER_PROFILE_CHANGED_EVENT = 'fociskartyak:player-profile-changed';
+export const LEGACY_PLAYER_NAME_CHANGED_EVENT = 'fociskartyak:player-name-changed';
+
+export class PlayerProfileError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'PlayerProfileError';
+    this.code = code;
+  }
+}
 
 const PROFILE_BASE_METHODS = Object.freeze({
   renderScores: UI.prototype.renderScores,
@@ -39,21 +55,112 @@ export function localizeInterfaceTextValue(value) {
   );
 }
 
-const readStoredName = () => readStoredString(PLAYER_NAME_STORAGE_KEY);
+const readStoredName = () => readStoredString(PLAYER_NAME_STORAGE_KEY, null);
+const readProfileSavedMarker = () => readStoredString(PLAYER_PROFILE_SAVED_STORAGE_KEY, null);
+
+const playerProfileSnapshot = playerName => Object.freeze({
+  playerName,
+  isProfileSaved: true,
+});
+
+function playerProfileRestoreStoredValue(key, previousValue) {
+  if (previousValue == null) removeStoredValue(key);
+  else writeStoredString(key, previousValue);
+}
+
+function playerProfileDispatchChange(profile, operation) {
+  if (typeof document !== 'undefined') personalizeGameLabels(document);
+  if (typeof globalThis.dispatchEvent !== 'function' || typeof globalThis.CustomEvent !== 'function') return;
+  const detail = Object.freeze({
+    operation,
+    hasPlayerProfile: Boolean(profile),
+    playerProfile: profile,
+    name: profile?.playerName ?? DEFAULT_PLAYER_NAME,
+  });
+  globalThis.dispatchEvent(new globalThis.CustomEvent(PLAYER_PROFILE_CHANGED_EVENT, { detail }));
+  globalThis.dispatchEvent(new globalThis.CustomEvent(LEGACY_PLAYER_NAME_CHANGED_EVENT, { detail }));
+}
+
+/**
+ * A régi kiadások kizárólag a playerName kulcsot tárolták. Ha ilyen nevet
+ * találunk, egyszeri kompatibilitási migrációval mentett profilként jelöljük.
+ */
+export function hasPlayerProfile() {
+  const playerName = normalizePlayerName(readStoredName());
+  if (!playerName) return false;
+
+  const marker = readProfileSavedMarker();
+  if (marker === 'true') return true;
+  if (marker == null) {
+    writeStoredBoolean(PLAYER_PROFILE_SAVED_STORAGE_KEY, true);
+    return true;
+  }
+  return false;
+}
 
 export function hasSavedPlayerName() {
-  return Boolean(normalizePlayerName(readStoredName()));
+  return hasPlayerProfile();
+}
+
+export function loadPlayerProfile() {
+  if (!hasPlayerProfile()) return null;
+  const playerName = normalizePlayerName(readStoredName());
+  return playerName ? playerProfileSnapshot(playerName) : null;
 }
 
 export function loadPlayerName() {
-  return normalizePlayerName(readStoredName()) || DEFAULT_PLAYER_NAME;
+  return loadPlayerProfile()?.playerName ?? DEFAULT_PLAYER_NAME;
 }
 
+export function savePlayerProfile(value) {
+  const playerName = normalizePlayerName(
+    typeof value === 'string' ? value : value?.playerName,
+  );
+  if (!playerName) {
+    throw new PlayerProfileError('PLAYER_NAME_REQUIRED', 'A játékosnév megadása kötelező.');
+  }
+
+  const hadPlayerProfile = hasPlayerProfile();
+  const previousName = readStoredName();
+  const previousMarker = readProfileSavedMarker();
+  if (!writeStoredString(PLAYER_NAME_STORAGE_KEY, playerName)) {
+    throw new PlayerProfileError('PROFILE_STORAGE_FAILED', 'A játékosprofil mentése nem sikerült. Próbáld újra.');
+  }
+  if (!writeStoredBoolean(PLAYER_PROFILE_SAVED_STORAGE_KEY, true)) {
+    playerProfileRestoreStoredValue(PLAYER_NAME_STORAGE_KEY, previousName);
+    playerProfileRestoreStoredValue(PLAYER_PROFILE_SAVED_STORAGE_KEY, previousMarker);
+    throw new PlayerProfileError('PROFILE_STORAGE_FAILED', 'A játékosprofil mentése nem sikerült. Próbáld újra.');
+  }
+
+  const profile = playerProfileSnapshot(playerName);
+  playerProfileDispatchChange(profile, hadPlayerProfile ? 'updated' : 'created');
+  return profile;
+}
+
+/** Korábbi API-kompatibilitás: a név mentése ma már ugyanazt az egy profilt frissíti. */
 export function savePlayerName(value) {
-  const normalized = normalizePlayerName(value);
-  if (normalized) writeStoredString(PLAYER_NAME_STORAGE_KEY, normalized);
-  else removeStoredValue(PLAYER_NAME_STORAGE_KEY);
-  return normalized || DEFAULT_PLAYER_NAME;
+  const playerName = normalizePlayerName(value);
+  if (!playerName) {
+    deletePlayerProfile();
+    return DEFAULT_PLAYER_NAME;
+  }
+  return savePlayerProfile({ playerName }).playerName;
+}
+
+export function deletePlayerProfile() {
+  const previousName = readStoredName();
+  const previousMarker = readProfileSavedMarker();
+  const nameRemoved = removeStoredValue(PLAYER_NAME_STORAGE_KEY);
+  const markerRemoved = removeStoredValue(PLAYER_PROFILE_SAVED_STORAGE_KEY);
+
+  if (!nameRemoved || !markerRemoved) {
+    playerProfileRestoreStoredValue(PLAYER_NAME_STORAGE_KEY, previousName);
+    playerProfileRestoreStoredValue(PLAYER_PROFILE_SAVED_STORAGE_KEY, previousMarker);
+    return false;
+  }
+
+  playerProfileDispatchChange(null, 'deleted');
+  return true;
 }
 
 const upperName = () => loadPlayerName().toLocaleUpperCase('hu-HU');
@@ -134,10 +241,7 @@ function personalizeGameLabels(root = document) {
   }
 }
 
-/* Apply the saved name in the same synchronous render pass that creates the
-   scoreboard or the final-result overlay. The MutationObserver remains as a
-   fallback, but these hooks prevent a temporary or persistent "Játékos" label
-   in Android WebViews where animation frames may be delayed. */
+/* A név ugyanabban a renderelési ciklusban kerül az eredményjelzőre és az eredménypanelre. */
 UI.prototype.renderScores = function renderScoresWithSavedPlayerName(...args) {
   PROFILE_BASE_METHODS.renderScores.apply(this, args);
   personalizeGameLabels(this.dom.pub);
@@ -148,97 +252,177 @@ UI.prototype.showOverlay = function showOverlayWithSavedPlayerName(node) {
   personalizeGameLabels(this.dom.overlayBody ?? document);
 };
 
-function showInlineStatus(editor, message) {
-  const status = editor.querySelector('.player-profile__status');
-  if (!status) return;
-  status.textContent = message;
-  clearTimeout(status._clearTimer);
-  status._clearTimer = setTimeout(() => { status.textContent = ''; }, 2200);
-}
-
-function createNameEditor(context) {
-  const editor = document.createElement('section');
-  editor.className = `player-profile player-profile--${context}`;
-  editor.dataset.playerProfileEditor = context;
-
-  const heading = document.createElement('h2');
-  heading.textContent = context === 'home' ? '👤 Játékosprofil' : '👤 Játékos neve';
-
-  const description = document.createElement('p');
-  description.textContent = context === 'home'
-    ? 'Add meg a neved; a játék megjegyzi, és ezt használja az eredményjelzőn.'
-    : 'A mentett név minden új és folytatott mérkőzésen megjelenik.';
-
-  const form = document.createElement('form');
-  form.className = 'player-profile__form';
-
-  const label = document.createElement('label');
-  label.className = 'player-profile__label';
-  label.htmlFor = `player-name-${context}`;
-  label.textContent = 'Név';
-
-  const input = document.createElement('input');
-  input.id = `player-name-${context}`;
-  input.className = 'player-profile__input';
-  input.type = 'text';
-  input.name = 'playerName';
-  input.value = hasSavedPlayerName() ? loadPlayerName() : '';
-  input.placeholder = DEFAULT_PLAYER_NAME;
-  input.maxLength = MAX_PLAYER_NAME_LENGTH;
-  input.autocomplete = 'nickname';
-  input.enterKeyHint = 'done';
-  input.setAttribute('aria-describedby', `player-name-help-${context}`);
-
-  const help = document.createElement('small');
-  help.id = `player-name-help-${context}`;
-  help.className = 'player-profile__help';
-  help.textContent = `Legfeljebb ${MAX_PLAYER_NAME_LENGTH} karakter. Üresen hagyva: ${DEFAULT_PLAYER_NAME}.`;
-
-  const button = document.createElement('button');
-  button.type = 'submit';
-  button.className = 'btn player-profile__save';
-  button.textContent = 'Név mentése';
-
-  const status = document.createElement('span');
-  status.className = 'player-profile__status';
+function playerProfileCreateStatus(elementFactory) {
+  const status = elementFactory('span', 'player-profile__status');
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
+  return status;
+}
 
+function playerProfileSetStatus(status, message, tone = 'error') {
+  if (!status) return;
+  status.textContent = message;
+  status.dataset.tone = tone;
+}
+
+function playerProfileCreateForm({
+  elementFactory,
+  profile,
+  submitLabel,
+  onSubmit,
+  onCancel,
+}) {
+  const form = elementFactory('form', 'player-profile__form');
+  form.noValidate = true;
+  const label = elementFactory('label', 'player-profile__label', 'Játékosnév');
+  label.htmlFor = 'player-profile-name';
+
+  const input = elementFactory('input', 'player-profile__input');
+  input.id = 'player-profile-name';
+  input.type = 'text';
+  input.name = 'playerName';
+  input.value = profile?.playerName ?? '';
+  input.placeholder = DEFAULT_PLAYER_NAME;
+  input.maxLength = MAX_PLAYER_NAME_LENGTH;
+  input.required = true;
+  input.autocomplete = 'nickname';
+  input.enterKeyHint = 'done';
+  input.setAttribute('aria-describedby', 'player-profile-help player-profile-status');
+
+  const help = elementFactory('small', 'player-profile__help', `Kötelező mező, legfeljebb ${MAX_PLAYER_NAME_LENGTH} karakter.`);
+  help.id = 'player-profile-help';
   label.append(input, help);
-  form.append(label, button);
-  editor.append(heading, description, form, status);
+
+  const actions = elementFactory('div', 'player-profile__form-actions');
+  const saveButton = elementFactory('button', 'btn player-profile__save', submitLabel);
+  saveButton.type = 'submit';
+  const cancelButton = elementFactory('button', 'btn btn--ghost player-profile__cancel', 'Mégse');
+  cancelButton.type = 'button';
+  cancelButton.addEventListener('click', onCancel);
+  actions.append(saveButton, cancelButton);
+
+  const status = playerProfileCreateStatus(elementFactory);
+  status.id = 'player-profile-status';
+  form.append(label, actions, status);
 
   form.addEventListener('submit', event => {
     event.preventDefault();
-    const savedName = savePlayerName(input.value);
-    input.value = hasSavedPlayerName() ? savedName : '';
-    personalizeGameLabels(document);
-    document.querySelectorAll('[data-player-profile-editor] .player-profile__input').forEach(field => {
-      field.value = hasSavedPlayerName() ? savedName : '';
-    });
-    showInlineStatus(editor, `Mentve: ${savedName}`);
-    globalThis.dispatchEvent?.(new CustomEvent('fociskartyak:player-name-changed', { detail: { name: savedName } }));
+    input.setAttribute('aria-invalid', 'false');
+    try {
+      const savedProfile = savePlayerProfile({ playerName: input.value });
+      playerProfileSetStatus(status, '', 'success');
+      onSubmit(savedProfile);
+    } catch (error) {
+      const message = error instanceof PlayerProfileError
+        ? error.message
+        : 'A játékosprofil mentése nem sikerült. Próbáld újra.';
+      input.setAttribute('aria-invalid', 'true');
+      playerProfileSetStatus(status, message, 'error');
+      input.focus?.({ preventScroll: true });
+    }
   });
 
-  return editor;
+  return form;
 }
 
-function injectEditors() {
-  const home = document.querySelector('.mobile-home');
-  if (home && !home.querySelector('[data-player-profile-editor="home"]')) {
-    const editor = createNameEditor('home');
-    const intro = [...home.children].find(node => node.tagName === 'P' && !node.classList.contains('eyebrow'));
-    if (intro) intro.after(editor);
-    else home.prepend(editor);
+/**
+ * Újrafelhasználható profilkomponens a létrehozási panelhez és a Beállításokhoz.
+ * A komponens kizárólag a központi profilfüggvényeken keresztül ír adatot.
+ */
+export function createPlayerProfileEditor({
+  context = 'settings',
+  elementFactory = el,
+  onSaved = () => {},
+  onCancel = () => {},
+  onDeleteRequest = () => {},
+} = {}) {
+  if (typeof elementFactory !== 'function') {
+    throw new PlayerProfileError('INVALID_ELEMENT_FACTORY', 'A profilkomponens elemgyártó függvénye kötelező.');
   }
 
-  const settings = document.querySelector('.settings-panel');
-  if (settings && !settings.querySelector('[data-player-profile-editor="settings"]')) {
-    const editor = createNameEditor('settings');
-    const list = settings.querySelector('.settings-list');
-    if (list) list.before(editor);
-    else settings.append(editor);
-  }
+  const editor = elementFactory('section', `player-profile player-profile--${context}`);
+  editor.dataset.playerProfileEditor = context;
+  let editing = context === 'create';
+
+  const render = () => {
+    const profile = loadPlayerProfile();
+    const isExistingProfile = Boolean(profile);
+    editor.replaceChildren();
+
+    const heading = elementFactory('h2', null, '👤 Játékosprofil');
+    const description = elementFactory(
+      'p',
+      null,
+      isExistingProfile
+        ? 'A mentett név minden játékmódban és eredményjelzőn egységesen jelenik meg.'
+        : 'Hozz létre egy profilt, hogy a saját neved jelenjen meg a mérkőzéseken.',
+    );
+    editor.append(heading, description);
+
+    if (!editing && isExistingProfile) {
+      const details = elementFactory('dl', 'player-profile__details');
+      const row = elementFactory('div', 'player-profile__detail');
+      row.append(
+        elementFactory('dt', null, 'Játékosnév'),
+        elementFactory('dd', null, profile.playerName),
+      );
+      details.appendChild(row);
+
+      const actions = elementFactory('div', 'player-profile__actions');
+      const editButton = elementFactory('button', 'btn player-profile__edit', 'Profil szerkesztése');
+      editButton.type = 'button';
+      editButton.addEventListener('click', () => {
+        editing = true;
+        render();
+        editor.querySelector?.('input')?.focus?.({ preventScroll: true });
+      });
+      const deleteButton = elementFactory('button', 'btn btn--danger player-profile__delete', 'Profil törlése');
+      deleteButton.type = 'button';
+      deleteButton.addEventListener('click', () => onDeleteRequest(profile));
+      actions.append(editButton, deleteButton);
+      editor.append(details, actions);
+      return;
+    }
+
+    if (!editing && !isExistingProfile && context === 'settings') {
+      const empty = elementFactory('p', 'player-profile__empty', 'Még nincs mentett játékosprofil.');
+      const createButton = elementFactory('button', 'btn player-profile__edit', 'Játékosprofil létrehozása');
+      createButton.type = 'button';
+      createButton.addEventListener('click', () => {
+        editing = true;
+        render();
+        editor.querySelector?.('input')?.focus?.({ preventScroll: true });
+      });
+      editor.append(empty, createButton);
+      return;
+    }
+
+    const form = playerProfileCreateForm({
+      elementFactory,
+      profile,
+      submitLabel: isExistingProfile ? 'Módosítások mentése' : 'Játékosprofil mentése',
+      onSubmit: savedProfile => {
+        const operation = isExistingProfile ? 'updated' : 'created';
+        onSaved(savedProfile, operation);
+        if (context === 'settings') {
+          editing = false;
+          render();
+        }
+      },
+      onCancel: () => {
+        if (context === 'create') {
+          onCancel();
+          return;
+        }
+        editing = false;
+        render();
+      },
+    });
+    editor.appendChild(form);
+  };
+
+  render();
+  return editor;
 }
 
 function startPlayerProfile() {
@@ -248,7 +432,6 @@ function startPlayerProfile() {
   let scheduled = false;
   const refresh = () => {
     scheduled = false;
-    injectEditors();
     personalizeGameLabels(document);
   };
   const scheduleRefresh = () => {
@@ -258,13 +441,17 @@ function startPlayerProfile() {
   };
 
   new MutationObserver(scheduleRefresh).observe(document.body, { childList: true, subtree: true, characterData: true });
-  globalThis.addEventListener('fociskartyak:player-name-changed', scheduleRefresh);
+  globalThis.addEventListener(PLAYER_PROFILE_CHANGED_EVENT, scheduleRefresh);
+  globalThis.addEventListener(LEGACY_PLAYER_NAME_CHANGED_EVENT, scheduleRefresh);
   refresh();
 }
 
 globalThis.__FOCISKARTYAK_PLAYER_PROFILE__ = Object.freeze({
-  load: loadPlayerName,
-  save: savePlayerName,
+  hasPlayerProfile,
+  load: loadPlayerProfile,
+  save: savePlayerProfile,
+  delete: deletePlayerProfile,
+  loadName: loadPlayerName,
   normalize: normalizePlayerName,
   localize: localizeInterfaceTextValue,
 });
