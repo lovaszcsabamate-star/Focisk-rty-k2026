@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Ázsia régiócsapat embléma</title>
+  <desc id="desc">Egyedi bordó pajzs arany stilizált Ázsia térképpel.</desc>
+  <path fill="#7b2634" d="M80 6 145 30v48c0 38-24 62-65 77C39 140 15 116 15 78V30z"/>
+  <path fill="none" stroke="#d4aa45" stroke-width="5" d="M80 15 136 36v42c0 31-19 52-56 67-37-15-56-36-56-67V36z"/>
+  <path fill="#d4aa45" d="M34 54 57 37l26-6 27 8 18 15-7 12-17 1-4 12-15 2-8 14-16-3-6-13-17-6z"/>
+  <path fill="#fff7e8" d="m57 47 21-7 21 5 13 9-10 6-14-1-5 12-12 3-5-10-15-4z" opacity=".92"/>
+  <path fill="#d4aa45" d="m93 86 9 5-4 14-8-6zm17-4 8 3-3 8-7-4z"/>
+</svg>
