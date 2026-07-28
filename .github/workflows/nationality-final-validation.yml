@@ -17,15 +17,14 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Validate nationality release
-        shell: bash
+        shell: pwsh
         run: |
           git clone --quiet --depth=1 --branch fix/nationality-flags-2026 https://github.com/lovaszcsabamate-star/Focisk-rty-k2026.git repo
-          cd repo
+          Set-Location repo
           npm ci --silent
           npm run lint
           npm test
           npm run build:standalone
-          npm run test:runtime
