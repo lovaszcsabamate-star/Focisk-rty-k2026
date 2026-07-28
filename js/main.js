@@ -12,15 +12,15 @@ import { getLine } from './banter.js';
 import { loadPlayers } from './data/players.js';
 import {
   applyExperienceSettings,
-  clearSavedMatch,
+  clearSeasonSavedMatch,
   DEFAULT_SETTINGS,
-  hydrateGame,
+  hydrateSeasonGame,
   loadSettings,
   onboardingWasCompleted,
-  readSavedMatch,
+  readSeasonSavedMatch,
   saveBooleanSetting,
   setOnboardingCompleted,
-  writeSavedMatch,
+  writeSeasonSavedMatch,
 } from './mobile-experience.js';
 
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
@@ -72,8 +72,8 @@ class Session {
         toggleSetting: (key, value) => this.toggleSetting(key, value),
         beginMatch: () => this._beginMatch(),
       },
-      readSaved: readSavedMatch,
-      clearSaved: clearSavedMatch,
+      readSaved: readSeasonSavedMatch,
+      clearSaved: clearSeasonSavedMatch,
       onboardingCompleted: onboardingWasCompleted,
       setOnboardingCompletedValue: setOnboardingCompleted,
     });
@@ -90,7 +90,7 @@ class Session {
         showTitleScreen: options => this.showTitleScreen(options),
         showPanel: (panel, returnAction) => this._showPanel(panel, returnAction),
       },
-      clearSaved: clearSavedMatch,
+      clearSaved: clearSeasonSavedMatch,
     });
     this.rounds = createRoundController({
       ui: this.ui,
@@ -208,7 +208,7 @@ class Session {
   }
 
   start(mode, difficulty) {
-    clearSavedMatch();
+    clearSeasonSavedMatch();
     this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
     this.busy = false;
     this.ui.resetTable();
@@ -258,11 +258,11 @@ class Session {
 
   saveCurrentGame() {
     if (!this.game || this.game.isOver) return false;
-    return writeSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
+    return writeSeasonSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
 
   resumeSavedMatch() {
-    const saved = readSavedMatch();
+    const saved = readSeasonSavedMatch();
     if (!saved) {
       this.ui.showToast('Nincs folytatható mentett játék', 'error');
       this.showTitleScreen({ offerOnboarding: false });
@@ -273,7 +273,7 @@ class Session {
       this.runtime.restore({
         ...saved,
         difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
-      }, hydrateGame);
+      }, hydrateSeasonGame);
       this.ui.resetTable();
       this.ui.setMode(this.mode);
       if (saved.uxStats) this.ui.uxStats = saved.uxStats;
@@ -284,7 +284,7 @@ class Session {
       this.ui.showToast('Mentett játék folytatva', 'success');
     } catch (error) {
       console.error('[save] A mentett játék nem állítható vissza:', error);
-      clearSavedMatch();
+      clearSeasonSavedMatch();
       this.ui.showToast('A mentés sérült, ezért új játék szükséges.', 'error', 3400);
       this.showTitleScreen({ offerOnboarding: false });
     }
