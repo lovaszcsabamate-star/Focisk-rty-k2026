@@ -148,6 +148,15 @@ assert.match(brandingSource, /createGeneratedClubLogo/);
 assert.match(brandingSource, /createElementNS/);
 assert.match(brandingSource, /MutationObserver/);
 assert.match(brandingSource, /data-generated-club-logo|generatedClubLogo/);
+assert.match(brandingSource, /TEAM_LOGO_SHORT_LABELS/);
+assert.match(brandingSource, /DV:\s*'DVSC'/);
+assert.match(brandingSource, /DI:\s*'DVTK'/);
+assert.match(brandingSource, /KIS:\s*'KISV'/);
+assert.match(brandingSource, /KB:\s*'KBSC'/);
+assert.match(brandingSource, /NY:\s*'NYÍR'/);
+assert.match(brandingSource, /PFC:\s*'PAKS'/);
+assert.match(brandingSource, /PA:\s*'PAFC'/);
+assert.match(brandingSource, /data-club-short-label/);
 assert.doesNotMatch(brandingSource, /assets\/clubs\//);
 assert.doesNotMatch(brandingSource, /const canonicalPath\s*=|const protectedArtPrefixes\s*=|playerPlaceholderPath:\s*['"]/);
 assert.ok(
@@ -160,4 +169,4 @@ assert.ok(
 );
 assert.match(serviceWorkerSource, /\.\/js\/services\/asset-service\.js/);
 
-console.log('✓ Központi assetpolicy és jogtiszta, generált klublogó-helyreállítás: rendben');
+console.log('✓ Központi assetpolicy és jogtiszta, kanonikus rövidítésű generált klublogók: rendben');
