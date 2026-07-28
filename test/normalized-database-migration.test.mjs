@@ -22,7 +22,7 @@ const reportFile = result.manifest.files.normalizationReport;
 
 assert.equal(result.output.schemaVersion, 2);
 assert.equal(result.output.databaseId, 'hungary-nb1-2025-26');
-assert.equal(result.output.databaseVersion, '3.1.0');
+assert.equal(result.output.databaseVersion, '3.2.0');
 assert.equal(result.output.competitionId, 'hungary-nb1');
 assert.equal(result.output.seasonId, '2025-26');
 assert.equal(result.output.season, '2025/26');
@@ -40,7 +40,7 @@ assert.equal(result.report.preservation.unchangedNames, true);
 assert.equal(result.report.preservation.unchangedStatsObjects, true);
 assert.deepEqual(result.report.sourceLayerCounts, {
   enrichments: 24,
-  corrections: 5,
+  corrections: 6,
   statPatches: 13,
 });
 
@@ -53,6 +53,8 @@ for (const player of result.output.players) {
   assert.ok(player.id);
   assert.ok(player.name);
   assert.ok(player.clubName);
+  assert.ok(player.nationality);
+  assert.ok(player.countryCode);
   assert.ok(player.dataCompleteness);
   assert.equal(typeof player.dataCompleteness.ratio, 'number');
   assert.ok(player.dataCompleteness.ratio >= 0 && player.dataCompleteness.ratio <= 1);
@@ -78,4 +80,4 @@ writeNormalizedDatabase({
   check: true,
 });
 
-console.log('✓ Normalizált 2025/26 adatbázis: szezonazonosító, 440 stabil játékos, kanonikus mezők és determinisztikus újragenerálás');
+console.log('✓ Normalizált 2025/26 adatbázis v3.2: 440 stabil játékos, ISO countryCode és determinisztikus újragenerálás');
