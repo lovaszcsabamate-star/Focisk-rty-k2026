@@ -13,6 +13,7 @@ const readSource = relative => fs.readFileSync(new URL(relative, import.meta.url
 assert.deepEqual(UI_ENHANCEMENT_MODULES, [
   '../ux.js',
   '../ux-fixes.js',
+  '../nationality-ui-enhancement.js',
   '../matchday.js',
   '../opponents.js',
   '../mobile-experience.js',
@@ -125,6 +126,7 @@ const categoryPickerCss = readSource('../css/category-picker.css');
 const hierarchySource = readSource('../js/visual-hierarchy.js');
 const hierarchyCss = readSource('../css/visual-hierarchy.css');
 const gameplaySource = readSource('../js/gameplay-experience.js');
+const nationalityUiSource = readSource('../js/nationality-ui-enhancement.js');
 const uiSource = readSource('../js/ui.js');
 const bootstrapSource = readSource('../js/bootstrap.js');
 const indexSource = readSource('../index.html');
@@ -138,19 +140,31 @@ assert.ok(
   'az UI enhancement pipeline az adatbetöltés és a Session előtt fut',
 );
 for (const file of [
-  'ux.js', 'ux-fixes.js', 'matchday.js', 'opponents.js', 'category-picker.js', 'player-profile.js',
-  'reliability-fixes.js', 'usability-fixes.js', 'focus-experience.js', 'gameplay-experience.js',
-  'visual-settings-persistence.js', 'visual-system.js', 'visual-hierarchy.js', 'legal-ui.js',
+  'ux.js', 'ux-fixes.js', 'nationality-ui-enhancement.js', 'matchday.js', 'opponents.js',
+  'category-picker.js', 'player-profile.js', 'reliability-fixes.js', 'usability-fixes.js',
+  'focus-experience.js', 'gameplay-experience.js', 'visual-settings-persistence.js',
+  'visual-system.js', 'visual-hierarchy.js', 'legal-ui.js',
 ]) {
-  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}\"></script>`));
+  assert.doesNotMatch(indexSource, new RegExp(`<script type="module" src="js/${file.replaceAll('.', '\\.')}"></script>`));
 }
 assert.match(indexSource, /css\/visual-hierarchy\.css/);
 assert.match(indexSource, /css\/category-picker\.css/);
+assert.match(indexSource, /css\/nationality-flags\.css/);
 assert.match(indexSource, /js\/branding\.js/);
 assert.match(indexSource, /js\/pwa\.js/);
 assert.match(indexSource, /js\/bootstrap\.js/);
 assert.doesNotMatch(indexSource, /js\/ui\/ui-enhancement-pipeline\.js/, 'a pipeline-t a bootstrap importálja és várja meg');
 
+assert.ok(
+  buildSource.indexOf("'js/ux-fixes.js'")
+    < buildSource.indexOf("'js/nationality-ui-enhancement.js'"),
+  'a nemzetiségi jelölések a régi zászlófelülírás eltávolítása után települnek',
+);
+assert.ok(
+  buildSource.indexOf("'js/nationality-ui-enhancement.js'")
+    < buildSource.indexOf("'js/matchday.js'"),
+  'a nemzetiségi jelölések a mérkőzésnézetek előtt települnek',
+);
 assert.ok(
   buildSource.indexOf("'js/mobile-experience.js'")
     < buildSource.indexOf("'js/category-picker.js'"),
@@ -193,6 +207,7 @@ assert.match(buildSource, /__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__/);
 assert.match(serviceWorkerSource, /\.\/js\/visual-hierarchy\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/category-picker\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/gameplay-experience\.js/);
+assert.match(serviceWorkerSource, /\.\/js\/nationality-ui-enhancement\.js/);
 assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 assert.match(pipelineSource, /beginLayer\(moduleSpecifier\)/);
 assert.match(pipelineSource, /commitLayer\(moduleSpecifier\)/);
@@ -202,6 +217,8 @@ assert.match(uiSource, /class UIBase/);
 assert.match(uiSource, /export let UI = UIBase/);
 assert.match(uiSource, /class extends ParentUI/);
 
+assert.match(nationalityUiSource, /quick-team-mark--flag/);
+assert.match(nationalityUiSource, /createCountryFlagElement/);
 assert.match(categoryPickerSource, /category-grid/);
 assert.match(categoryPickerSource, /minden regisztrált összehasonlítási kategória/i);
 assert.match(categoryPickerSource, /kategória látható/);
