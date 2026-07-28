@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">CONCACAF régiócsapat embléma</title>
+  <desc id="desc">Egyedi türkiz és sötétkék kör alakú embléma Észak- és Közép-Amerika, valamint a Karib-térség absztrakt formájával.</desc>
+  <circle cx="80" cy="80" r="75" fill="#103b63"/>
+  <circle cx="80" cy="80" r="65" fill="none" stroke="#2cb8b5" stroke-width="5"/>
+  <path fill="#2cb8b5" d="M35 43 58 29l31 3 24 12 11 14-14 8-12 14-13-3-8 12-12-5-4-14-13-8-16-4z"/>
+  <path fill="#f4fbfb" d="m73 78 10 5-5 10 9 9-6 8-10-13-9-4zm20 24 8 4-3 7-9-3zm14 8 7 2-2 6-7-2zm-58-65 13-8 18 2-6 10-13 3z" opacity=".95"/>
+  <path fill="none" stroke="#2cb8b5" stroke-width="4" stroke-linecap="round" d="m79 109 10 5 10 1 11 7"/>
+</svg>
