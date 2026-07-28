@@ -1,1 +1,55 @@
-{"schemaVersion":1,"checkedAt":"2026-07-21","policy":"A lezárt 2025/26-os MLSZ-játékosprofil és a HLSZ egyező adata elsőbbséget élvez az aktuális kluboldal és a korábbi alaprekord eltérő születési dátumával szemben. A forrássnapshot változatlan marad; minden felülírt mező külön engedélyezett és auditálható.","addSources":[],"recordPatches":[{"sourceId":"puskas-official-first-team-2026-07-20","clubId":"puskas-akademia-fc","name":"Mikael Soisalo","birthDate":"1998-04-24","aliases":["SOISALO MIKAEL ANTERO"],"note":"A kluboldali 1998-02-24 értékkel szemben a lezárt 2025/26-os MLSZ-profil és a HLSZ egyaránt 1998-04-24 születési dátumot közöl.","sourceUrl":"https://adatbank.mlsz.hu/player/1362198.html"}],"verifiedCorrections":[{"correctionId":"puskas-soisalo-birth-date-2025-26","playerId":"nb1-0313d575ded4","clubId":"puskas-akademia-fc","name":"SOISALO MIKAEL ANTERO","overrideFields":["birthDate"],"birthDate":"1998-04-24","checkedAt":"2026-07-21","sourceIds":["mlsz-hlsz-puskas-complete-2025-26","puskas-official-first-team-2026-07-20"],"sourceUrl":"https://adatbank.mlsz.hu/player/1362198.html","note":"A lezárt MLSZ-profil és a HLSZ egyező 1998-04-24 dátuma javítja a korábbi 1998-02-24 alapértéket."}],"excludeRecords":[],"additions":[]}
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-07-28",
+  "policy": "A lezárt 2025/26-os MLSZ-játékosprofil és a HLSZ egyező adata elsőbbséget élvez az aktuális kluboldal és a korábbi alaprekord eltérő születési dátumával szemben. A sportnemzetiségi javításoknál a játékos által képviselt felnőtt vagy korosztályos válogatott az elsődleges. A forrássnapshot változatlan marad; minden felülírt mező külön engedélyezett és auditálható.",
+  "addSources": [],
+  "recordPatches": [
+    {
+      "sourceId": "puskas-official-first-team-2026-07-20",
+      "clubId": "puskas-akademia-fc",
+      "name": "Mikael Soisalo",
+      "birthDate": "1998-04-24",
+      "aliases": ["SOISALO MIKAEL ANTERO"],
+      "note": "A kluboldali 1998-02-24 értékkel szemben a lezárt 2025/26-os MLSZ-profil és a HLSZ egyaránt 1998-04-24 születési dátumot közöl.",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1362198.html"
+    }
+  ],
+  "verifiedCorrections": [
+    {
+      "correctionId": "puskas-soisalo-birth-date-2025-26",
+      "playerId": "nb1-0313d575ded4",
+      "clubId": "puskas-akademia-fc",
+      "name": "SOISALO MIKAEL ANTERO",
+      "overrideFields": ["birthDate"],
+      "birthDate": "1998-04-24",
+      "checkedAt": "2026-07-21",
+      "sourceIds": ["mlsz-hlsz-puskas-complete-2025-26", "puskas-official-first-team-2026-07-20"],
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1362198.html",
+      "note": "A lezárt MLSZ-profil és a HLSZ egyező 1998-04-24 dátuma javítja a korábbi 1998-02-24 alapértéket."
+    },
+    {
+      "correctionId": "nationality-lenny-joseph-haiti-2026-07-28",
+      "clubId": "ferencvarosi-tc",
+      "name": "Lenny Joseph",
+      "nation": "HAI",
+      "overrideFields": ["nation"],
+      "checkedAt": "2026-07-28",
+      "sourceIds": ["uefa-lenny-joseph-haiti", "fifa-haiti-world-cup-squad-2026"],
+      "sourceUrl": "https://www.uefa.com/uefachampionsleague/clubs/players/250137855--lenny-joseph/",
+      "note": "A játékos Haiti válogatottját képviseli; a kanonikus országkód HT."
+    },
+    {
+      "correctionId": "nationality-callum-odowda-ireland-2026-07-28",
+      "clubId": "ferencvarosi-tc",
+      "name": "Callum O'Dowda",
+      "nation": "IRL",
+      "overrideFields": ["nation"],
+      "checkedAt": "2026-07-28",
+      "sourceIds": ["uefa-callum-odowda-republic-of-ireland"],
+      "sourceUrl": "https://www.uefa.com/uefachampionsleague/clubs/players/250079712--callum-o-dowda/",
+      "note": "A játékos az Ír Köztársaság válogatottját képviseli; a kanonikus országkód IE, nem GB."
+    }
+  ],
+  "excludeRecords": [],
+  "additions": []
+}
