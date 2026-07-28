@@ -34,4 +34,16 @@ jobs:
           NODE
           node scripts/migrate-normalized-database.mjs >/dev/null
           node scripts/audit-nationalities.mjs >/dev/null
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const report = JSON.parse(fs.readFileSync('data/databases/hungary-nb1-2025-26/nationality-audit-report.json', 'utf8'));
+          console.log(JSON.stringify({
+            summary: report.summary,
+            britishMisassignments: report.britishMisassignments,
+            contradictions: report.contradictions,
+            missingNationality: report.missingNationality,
+            missingCountryCode: report.missingCountryCode,
+            unknownCountryCode: report.unknownCountryCode,
+          }, null, 2));
+          NODE
           node test/nationalities.test.mjs
