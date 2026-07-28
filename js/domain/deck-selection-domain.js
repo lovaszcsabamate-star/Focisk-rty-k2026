@@ -5,6 +5,13 @@ import {
   nationalityPresentation as centralNationalityPresentation,
   resolvePlayerNationality,
 } from '../data/nationalities.js';
+import { federationPresentation, normaliseFederationCode } from '../data/federations.js';
+import {
+  getPlayableFederationTeams,
+  getPlayableNationalTeams,
+  getPlayerFederation,
+  isPlayablePlayer,
+} from './federation-domain.js';
 
 export const MIN_FILTERED_DECK_SIZE = 11;
 
@@ -13,7 +20,7 @@ export const RANDOM_DECK_SELECTION = Object.freeze({
   value: '',
 });
 
-const DECK_DOMAIN_SELECTION_KINDS = new Set(['random', 'club', 'nation']);
+const DECK_DOMAIN_SELECTION_KINDS = new Set(['random', 'club', 'nation', 'federation']);
 
 const deckDomainFold = value => String(value ?? '')
   .normalize('NFD')
@@ -28,6 +35,7 @@ const deckDomainPlayers = players => (Array.isArray(players) ? players : []);
 const deckDomainGroupBy = (players, keyFor, labelFor) => {
   const groups = new Map();
   for (const player of deckDomainPlayers(players)) {
+    if (!isPlayablePlayer(player)) continue;
     const key = keyFor(player);
     if (!key) continue;
     const current = groups.get(key) ?? { key, label: labelFor(player), count: 0 };
@@ -53,12 +61,18 @@ export function canonicalNationKey(value) {
   return canonicalNationalityKey(value) || deckDomainFold(value).replace(/\s+/g, '-');
 }
 
+export function canonicalFederationKey(value) {
+  return normaliseFederationCode(value) ?? String(value ?? '').trim().toLocaleUpperCase('en-US');
+}
+
 export function nationPresentation(value) {
   const presentation = centralNationalityPresentation(value);
   return {
     key: presentation.known ? presentation.key : canonicalNationKey(value),
     flag: presentation.known ? presentation.flag : '🌍',
     label: presentation.label,
+    countryCode: presentation.countryCode,
+    federationCode: presentation.federationCode,
   };
 }
 
@@ -72,25 +86,25 @@ export function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_S
     .filter(item => item.count >= minimum)
     .sort((a, b) => a.label.localeCompare(b.label, 'hu-HU'));
 
-  const nations = deckDomainGroupBy(
-    pool,
-    player => canonicalNationKey(playerNationValue(player)),
-    player => nationPresentation(playerNationValue(player)).label,
-  )
-    .filter(item => item.count >= minimum)
-    .map(item => {
-      const presentation = nationPresentation(item.key);
-      const centralPresentation = centralNationalityPresentation(item.key);
-      return {
-        ...item,
-        label: presentation.label,
-        flag: presentation.flag,
-        countryCode: centralPresentation.countryCode,
-      };
-    })
-    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, 'hu-HU'));
+  const nations = getPlayableNationalTeams(pool, minimum).map(team => ({
+    key: canonicalNationKey(team.countryCode),
+    label: team.label,
+    flag: team.flag,
+    countryCode: team.countryCode,
+    federationCode: team.federationCode,
+    count: team.count,
+  }));
 
-  return { minimum, total: pool.length, clubs, nations };
+  const federations = getPlayableFederationTeams(pool, minimum).map(team => ({
+    key: team.federationCode,
+    label: team.label,
+    federationCode: team.federationCode,
+    badge: team.badge,
+    colors: team.colors,
+    count: team.count,
+  }));
+
+  return { minimum, total: pool.length, clubs, nations, federations };
 }
 
 export function normaliseDeckSelection(selection) {
@@ -107,11 +121,12 @@ export function selectionEquals(left, right) {
   if (a.kind !== b.kind) return false;
   if (a.kind === 'club') return canonicalClubKey(a.value) === canonicalClubKey(b.value);
   if (a.kind === 'nation') return canonicalNationKey(a.value) === canonicalNationKey(b.value);
+  if (a.kind === 'federation') return canonicalFederationKey(a.value) === canonicalFederationKey(b.value);
   return true;
 }
 
 export function resolveDeckSelection(players, selection) {
-  const pool = deckDomainPlayers(players);
+  const pool = deckDomainPlayers(players).filter(isPlayablePlayer);
   const normalised = normaliseDeckSelection(selection);
   if (normalised.kind === 'club') {
     const key = canonicalClubKey(normalised.value);
@@ -120,6 +135,10 @@ export function resolveDeckSelection(players, selection) {
   if (normalised.kind === 'nation') {
     const key = canonicalNationKey(normalised.value);
     return pool.filter(player => canonicalNationKey(playerNationValue(player)) === key);
+  }
+  if (normalised.kind === 'federation') {
+    const key = canonicalFederationKey(normalised.value);
+    return pool.filter(player => getPlayerFederation(player).federationCode === key);
   }
   return pool.slice();
 }
@@ -130,7 +149,7 @@ export function validateDeckSelection(players, selection, minimum = MIN_FILTERED
   if (normalised.kind !== 'random' && selectedPlayers.length < minimum) {
     return {
       selection: { ...RANDOM_DECK_SELECTION },
-      players: deckDomainPlayers(players).slice(),
+      players: deckDomainPlayers(players).filter(isPlayablePlayer),
       valid: false,
     };
   }
@@ -143,7 +162,11 @@ export function describeDeckSelection(selection, players = []) {
   if (normalised.kind === 'club') return `Klub: ${normalised.value} · ${count} kártya`;
   if (normalised.kind === 'nation') {
     const nation = nationPresentation(normalised.value);
-    return `Nemzetiség: ${nation.flag} ${nation.label} · ${count} kártya`;
+    return `Válogatott: ${nation.flag} ${nation.label} · ${count} kártya`;
+  }
+  if (normalised.kind === 'federation') {
+    const federation = federationPresentation(normalised.value);
+    return `Föderáció: ${federation.label} · ${count} kártya`;
   }
   return `Véletlen kártyák · ${count} lapos adatbázis`;
 }
