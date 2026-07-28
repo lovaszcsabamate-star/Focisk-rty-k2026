@@ -28,6 +28,7 @@ function showFatalError(error) {
 
 try {
   await installUiEnhancementPipeline();
+  await import('./playability-visual-upgrade.js');
   const loaded = await loadDatabase();
   const {
     database,
