@@ -49,6 +49,19 @@ jobs:
       - name: Android projekt és mobilcsomag elkészítése
         run: npm run mobile:add:android
 
+      - name: Fociskártyák alkalmazásikon alkalmazása
+        run: node scripts/apply-android-icon.mjs
+
+      - name: Android alkalmazásikon ellenőrzése
+        run: |
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+          test -s android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+          test -s android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          test -s android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          grep -q 'android:icon="@mipmap/ic_launcher"' android/app/src/main/AndroidManifest.xml
+          grep -q 'android:roundIcon="@mipmap/ic_launcher_round"' android/app/src/main/AndroidManifest.xml
+
       - name: Debug APK fordítása
         working-directory: android
         run: |
