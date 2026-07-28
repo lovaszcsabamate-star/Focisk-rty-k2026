@@ -74,6 +74,12 @@ if (!output.includes('buildQuickMatchCatalog') || !output.includes('quickMatchSt
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
+if (!output.includes('.nationality-flag') || !output.includes('data:image/svg+xml;base64,')) {
+  throw new Error('A nemzetiségi zászlóstílus vagy a helyi zászló-SVG nem került be az önálló buildbe.');
+}
+if (!output.includes('resolvePlayerNationality') || !output.includes('createPlayerFlagElement')) {
+  throw new Error('A központi nemzetiségi feloldó vagy a játékoszászló-komponens hiányzik az önálló buildből.');
+}
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, kétlépcsős Gyors meccs és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, kétlépcsős Gyors meccs, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
