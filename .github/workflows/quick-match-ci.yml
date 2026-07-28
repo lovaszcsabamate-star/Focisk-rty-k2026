@@ -1,0 +1,28 @@
+name: Quick Match CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Függőségek telepítése
+        run: npm ci
+      - name: Teljes tesztcsomag
+        run: npm test
+      - name: Önálló build ellenőrzése
+        run: npm run build:standalone
