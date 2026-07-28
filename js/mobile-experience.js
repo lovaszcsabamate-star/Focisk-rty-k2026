@@ -20,21 +20,7 @@ import {
 } from './data/players.js';
 import { HUMAN } from './engine.js';
 
-const installAiTurnRecovery = () => {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (globalThis.__FOCISKARTYAK_AI_RECOVERY__) return;
-  globalThis.__FOCISKARTYAK_AI_RECOVERY__ = true;
-
-  window.addEventListener('unhandledrejection', event => {
-    const prompt = document.querySelector('#prompt');
-    const text = prompt?.textContent?.toLocaleLowerCase('hu-HU') ?? '';
-    if (!/a gép(?: kártyát)? választ/.test(text)) return;
-
-    console.warn('[ai] A gépi döntés megszakadt, a mentett állás újratöltése következik.', event.reason);
-    if (prompt) prompt.textContent = 'A gép döntésének újrapróbálása…';
-    window.setTimeout(() => window.location.reload(), 360);
-  });
-};
+const CONNECTIVITY_BADGE_FLAG = '__FOCISKARTYAK_CONNECTIVITY_BADGE__';
 
 export const STORAGE_KEYS = Object.freeze({
   save: APP_STORAGE_KEYS.savedMatch,
@@ -71,6 +57,9 @@ export function setOnboardingCompleted(value) {
 }
 
 export function installConnectivityBadge() {
+  const installed = globalThis[CONNECTIVITY_BADGE_FLAG];
+  if (installed?.isConnected) return installed;
+
   const existing = document.querySelector('#connectivity-status');
   const badge = existing ?? el('div', 'connectivity-status');
   badge.id = 'connectivity-status';
@@ -91,6 +80,8 @@ export function installConnectivityBadge() {
   window.addEventListener('offline', update);
   window.addEventListener('online', update);
   if (navigator.onLine === false) update();
+  globalThis[CONNECTIVITY_BADGE_FLAG] = badge;
+  return badge;
 }
 
 const directionLabel = attribute => {
@@ -285,5 +276,3 @@ UI.prototype.openInspector = function openMobileInspector(...args) {
 UI.prototype.closeInspector = function closeMobileInspector(...args) {
   baseMethods.closeInspector.apply(this, args);
 };
-
-installAiTurnRecovery();
