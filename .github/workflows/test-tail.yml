@@ -14,17 +14,14 @@ jobs:
   test-tail:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
       - name: Full test with concise failure output
         shell: bash
         run: |
+          git clone --quiet --depth=1 --branch fix/nationality-flags-2026 https://github.com/lovaszcsabamate-star/Focisk-rty-k2026.git repo
+          cd repo
+          npm ci --silent
           set +e
           npm test > /tmp/full-test.log 2>&1
           status=$?
-          tail -n 140 /tmp/full-test.log
+          tail -n 160 /tmp/full-test.log
           exit $status
