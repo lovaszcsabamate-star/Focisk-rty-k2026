@@ -1,0 +1,70 @@
+name: Playability upgrade APK
+
+on:
+  push:
+    branches:
+      - feat/playability-visual-upgrade-apk
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Java beállítása
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: Új fejlesztési réteg ellenőrzése
+        run: |
+          node --check js/playability-visual-upgrade.js
+          node test/playability-visual-upgrade.test.mjs
+
+      - name: Teljes lint és regressziós teszt
+        run: |
+          npm run lint
+          npm test
+
+      - name: Android projekt és mobilcsomag elkészítése
+        run: npm run mobile:add:android
+
+      - name: Debug APK fordítása
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Kiadási fájlok előkészítése
+        run: |
+          mkdir -p release
+          cp android/app/build/outputs/apk/debug/app-debug.apk release/Fociskartyak2026-playability-debug.apk
+          cp Fociskartyak2026.html release/Fociskartyak2026.html
+
+      - name: APK és önálló játék feltöltése
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-playability-apk
+          path: release/*
+          if-no-files-found: error
+          retention-days: 14

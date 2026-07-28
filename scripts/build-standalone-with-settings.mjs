@@ -1,4 +1,4 @@
-/** Build the standalone game, then inline sizing, team-selector and Quick Match assets. */
+/** Build the standalone game, then inline sizing, team-selector, playability and Quick Match assets. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -13,6 +13,7 @@ const CSS_LINK = '  <link rel="stylesheet" href="css/visual-settings-persistence
 const TEAM_SELECTOR_CSS_LINK = '  <link rel="stylesheet" href="css/deck-selection-menu.css">';
 const JS_TAG = '  <script type="module" src="js/visual-settings-persistence.js"></script>';
 const TEAM_SELECTOR_BUNDLE_MARKER = '/* ===== js/ui/deck-selection-menu-component.js ===== */';
+const LEGAL_LAYER_MARKER = '/* ===== js/legal-ui.js · isolated UI class layer ===== */';
 
 const sizingCss = fs.readFileSync(path.join(ROOT, 'css/visual-settings-persistence.css'), 'utf8');
 const teamSelectorCss = fs.readFileSync(path.join(ROOT, 'css/deck-selection-menu.css'), 'utf8');
@@ -28,8 +29,19 @@ const quickMatchInlineBundle = [
 ].map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
+const playabilityFile = 'js/playability-visual-upgrade.js';
+const playabilitySource = flattenInlineModule(fs.readFileSync(path.join(ROOT, playabilityFile), 'utf8'))
+  .replace(/<\/script/gi, '<\\/script');
+const playabilityInlineBundle = `
+/* ===== ${playabilityFile} · isolated UI class layer ===== */
+beginUiEnhancementLayer(${JSON.stringify(playabilityFile)});
+(() => {
+${playabilitySource}
+})();
+commitUiEnhancementLayer(${JSON.stringify(playabilityFile)});
+`;
 const runtimeSmokeCompatibility = `
-/* A motor böngészős regressziós tesztje programozott kattintással indítja a meglévő módokat. */
+ /* A motor böngészős regressziós tesztje programozott kattintással indítja a meglévő módokat. */
 if (globalThis.__runtimeSmoke) globalThis.__FOCISKARTYAK_QUICK_MATCH_BYPASS__ = true;
 `;
 
@@ -41,6 +53,10 @@ output = output
   .replace(
     TEAM_SELECTOR_BUNDLE_MARKER,
     `${quickMatchInlineBundle}\n${runtimeSmokeCompatibility}\n${TEAM_SELECTOR_BUNDLE_MARKER}`,
+  )
+  .replace(
+    LEGAL_LAYER_MARKER,
+    `${playabilityInlineBundle}\n${LEGAL_LAYER_MARKER}`,
   );
 
 if (output.includes(CSS_LINK) || output.includes(TEAM_SELECTOR_CSS_LINK) || output.includes(JS_TAG)) {
@@ -55,6 +71,9 @@ if (!output.includes('quick-team-card') || !output.includes('quick-match-duel'))
 if (!output.includes('buildQuickMatchCatalog') || !output.includes('quickMatchStorageService')) {
   throw new Error('A Gyors meccs központi domainje vagy tárolója nem került be az önálló buildbe.');
 }
+if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
+  throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
+}
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés és kétlépcsős Gyors meccs csapatválasztó beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, kétlépcsős Gyors meccs és játszhatósági fejlesztések beágyazva az önálló buildbe.');
