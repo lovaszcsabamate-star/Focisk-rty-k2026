@@ -51,7 +51,6 @@
     "data/club-official-corrections-3.json",
     "data/club-official-corrections-4-kisvarda-selected10-2.json",
     "data/club-official-corrections-5-puskas.json",
-    "data/club-official-corrections-6-nationalities.json",
     "data/club-official-stat-patches-kisvarda.json",
     "data/club-official-stat-patches-kisvarda-selected10.json",
     "data/club-official-stat-patches-kisvarda-selected10-2.json",
@@ -66,11 +65,11 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "4c8a95d5857c3a9aa62bc4d233c139d367c96117dab694d32f426618872ae788",
+  "sourceDigest": "2e0a3eb02c58323267ffe58e0228082dfcae950201f941536397c250124a79af",
   "playersDigest": "e7597dc8ec411f318be5e4d5d42d26061551cf029330901304dcb97ff5da27a0",
   "sourceLayerCounts": {
     "enrichments": 24,
-    "corrections": 6,
+    "corrections": 5,
     "statPatches": 13
   },
   "validation": {
