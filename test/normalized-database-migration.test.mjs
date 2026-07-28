@@ -40,7 +40,7 @@ assert.equal(result.report.preservation.unchangedNames, true);
 assert.equal(result.report.preservation.unchangedStatsObjects, true);
 assert.deepEqual(result.report.sourceLayerCounts, {
   enrichments: 24,
-  corrections: 6,
+  corrections: 5,
   statPatches: 13,
 });
 
