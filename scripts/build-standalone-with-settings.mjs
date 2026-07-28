@@ -35,7 +35,9 @@ const playabilitySource = flattenInlineModule(fs.readFileSync(path.join(ROOT, pl
 const playabilityInlineBundle = `
 /* ===== ${playabilityFile} · isolated UI class layer ===== */
 beginUiEnhancementLayer(${JSON.stringify(playabilityFile)});
+(() => {
 ${playabilitySource}
+})();
 commitUiEnhancementLayer(${JSON.stringify(playabilityFile)});
 `;
 const runtimeSmokeCompatibility = `
