@@ -181,13 +181,16 @@ export function buildNormalizedDatabase({
   const completeness = completenessSummary(normalizedPayload.players);
 
   const output = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     databaseId: manifest.id,
     databaseVersion: manifest.version,
     name: manifest.name,
+    competitionId: manifest.competitionId,
     competition: manifest.competition,
     country: manifest.country,
+    seasonId: manifest.seasonId,
     season: manifest.season,
+    seasonMeta: manifest.seasonMeta,
     generatedAt: deterministicGeneratedAt,
     playerModel: normalizedPayload.playerModel,
     migration: {
@@ -212,9 +215,13 @@ export function buildNormalizedDatabase({
   };
 
   const report = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     databaseId: manifest.id,
     databaseVersion: manifest.version,
+    competitionId: manifest.competitionId,
+    seasonId: manifest.seasonId,
+    season: manifest.season,
+    seasonMeta: manifest.seasonMeta,
     generatedAt: deterministicGeneratedAt,
     outputFile: files.normalizedPlayers ?? DEFAULT_OUTPUT_FILE,
     reportFile: files.normalizationReport ?? DEFAULT_REPORT_FILE,
@@ -270,6 +277,7 @@ if (isCli) {
   const action = check ? 'Ellenőrizve' : 'Elkészült';
   console.log(`${action}: ${result.outputFile}`);
   console.log(`Játékosok: ${result.output.players.length} · modell: v${PLAYER_MODEL_VERSION}`);
+  console.log(`Szezon: ${result.output.season} (${result.output.seasonId}) · adatbázis: ${result.output.databaseId}`);
   console.log(`Forrásrétegek: ${result.report.sourceLayerCounts.enrichments} kiegészítés, ${result.report.sourceLayerCounts.corrections} korrekció, ${result.report.sourceLayerCounts.statPatches} statisztikai csomag`);
   console.log(`Validáció: ${result.report.validation.errorCount} hiba, ${result.report.validation.warningCount} figyelmeztetés`);
 }
