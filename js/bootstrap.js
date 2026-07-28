@@ -1,5 +1,5 @@
 import {
-  loadActiveSeason,
+  loadActiveSeason as loadDatabaseSeason,
 } from './database/season-service.js';
 import {
   buildQuickMatchPayload,
@@ -28,7 +28,7 @@ function showFatalError(error) {
 
 try {
   await installUiEnhancementPipeline();
-  const loaded = await loadActiveSeason();
+  const loaded = await loadDatabaseSeason();
   const {
     database,
     source,
