@@ -1,6 +1,7 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v78
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v79
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
-const PWA_CACHE = 'fociskartyak-2026-v79';
+const CACHE_PREFIX = 'fociskartyak-2026-';
+const PWA_CACHE = `${CACHE_PREFIX}v80`;
 const PWA_SHELL = [
   './',
   './index.html',
@@ -71,6 +72,7 @@ const PWA_SHELL = [
   './js/ux.js',
   './js/ux-fixes.js',
   './js/nationality-ui-enhancement.js',
+  './js/focus-experience.js',
   './js/matchday.js',
   './js/opponents.js',
   './js/pwa.js',
@@ -87,6 +89,7 @@ const PWA_SHELL = [
   './js/visual-system.js',
   './js/visual-hierarchy.js',
   './js/gameplay-experience.js',
+  './js/recent-duels-experience.js',
   './js/legal-ui.js',
   './js/main.js',
   './data/databases/registry.json',
@@ -158,8 +161,12 @@ const PWA_SHELL = [
 
 async function cacheResponse(request, response) {
   if (!response?.ok) return response;
-  const cache = await caches.open(PWA_CACHE);
-  await cache.put(request, response.clone());
+  try {
+    const cache = await caches.open(PWA_CACHE);
+    await cache.put(request, response.clone());
+  } catch (error) {
+    console.warn('[pwa] A sikeres hálózati válasz gyorsítótárazása kimaradt:', error);
+  }
   return response;
 }
 
@@ -171,11 +178,12 @@ async function networkFirst(request) {
   }
 }
 
-async function cacheFirstWithRefresh(request) {
+async function cacheFirstWithRefresh(request, event) {
   const cached = await caches.match(request);
   const refresh = fetch(request)
     .then(response => cacheResponse(request, response))
     .catch(() => null);
+  event?.waitUntil?.(refresh.then(() => undefined));
   return cached || (await refresh) || Response.error();
 }
 
@@ -190,11 +198,13 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key !== PWA_CACHE).map(key => caches.delete(key))))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys
+      .filter(key => key.startsWith(CACHE_PREFIX) && key !== PWA_CACHE)
+      .map(key => caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('fetch', event => {
@@ -203,9 +213,13 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
   if (request.mode === 'navigate') {
-    event.respondWith(networkFirst(request));
+    event.respondWith((async () => {
+      const response = await networkFirst(request);
+      if (response.ok) return response;
+      return (await caches.match(request)) || (await caches.match('./index.html')) || response;
+    })());
     return;
   }
   const freshCodeOrData = /\.(?:js|css|json|html|webmanifest)$/i.test(url.pathname);
-  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request));
+  event.respondWith(freshCodeOrData ? networkFirst(request) : cacheFirstWithRefresh(request, event));
 });
