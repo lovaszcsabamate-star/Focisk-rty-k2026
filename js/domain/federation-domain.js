@@ -16,13 +16,15 @@ import {
 
 export const MINIMUM_TEAM_SIZE = FEDERATION_TEAM_MINIMUM;
 
-const domainPlayers = players => (Array.isArray(players) ? players : []);
-const meaningful = value => String(value ?? '').trim();
-const playerIdentity = (player, index = 0) => meaningful(player?.id) || `${meaningful(player?.name) || 'player'}:${index}`;
+const federationDomainPlayers = players => (Array.isArray(players) ? players : []);
+const federationDomainText = value => String(value ?? '').trim();
+const federationDomainPlayerIdentity = (player, index = 0) => (
+  federationDomainText(player?.id) || `${federationDomainText(player?.name) || 'player'}:${index}`
+);
 
 export function isPlayablePlayer(player) {
   if (!player || typeof player !== 'object') return false;
-  if (!meaningful(player.id) || !meaningful(player.name ?? player.displayName)) return false;
+  if (!federationDomainText(player.id) || !federationDomainText(player.name ?? player.displayName)) return false;
   if (player.playable === false || player.disabled === true || player.meta?.disabled === true || player.meta?.excluded === true) return false;
   if (player.meta?.fictional === true) return false;
   return true;
@@ -69,13 +71,13 @@ export function getPlayerFederation(player = {}) {
   });
 }
 
-const groupUniquePlayers = (players, keyFor, metaFor) => {
+const federationDomainGroupUniquePlayers = (players, keyFor, metaFor) => {
   const groups = new Map();
-  domainPlayers(players).forEach((player, index) => {
+  federationDomainPlayers(players).forEach((player, index) => {
     if (!isPlayablePlayer(player)) return;
     const key = keyFor(player);
     if (!key) return;
-    const identity = playerIdentity(player, index);
+    const identity = federationDomainPlayerIdentity(player, index);
     const current = groups.get(key) ?? { key, players: [], identities: new Set(), ...metaFor(player) };
     if (!current.identities.has(identity)) {
       current.identities.add(identity);
@@ -92,7 +94,7 @@ const groupUniquePlayers = (players, keyFor, metaFor) => {
 };
 
 export function groupPlayersByCountry(players) {
-  return groupUniquePlayers(
+  return federationDomainGroupUniquePlayers(
     players,
     player => getPlayerFederation(player).countryCode,
     player => {
@@ -111,7 +113,7 @@ export function groupPlayersByCountry(players) {
 }
 
 export function groupPlayersByFederation(players) {
-  return groupUniquePlayers(
+  return federationDomainGroupUniquePlayers(
     players,
     player => getPlayerFederation(player).federationCode,
     player => {
@@ -183,7 +185,7 @@ export function getPlayableFederationTeams(players, minimumPlayers = MINIMUM_TEA
 }
 
 export function validatePlayerFederationData(players, minimumPlayers = MINIMUM_TEAM_SIZE) {
-  const list = domainPlayers(players);
+  const list = federationDomainPlayers(players);
   const missingFederation = [];
   const unmappedCountries = new Map();
   const contradictions = [];
@@ -196,14 +198,14 @@ export function validatePlayerFederationData(players, minimumPlayers = MINIMUM_T
     if (player?.id && seenIds.has(player.id)) duplicatePlayerIds.push(player.id);
     if (player?.id) seenIds.add(player.id);
     if (!resolved.countryCode) {
-      unmappedCountries.set(meaningful(player?.nationality ?? player?.nation) || 'Ismeretlen', null);
+      unmappedCountries.set(federationDomainText(player?.nationality ?? player?.nation) || 'Ismeretlen', null);
       return;
     }
     if (!resolved.federationCode) {
       missingFederation.push(name);
       unmappedCountries.set(resolved.countryCode, resolved.countryCode);
     }
-    const explicitFederationCode = meaningful(player?.federationCode).toLocaleUpperCase('en-US');
+    const explicitFederationCode = federationDomainText(player?.federationCode).toLocaleUpperCase('en-US');
     if (explicitFederationCode && resolved.federationCode && explicitFederationCode !== resolved.federationCode) {
       contradictions.push({
         playerId: player.id ?? null,
