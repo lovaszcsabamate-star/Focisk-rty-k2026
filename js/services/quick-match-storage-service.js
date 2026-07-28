@@ -5,12 +5,13 @@ import {
   normaliseQuickMatchSelection,
   quickMatchKindToCategory,
   quickMatchSelectionEquals,
+  quickMatchSelectionsCompatible,
   validateQuickMatchPairing,
 } from '../domain/quick-match-domain.js';
 import { RANDOM_DECK_SELECTION } from '../domain/deck-selection-domain.js';
 import { storageService } from './storage-service.js';
 
-export const QUICK_MATCH_SETUP_VERSION = 1;
+export const QUICK_MATCH_SETUP_VERSION = 2;
 export const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
 export const QUICK_MATCH_LAUNCH_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchLaunch;
 
@@ -23,11 +24,12 @@ export function normaliseQuickMatchSetup(setup) {
   const playerSelection = normaliseQuickMatchSelection(setup.playerSelection);
   const opponentSelection = normaliseQuickMatchSelection(setup.opponentSelection);
   if (!playerSelection || !opponentSelection
-    || playerSelection.kind !== opponentSelection.kind
+    || !quickMatchSelectionsCompatible(playerSelection, opponentSelection)
     || quickMatchSelectionEquals(playerSelection, opponentSelection)) return null;
   return Object.freeze({
     version: QUICK_MATCH_SETUP_VERSION,
     category: quickMatchKindToCategory(playerSelection.kind),
+    opponentCategory: quickMatchKindToCategory(opponentSelection.kind),
     playerTeamId: quickMatchStorageText(setup.playerTeamId),
     opponentTeamId: quickMatchStorageText(setup.opponentTeamId),
     playerSelection,

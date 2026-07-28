@@ -8,6 +8,7 @@ import {
   quickMatchEntriesForCategory,
   quickMatchEntryFromId,
   quickMatchEntryFromSelection,
+  quickMatchOpponentEntries,
 } from '../domain/quick-match-domain.js';
 import { describeDeckSelection } from '../domain/deck-selection-domain.js';
 import { deckSelectionStorageService } from '../services/deck-selection-storage-service.js';
@@ -15,14 +16,14 @@ import { quickMatchStorageService } from '../services/quick-match-storage-servic
 
 export const DECK_SELECTION_MENU_STYLE_ID = 'deck-selection-styles';
 const DECK_SELECTION_MENU_CONFIRM_MESSAGE = 'A csapatváltás törli a jelenlegi mentett mérkőzést. Folytatod?';
-const DECK_SELECTION_MENU_EMPTY_MESSAGE = 'Ebben a kategóriában jelenleg nincs elegendő játékoskártyával rendelkező csapat.';
-const DECK_SELECTION_MENU_SINGLE_MESSAGE = 'Ehhez a kategóriához legalább két használható csapat szükséges.';
+const DECK_SELECTION_MENU_EMPTY_MESSAGE = 'Ebben a kategóriában jelenleg nincs legalább 11 játszható kártyával rendelkező csapat.';
+const DECK_SELECTION_MENU_SINGLE_MESSAGE = 'A kiválasztott csapathoz jelenleg nincs másik használható ellenfél.';
 const DECK_SELECTION_MENU_DRAW_DELAYS = Object.freeze([70, 85, 105, 130, 165, 210, 280]);
 
 const DECK_SELECTION_MENU_CATEGORIES = Object.freeze([
-  Object.freeze({ id: QUICK_MATCH_CATEGORY.HUNGARIAN, label: 'Magyar bajnokság', icon: '🇭🇺' }),
-  Object.freeze({ id: QUICK_MATCH_CATEGORY.LEAGUE, label: 'Liga', icon: '🏆' }),
-  Object.freeze({ id: QUICK_MATCH_CATEGORY.NATIONAL, label: 'Válogatott', icon: '🌍' }),
+  Object.freeze({ id: QUICK_MATCH_CATEGORY.HUNGARIAN, label: 'Klubcsapatok', icon: '🛡️' }),
+  Object.freeze({ id: QUICK_MATCH_CATEGORY.NATIONAL, label: 'Válogatottak', icon: '🌍' }),
+  Object.freeze({ id: QUICK_MATCH_CATEGORY.FEDERATION, label: 'Föderációk', icon: '🗺️' }),
 ]);
 
 const DECK_SELECTION_MENU_CLUB_PRESENTATION = Object.freeze({
@@ -51,7 +52,7 @@ const deckSelectionMenuDefaultConfirm = message => (
 const deckSelectionMenuDefaultReload = () => globalThis.location?.reload?.();
 const deckSelectionMenuDefaultSchedule = callback => globalThis.setTimeout?.(callback, 0);
 const deckSelectionMenuDefaultWait = duration => new Promise(resolve => globalThis.setTimeout?.(resolve, duration));
-const deckSelectionMenuStyles = `.deck-selector{}`;
+const deckSelectionMenuStyles = `.deck-selector{} .quick-team-mark__image{display:block;width:100%;height:100%;object-fit:contain}`;
 
 const deckSelectionMenuEnsureStyles = documentRef => {
   if (documentRef.querySelector?.(`#${DECK_SELECTION_MENU_STYLE_ID}`)) return;
@@ -108,6 +109,18 @@ const deckSelectionMenuApplyPalette = (node, entry) => {
     node.style?.setProperty?.('--team-secondary', '#f2e6d0');
     return { short: entry.flag || '🌍', primary: '#315b95', secondary: '#f2e6d0' };
   }
+  if (entry.kind === 'federation') {
+    const colors = entry.colors ?? {};
+    const presentation = {
+      short: entry.federationCode ?? 'RÉG',
+      primary: colors.primary ?? '#103b63',
+      secondary: colors.secondary ?? '#2cb8b5',
+    };
+    node.style?.setProperty?.('--team-primary', presentation.primary);
+    node.style?.setProperty?.('--team-secondary', presentation.secondary);
+    node.style?.setProperty?.('--team-accent', colors.accent ?? '#ffffff');
+    return presentation;
+  }
   node.style?.setProperty?.('--team-primary', '#8b642f');
   node.style?.setProperty?.('--team-secondary', '#e8c37a');
   return { short: 'LIGA', primary: '#8b642f', secondary: '#e8c37a' };
@@ -115,10 +128,20 @@ const deckSelectionMenuApplyPalette = (node, entry) => {
 
 const deckSelectionMenuCreateTeamMark = (documentRef, entry, className = '') => {
   const mark = documentRef.createElement('span');
-  mark.className = `quick-team-mark${entry?.kind === 'nation' ? ' quick-team-mark--flag' : ''}${className ? ` ${className}` : ''}`;
+  const visualKind = entry?.kind === 'nation' ? 'flag' : entry?.kind === 'federation' ? 'federation' : 'text';
+  mark.className = `quick-team-mark quick-team-mark--${visualKind}${className ? ` ${className}` : ''}`;
   mark.setAttribute?.('aria-hidden', 'true');
   const presentation = deckSelectionMenuApplyPalette(mark, entry);
-  mark.textContent = entry?.kind === 'nation' ? (entry.flag || '🌍') : presentation.short;
+  if (entry?.kind === 'federation' && entry.badge) {
+    const image = documentRef.createElement('img');
+    image.className = 'quick-team-mark__image';
+    image.src = entry.badge;
+    image.alt = '';
+    image.decoding = 'async';
+    mark.appendChild(image);
+  } else {
+    mark.textContent = entry?.kind === 'nation' ? (entry.flag || '🌍') : presentation.short;
+  }
   return mark;
 };
 
@@ -137,11 +160,19 @@ const deckSelectionMenuRenderLargeCard = (documentRef, card, entry) => {
     card.classList.add('is-empty');
     const empty = documentRef.createElement('div');
     empty.className = 'quick-team-card__empty';
-    empty.innerHTML = '<span aria-hidden="true">⚠️</span><strong>Nincs választható csapat</strong><small>Válassz másik kategóriát.</small>';
+    const icon = documentRef.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '⚠️';
+    const title = documentRef.createElement('strong');
+    title.textContent = 'Nincs választható csapat';
+    const copy = documentRef.createElement('small');
+    copy.textContent = 'Válassz másik kategóriát.';
+    empty.append(icon, title, copy);
     card.appendChild(empty);
     return;
   }
   card.classList.remove('is-empty');
+  card.dataset.teamKind = entry.kind;
   deckSelectionMenuApplyPalette(card, entry);
   const glow = documentRef.createElement('span');
   glow.className = 'quick-team-card__glow';
@@ -169,6 +200,7 @@ const deckSelectionMenuRenderDuelSide = (documentRef, side, entry, caption) => {
   side.replaceChildren();
   if (!entry) return;
   deckSelectionMenuApplyPalette(side, entry);
+  side.dataset.teamKind = entry.kind;
   side.appendChild(deckSelectionMenuCreateTeamMark(documentRef, entry, 'quick-match-duel__mark'));
   const copy = documentRef.createElement('span');
   copy.className = 'quick-match-duel__copy';
@@ -183,6 +215,12 @@ const deckSelectionMenuRenderDuelSide = (documentRef, side, entry, caption) => {
   side.appendChild(copy);
 };
 
+const deckSelectionMenuCategoryForEntry = entry => {
+  if (entry?.kind === 'nation') return QUICK_MATCH_CATEGORY.NATIONAL;
+  if (entry?.kind === 'federation') return QUICK_MATCH_CATEGORY.FEDERATION;
+  return QUICK_MATCH_CATEGORY.HUNGARIAN;
+};
+
 const deckSelectionMenuInsertSelector = ({
   documentRef,
   panel,
@@ -195,19 +233,14 @@ const deckSelectionMenuInsertSelector = ({
   schedule,
   wait,
 }) => {
-  if (panel.querySelector('.deck-selector')) return;
+  if (panel.querySelector('.deck-selector')) return null;
   const catalog = buildQuickMatchCatalog(players);
   const savedSetup = quickStorage.readSetup(players);
-  const initialEntry = savedSetup
+  const initialCandidate = savedSetup
     ? quickMatchEntryFromId(catalog, savedSetup.playerTeamId)
     : quickMatchEntryFromSelection(catalog, activeSelection);
-  const fallbackCategory = initialEntry
-    ? deckSelectionMenuCategoryDefinition(
-      initialEntry.kind === 'league' ? QUICK_MATCH_CATEGORY.LEAGUE
-        : initialEntry.kind === 'nation' ? QUICK_MATCH_CATEGORY.NATIONAL
-          : QUICK_MATCH_CATEGORY.HUNGARIAN,
-    ).id
-    : QUICK_MATCH_CATEGORY.HUNGARIAN;
+  const initialEntry = ['club', 'nation', 'federation'].includes(initialCandidate?.kind) ? initialCandidate : null;
+  const fallbackCategory = deckSelectionMenuCategoryForEntry(initialEntry);
   const fallbackEntries = quickMatchEntriesForCategory(catalog, fallbackCategory);
 
   const state = {
@@ -423,7 +456,7 @@ const deckSelectionMenuInsertSelector = ({
     drawStatus.textContent = state.isOpponentDrawing
       ? 'Ellenfél sorsolása…'
       : opponent
-        ? 'A gép kiválasztotta az ellenfeledet.'
+        ? `${opponent.subtitle} érkezik ellenfélként.`
         : 'Az ellenfél még nincs kisorsolva.';
     anotherOpponent.disabled = state.isOpponentDrawing || !opponent;
     startMatch.disabled = state.isOpponentDrawing || !own || !opponent;
@@ -441,8 +474,8 @@ const deckSelectionMenuInsertSelector = ({
     eyebrow.textContent = onOpponent ? 'Gyors meccs · 2/2' : 'GYORS MECCS';
     heading.textContent = onOpponent ? 'ELLENFELED' : 'Válaszd ki a csapatodat';
     lead.textContent = onOpponent
-      ? 'A gép kiválasztotta az ellenfeledet.'
-      : 'Lapozz a csapatok között, majd válaszd ki, melyikkel szeretnél játszani.';
+      ? 'A gép az engedélyezett párosításokból választott ellenfelet.'
+      : 'Lapozz a csapatok között, majd válassz klubcsapatot, válogatottat vagy föderációs csapatot.';
     categoryButtons.forEach(button => {
       const active = button.dataset.category === state.selectedCategory;
       button.classList.toggle('is-active', active);
@@ -462,7 +495,7 @@ const deckSelectionMenuInsertSelector = ({
 
   const drawOpponent = async () => {
     const own = playerEntry();
-    const available = entries();
+    const available = quickMatchOpponentEntries(catalog, own);
     const candidates = available.filter(entry => entry.usable && entry.id !== own?.id);
     if (!own) {
       state.validationError = DECK_SELECTION_MENU_EMPTY_MESSAGE;
@@ -580,12 +613,13 @@ const deckSelectionMenuInsertSelector = ({
   });
 
   confirmTeam.addEventListener('click', async () => {
-    if (!playerEntry()) {
+    const own = playerEntry();
+    if (!own) {
       state.validationError = DECK_SELECTION_MENU_EMPTY_MESSAGE;
       render();
       return;
     }
-    if (entries().filter(entry => entry.usable).length < 2) {
+    if (quickMatchOpponentEntries(catalog, own).filter(entry => entry.usable && entry.id !== own.id).length < 1) {
       state.validationError = DECK_SELECTION_MENU_SINGLE_MESSAGE;
       render();
       return;
@@ -612,6 +646,7 @@ const deckSelectionMenuInsertSelector = ({
     if (deckStorage.hasSavedMatch() && !confirmReplace(DECK_SELECTION_MENU_CONFIRM_MESSAGE)) return;
     const staged = quickStorage.stage({
       category: state.selectedCategory,
+      opponentCategory: deckSelectionMenuCategoryForEntry(opponent),
       playerTeamId: own.id,
       opponentTeamId: opponent.id,
       playerSelection: own.selection,
@@ -711,7 +746,7 @@ const deckSelectionMenuInsertRule = (documentRef, panel) => {
   const title = documentRef.createElement('h2');
   title.textContent = '⚡ Gyors meccs csapatválasztás';
   const text = documentRef.createElement('p');
-  text.textContent = 'Válassz saját csapatot, nézd meg a gép kisorsolt ellenfelét, majd indítsd a Klasszikus vagy a Büntetőpárbaj mérkőzést. A két paklit a központi adatmodell külön szűri.';
+  text.textContent = 'Válassz klubcsapatot, legalább 11 lapos válogatottat vagy föderációs csapatot. A válogatottak és föderációk egymással is játszhatnak.';
   rule.append(title, text);
   panel.querySelector('#rules-back-btn')?.before(rule);
 };

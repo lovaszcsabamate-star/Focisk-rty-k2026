@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { validateNationalityAssignments } from '../js/data/nationalities.js';
 import { buildNormalizedDatabase } from './migrate-normalized-database.mjs';
+import { writeFederationAudit } from './audit-federations.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -42,6 +43,8 @@ const verifiedCorrectionEntries = player => (
         sourceCode: entry.previous?.nation ?? null,
         nationality: player.nationality,
         countryCode: player.countryCode,
+        federation: player.federation ?? null,
+        federationCode: player.federationCode ?? null,
         sourceUrl: entry.sourceUrl ?? null,
       }))
     : []
@@ -62,6 +65,8 @@ const inferredCorrectionEntries = player => {
       previousFlagCode: 'GB',
       nationality: player.nationality,
       countryCode: player.countryCode,
+      federation: player.federation ?? null,
+      federationCode: player.federationCode ?? null,
       sourceUrl: player.sourceUrl ?? player.meta?.sourceUrl ?? null,
     }];
   }
@@ -75,6 +80,8 @@ const inferredCorrectionEntries = player => {
       sourceCode: aliasCode,
       nationality: player.nationality,
       countryCode: player.countryCode,
+      federation: player.federation ?? null,
+      federationCode: player.federationCode ?? null,
       sourceUrl: player.sourceUrl ?? player.meta?.sourceUrl ?? null,
     }];
   }
@@ -97,7 +104,7 @@ export function buildNationalityAudit() {
   const validFlagCount = output.players.length - playersWithFallback.length;
 
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     auditDate: '2026-07-28',
     generatedAt: output.generatedAt ?? null,
     databaseId: output.databaseId,
@@ -110,13 +117,16 @@ export function buildNationalityAudit() {
     corrections,
     missingNationality: audit.missingNationality,
     missingCountryCode: audit.missingCountryCode,
+    missingFederation: audit.missingFederation,
     unknownCountryCode: audit.unknownCountryCode,
     britishMisassignments: audit.britishMisassignments,
     contradictions: audit.contradictions,
+    federationContradictions: audit.federationContradictions,
     validFlagCount,
     fallbackIconCount: playersWithFallback.length,
     playersWithFallback,
     everyPlayerHasValidFlagOrFallback: validFlagCount + playersWithFallback.length === output.players.length,
+    everyPlayerHasFederation: audit.missingFederation.length === 0,
     summary: audit.summary,
   };
 }
@@ -132,9 +142,14 @@ export function writeNationalityAudit(relativeFile = DEFAULT_NATIONALITY_AUDIT_F
 const isCli = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isCli) {
   const { report, target } = writeNationalityAudit();
+  const federation = writeFederationAudit();
   console.log(`Nemzetiségi audit: ${path.relative(ROOT, target)}`);
   console.log(`Ellenőrzött játékosok: ${report.checkedPlayers}`);
   console.log(`Javított hozzárendelések: ${report.correctedAssignments}`);
   console.log(`Érvényes zászlók: ${report.validFlagCount}; szabályos helyettesítő ikonok: ${report.fallbackIconCount}`);
-  console.log(`Hiányzó nemzetiség: ${report.missingNationality.length}; ismeretlen kód: ${report.unknownCountryCode.length}; ellentmondás: ${report.contradictions.length}`);
+  console.log(`Hiányzó nemzetiség: ${report.missingNationality.length}; ismeretlen kód: ${report.unknownCountryCode.length}; hiányzó föderáció: ${report.missingFederation.length}; ellentmondás: ${report.contradictions.length + report.federationContradictions.length}`);
+  console.log(`Föderációs audit: ${path.relative(ROOT, federation.target)}`);
+  console.log(`Játszható válogatottak (${federation.report.playableNationalTeams.length}): ${federation.report.playableNationalTeams.map(team => `${team.name} (${team.playerCount})`).join(', ') || 'nincs'}`);
+  console.log(`Játszható föderációk (${federation.report.playableFederationTeams.length}): ${federation.report.playableFederationTeams.map(team => `${team.name} (${team.playerCount})`).join(', ') || 'nincs'}`);
+  if (report.missingFederation.length || report.federationContradictions.length) process.exitCode = 1;
 }

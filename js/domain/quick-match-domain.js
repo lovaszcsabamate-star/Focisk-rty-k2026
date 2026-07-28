@@ -1,20 +1,30 @@
 /** DOM- és tárolásfüggetlen Gyors meccs csapat- és párosítási logika. */
 
+import { federationPresentation } from '../data/federations.js';
 import {
   MIN_FILTERED_DECK_SIZE,
   applyDeckSelectionToPayload,
   canonicalClubKey,
+  canonicalFederationKey,
   canonicalNationKey,
   nationPresentation,
+  resolveDeckSelection,
 } from './deck-selection-domain.js';
+import {
+  getPlayableFederationTeams,
+  getPlayableNationalTeams,
+  isPlayablePlayer,
+} from './federation-domain.js';
 
-export const QUICK_MATCH_NATION_MINIMUM = 7;
+export const QUICK_MATCH_NATION_MINIMUM = 11;
+export const QUICK_MATCH_FEDERATION_MINIMUM = 11;
 export const QUICK_MATCH_LEAGUE_MINIMUM = 11;
 
 export const QUICK_MATCH_CATEGORY = Object.freeze({
   HUNGARIAN: 'hungarian',
   LEAGUE: 'league',
   NATIONAL: 'national',
+  FEDERATION: 'federation',
 });
 
 export const QUICK_MATCH_SELECTION_STEP = Object.freeze({
@@ -22,8 +32,8 @@ export const QUICK_MATCH_SELECTION_STEP = Object.freeze({
   OPPONENT: 'opponent',
 });
 
-const QUICK_MATCH_SELECTION_KINDS = new Set(['club', 'league', 'nation']);
-const quickMatchPlayers = players => (Array.isArray(players) ? players : []);
+const QUICK_MATCH_SELECTION_KINDS = new Set(['club', 'league', 'nation', 'federation']);
+const quickMatchPlayers = players => (Array.isArray(players) ? players.filter(isPlayablePlayer) : []);
 const quickMatchText = value => String(value ?? '').trim();
 const quickMatchFold = value => quickMatchText(value)
   .normalize('NFD')
@@ -38,17 +48,20 @@ export const canonicalLeagueKey = value => quickMatchFold(value).replace(/\s+/g,
 export const quickMatchCategoryToKind = category => {
   if (category === QUICK_MATCH_CATEGORY.LEAGUE) return 'league';
   if (category === QUICK_MATCH_CATEGORY.NATIONAL) return 'nation';
+  if (category === QUICK_MATCH_CATEGORY.FEDERATION) return 'federation';
   return 'club';
 };
 
 export const quickMatchKindToCategory = kind => {
   if (kind === 'league') return QUICK_MATCH_CATEGORY.LEAGUE;
   if (kind === 'nation') return QUICK_MATCH_CATEGORY.NATIONAL;
+  if (kind === 'federation') return QUICK_MATCH_CATEGORY.FEDERATION;
   return QUICK_MATCH_CATEGORY.HUNGARIAN;
 };
 
 export const quickMatchMinimumForKind = kind => {
   if (kind === 'nation') return QUICK_MATCH_NATION_MINIMUM;
+  if (kind === 'federation') return QUICK_MATCH_FEDERATION_MINIMUM;
   if (kind === 'league') return QUICK_MATCH_LEAGUE_MINIMUM;
   return MIN_FILTERED_DECK_SIZE;
 };
@@ -65,6 +78,7 @@ export function quickMatchSelectionKey(selection) {
   if (!normalised) return '';
   if (normalised.kind === 'club') return canonicalClubKey(normalised.value);
   if (normalised.kind === 'nation') return canonicalNationKey(normalised.value);
+  if (normalised.kind === 'federation') return canonicalFederationKey(normalised.value);
   return canonicalLeagueKey(normalised.value);
 }
 
@@ -78,13 +92,8 @@ export function resolveQuickMatchSelection(players, selection) {
   const pool = quickMatchPlayers(players);
   const normalised = normaliseQuickMatchSelection(selection);
   if (!normalised) return [];
+  if (normalised.kind !== 'league') return resolveDeckSelection(pool, normalised);
   const key = quickMatchSelectionKey(normalised);
-  if (normalised.kind === 'club') {
-    return pool.filter(player => canonicalClubKey(player?.clubName ?? player?.club) === key);
-  }
-  if (normalised.kind === 'nation') {
-    return pool.filter(player => canonicalNationKey(player?.nationality ?? player?.nation) === key);
-  }
   return pool.filter(player => canonicalLeagueKey(player?.competition ?? player?.meta?.competition) === key);
 }
 
@@ -100,17 +109,33 @@ const quickMatchGroup = (players, keyFor, labelFor) => {
   return [...groups.values()];
 };
 
-const quickMatchEntry = ({ kind, key, label, count, flag = '', subtitle }) => Object.freeze({
+const quickMatchEntry = ({
+  kind,
+  key,
+  label,
+  count,
+  flag = '',
+  badge = null,
+  colors = null,
+  subtitle,
+  value = null,
+  federationCode = null,
+  countryCode = null,
+}) => Object.freeze({
   id: `${kind}:${key}`,
   kind,
   key,
   label,
   count,
   flag,
+  badge,
+  colors,
   subtitle,
+  federationCode,
+  countryCode,
   minimum: quickMatchMinimumForKind(kind),
   usable: count >= quickMatchMinimumForKind(kind),
-  selection: Object.freeze({ kind, value: kind === 'nation' ? key : label }),
+  selection: Object.freeze({ kind, value: value ?? (kind === 'nation' || kind === 'federation' ? key : label) }),
 });
 
 export function buildQuickMatchCatalog(players) {
@@ -125,7 +150,7 @@ export function buildQuickMatchCatalog(players) {
     .map(entry => quickMatchEntry({
       ...entry,
       kind: 'club',
-      subtitle: 'Magyar bajnokság',
+      subtitle: 'Klubcsapat',
     }));
 
   const leagues = quickMatchGroup(
@@ -141,29 +166,38 @@ export function buildQuickMatchCatalog(players) {
       subtitle: 'Liga',
     }));
 
-  const nations = quickMatchGroup(
-    pool,
-    player => canonicalNationKey(player?.nationality ?? player?.nation),
-    player => nationPresentation(player?.nationality ?? player?.nation).label,
-  )
-    .filter(entry => entry.count >= QUICK_MATCH_NATION_MINIMUM)
-    .map(entry => {
-      const presentation = nationPresentation(entry.key);
-      return quickMatchEntry({
-        ...entry,
-        kind: 'nation',
-        label: `${presentation.label} válogatott`,
-        flag: presentation.flag,
-        subtitle: 'Válogatott',
-      });
-    })
-    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, 'hu-HU'));
+  const nations = getPlayableNationalTeams(pool, QUICK_MATCH_NATION_MINIMUM)
+    .map(team => quickMatchEntry({
+      kind: 'nation',
+      key: canonicalNationKey(team.countryCode),
+      value: team.countryCode,
+      label: team.label,
+      count: team.count,
+      flag: team.flag,
+      subtitle: 'Válogatott',
+      federationCode: team.federationCode,
+      countryCode: team.countryCode,
+    }));
+
+  const federations = getPlayableFederationTeams(pool, QUICK_MATCH_FEDERATION_MINIMUM)
+    .map(team => quickMatchEntry({
+      kind: 'federation',
+      key: team.federationCode,
+      value: team.federationCode,
+      label: team.label,
+      count: team.count,
+      badge: team.badge,
+      colors: team.colors,
+      subtitle: 'Föderációs csapat',
+      federationCode: team.federationCode,
+    }));
 
   return Object.freeze({
     total: pool.length,
     [QUICK_MATCH_CATEGORY.HUNGARIAN]: Object.freeze(clubs),
     [QUICK_MATCH_CATEGORY.LEAGUE]: Object.freeze(leagues),
     [QUICK_MATCH_CATEGORY.NATIONAL]: Object.freeze(nations),
+    [QUICK_MATCH_CATEGORY.FEDERATION]: Object.freeze(federations),
   });
 }
 
@@ -188,6 +222,28 @@ export function quickMatchEntryFromSelection(catalog, selection) {
   return quickMatchEntriesForCategory(catalog, category).find(entry => entry.key === key) ?? null;
 }
 
+export function quickMatchSelectionsCompatible(left, right) {
+  const a = normaliseQuickMatchSelection(left);
+  const b = normaliseQuickMatchSelection(right);
+  if (!a || !b) return false;
+  if (a.kind === 'club' || b.kind === 'club') return a.kind === 'club' && b.kind === 'club';
+  if (a.kind === 'league' || b.kind === 'league') return a.kind === 'league' && b.kind === 'league';
+  return ['nation', 'federation'].includes(a.kind) && ['nation', 'federation'].includes(b.kind);
+}
+
+export function quickMatchOpponentEntries(catalog, playerEntryOrSelection) {
+  const playerEntry = playerEntryOrSelection?.id
+    ? playerEntryOrSelection
+    : quickMatchEntryFromSelection(catalog, playerEntryOrSelection);
+  if (!playerEntry) return [];
+  if (playerEntry.kind === 'club') return quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.HUNGARIAN);
+  if (playerEntry.kind === 'league') return quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.LEAGUE);
+  return [
+    ...quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.NATIONAL),
+    ...quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.FEDERATION),
+  ];
+}
+
 export function chooseQuickMatchOpponent(entries, playerTeamId, {
   rng = Math.random,
   avoidTeamIds = [],
@@ -210,9 +266,12 @@ export function validateQuickMatchPairing(players, playerSelection, opponentSele
   if (playerCards.length < quickMatchMinimumForKind(player.kind)) {
     return { valid: false, code: 'PLAYER_TEAM_UNAVAILABLE', message: 'Ebben a kategóriában jelenleg nincs elegendő játékoskártyával rendelkező csapat.' };
   }
-  if (!opponent) return { valid: false, code: 'NO_OPPONENT', message: 'Ehhez a kategóriához legalább két használható csapat szükséges.' };
-  if (player.kind !== opponent.kind || quickMatchSelectionEquals(player, opponent)) {
+  if (!opponent) return { valid: false, code: 'NO_OPPONENT', message: 'A kiválasztott csapathoz nincs használható ellenfél.' };
+  if (quickMatchSelectionEquals(player, opponent)) {
     return { valid: false, code: 'INVALID_OPPONENT', message: 'Az ellenfél nem lehet azonos a saját csapatoddal.' };
+  }
+  if (!quickMatchSelectionsCompatible(player, opponent)) {
+    return { valid: false, code: 'INCOMPATIBLE_OPPONENT', message: 'Klub csak klubbal, válogatott pedig válogatottal vagy föderációs csapattal játszhat.' };
   }
   const opponentCards = resolveQuickMatchSelection(players, opponent);
   if (opponentCards.length < quickMatchMinimumForKind(opponent.kind)) {
@@ -229,7 +288,10 @@ export function describeQuickMatchSelection(selection, players = []) {
     const nation = nationPresentation(normalised.value);
     return `${nation.flag} ${nation.label} válogatott · ${count} játékoskártya`;
   }
-  if (normalised.kind === 'league') return `${normalised.value} · ${count} játékoskártya`;
+  if (normalised.kind === 'federation') {
+    const federation = federationPresentation(normalised.value);
+    return `${federation.label} föderációs csapat · ${count} játékoskártya`;
+  }
   return `${normalised.value} · ${count} játékoskártya`;
 }
 
@@ -239,7 +301,14 @@ const quickMatchDescriptor = (selection, count) => {
   if (normalised.kind === 'nation') {
     const nation = nationPresentation(normalised.value);
     return Object.freeze({
-      kind: 'nation', key, value: nation.key, label: `${nation.label} válogatott`, icon: nation.flag, count,
+      kind: 'nation', key, value: nation.countryCode ?? nation.key, label: `${nation.label} válogatott`, icon: nation.flag, count,
+    });
+  }
+  if (normalised.kind === 'federation') {
+    const federation = federationPresentation(normalised.value);
+    return Object.freeze({
+      kind: 'federation', key, value: federation.code, label: federation.label,
+      icon: federation.asset, badge: federation.asset, colors: federation.colors, count,
     });
   }
   return Object.freeze({
@@ -274,9 +343,11 @@ export function buildQuickMatchPayload(payload, playerSelection, opponentSelecti
 
   let opponent = normaliseQuickMatchSelection(opponentSelection);
   let opponentEntry = quickMatchEntryFromSelection(catalog, opponent);
-  if (!opponentEntry || opponentEntry.kind !== playerEntry.kind || opponentEntry.id === playerEntry.id) {
+  if (!opponentEntry
+    || opponentEntry.id === playerEntry.id
+    || !quickMatchSelectionsCompatible(playerEntry.selection, opponentEntry.selection)) {
     opponentEntry = chooseQuickMatchOpponent(
-      quickMatchEntriesForCategory(catalog, quickMatchKindToCategory(playerEntry.kind)),
+      quickMatchOpponentEntries(catalog, playerEntry),
       playerEntry.id,
       { rng },
     );
@@ -291,6 +362,7 @@ export function buildQuickMatchPayload(payload, playerSelection, opponentSelecti
   const matchup = Object.freeze({
     enabled: true,
     category: quickMatchKindToCategory(checked.player.kind),
+    opponentCategory: quickMatchKindToCategory(checked.opponent.kind),
     human: humanTeam,
     ai: aiTeam,
   });

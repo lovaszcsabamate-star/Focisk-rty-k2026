@@ -10,6 +10,7 @@ import {
   resolvePlayerNationality,
   validateNationalityAssignments,
 } from '../js/data/nationalities.js';
+import { resolveFederationByCountryCode } from '../js/data/federations.js';
 import { normalisePlayerRecord } from '../js/models/player-model.js';
 import { buildNormalizedDatabase } from '../scripts/migrate-normalized-database.mjs';
 
@@ -41,12 +42,23 @@ for (const code of ['GB-ENG', 'GB-SCT', 'GB-WLS', 'GB-NIR']) {
 assert.equal(countryCodeToFlagEmoji('IE'), '🇮🇪');
 assert.equal(countryCodeToFlagEmoji('HT'), '🇭🇹');
 
+assert.equal(resolveFederationByCountryCode('HU').federationCode, 'UEFA');
+assert.equal(resolveFederationByCountryCode('HT').federationCode, 'CONCACAF');
+assert.equal(resolveFederationByCountryCode('SR').federationCode, 'CONCACAF');
+assert.equal(resolveFederationByCountryCode('BR').federationCode, 'CONMEBOL');
+assert.equal(resolveFederationByCountryCode('NG').federationCode, 'CAF');
+assert.equal(resolveFederationByCountryCode('IL').federationCode, 'UEFA');
+assert.equal(resolveFederationByCountryCode('KZ').federationCode, 'UEFA');
+assert.equal(resolveFederationByCountryCode('AU').federationCode, 'AFC');
+
 const lenny = normalisePlayerRecord({
   id: 'lenny-joseph', name: 'Lenny Joseph', club: 'Ferencvárosi TC', nation: 'FRA',
 });
 assert.equal(lenny.nationality, 'Haiti');
 assert.equal(lenny.countryCode, 'HT');
 assert.equal(lenny.nationalTeam, 'Haiti');
+assert.equal(lenny.federation, 'CONCACAF');
+assert.equal(lenny.federationCode, 'CONCACAF');
 
 const odowda = normalisePlayerRecord({
   id: 'callum-odowda', name: 'Callum O’Dowda', club: 'Ferencvárosi TC', nation: 'ENG',
@@ -54,6 +66,7 @@ const odowda = normalisePlayerRecord({
 assert.equal(odowda.nationality, 'Ireland');
 assert.equal(odowda.countryCode, 'IE');
 assert.equal(odowda.nationalTeam, 'Ireland');
+assert.equal(odowda.federationCode, 'UEFA');
 
 const dualInternational = resolvePlayerNationality({
   name: 'Minta játékos',
@@ -62,6 +75,7 @@ const dualInternational = resolvePlayerNationality({
 });
 assert.equal(dualInternational.countryCode, 'IE');
 assert.equal(dualInternational.nationality, 'Ireland');
+assert.equal(dualInternational.federationCode, 'UEFA');
 
 const unknown = resolveNationality('Nem létező ország');
 assert.equal(unknown.known, false);
@@ -74,13 +88,16 @@ const actualODowda = output.players.find(player => player.name.toLocaleUpperCase
   || player.name.toLocaleUpperCase('hu-HU').includes('CALLUM O’DOWDA'));
 if (actualLenny) assert.equal(actualLenny.countryCode, 'HT');
 if (actualODowda) assert.equal(actualODowda.countryCode, 'IE');
+assert.equal(output.players.every(player => player.federation && player.federationCode), true);
 
 const audit = validateNationalityAssignments(output.players);
 assert.equal(audit.summary.playerCount, 440);
 assert.equal(audit.britishMisassignments.length, 0);
 assert.equal(audit.contradictions.length, 0);
+assert.equal(audit.federationContradictions.length, 0);
 assert.equal(audit.missingNationality.length, 0);
 assert.equal(audit.missingCountryCode.length, 0);
+assert.equal(audit.missingFederation.length, 0);
 assert.equal(audit.unknownCountryCode.length, 0);
 
-console.log('✓ Nemzetiségi audit: 440 játékos, ISO countryCode, Haiti/Írország és külön brit tagországi zászlók');
+console.log('✓ Nemzetiségi és föderációs audit: 440 játékos, ISO countryCode, helyes régiók, Haiti/Írország és külön brit tagországi zászlók');

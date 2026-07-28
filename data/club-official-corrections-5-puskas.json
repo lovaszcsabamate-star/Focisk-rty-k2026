@@ -48,6 +48,16 @@
       "sourceIds": ["uefa-callum-odowda-republic-of-ireland"],
       "sourceUrl": "https://www.uefa.com/uefachampionsleague/clubs/players/250079712--callum-o-dowda/",
       "note": "A játékos az Ír Köztársaság válogatottját képviseli; a kanonikus országkód IE, nem GB."
+    },
+    {
+      "correctionId": "nationality-makreckis-cebrails-latvia-code-2026-07-28",
+      "clubId": "ferencvarosi-tc",
+      "name": "MAKRECKIS CEBRAILS",
+      "nation": "LVA",
+      "overrideFields": ["nation"],
+      "checkedAt": "2026-07-28",
+      "sourceIds": ["source-nationality-code-normalization"],
+      "note": "A forrásban szereplő nem szabványos LAT jelölést a már támogatott lett labdarúgó-országkódra, LVA-ra normalizálja; a másodlagos német kötődés nem módosul."
     }
   ],
   "excludeRecords": [],

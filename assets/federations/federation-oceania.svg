@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Óceánia régiócsapat embléma</title>
+  <desc id="desc">Egyedi óceánkék kör alakú embléma absztrakt sziget- és hullámmotívummal.</desc>
+  <circle cx="80" cy="80" r="75" fill="#115d7a"/>
+  <circle cx="80" cy="80" r="65" fill="none" stroke="#37b7b2" stroke-width="5"/>
+  <path fill="#f2fcff" d="M44 66c12-16 26-23 43-20 13 2 20 10 31 13-8 4-14 10-18 18-10-3-18-3-26 2-10-8-19-12-30-13z"/>
+  <path fill="#37b7b2" d="M35 88c14-11 29-10 43 1 14 10 28 10 47-3v11c-18 14-35 15-52 3-13-9-26-9-38 1zm8 22c11-7 22-6 34 2 13 9 25 9 40 0v9c-15 10-31 10-46 0-9-6-18-7-28-2z"/>
+  <circle cx="102" cy="64" r="6" fill="#37b7b2"/>
+  <circle cx="119" cy="73" r="4" fill="#f2fcff"/>
+  <circle cx="89" cy="75" r="3" fill="#115d7a"/>
+</svg>

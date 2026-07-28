@@ -4,6 +4,7 @@ import {
   resolvePlayerNationality,
   validateNationalityAssignments,
 } from '../data/nationalities.js';
+import { KNOWN_FEDERATION_CODES } from '../data/federations.js';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const LEGACY_NATIONALITY_CODE = /^[A-Z]{2,3}(\s*\/\s*[A-Z]{2,3})*$/;
@@ -11,7 +12,7 @@ const PLACEHOLDER_VALUES = new Set([
   '', '-', '–', '—', 'n/a', 'n.a.', 'na', 'null', 'undefined', 'ismeretlen', 'nincs adat',
 ]);
 
-export const PLAYER_MODEL_VERSION = 2;
+export const PLAYER_MODEL_VERSION = 3;
 export const DEFAULT_PLAYER_REFERENCE_DATE = new Date('2026-05-16T00:00:00Z');
 
 export const CANONICAL_PLAYER_FIELDS = Object.freeze([
@@ -26,6 +27,8 @@ export const CANONICAL_PLAYER_FIELDS = Object.freeze([
   'nationalityCode',
   'countryCode',
   'nationalTeam',
+  'federation',
+  'federationCode',
   'clubId',
   'clubName',
   'position',
@@ -59,6 +62,8 @@ const COMPLETENESS_FIELDS = Object.freeze([
   'age',
   'nationality',
   'countryCode',
+  'federation',
+  'federationCode',
   'clubId',
   'clubName',
   'position',
@@ -199,6 +204,8 @@ export function normalisePlayerRecord(card = {}, context = {}) {
   const countryCode = normaliseCountryCode(resolvedNationality.countryCode);
   const nationality = resolvedNationality.nationality;
   const nationalTeam = firstText(card.nationalTeam, resolvedNationality.nationalTeam);
+  const federation = resolvedNationality.federation;
+  const federationCode = resolvedNationality.federationCode;
   const clubName = firstText(card.clubName, card.club);
   const clubId = firstText(card.clubId, card.meta?.clubId, card.meta?.clubIds?.[0]);
   const displayName = firstText(card.displayName, card.shortName, card.knownAs, card.name);
@@ -217,6 +224,8 @@ export function normalisePlayerRecord(card = {}, context = {}) {
     nationalityCode,
     countryCode,
     nationalTeam,
+    federation,
+    federationCode,
     clubId,
     clubName,
     position: firstText(card.position),
@@ -264,11 +273,14 @@ export function validatePlayerRecord(player, { index = null } = {}) {
     else if (value < 0) errors.push(`${prefix}: negative ${field}`);
   }
 
-  for (const field of ['dateOfBirth', 'nationality', 'countryCode', 'clubId', 'position']) {
+  for (const field of ['dateOfBirth', 'nationality', 'countryCode', 'federation', 'federationCode', 'clubId', 'position']) {
     if (!isKnown(player?.[field])) warnings.push(`${prefix}: missing ${field}`);
   }
   if (player?.countryCode && !KNOWN_COUNTRY_CODES.has(player.countryCode)) {
     warnings.push(`${prefix}: unknown countryCode ${player.countryCode}`);
+  }
+  if (player?.federationCode && !KNOWN_FEDERATION_CODES.has(player.federationCode)) {
+    warnings.push(`${prefix}: unknown federationCode ${player.federationCode}`);
   }
 
   const completeness = player?.dataCompleteness ?? calculateDataCompleteness(player);
@@ -298,6 +310,9 @@ export function validatePlayerPayload(players) {
   }
   for (const item of nationalityAudit.contradictions) {
     warnings.push(`${item.name}: a nemzetiség és az országkód ellentmond egymásnak`);
+  }
+  for (const item of nationalityAudit.federationContradictions) {
+    warnings.push(`${item.name}: az országkód és a föderáció ellentmond egymásnak`);
   }
 
   return {

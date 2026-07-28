@@ -46,6 +46,7 @@ const player = normalisePlayerRecord(sample, {
   competition: 'NB I',
 });
 
+assert.equal(PLAYER_MODEL_VERSION, 3);
 assert.equal(player.playerModelVersion, PLAYER_MODEL_VERSION);
 assert.equal(player.displayName, 'MINTA JÁTÉKOS');
 assert.equal(player.firstName, null, 'A modell nem találhat ki keresztnevet a teljes névből.');
@@ -57,6 +58,8 @@ assert.equal(player.nationality, 'Hungary');
 assert.equal(player.nationalityCode, 'HUN / SRB');
 assert.equal(player.countryCode, 'HU');
 assert.equal(player.nationalTeam, null);
+assert.equal(player.federation, 'Europe');
+assert.equal(player.federationCode, 'UEFA');
 assert.equal(player.clubId, 'minta-fc');
 assert.equal(player.clubName, 'Minta FC');
 assert.equal(player.heightCm, 181);
@@ -91,6 +94,7 @@ assert.equal(modelled.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(modelled.playerModel.validation.playerCount, 440);
 assert.equal(modelled.playerModel.validation.errorCount, 0);
 assert.equal(new Set(modelled.players.map(card => card.id)).size, 440);
+assert.equal(modelled.players.every(card => card.countryCode && card.federation && card.federationCode), true);
 
 for (let index = 0; index < reviewed.players.length; index += 1) {
   const before = reviewed.players[index];
@@ -110,4 +114,4 @@ assert.equal(playable.players.length, 440);
 assert.equal(playable.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(playable.completenessFilter.excludedIncompleteCards, 0);
 
-console.log('✓ Egységes játékos-adatmodell v2: 440 rekord, ISO countryCode, stabil azonosítók és változatlan statisztikák');
+console.log('✓ Egységes játékos-adatmodell v3: 440 rekord, ISO countryCode, föderáció, stabil azonosítók és változatlan statisztikák');
