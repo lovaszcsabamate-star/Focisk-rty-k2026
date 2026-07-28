@@ -15,6 +15,13 @@ import {
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const readJson = relative => JSON.parse(fs.readFileSync(path.join(ROOT, relative), 'utf8'));
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async url => ({
+  ok: true,
+  status: 200,
+  statusText: 'OK',
+  json: async () => readJson(String(url)),
+});
 
 const registry = validateDatabaseRegistry(readJson('data/databases/registry.json'));
 assert.equal(registry.schemaVersion, 2);
@@ -94,6 +101,7 @@ assert.equal(availableSeasons[0].id, '2025-26');
 assert.equal(availableSeasons[0].databaseId, 'hungary-nb1-2025-26');
 assert.equal((await getDatabaseBySeason('2025/26', { competitionId: 'hungary-nb1' })).id, manifest.id);
 assert.equal((await getDefaultSeason()).id, '2025-26');
+globalThis.fetch = originalFetch;
 
 assert.throws(
   () => validateDatabaseRegistry({
