@@ -9,6 +9,7 @@ import {
 export const UI_ENHANCEMENT_MODULES = Object.freeze([
   '../ux.js',
   '../ux-fixes.js',
+  '../nationality-ui-enhancement.js',
   '../matchday.js',
   '../opponents.js',
   '../mobile-experience.js',

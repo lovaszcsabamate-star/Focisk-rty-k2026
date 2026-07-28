@@ -53,8 +53,10 @@ assert.equal(player.lastName, null, 'A modell nem találhat ki vezetéknevet a t
 assert.equal(player.dateOfBirth, '2008-08-08');
 assert.equal(player.age, 17);
 assert.equal(calculateModelAge('2008-08-08'), 17);
-assert.equal(player.nationality, 'HUN / SRB');
+assert.equal(player.nationality, 'Hungary');
 assert.equal(player.nationalityCode, 'HUN / SRB');
+assert.equal(player.countryCode, 'HU');
+assert.equal(player.nationalTeam, null);
 assert.equal(player.clubId, 'minta-fc');
 assert.equal(player.clubName, 'Minta FC');
 assert.equal(player.heightCm, 181);
@@ -108,4 +110,4 @@ assert.equal(playable.players.length, 440);
 assert.equal(playable.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(playable.completenessFilter.excludedIncompleteCards, 0);
 
-console.log('✓ Egységes játékos-adatmodell: 440 rekord, stabil azonosítók és változatlan statisztikák');
+console.log('✓ Egységes játékos-adatmodell v2: 440 rekord, ISO countryCode, stabil azonosítók és változatlan statisztikák');

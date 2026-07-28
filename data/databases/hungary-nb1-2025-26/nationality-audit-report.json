@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "auditDate": "2026-07-28",
+  "generatedAt": "2026-07-19T17:51:18.342Z",
+  "databaseId": "hungary-nb1-2025-26",
+  "databaseVersion": "3.2.0",
+  "season": "2025/26",
+  "playerCount": 440,
+  "checkedPlayers": 440,
+  "correctedAssignments": 4,
+  "correctionSummary": {
+    "source-code-alias-resolution": 3,
+    "home-nation-flag-separation": 1
+  },
+  "corrections": [
+    {
+      "playerId": "2025-26-eto-fc-ouro-samsindin",
+      "playerName": "OURO SAMSINDIN",
+      "reason": "source-code-alias-resolution",
+      "sourceCode": "TOG",
+      "nationality": "Togo",
+      "countryCode": "TG",
+      "sourceUrl": "https://adatbank.mlsz.hu/player/1430617.html"
+    },
+    {
+      "playerId": "nb1-651be5400806",
+      "playerName": "YORDANOV TONISLAV",
+      "reason": "source-code-alias-resolution",
+      "sourceCode": "BUL",
+      "nationality": "Bulgaria",
+      "countryCode": "BG",
+      "sourceUrl": null
+    },
+    {
+      "playerId": "nb1-8dad6fc60973",
+      "playerName": "ORMONDE OTTEWILL BRANDON RUTHERFORD",
+      "reason": "home-nation-flag-separation",
+      "sourceCode": "ENG",
+      "previousFlagCode": "GB",
+      "nationality": "England",
+      "countryCode": "GB-ENG",
+      "sourceUrl": null
+    },
+    {
+      "playerId": "nb1-8cb1202d767e",
+      "playerName": "GLEOFILO SABRINO RUDEWALD VLIJTER",
+      "reason": "source-code-alias-resolution",
+      "sourceCode": "SUR",
+      "nationality": "Suriname",
+      "countryCode": "SR",
+      "sourceUrl": null
+    }
+  ],
+  "missingNationality": [],
+  "missingCountryCode": [],
+  "unknownCountryCode": [],
+  "britishMisassignments": [],
+  "contradictions": [],
+  "validFlagCount": 440,
+  "fallbackIconCount": 0,
+  "playersWithFallback": [],
+  "everyPlayerHasValidFlagOrFallback": true,
+  "summary": {
+    "playerCount": 440,
+    "missingNationalityCount": 0,
+    "missingCountryCodeCount": 0,
+    "unknownCountryCodeCount": 0,
+    "britishMisassignmentCount": 0,
+    "contradictionCount": 0,
+    "validCount": 440
+  }
+}

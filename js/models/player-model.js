@@ -1,10 +1,17 @@
+import {
+  KNOWN_COUNTRY_CODES,
+  normaliseCountryCode,
+  resolvePlayerNationality,
+  validateNationalityAssignments,
+} from '../data/nationalities.js';
+
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
-const NATIONALITY_CODE = /^[A-Z]{3}( \/ [A-Z]{3})*$/;
+const LEGACY_NATIONALITY_CODE = /^[A-Z]{2,3}(\s*\/\s*[A-Z]{2,3})*$/;
 const PLACEHOLDER_VALUES = new Set([
   '', '-', '–', '—', 'n/a', 'n.a.', 'na', 'null', 'undefined', 'ismeretlen', 'nincs adat',
 ]);
 
-export const PLAYER_MODEL_VERSION = 1;
+export const PLAYER_MODEL_VERSION = 2;
 export const DEFAULT_PLAYER_REFERENCE_DATE = new Date('2026-05-16T00:00:00Z');
 
 export const CANONICAL_PLAYER_FIELDS = Object.freeze([
@@ -17,6 +24,8 @@ export const CANONICAL_PLAYER_FIELDS = Object.freeze([
   'age',
   'nationality',
   'nationalityCode',
+  'countryCode',
+  'nationalTeam',
   'clubId',
   'clubName',
   'position',
@@ -48,7 +57,8 @@ const COMPLETENESS_FIELDS = Object.freeze([
   'displayName',
   'dateOfBirth',
   'age',
-  'nationalityCode',
+  'nationality',
+  'countryCode',
   'clubId',
   'clubName',
   'position',
@@ -134,19 +144,15 @@ export function calculateModelAge(dateOfBirth, reference = DEFAULT_PLAYER_REFERE
 function canonicalStat(card, ...keys) {
   const stats = card?.stats && typeof card.stats === 'object' ? card.stats : {};
   const values = [];
-  for (const key of keys) {
-    values.push(stats[key], card?.[key]);
-  }
+  for (const key of keys) values.push(stats[key], card?.[key]);
   return firstNumber(...values);
 }
 
-function resolveNationalityCode(card) {
-  const explicit = firstText(card?.nationalityCode);
-  if (explicit) return explicit.toLocaleUpperCase('hu-HU');
-  const nation = firstText(card?.nation);
-  return nation && NATIONALITY_CODE.test(nation.toLocaleUpperCase('hu-HU'))
-    ? nation.toLocaleUpperCase('hu-HU')
-    : null;
+function resolveLegacyNationalityCode(card) {
+  const explicit = firstText(card?.nationalityCode, card?.nation, card?.flagCode);
+  if (!explicit) return null;
+  const upper = explicit.toLocaleUpperCase('en-US').replace(/\s*\/\s*/g, ' / ');
+  return LEGACY_NATIONALITY_CODE.test(upper) ? upper : null;
 }
 
 function resolveSource(card, context) {
@@ -188,8 +194,11 @@ export function normalisePlayerRecord(card = {}, context = {}) {
   const stats = card?.stats && typeof card.stats === 'object' ? card.stats : {};
   const dateOfBirth = validIsoDate(card.dateOfBirth ?? card.birthDate);
   const age = calculateModelAge(dateOfBirth, context.referenceDate ?? DEFAULT_PLAYER_REFERENCE_DATE);
-  const nationalityCode = resolveNationalityCode(card);
-  const nationality = firstText(card.nationality, card.nation, nationalityCode);
+  const resolvedNationality = resolvePlayerNationality(card);
+  const nationalityCode = resolveLegacyNationalityCode(card);
+  const countryCode = normaliseCountryCode(resolvedNationality.countryCode);
+  const nationality = resolvedNationality.nationality;
+  const nationalTeam = firstText(card.nationalTeam, resolvedNationality.nationalTeam);
   const clubName = firstText(card.clubName, card.club);
   const clubId = firstText(card.clubId, card.meta?.clubId, card.meta?.clubIds?.[0]);
   const displayName = firstText(card.displayName, card.shortName, card.knownAs, card.name);
@@ -206,6 +215,8 @@ export function normalisePlayerRecord(card = {}, context = {}) {
     age,
     nationality,
     nationalityCode,
+    countryCode,
+    nationalTeam,
     clubId,
     clubName,
     position: firstText(card.position),
@@ -249,15 +260,15 @@ export function validatePlayerRecord(player, { index = null } = {}) {
   for (const field of NUMERIC_PLAYER_FIELDS) {
     const value = player?.[field];
     if (value == null) continue;
-    if (typeof value !== 'number' || !Number.isFinite(value)) {
-      errors.push(`${prefix}: invalid ${field}`);
-    } else if (value < 0) {
-      errors.push(`${prefix}: negative ${field}`);
-    }
+    if (typeof value !== 'number' || !Number.isFinite(value)) errors.push(`${prefix}: invalid ${field}`);
+    else if (value < 0) errors.push(`${prefix}: negative ${field}`);
   }
 
-  for (const field of ['dateOfBirth', 'nationalityCode', 'clubId', 'position']) {
+  for (const field of ['dateOfBirth', 'nationality', 'countryCode', 'clubId', 'position']) {
     if (!isKnown(player?.[field])) warnings.push(`${prefix}: missing ${field}`);
+  }
+  if (player?.countryCode && !KNOWN_COUNTRY_CODES.has(player.countryCode)) {
+    warnings.push(`${prefix}: unknown countryCode ${player.countryCode}`);
   }
 
   const completeness = player?.dataCompleteness ?? calculateDataCompleteness(player);
@@ -281,15 +292,25 @@ export function validatePlayerPayload(players) {
   const ids = list.map(player => player?.id).filter(Boolean);
   if (new Set(ids).size !== ids.length) errors.push('duplicate player ids');
 
+  const nationalityAudit = validateNationalityAssignments(list);
+  for (const item of nationalityAudit.britishMisassignments) {
+    warnings.push(`${item.name}: hibás brit tagországi hozzárendelés (${item.actual} helyett ${item.expected})`);
+  }
+  for (const item of nationalityAudit.contradictions) {
+    warnings.push(`${item.name}: a nemzetiség és az országkód ellentmond egymásnak`);
+  }
+
   return {
     errors,
     warnings,
     information,
+    nationalityAudit,
     summary: {
       playerCount: list.length,
       errorCount: errors.length,
       warningCount: warnings.length,
       informationCount: information.length,
+      nationality: nationalityAudit.summary,
     },
   };
 }

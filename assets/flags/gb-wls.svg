@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 36" role="img" aria-label="Wales flag">
+  <rect width="60" height="18" fill="#fff"/>
+  <rect y="18" width="60" height="18" fill="#00ab39"/>
+  <path fill="#d30731" d="M13 24c4-3 5-8 9-10l-2-4 5 2 3-5 2 5 7-3-2 5 6 1-5 3 5 4-7-1-2 7-4-6-5 5-1-6-7 3-2-3z"/>
+  <circle cx="23" cy="13" r="1.4" fill="#fff"/>
+</svg>

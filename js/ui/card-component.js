@@ -7,6 +7,7 @@ import {
   hasAttributeData,
 } from '../data/players.js';
 import { ART, el, initials, tryArt } from './dom-primitives.js';
+import { createPlayerFlagElement } from './flag-component.js';
 
 export function getCardRows(card, activeAttributeKey) {
   const rows = CARD_ATTRIBUTE_KEYS
@@ -24,6 +25,15 @@ export function getCardRows(card, activeAttributeKey) {
   return [active, ...rows];
 }
 
+function createCardIdentityLine(card) {
+  const line = el('div', 'card__club');
+  if (card.club) line.appendChild(document.createTextNode(card.club));
+  const flag = createPlayerFlagElement(document, card, { compact: true });
+  if (card.club) line.appendChild(document.createTextNode(' · '));
+  line.appendChild(flag);
+  return line;
+}
+
 export function createCardComponent(card, opts = {}) {
   if (opts.faceDown) {
     const back = el('div', 'card card--back');
@@ -39,7 +49,7 @@ export function createCardComponent(card, opts = {}) {
   if (card.position) portrait.appendChild(el('span', 'card__position', card.position));
   node.appendChild(portrait);
   node.appendChild(el('div', 'card__name', card.name));
-  node.appendChild(el('div', 'card__club', [card.club, card.nation].filter(Boolean).join(' · ')));
+  node.appendChild(createCardIdentityLine(card));
 
   const stats = el('div', 'card__stats');
   for (const attribute of getCardRows(card, opts.activeAttribute)) {
