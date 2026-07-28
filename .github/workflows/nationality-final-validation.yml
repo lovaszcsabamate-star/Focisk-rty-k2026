@@ -1,0 +1,31 @@
+name: Nationality final validation
+
+on:
+  pull_request:
+    paths:
+      - 'assets/flags/**'
+      - 'css/nationality-flags.css'
+      - 'data/**'
+      - 'js/**'
+      - 'scripts/**'
+      - 'src/assets/licenses/**'
+      - 'test/**'
+      - 'index.html'
+      - 'package.json'
+      - 'sw.js'
+      - '.github/workflows/nationality-final-validation.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate nationality release
+        shell: bash
+        run: |
+          git clone --quiet --depth=1 --branch fix/nationality-flags-2026 https://github.com/lovaszcsabamate-star/Focisk-rty-k2026.git repo
+          cd repo
+          npm ci --silent
+          npm run lint
+          npm test
+          npm run build:standalone
+          npm run test:runtime
