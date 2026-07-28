@@ -7,10 +7,18 @@ import {
 } from './app/configuration.js';
 import { readStoredBoolean, writeStoredBoolean } from './services/storage-service.js';
 import {
-  clearSavedMatch, hydrateGame, readSavedMatch, writeSavedMatch,
-} from './services/save-service.js';
+  clearSeasonSavedMatch,
+  hydrateSeasonGame,
+  readSeasonSavedMatch,
+  writeSeasonSavedMatch,
+} from './services/season-save-service.js';
 
-export { clearSavedMatch, hydrateGame, readSavedMatch, writeSavedMatch };
+export {
+  clearSeasonSavedMatch,
+  hydrateSeasonGame,
+  readSeasonSavedMatch,
+  writeSeasonSavedMatch,
+};
 import { UI, el } from './ui.js';
 import {
   ATTRIBUTES,

@@ -37,6 +37,12 @@ const databaseManifest = JSON.parse(read(databaseManifestFile));
 if (databaseManifest.id !== defaultEntry.id || databaseManifest.enabled === false) {
   throw new Error(`Az adatbázis-manifest nem használható: ${databaseManifestFile}`);
 }
+if (defaultEntry.competitionId && databaseManifest.competitionId !== defaultEntry.competitionId) {
+  throw new Error(`Eltérő competitionId a regiszterben és a manifestben: ${databaseManifestFile}`);
+}
+if (defaultEntry.seasonId && databaseManifest.seasonId !== defaultEntry.seasonId) {
+  throw new Error(`Eltérő seasonId a regiszterben és a manifestben: ${databaseManifestFile}`);
+}
 
 const playerFile = databaseManifest.files?.players;
 const normalizedPlayerFile = databaseManifest.files?.normalizedPlayers;
@@ -73,6 +79,7 @@ const moduleOrder = [
   'js/penalties.js',
   'js/ai.js',
   'js/services/save-service.js',
+  'js/services/season-save-service.js',
   'js/services/turn-timing-service.js',
   'js/app/session-lifecycle-service.js',
   'js/game/game-mode-factory.js',
@@ -182,6 +189,9 @@ if (normalizedPlayerFile) {
     if (normalizedPayload.databaseId !== databaseManifest.id) {
       throw new Error(`eltérő databaseId: ${normalizedPayload.databaseId ?? 'hiányzik'}`);
     }
+    if (databaseManifest.seasonId && normalizedPayload.seasonId !== databaseManifest.seasonId) {
+      throw new Error(`eltérő seasonId: ${normalizedPayload.seasonId ?? 'hiányzik'}`);
+    }
     const requiredModelVersion = databaseManifest.normalization?.playerModelVersion;
     if (requiredModelVersion != null
       && normalizedPayload.playerModel?.version !== requiredModelVersion) {
@@ -211,7 +221,16 @@ if (normalizedPlayerFile) {
 const playablePayload = filterCompleteCardsPayload(buildPayload, {
   playerModel: { database: databaseManifest },
 });
-const safeJson = JSON.stringify(playablePayload).replace(/<\/script/gi, '<\\/script');
+const standalonePayload = {
+  ...playablePayload,
+  databaseId: databaseManifest.id,
+  competitionId: databaseManifest.competitionId,
+  seasonId: databaseManifest.seasonId,
+  season: databaseManifest.season,
+  seasonMeta: databaseManifest.seasonMeta,
+};
+const safeJson = JSON.stringify(standalonePayload).replace(/<\/script/gi, '<\\/script');
+const safeDatabase = JSON.stringify(databaseManifest).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
 let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}`;
 
@@ -266,7 +285,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
-    `<script>globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`
+    `<script>globalThis.__FOCISKARTYAK_DATABASE__ = ${safeDatabase}; globalThis.__FOCISKARTYAK_SEASON__ = globalThis.__FOCISKARTYAK_DATABASE__.seasonMeta; globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`,
   );
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
@@ -279,6 +298,9 @@ const conflicts = payload.players.flatMap(card =>
 const audit = {
   generatedAt: reviewGeneratedAt,
   databaseId: databaseManifest.id,
+  competitionId: databaseManifest.competitionId,
+  seasonId: databaseManifest.seasonId,
+  season: databaseManifest.season,
   databaseManifest: databaseManifestFile,
   baseDataset: playerFile,
   normalizedDataset: normalizedPlayerFile ?? null,
@@ -312,6 +334,7 @@ fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 
 console.log(`Elkészült: ${outputPath}`);
 console.log(`Adatbázis: ${databaseManifest.name} (${databaseManifest.id})`);
+console.log(`Szezon: ${databaseManifest.season} (${databaseManifest.seasonId})`);
 console.log(`Manifest: ${databaseManifestFile}`);
 console.log(`Elsődleges build-adatforrás: ${buildDataSource}`);
 console.log(`Adatfelülvizsgálati jelentés: ${auditPath}`);

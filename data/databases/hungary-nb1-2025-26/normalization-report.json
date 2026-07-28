@@ -1,7 +1,17 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "databaseId": "hungary-nb1-2025-26",
-  "databaseVersion": "3.0.0",
+  "databaseVersion": "3.1.0",
+  "competitionId": "hungary-nb1",
+  "seasonId": "2025-26",
+  "season": "2025/26",
+  "seasonMeta": {
+    "id": "2025-26",
+    "label": "2025/26",
+    "startYear": 2025,
+    "endYear": 2026,
+    "status": "current"
+  },
   "generatedAt": "2026-07-19T17:51:18.342Z",
   "outputFile": "data/databases/hungary-nb1-2025-26/players.normalized.json",
   "reportFile": "data/databases/hungary-nb1-2025-26/normalization-report.json",
@@ -55,7 +65,7 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "4af3d6c4c9c4d7d72e4673f9170ba48e317ad617e687ba3b98060bbd82bfb712",
+  "sourceDigest": "5b2ccddcc9af766dfde6f7d59f6881d885070347f71ab44fd363e4d61c89bfb4",
   "playersDigest": "f934529fda71d54c4b340c55600500b6013a267064931caf8442e572430b2141",
   "sourceLayerCounts": {
     "enrichments": 24,

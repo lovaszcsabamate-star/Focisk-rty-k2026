@@ -1,6 +1,6 @@
 import {
-  loadDatabase,
-} from './database/database-service.js';
+  loadActiveSeason as loadDatabase,
+} from './database/season-service.js';
 import {
   buildQuickMatchPayload,
   describeDeckSelection,
@@ -47,6 +47,7 @@ try {
   const selectedPayload = quickMatch.payload;
 
   globalThis.__FOCISKARTYAK_DATABASE__ = database;
+  globalThis.__FOCISKARTYAK_SEASON__ = database.seasonMeta;
   globalThis.__FOCISKARTYAK_DATABASE_SOURCE__ = source;
   globalThis.__FOCISKARTYAK_DATABASE_VALIDATION__ = validation;
   globalThis.__FOCISKARTYAK_DATABASE_STATISTICS__ = statistics;
@@ -58,7 +59,7 @@ try {
   installDeckSelectionMenu(playablePayload, deckSelection);
 
   console.info(
-    `[database] ${database.name} · ${database.season} · ${source} · manifest: ${database.manifestUrl}`,
+    `[database] ${database.name} · ${database.season} (${database.seasonId}) · ${source} · manifest: ${database.manifestUrl}`,
   );
   console.info(
     `[players] ${statistics.playerCount} rekord · ${statistics.playablePlayerCount} használható · `

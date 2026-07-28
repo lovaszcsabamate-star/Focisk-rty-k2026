@@ -4,6 +4,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  getAvailableSeasons,
+  getDatabaseBySeason,
+  getDefaultSeason,
   normaliseDatabaseManifest,
   validateDatabaseManifest,
   validateDatabaseRegistry,
@@ -12,19 +15,41 @@ import {
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const readJson = relative => JSON.parse(fs.readFileSync(path.join(ROOT, relative), 'utf8'));
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async url => ({
+  ok: true,
+  status: 200,
+  statusText: 'OK',
+  json: async () => readJson(String(url)),
+});
 
 const registry = validateDatabaseRegistry(readJson('data/databases/registry.json'));
-assert.equal(registry.schemaVersion, 1);
+assert.equal(registry.schemaVersion, 2);
 assert.equal(registry.defaultDatabaseId, 'hungary-nb1-2025-26');
+assert.equal(registry.defaultSeasonId, '2025-26');
 assert.equal(registry.databases.length, 1);
 assert.equal(registry.databases[0].enabled, true);
+assert.equal(registry.databases[0].competitionId, 'hungary-nb1');
+assert.equal(registry.databases[0].seasonId, '2025-26');
 
 const entry = registry.databases[0];
 const rawManifest = readJson(entry.manifest);
 const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
+assert.equal(manifest.schemaVersion, 2);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.0.0');
+assert.equal(manifest.version, '3.1.0');
+assert.equal(manifest.competitionId, 'hungary-nb1');
+assert.equal(manifest.season, '2025/26');
+assert.equal(manifest.seasonId, '2025-26');
+assert.deepEqual(manifest.seasonMeta, {
+  id: '2025-26',
+  label: '2025/26',
+  startYear: 2025,
+  endYear: 2026,
+  status: 'current',
+  sortOrder: 20252026,
+});
 assert.equal(manifest.files.players, 'data/players.json');
 assert.equal(
   manifest.files.normalizedPlayers,
@@ -62,10 +87,21 @@ const normalized = readJson(manifest.files.normalizedPlayers);
 const report = readJson(manifest.files.normalizationReport);
 assert.equal(normalized.databaseId, manifest.id);
 assert.equal(normalized.databaseVersion, manifest.version);
+assert.equal(normalized.competitionId, manifest.competitionId);
+assert.equal(normalized.seasonId, manifest.seasonId);
 assert.equal(normalized.players.length, 440);
 assert.equal(report.databaseId, manifest.id);
 assert.equal(report.databaseVersion, manifest.version);
+assert.equal(report.seasonId, manifest.seasonId);
 assert.equal(report.playerCount, 440);
+
+const availableSeasons = await getAvailableSeasons();
+assert.equal(availableSeasons.length, 1);
+assert.equal(availableSeasons[0].id, '2025-26');
+assert.equal(availableSeasons[0].databaseId, 'hungary-nb1-2025-26');
+assert.equal((await getDatabaseBySeason('2025/26', { competitionId: 'hungary-nb1' })).id, manifest.id);
+assert.equal((await getDefaultSeason()).id, '2025-26');
+globalThis.fetch = originalFetch;
 
 assert.throws(
   () => validateDatabaseRegistry({
@@ -86,6 +122,16 @@ assert.throws(
     ],
   }),
   /duplikált adatbázis-azonosító/,
+);
+
+assert.throws(
+  () => validateDatabaseRegistry({
+    schemaVersion: 2,
+    defaultDatabaseId: 'one',
+    defaultSeasonId: '2025-26',
+    databases: [{ id: 'one', manifest: 'one.json', competitionId: 'test', seasonId: '2024-25' }],
+  }),
+  /alapértelmezett adatbázis és szezon nem egyezik/,
 );
 
 const incomplete = normaliseDatabaseManifest({
@@ -110,4 +156,4 @@ assert.throws(
   /hiányzó normalizált játékosadat-fájl/,
 );
 
-console.log('✓ Adatbázis-regiszter, normalizált manifest és fájlhivatkozások: sikeresek');
+console.log('✓ Adatbázis- és szezonregiszter, normalizált manifest és fájlhivatkozások: sikeresek');

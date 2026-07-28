@@ -20,9 +20,16 @@ const result = buildNormalizedDatabase({
 const outputFile = result.manifest.files.normalizedPlayers;
 const reportFile = result.manifest.files.normalizationReport;
 
-assert.equal(result.output.schemaVersion, 1);
+assert.equal(result.output.schemaVersion, 2);
 assert.equal(result.output.databaseId, 'hungary-nb1-2025-26');
-assert.equal(result.output.databaseVersion, '3.0.0');
+assert.equal(result.output.databaseVersion, '3.1.0');
+assert.equal(result.output.competitionId, 'hungary-nb1');
+assert.equal(result.output.seasonId, '2025-26');
+assert.equal(result.output.season, '2025/26');
+assert.equal(result.output.seasonMeta.status, 'current');
+assert.equal(result.report.schemaVersion, 2);
+assert.equal(result.report.competitionId, result.output.competitionId);
+assert.equal(result.report.seasonId, result.output.seasonId);
 assert.equal(result.output.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(result.output.players.length, 440);
 assert.equal(new Set(result.output.players.map(player => player.id)).size, 440);
@@ -39,6 +46,7 @@ assert.deepEqual(result.report.sourceLayerCounts, {
 
 for (const player of result.output.players) {
   assert.equal(player.playerModelVersion, PLAYER_MODEL_VERSION, `${player.name}: hibás modellverzió`);
+  assert.equal(player.season, '2025/26', `${player.name}: hibás szezonfelirat`);
   for (const field of CANONICAL_PLAYER_FIELDS) {
     assert.equal(Object.hasOwn(player, field), true, `${player.name}: hiányzó kanonikus mező: ${field}`);
   }
@@ -70,4 +78,4 @@ writeNormalizedDatabase({
   check: true,
 });
 
-console.log('✓ Normalizált adatbázis: 440 stabil játékos, 30 kanonikus mező, változatlan név és stats, determinisztikus újragenerálás');
+console.log('✓ Normalizált 2025/26 adatbázis: szezonazonosító, 440 stabil játékos, kanonikus mezők és determinisztikus újragenerálás');

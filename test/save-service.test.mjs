@@ -157,17 +157,29 @@ assert.equal(memory.has(APP_STORAGE_KEYS.savedMatch), false);
 const mobileSource = fs.readFileSync(new URL('../js/mobile-experience.js', import.meta.url), 'utf8');
 const buildSource = fs.readFileSync(new URL('../scripts/build-standalone.mjs', import.meta.url), 'utf8');
 const serviceWorker = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
-assert.match(mobileSource, /from '\.\/services\/save-service\.js'/);
-assert.match(mobileSource, /export \{ clearSavedMatch, hydrateGame, readSavedMatch, writeSavedMatch \}/);
+assert.match(mobileSource, /from '\.\/services\/season-save-service\.js'/);
+assert.match(mobileSource, /clearSeasonSavedMatch/);
+assert.match(mobileSource, /hydrateSeasonGame/);
+assert.match(mobileSource, /readSeasonSavedMatch/);
+assert.match(mobileSource, /writeSeasonSavedMatch/);
 assert.doesNotMatch(mobileSource, /for \(const \[key, value\] of Object\.entries\(savedState\)\)/);
 assert.ok(
   buildSource.indexOf("'js/services/save-service.js'") > buildSource.indexOf("'js/ai.js'"),
   'A save-service csak a játékos-, motor- és AI-modulok után futhat.',
 );
 assert.ok(
+  buildSource.indexOf("'js/services/season-save-service.js'") > buildSource.indexOf("'js/services/save-service.js'"),
+  'A szezonos mentési homlokzatnak az alap mentési szolgáltatás után kell futnia.',
+);
+assert.ok(
+  buildSource.indexOf("'js/services/season-save-service.js'") < buildSource.indexOf("'js/mobile-experience.js'"),
+  'A szezonos mentési homlokzatnak a mobil és fő alkalmazás előtt kell futnia.',
+);
+assert.ok(
   buildSource.indexOf("'js/services/save-service.js'") < buildSource.indexOf("'js/game/game-runtime.js'"),
   'A save-service-nek a runtime és a mobil fogyasztók előtt kell futnia.',
 );
 assert.match(serviceWorker, /js\/services\/save-service\.js/);
+assert.match(serviceWorker, /js\/services\/season-save-service\.js/);
 
-console.log('✓ Verziózott mentésséma, validált hidratálás és v2 kompatibilitás: rendben');
+console.log('✓ Verziózott mentésséma, szezonos mentési réteg és validált hidratálás: rendben');
