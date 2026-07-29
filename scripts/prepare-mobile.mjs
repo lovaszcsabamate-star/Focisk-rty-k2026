@@ -18,12 +18,58 @@ execFileSync(process.execPath, [path.join(HERE, 'build-standalone-with-settings.
 fs.rmSync(MOBILE_DIR, { recursive: true, force: true });
 fs.mkdirSync(MOBILE_DIR, { recursive: true });
 
-const standalone = fs.readFileSync(STANDALONE_FILE, 'utf8')
+function convertStandaloneModuleForAndroidWebView(html) {
+  // A standalone csomagban minden alkalmazásmodul már be van ágyazva. A bent maradó
+  // külső module src hivatkozások az APK-ban nem létező fájlokra mutatnának.
+  let mobileHtml = html.replace(
+    /\s*<script\s+type=["']module["']\s+src=["'][^"']+["']\s*><\/script>/giu,
+    '',
+  );
+
+  const moduleOpening = '<script type="module">';
+  const moduleStart = mobileHtml.lastIndexOf(moduleOpening);
+  const moduleEnd = mobileHtml.lastIndexOf('</script>');
+
+  if (moduleStart < 0 || moduleEnd <= moduleStart) {
+    throw new Error('A mobilcsomag fő alkalmazásmodulja nem található.');
+  }
+
+  const beforeModule = mobileHtml.slice(0, moduleStart);
+  const moduleBody = mobileHtml.slice(moduleStart + moduleOpening.length, moduleEnd);
+  const afterModule = mobileHtml.slice(moduleEnd + '</script>'.length);
+
+  const startupFailureHandler = `
+})().catch(error => {
+  console.error('[android-startup] A játék indítása meghiúsult:', error);
+  document.documentElement.dataset.appStartupError = 'true';
+  const loading = document.querySelector('#app-loading');
+  if (loading) {
+    loading.hidden = false;
+    loading.innerHTML = '<div class="app-loading__error" role="alert"><strong>A játék nem tudott elindulni.</strong><span>Zárd be teljesen az alkalmazást, majd indítsd újra.</span></div>';
+  }
+});
+`;
+
+  mobileHtml = `${beforeModule}<script>\n(async () => {\n'use strict';\n${moduleBody}${startupFailureHandler}</script>${afterModule}`;
+
+  if (/<script\b[^>]*\bsrc=/iu.test(mobileHtml)) {
+    throw new Error('A mobilcsomag külső JavaScript-hivatkozást tartalmaz.');
+  }
+  if (/<script\b[^>]*\btype=["']module["']/iu.test(mobileHtml)) {
+    throw new Error('A mobilcsomagban WebView-kompatibilitást rontó module script maradt.');
+  }
+
+  return mobileHtml;
+}
+
+const standaloneSource = fs.readFileSync(STANDALONE_FILE, 'utf8');
+const standalone = convertStandaloneModuleForAndroidWebView(standaloneSource)
   .replace(
     '</head>',
     '  <meta name="application-name" content="Fociskártyák 2026">\n' +
       '  <meta name="format-detection" content="telephone=no">\n' +
-      '</head>'
+      '  <meta name="mobile-webview-compatible" content="true">\n' +
+      '</head>',
   );
 
 fs.writeFileSync(path.join(MOBILE_DIR, 'index.html'), standalone);
