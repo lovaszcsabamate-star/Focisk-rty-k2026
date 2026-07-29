@@ -170,7 +170,9 @@ assert.equal(
 );
 
 const componentSource = readSource('../js/ui/deck-selection-menu-component.js');
+const controlsSource = readSource('../js/quick-match-card-controls.js');
 const selectorCss = readSource('../css/deck-selection-menu.css');
+const controlsCss = readSource('../css/quick-match-card-controls.css');
 const federationCss = readSource('../css/federation-teams.css');
 const compatibilitySource = readSource('../js/deck-selection.js');
 const quickMatchDomainSource = readSource('../js/domain/quick-match-domain.js');
@@ -205,6 +207,17 @@ assert.match(componentSource, /quickStorage\.stage/);
 assert.match(componentSource, /role', 'dialog/);
 assert.match(componentSource, /aria-modal/);
 assert.doesNotMatch(componentSource, /team-grid|team-tile/);
+
+assert.match(controlsSource, /quick-match-help-toggle/);
+assert.match(controlsSource, /Véletlen csapat választása az aktív kategóriából/);
+assert.match(controlsSource, /quickMatchCardControlsConfirmSelection/);
+assert.match(controlsSource, /confirm\.click/);
+assert.match(controlsSource, /quick-team-card/);
+assert.match(controlsSource, /Enter/);
+assert.match(controlsSource, /pointerup/);
+assert.match(controlsSource, /quick-random-team__ball/);
+assert.match(controlsSource, /installQuickMatchCardControls/);
+
 assert.match(selectorCss, /\.deck-selector\[open\] > \.deck-selector__body/);
 assert.match(selectorCss, /height:\s*100dvh/);
 assert.match(selectorCss, /safe-area-inset-bottom/);
@@ -214,6 +227,12 @@ assert.match(selectorCss, /min-width:\s*48px/);
 assert.match(selectorCss, /min-height:\s*56px/);
 assert.match(selectorCss, /orientation:\s*landscape/);
 assert.match(selectorCss, /prefers-reduced-motion/);
+assert.match(controlsCss, /\.quick-match-help-toggle/);
+assert.match(controlsCss, /\.quick-team-card\.is-selectable/);
+assert.match(controlsCss, /\.quick-random-team__ball/);
+assert.match(controlsCss, /quick-random-ball-roll/);
+assert.match(controlsCss, /max-width:\s*700px/);
+assert.match(controlsCss, /prefers-reduced-motion/);
 assert.match(federationCss, /\.quick-team-mark--federation/);
 assert.match(federationCss, /\.quick-team-mark__image/);
 assert.match(quickMatchDomainSource, /buildQuickMatchCatalog/);
@@ -221,13 +240,19 @@ assert.match(quickMatchDomainSource, /buildQuickMatchPayload/);
 assert.match(quickMatchDomainSource, /quickMatchSelectionsCompatible/);
 assert.match(quickMatchStorageSource, /quick-match-setup:v1|QUICK_MATCH_SETUP_STORAGE_KEY/);
 assert.match(indexSource, /css\/deck-selection-menu\.css/);
+assert.match(indexSource, /css\/quick-match-card-controls\.css/);
+assert.match(indexSource, /js\/quick-match-card-controls\.js/);
 assert.match(indexSource, /css\/federation-teams\.css/);
 assert.match(buildWithSettingsSource, /quick-match-domain\.js/);
 assert.match(buildWithSettingsSource, /federation-domain\.js/);
 assert.match(buildWithSettingsSource, /federation-teams\.css/);
+assert.match(buildWithSettingsSource, /quick-match-card-controls\.css/);
+assert.match(buildWithSettingsSource, /quick-random-team__ball/);
 assert.match(buildWithSettingsSource, /quick-match-storage-service\.js/);
 assert.match(buildWithSettingsSource, /quick-team-card/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v79/);
+assert.match(serviceWorkerSource, /fociskartyak-2026-v82/);
+assert.match(serviceWorkerSource, /\.\/css\/quick-match-card-controls\.css/);
+assert.match(serviceWorkerSource, /\.\/js\/quick-match-card-controls\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/domain\/quick-match-domain\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/domain\/federation-domain\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/services\/quick-match-storage-service\.js/);
@@ -237,8 +262,13 @@ assert.match(compatibilitySource, /buildQuickMatchPayload/);
 assert.match(compatibilitySource, /readQuickMatchSetup/);
 assert.ok(
   buildSource.indexOf("'js/ui/deck-selection-menu-component.js'")
+    < buildSource.indexOf("'js/quick-match-card-controls.js'"),
+  'a kártyavezérlő réteg a csapatválasztó komponens után szerepel',
+);
+assert.ok(
+  buildSource.indexOf("'js/quick-match-card-controls.js'")
     < buildSource.indexOf("'js/deck-selection.js'"),
-  'a pakliválasztó UI-komponens a kompatibilitási homlokzat előtt szerepel',
+  'a kártyavezérlő réteg a kompatibilitási homlokzat előtt szerepel',
 );
 
-console.log('✓ Háromkategóriás Gyors meccs, ország–föderáció párosítás, mobilbiztonság és PWA: rendben');
+console.log('✓ Háromkategóriás Gyors meccs, kérdőjeles súgó, logó-/kártyakattintás, focilabdás véletlengomb, mobilbiztonság és PWA: rendben');
