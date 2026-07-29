@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 
 import {
   TOURNAMENT_CATEGORY,
@@ -9,6 +10,7 @@ import {
   tournamentMatches,
 } from '../js/tournament/tournament-domain.js';
 import {
+  applyMatchTelemetry,
   migrateEnhancedTournament,
   playerStatistics,
   teamStatistics,
@@ -16,8 +18,9 @@ import {
 import {
   simulatePendingAiMatchesEnhanced,
 } from '../js/tournament/tournament-simulation.js';
+import { clubBrandForLabel } from '../js/tournament/tournament-presentation-upgrade.js';
 import { HUMAN } from '../js/engine.js';
-import { PenaltyGame } from '../js/penalties.js';
+import { PenaltyGame, applyPenaltyRoundScore } from '../js/penalties.js';
 
 const teams = ['alpha', 'bravo', 'charlie', 'delta'].map((id, index) => ({
   id,
@@ -85,6 +88,40 @@ assert.equal(penaltyAiMatch.decidedBy, 'simulation-penalties');
 assert.notEqual(penaltyAiMatch.homeScore, penaltyAiMatch.awayScore);
 assert.ok(penaltiesAfterSimulation.simulatedResults[0].mode === TOURNAMENT_MATCH_MODE.PENALTIES);
 
+const tiedScore = { human: 2, ai: 1 };
+const tieResolution = applyPenaltyRoundScore(tiedScore, 'tie', ['human', 'ai']);
+assert.deepEqual(tiedScore, { human: 3, ai: 2 }, 'Döntetlennél mindkét csapat gólt és pontot kap.');
+assert.equal(tieResolution.tie, true);
+assert.deepEqual(tieResolution.goals, { human: 1, ai: 1 });
+
+const telemetryMatch = tournamentMatches(penalties)[0];
+const homeCard = cardsByTeam.get(telemetryMatch.homeId)[0];
+const awayCard = cardsByTeam.get(telemetryMatch.awayId)[0];
+const telemetryLookup = new Map([homeCard, awayCard].map(card => [card.id, card]));
+const tieTelemetryState = applyMatchTelemetry(penalties, telemetryMatch, {
+  mode: TOURNAMENT_MATCH_MODE.PENALTIES,
+  homeSide: 'human',
+  log: [{
+    round: 1,
+    attribute: 'goals',
+    humanCard: homeCard,
+    aiCard: awayCard,
+    winner: 'tie',
+    suddenDeath: false,
+  }],
+}, telemetryLookup);
+for (const card of [homeCard, awayCard]) {
+  const stat = tieTelemetryState.playerStats[card.id];
+  assert.equal(stat.duelDraws, 1);
+  assert.equal(stat.penaltyGoals, 1);
+  assert.equal(stat.penaltyMisses, 0);
+}
+
+assert.equal(clubBrandForLabel('Paksi FC')?.short, 'PAKS');
+const presentationSource = readFileSync(new URL('../js/tournament/tournament-lineup-ui.js', import.meta.url), 'utf8');
+assert.match(presentationSource, /tournament-bracket--tree/);
+assert.match(presentationSource, /tournament-bracket__match--connected/);
+
 const oldSave = migrateEnhancedTournament({
   ...classic,
   version: 1,
@@ -114,4 +151,4 @@ assert.deepEqual(
   'A torna büntetőrúgó-sorrendjének meg kell maradnia a meccs indításakor.',
 );
 
-console.log('Torna v3: szimuláció, migráció, statisztikák és büntetősorrend rendben.');
+console.log('Torna v3: klublogók, kupaág, döntetlen büntetők, szimuláció és statisztikák rendben.');
