@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "databaseId": "hungary-nb1-2025-26",
-  "databaseVersion": "3.2.0",
+  "databaseVersion": "3.3.0",
   "competitionId": "hungary-nb1",
   "seasonId": "2025-26",
   "season": "2025/26",
@@ -15,7 +15,7 @@
   "generatedAt": "2026-07-19T17:51:18.342Z",
   "outputFile": "data/databases/hungary-nb1-2025-26/players.normalized.json",
   "reportFile": "data/databases/hungary-nb1-2025-26/normalization-report.json",
-  "playerModelVersion": 2,
+  "playerModelVersion": 3,
   "playerCount": 440,
   "registrationRecords": 464,
   "sourceFiles": [
@@ -65,8 +65,8 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "2e0a3eb02c58323267ffe58e0228082dfcae950201f941536397c250124a79af",
-  "playersDigest": "e7597dc8ec411f318be5e4d5d42d26061551cf029330901304dcb97ff5da27a0",
+  "sourceDigest": "b36aa583f0b267e9ebba4b368b9a7d96f097ca5f0658bbeb68a80cc90c3f17ef",
+  "playersDigest": "2ae5aa78f77b769b33c2a06480b38de428cf2fef0eafe6c57599cc551a48f418",
   "sourceLayerCounts": {
     "enrichments": 24,
     "corrections": 5,
@@ -81,16 +81,18 @@
       "playerCount": 440,
       "missingNationalityCount": 0,
       "missingCountryCodeCount": 0,
+      "missingFederationCount": 0,
       "unknownCountryCodeCount": 0,
       "britishMisassignmentCount": 0,
       "contradictionCount": 0,
+      "federationContradictionCount": 0,
       "validCount": 440
     },
     "errors": [],
     "warnings": []
   },
   "completeness": {
-    "averageRatio": 0.8488,
+    "averageRatio": 0.8647,
     "completeRecords": 20,
     "incompleteRecords": 420,
     "missingFieldCounts": {
