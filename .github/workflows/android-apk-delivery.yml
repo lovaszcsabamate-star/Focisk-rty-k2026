@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/android-apk-delivery.yml'
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
