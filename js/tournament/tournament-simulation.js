@@ -1,7 +1,6 @@
-/** Kártya- és kategórialefedettség-alapú torna szimuláció. */
-
 import { ATTRIBUTES, attributeValue, hasAttributeData } from '../data/players.js';
 import { AI, HUMAN, compare } from '../engine.js';
+import { applyPenaltyRoundScore } from '../penalties.js';
 import {
   TOURNAMENT_MATCH_MODE,
   TOURNAMENT_MATCH_STATUS,
@@ -21,11 +20,13 @@ import {
   migrateEnhancedTournament,
 } from './tournament-state.js';
 
+/** Kártya- és kategórialefedettség-alapú torna szimuláció. */
+
 const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value));
 const number = value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
 const text = value => String(value ?? '').trim();
 
-export const tournamentPlayerStrength = player => {
+const tournamentPlayerStrength = player => {
   const stats = player?.stats ?? {};
   const meta = player?.meta ?? {};
   const categoryCoverage = ATTRIBUTES.reduce((sum, attribute) => sum + (hasAttributeData(player, attribute.key) ? 1 : 0), 0);
@@ -56,7 +57,7 @@ const categoryScore = (card, attribute) => {
   return ['lower', 'earlier'].includes(attribute.direction) ? -value : value;
 };
 
-export function buildTournamentTeamProfile(cards) {
+function buildTournamentTeamProfile(cards) {
   const lineup = topCards(cards);
   const coverage = {};
   const categoryStrength = {};
@@ -236,21 +237,20 @@ function simulatePenalties({ state, match, homeTeam, awayTeam, homeCards, awayCa
   const usedHome = new Set();
   const usedAway = new Set();
   const log = [];
-  let homeScore = 0;
-  let awayScore = 0;
+  const scores = { human: 0, ai: 0 };
   let round = 0;
   for (round = 1; round <= 5; round += 1) {
     const duel = simulateDuel({ homeProfile, awayProfile, attributes, rng, round, usedHome, usedAway });
+    duel.scoring = applyPenaltyRoundScore(scores, duel.winner, ['human', 'ai']);
+    duel.roundMessage = duel.scoring.message;
     log.push(duel);
-    if (duel.winner === 'human') homeScore += 1;
-    if (duel.winner === 'ai') awayScore += 1;
     const remaining = 5 - round;
-    if (Math.abs(homeScore - awayScore) > remaining) break;
+    if (Math.abs(scores.human - scores.ai) > remaining) break;
   }
   let suddenDeath = false;
-  if (homeScore === awayScore) {
+  if (scores.human === scores.ai) {
     suddenDeath = true;
-    for (let extra = 1; extra <= 18 && homeScore === awayScore; extra += 1) {
+    for (let extra = 1; extra <= 18 && scores.human === scores.ai; extra += 1) {
       const duel = simulateDuel({
         homeProfile,
         awayProfile,
@@ -261,24 +261,27 @@ function simulatePenalties({ state, match, homeTeam, awayTeam, homeCards, awayCa
         usedHome,
         usedAway,
       });
+      duel.scoring = applyPenaltyRoundScore(scores, duel.winner, ['human', 'ai']);
+      duel.roundMessage = duel.scoring.message;
       log.push(duel);
-      if (duel.winner === 'human') homeScore += 1;
-      if (duel.winner === 'ai') awayScore += 1;
     }
   }
-  if (homeScore === awayScore) {
+  if (scores.human === scores.ai) {
     const winner = fallbackDuel(homeProfile, awayProfile, rng) === HUMAN ? 'human' : 'ai';
-    log.push({
+    const decisive = {
       round: round + 19,
       attribute: '',
       humanCard: homeProfile.keyCards[0] ?? homeProfile.lineup[0] ?? null,
       aiCard: awayProfile.keyCards[0] ?? awayProfile.lineup[0] ?? null,
       winner,
       suddenDeath: true,
-    });
-    if (winner === 'human') homeScore += 1;
-    else awayScore += 1;
+    };
+    decisive.scoring = applyPenaltyRoundScore(scores, winner, ['human', 'ai']);
+    decisive.roundMessage = decisive.scoring.message;
+    log.push(decisive);
   }
+  const homeScore = scores.human;
+  const awayScore = scores.ai;
   return {
     mode: TOURNAMENT_MATCH_MODE.PENALTIES,
     homeScore,
@@ -297,7 +300,7 @@ function simulatePenalties({ state, match, homeTeam, awayTeam, homeCards, awayCa
   };
 }
 
-export function simulateTournamentMatchEnhanced(state, matchId, resolveCards) {
+function simulateTournamentMatchEnhanced(state, matchId, resolveCards) {
   let next = migrateEnhancedTournament(state);
   const match = tournamentMatchById(next, matchId);
   if (!match || match.status !== TOURNAMENT_MATCH_STATUS.PENDING) return next;
@@ -331,7 +334,7 @@ export function simulateTournamentMatchEnhanced(state, matchId, resolveCards) {
   return next;
 }
 
-export function simulatePendingAiMatchesEnhanced(state, resolveCards) {
+function simulatePendingAiMatchesEnhanced(state, resolveCards) {
   let next = migrateEnhancedTournament(state);
   for (let guard = 0; guard < 160; guard += 1) {
     next = migrateEnhancedTournament(advanceTournament(next));
@@ -359,7 +362,7 @@ export function simulatePendingAiMatchesEnhanced(state, resolveCards) {
   return next;
 }
 
-export function tournamentTacticalSummary(ownCards, opponentCards) {
+function tournamentTacticalSummary(ownCards, opponentCards) {
   const own = buildTournamentTeamProfile(ownCards);
   const opponent = buildTournamentTeamProfile(opponentCards);
   const ownLabels = own.strongestCategories.slice(0, 2).map(item => item.label.toLocaleLowerCase('hu-HU'));
@@ -377,3 +380,5 @@ export function tournamentTacticalSummary(ownCards, opponentCards) {
       : 'A két pakli kategórialefedettsége közel azonos.';
   return { own, opponent, sentences: [opponentSentence, ownSentence, coverage] };
 }
+
+export { tournamentPlayerStrength, buildTournamentTeamProfile, simulateTournamentMatchEnhanced, simulatePendingAiMatchesEnhanced, tournamentTacticalSummary };
