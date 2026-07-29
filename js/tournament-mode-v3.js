@@ -46,6 +46,17 @@ import {
 const runtime = { observer: null, resultPanels: new WeakSet(), lastMenuPanel: null };
 const TELEMETRY_KEY = '__FOCISKARTYAK_TOURNAMENT_TELEMETRY__';
 const clone = value => JSON.parse(JSON.stringify(value));
+const TOURNAMENT_STYLE_ID = 'tournament-mode-v3-style';
+
+function installTournamentStyles() {
+  if (document.getElementById(TOURNAMENT_STYLE_ID)) return;
+  const link = document.createElement('link');
+  link.id = TOURNAMENT_STYLE_ID;
+  link.rel = 'stylesheet';
+  link.href = 'css/tournament-mode-v3.css';
+  document.head.appendChild(link);
+}
+installTournamentStyles();
 
 function installTelemetryCapture() {
   if (GameRuntime.prototype.__tournamentTelemetryPatched) return;
