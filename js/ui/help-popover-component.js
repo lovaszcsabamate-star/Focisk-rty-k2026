@@ -148,6 +148,10 @@ const enhanceQuickMatchHelp = (documentRef, body) => {
   const lead = headingCopy?.querySelector?.('.deck-selector__lead');
   if (!headingCopy || !heading || !lead || headingCopy.dataset.helpPopoverEnhanced === 'true') return null;
 
+  const originalParent = heading.parentNode;
+  const originalNextSibling = heading.nextSibling;
+  if (!originalParent) return null;
+
   headingCopy.dataset.helpPopoverEnhanced = 'true';
   headingCopy.classList.add('has-help-popover');
   lead.setAttribute('aria-hidden', 'true');
@@ -159,7 +163,7 @@ const enhanceQuickMatchHelp = (documentRef, body) => {
   trigger.className = 'deck-selector__help-button';
   trigger.textContent = '?';
   trigger.setAttribute('aria-label', 'Csapatválasztási súgó megnyitása');
-  headingCopy.insertBefore(titleRow, heading);
+  originalParent.insertBefore(titleRow, heading);
   titleRow.append(heading, trigger);
 
   const popover = createHelpPopover({
@@ -179,7 +183,13 @@ const enhanceQuickMatchHelp = (documentRef, body) => {
     selector?.removeEventListener?.('toggle', handleSelectorToggle);
     popover.destroy();
     if (titleRow.isConnected) {
-      headingCopy.insertBefore(heading, lead);
+      if (originalParent.isConnected) {
+        const anchor = originalNextSibling?.parentNode === originalParent ? originalNextSibling : null;
+        originalParent.insertBefore(heading, anchor);
+      } else if (headingCopy.isConnected) {
+        const anchor = lead.parentNode === headingCopy ? lead : null;
+        headingCopy.insertBefore(heading, anchor);
+      }
       titleRow.remove();
     }
     lead.removeAttribute('aria-hidden');
