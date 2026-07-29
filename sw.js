@@ -1,7 +1,7 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v80
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v81
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
 const CACHE_PREFIX = 'fociskartyak-2026-';
-const PWA_CACHE = `${CACHE_PREFIX}v81`;
+const PWA_CACHE = `${CACHE_PREFIX}v82`;
 const PWA_SHELL = [
   './',
   './index.html',
@@ -25,6 +25,7 @@ const PWA_SHELL = [
   './css/visual-hierarchy.css',
   './css/category-picker.css',
   './css/deck-selection-menu.css',
+  './css/quick-match-card-controls.css',
   './css/help-popover.css',
   './css/federation-teams.css',
   './css/nationality-flags.css',
@@ -49,6 +50,7 @@ const PWA_SHELL = [
   './js/services/deck-selection-storage-service.js',
   './js/services/quick-match-storage-service.js',
   './js/ui/deck-selection-menu-component.js',
+  './js/quick-match-card-controls.js',
   './js/ui/help-popover-component.js',
   './js/ui/ui-enhancement-pipeline.js',
   './js/deck-selection.js',
