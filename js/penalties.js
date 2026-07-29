@@ -1,10 +1,34 @@
-/** Penalties mode state machine. It never mutates or re-draws a team mid-match. */
-
 import { ATTRIBUTES, hasAttributeData } from './data/players.js';
 import { AI, HUMAN, PHASE, compare, shuffle } from './engine.js';
 
-export const PENALTY_TEAM_SIZE = 11;
-export const REGULAR_DUELS = 5;
+/** Penalties mode state machine. It never mutates or re-draws a team mid-match. */
+
+const PENALTY_TEAM_SIZE = 11;
+const REGULAR_DUELS = 5;
+
+export function applyPenaltyRoundScore(scores, winner, sides = [HUMAN, AI]) {
+  const target = scores && typeof scores === 'object' ? scores : {};
+  const [firstSide, secondSide] = sides;
+  const tie = winner === 'tie';
+  const goals = { [firstSide]: 0, [secondSide]: 0 };
+  if (tie) {
+    target[firstSide] = Number(target[firstSide] ?? 0) + 1;
+    target[secondSide] = Number(target[secondSide] ?? 0) + 1;
+    goals[firstSide] = 1;
+    goals[secondSide] = 1;
+  } else if (winner === firstSide || winner === secondSide) {
+    target[winner] = Number(target[winner] ?? 0) + 1;
+    goals[winner] = 1;
+  }
+  return Object.freeze({
+    winner,
+    tie,
+    goals: Object.freeze(goals),
+    message: tie
+      ? 'Döntetlen kör · mindkét csapat gólt és pontot kapott.'
+      : winner === firstSide ? 'Gól az első csapatnak.' : 'Gól a második csapatnak.',
+  });
+}
 
 const cloneMirrorCard = (card, index, side = AI) => ({
   ...card,
@@ -43,7 +67,7 @@ const penaltyBuildQuickMatchTeam = (players, side, rng) => {
   return team;
 };
 
-export class PenaltyGame {
+class PenaltyGame {
   constructor({ players, rng = Math.random } = {}) {
     if (!Array.isArray(players) || players.length < PENALTY_TEAM_SIZE) {
       throw new Error(`A Büntetőpárbaj módhoz legalább ${PENALTY_TEAM_SIZE} játékos kell.`);
@@ -145,7 +169,7 @@ export class PenaltyGame {
 
   _resolve() {
     const winner = compare(this.attribute, this.played[HUMAN], this.played[AI]);
-    if (winner !== 'tie') this.scores[winner] += 1;
+    const scoring = applyPenaltyRoundScore(this.scores, winner);
     if (winner === HUMAN) this.categoryWins[this.attribute] += 1;
 
     const humanMark = winner === HUMAN ? 'win' : winner === AI ? 'loss' : 'tie';
@@ -182,6 +206,8 @@ export class PenaltyGame {
       enteredSuddenDeath,
       suddenDeath: wasSuddenDeath,
       cycle: this.cycle,
+      scoring,
+      roundMessage: scoring.message,
     };
     this.log.push(this.lastResult);
     if (!this.isOver) this.phase = PHASE.REVEAL;
@@ -237,3 +263,5 @@ export class PenaltyGame {
     };
   }
 }
+
+export { PENALTY_TEAM_SIZE, REGULAR_DUELS, PenaltyGame };
