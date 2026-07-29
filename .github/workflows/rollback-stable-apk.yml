@@ -1,0 +1,88 @@
+name: Stabil visszaállított Android APK
+
+on:
+  push:
+    branches:
+      - rollback/stable-before-card-controls
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js 22 beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Java 21 beállítása
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Android SDK beállítása
+        uses: android-actions/setup-android@v3
+
+      - name: Android 16 SDK telepítése
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: Offline mobilcsomag elkészítése
+        run: npm run mobile:prepare
+
+      - name: Android projekt létrehozása
+        run: |
+          npx cap add android
+          npx cap sync android
+          node scripts/apply-android-icon.mjs
+
+      - name: Álló tájolás beállítása
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          manifest = Path('android/app/src/main/AndroidManifest.xml')
+          text = manifest.read_text(encoding='utf-8')
+          if 'android:screenOrientation=' not in text:
+              text = text.replace(
+                  'android:configChanges=',
+                  'android:screenOrientation="portrait"\n            android:configChanges=',
+                  1,
+              )
+          manifest.write_text(text, encoding='utf-8')
+          PY
+
+      - name: APK összeállítása
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Letölthető fájl előkészítése
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-stabil-visszaallitott.apk
+          sha256sum dist/Fociskartyak2026-stabil-visszaallitott.apk > dist/Fociskartyak2026-stabil-visszaallitott.sha256
+
+      - name: APK feltöltése
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-stabil-visszaallitott
+          path: |
+            dist/Fociskartyak2026-stabil-visszaallitott.apk
+            dist/Fociskartyak2026-stabil-visszaallitott.sha256
+          if-no-files-found: error
+          retention-days: 30
