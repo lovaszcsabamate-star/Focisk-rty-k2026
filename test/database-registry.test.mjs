@@ -69,7 +69,7 @@ assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.reproducible, true);
 assert.equal(manifest.normalization.fallback, 'legacy-layered-database');
 assert.deepEqual(manifest.supportedModes, ['classic', 'penalties']);
-assert.deepEqual(manifest.supportedDeckSelections, ['random', 'club', 'nation']);
+assert.deepEqual(manifest.supportedDeckSelections, ['random', 'club', 'nation', 'federation']);
 
 for (const relative of [
   manifest.files.players,
