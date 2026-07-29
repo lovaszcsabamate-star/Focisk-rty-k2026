@@ -1,5 +1,3 @@
-/** Meccs előtti 11 lapos torna-keret és büntetőrúgó-sorrend. */
-
 import { TOURNAMENT_LINEUP_STORAGE_KEY, stageQuickMatch } from '../deck-selection.js';
 import { tournamentStorageService } from '../services/tournament-storage-service.js';
 import {
@@ -21,7 +19,9 @@ import {
   tournamentModeTitle,
 } from './tournament-ui.js';
 
-export function showLineupSelection(inputState, match, { returnPanel = null, showCenter } = {}) {
+/** Meccs előtti 11 lapos torna-keret és büntetőrúgó-sorrend. */
+
+function showLineupSelection(inputState, match, { returnPanel = null, showCenter } = {}) {
   let state = migrateEnhancedTournament(inputState);
   const humanTeam = tournamentTeamById(state, state.humanTeamId);
   const opponentId = match.homeId === state.humanTeamId ? match.awayId : match.homeId;
@@ -81,4 +81,88 @@ export function showLineupSelection(inputState, match, { returnPanel = null, sho
     const help = node.querySelector('.tournament-help-dialog'); node.querySelector('.tournament-help')?.addEventListener('click', () => help?.showModal()); help?.querySelector('.btn')?.addEventListener('click', () => help.close());
   };
   render(); showPanel(node);
+}
+
+export { showLineupSelection };
+
+/* Az önálló Android-buildben is aktiválódó, külső asset nélküli megjelenítési tartalék. */
+if (globalThis.document && !document.getElementById('tournament-presentation-upgrade-style')) {
+  const presentationFold = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('hu-HU').replace(/[^a-z0-9]+/g, ' ').trim();
+  const presentationBrands = [
+    [['dvsc', 'debreceni vsc'], 'DVSC', '#c8192e', '#fff'],
+    [['dvtk', 'diosgyori vtk'], 'DVTK', '#d71920', '#fff'],
+    [['eto fc', 'gyori eto'], 'ETO', '#159447', '#fff'],
+    [['ferencvarosi tc', 'ferencvaros'], 'FTC', '#16854a', '#fff'],
+    [['kisvarda master good', 'kisvarda'], 'KISV', '#d8222a', '#fff'],
+    [['kolorcity kazincbarcika sc', 'kazincbarcika'], 'KBSC', '#2468a9', '#f2cf2f'],
+    [['mtk budapest', 'mtk'], 'MTK', '#246eb9', '#fff'],
+    [['nyiregyhaza spartacus fc', 'nyiregyhaza'], 'NYÍR', '#c61f30', '#254f9a'],
+    [['paksi fc', 'paks'], 'PAKS', '#23864a', '#fff'],
+    [['puskas akademia fc', 'puskas akademia'], 'PAFC', '#1f66ad', '#f0c640'],
+    [['ujpest fc', 'ujpest'], 'UTE', '#6d3a93', '#fff'],
+    [['zte fc', 'zalaegerszegi te'], 'ZTE', '#185ea9', '#fff'],
+  ];
+  const presentationBrand = label => {
+    const folded = presentationFold(label);
+    return presentationBrands.find(([aliases]) => aliases.some(alias => folded === alias || folded.includes(alias))) ?? null;
+  };
+  const presentationLogo = (label, brand) => {
+    const [, short, primary, secondary] = brand;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'tournament-team-mark__club-svg');
+    svg.setAttribute('viewBox', '0 0 120 140');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.innerHTML = `<path d="M60 5 108 24 101 97 60 132 19 97 12 24Z" fill="${primary}" stroke="${secondary}" stroke-width="7"/><path d="M25 33h70v15H25z" fill="${secondary}" opacity=".94"/><circle cx="60" cy="82" r="25" fill="none" stroke="${secondary}" stroke-width="6"/><path d="m60 65 10 7-4 12H54l-4-12z" fill="${secondary}"/><text x="60" y="42" text-anchor="middle" dominant-baseline="middle" fill="${primary}" font-size="19" font-family="system-ui,sans-serif" font-weight="1000">${short}</text>`;
+    svg.setAttribute('aria-label', `${label} klublogó`);
+    return svg;
+  };
+  const presentationEnhance = root => {
+    const marks = [];
+    if (root?.matches?.('.tournament-team-mark--generated')) marks.push(root);
+    root?.querySelectorAll?.('.tournament-team-mark--generated').forEach(mark => marks.push(mark));
+    marks.forEach(mark => {
+      const label = mark.getAttribute('aria-label') || mark.textContent;
+      const brand = presentationBrand(label);
+      if (!brand) return;
+      mark.replaceChildren(presentationLogo(label, brand));
+      mark.classList.replace('tournament-team-mark--generated', 'tournament-team-mark--club');
+      mark.removeAttribute('style');
+    });
+    const brackets = [];
+    if (root?.matches?.('.tournament-bracket')) brackets.push(root);
+    root?.querySelectorAll?.('.tournament-bracket').forEach(bracket => brackets.push(bracket));
+    brackets.forEach(bracket => {
+      if (bracket.dataset.treeEnhanced === 'true') return;
+      bracket.dataset.treeEnhanced = 'true';
+      bracket.classList.add('tournament-bracket--tree');
+      bracket.tabIndex = 0;
+      bracket.setAttribute('aria-label', 'Kieséses kupaág, vízszintesen görgethető');
+      const rounds = [...bracket.querySelectorAll(':scope > .tournament-bracket__round')];
+      rounds.at(-1)?.classList.add('is-final');
+      rounds.forEach(round => round.querySelectorAll('.tournament-bracket__match').forEach(match => match.classList.add('tournament-bracket__match--connected')));
+      const hint = document.createElement('p');
+      hint.className = 'tournament-bracket__scroll-hint';
+      hint.textContent = 'Húzd oldalra az ág­rajz további fordulóihoz →';
+      bracket.before(hint);
+    });
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      node.nodeValue = node.nodeValue
+        .replaceAll(' · nincs gól', ' · mindkét csapat gólt és pontot kapott')
+        .replaceAll('azonos értéknél nincs gól.', 'azonos értéknél mindkét csapat gólt és pontot kap.');
+    });
+  };
+  const style = document.createElement('style');
+  style.id = 'tournament-presentation-upgrade-style';
+  style.textContent = `.tournament-team-mark--club{overflow:visible;background:none;border:0;clip-path:none}.tournament-team-mark__club-svg{width:100%;height:100%;filter:drop-shadow(0 4px 8px rgba(0,0,0,.48))}.tournament-v3 .tournament-bracket__scroll-hint{width:max-content;margin:0 0 10px;padding:5px 9px;border:1px solid rgba(255,214,90,.25);border-radius:999px;background:rgba(36,23,14,.94);color:#d9c9a7;font-size:.72rem}.tournament-v3 .tournament-bracket--tree{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(220px,260px);align-items:stretch;gap:52px;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:4px 28px 18px 2px;scroll-snap-type:x proximity}.tournament-v3 .tournament-bracket--tree>.tournament-bracket__round{position:relative;display:flex!important;min-height:310px;flex-direction:column;justify-content:space-around;gap:18px;scroll-snap-align:start}.tournament-v3 .tournament-bracket__match--connected{position:relative;overflow:visible}.tournament-v3 .tournament-bracket__round:not(.is-final) .tournament-bracket__match--connected::after{content:"";position:absolute;right:-53px;top:50%;width:53px;border-top:2px solid rgba(255,214,90,.48)}.tournament-v3 .tournament-bracket__round:not(:first-child)::before{content:"";position:absolute;left:-27px;top:12%;bottom:12%;border-left:2px solid rgba(255,214,90,.34)}@media(min-width:861px){.tournament-v3 .tournament-bracket__scroll-hint{display:none}}@media(max-width:860px){.tournament-v3 .tournament-bracket--tree{grid-auto-columns:minmax(210px,78vw);gap:44px}.tournament-v3 .tournament-bracket__round:not(.is-final) .tournament-bracket__match--connected::after{right:-45px;width:45px}.tournament-v3 .tournament-bracket__round:not(:first-child)::before{left:-23px}.tournament-v3 .tournament-result-row .tournament-team-mark{display:inline-grid}}`;
+  document.head.append(style);
+  presentationEnhance(document.body);
+  const observer = new MutationObserver(records => records.forEach(record => record.addedNodes.forEach(node => {
+    if (node.nodeType === Node.ELEMENT_NODE) presentationEnhance(node);
+    else if (node.nodeType === Node.TEXT_NODE && node.parentElement) presentationEnhance(node.parentElement);
+  })));
+  observer.observe(document.body, { childList: true, subtree: true });
 }
