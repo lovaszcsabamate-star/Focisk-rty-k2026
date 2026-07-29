@@ -1,0 +1,56 @@
+name: Quick Match card controls
+
+on:
+  pull_request:
+    paths:
+      - 'css/quick-match-card-controls.css'
+      - 'index.html'
+      - 'js/quick-match-card-controls.js'
+      - 'scripts/build-standalone.mjs'
+      - 'scripts/build-standalone-with-settings.mjs'
+      - 'sw.js'
+      - 'test/deck-selection-menu-component.test.mjs'
+      - '.github/workflows/quick-match-card-controls.yml'
+  push:
+    branches:
+      - feature/quick-match-card-controls
+    paths:
+      - 'css/quick-match-card-controls.css'
+      - 'index.html'
+      - 'js/quick-match-card-controls.js'
+      - 'scripts/build-standalone.mjs'
+      - 'scripts/build-standalone-with-settings.mjs'
+      - 'sw.js'
+      - 'test/deck-selection-menu-component.test.mjs'
+      - '.github/workflows/quick-match-card-controls.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-controls:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: JavaScript szintaxis ellenőrzése
+        run: |
+          node --check js/quick-match-card-controls.js
+          node --check scripts/build-standalone.mjs
+          node --check scripts/build-standalone-with-settings.mjs
+
+      - name: Gyors meccs regressziós teszt
+        run: node test/deck-selection-menu-component.test.mjs
+
+      - name: Önálló build ellenőrzése
+        run: node scripts/build-standalone-with-settings.mjs
