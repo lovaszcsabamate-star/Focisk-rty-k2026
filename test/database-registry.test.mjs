@@ -38,7 +38,7 @@ const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
 assert.equal(manifest.schemaVersion, 2);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.2.0');
+assert.equal(manifest.version, '3.3.0');
 assert.equal(manifest.competitionId, 'hungary-nb1');
 assert.equal(manifest.season, '2025/26');
 assert.equal(manifest.seasonId, '2025-26');
