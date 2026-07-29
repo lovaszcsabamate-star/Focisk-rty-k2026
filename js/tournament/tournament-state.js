@@ -1,5 +1,3 @@
-/** Torna v3 állapot-, statisztika-, díj- és visszafelé kompatibilitási modell. */
-
 import {
   TOURNAMENT_MATCH_MODE,
   TOURNAMENT_MATCH_STATUS,
@@ -7,7 +5,9 @@ import {
   tournamentTeamById,
 } from './tournament-domain.js';
 
-export const TOURNAMENT_ENHANCED_VERSION = 3;
+/** Torna v3 állapot-, statisztika-, díj- és visszafelé kompatibilitási modell. */
+
+const TOURNAMENT_ENHANCED_VERSION = 3;
 
 const clone = value => JSON.parse(JSON.stringify(value));
 const text = value => String(value ?? '').trim();
@@ -97,7 +97,7 @@ const normaliseLineupState = value => ({
   penaltyOrders: value?.penaltyOrders && typeof value.penaltyOrders === 'object' ? value.penaltyOrders : {},
 });
 
-export function migrateEnhancedTournament(value) {
+function migrateEnhancedTournament(value) {
   if (!value || typeof value !== 'object') return null;
   const state = clone(value);
   const playerStats = {};
@@ -120,7 +120,7 @@ export function migrateEnhancedTournament(value) {
   return rebuildTeamStats(state);
 }
 
-export function saveLineupForMatch(state, matchId, lineupIds, { favorite = false, mode = null } = {}) {
+function saveLineupForMatch(state, matchId, lineupIds, { favorite = false, mode = null } = {}) {
   const next = migrateEnhancedTournament(state);
   const ids = [...new Set((Array.isArray(lineupIds) ? lineupIds : []).map(text).filter(Boolean))];
   const key = text(matchId);
@@ -133,7 +133,7 @@ export function saveLineupForMatch(state, matchId, lineupIds, { favorite = false
   return next;
 }
 
-export const lineupForMatch = (state, matchId) => {
+const lineupForMatch = (state, matchId) => {
   const migrated = migrateEnhancedTournament(state);
   return migrated.lineupState.byMatchId[text(matchId)] ?? [];
 };
@@ -182,7 +182,7 @@ const performanceForLog = item => {
   return { human: 1, ai: 1 };
 };
 
-export function applyMatchTelemetry(state, match, telemetry, playerLookup = new Map()) {
+function applyMatchTelemetry(state, match, telemetry, playerLookup = new Map()) {
   const next = migrateEnhancedTournament(state);
   if (!match || !telemetry || !Array.isArray(telemetry.log)) return next;
   const homeTeam = tournamentTeamById(next, match.homeId);
@@ -221,7 +221,8 @@ export function applyMatchTelemetry(state, match, telemetry, playerLookup = new 
       if ((item?.suddenDeath || number(item?.potScooped) > 0) && winner === side) stat.keyMoments += 1;
       if (telemetry.mode === TOURNAMENT_MATCH_MODE.PENALTIES) {
         stat.penaltyAttempts += 1;
-        if (winner === side) {
+        const scored = winner === side || winner === 'tie';
+        if (scored) {
           stat.penaltyGoals += 1;
           if (item?.suddenDeath) stat.suddenDeathGoals += 1;
         } else stat.penaltyMisses += 1;
@@ -254,7 +255,7 @@ export function applyMatchTelemetry(state, match, telemetry, playerLookup = new 
   return rebuildTeamStats(next);
 }
 
-export function appendSimulatedResult(state, match, simulation) {
+function appendSimulatedResult(state, match, simulation) {
   const next = migrateEnhancedTournament(state);
   const record = {
     matchId: text(match?.id),
@@ -278,7 +279,7 @@ export function appendSimulatedResult(state, match, simulation) {
   return rebuildTeamStats(next);
 }
 
-export function appendPlayedResult(state, match) {
+function appendPlayedResult(state, match) {
   const next = migrateEnhancedTournament(state);
   const record = {
     matchId: text(match?.id),
@@ -296,7 +297,7 @@ export function appendPlayedResult(state, match) {
   return rebuildTeamStats(next);
 }
 
-export function rebuildTeamStats(state) {
+function rebuildTeamStats(state) {
   const next = clone(state);
   const teams = new Map((next.participants ?? []).map(team => [team.id, emptyTeamStat(team)]));
   const ordered = [...tournamentMatches(next)]
@@ -335,14 +336,14 @@ export function rebuildTeamStats(state) {
   return next;
 }
 
-export const teamStatistics = state => Object.values(migrateEnhancedTournament(state).teamStats)
+const teamStatistics = state => Object.values(migrateEnhancedTournament(state).teamStats)
   .sort((a, b) => b.wins - a.wins || b.difference - a.difference || b.scored - a.scored || a.label.localeCompare(b.label, 'hu-HU'));
 
-export const playerStatistics = state => Object.values(migrateEnhancedTournament(state).playerStats)
+const playerStatistics = state => Object.values(migrateEnhancedTournament(state).playerStats)
   .map(item => ({ ...item, efficiency: number(item.efficiency) }))
   .sort((a, b) => b.totalPerformance - a.totalPerformance || b.duelWins - a.duelWins || b.penaltyGoals - a.penaltyGoals || a.name.localeCompare(b.name, 'hu-HU'));
 
-export function calculateTournamentAwards(state) {
+function calculateTournamentAwards(state) {
   const next = migrateEnhancedTournament(state);
   const players = playerStatistics(next);
   const teams = teamStatistics(next);
@@ -365,3 +366,5 @@ export function calculateTournamentAwards(state) {
   };
   return next;
 }
+
+export { TOURNAMENT_ENHANCED_VERSION, migrateEnhancedTournament, saveLineupForMatch, lineupForMatch, applyMatchTelemetry, appendSimulatedResult, appendPlayedResult, rebuildTeamStats, teamStatistics, playerStatistics, calculateTournamentAwards };
