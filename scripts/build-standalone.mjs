@@ -72,6 +72,7 @@ const moduleOrder = [
   'js/domain/deck-selection-domain.js',
   'js/services/deck-selection-storage-service.js',
   'js/ui/deck-selection-menu-component.js',
+  'js/quick-match-card-controls.js',
   'js/deck-selection.js',
   'js/branding.js',
   'js/data/categories.js',
@@ -117,6 +118,7 @@ const moduleOrder = [
 ];
 
 const uiEnhancementFiles = new Set([
+  'js/quick-match-card-controls.js',
   'js/ux.js',
   'js/ux-fixes.js',
   'js/nationality-ui-enhancement.js',
@@ -302,6 +304,7 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/visual-settings-persistence.js"></script>\n', '')
   .replace('  <script type="module" src="js/visual-system.js"></script>\n', '')
   .replace('  <script type="module" src="js/legal-ui.js"></script>\n', '')
+  .replace('  <script type="module" src="js/quick-match-card-controls.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
     `<script>globalThis.__FOCISKARTYAK_DATABASE__ = ${safeDatabase}; globalThis.__FOCISKARTYAK_SEASON__ = globalThis.__FOCISKARTYAK_DATABASE__.seasonMeta; globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`,
