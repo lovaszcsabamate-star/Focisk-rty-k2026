@@ -5,6 +5,17 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/android-apk-delivery.yml'
+      - 'scripts/prepare-mobile.mjs'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/android-apk-delivery.yml'
+      - 'scripts/prepare-mobile.mjs'
+      - 'scripts/build-standalone.mjs'
+      - 'scripts/build-standalone-with-settings.mjs'
+      - 'index.html'
+      - 'js/**'
+      - 'css/**'
   workflow_dispatch:
 
 permissions:
@@ -51,6 +62,14 @@ jobs:
       - name: Offline mobil webcsomag készítése
         run: npm run mobile:prepare
 
+      - name: Android WebView csomag ellenőrzése
+        run: |
+          test -s mobile-www/index.html
+          grep -q 'mobile-webview-compatible' mobile-www/index.html
+          grep -q '(async () => {' mobile-www/index.html
+          ! grep -Eq '<script[^>]+type=["'"']module["'"']' mobile-www/index.html
+          ! grep -Eq '<script[^>]+src=' mobile-www/index.html
+
       - name: Android projekt létrehozása és szinkronizálása
         run: |
           npx cap add android
@@ -81,15 +100,15 @@ jobs:
       - name: Letölthető fájl előkészítése
         run: |
           mkdir -p dist
-          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-Android.apk
-          sha256sum dist/Fociskartyak2026-Android.apk > dist/Fociskartyak2026-Android.sha256
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-Android-WebView-fix.apk
+          sha256sum dist/Fociskartyak2026-Android-WebView-fix.apk > dist/Fociskartyak2026-Android-WebView-fix.sha256
 
       - name: APK feltöltése
         uses: actions/upload-artifact@v4
         with:
-          name: Fociskartyak2026-Android
+          name: Fociskartyak2026-Android-WebView-fix
           path: |
-            dist/Fociskartyak2026-Android.apk
-            dist/Fociskartyak2026-Android.sha256
+            dist/Fociskartyak2026-Android-WebView-fix.apk
+            dist/Fociskartyak2026-Android-WebView-fix.sha256
           if-no-files-found: error
           retention-days: 30
