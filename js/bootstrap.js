@@ -59,7 +59,7 @@ try {
   globalThis.__FOCISKARTYAK_QUICK_MATCH__ = quickMatch.matchup;
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
-  await import('./tournament-mode.js');
+  await import('./tournament-mode-v3.js');
 
   console.info(
     `[database] ${database.name} · ${database.season} (${database.seasonId}) · ${source} · manifest: ${database.manifestUrl}`,
