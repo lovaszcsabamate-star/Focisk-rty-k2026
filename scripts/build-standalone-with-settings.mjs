@@ -16,6 +16,9 @@ const FEDERATION_CSS_LINK = '  <link rel="stylesheet" href="css/federation-teams
 const JS_TAG = '  <script type="module" src="js/visual-settings-persistence.js"></script>';
 const RECENT_DUELS_JS_TAG = '  <script type="module" src="js/recent-duels-experience.js"></script>';
 const TEAM_SELECTOR_BUNDLE_MARKER = '/* ===== js/ui/deck-selection-menu-component.js ===== */';
+const UI_RUNTIME_BUNDLE_MARKER = '/* ===== js/ui.js ===== */';
+const QUICK_MATCH_CONTROLS_BUNDLE_MARKER = '/* ===== js/quick-match-card-controls.js · isolated UI class layer ===== */';
+const UX_BUNDLE_MARKER = '/* ===== js/ux.js · isolated UI class layer ===== */';
 const LEGAL_LAYER_MARKER = '/* ===== js/legal-ui.js · isolated UI class layer ===== */';
 
 const sizingCss = fs.readFileSync(path.join(ROOT, 'css/visual-settings-persistence.css'), 'utf8');
@@ -75,6 +78,35 @@ const runtimeSmokeCompatibility = `
  if (globalThis.__runtimeSmoke) globalThis.__FOCISKARTYAK_QUICK_MATCH_BYPASS__ = true;
  `;
 
+function moveIsolatedLayerBefore(output, layerMarker, nextMarker, layerFile) {
+  const layerStart = output.indexOf(layerMarker);
+  const nextStart = output.indexOf(nextMarker);
+  const layerEndToken = `commitUiEnhancementLayer(${JSON.stringify(layerFile)});`;
+  const layerEndStart = output.indexOf(layerEndToken, layerStart);
+  if (layerStart < 0 || nextStart < 0 || layerEndStart < 0) {
+    throw new Error(`Az önálló build UI-rétege nem rendezhető: ${layerFile}`);
+  }
+  const layerEnd = layerEndStart + layerEndToken.length;
+  const layerBlock = output.slice(layerStart, layerEnd);
+  const withoutLayer = `${output.slice(0, layerStart)}${output.slice(layerEnd)}`;
+  const insertionPoint = withoutLayer.indexOf(nextMarker);
+  if (insertionPoint < 0) throw new Error(`Hiányzó beszúrási pont az UI-réteghez: ${layerFile}`);
+  return `${withoutLayer.slice(0, insertionPoint)}${layerBlock}\n${withoutLayer.slice(insertionPoint)}`;
+}
+
+function assertUiLayerRuntimeOrder(output) {
+  const uiRuntimeIndex = output.indexOf(UI_RUNTIME_BUNDLE_MARKER);
+  const firstLayerIndex = output.indexOf('beginUiEnhancementLayer(');
+  const controlsIndex = output.indexOf(QUICK_MATCH_CONTROLS_BUNDLE_MARKER);
+  const uxIndex = output.indexOf(UX_BUNDLE_MARKER);
+  if (uiRuntimeIndex < 0 || firstLayerIndex < 0 || controlsIndex < 0 || uxIndex < 0) {
+    throw new Error('Az önálló build UI-rétegsorrendje nem ellenőrizhető.');
+  }
+  if (firstLayerIndex < uiRuntimeIndex || controlsIndex < uiRuntimeIndex || controlsIndex > uxIndex) {
+    throw new Error('UI enhancement réteg került a UI alaposztály inicializálása elé.');
+  }
+}
+
 let output = fs.readFileSync(OUTPUT, 'utf8');
 output = output
   .replace(CSS_LINK, `  <style>\n${sizingCss}\n  </style>`)
@@ -91,6 +123,15 @@ output = output
     LEGAL_LAYER_MARKER,
     `${recentDuelsInlineBundle}\n${playabilityInlineBundle}\n${LEGAL_LAYER_MARKER}`,
   );
+
+output = moveIsolatedLayerBefore(
+  output,
+  QUICK_MATCH_CONTROLS_BUNDLE_MARKER,
+  UX_BUNDLE_MARKER,
+  'js/quick-match-card-controls.js',
+);
+assertUiLayerRuntimeOrder(output);
+
 for (const [assetPath, dataUri] of Object.entries(federationAssetDataUris)) {
   output = output.replaceAll(assetPath, dataUri);
 }
@@ -125,7 +166,7 @@ if (!output.includes('Legutóbbi párbajok') || !output.includes('A mérkőzés 
   throw new Error('A párbajelőzmény vagy a mérkőzés játékosa nem került be az önálló buildbe.');
 }
 if (!output.includes('.nationality-flag') || !output.includes('data:image/svg+xml;base64,')) {
-  throw new Error('A nemzetiségi zászlóstílus vagy a helyi zászló-SVG nem került be az önálló buildbe.');
+  throw new Error('A nemzetiségi zászlóstílus vagy a helyi zászló-SVG nem került be az önálló buildből.');
 }
 if (!output.includes('resolvePlayerNationality') || !output.includes('createPlayerFlagElement')) {
   throw new Error('A központi nemzetiségi feloldó vagy a játékoszászló-komponens hiányzik az önálló buildből.');
