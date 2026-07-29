@@ -59,6 +59,7 @@ try {
   globalThis.__FOCISKARTYAK_QUICK_MATCH__ = quickMatch.matchup;
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
+  await import('./tournament/tournament-presentation-upgrade.js');
   await import('./tournament-mode-v3.js');
 
   console.info(
@@ -66,7 +67,7 @@ try {
   );
   console.info(
     `[players] ${statistics.playerCount} rekord · ${statistics.playablePlayerCount} használható · `
-    + `${statistics.excludedPlayerCount} hiányos rekord kizárva`,
+      + `${statistics.excludedPlayerCount} hiányos rekord kizárva`,
   );
   console.info(
     quickMatch.matchup
@@ -77,7 +78,7 @@ try {
   if (quickMatch.matchup) {
     console.info(
       `[quick-match] ${quickMatch.matchup.human.label} (${quickMatch.matchup.human.count}) · `
-      + `${quickMatch.matchup.ai.label} (${quickMatch.matchup.ai.count})`,
+        + `${quickMatch.matchup.ai.label} (${quickMatch.matchup.ai.count})`,
     );
   }
 
@@ -88,19 +89,19 @@ try {
     const summary = fullPayload.enrichment;
     console.info(
       `[enrichment] ${summary.clubSummary?.length ?? 0} klub ellenőrizve · `
-      + `${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
-      + `${summary.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve · `
-      + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
-      + `${summary.unmatchedRecords} kézi ellenőrzésre váró rekord · `
-      + `${summary.conflictCount} megőrzött eltérés`,
+        + `${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
+        + `${summary.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve · `
+        + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
+        + `${summary.unmatchedRecords} kézi ellenőrzésre váró rekord · `
+        + `${summary.conflictCount} megőrzött eltérés`,
     );
   }
   if (fullPayload?.officialStatPatches) {
     const summary = fullPayload.officialStatPatches;
     console.info(
       `[official-stats] ${summary.matchedRecords}/${summary.records} hivatalos szezonstatisztika illesztve · `
-      + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés · `
-      + `${summary.correctionCount ?? 0} bizonyított korrekció`,
+        + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés · `
+        + `${summary.correctionCount ?? 0} bizonyított korrekció`,
     );
   }
 
