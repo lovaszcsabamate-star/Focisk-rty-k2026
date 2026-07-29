@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - rollback/stable-before-card-controls
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
