@@ -1,4 +1,4 @@
-/** Build the standalone game, then inline sizing, team-selector, federation, playability, duel-history and Quick Match assets. */
+/** Build the standalone game, then inline sizing, team-selector, federation, tournament, playability, duel-history and Quick Match assets. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -13,6 +13,7 @@ const CSS_LINK = '  <link rel="stylesheet" href="css/visual-settings-persistence
 const TEAM_SELECTOR_CSS_LINK = '  <link rel="stylesheet" href="css/deck-selection-menu.css">';
 const QUICK_MATCH_CONTROLS_CSS_LINK = '  <link rel="stylesheet" href="css/quick-match-card-controls.css">';
 const FEDERATION_CSS_LINK = '  <link rel="stylesheet" href="css/federation-teams.css">';
+const TOURNAMENT_CSS_LINK = '  <link rel="stylesheet" href="css/tournament-mode.css">';
 const JS_TAG = '  <script type="module" src="js/visual-settings-persistence.js"></script>';
 const RECENT_DUELS_JS_TAG = '  <script type="module" src="js/recent-duels-experience.js"></script>';
 const TEAM_SELECTOR_BUNDLE_MARKER = '/* ===== js/ui/deck-selection-menu-component.js ===== */';
@@ -20,11 +21,13 @@ const UI_RUNTIME_BUNDLE_MARKER = '/* ===== js/ui.js ===== */';
 const QUICK_MATCH_CONTROLS_BUNDLE_MARKER = '/* ===== js/quick-match-card-controls.js · isolated UI class layer ===== */';
 const UX_BUNDLE_MARKER = '/* ===== js/ux.js · isolated UI class layer ===== */';
 const LEGAL_LAYER_MARKER = '/* ===== js/legal-ui.js · isolated UI class layer ===== */';
+const MAIN_BUNDLE_MARKER = '/* ===== js/main.js ===== */';
 
 const sizingCss = fs.readFileSync(path.join(ROOT, 'css/visual-settings-persistence.css'), 'utf8');
 const teamSelectorCss = fs.readFileSync(path.join(ROOT, 'css/deck-selection-menu.css'), 'utf8');
 const quickMatchControlsCss = fs.readFileSync(path.join(ROOT, 'css/quick-match-card-controls.css'), 'utf8');
 const federationCss = fs.readFileSync(path.join(ROOT, 'css/federation-teams.css'), 'utf8');
+const tournamentCss = fs.readFileSync(path.join(ROOT, 'css/tournament-mode.css'), 'utf8');
 const sizingJs = fs.readFileSync(path.join(ROOT, 'js/visual-settings-persistence.js'), 'utf8')
   .replace(/<\/script/gi, '<\\/script');
 const flattenInlineModule = source => source
@@ -39,6 +42,21 @@ const quickMatchInlineBundle = [
 ].map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
+const tournamentFiles = [
+  'js/tournament/tournament-domain.js',
+  'js/services/tournament-storage-service.js',
+  'js/tournament-mode.js',
+];
+const tournamentSource = tournamentFiles
+  .map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
+  .join('\n')
+  .replace(/<\/script/gi, '<\\/script');
+const tournamentInlineBundle = `
+ /* ===== Torna mód · önálló IIFE ===== */
+ (() => {
+ ${tournamentSource}
+ })();
+ `;
 const federationAssets = [
   'assets/federations/federation-europe.svg',
   'assets/federations/federation-africa.svg',
@@ -113,6 +131,7 @@ output = output
   .replace(TEAM_SELECTOR_CSS_LINK, `  <style>\n${teamSelectorCss}\n  </style>`)
   .replace(QUICK_MATCH_CONTROLS_CSS_LINK, `  <style>\n${quickMatchControlsCss}\n  </style>`)
   .replace(FEDERATION_CSS_LINK, `  <style>\n${federationCss}\n  </style>`)
+  .replace(TOURNAMENT_CSS_LINK, `  <style>\n${tournamentCss}\n  </style>`)
   .replace(JS_TAG, `  <script>\n${sizingJs}\n  </script>`)
   .replace(RECENT_DUELS_JS_TAG, '')
   .replace(
@@ -122,6 +141,10 @@ output = output
   .replace(
     LEGAL_LAYER_MARKER,
     `${recentDuelsInlineBundle}\n${playabilityInlineBundle}\n${LEGAL_LAYER_MARKER}`,
+  )
+  .replace(
+    MAIN_BUNDLE_MARKER,
+    `${tournamentInlineBundle}\n${MAIN_BUNDLE_MARKER}`,
   );
 
 output = moveIsolatedLayerBefore(
@@ -138,6 +161,7 @@ for (const [assetPath, dataUri] of Object.entries(federationAssetDataUris)) {
 
 if (output.includes(CSS_LINK) || output.includes(TEAM_SELECTOR_CSS_LINK)
   || output.includes(QUICK_MATCH_CONTROLS_CSS_LINK) || output.includes(FEDERATION_CSS_LINK)
+  || output.includes(TOURNAMENT_CSS_LINK)
   || output.includes(JS_TAG) || output.includes(RECENT_DUELS_JS_TAG)) {
   throw new Error('Az önálló buildből külső felületi asset maradt bent.');
 }
@@ -159,6 +183,10 @@ if (!output.includes('getPlayableFederationTeams') || !output.includes('quick-te
 if (!output.includes('federation-europe') && !output.includes('data:image/svg+xml;base64,')) {
   throw new Error('A föderációs emblémák nem kerültek be az önálló buildbe.');
 }
+if (!output.includes('TOURNAMENT_FORMAT') || !output.includes('Torna mód')
+  || !output.includes('tournamentStorageService') || !output.includes('.tournament-bracket')) {
+  throw new Error('A torna domain, mentés, felület vagy stílus nem került be az önálló buildbe.');
+}
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
@@ -173,4 +201,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, Torna mód, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
