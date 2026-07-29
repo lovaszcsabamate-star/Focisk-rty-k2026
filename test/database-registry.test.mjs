@@ -38,7 +38,7 @@ const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
 assert.equal(manifest.schemaVersion, 2);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.2.0');
+assert.equal(manifest.version, '3.3.0');
 assert.equal(manifest.competitionId, 'hungary-nb1');
 assert.equal(manifest.season, '2025/26');
 assert.equal(manifest.seasonId, '2025-26');
@@ -64,12 +64,12 @@ assert.equal(manifest.files.enrichments.length, 24);
 assert.equal(manifest.files.corrections.length, 5);
 assert.equal(manifest.files.statPatches.length, 13);
 assert.equal(manifest.normalization.schemaVersion, 1);
-assert.equal(manifest.normalization.playerModelVersion, 2);
+assert.equal(manifest.normalization.playerModelVersion, 3);
 assert.equal(manifest.normalization.primaryFile, 'normalizedPlayers');
 assert.equal(manifest.normalization.reproducible, true);
 assert.equal(manifest.normalization.fallback, 'legacy-layered-database');
 assert.deepEqual(manifest.supportedModes, ['classic', 'penalties']);
-assert.deepEqual(manifest.supportedDeckSelections, ['random', 'club', 'nation']);
+assert.deepEqual(manifest.supportedDeckSelections, ['random', 'club', 'nation', 'federation']);
 
 for (const relative of [
   manifest.files.players,
@@ -89,12 +89,12 @@ assert.equal(normalized.databaseId, manifest.id);
 assert.equal(normalized.databaseVersion, manifest.version);
 assert.equal(normalized.competitionId, manifest.competitionId);
 assert.equal(normalized.seasonId, manifest.seasonId);
-assert.equal(normalized.playerModel.version, 2);
+assert.equal(normalized.playerModel.version, 3);
 assert.equal(normalized.players.length, 440);
 assert.equal(report.databaseId, manifest.id);
 assert.equal(report.databaseVersion, manifest.version);
 assert.equal(report.seasonId, manifest.seasonId);
-assert.equal(report.playerModelVersion, 2);
+assert.equal(report.playerModelVersion, 3);
 assert.equal(report.playerCount, 440);
 
 const availableSeasons = await getAvailableSeasons();
@@ -158,4 +158,4 @@ assert.throws(
   /hiányzó normalizált játékosadat-fájl/,
 );
 
-console.log('✓ Adatbázis- és szezonregiszter, normalizált manifest és fájlhivatkozások: sikeresek');
+console.log('✓ Adatbázis-regiszter, szezonmanifest és v3 játékosmodell összhangban');
