@@ -67,7 +67,8 @@ jobs:
           test -s mobile-www/index.html
           grep -q 'mobile-webview-compatible' mobile-www/index.html
           grep -q '(async () => {' mobile-www/index.html
-          ! grep -Eq '<script[^>]+type=["'"']module["'"']' mobile-www/index.html
+          ! grep -Fq 'type="module"' mobile-www/index.html
+          ! grep -Fq "type='module'" mobile-www/index.html
           ! grep -Eq '<script[^>]+src=' mobile-www/index.html
 
       - name: Android projekt létrehozása és szinkronizálása
