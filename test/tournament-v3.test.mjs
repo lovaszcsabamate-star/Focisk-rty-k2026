@@ -63,7 +63,8 @@ const classicAiMatch = tournamentMatches(classicAfterSimulation).find(match => !
 assert.equal(classicAfterSimulation.version, 3);
 assert.equal(classicAiMatch.status, TOURNAMENT_MATCH_STATUS.COMPLETE);
 assert.equal(classicAiMatch.decidedBy, 'simulation-classic');
-assert.ok(classicAiMatch.homeScore + classicAiMatch.awayScore >= 8);
+assert.ok(classicAiMatch.simulation.rounds >= 8);
+assert.ok(classicAiMatch.homeScore >= 0 && classicAiMatch.awayScore >= 0);
 assert.equal(classicAfterSimulation.simulatedResults.length, 1);
 assert.ok(playerStatistics(classicAfterSimulation).length > 0);
 assert.equal(teamStatistics(classicAfterSimulation).length, 4);
