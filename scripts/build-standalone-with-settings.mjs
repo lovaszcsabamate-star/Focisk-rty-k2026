@@ -27,7 +27,10 @@ const sizingCss = fs.readFileSync(path.join(ROOT, 'css/visual-settings-persisten
 const teamSelectorCss = fs.readFileSync(path.join(ROOT, 'css/deck-selection-menu.css'), 'utf8');
 const quickMatchControlsCss = fs.readFileSync(path.join(ROOT, 'css/quick-match-card-controls.css'), 'utf8');
 const federationCss = fs.readFileSync(path.join(ROOT, 'css/federation-teams.css'), 'utf8');
-const tournamentCss = fs.readFileSync(path.join(ROOT, 'css/tournament-mode.css'), 'utf8');
+const tournamentCss = [
+  fs.readFileSync(path.join(ROOT, 'css/tournament-mode.css'), 'utf8'),
+  fs.readFileSync(path.join(ROOT, 'css/tournament-mode-v3.css'), 'utf8'),
+].join('\n\n');
 const sizingJs = fs.readFileSync(path.join(ROOT, 'js/visual-settings-persistence.js'), 'utf8')
   .replace(/<\/script/gi, '<\\/script');
 const flattenInlineModule = source => source
@@ -42,18 +45,81 @@ const quickMatchInlineBundle = [
 ].map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
+
 const tournamentFiles = [
   'js/tournament/tournament-domain.js',
+  'js/tournament/tournament-state.js',
+  'js/tournament/tournament-simulation.js',
   'js/services/tournament-storage-service.js',
-  'js/tournament-mode.js',
+  'js/tournament/tournament-ui.js',
+  'js/tournament/tournament-setup-ui.js',
+  'js/tournament/tournament-lineup-ui.js',
+  'js/tournament-mode-v3.js',
 ];
-const tournamentSource = tournamentFiles
-  .map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
+const tournamentFileSet = new Set(tournamentFiles);
+const resolveModuleSpecifier = (file, specifier) => path.posix.normalize(
+  path.posix.join(path.posix.dirname(file), specifier),
+);
+const importBindings = clause => clause
+  .trim()
+  .replace(/^\{/, '')
+  .replace(/\}$/, '')
+  .split(',')
+  .map(item => item.trim())
+  .filter(Boolean)
+  .map(item => item.replace(/\s+as\s+/g, ': '))
+  .join(', ');
+
+function bundleTournamentModule(file) {
+  let source = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const internalImports = [];
+  source = source.replace(/import\s+([\s\S]*?)\s+from\s+['"]([^'"]+)['"];?\s*/g, (match, clause, specifier) => {
+    const resolved = resolveModuleSpecifier(file, specifier);
+    if (tournamentFileSet.has(resolved)) {
+      const bindings = importBindings(clause);
+      if (bindings) internalImports.push(bindings);
+    }
+    return '';
+  });
+  source = source.replace(/import\s+['"][^'"]+['"];?\s*/g, '');
+
+  const exports = new Map();
+  source = source.replace(/\bexport\s+(const|let|var|class|function|async\s+function)\s+([A-Za-z_$][\w$]*)/g, (match, kind, name) => {
+    exports.set(name, name);
+    return `${kind} ${name}`;
+  });
+  source = source.replace(/export\s*\{([\s\S]*?)\};?/g, (match, names) => {
+    for (const item of names.split(',').map(value => value.trim()).filter(Boolean)) {
+      const parts = item.split(/\s+as\s+/);
+      exports.set(parts[1] ?? parts[0], parts[0]);
+    }
+    return '';
+  });
+  if (file === 'js/tournament-mode-v3.js') {
+    source = source.replace(/\ninstallTournamentStyles\(\);\n/, '\n');
+  }
+  const exportEntries = [...exports.entries()]
+    .map(([publicName, localName]) => publicName === localName ? localName : `${JSON.stringify(publicName)}: ${localName}`)
+    .join(', ');
+  const imports = internalImports.length
+    ? `const { ${internalImports.join(', ')} } = __tournamentV3;`
+    : '';
+  return `
+/* ===== ${file} ===== */
+(() => {
+${imports}
+${source}
+${exportEntries ? `Object.assign(__tournamentV3, { ${exportEntries} });` : ''}
+})();`;
+}
+
+const tournamentSource = tournamentFiles.map(bundleTournamentModule)
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
 const tournamentInlineBundle = `
- /* ===== Torna mód · önálló IIFE ===== */
+ /* ===== Torna mód v3 · önálló modulnévtér ===== */
  (() => {
+ const __tournamentV3 = Object.create(null);
  ${tournamentSource}
  })();
  `;
@@ -184,8 +250,9 @@ if (!output.includes('federation-europe') && !output.includes('data:image/svg+xm
   throw new Error('A föderációs emblémák nem kerültek be az önálló buildbe.');
 }
 if (!output.includes('TOURNAMENT_FORMAT') || !output.includes('Torna mód')
-  || !output.includes('tournamentStorageService') || !output.includes('.tournament-bracket')) {
-  throw new Error('A torna domain, mentés, felület vagy stílus nem került be az önálló buildbe.');
+  || !output.includes('tournamentStorageService') || !output.includes('.tournament-bracket')
+  || !output.includes('Csapatösszeállítás') || !output.includes('Leszimulált mérkőzések')) {
+  throw new Error('A Torna v3 domain, mentés, felület, keretépítés vagy stílus nem került be az önálló buildbe.');
 }
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
@@ -201,4 +268,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, Torna mód, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, Torna mód v3, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
