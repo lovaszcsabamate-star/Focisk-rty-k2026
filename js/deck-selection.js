@@ -39,7 +39,7 @@ import {
   QUICK_MATCH_NATION_MINIMUM,
   QUICK_MATCH_SELECTION_STEP,
   buildQuickMatchCatalog,
-  buildQuickMatchPayload as buildQuickMatchPayloadBase,
+  buildQuickMatchPayload,
   canonicalLeagueKey,
   chooseQuickMatchOpponent,
   describeQuickMatchSelection,
@@ -101,7 +101,7 @@ const readStagedTournamentLineup = () => {
   }
 };
 
-const applyStagedTournamentLineup = prepared => {
+export const applyStagedTournamentLineup = prepared => {
   const lineup = readStagedTournamentLineup();
   if (!lineup) return prepared;
   const payload = Array.isArray(prepared?.payload) ? { players: prepared.payload } : prepared?.payload;
@@ -132,10 +132,6 @@ const applyStagedTournamentLineup = prepared => {
     },
   };
 };
-
-export function buildQuickMatchPayload(...args) {
-  return applyStagedTournamentLineup(buildQuickMatchPayloadBase(...args));
-}
 
 export {
   MIN_FILTERED_DECK_SIZE,
@@ -179,6 +175,7 @@ export {
   QUICK_MATCH_NATION_MINIMUM,
   QUICK_MATCH_SELECTION_STEP,
   buildQuickMatchCatalog,
+  buildQuickMatchPayload,
   canonicalLeagueKey,
   chooseQuickMatchOpponent,
   describeQuickMatchSelection,
@@ -221,7 +218,9 @@ const embeddedPayload = globalThis.__EMBEDDED_PLAYER_DATA__;
 if (Array.isArray(embeddedPayload?.players) && !globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__) {
   const setup = readQuickMatchSetup(embeddedPayload.players);
   const selection = setup?.playerSelection ?? readDeckSelection(embeddedPayload.players);
-  const prepared = buildQuickMatchPayload(embeddedPayload, selection, setup?.opponentSelection ?? null);
+  const prepared = applyStagedTournamentLineup(
+    buildQuickMatchPayload(embeddedPayload, selection, setup?.opponentSelection ?? null),
+  );
   globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = embeddedPayload;
   globalThis.__FOCISKARTYAK_DECK_SELECTION__ = selection;
   globalThis.__FOCISKARTYAK_QUICK_MATCH_SETUP__ = setup;
