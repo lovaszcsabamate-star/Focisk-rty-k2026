@@ -50,9 +50,13 @@ jobs:
         run: |
           npm run lint
           node --check scripts/apply-android-icon.mjs
+          node --check scripts/mobile-runtime-smoke.mjs
 
       - name: Offline mobil webcsomag készítése
         run: npm run mobile:prepare
+
+      - name: Android mobilcsomag valódi futástesztje
+        run: node scripts/mobile-runtime-smoke.mjs
 
       - name: Teljes játékteszt futtatása
         run: npm test
