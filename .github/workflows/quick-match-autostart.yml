@@ -1,0 +1,45 @@
+name: Quick Match autostart
+
+on:
+  pull_request:
+    paths:
+      - 'js/main.js'
+      - 'js/services/quick-match-storage-service.js'
+      - 'test/quick-match-autostart.test.mjs'
+      - '.github/workflows/quick-match-autostart.yml'
+  push:
+    branches:
+      - fix/quick-match-direct-autostart
+    paths:
+      - 'js/main.js'
+      - 'js/services/quick-match-storage-service.js'
+      - 'test/quick-match-autostart.test.mjs'
+      - '.github/workflows/quick-match-autostart.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-autostart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: JavaScript szintaxis ellenőrzése
+        run: node --check js/main.js
+
+      - name: Gyors meccs automatikus indítás tesztje
+        run: node test/quick-match-autostart.test.mjs
+
+      - name: Önálló és mobil build ellenőrzése
+        run: npm run mobile:prepare

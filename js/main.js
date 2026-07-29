@@ -3,6 +3,7 @@
 import { DIFFICULTY } from './ai.js';
 import { GameRuntime } from './game/game-runtime.js';
 import { createTurnTimingService } from './services/turn-timing-service.js';
+import { consumeQuickMatchLaunch } from './services/quick-match-storage-service.js';
 import { createSessionLifecycleService } from './app/session-lifecycle-service.js';
 import { createMenuController } from './app/menu-controller.js';
 import { createResultController } from './app/result-controller.js';
@@ -30,7 +31,7 @@ const selectedOpponentDifficulty = () => {
 };
 
 class Session {
-  constructor(deck, source, meta) {
+  constructor(deck, source, meta, { quickMatchLaunch = null } = {}) {
     this.deck = deck;
     this.source = source;
     this.meta = meta;
@@ -111,7 +112,9 @@ class Session {
     });
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
-    this.showTitleScreen({ offerOnboarding: true });
+
+    if (quickMatchLaunch) this.start(quickMatchLaunch.mode, quickMatchLaunch.difficulty);
+    else this.showTitleScreen({ offerOnboarding: true });
   }
 
   get game() { return this.runtime.game; }
@@ -304,4 +307,5 @@ class Session {
 }
 
 const { players, source, meta } = await loadPlayers();
-new Session(players, source, meta);
+const quickMatchLaunch = consumeQuickMatchLaunch();
+new Session(players, source, meta, { quickMatchLaunch });
