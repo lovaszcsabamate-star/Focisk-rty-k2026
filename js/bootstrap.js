@@ -2,6 +2,7 @@ import {
   loadActiveSeason as loadDatabase,
 } from './database/season-service.js';
 import {
+  applyStagedTournamentLineup,
   buildQuickMatchPayload,
   describeDeckSelection,
   installDeckSelectionMenu,
@@ -40,11 +41,11 @@ try {
   } = loaded;
   const quickMatchSetup = readQuickMatchSetup(playablePayload.players);
   const deckSelection = quickMatchSetup?.playerSelection ?? readDeckSelection(playablePayload.players);
-  const quickMatch = buildQuickMatchPayload(
+  const quickMatch = applyStagedTournamentLineup(buildQuickMatchPayload(
     playablePayload,
     deckSelection,
     quickMatchSetup?.opponentSelection ?? null,
-  );
+  ));
   const selectedPayload = quickMatch.payload;
 
   globalThis.__FOCISKARTYAK_DATABASE__ = database;
