@@ -45,9 +45,12 @@ let activeLanguage = DEFAULT_LANGUAGE;
 let observer = null;
 let translating = false;
 let initialized = false;
+let exactDictionaryIndexes = new Map();
 
 const originalText = new WeakMap();
+const lastRenderedText = new WeakMap();
 const originalAttributes = new WeakMap();
+const lastRenderedAttributes = new WeakMap();
 const warnedKeys = new Set();
 
 const isDevelopment = () => {
@@ -165,6 +168,16 @@ export function formatUnit(value, unit, options = {}) {
 
 const exactDictionary = language => catalogues[language]?.automatic ?? {};
 
+const rebuildExactDictionaryIndexes = () => {
+  exactDictionaryIndexes = new Map(SUPPORTED_LANGUAGES.map(language => [
+    language,
+    new Map(Object.entries(exactDictionary(language)).map(([key, value]) => [
+      key.toLocaleLowerCase('hu-HU'),
+      value,
+    ])),
+  ]));
+};
+
 const preserveCase = (source, translated) => {
   const letters = source.replace(/[^\p{L}]/gu, '');
   if (letters && letters === letters.toLocaleUpperCase('hu-HU')) {
@@ -178,9 +191,10 @@ const exactTranslation = source => {
   const dictionary = exactDictionary(activeLanguage);
   if (Object.prototype.hasOwnProperty.call(dictionary, source)) return dictionary[source];
 
-  const sourceLower = source.toLocaleLowerCase('hu-HU');
-  const match = Object.entries(dictionary).find(([key]) => key.toLocaleLowerCase('hu-HU') === sourceLower);
-  if (match) return preserveCase(source, match[1]);
+  const match = exactDictionaryIndexes
+    .get(activeLanguage)
+    ?.get(source.toLocaleLowerCase('hu-HU'));
+  if (typeof match === 'string') return preserveCase(source, match);
 
   const prefixed = source.match(/^([^\p{L}\p{N}]*)([\s\S]+)$/u);
   if (prefixed?.[1] && prefixed[2]) {
@@ -215,25 +229,7 @@ const localiseNumericToken = token => {
   return number == null ? token : formatNumber(number, { maximumFractionDigits: 2 });
 };
 
-const translateEmbeddedSegments = source => {
-  const separators = /(\s*[·:|–—]\s*)/u;
-  const parts = source.split(separators);
-  if (parts.length <= 1) return source;
-  let changed = false;
-  const translated = parts.map((part, index) => {
-    if (index % 2 === 1) return part;
-    const trimmed = part.trim();
-    if (!trimmed) return part;
-    const next = exactTranslation(trimmed);
-    if (next === trimmed) return part;
-    changed = true;
-    return part.replace(trimmed, next);
-  });
-  return changed ? translated.join('') : source;
-};
-
-const translateDynamicText = source => {
-  if (activeLanguage === 'hu') return source;
+const translateSimpleSegment = source => {
   const exact = exactTranslation(source);
   if (exact !== source) return exact;
 
@@ -241,14 +237,18 @@ const translateDynamicText = source => {
   if (match) return t('templates.roundNumber', { round: match[1] });
   match = source.match(/^(\d+)\. párbaj$/u);
   if (match) return t('templates.duelNumber', { round: match[1] });
+  match = source.match(/^(\d+)\. lépés$/u);
+  if (match) return `Step ${match[1]}`;
+  match = source.match(/^(\d+)\. szint$/iu);
+  if (match) return `Level ${match[1]}`;
   match = source.match(/^(\d+(?:[\s.,]\d+)*) lap$/u);
   if (match) return t('templates.cardsCount', { count: localiseNumericToken(match[1]) });
   match = source.match(/^(\d+(?:[\s.,]\d+)*) kártya$/u);
   if (match) return `${localiseNumericToken(match[1])} cards`;
   match = source.match(/^(\d+(?:[\s.,]\d+)*) játékoskártya$/u);
   if (match) return `${localiseNumericToken(match[1])} player cards`;
-  match = source.match(/^Legalább (\d+) kártya szükséges$/u);
-  if (match) return `At least ${match[1]} cards required`;
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) kategória$/u);
+  if (match) return `${localiseNumericToken(match[1])} categories`;
   match = source.match(/^(\d+(?:[\s.,]\d+)*) gól$/u);
   if (match) return t('templates.goalsCount', { count: localiseNumericToken(match[1]) });
   match = source.match(/^(\d+(?:[\s.,]\d+)*) év$/u);
@@ -270,6 +270,69 @@ const translateDynamicText = source => {
     const number = parseHungarianNumber(match[1]);
     if (number != null) return formatCurrency(number, 'EUR');
   }
+  return source;
+};
+
+const translateEmbeddedSegments = source => {
+  const separators = /(\s*[·:|–—]\s*)/u;
+  const parts = source.split(separators);
+  if (parts.length <= 1) return source;
+  let changed = false;
+  const translated = parts.map((part, index) => {
+    if (index % 2 === 1) return part;
+    const trimmed = part.trim();
+    if (!trimmed) return part;
+    const next = translateSimpleSegment(trimmed);
+    if (next === trimmed) return part;
+    changed = true;
+    return part.replace(trimmed, next);
+  });
+  return changed ? translated.join('') : source;
+};
+
+const translateDynamicText = source => {
+  if (activeLanguage === 'hu') return source;
+  const simple = translateSimpleSegment(source);
+  if (simple !== source) return simple;
+
+  let match = source.match(/^(\d+)\s*\/\s*(\d+) kártya$/u);
+  if (match) return `${match[1]}/${match[2]} cards`;
+  match = source.match(/^Legalább (\d+) kártya szükséges$/u);
+  if (match) return `At least ${match[1]} cards required`;
+  match = source.match(/^Legjobb saját:\s*(.+)$/u);
+  if (match) return `Your best: ${translateSimpleSegment(match[1])}`;
+  match = source.match(/^Legjobb saját érték:\s*(.+?)(\.)?$/u);
+  if (match) return `Your best value: ${translateSimpleSegment(match[1])}${match[2] ?? ''}`;
+  match = source.match(/^(\d+) most választható · (\d+) kategória látható$/u);
+  if (match) return `${match[1]} currently available · ${match[2]} categories shown`;
+  match = source.match(/^(.+) kiválasztva\. Kártyák előkészítése…$/u);
+  if (match) return `${translateSimpleSegment(match[1])} selected. Preparing cards…`;
+  match = source.match(/^(.+) érkezik ellenfélként\.$/u);
+  if (match) return `${translateSimpleSegment(match[1])} will be your opponent.`;
+  match = source.match(/^(.+),\s*(.+),\s*(\d+) játékoskártya$/u);
+  if (match) return `${match[1]}, ${translateSimpleSegment(match[2])}, ${match[3]} player cards`;
+  match = source.match(/^Kötelező mező, legfeljebb (\d+) karakter\.$/u);
+  if (match) return `Required field, maximum ${match[1]} characters.`;
+  match = source.match(/^Biztosan törlöd a\(z\) (.+) profilt\? A meccseredmények és statisztikák megmaradnak\.$/u);
+  if (match) return `Delete the ${match[1]} profile? Match results and statistics will remain.`;
+  match = source.match(/^\+(\d+) lap a döntetlenpakliból$/u);
+  if (match) return `+${match[1]} cards from the draw pile`;
+  match = source.match(/^(\d+)\. kör · (\d+) lap a pakliban$/u);
+  if (match) return `Round ${match[1]} · ${match[2]} cards in the deck`;
+  match = source.match(/^🃏\s*(\d+) lap a döntetlenpakliban$/u);
+  if (match) return `🃏 ${match[1]} cards in the draw pile`;
+  match = source.match(/^Hirtelen halál · (\d+) lejátszott párbaj$/u);
+  if (match) return `Sudden Death · ${match[1]} duels played`;
+  match = source.match(/^Rendes párbajok:\s*(\d+)\/5 · hátra (\d+)$/u);
+  if (match) return `Regular duels: ${match[1]}/5 · ${match[2]} remaining`;
+  match = source.match(/^🔀\s*(\d+)\. kör a változatlan tizeneggyel$/u);
+  if (match) return `🔀 Cycle ${match[1]} with the same eleven cards`;
+  match = source.match(/^(.+?)\s+(\d+)–(\d+)\s+GÉP$/u);
+  if (match) return `${match[1]} ${match[2]}–${match[3]} AI`;
+  match = source.match(/^(.+?)\s+–\s+Gép$/u);
+  if (match) return `${match[1]} – AI`;
+  match = source.match(/^GÓL:\s*(.+)$/u);
+  if (match) return `GOAL: ${match[1]}`;
   match = source.match(/^JÁTÉKOS\s+(.+?)–(.+?)\s+GÉP$/u);
   if (match) return t('templates.playerVsComputer', { human: match[1], ai: match[2] });
   match = source.match(/^(\d+) lap a döntetlenpakliban maradt\.$/u);
@@ -301,18 +364,21 @@ const shouldIgnoreTextNode = node => {
 const localiseTextNode = node => {
   if (shouldIgnoreTextNode(node)) return;
   const current = node.nodeValue ?? '';
-  const stored = originalText.get(node);
-  if (stored == null || current !== renderOriginal(stored)) originalText.set(node, current);
+  const lastRendered = lastRenderedText.get(node);
+  if (!originalText.has(node) || (lastRendered != null && current !== lastRendered)) {
+    originalText.set(node, current);
+  }
   const source = originalText.get(node) ?? current;
   const rendered = renderOriginal(source);
+  lastRenderedText.set(node, rendered);
   if (current !== rendered) node.nodeValue = rendered;
 };
 
-const attributeMapFor = element => {
-  let map = originalAttributes.get(element);
+const attributeMapFor = (store, element) => {
+  let map = store.get(element);
   if (!map) {
     map = new Map();
-    originalAttributes.set(element, map);
+    store.set(element, map);
   }
   return map;
 };
@@ -320,10 +386,14 @@ const attributeMapFor = element => {
 const localiseAttribute = (element, attribute) => {
   if (!element.hasAttribute(attribute) || element.closest('[data-i18n-ignore]')) return;
   const current = element.getAttribute(attribute) ?? '';
-  const originals = attributeMapFor(element);
-  const stored = originals.get(attribute);
-  if (stored == null || current !== renderOriginal(stored)) originals.set(attribute, current);
+  const originals = attributeMapFor(originalAttributes, element);
+  const renderedValues = attributeMapFor(lastRenderedAttributes, element);
+  const lastRendered = renderedValues.get(attribute);
+  if (!originals.has(attribute) || (lastRendered != null && current !== lastRendered)) {
+    originals.set(attribute, current);
+  }
   const rendered = renderOriginal(originals.get(attribute) ?? current);
+  renderedValues.set(attribute, rendered);
   if (current !== rendered) element.setAttribute(attribute, rendered);
 };
 
@@ -460,6 +530,7 @@ export async function initializeI18n() {
     loadCatalogue('en'),
   ]);
   catalogues = { hu: hungarian, en: english };
+  rebuildExactDictionaryIndexes();
   activeLanguage = resolveInitialLanguage();
   initialized = true;
   updateDocumentMetadata();
