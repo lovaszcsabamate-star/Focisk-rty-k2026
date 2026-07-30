@@ -1,0 +1,118 @@
+name: Játékosmagasságok kiegészítése
+
+on:
+  push:
+    branches: [complete-player-heights]
+    paths:
+      - scripts/enrich-player-heights.mjs
+      - scripts/run-height-enrichment.mjs
+      - scripts/enrich-player-heights-from-hlsz-profiles.mjs
+      - test/normalized-database-migration.test.mjs
+      - .github/workflows/complete-player-heights.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/enrich-player-heights.mjs
+      - scripts/run-height-enrichment.mjs
+      - scripts/enrich-player-heights-from-hlsz-profiles.mjs
+      - test/normalized-database-migration.test.mjs
+      - .github/workflows/complete-player-heights.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: complete-player-heights
+  cancel-in-progress: true
+
+jobs:
+  enrich-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: Klubkeret-források feldolgozása
+        env:
+          HEIGHT_REQUEST_DELAY_MS: 3500
+        run: |
+          if [ -f data/club-official-enrichment-25-all-club-heights.json ] && [ -f data/databases/hungary-nb1-2025-26/height-enrichment-report.json ]; then
+            echo "A klubkeret-alapú 106 rekord már commitolva van; folytatás az egyedi profilokkal."
+          else
+            node scripts/run-height-enrichment.mjs
+          fi
+
+      - name: Egyedi HLSZ-profilok ellenőrzése
+        env:
+          HEIGHT_REQUEST_DELAY_MS: 3500
+        run: node scripts/enrich-player-heights-from-hlsz-profiles.mjs
+
+      - name: Forrásaudit összefoglalása
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const file = 'data/databases/hungary-nb1-2025-26/height-enrichment-report.json';
+          if (!fs.existsSync(file)) {
+            console.log('Nem készült auditjelentés.');
+            process.exit(0);
+          }
+          const report = JSON.parse(fs.readFileSync(file, 'utf8'));
+          console.log(JSON.stringify({
+            before: report.before,
+            generatedRecords: report.generatedRecords,
+            projected: report.projected,
+            sourceFailures: report.sourceFailures,
+            conflicts: report.conflicts,
+            profileAudit: report.profileAudit ? {
+              attemptedProfiles: report.profileAudit.attemptedProfiles,
+              resolvedProfiles: report.profileAudit.resolvedProfiles,
+              unresolvedProfiles: report.profileAudit.unresolvedProfiles,
+              statusCounts: report.profileAudit.statusCounts,
+            } : null,
+          }, null, 2));
+          NODE
+
+      - name: Normalizált adatbázis újraépítése
+        run: npm run migrate:database
+
+      - name: Szigorú adatellenőrzés
+        run: |
+          npm run check:normalized-database
+          npm run test:normalized-database
+          npm run test:player-model
+          npm run test:nationalities
+          npm run test:database-service
+
+      - name: Eredmények mentése az ágra
+        env:
+          TARGET_BRANCH: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/club-official-enrichment-25-all-club-heights.json \
+            data/databases/hungary-nb1-2025-26/height-enrichment-report.json \
+            data/databases/hungary-nb1-2025-26/manifest.json \
+            data/databases/hungary-nb1-2025-26/players.normalized.json \
+            data/databases/hungary-nb1-2025-26/normalization-report.json
+          if git diff --cached --quiet; then
+            echo "Nincs mentendő változás."
+          else
+            git commit -m "Complete verified player height data"
+            git push origin HEAD:"$TARGET_BRANCH"
+          fi

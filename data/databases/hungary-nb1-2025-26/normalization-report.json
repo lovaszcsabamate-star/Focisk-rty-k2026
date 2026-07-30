@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "databaseId": "hungary-nb1-2025-26",
-  "databaseVersion": "3.2.0",
+  "databaseVersion": "3.3.0",
   "competitionId": "hungary-nb1",
   "seasonId": "2025-26",
   "season": "2025/26",
@@ -15,7 +15,7 @@
   "generatedAt": "2026-07-19T17:51:18.342Z",
   "outputFile": "data/databases/hungary-nb1-2025-26/players.normalized.json",
   "reportFile": "data/databases/hungary-nb1-2025-26/normalization-report.json",
-  "playerModelVersion": 2,
+  "playerModelVersion": 3,
   "playerCount": 440,
   "registrationRecords": 464,
   "sourceFiles": [
@@ -46,6 +46,7 @@
     "data/club-official-enrichment-22-kisvarda-nationalities.json",
     "data/club-official-enrichment-23-final-missing-basic.json",
     "data/club-official-enrichment-24-dvtk-heights.json",
+    "data/club-official-enrichment-25-all-club-heights.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -65,10 +66,10 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "2e0a3eb02c58323267ffe58e0228082dfcae950201f941536397c250124a79af",
-  "playersDigest": "e7597dc8ec411f318be5e4d5d42d26061551cf029330901304dcb97ff5da27a0",
+  "sourceDigest": "42ec2c236ae22cef02d9519e1550503f0828e1494b96a53438aa78a74e40b599",
+  "playersDigest": "16febff15da8c7bee923be04b3c19db28fee5caecd0405ac59190d44a42836ff",
   "sourceLayerCounts": {
-    "enrichments": 24,
+    "enrichments": 25,
     "corrections": 5,
     "statPatches": 13
   },
@@ -81,22 +82,24 @@
       "playerCount": 440,
       "missingNationalityCount": 0,
       "missingCountryCodeCount": 0,
+      "missingFederationCount": 0,
       "unknownCountryCodeCount": 0,
       "britishMisassignmentCount": 0,
       "contradictionCount": 0,
+      "federationContradictionCount": 0,
       "validCount": 440
     },
     "errors": [],
     "warnings": []
   },
   "completeness": {
-    "averageRatio": 0.8488,
-    "completeRecords": 20,
-    "incompleteRecords": 420,
+    "averageRatio": 0.8831,
+    "completeRecords": 22,
+    "incompleteRecords": 418,
     "missingFieldCounts": {
       "assists": 411,
       "minutesPlayed": 411,
-      "heightCm": 309
+      "heightCm": 155
     }
   },
   "preservation": {

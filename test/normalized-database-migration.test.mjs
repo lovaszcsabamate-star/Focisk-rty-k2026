@@ -39,9 +39,9 @@ assert.equal(result.report.preservation.stableIds, true);
 assert.equal(result.report.preservation.unchangedNames, true);
 assert.equal(result.report.preservation.unchangedStatsObjects, true);
 assert.deepEqual(result.report.sourceLayerCounts, {
-  enrichments: 24,
-  corrections: 5,
-  statPatches: 13,
+  enrichments: result.manifest.files.enrichments.length,
+  corrections: result.manifest.files.corrections.length,
+  statPatches: result.manifest.files.statPatches.length,
 });
 
 for (const player of result.output.players) {
