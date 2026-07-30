@@ -8,6 +8,7 @@ const manifest = read('manifest.webmanifest');
 const css = read('css/visual-system.css');
 const sizingCss = read('css/visual-settings-persistence.css');
 const legalCss = read('css/legal-ui.css');
+const tournamentCss = read('css/tournament-mode.css');
 const visual = read('js/visual-system.js');
 const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
@@ -21,6 +22,7 @@ const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
 assert.match(index, /css\/visual-settings-persistence\.css/, 'A méretezésmentés visszajelző stílusa nincs betöltve.');
 assert.match(index, /css\/legal-ui\.css/, 'A kezdőképernyős jogi stílus nincs betöltve.');
+assert.match(index, /css\/tournament-mode\.css/, 'A torna- és Visual Polish-réteg nincs betöltve.');
 assert.match(
   enhancementPipeline,
   /\.\.\/visual-settings-persistence\.js[\s\S]*\.\.\/visual-system\.js[\s\S]*\.\.\/legal-ui\.js/,
@@ -45,6 +47,18 @@ assert.match(css, /#player-hand\.hand--selection[\s\S]*overflow-x:\s*auto/, 'A v
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/, 'Hiányzik a prefers-reduced-motion támogatás.');
 assert.match(css, /\.duel-slot\.winner::after[\s\S]*GYŐZTES/, 'A győzelmet nem csak színnel kell jelezni.');
 assert.match(css, /\.duel-slot\.loser::after[\s\S]*VESZTES/, 'A vereséget nem csak színnel kell jelezni.');
+
+assert.match(tournamentCss, /Visual Polish 1\.0/, 'A Visual Polish verziójelölése hiányzik.');
+assert.match(tournamentCss, /\.mobile-home \.primary-mode-actions[\s\S]*repeat\(3/, 'A főmenü három látványos játékmódkártyája hiányzik.');
+assert.match(tournamentCss, /\.card__portrait::after/, 'A prémium kártyacsillanás hiányzik.');
+assert.match(tournamentCss, /\.tournament-center \.tournament-next-match/, 'A közvetítés-stílusú tornaközpont hiányzik.');
+assert.match(tournamentCss, /\.deck-selector\[open\] > \.deck-selector__body::after/, 'A csapatválasztó stadionfény-rétege hiányzik.');
+assert.match(tournamentCss, /@media \(prefers-reduced-motion: reduce\)/, 'A Visual Polish rétegben hiányzik a csökkentett animáció támogatása.');
+assert.equal(
+  (tournamentCss.match(/\{/g) ?? []).length,
+  (tournamentCss.match(/\}/g) ?? []).length,
+  'A torna- és Visual Polish CSS kapcsos zárójelei nincsenek egyensúlyban.',
+);
 
 assert.match(legalCss, /#pub #player-hand:not\(\.hand--selection\) \.card/, 'A két játékmód közös kézkártya-méretezése hiányzik.');
 assert.match(legalCss, /\.pile__inspect\s*\{/, 'Hiányzik az egyetlen kézszintű nagyító gomb.');
@@ -92,4 +106,4 @@ assert.ok(placeholders.every(asset => asset.approvedForRelease === true), 'A pro
 assert.ok(licenses.filter(asset => ['club-logo', 'league-logo'].includes(asset.assetType) && asset.sourceType !== 'placeholder')
   .every(asset => asset.approvedForRelease !== true), 'Nem jóváhagyott hivatalos logó nem kerülhet kiadásra.');
 
-console.log('Vizuális rendszer: rendben.');
+console.log('Vizuális rendszer és Visual Polish 1.0: rendben.');
