@@ -1,3 +1,4 @@
+import { initializeI18n } from './i18n.js';
 import {
   loadActiveSeason as loadDatabase,
 } from './database/season-service.js';
@@ -10,6 +11,19 @@ import {
   readQuickMatchSetup,
 } from './deck-selection.js';
 import { installUiEnhancementPipeline } from './ui/ui-enhancement-pipeline.js';
+
+const LANGUAGE_STORAGE_KEY = 'fociskartyak:language:v1';
+
+function ensureDefaultLanguagePreference() {
+  if (globalThis.__FOCISKARTYAK_DETECT_DEVICE_LANGUAGE__ === true) return;
+  try {
+    if (!globalThis.localStorage?.getItem(LANGUAGE_STORAGE_KEY)) {
+      globalThis.localStorage?.setItem(LANGUAGE_STORAGE_KEY, 'hu');
+    }
+  } catch {
+    // Storage may be unavailable in privacy-restricted browser contexts.
+  }
+}
 
 function showFatalError(error) {
   console.error('[bootstrap] Az alkalmazás nem indítható:', error);
@@ -28,6 +42,8 @@ function showFatalError(error) {
 }
 
 try {
+  ensureDefaultLanguagePreference();
+  await initializeI18n();
   await installUiEnhancementPipeline();
   await import('./gameplay-polish.js');
   await import('./playability-visual-upgrade.js');
@@ -68,7 +84,7 @@ try {
   );
   console.info(
     `[players] ${statistics.playerCount} rekord · ${statistics.playablePlayerCount} használható · `
-    + `${statistics.excludedPlayerCount} hiányos rekord kizárva`,
+      + `${statistics.excludedPlayerCount} hiányos rekord kizárva`,
   );
   console.info(
     quickMatch.matchup
@@ -79,7 +95,7 @@ try {
   if (quickMatch.matchup) {
     console.info(
       `[quick-match] ${quickMatch.matchup.human.label} (${quickMatch.matchup.human.count}) · `
-      + `${quickMatch.matchup.ai.label} (${quickMatch.matchup.ai.count})`,
+        + `${quickMatch.matchup.ai.label} (${quickMatch.matchup.ai.count})`,
     );
   }
 
@@ -90,19 +106,19 @@ try {
     const summary = fullPayload.enrichment;
     console.info(
       `[enrichment] ${summary.clubSummary?.length ?? 0} klub ellenőrizve · `
-      + `${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
-      + `${summary.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve · `
-      + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
-      + `${summary.unmatchedRecords} kézi ellenőrzésre váró rekord · `
-      + `${summary.conflictCount} megőrzött eltérés`,
+        + `${summary.matchedRecords}/${summary.records} hivatalos klubrekord illesztve · `
+        + `${summary.updatedExistingPlayers} meglévő MLSZ-rekord kiegészítve · `
+        + `${summary.addedPlayers} új, igazolt játékos hozzáadva · `
+        + `${summary.unmatchedRecords} kézi ellenőrzésre váró rekord · `
+        + `${summary.conflictCount} megőrzött eltérés`,
     );
   }
   if (fullPayload?.officialStatPatches) {
     const summary = fullPayload.officialStatPatches;
     console.info(
       `[official-stats] ${summary.matchedRecords}/${summary.records} hivatalos szezonstatisztika illesztve · `
-      + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés · `
-      + `${summary.correctionCount ?? 0} bizonyított korrekció`,
+        + `${summary.unmatchedRecords} kézi ellenőrzés · ${summary.conflictCount} megőrzött eltérés · `
+        + `${summary.correctionCount ?? 0} bizonyított korrekció`,
     );
   }
 

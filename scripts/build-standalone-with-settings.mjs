@@ -22,6 +22,15 @@ const QUICK_MATCH_CONTROLS_BUNDLE_MARKER = '/* ===== js/quick-match-card-control
 const UX_BUNDLE_MARKER = '/* ===== js/ux.js · isolated UI class layer ===== */';
 const LEGAL_LAYER_MARKER = '/* ===== js/legal-ui.js · isolated UI class layer ===== */';
 const MAIN_BUNDLE_MARKER = '/* ===== js/main.js ===== */';
+const DEFAULT_LANGUAGE_BOOTSTRAP = `<script>
+try {
+  const languageKey = 'fociskartyak:language:v1';
+  if (globalThis.__FOCISKARTYAK_DETECT_DEVICE_LANGUAGE__ !== true
+    && !globalThis.localStorage?.getItem(languageKey)) {
+    globalThis.localStorage?.setItem(languageKey, 'hu');
+  }
+} catch {}
+</script>`;
 
 const sizingCss = fs.readFileSync(path.join(ROOT, 'css/visual-settings-persistence.css'), 'utf8');
 const teamSelectorCss = fs.readFileSync(path.join(ROOT, 'css/deck-selection-menu.css'), 'utf8');
@@ -128,6 +137,10 @@ function assertUiLayerRuntimeOrder(output) {
 
 let output = fs.readFileSync(OUTPUT, 'utf8');
 output = output
+  .replace(
+    '<script>globalThis.__FOCISKARTYAK_DATABASE__',
+    `${DEFAULT_LANGUAGE_BOOTSTRAP}\n<script>globalThis.__FOCISKARTYAK_DATABASE__`,
+  )
   .replace(CSS_LINK, `  <style>\n${sizingCss}\n  </style>`)
   .replace(TEAM_SELECTOR_CSS_LINK, `  <style>\n${teamSelectorCss}\n  </style>`)
   .replace(QUICK_MATCH_CONTROLS_CSS_LINK, `  <style>\n${quickMatchControlsCss}\n  </style>`)
@@ -160,6 +173,9 @@ for (const [assetPath, dataUri] of Object.entries(federationAssetDataUris)) {
   output = output.replaceAll(assetPath, dataUri);
 }
 
+if (!output.includes("fociskartyak:language:v1") || !output.includes("setItem(languageKey, 'hu')")) {
+  throw new Error('A magyar alapnyelv inicializálása nem került be az önálló buildbe.');
+}
 if (output.includes(CSS_LINK) || output.includes(TEAM_SELECTOR_CSS_LINK)
   || output.includes(QUICK_MATCH_CONTROLS_CSS_LINK) || output.includes(FEDERATION_CSS_LINK)
   || output.includes(TOURNAMENT_CSS_LINK)

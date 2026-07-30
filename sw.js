@@ -1,7 +1,7 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v82
+// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v83
 // freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
 const CACHE_PREFIX = 'fociskartyak-2026-';
-const PWA_CACHE = 'fociskartyak-2026-v83';
+const PWA_CACHE = 'fociskartyak-2026-v84';
 const PWA_SHELL = [
   './',
   './index.html',
@@ -29,6 +29,7 @@ const PWA_SHELL = [
   './css/help-popover.css',
   './css/federation-teams.css',
   './css/nationality-flags.css',
+  './css/i18n.css',
   './js/app/configuration.js',
   './js/services/storage-service.js',
   './js/services/asset-service.js',
@@ -37,6 +38,7 @@ const PWA_SHELL = [
   './js/services/turn-timing-service.js',
   './js/app/session-lifecycle-service.js',
   './js/branding.js',
+  './js/i18n.js',
   './js/bootstrap.js',
   './js/database/season-model.js',
   './js/database/database-registry.js',
@@ -97,6 +99,8 @@ const PWA_SHELL = [
   './js/recent-duels-experience.js',
   './js/legal-ui.js',
   './js/main.js',
+  './locales/hu.json',
+  './locales/en.json',
   './data/databases/registry.json',
   './data/databases/hungary-nb1-2025-26/manifest.json',
   './data/databases/hungary-nb1-2025-26/players.normalized.json',
@@ -128,6 +132,7 @@ const PWA_SHELL = [
   './data/club-official-enrichment-22-kisvarda-nationalities.json',
   './data/club-official-enrichment-23-final-missing-basic.json',
   './data/club-official-enrichment-24-dvtk-heights.json',
+  './data/club-official-enrichment-25-all-club-heights.json',
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',

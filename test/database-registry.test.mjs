@@ -60,7 +60,7 @@ assert.equal(
   'data/databases/hungary-nb1-2025-26/normalization-report.json',
 );
 assert.equal(manifest.files.clubDirectory, 'data/club-official-sources.json');
-assert.equal(manifest.files.enrichments.length, 24);
+assert.equal(manifest.files.enrichments.length, 25);
 assert.equal(manifest.files.corrections.length, 5);
 assert.equal(manifest.files.statPatches.length, 13);
 assert.equal(manifest.normalization.schemaVersion, 1);

@@ -250,7 +250,7 @@ assert.match(buildWithSettingsSource, /quick-match-card-controls\.css/);
 assert.match(buildWithSettingsSource, /quick-random-team__ball/);
 assert.match(buildWithSettingsSource, /quick-match-storage-service\.js/);
 assert.match(buildWithSettingsSource, /quick-team-card/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v82/);
+assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 assert.match(serviceWorkerSource, /\.\/css\/quick-match-card-controls\.css/);
 assert.match(serviceWorkerSource, /\.\/js\/quick-match-card-controls\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/domain\/quick-match-domain\.js/);
