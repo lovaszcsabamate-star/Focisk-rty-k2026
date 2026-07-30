@@ -11,6 +11,8 @@ const scoreboard = read('../js/ui/scoreboard-component.js');
 const picker = read('../js/ui/attribute-picker-component.js');
 const matchday = read('../js/matchday.js');
 const matchdayCss = read('../css/matchday.css');
+const tournamentMode = read('../js/tournament-mode.js');
+const tournamentCss = read('../css/tournament-mode.css');
 const configuration = read('../js/app/configuration.js');
 const build = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
@@ -47,6 +49,22 @@ assert.match(matchday, /Torna kezdőlapja/);
 assert.match(matchdayCss, /match-scoreboard__clock/);
 assert.match(matchdayCss, /matchday-kickoff/);
 
+assert.match(tournamentMode, /import \{ UI \} from '\.\/ui\.js'/);
+assert.match(tournamentMode, /function showTournamentResultOverlay/);
+assert.match(tournamentMode, /installTournamentResultHook\(\)/);
+assert.match(tournamentMode, /result-panel--tournament/);
+assert.match(tournamentMode, /data-tournament-club-mark="true"/);
+assert.match(tournamentMode, /quick-team-mark--text/);
+assert.match(tournamentMode, /TOURNAMENT_CLUB_PRESENTATION/);
+assert.ok(
+  tournamentMode.indexOf('installTournamentResultHook();')
+    < tournamentMode.indexOf('runtime.observer = new MutationObserver(refresh)'),
+  'A szinkron tornaeredmény-hooknak a megfigyelő előtt kell aktiválódnia.',
+);
+assert.match(tournamentCss, /\.result-panel--tournament \.result-actions\{position:sticky/);
+assert.match(tournamentCss, /\.tournament-team-mark--small/);
+assert.match(tournamentCss, /jogtiszta, klubszínes emblémákat/);
+
 const moduleOrder = [
   'js/ui/dom-primitives.js',
   'js/ui/card-component.js',
@@ -62,4 +80,4 @@ for (const file of moduleOrder) {
   assert.match(serviceWorker, new RegExp(file.replaceAll('/', '\\/').replaceAll('.', '\\.')));
 }
 
-console.log('✓ A vizuális réteg, sporteredményjelző, torna-visszajátszás és időzítés regressziói ellenőrizve');
+console.log('✓ A vizuális réteg, sporteredményjelző, tornaeredmény-folytatás, klubemblémák és időzítés regressziói ellenőrizve');
