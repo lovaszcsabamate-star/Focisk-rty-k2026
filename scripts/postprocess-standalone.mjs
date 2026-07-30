@@ -36,7 +36,9 @@ if (standaloneFullPayload?.players) {
 }
 `;
   html = html.replace(MAIN_MARKER, `${HELPER_MARKER}\n{\n${helper}\n${initialiseSelection}}\n${MAIN_MARKER}`);
-  fs.writeFileSync(outputPath, html);
 }
+
+html = html.replace(/[ \t]+$/gm, '');
+fs.writeFileSync(outputPath, html);
 
 console.log(`Pakliválasztás beépítve az önálló játékfájlba: ${outputPath}`);

@@ -29,6 +29,7 @@ function showFatalError(error) {
 
 try {
   await installUiEnhancementPipeline();
+  await import('./gameplay-polish.js');
   await import('./playability-visual-upgrade.js');
   const loaded = await loadDatabase();
   const {
