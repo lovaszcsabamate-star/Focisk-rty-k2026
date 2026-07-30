@@ -22,16 +22,10 @@ import {
   validateTournamentLineup,
 } from './tournament-lineup-state.js';
 
-const runtime = {
-  installed: false,
-  active: false,
-  launching: false,
-  historyPushed: false,
-};
-
-const escapeHtml = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;')
-  .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+const runtime = { installed: false, active: false, launching: false, historyPushed: false };
 const text = value => String(value ?? '').trim();
+const escapeHtml = value => text(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const players = () => {
   const payload = globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ ?? globalThis.__EMBEDDED_PLAYER_DATA__;
   return Array.isArray(payload?.players) ? payload.players : [];
@@ -43,18 +37,16 @@ const playerStrength = player => {
     + Math.log1p(number(stats.appearances)) * 1.4 + Math.log1p(number(stats.starts))
     + Math.log1p(number(stats.goals)) * 1.7 + Math.log1p(number(stats.assists)) * 1.5;
 };
-const cardSubtitle = card => [card?.position, card?.meta?.position, card?.club].map(text).filter(Boolean)[0] || 'Játékoskártya';
-const lineupMode = (state, match) => match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK
+const cardSubtitle = card => [card?.position, card?.meta?.position, card?.club].map(text).find(Boolean) || 'Játékoskártya';
+const modeForMatch = (state, match) => match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK
   ? TOURNAMENT_MATCH_MODE.PENALTIES
   : state.matchMode;
-
 const initials = label => text(label).split(/\s+/).filter(Boolean).slice(0, 3).map(word => word[0]).join('').toUpperCase();
-const teamMark = team => {
-  if (team?.badge) return `<img class="safe-lineup-team-mark" src="${escapeHtml(team.badge)}" alt="" loading="lazy">`;
-  return `<span class="safe-lineup-team-mark safe-lineup-team-mark--fallback" aria-hidden="true">${escapeHtml(team?.icon || initials(team?.label) || 'FK')}</span>`;
-};
+const teamMark = team => team?.badge
+  ? `<img class="safe-lineup-team-mark" src="${escapeHtml(team.badge)}" alt="" loading="lazy">`
+  : `<span class="safe-lineup-team-mark safe-lineup-team-mark--fallback" aria-hidden="true">${escapeHtml(team?.icon || initials(team?.label) || 'FK')}</span>`;
 
-const installStyles = () => {
+function installStyles() {
   if (document.getElementById('safe-tournament-lineup-style')) return;
   const style = document.createElement('style');
   style.id = 'safe-tournament-lineup-style';
@@ -76,9 +68,9 @@ const installStyles = () => {
     @media(max-width:760px){.safe-tournament-lineup{width:calc(100vw - 10px);padding:10px}.safe-lineup-layout{grid-template-columns:1fr}.safe-lineup-pool,.safe-lineup-selected{max-height:38dvh}.safe-lineup-toolbar,.safe-lineup-actions{display:grid;grid-template-columns:1fr}.safe-lineup-versus{font-size:.88rem}.safe-lineup-team-mark{width:38px;height:42px}}
   `;
   document.head.appendChild(style);
-};
+}
 
-const panel = () => {
+const createPanel = () => {
   const node = document.createElement('div');
   node.className = 'tournament-panel mobile-sheet safe-tournament-lineup';
   node.tabIndex = -1;
@@ -114,20 +106,21 @@ function showSafeLineupSelection(inputState, match) {
   const opponentId = match.homeId === state.humanTeamId ? match.awayId : match.homeId;
   const opponent = tournamentTeamById(state, opponentId);
   if (!humanTeam || !opponent) return;
+
   const cards = resolveQuickMatchSelection(players(), humanTeam.selection)
     .filter(card => text(card?.id))
     .sort((left, right) => playerStrength(right) - playerStrength(left));
-  const mode = lineupMode(state, match);
+  const mode = modeForMatch(state, match);
   const recommended = automaticTournamentLineup(cards, playerStrength);
-  const matchSaved = storedTournamentLineup(state, 'match', cards, { matchId: match.id });
-  const penaltySaved = mode === TOURNAMENT_MATCH_MODE.PENALTIES
+  const savedMatch = storedTournamentLineup(state, 'match', cards, { matchId: match.id });
+  const savedPenalty = mode === TOURNAMENT_MATCH_MODE.PENALTIES
     ? storedTournamentLineup(state, 'penalty', cards, { matchId: match.id })
     : [];
-  const lastSaved = storedTournamentLineup(state, 'last', cards);
-  let selected = [...(penaltySaved.length ? penaltySaved : matchSaved.length ? matchSaved : lastSaved.length ? lastSaved : recommended)];
-  let message = '';
-  let messageKind = '';
-  const node = panel();
+  const savedLast = storedTournamentLineup(state, 'last', cards);
+  let selected = [...(savedPenalty.length ? savedPenalty : savedMatch.length ? savedMatch : savedLast.length ? savedLast : recommended)];
+  let feedback = '';
+  let feedbackKind = '';
+  const node = createPanel();
   runtime.active = true;
   runtime.launching = false;
   pushBackState();
@@ -148,12 +141,13 @@ function showSafeLineupSelection(inputState, match) {
     if (runtime.launching) return;
     const validation = validateTournamentLineup(selected, cards);
     if (!validation.valid) {
-      message = validation.errors.join(' ');
-      messageKind = 'error';
+      feedback = validation.errors.join(' ');
+      feedbackKind = 'error';
       render();
       return;
     }
     runtime.launching = true;
+    render();
     try {
       persist({ updateLast: true });
       state = {
@@ -183,14 +177,15 @@ function showSafeLineupSelection(inputState, match) {
       globalThis.location.reload();
     } catch (error) {
       runtime.launching = false;
-      message = error?.message || 'A mérkőzés nem indítható el.';
-      messageKind = 'error';
+      feedback = error?.message || 'A mérkőzés nem indítható el.';
+      feedbackKind = 'error';
       render();
     }
   };
 
   const render = () => {
-    selected = validateTournamentLineup(selected, cards, { required: selected.length }).ids.slice(0, TOURNAMENT_LINEUP_SIZE);
+    selected = [...validateTournamentLineup(selected, cards, { required: selected.length }).ids]
+      .slice(0, TOURNAMENT_LINEUP_SIZE);
     const validation = validateTournamentLineup(selected, cards);
     const selectedSet = new Set(selected);
     const last = storedTournamentLineup(state, 'last', cards);
@@ -203,37 +198,49 @@ function showSafeLineupSelection(inputState, match) {
     node.innerHTML = `
       <div class="safe-lineup-heading"><div><p class="eyebrow">${escapeHtml(state.name)} · Meccs előtti összeállítás</p><h1>Csapatösszeállítás</h1></div><span class="safe-lineup-counter ${validation.valid ? 'is-valid' : 'is-invalid'}" aria-live="polite">${selected.length}/${TOURNAMENT_LINEUP_SIZE}</span></div>
       <div class="safe-lineup-versus"><div>${teamMark(humanTeam)}<strong>${escapeHtml(humanTeam.label)}</strong></div><b>VS</b><div>${teamMark(opponent)}<strong>${escapeHtml(opponent.label)}</strong></div></div>
-      <p class="safe-lineup-message ${errorMessage || messageKind === 'error' ? 'is-error' : messageKind === 'success' ? 'is-success' : ''}" role="status" aria-live="polite">${escapeHtml(message || errorMessage || (mode === TOURNAMENT_MATCH_MODE.PENALTIES ? 'A lista sorrendje a büntetőrúgók sorrendje. A nyilakkal módosítható.' : 'Válassz pontosan 11 különböző játékoskártyát.'))}</p>
+      <p class="safe-lineup-message ${errorMessage || feedbackKind === 'error' ? 'is-error' : feedbackKind === 'success' ? 'is-success' : ''}" role="status" aria-live="polite">${escapeHtml(feedback || errorMessage || (mode === TOURNAMENT_MATCH_MODE.PENALTIES ? 'A lista sorrendje a büntetőrúgók sorrendje. A nyilakkal módosítható.' : 'Válassz pontosan 11 különböző játékoskártyát.'))}</p>
       <div class="safe-lineup-layout">
         <section><div class="safe-lineup-title"><h2>Elérhető játékosok</h2><span>${cards.length} lap</span></div><div class="safe-lineup-pool">${cards.map(card => {
-          const id = text(card.id); const active = selectedSet.has(id);
+          const id = text(card.id);
+          const active = selectedSet.has(id);
           return `<article class="safe-lineup-card ${active ? 'is-selected' : ''}" data-player-id="${escapeHtml(id)}"><button type="button" class="safe-lineup-card__select" aria-pressed="${active}" aria-label="${escapeHtml(card.name)} ${active ? 'eltávolítása a keretből' : 'hozzáadása a kerethez'}"><span class="safe-lineup-avatar">${card?.portrait ? `<img src="${escapeHtml(card.portrait)}" alt="">` : '👤'}</span><span><b>${escapeHtml(card.name)}</b><small>${escapeHtml(cardSubtitle(card))}</small></span></button><button type="button" class="safe-lineup-card__zoom" aria-label="${escapeHtml(card.name)} kártyájának nagyítása">⌕</button></article>`;
         }).join('')}</div></section>
         <section><div class="safe-lineup-title"><h2>Aktív keret${mode === TOURNAMENT_MATCH_MODE.PENALTIES ? ' és rúgósorrend' : ''}</h2><span>${selected.length}/${TOURNAMENT_LINEUP_SIZE}</span></div><ol class="safe-lineup-selected">${selected.map((id, index) => {
-          const card = cards.find(item => text(item.id) === id); if (!card) return '';
-          return `<li><span>${index + 1}</span><div><b>${escapeHtml(card.name)}</b><small>${escapeHtml(cardSubtitle(card))}</small></div>${mode === TOURNAMENT_MATCH_MODE.PENALTIES ? `<div class="safe-lineup-order"><button type="button" data-move="up" data-id="${escapeHtml(id)}" aria-label="${escapeHtml(card.name)} feljebb mozgatása" ${index === 0 ? 'disabled' : ''}>↑</button><button type="button" data-move="down" data-id="${escapeHtml(id)}" aria-label="${escapeHtml(card.name)} lejjebb mozgatása" ${index === selected.length - 1 ? 'disabled' : ''}>↓</button></div>` : '<span></span>'}<button type="button" class="safe-lineup-remove" data-remove="${escapeHtml(id)}" aria-label="${escapeHtml(card.name)} eltávolítása">×</button></li>`;
+          const card = cards.find(item => text(item.id) === id);
+          if (!card) return '';
+          const orderControls = mode === TOURNAMENT_MATCH_MODE.PENALTIES
+            ? `<div class="safe-lineup-order"><button type="button" data-move="up" data-id="${escapeHtml(id)}" aria-label="${escapeHtml(card.name)} feljebb mozgatása" ${index === 0 ? 'disabled' : ''}>↑</button><button type="button" data-move="down" data-id="${escapeHtml(id)}" aria-label="${escapeHtml(card.name)} lejjebb mozgatása" ${index === selected.length - 1 ? 'disabled' : ''}>↓</button></div>`
+            : '<span></span>';
+          return `<li><span>${index + 1}</span><div><b>${escapeHtml(card.name)}</b><small>${escapeHtml(cardSubtitle(card))}</small></div>${orderControls}<button type="button" class="safe-lineup-remove" data-remove="${escapeHtml(id)}" aria-label="${escapeHtml(card.name)} eltávolítása">×</button></li>`;
         }).join('')}</ol></section>
       </div>
       <div class="safe-lineup-toolbar" aria-label="Keretműveletek"><button class="btn btn--ghost" id="safe-lineup-auto" type="button">Automatikus összeállítás</button><button class="btn btn--ghost" id="safe-lineup-last" type="button" ${last.length ? '' : 'disabled'}>Legutóbbi összeállítás használata</button><button class="btn btn--ghost" id="safe-lineup-reset" type="button">Alaphelyzet visszaállítása</button><button class="btn btn--ghost" id="safe-lineup-favorite-save" type="button" ${validation.valid ? '' : 'disabled'}>Kedvenc összeállítás mentése</button><button class="btn btn--ghost" id="safe-lineup-favorite-use" type="button" ${favorite.length ? '' : 'disabled'}>Kedvenc összeállítás használata</button></div>
-      <div class="safe-lineup-actions"><button class="btn btn--ghost" id="safe-lineup-back" type="button">Vissza</button><button class="btn btn--ghost" id="safe-lineup-save" type="button" ${validation.valid ? '' : 'disabled'}>Mentés csak az aktuális mérkőzésre</button><button class="btn" id="safe-lineup-start" type="button" ${validation.valid || runtime.launching ? '' : 'disabled'} aria-disabled="${!validation.valid || runtime.launching}">${runtime.launching ? 'Indítás…' : 'Meccs indítása'}</button></div>
+      <div class="safe-lineup-actions"><button class="btn btn--ghost" id="safe-lineup-back" type="button">Vissza</button><button class="btn btn--ghost" id="safe-lineup-save" type="button" ${validation.valid ? '' : 'disabled'}>Mentés csak az aktuális mérkőzésre</button><button class="btn" id="safe-lineup-start" type="button" ${validation.valid && !runtime.launching ? '' : 'disabled'} aria-disabled="${!validation.valid || runtime.launching}">${runtime.launching ? 'Indítás…' : 'Meccs indítása'}</button></div>
       <dialog class="safe-lineup-dialog"><button type="button" data-dialog-close aria-label="Bezárás">×</button><div data-dialog-content></div></dialog>`;
 
     node.querySelectorAll('.safe-lineup-card__select').forEach(button => button.addEventListener('click', () => {
       const id = text(button.closest('[data-player-id]')?.dataset.playerId);
       if (selectedSet.has(id)) selected = selected.filter(item => item !== id);
       else if (selected.length < TOURNAMENT_LINEUP_SIZE) selected = [...selected, id];
-      else { message = 'A keret már 11/11. Előbb távolíts el egy játékost.'; messageKind = 'error'; }
+      else {
+        feedback = 'A keret már 11/11. Előbb távolíts el egy játékost.';
+        feedbackKind = 'error';
+      }
       render();
     }));
     node.querySelectorAll('[data-remove]').forEach(button => button.addEventListener('click', () => {
-      selected = selected.filter(id => id !== button.dataset.remove); render();
+      selected = selected.filter(id => id !== button.dataset.remove);
+      render();
     }));
     node.querySelectorAll('[data-move]').forEach(button => button.addEventListener('click', () => {
-      selected = moveTournamentPenaltyOrder(selected, button.dataset.id, button.dataset.move); render();
+      selected = moveTournamentPenaltyOrder(selected, button.dataset.id, button.dataset.move);
+      render();
     }));
+
     const dialog = node.querySelector('.safe-lineup-dialog');
     node.querySelectorAll('.safe-lineup-card__zoom').forEach(button => button.addEventListener('click', event => {
-      event.preventDefault(); event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
       const id = text(button.closest('[data-player-id]')?.dataset.playerId);
       const card = cards.find(item => text(item.id) === id);
       const content = dialog?.querySelector('[data-dialog-content]');
@@ -242,26 +249,58 @@ function showSafeLineupSelection(inputState, match) {
       dialog.showModal();
     }));
     node.querySelector('[data-dialog-close]')?.addEventListener('click', () => dialog?.close());
-    node.querySelector('#safe-lineup-auto')?.addEventListener('click', () => { selected = [...recommended]; message = 'Automatikus 11 lapos keret összeállítva.'; messageKind = 'success'; render(); });
-    node.querySelector('#safe-lineup-last')?.addEventListener('click', () => { selected = [...last]; message = 'A legutóbbi elérhető keret visszatöltve.'; messageKind = 'success'; render(); });
-    node.querySelector('#safe-lineup-favorite-use')?.addEventListener('click', () => { selected = [...favorite]; message = 'A kedvenc elérhető keret visszatöltve.'; messageKind = 'success'; render(); });
+
+    node.querySelector('#safe-lineup-auto')?.addEventListener('click', () => {
+      selected = [...recommended];
+      feedback = 'Automatikus 11 lapos keret összeállítva.';
+      feedbackKind = 'success';
+      render();
+    });
+    node.querySelector('#safe-lineup-last')?.addEventListener('click', () => {
+      selected = [...last];
+      feedback = 'A legutóbbi elérhető keret visszatöltve.';
+      feedbackKind = 'success';
+      render();
+    });
+    node.querySelector('#safe-lineup-favorite-use')?.addEventListener('click', () => {
+      selected = [...favorite];
+      feedback = 'A kedvenc elérhető keret visszatöltve.';
+      feedbackKind = 'success';
+      render();
+    });
     node.querySelector('#safe-lineup-reset')?.addEventListener('click', () => {
       state = resetTournamentMatchLineup(state, match.id);
       tournamentStorageService.save(state);
-      selected = [...recommended]; message = 'A mérkőzés mentett kerete törölve, az automatikus alaphelyzet visszaállítva.'; messageKind = 'success'; render();
+      selected = [...recommended];
+      feedback = 'A mérkőzés mentett kerete törölve, az automatikus alaphelyzet visszaállítva.';
+      feedbackKind = 'success';
+      render();
     });
     node.querySelector('#safe-lineup-favorite-save')?.addEventListener('click', () => {
-      try { persist({ saveFavorite: true }); message = 'A kedvenc összeállítás elmentve.'; messageKind = 'success'; }
-      catch (error) { message = error?.message || 'A kedvenc keret nem menthető.'; messageKind = 'error'; }
+      try {
+        persist({ saveFavorite: true });
+        feedback = 'A kedvenc összeállítás elmentve.';
+        feedbackKind = 'success';
+      } catch (error) {
+        feedback = error?.message || 'A kedvenc keret nem menthető.';
+        feedbackKind = 'error';
+      }
       render();
     });
     node.querySelector('#safe-lineup-save')?.addEventListener('click', () => {
-      try { persist(); message = 'A keret csak ehhez a mérkőzéshez elmentve.'; messageKind = 'success'; }
-      catch (error) { message = error?.message || 'A keret nem menthető.'; messageKind = 'error'; }
+      try {
+        persist();
+        feedback = 'A keret csak ehhez a mérkőzéshez elmentve.';
+        feedbackKind = 'success';
+      } catch (error) {
+        feedback = error?.message || 'A keret nem menthető.';
+        feedbackKind = 'error';
+      }
       render();
     });
     node.querySelector('#safe-lineup-back')?.addEventListener('click', () => {
-      if (runtime.historyPushed) history.back(); else showCenter(state);
+      if (runtime.historyPushed) history.back();
+      else showCenter(state);
     }, { once: true });
     node.querySelector('#safe-lineup-start')?.addEventListener('click', launch, { once: true });
   };
@@ -270,7 +309,7 @@ function showSafeLineupSelection(inputState, match) {
   showPanel(node);
 }
 
-const interceptTournamentPlay = event => {
+function interceptTournamentPlay(event) {
   const button = event.target?.closest?.('#tournament-play');
   if (!button || runtime.launching) return;
   const state = tournamentStorageService.read();
@@ -279,13 +318,13 @@ const interceptTournamentPlay = event => {
   event.preventDefault();
   event.stopImmediatePropagation();
   showSafeLineupSelection(state, match);
-};
+}
 
-const handleBack = () => {
+function handleBack() {
   if (!runtime.active) return;
   runtime.historyPushed = false;
   showCenter(tournamentStorageService.read());
-};
+}
 
 export function installTournamentLineupController() {
   if (runtime.installed || typeof document === 'undefined') return;
@@ -294,3 +333,5 @@ export function installTournamentLineupController() {
   document.addEventListener('click', interceptTournamentPlay, true);
   globalThis.addEventListener?.('popstate', handleBack);
 }
+
+installTournamentLineupController();
