@@ -32,8 +32,8 @@ assert.equal(canonicalNationKey('ROU'), 'romania');
 
 const options = buildDeckSelectionOptions(players);
 assert.deepEqual(options.clubs.map(item => item.label), ['Kék SC', 'Piros FC']);
-assert.deepEqual(options.nations.map(item => item.key), ['hungary', 'serbia']);
-assert.equal(options.nations.some(item => item.key === 'romania'), false);
+assert.deepEqual(options.nations.map(item => item.key), ['hungary', 'serbia', 'romania']);
+assert.equal(options.nationMinimum, 8);
 
 const clubDeck = resolveDeckSelection(players, { kind: 'club', value: 'piros fc' });
 assert.equal(clubDeck.length, 14);
@@ -43,7 +43,10 @@ const nationDeck = resolveDeckSelection(players, { kind: 'nation', value: 'Szerb
 assert.equal(nationDeck.length, 12);
 assert.equal(nationDeck.every(player => canonicalNationKey(player.nation) === 'serbia'), true);
 
-const unavailable = validateDeckSelection(players, { kind: 'nation', value: 'Román' });
+const romanian = validateDeckSelection(players, { kind: 'nation', value: 'Román' });
+assert.equal(romanian.valid, true);
+assert.equal(romanian.players.length, 10);
+const unavailable = validateDeckSelection(players, { kind: 'nation', value: 'Horvát' });
 assert.equal(unavailable.valid, false);
 assert.equal(unavailable.selection.kind, 'random');
 assert.equal(unavailable.players.length, players.length);
@@ -52,6 +55,9 @@ const payload = applyDeckSelectionToPayload({ season: '2025/26', players }, { ki
 assert.equal(payload.players.length, 12);
 assert.equal(payload.deckSelection.kind, 'club');
 assert.match(payload.deckSelection.label, /Kék SC/);
+const nationPayload = applyDeckSelectionToPayload({ season: '2025/26', players }, { kind: 'nation', value: 'Romania' });
+assert.equal(nationPayload.players.length, 10);
+assert.equal(nationPayload.deckSelection.minimumCards, 8);
 assert.match(describeDeckSelection({ kind: 'nation', value: 'serbia' }, players), /Szerb/);
 
-console.log('✓ Pakliválasztási szűrés és 11 lapos jogosultság: sikeres');
+console.log('✓ Pakliválasztási szűrés: klub/föderáció 11, ligaválogatott 8 lapos jogosultság: sikeres');
