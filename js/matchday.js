@@ -3,7 +3,8 @@
 import { UI, el } from './ui.js';
 import { AI, HUMAN, PHASE } from './engine.js';
 import { hasAttributeData } from './data/players.js';
-import { saveBooleanSetting } from './mobile-experience.js';
+import { settingStorageKey } from './app/configuration.js';
+import { readStoredBoolean, writeStoredBoolean } from './services/storage-service.js';
 import {
   TOURNAMENT_HISTORY_STORAGE_KEY,
   tournamentStorageService,
@@ -12,6 +13,7 @@ import {
 export const CHOICE_LIMIT_SECONDS = 90;
 export const KICKOFF_STEP_MS = 650;
 
+const TIMED_TURNS_KEY = settingStorageKey('timedTurns');
 const matchdayPrevious = Object.freeze({
   classicScores: UI.prototype._renderClassicScores,
   penaltyScores: UI.prototype._renderPenaltyScores,
@@ -23,16 +25,17 @@ const matchdayPrevious = Object.freeze({
   showDuel: UI.prototype.showDuel,
   showVerdict: UI.prototype.showVerdict,
   showOverlay: UI.prototype.showOverlay,
+  setSettings: UI.prototype.setSettings,
 });
 
 const matchdayStates = new WeakMap();
-const matchdaySideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
-const matchdayOtherSide = side => side === HUMAN ? AI : HUMAN;
-const matchdayNow = () => Date.now();
+const sideLabel = side => side === HUMAN ? 'Játékos' : 'Gép';
+const otherSide = side => side === HUMAN ? AI : HUMAN;
+const now = () => Date.now();
 
-const matchdayTeamLabel = (game, side) => {
-  const quickMatchLabel = side === HUMAN ? game?.quickMatch?.humanTeam : game?.quickMatch?.aiTeam;
-  return String(quickMatchLabel ?? matchdaySideLabel(side)).trim() || matchdaySideLabel(side);
+const teamLabel = (game, side) => {
+  const quick = side === HUMAN ? game?.quickMatch?.humanTeam : game?.quickMatch?.aiTeam;
+  return String(quick ?? sideLabel(side)).trim() || sideLabel(side);
 };
 
 export function matchdayFormatClock(totalSeconds) {
@@ -40,7 +43,7 @@ export function matchdayFormatClock(totalSeconds) {
   return `${String(Math.floor(safe / 60)).padStart(2, '0')}:${String(safe % 60).padStart(2, '0')}`;
 }
 
-function matchdayState(ui) {
+function stateFor(ui) {
   let state = matchdayStates.get(ui);
   if (state) return state;
   state = {
@@ -57,30 +60,31 @@ function matchdayState(ui) {
     choicePausedAt: 0,
     choiceTimer: 0,
     choiceKind: null,
+    whistleContext: null,
   };
   matchdayStates.set(ui, state);
   return state;
 }
 
-function matchdayScoreboardStatus(game) {
+function scoreboardStatus(game) {
   if (game.phase === PHASE.GAME_OVER) return 'VÉGEREDMÉNY';
   if (game.phase === PHASE.REVEAL) {
-    return `KÖVETKEZŐ VÁLASZTÓ: ${matchdaySideLabel(matchdayOtherSide(game.chooser)).toUpperCase()}`;
+    return `KÖVETKEZŐ VÁLASZTÓ: ${sideLabel(otherSide(game.chooser)).toUpperCase()}`;
   }
-  return `KATEGÓRIÁT VÁLASZT: ${matchdaySideLabel(game.chooser).toUpperCase()}`;
+  return `KATEGÓRIÁT VÁLASZT: ${sideLabel(game.chooser).toUpperCase()}`;
 }
 
-const matchdayOverlayOpen = ui => ui.dom?.overlay?.hidden === false || document.visibilityState === 'hidden';
+const isPaused = ui => ui.dom?.overlay?.hidden === false || document.visibilityState === 'hidden';
 
-function matchdayUpdateClockNodes(ui) {
-  const state = matchdayState(ui);
+function updateClocks(ui) {
+  const state = stateFor(ui);
   const elapsed = matchdayFormatClock(state.matchElapsedMs / 1000);
   document.querySelectorAll('[data-match-clock]').forEach(node => {
     node.textContent = elapsed;
   });
 
   const remaining = state.choiceDeadline
-    ? Math.max(0, Math.ceil((state.choiceDeadline - matchdayNow()) / 1000))
+    ? Math.max(0, Math.ceil((state.choiceDeadline - now()) / 1000))
     : CHOICE_LIMIT_SECONDS;
   document.querySelectorAll('[data-choice-clock]').forEach(node => {
     node.textContent = ui.settings?.timedTurns ? matchdayFormatClock(remaining) : 'NINCS LIMIT';
@@ -91,19 +95,19 @@ function matchdayUpdateClockNodes(ui) {
   });
 }
 
-function matchdayStopChoiceTimer(ui, { keepPending = false } = {}) {
-  const state = matchdayState(ui);
+function stopChoiceTimer(ui, { keepPending = false } = {}) {
+  const state = stateFor(ui);
   if (state.choiceTimer) globalThis.clearInterval?.(state.choiceTimer);
   state.choiceTimer = 0;
   state.choiceDeadline = 0;
   state.choicePausedAt = 0;
   state.choiceKind = null;
   if (!keepPending) state.pendingChoiceKind = null;
-  matchdayUpdateClockNodes(ui);
+  updateClocks(ui);
 }
 
-function matchdayAutomaticChoice(ui, kind) {
-  const game = matchdayState(ui).lastGame;
+function automaticChoice(ui, kind) {
+  const game = stateFor(ui).lastGame;
   if (!game) return false;
 
   if (kind === 'attribute') {
@@ -123,46 +127,45 @@ function matchdayAutomaticChoice(ui, kind) {
   return true;
 }
 
-function matchdayStartChoiceTimer(ui, kind, game = null) {
-  const state = matchdayState(ui);
+function startChoiceTimer(ui, kind, game = null) {
+  const state = stateFor(ui);
   if (game) state.lastGame = game;
   state.pendingChoiceKind = kind;
 
   if (!ui.settings?.timedTurns) {
-    matchdayStopChoiceTimer(ui, { keepPending: true });
+    stopChoiceTimer(ui, { keepPending: true });
     return false;
   }
-  if (state.kickoffRunning || state.kickoffPending) {
-    matchdayUpdateClockNodes(ui);
+  if (state.kickoffPending || state.kickoffRunning) {
+    updateClocks(ui);
     return true;
   }
 
-  matchdayStopChoiceTimer(ui, { keepPending: true });
+  stopChoiceTimer(ui, { keepPending: true });
   state.choiceKind = kind;
-  state.choiceDeadline = matchdayNow() + CHOICE_LIMIT_SECONDS * 1000;
+  state.choiceDeadline = now() + CHOICE_LIMIT_SECONDS * 1000;
   state.choiceTimer = globalThis.setInterval?.(() => {
-    const now = matchdayNow();
-    const paused = matchdayOverlayOpen(ui);
-    if (paused) {
-      if (!state.choicePausedAt) state.choicePausedAt = now;
+    const current = now();
+    if (isPaused(ui)) {
+      if (!state.choicePausedAt) state.choicePausedAt = current;
       return;
     }
     if (state.choicePausedAt) {
-      state.choiceDeadline += now - state.choicePausedAt;
+      state.choiceDeadline += current - state.choicePausedAt;
       state.choicePausedAt = 0;
     }
-    matchdayUpdateClockNodes(ui);
-    if (now < state.choiceDeadline) return;
+    updateClocks(ui);
+    if (current < state.choiceDeadline) return;
     const expiredKind = state.choiceKind;
-    matchdayStopChoiceTimer(ui);
-    matchdayAutomaticChoice(ui, expiredKind);
+    stopChoiceTimer(ui);
+    automaticChoice(ui, expiredKind);
   }, 250) ?? 0;
-  matchdayUpdateClockNodes(ui);
+  updateClocks(ui);
   return true;
 }
 
-function matchdayStopMatchClock(ui, { reset = false } = {}) {
-  const state = matchdayState(ui);
+function stopMatchClock(ui, { reset = false } = {}) {
+  const state = stateFor(ui);
   if (state.matchTimer) globalThis.clearInterval?.(state.matchTimer);
   state.matchTimer = 0;
   state.matchPausedAt = 0;
@@ -170,35 +173,51 @@ function matchdayStopMatchClock(ui, { reset = false } = {}) {
     state.matchStartedAt = 0;
     state.matchElapsedMs = 0;
   }
-  matchdayUpdateClockNodes(ui);
+  updateClocks(ui);
 }
 
-function matchdayStartMatchClock(ui) {
-  const state = matchdayState(ui);
-  matchdayStopMatchClock(ui, { reset: true });
-  state.matchStartedAt = matchdayNow();
+function startMatchClock(ui) {
+  const state = stateFor(ui);
+  stopMatchClock(ui, { reset: true });
+  state.matchStartedAt = now();
   state.matchTimer = globalThis.setInterval?.(() => {
-    const now = matchdayNow();
-    if (matchdayOverlayOpen(ui)) {
-      if (!state.matchPausedAt) state.matchPausedAt = now;
+    const current = now();
+    if (isPaused(ui)) {
+      if (!state.matchPausedAt) state.matchPausedAt = current;
       return;
     }
     if (state.matchPausedAt) {
-      state.matchStartedAt += now - state.matchPausedAt;
+      state.matchStartedAt += current - state.matchPausedAt;
       state.matchPausedAt = 0;
     }
-    state.matchElapsedMs = Math.max(0, now - state.matchStartedAt);
-    matchdayUpdateClockNodes(ui);
+    state.matchElapsedMs = Math.max(0, current - state.matchStartedAt);
+    updateClocks(ui);
   }, 250) ?? 0;
-  matchdayUpdateClockNodes(ui);
+  updateClocks(ui);
 }
 
-function matchdayPlayWhistle(ui) {
-  if (!ui.settings?.sounds) return;
+function prepareWhistle(ui) {
+  if (!ui.settings?.sounds) return null;
   try {
     const AudioContextCtor = globalThis.AudioContext ?? globalThis.webkitAudioContext;
-    if (!AudioContextCtor) return;
+    if (!AudioContextCtor) return null;
     const context = new AudioContextCtor();
+    context.resume?.();
+    stateFor(ui).whistleContext = context;
+    return context;
+  } catch {
+    return null;
+  }
+}
+
+function playWhistle(ui) {
+  if (!ui.settings?.sounds) return;
+  const state = stateFor(ui);
+  try {
+    const AudioContextCtor = globalThis.AudioContext ?? globalThis.webkitAudioContext;
+    const context = state.whistleContext ?? (AudioContextCtor ? new AudioContextCtor() : null);
+    if (!context) return;
+    context.resume?.();
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     oscillator.type = 'sine';
@@ -211,18 +230,22 @@ function matchdayPlayWhistle(ui) {
     gain.connect(context.destination);
     oscillator.start();
     oscillator.stop(context.currentTime + .4);
-    oscillator.addEventListener('ended', () => context.close?.(), { once: true });
+    oscillator.addEventListener('ended', () => {
+      context.close?.();
+      state.whistleContext = null;
+    }, { once: true });
   } catch {
-    // A hangkimenet tiltása nem akadályozhatja a mérkőzés indulását.
+    state.whistleContext = null;
   }
 }
 
-function matchdayBeginKickoff(ui) {
-  const state = matchdayState(ui);
+function beginKickoff(ui) {
+  const state = stateFor(ui);
   if (!state.kickoffPending || state.kickoffRunning) return false;
   state.kickoffPending = false;
   state.kickoffRunning = true;
-  matchdayStopChoiceTimer(ui, { keepPending: true });
+  stopChoiceTimer(ui, { keepPending: true });
+  prepareWhistle(ui);
 
   document.querySelector('#matchday-kickoff')?.remove();
   const layer = el('div', 'matchday-kickoff');
@@ -238,15 +261,13 @@ function matchdayBeginKickoff(ui) {
     layer.textContent = steps[index];
     layer.dataset.step = String(index);
     if (index === steps.length - 1) {
-      matchdayPlayWhistle(ui);
-      matchdayStartMatchClock(ui);
+      playWhistle(ui);
+      startMatchClock(ui);
       globalThis.setTimeout?.(() => {
         layer.remove();
         ui.dom?.pub?.classList.remove('matchday-kickoff-active');
         state.kickoffRunning = false;
-        if (state.pendingChoiceKind) {
-          matchdayStartChoiceTimer(ui, state.pendingChoiceKind, state.lastGame);
-        }
+        if (state.pendingChoiceKind) startChoiceTimer(ui, state.pendingChoiceKind, state.lastGame);
       }, 520);
       return;
     }
@@ -257,23 +278,23 @@ function matchdayBeginKickoff(ui) {
   return true;
 }
 
-function matchdayApplyTimedSetting(ui, checked) {
-  ui.settings.timedTurns = Boolean(checked);
-  saveBooleanSetting('timedTurns', ui.settings.timedTurns);
+function applyTimedSetting(ui, enabled) {
+  ui.settings.timedTurns = Boolean(enabled);
+  writeStoredBoolean(TIMED_TURNS_KEY, ui.settings.timedTurns);
   if (!ui.settings.timedTurns) {
-    matchdayStopChoiceTimer(ui);
+    stopChoiceTimer(ui);
   } else {
-    const state = matchdayState(ui);
-    const hasCategories = Boolean(
+    const state = stateFor(ui);
+    const categoriesVisible = Boolean(
       ui.dom?.picker?.querySelector('button[data-attribute], .attr-btn, .category-tile'),
     );
-    const kind = hasCategories ? 'attribute' : state.lastSelectable ? 'card' : null;
-    if (kind) matchdayStartChoiceTimer(ui, kind, state.lastGame);
+    const kind = categoriesVisible ? 'attribute' : state.lastSelectable ? 'card' : null;
+    if (kind) startChoiceTimer(ui, kind, state.lastGame);
   }
-  matchdayUpdateClockNodes(ui);
+  updateClocks(ui);
 }
 
-function matchdayInjectTimedSetting(ui, root) {
+function injectTimedSetting(ui, root) {
   const list = root?.querySelector?.('.settings-list');
   if (list && !list.querySelector('[data-setting="timedTurns"]')) {
     const row = el('label', 'setting-switch');
@@ -287,7 +308,7 @@ function matchdayInjectTimedSetting(ui, root) {
     input.type = 'checkbox';
     input.checked = Boolean(ui.settings?.timedTurns);
     input.setAttribute('aria-label', '90 másodperces választási idő');
-    input.addEventListener('change', () => matchdayApplyTimedSetting(ui, input.checked));
+    input.addEventListener('change', () => applyTimedSetting(ui, input.checked));
     row.append(copy, input, el('span', 'setting-switch__visual'));
     list.appendChild(row);
   }
@@ -299,25 +320,24 @@ function matchdayInjectTimedSetting(ui, root) {
     const input = document.createElement('input');
     input.type = 'checkbox';
     input.checked = Boolean(ui.settings?.timedTurns);
-    input.addEventListener('change', () => matchdayApplyTimedSetting(ui, input.checked));
+    input.addEventListener('change', () => applyTimedSetting(ui, input.checked));
     label.append(input, el('span', null, '⏱ 90 mp választási idő'));
     menu.querySelector('.primary-mode-actions')?.after(label);
   }
 }
 
-function matchdayDecorateFinalScore(ui, root) {
+function decorateFinalScore(ui, root) {
   const final = root?.querySelector?.('.final-score');
   if (!final || final.dataset.sportsScoreboard === 'true') return;
   const match = final.textContent?.match(/JÁTÉKOS\s+(\d+)\s*[–-]\s*(\d+)\s+GÉP/i);
   if (!match) return;
 
-  const elapsed = matchdayFormatClock(matchdayState(ui).matchElapsedMs / 1000);
   final.dataset.sportsScoreboard = 'true';
   final.replaceChildren(
     el('span', 'final-score__team', 'JÁTÉKOS '),
     el('strong', 'final-score__numbers', `${match[1]}–${match[2]}`),
     el('span', 'final-score__team', ' GÉP'),
-    el('small', 'final-score__time', ` · IDŐ ${elapsed}`),
+    el('small', 'final-score__time', ` · IDŐ ${matchdayFormatClock(stateFor(ui).matchElapsedMs / 1000)}`),
   );
 
   const heading = root.querySelector('h1')?.textContent?.trim().toLocaleUpperCase('hu-HU');
@@ -328,34 +348,21 @@ function matchdayDecorateFinalScore(ui, root) {
 }
 
 UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human, ai) {
-  const board = el(
-    'div',
-    `match-scoreboard${game.mode === 'penalties' ? ' match-scoreboard--penalties' : ''}`,
-  );
-  const status = matchdayScoreboardStatus(game);
-  const humanLabel = matchdayTeamLabel(game, HUMAN);
-  const aiLabel = matchdayTeamLabel(game, AI);
+  const board = el('div', `match-scoreboard${game.mode === 'penalties' ? ' match-scoreboard--penalties' : ''}`);
+  const status = scoreboardStatus(game);
+  const humanLabel = teamLabel(game, HUMAN);
+  const aiLabel = teamLabel(game, AI);
   board.setAttribute('role', 'status');
   board.setAttribute('aria-live', 'polite');
-  board.setAttribute(
-    'aria-label',
-    `${humanLabel} ${human}, ${aiLabel} ${ai}. ${status.toLowerCase()}.`,
-  );
+  board.setAttribute('aria-label', `${humanLabel} ${human}, ${aiLabel} ${ai}. ${status.toLowerCase()}.`);
 
-  const competition = el(
-    'div',
-    'match-scoreboard__competition',
-    game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'KÁRTYAMECCS',
-  );
+  const competition = el('div', 'match-scoreboard__competition', game.mode === 'penalties' ? 'BÜNTETŐPÁRBAJ' : 'KÁRTYAMECCS');
   const clock = el('div', 'match-scoreboard__clock');
   clock.append(el('span', null, 'IDŐ'), el('strong', null, '00:00'));
   clock.querySelector('strong').dataset.matchClock = 'true';
 
   const home = el('div', 'match-team match-team--home');
-  home.append(
-    el('span', 'match-team__crest', '⚽'),
-    el('span', 'match-team__name', humanLabel.toUpperCase()),
-  );
+  home.append(el('span', 'match-team__crest', '⚽'), el('span', 'match-team__name', humanLabel.toUpperCase()));
   const score = el('div', 'match-scoreboard__score');
   score.append(
     el('strong', 'match-scoreboard__number', String(human)),
@@ -363,10 +370,7 @@ UI.prototype._renderMatchScoreboard = function renderMatchScoreboard(game, human
     el('strong', 'match-scoreboard__number', String(ai)),
   );
   const away = el('div', 'match-team match-team--away');
-  away.append(
-    el('span', 'match-team__name', aiLabel.toUpperCase()),
-    el('span', 'match-team__crest', '🤖'),
-  );
+  away.append(el('span', 'match-team__name', aiLabel.toUpperCase()), el('span', 'match-team__crest', '🤖'));
   const statusNode = el('div', 'match-scoreboard__status', status);
   const choice = el('div', 'match-scoreboard__choice');
   choice.append(
@@ -382,27 +386,32 @@ UI.prototype._renderClassicScores = function renderClassicMatchScore(game) {
   matchdayPrevious.classicScores?.call(this, game);
   const { [HUMAN]: human, [AI]: ai } = game.scores;
   this.dom.hudScores.replaceChildren(this._renderMatchScoreboard(game, human, ai));
-  matchdayUpdateClockNodes(this);
+  updateClocks(this);
 };
 
 UI.prototype._renderPenaltyScores = function renderPenaltyMatchScore(game) {
   matchdayPrevious.penaltyScores?.call(this, game);
-  this.dom.hudScores.replaceChildren(
-    this._renderMatchScoreboard(game, game.scores[HUMAN], game.scores[AI]),
-  );
-  matchdayUpdateClockNodes(this);
+  this.dom.hudScores.replaceChildren(this._renderMatchScoreboard(game, game.scores[HUMAN], game.scores[AI]));
+  updateClocks(this);
+};
+
+UI.prototype.setSettings = function setMatchdaySettings(settings = {}) {
+  const timedTurns = readStoredBoolean(TIMED_TURNS_KEY, settings.timedTurns ?? this.settings?.timedTurns ?? false);
+  return matchdayPrevious.setSettings.call(this, { ...settings, timedTurns });
 };
 
 UI.prototype.resetTable = function resetMatchdayTable(...args) {
   const output = matchdayPrevious.resetTable.apply(this, args);
-  const state = matchdayState(this);
-  matchdayStopChoiceTimer(this);
-  matchdayStopMatchClock(this, { reset: true });
+  const state = stateFor(this);
+  stopChoiceTimer(this);
+  stopMatchClock(this, { reset: true });
   state.kickoffPending = true;
   state.kickoffRunning = false;
   state.pendingChoiceKind = null;
   state.lastGame = null;
   state.lastSelectable = false;
+  state.whistleContext?.close?.();
+  state.whistleContext = null;
   document.querySelector('#matchday-kickoff')?.remove();
   this.dom?.pub?.classList.remove('matchday-kickoff-active');
   return output;
@@ -410,76 +419,72 @@ UI.prototype.resetTable = function resetMatchdayTable(...args) {
 
 UI.prototype.renderScores = function renderScoresWithMatchday(game) {
   const output = matchdayPrevious.renderScores.call(this, game);
-  const state = matchdayState(this);
+  const state = stateFor(this);
   state.lastGame = game;
-  matchdayUpdateClockNodes(this);
-  if (state.kickoffPending) matchdayBeginKickoff(this);
+  updateClocks(this);
+  if (state.kickoffPending) beginKickoff(this);
   return output;
 };
 
 UI.prototype.showAttributePicker = function showTimedAttributePicker(game) {
   const output = matchdayPrevious.showAttributePicker.call(this, game);
-  const state = matchdayState(this);
+  const state = stateFor(this);
   state.lastGame = game;
   state.lastSelectable = false;
-  matchdayStartChoiceTimer(this, 'attribute', game);
+  startChoiceTimer(this, 'attribute', game);
   return output;
 };
 
 UI.prototype.hideAttributePicker = function hideTimedAttributePicker(...args) {
-  if (matchdayState(this).choiceKind === 'attribute') matchdayStopChoiceTimer(this);
+  if (stateFor(this).choiceKind === 'attribute') stopChoiceTimer(this);
   return matchdayPrevious.hideAttributePicker.apply(this, args);
 };
 
 UI.prototype.renderHands = function renderTimedHands(game, options = {}) {
   const output = matchdayPrevious.renderHands.call(this, game, options);
-  const state = matchdayState(this);
+  const state = stateFor(this);
   state.lastGame = game;
   state.lastSelectable = Boolean(options.selectable);
-  if (options.selectable) matchdayStartChoiceTimer(this, 'card', game);
-  else if (state.choiceKind === 'card') matchdayStopChoiceTimer(this);
+  if (options.selectable) startChoiceTimer(this, 'card', game);
+  else if (state.choiceKind === 'card') stopChoiceTimer(this);
   return output;
 };
 
 UI.prototype.showDuel = function showMatchdayDuel(...args) {
-  matchdayStopChoiceTimer(this);
+  stopChoiceTimer(this);
   return matchdayPrevious.showDuel.apply(this, args);
 };
 
 UI.prototype.showVerdict = function showMatchdayVerdict(...args) {
-  matchdayStopChoiceTimer(this);
+  stopChoiceTimer(this);
   return matchdayPrevious.showVerdict.apply(this, args);
 };
 
 UI.prototype.showOverlay = function showMatchdayOverlay(node) {
   const output = matchdayPrevious.showOverlay.call(this, node);
-  matchdayInjectTimedSetting(this, node);
+  injectTimedSetting(this, node);
   if (node?.classList?.contains('result-panel')) {
-    const state = matchdayState(this);
-    matchdayStopChoiceTimer(this);
-    if (state.matchStartedAt && state.matchTimer) {
-      state.matchElapsedMs = Math.max(0, matchdayNow() - state.matchStartedAt);
-    }
-    matchdayStopMatchClock(this);
-    matchdayDecorateFinalScore(this, node);
+    const state = stateFor(this);
+    stopChoiceTimer(this);
+    if (state.matchStartedAt && state.matchTimer) state.matchElapsedMs = Math.max(0, now() - state.matchStartedAt);
+    stopMatchClock(this);
+    decorateFinalScore(this, node);
   }
   return output;
 };
 
-/* Tornaeredmény: az eredmény csak a Torna kezdőlapja gombbal válik véglegessé.
-   Az Újrajátszás az eredeti csapatokkal és a korábban kiválasztott kerettel indul. */
-const tournamentResultFlow = {
+/* A torna eredménye csak a Torna kezdőlapjára továbblépve válik véglegessé. */
+const tournamentFlow = {
   active: null,
   enhancedPanels: new WeakSet(),
   observer: null,
 };
 
-const tournamentClone = value => {
-  if (typeof structuredClone === 'function') return structuredClone(value);
-  return JSON.parse(JSON.stringify(value));
-};
+const cloneTournament = value => typeof structuredClone === 'function'
+  ? structuredClone(value)
+  : JSON.parse(JSON.stringify(value));
 
-function tournamentRemovePrematureArchive(tournamentId) {
+function removePrematureArchive(tournamentId) {
   try {
     const raw = globalThis.localStorage?.getItem(TOURNAMENT_HISTORY_STORAGE_KEY);
     if (!raw) return;
@@ -494,21 +499,21 @@ function tournamentRemovePrematureArchive(tournamentId) {
   }
 }
 
-function tournamentCaptureOriginalResult(panel) {
-  if (tournamentResultFlow.active || tournamentResultFlow.enhancedPanels.has(panel)) return;
+function captureTournamentResult(panel) {
+  if (tournamentFlow.active || tournamentFlow.enhancedPanels.has(panel)) return;
   const rematchButton = panel.querySelector('#rematch-btn');
   const stored = tournamentStorageService.read();
   if (!rematchButton || !stored?.currentMatchId) return;
-  tournamentResultFlow.active = {
+  tournamentFlow.active = {
     panel,
     rematchButton,
-    beforeResult: tournamentClone(stored),
+    beforeResult: cloneTournament(stored),
   };
 }
 
-function tournamentEnhanceProcessedResult(panel) {
-  const active = tournamentResultFlow.active;
-  if (!active || active.panel !== panel || tournamentResultFlow.enhancedPanels.has(panel)) return;
+function enhanceTournamentResult(panel) {
+  const active = tournamentFlow.active;
+  if (!active || active.panel !== panel || tournamentFlow.enhancedPanels.has(panel)) return;
   const context = panel.querySelector('.tournament-result-context');
   const actions = panel.querySelector('.result-actions');
   if (!context || !actions) return;
@@ -517,7 +522,7 @@ function tournamentEnhanceProcessedResult(panel) {
   if (!afterResult || afterResult.id !== active.beforeResult.id || afterResult.currentMatchId) return;
 
   tournamentStorageService.save(active.beforeResult);
-  tournamentRemovePrematureArchive(active.beforeResult.id);
+  removePrematureArchive(active.beforeResult.id);
   context.textContent = `${afterResult.name} · az eredmény elfogadásra vár`;
   actions.replaceChildren();
 
@@ -526,7 +531,7 @@ function tournamentEnhanceProcessedResult(panel) {
   replayButton.addEventListener('click', () => {
     const originalRematch = active.rematchButton;
     tournamentStorageService.save(active.beforeResult);
-    tournamentResultFlow.active = null;
+    tournamentFlow.active = null;
     originalRematch.click();
   }, { once: true });
 
@@ -538,23 +543,23 @@ function tournamentEnhanceProcessedResult(panel) {
   tournamentHomeButton.type = 'button';
   tournamentHomeButton.addEventListener('click', () => {
     tournamentStorageService.save(afterResult);
-    tournamentResultFlow.active = null;
+    tournamentFlow.active = null;
     globalThis.FociskartyakTournament?.showCenter?.(afterResult, null);
   }, { once: true });
 
   actions.append(replayButton, tournamentHomeButton);
-  tournamentResultFlow.enhancedPanels.add(panel);
+  tournamentFlow.enhancedPanels.add(panel);
 }
 
-function tournamentInspectResults() {
+function inspectTournamentResults() {
   document.querySelectorAll('.result-panel').forEach(panel => {
-    tournamentCaptureOriginalResult(panel);
-    tournamentEnhanceProcessedResult(panel);
+    captureTournamentResult(panel);
+    enhanceTournamentResult(panel);
   });
 }
 
 if (typeof document !== 'undefined' && typeof MutationObserver === 'function') {
-  tournamentResultFlow.observer = new MutationObserver(tournamentInspectResults);
-  tournamentResultFlow.observer.observe(document.documentElement, { childList: true, subtree: true });
-  tournamentInspectResults();
+  tournamentFlow.observer = new MutationObserver(inspectTournamentResults);
+  tournamentFlow.observer.observe(document.documentElement, { childList: true, subtree: true });
+  inspectTournamentResults();
 }
