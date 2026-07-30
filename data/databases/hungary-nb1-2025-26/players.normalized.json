@@ -130,8 +130,8 @@
       "data/club-official-stat-patches-zte.json",
       "data/club-official-stat-patches-puskas.json"
     ],
-    "sourceDigest": "06916ed0513939bb48a5c52406fc4e0e8eb000969b4ea56a40a22b3b3fb1f7bd",
-    "playersDigest": "0faf97c775ad467161427bb977b83f96df039ff0494c9556d26811835387b408",
+    "sourceDigest": "42ec2c236ae22cef02d9519e1550503f0828e1494b96a53438aa78a74e40b599",
+    "playersDigest": "16febff15da8c7bee923be04b3c19db28fee5caecd0405ac59190d44a42836ff",
     "canonicalFields": [
       "id",
       "name",
@@ -202,9 +202,9 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 237,
+    "heightCm": 285,
     "shirtNumber": 288,
-    "officialMetadata": 184,
+    "officialMetadata": 227,
     "minutes": 29,
     "substituteAppearances": 440,
     "assists": 29,
@@ -5818,6 +5818,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 21,
+        "heightCm": 183,
         "substituteAppearances": 1
       },
       "meta": {
@@ -5836,7 +5837,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2004-01-16/babos-levente",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "dvtk": 21
         },
@@ -5856,9 +5860,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2025-12-04"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "BABÓS LEVENTE",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "dvtk": {
+            "sourcePlayerUrl": "https://hlsz.hu/2004-01-16/babos-levente",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "dvtk": {
             "appearances": 2,
@@ -5955,7 +5980,7 @@
       "federationCode": "UEFA",
       "clubId": "dvtk",
       "clubName": "DVTK",
-      "heightCm": null,
+      "heightCm": 183,
       "marketValue": null,
       "appearances": 2,
       "minutesPlayed": null,
@@ -5973,11 +5998,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -7168,6 +7192,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 44,
+        "heightCm": 189,
         "substituteAppearances": 2
       },
       "meta": {
@@ -7186,7 +7211,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1994-05-24/esiti-anderson",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "dvtk": 44
         },
@@ -7206,9 +7234,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-05-06"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "dvtk",
+            "matchedName": "ESITI ANDERSON",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "dvtk": {
+            "sourcePlayerUrl": "https://hlsz.hu/1994-05-24/esiti-anderson",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "dvtk": {
             "appearances": 17,
@@ -7305,7 +7354,7 @@
       "federationCode": "CAF",
       "clubId": "dvtk",
       "clubName": "DVTK",
-      "heightCm": null,
+      "heightCm": 189,
       "marketValue": null,
       "appearances": 17,
       "minutesPlayed": null,
@@ -7323,11 +7372,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -15377,6 +15425,7 @@
         "totalDismissals": 0,
         "overallScore": 42,
         "shirtNumber": 25,
+        "heightCm": 189,
         "substituteAppearances": 8
       },
       "meta": {
@@ -15403,7 +15452,10 @@
         "sourceNotes": "MLSZ játékosoldal 2025/26 Fizz Liga szezonösszesítő. A gól klubonkénti végleges góllövőlistából is ellenőrizve.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1995-02-03/boldor-deian",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "eto-fc": 25
         },
@@ -15434,8 +15486,29 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "eto-fc",
+            "matchedName": "BOLDOR DEIAN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
+        "clubOfficialByClub": {
+          "eto-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1995-02-03/boldor-deian",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {},
         "officialStatSources": [],
         "derivedOfficialStats": {
@@ -15463,7 +15536,7 @@
       "federationCode": "UEFA",
       "clubId": "eto-fc",
       "clubName": "ETO FC",
-      "heightCm": null,
+      "heightCm": 189,
       "marketValue": null,
       "appearances": 12,
       "minutesPlayed": null,
@@ -15481,11 +15554,10 @@
       "sourceUrl": "https://adatbank.mlsz.hu/player/1365951.html",
       "lastUpdated": "2026-07-19",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -19469,6 +19541,7 @@
         "totalDismissals": 0,
         "overallScore": 28,
         "shirtNumber": 76,
+        "heightCm": 175,
         "substituteAppearances": 6
       },
       "meta": {
@@ -19495,7 +19568,10 @@
         "sourceNotes": "MLSZ játékosoldal 2025/26 Fizz Liga szezonösszesítő. A gól klubonkénti végleges góllövőlistából is ellenőrizve.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2006-05-23/zivkovic-jovan",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "eto-fc": 76
         },
@@ -19526,8 +19602,29 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "eto-fc",
+            "matchedName": "ZIVKOVIC JOVAN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
+        "clubOfficialByClub": {
+          "eto-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2006-05-23/zivkovic-jovan",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {},
         "officialStatSources": [],
         "derivedOfficialStats": {
@@ -19555,7 +19652,7 @@
       "federationCode": "UEFA",
       "clubId": "eto-fc",
       "clubName": "ETO FC",
-      "heightCm": null,
+      "heightCm": 175,
       "marketValue": null,
       "appearances": 7,
       "minutesPlayed": null,
@@ -19573,11 +19670,10 @@
       "sourceUrl": "https://adatbank.mlsz.hu/player/1497478.html",
       "lastUpdated": "2026-07-19",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -19954,6 +20050,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 7,
+        "heightCm": 175,
         "substituteAppearances": 3
       },
       "meta": {
@@ -19972,7 +20069,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1999-01-04/arzani-daniel",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 7
         },
@@ -19992,9 +20092,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-01-21"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "ARZANI DANIEL",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1999-01-04/arzani-daniel",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 3,
@@ -20045,7 +20166,7 @@
       "federationCode": "AFC",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 175,
       "marketValue": null,
       "appearances": 3,
       "minutesPlayed": null,
@@ -20063,11 +20184,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -20399,6 +20519,7 @@
         "totalDismissals": 1,
         "overallScore": null,
         "shirtNumber": 27,
+        "heightCm": 185,
         "substituteAppearances": 0
       },
       "meta": {
@@ -20417,7 +20538,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-05-02/cisse-ibrahim",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 27
         },
@@ -20437,9 +20561,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "CISSE IBRAHIM",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-05-02/cisse-ibrahim",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 17,
@@ -20490,7 +20635,7 @@
       "federationCode": "UEFA",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 185,
       "marketValue": null,
       "appearances": 17,
       "minutesPlayed": null,
@@ -20508,11 +20653,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -20866,6 +21010,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 3,
+        "heightCm": 187,
         "substituteAppearances": 0
       },
       "meta": {
@@ -20884,7 +21029,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1997-02-02/gartenmann-stefan",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 3
         },
@@ -20904,9 +21052,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "GARTENMANN STEFAN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1997-02-02/gartenmann-stefan",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 6,
@@ -20957,7 +21126,7 @@
       "federationCode": "UEFA",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 187,
       "marketValue": null,
       "appearances": 6,
       "minutesPlayed": null,
@@ -20975,11 +21144,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -23802,6 +23970,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 8,
+        "heightCm": 190,
         "substituteAppearances": 6
       },
       "meta": {
@@ -23820,7 +23989,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1992-05-21/pesic-aleksandar",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 8
         },
@@ -23840,9 +24012,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "PESIC ALEKSANDAR",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1992-05-21/pesic-aleksandar",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 10,
@@ -23893,7 +24086,7 @@
       "federationCode": "UEFA",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 190,
       "marketValue": null,
       "appearances": 10,
       "minutesPlayed": null,
@@ -23911,11 +24104,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -24551,6 +24743,7 @@
         "totalDismissals": 0,
         "overallScore": 24,
         "shirtNumber": 17,
+        "heightCm": 175,
         "substituteAppearances": 1
       },
       "meta": {
@@ -24571,7 +24764,10 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2001-08-08/sevikyan-edgar",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 17
         },
@@ -24590,9 +24786,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2025-09-10"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "Sevikyan Edgar",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2001-08-08/sevikyan-edgar",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 1,
@@ -24638,7 +24855,7 @@
       "federationCode": "UEFA",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 175,
       "marketValue": null,
       "appearances": 1,
       "minutesPlayed": null,
@@ -24656,11 +24873,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -24829,6 +25045,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 29,
+        "heightCm": 185,
         "substituteAppearances": 0
       },
       "meta": {
@@ -24847,7 +25064,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1989-02-07/szecsi-gergo",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 29
         },
@@ -24867,9 +25087,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "SZÉCSI GERGŐ",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1989-02-07/szecsi-gergo",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 0,
@@ -24920,7 +25161,7 @@
       "federationCode": "UEFA",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 185,
       "marketValue": null,
       "appearances": 0,
       "minutesPlayed": null,
@@ -24938,11 +25179,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -24970,6 +25210,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 64,
+        "heightCm": 181,
         "substituteAppearances": 3
       },
       "meta": {
@@ -24988,7 +25229,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2005-10-23/toth-alex-laszlo",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 64
         },
@@ -25008,9 +25252,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-01-20"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "TÓTH ALEX LÁSZLÓ",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2005-10-23/toth-alex-laszlo",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 14,
@@ -25061,7 +25326,7 @@
       "federationCode": "UEFA",
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
-      "heightCm": null,
+      "heightCm": 181,
       "marketValue": null,
       "appearances": 14,
       "minutesPlayed": null,
@@ -25079,11 +25344,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -27863,6 +28127,7 @@
         "secondYellowRedCards": 0,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 194,
         "minutes": 13,
         "substituteAppearances": 1,
         "assists": 0
@@ -27889,7 +28154,9 @@
           "loanClub": "Budafoki MTE",
           "departedAt": "2025-09-04",
           "seasonStatus": "loaned-after-one-appearance",
-          "currentStatus": "returned-from-loan"
+          "currentStatus": "returned-from-loan",
+          "sourcePlayerUrl": "https://hlsz.hu/2002-11-04/gyurko-mate",
+          "matchReason": "exact-profile-name-birth-height"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
@@ -27899,7 +28166,9 @@
             "loanClub": "Budafoki MTE",
             "departedAt": "2025-09-04",
             "seasonStatus": "loaned-after-one-appearance",
-            "currentStatus": "returned-from-loan"
+            "currentStatus": "returned-from-loan",
+            "sourcePlayerUrl": "https://hlsz.hu/2002-11-04/gyurko-mate",
+            "matchReason": "exact-profile-name-birth-height"
           }
         },
         "clubOfficialSources": [
@@ -27933,6 +28202,21 @@
             "matchedName": "GYURKÓ MÁTÉ",
             "fieldsApplied": [
               "nation"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "kisvarda-master-good",
+            "matchedName": "GYURKÓ MÁTÉ",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -28021,7 +28305,7 @@
       "federationCode": "UEFA",
       "clubId": "kisvarda-master-good",
       "clubName": "Kisvárda Master Good",
-      "heightCm": null,
+      "heightCm": 194,
       "marketValue": null,
       "appearances": 1,
       "minutesPlayed": 13,
@@ -28039,12 +28323,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 18,
+        "knownFields": 19,
         "totalFields": 19,
-        "ratio": 0.9474,
-        "missingFields": [
-          "heightCm"
-        ]
+        "ratio": 1,
+        "missingFields": []
       }
     },
     {
@@ -34687,6 +34969,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 180,
         "substituteAppearances": 3
       },
       "meta": {
@@ -34705,7 +34988,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1995-12-13/berecz-zsombor",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -34722,9 +35008,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "BERECZ ZSOMBOR",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "kolorcity-kazincbarcika-sc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1995-12-13/berecz-zsombor",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "kolorcity-kazincbarcika-sc": {
             "appearances": 14,
@@ -34816,7 +35123,7 @@
       "federationCode": "UEFA",
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
-      "heightCm": null,
+      "heightCm": 180,
       "marketValue": null,
       "appearances": 14,
       "minutesPlayed": null,
@@ -34834,11 +35141,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -36590,6 +36896,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 185,
         "substituteAppearances": 14
       },
       "meta": {
@@ -36610,13 +36917,17 @@
         "verifiedCorrections": [],
         "clubOfficial": {
           "previousClub": "Paksi FC",
-          "squadStatus": "arrived-2025-summer"
+          "squadStatus": "arrived-2025-summer",
+          "sourcePlayerUrl": "https://hlsz.hu/1989-06-10/konyves-norbert",
+          "matchReason": "exact-profile-name-birth-height"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
           "kolorcity-kazincbarcika-sc": {
             "previousClub": "Paksi FC",
-            "squadStatus": "arrived-2025-summer"
+            "squadStatus": "arrived-2025-summer",
+            "sourcePlayerUrl": "https://hlsz.hu/1989-06-10/konyves-norbert",
+            "matchReason": "exact-profile-name-birth-height"
           }
         },
         "clubOfficialSources": [
@@ -36646,6 +36957,21 @@
             "fieldsApplied": [
               "nation",
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "KÖNYVES NORBERT",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -36742,7 +37068,7 @@
       "federationCode": "UEFA",
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
-      "heightCm": null,
+      "heightCm": 185,
       "marketValue": null,
       "appearances": 29,
       "minutesPlayed": null,
@@ -36760,11 +37086,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -37192,6 +37517,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 185,
         "substituteAppearances": 10
       },
       "meta": {
@@ -37211,12 +37537,16 @@
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
         "clubOfficial": {
-          "contractExtended": true
+          "contractExtended": true,
+          "sourcePlayerUrl": "https://hlsz.hu/1996-06-26/makrai-gabor",
+          "matchReason": "exact-profile-name-birth-height"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
           "kolorcity-kazincbarcika-sc": {
-            "contractExtended": true
+            "contractExtended": true,
+            "sourcePlayerUrl": "https://hlsz.hu/1996-06-26/makrai-gabor",
+            "matchReason": "exact-profile-name-birth-height"
           }
         },
         "clubOfficialSources": [
@@ -37245,6 +37575,21 @@
             "fieldsApplied": [
               "nation",
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "MAKRAI GÁBOR",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -37341,7 +37686,7 @@
       "federationCode": "UEFA",
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
-      "heightCm": null,
+      "heightCm": 185,
       "marketValue": null,
       "appearances": 11,
       "minutesPlayed": null,
@@ -37359,11 +37704,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -37608,6 +37952,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 186,
         "substituteAppearances": 2
       },
       "meta": {
@@ -37626,7 +37971,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-11-28/polgar-kristof",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -37643,9 +37991,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "POLGÁR KRISTÓF",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "kolorcity-kazincbarcika-sc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-11-28/polgar-kristof",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "kolorcity-kazincbarcika-sc": {
             "appearances": 12,
@@ -37737,7 +38106,7 @@
       "federationCode": "UEFA",
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
-      "heightCm": null,
+      "heightCm": 186,
       "marketValue": null,
       "appearances": 12,
       "minutesPlayed": null,
@@ -37755,11 +38124,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -39598,6 +39966,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 178,
         "substituteAppearances": 0
       },
       "meta": {
@@ -39619,14 +39988,18 @@
         "clubOfficial": {
           "loanFrom": "Topolyai SC",
           "loanStatus": true,
-          "squadStatus": "loan-arrival-2025-summer"
+          "squadStatus": "loan-arrival-2025-summer",
+          "sourcePlayerUrl": "https://hlsz.hu/1994-05-10/sos-bence",
+          "matchReason": "exact-profile-name-birth-height"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
           "kolorcity-kazincbarcika-sc": {
             "loanFrom": "Topolyai SC",
             "loanStatus": true,
-            "squadStatus": "loan-arrival-2025-summer"
+            "squadStatus": "loan-arrival-2025-summer",
+            "sourcePlayerUrl": "https://hlsz.hu/1994-05-10/sos-bence",
+            "matchReason": "exact-profile-name-birth-height"
           }
         },
         "clubOfficialSources": [
@@ -39657,6 +40030,21 @@
             "fieldsApplied": [
               "nation",
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "SÓS BENCE",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -39753,7 +40141,7 @@
       "federationCode": "UEFA",
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
-      "heightCm": null,
+      "heightCm": 178,
       "marketValue": null,
       "appearances": 14,
       "minutesPlayed": null,
@@ -39771,11 +40159,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -44199,6 +44586,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 25,
+        "heightCm": 188,
         "substituteAppearances": 0
       },
       "meta": {
@@ -44217,7 +44605,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1990-03-14/kadar-tamas",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "mtk-budapest": 25
         },
@@ -44237,9 +44628,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "KÁDÁR TAMÁS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "mtk-budapest": {
+            "sourcePlayerUrl": "https://hlsz.hu/1990-03-14/kadar-tamas",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "mtk-budapest": {
             "appearances": 31,
@@ -44327,7 +44739,7 @@
       "federationCode": "UEFA",
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
-      "heightCm": null,
+      "heightCm": 188,
       "marketValue": null,
       "appearances": 31,
       "minutesPlayed": null,
@@ -44345,11 +44757,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -44567,6 +44978,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 181,
         "substituteAppearances": 0
       },
       "meta": {
@@ -44587,13 +44999,17 @@
         "verifiedCorrections": [],
         "clubOfficial": {
           "primaryPosition": "Középpályás",
-          "sourceNote": "A 2025/26-os Fizz Liga-profil középpályásként tartja nyilván; a 2026/27-es aktuális profil eltérő posztját a lezárt szezon nem veszi át."
+          "sourceNote": "A 2025/26-os Fizz Liga-profil középpályásként tartja nyilván; a 2026/27-es aktuális profil eltérő posztját a lezárt szezon nem veszi át.",
+          "sourcePlayerUrl": "https://hlsz.hu/2003-07-07/kovacs-matyas",
+          "matchReason": "exact-profile-name-birth-height"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
           "mtk-budapest": {
             "primaryPosition": "Középpályás",
-            "sourceNote": "A 2025/26-os Fizz Liga-profil középpályásként tartja nyilván; a 2026/27-es aktuális profil eltérő posztját a lezárt szezon nem veszi át."
+            "sourceNote": "A 2025/26-os Fizz Liga-profil középpályásként tartja nyilván; a 2026/27-es aktuális profil eltérő posztját a lezárt szezon nem veszi át.",
+            "sourcePlayerUrl": "https://hlsz.hu/2003-07-07/kovacs-matyas",
+            "matchReason": "exact-profile-name-birth-height"
           }
         },
         "clubOfficialSources": [
@@ -44611,6 +45027,21 @@
               "birthDate",
               "meta.primaryPosition",
               "meta.sourceNote"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "KOVÁCS MÁTYÁS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -44703,7 +45134,7 @@
       "federationCode": "UEFA",
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
-      "heightCm": null,
+      "heightCm": 181,
       "marketValue": null,
       "appearances": 0,
       "minutesPlayed": null,
@@ -44721,11 +45152,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -45657,6 +46087,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 9,
+        "heightCm": 184,
         "substituteAppearances": 0
       },
       "meta": {
@@ -45675,7 +46106,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2002-08-28/molnar-rajmund",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "mtk-budapest": 9
         },
@@ -45695,9 +46129,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2025-08-30"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "MOLNÁR RAJMUND",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "mtk-budapest": {
+            "sourcePlayerUrl": "https://hlsz.hu/2002-08-28/molnar-rajmund",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "mtk-budapest": {
             "appearances": 5,
@@ -45785,7 +46240,7 @@
       "federationCode": "UEFA",
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
-      "heightCm": null,
+      "heightCm": 184,
       "marketValue": null,
       "appearances": 5,
       "minutesPlayed": null,
@@ -45803,11 +46258,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -46786,6 +47240,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 3,
+        "heightCm": 188,
         "substituteAppearances": 7
       },
       "meta": {
@@ -46804,7 +47259,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-03-15/szepe-janos",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "mtk-budapest": 3
         },
@@ -46824,9 +47282,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "SZÉPE JÁNOS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "mtk-budapest": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-03-15/szepe-janos",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "mtk-budapest": {
             "appearances": 19,
@@ -46914,7 +47393,7 @@
       "federationCode": "UEFA",
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
-      "heightCm": null,
+      "heightCm": 188,
       "marketValue": null,
       "appearances": 19,
       "minutesPlayed": null,
@@ -46932,11 +47411,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -46964,6 +47442,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 28,
+        "heightCm": 182,
         "substituteAppearances": 4
       },
       "meta": {
@@ -46982,7 +47461,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2005-08-04/szucs-patrik-peter",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "mtk-budapest": 28
         },
@@ -47002,9 +47484,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2026-02-02"
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "SZŰCS PATRIK PÉTER",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "mtk-budapest": {
+            "sourcePlayerUrl": "https://hlsz.hu/2005-08-04/szucs-patrik-peter",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "mtk-budapest": {
             "appearances": 4,
@@ -47092,7 +47595,7 @@
       "federationCode": "UEFA",
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
-      "heightCm": null,
+      "heightCm": 182,
       "marketValue": null,
       "appearances": 4,
       "minutesPlayed": null,
@@ -47110,11 +47613,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -48565,6 +49067,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 45,
+        "heightCm": 188,
         "substituteAppearances": 1
       },
       "meta": {
@@ -48583,7 +49086,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2000-03-04/babic-slobodan",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 45
         },
@@ -48627,9 +49133,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BABIC SLOBODAN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2000-03-04/babic-slobodan",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 1,
@@ -48720,7 +49247,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 188,
       "marketValue": null,
       "appearances": 1,
       "minutesPlayed": null,
@@ -48738,11 +49265,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -48996,6 +49522,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 181,
         "substituteAppearances": 2
       },
       "meta": {
@@ -49014,7 +49541,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2001-03-14/beke-peter",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -49055,9 +49585,30 @@
               "position"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BEKE PÉTER",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2001-03-14/beke-peter",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 3,
@@ -49148,7 +49699,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 181,
       "marketValue": null,
       "appearances": 3,
       "minutesPlayed": null,
@@ -49166,11 +49717,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -49403,6 +49953,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 1,
+        "heightCm": 191,
         "substituteAppearances": 0
       },
       "meta": {
@@ -49421,7 +49972,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1999-01-22/bese-balazs",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 1
         },
@@ -49465,9 +50019,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BESE BALÁZS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1999-01-22/bese-balazs",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 0,
@@ -49558,7 +50133,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 191,
       "marketValue": null,
       "appearances": 0,
       "minutesPlayed": null,
@@ -49576,11 +50151,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -49608,6 +50182,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 33,
+        "heightCm": 192,
         "substituteAppearances": 4
       },
       "meta": {
@@ -49626,7 +50201,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-08-26/bitri-eneo",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 33
         },
@@ -49670,9 +50248,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "BITRI ENEO",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-08-26/bitri-eneo",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 8,
@@ -49763,7 +50362,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 192,
       "marketValue": null,
       "appearances": 8,
       "minutesPlayed": null,
@@ -49781,11 +50380,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -50018,6 +50616,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 98,
+        "heightCm": 192,
         "substituteAppearances": 1
       },
       "meta": {
@@ -50036,7 +50635,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1998-03-26/dreskovic-meldin",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 98
         },
@@ -50080,9 +50682,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "DRESKOVIC MELDIN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1998-03-26/dreskovic-meldin",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 14,
@@ -50173,7 +50796,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 192,
       "marketValue": null,
       "appearances": 14,
       "minutesPlayed": null,
@@ -50191,11 +50814,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -50450,6 +51072,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 41,
+        "heightCm": 185,
         "substituteAppearances": 0
       },
       "meta": {
@@ -50468,7 +51091,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1998-05-12/evangelou-stefanos",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 41
         },
@@ -50512,9 +51138,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "EVANGELOU STEFANOS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1998-05-12/evangelou-stefanos",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 10,
@@ -50605,7 +51252,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 185,
       "marketValue": null,
       "appearances": 10,
       "minutesPlayed": null,
@@ -50623,11 +51270,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -51060,6 +51706,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 186,
         "substituteAppearances": 0
       },
       "meta": {
@@ -51078,7 +51725,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1999-04-22/jokic-ranko",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -51119,9 +51769,30 @@
               "position"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "JOKIC RANKO",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1999-04-22/jokic-ranko",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 2,
@@ -51212,7 +51883,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 186,
       "marketValue": null,
       "appearances": 2,
       "minutesPlayed": null,
@@ -51230,11 +51901,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -52352,6 +53022,7 @@
         "totalDismissals": 1,
         "overallScore": null,
         "shirtNumber": 44,
+        "heightCm": 186,
         "substituteAppearances": 3
       },
       "meta": {
@@ -52370,7 +53041,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1998-07-14/korrea-pavlos",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 44
         },
@@ -52414,9 +53088,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KORREA PAVLOS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1998-07-14/korrea-pavlos",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 6,
@@ -52507,7 +53202,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 186,
       "marketValue": null,
       "appearances": 6,
       "minutesPlayed": null,
@@ -52525,11 +53220,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -52989,6 +53683,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 23,
+        "heightCm": 186,
         "substituteAppearances": 12
       },
       "meta": {
@@ -53007,7 +53702,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2000-09-01/kovacsreti-mark",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 23
         },
@@ -53051,9 +53749,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KOVÁCSRÉTI MÁRK",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2000-09-01/kovacsreti-mark",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 23,
@@ -53144,7 +53863,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 186,
       "marketValue": null,
       "appearances": 23,
       "minutesPlayed": null,
@@ -53162,11 +53881,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -54058,6 +54776,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 14,
+        "heightCm": 182,
         "substituteAppearances": 4
       },
       "meta": {
@@ -54076,7 +54795,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1995-05-08/nagy-dominik",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 14
         },
@@ -54120,9 +54842,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "NAGY DOMINIK",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1995-05-08/nagy-dominik",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 14,
@@ -54213,7 +54956,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 182,
       "marketValue": null,
       "appearances": 14,
       "minutesPlayed": null,
@@ -54231,11 +54974,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -55118,6 +55860,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 26,
+        "heightCm": 191,
         "substituteAppearances": 1
       },
       "meta": {
@@ -55136,7 +55879,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2000-07-26/tijani-muhamed",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 26
         },
@@ -55180,9 +55926,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "TIJANI MUHAMED",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2000-07-26/tijani-muhamed",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 15,
@@ -55273,7 +56040,7 @@
       "federationCode": "CAF",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 191,
       "marketValue": null,
       "appearances": 15,
       "minutesPlayed": null,
@@ -55291,11 +56058,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -55776,6 +56542,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": null,
+        "heightCm": 178,
         "substituteAppearances": 5
       },
       "meta": {
@@ -55794,7 +56561,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -55835,9 +56605,30 @@
               "position"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "VARGA KEVIN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 6,
@@ -55928,7 +56719,7 @@
       "federationCode": "UEFA",
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
-      "heightCm": null,
+      "heightCm": 178,
       "marketValue": null,
       "appearances": 6,
       "minutesPlayed": null,
@@ -55946,11 +56737,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -59966,6 +60756,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 26,
+        "heightCm": 183,
         "substituteAppearances": 2
       },
       "meta": {
@@ -59992,7 +60783,10 @@
         "sourceNotes": "A 2025/26-os Fizz Liga személyes és szereplési adatok az MLSZ játékosoldalról; gól a végleges hivatalos góllövőlistából.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2001-04-14/tamas-oliver",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -60008,8 +60802,29 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "paksi-fc",
+            "matchedName": "TAMÁS OLIVÉR",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
+        "clubOfficialByClub": {
+          "paksi-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2001-04-14/tamas-oliver",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {},
         "officialStatSources": [],
         "derivedOfficialStats": {
@@ -60037,7 +60852,7 @@
       "federationCode": "UEFA",
       "clubId": "paksi-fc",
       "clubName": "Paksi FC",
-      "heightCm": null,
+      "heightCm": 183,
       "marketValue": null,
       "appearances": 2,
       "minutesPlayed": null,
@@ -60055,11 +60870,10 @@
       "sourceUrl": "https://adatbank.mlsz.hu/player/471017.html",
       "lastUpdated": "2026-07-19",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -63269,6 +64083,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 180,
         "substituteAppearances": 0
       },
       "meta": {
@@ -63287,7 +64102,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1995-10-10/maceiras-quentin",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -63304,9 +64122,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "puskas-akademia-fc",
+            "matchedName": "MACEIRAS QUENTIN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "puskas-akademia-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1995-10-10/maceiras-quentin",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "puskas-akademia-fc": {
             "appearances": 27,
@@ -63392,7 +64231,7 @@
       "federationCode": "UEFA",
       "clubId": "puskas-akademia-fc",
       "clubName": "Puskás Akadémia FC",
-      "heightCm": null,
+      "heightCm": 180,
       "marketValue": null,
       "appearances": 27,
       "minutesPlayed": null,
@@ -63410,11 +64249,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -63846,6 +64684,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 1,
         "overallScore": null,
+        "heightCm": 179,
         "substituteAppearances": 0
       },
       "meta": {
@@ -63864,7 +64703,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2005-06-30/markgraf-akos",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -63881,9 +64723,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "puskas-akademia-fc",
+            "matchedName": "MARKGRÁF ÁKOS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "puskas-akademia-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2005-06-30/markgraf-akos",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "puskas-akademia-fc": {
             "appearances": 30,
@@ -63969,7 +64832,7 @@
       "federationCode": "UEFA",
       "clubId": "puskas-akademia-fc",
       "clubName": "Puskás Akadémia FC",
-      "heightCm": null,
+      "heightCm": 179,
       "marketValue": null,
       "appearances": 30,
       "minutesPlayed": null,
@@ -63987,11 +64850,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -66009,6 +66871,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 196,
         "substituteAppearances": 0
       },
       "meta": {
@@ -66027,7 +66890,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1990-11-14/szappanos-peter",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -66044,9 +66910,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "puskas-akademia-fc",
+            "matchedName": "SZAPPANOS PÉTER",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "puskas-akademia-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1990-11-14/szappanos-peter",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "puskas-akademia-fc": {
             "appearances": 31,
@@ -66132,7 +67019,7 @@
       "federationCode": "UEFA",
       "clubId": "puskas-akademia-fc",
       "clubName": "Puskás Akadémia FC",
-      "heightCm": null,
+      "heightCm": 196,
       "marketValue": null,
       "appearances": 31,
       "minutesPlayed": null,
@@ -66150,11 +67037,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -67686,6 +68572,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 174,
         "substituteAppearances": 11
       },
       "meta": {
@@ -67704,7 +68591,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1997-05-12/beridze-giorgi",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -67721,9 +68611,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "BERIDZE GIORGI",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1997-05-12/beridze-giorgi",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 24,
@@ -67816,7 +68727,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 174,
       "marketValue": null,
       "appearances": 24,
       "minutesPlayed": null,
@@ -67834,11 +68745,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -68072,6 +68982,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 50,
+        "heightCm": 180,
         "substituteAppearances": 10
       },
       "meta": {
@@ -68092,7 +69003,10 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1997-01-08/brodic-fran",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -68108,9 +69022,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "Brodic Fran",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1997-01-08/brodic-fran",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 19,
@@ -68198,7 +69133,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 180,
       "marketValue": null,
       "appearances": 19,
       "minutesPlayed": null,
@@ -68216,11 +69151,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -69612,6 +70546,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": 39,
+        "heightCm": 187,
         "substituteAppearances": 6
       },
       "meta": {
@@ -69632,7 +70567,10 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2002-08-06/gradisar-nejc",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -69649,9 +70587,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "Gradisar Nejc",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2002-08-06/gradisar-nejc",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 13,
@@ -69739,7 +70698,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 187,
       "marketValue": null,
       "appearances": 13,
       "minutesPlayed": null,
@@ -69757,11 +70716,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -72277,6 +73235,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 188,
         "substituteAppearances": 0
       },
       "meta": {
@@ -72295,7 +73254,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1993-10-10/piscitelli-riccardo",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -72312,9 +73274,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "PISCITELLI RICCARDO",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1993-10-10/piscitelli-riccardo",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 12,
@@ -72407,7 +73390,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 188,
       "marketValue": null,
       "appearances": 12,
       "minutesPlayed": null,
@@ -72425,11 +73408,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -72456,6 +73438,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 184,
         "substituteAppearances": 3
       },
       "meta": {
@@ -72474,7 +73457,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-02-08/rasak-damian",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -72491,9 +73477,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "RASAK DAMIAN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-02-08/rasak-damian",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 18,
@@ -72586,7 +73593,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 184,
       "marketValue": null,
       "appearances": 18,
       "minutesPlayed": null,
@@ -72604,11 +73611,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -73223,6 +74229,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 183,
         "substituteAppearances": 2
       },
       "meta": {
@@ -73241,7 +74248,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1998-06-02/tajti-matyas",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -73258,9 +74268,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "TAJTI MÁTYÁS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1998-06-02/tajti-matyas",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 7,
@@ -73353,7 +74384,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 183,
       "marketValue": null,
       "appearances": 7,
       "minutesPlayed": null,
@@ -73371,11 +74402,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -73603,6 +74633,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 186,
         "substituteAppearances": 15
       },
       "meta": {
@@ -73621,7 +74652,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/1996-08-15/tucic-milan",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -73638,9 +74672,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "TUCIC MILAN",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/1996-08-15/tucic-milan",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 22,
@@ -73733,7 +74788,7 @@
       "federationCode": "UEFA",
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
-      "heightCm": null,
+      "heightCm": 186,
       "marketValue": null,
       "appearances": 22,
       "minutesPlayed": null,
@@ -73751,11 +74806,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -76029,6 +77083,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 187,
         "substituteAppearances": 1
       },
       "meta": {
@@ -76047,7 +77102,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2000-04-04/csoka-daniel",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -76064,9 +77122,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "CSÓKA DÁNIEL",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "zte-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2000-04-04/csoka-daniel",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "zte-fc": {
             "appearances": 9,
@@ -76117,7 +77196,7 @@
       "federationCode": "UEFA",
       "clubId": "zte-fc",
       "clubName": "ZTE FC",
-      "heightCm": null,
+      "heightCm": 187,
       "marketValue": null,
       "appearances": 9,
       "minutesPlayed": null,
@@ -76135,11 +77214,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -77082,6 +78160,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 184,
         "substituteAppearances": 2
       },
       "meta": {
@@ -77100,7 +78179,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2001-01-29/huszti-andras",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -77117,9 +78199,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "HUSZTI ANDRÁS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "zte-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2001-01-29/huszti-andras",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "zte-fc": {
             "appearances": 2,
@@ -77170,7 +78273,7 @@
       "federationCode": "UEFA",
       "clubId": "zte-fc",
       "clubName": "ZTE FC",
-      "heightCm": null,
+      "heightCm": 184,
       "marketValue": null,
       "appearances": 2,
       "minutesPlayed": null,
@@ -77188,11 +78291,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]
@@ -79557,6 +80659,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 2,
         "overallScore": null,
+        "heightCm": 187,
         "substituteAppearances": 0
       },
       "meta": {
@@ -79575,7 +80678,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/2002-03-18/varkonyi-bence",
+          "matchReason": "exact-profile-name-birth-height"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -79592,9 +80698,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-individual-profiles-heights-2025-26",
+            "sourceName": "HLSZ – egyedi játékosprofilok",
+            "sourceUrl": "https://hlsz.hu/",
+            "checkedAt": "2026-07-30",
+            "season": "2025/26",
+            "clubId": "zte-fc",
+            "matchedName": "VÁRKONYI BENCE",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "zte-fc": {
+            "sourcePlayerUrl": "https://hlsz.hu/2002-03-18/varkonyi-bence",
+            "matchReason": "exact-profile-name-birth-height"
+          }
+        },
         "clubOfficialStatsByClub": {
           "zte-fc": {
             "appearances": 30,
@@ -79645,7 +80772,7 @@
       "federationCode": "UEFA",
       "clubId": "zte-fc",
       "clubName": "ZTE FC",
-      "heightCm": null,
+      "heightCm": 187,
       "marketValue": null,
       "appearances": 30,
       "minutesPlayed": null,
@@ -79663,11 +80790,10 @@
       "sourceUrl": null,
       "lastUpdated": "2026-07-19T17:51:18.342Z",
       "dataCompleteness": {
-        "knownFields": 16,
+        "knownFields": 17,
         "totalFields": 19,
-        "ratio": 0.8421,
+        "ratio": 0.8947,
         "missingFields": [
-          "heightCm",
           "minutesPlayed",
           "assists"
         ]

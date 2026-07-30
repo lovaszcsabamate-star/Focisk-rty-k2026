@@ -66,8 +66,8 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "06916ed0513939bb48a5c52406fc4e0e8eb000969b4ea56a40a22b3b3fb1f7bd",
-  "playersDigest": "0faf97c775ad467161427bb977b83f96df039ff0494c9556d26811835387b408",
+  "sourceDigest": "42ec2c236ae22cef02d9519e1550503f0828e1494b96a53438aa78a74e40b599",
+  "playersDigest": "16febff15da8c7bee923be04b3c19db28fee5caecd0405ac59190d44a42836ff",
   "sourceLayerCounts": {
     "enrichments": 25,
     "corrections": 5,
@@ -93,13 +93,13 @@
     "warnings": []
   },
   "completeness": {
-    "averageRatio": 0.8774,
-    "completeRecords": 21,
-    "incompleteRecords": 419,
+    "averageRatio": 0.8831,
+    "completeRecords": 22,
+    "incompleteRecords": 418,
     "missingFieldCounts": {
       "assists": 411,
       "minutesPlayed": 411,
-      "heightCm": 203
+      "heightCm": 155
     }
   },
   "preservation": {

@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T17:30:34.164Z",
+  "generatedAt": "2026-07-30T17:51:40.090Z",
   "season": "2025/26",
   "before": {
     "players": 440,
     "knownHeights": 131,
     "missingHeights": 309
   },
-  "generatedRecords": 106,
+  "generatedRecords": 154,
   "projected": {
-    "knownHeights": 237,
-    "missingHeights": 203
+    "knownHeights": 285,
+    "missingHeights": 155
   },
   "sourceAudits": [
     {
@@ -265,7 +265,7 @@
         "dvsc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-bodnar-balazs",
@@ -275,7 +275,7 @@
         "dvsc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-egri-imre",
@@ -285,7 +285,7 @@
         "dvsc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-erdelyi-benedek-miklos",
@@ -295,7 +295,7 @@
         "dvsc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-lopez-de-la-manzanara",
@@ -305,7 +305,7 @@
         "dvsc"
       ],
       "appearances": 16,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-patai-david",
@@ -315,7 +315,7 @@
         "dvsc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-regenyei-gergo",
@@ -325,7 +325,7 @@
         "dvsc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-575a09ebf626",
@@ -335,7 +335,7 @@
         "dvsc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-cf21a2d9106f",
@@ -345,7 +345,7 @@
         "dvsc"
       ],
       "appearances": 31,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-dvsc-tercza-gergo",
@@ -355,7 +355,7 @@
         "dvsc"
       ],
       "appearances": 8,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-89c5690fc8d1",
@@ -365,17 +365,7 @@
         "dvsc"
       ],
       "appearances": 23,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-5e793b563440",
-      "name": "BABÓS LEVENTE",
-      "birthDate": "2004-01-16",
-      "clubIds": [
-        "dvtk"
-      ],
-      "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-a4c316c79f9f",
@@ -385,7 +375,7 @@
         "dvtk"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f050a184fe30",
@@ -395,17 +385,7 @@
         "dvtk"
       ],
       "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-43f6d4cbd5b5",
-      "name": "ESITI ANDERSON",
-      "birthDate": "1994-05-24",
-      "clubIds": [
-        "dvtk"
-      ],
-      "appearances": 17,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-4320e9853a76",
@@ -415,7 +395,7 @@
         "dvtk"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-c8ce66038cdf",
@@ -425,7 +405,7 @@
         "dvtk"
       ],
       "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-9a3e10d01a43",
@@ -435,7 +415,7 @@
         "dvtk"
       ],
       "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-8c8846627b8e",
@@ -445,7 +425,7 @@
         "dvtk"
       ],
       "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-087c538ae10a",
@@ -455,7 +435,7 @@
         "dvtk"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-65004939560f",
@@ -465,7 +445,7 @@
         "dvtk"
       ],
       "appearances": 27,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-bacad253368b",
@@ -475,7 +455,7 @@
         "dvtk"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-ab542963c480",
@@ -485,7 +465,7 @@
         "dvtk"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-6a4e42738867",
@@ -495,7 +475,7 @@
         "dvtk"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-ef1c108bca10",
@@ -505,7 +485,7 @@
         "dvtk"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-banati-kevin",
@@ -515,7 +495,7 @@
         "eto-fc"
       ],
       "appearances": 29,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-biro-barnabas",
@@ -525,17 +505,7 @@
         "eto-fc"
       ],
       "appearances": 16,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "2025-26-eto-fc-boldor-deian",
-      "name": "BOLDOR DEIAN",
-      "birthDate": "1995-02-03",
-      "clubIds": [
-        "eto-fc"
-      ],
-      "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-brecska-daniel",
@@ -545,7 +515,7 @@
         "eto-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-herczeg-marcell",
@@ -555,7 +525,7 @@
         "eto-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-kulcsar-martin",
@@ -565,7 +535,7 @@
         "eto-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
@@ -575,7 +545,7 @@
         "eto-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-szarka-bulcsu-janos",
@@ -585,7 +555,7 @@
         "eto-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-tollar-imre-adrian",
@@ -595,7 +565,7 @@
         "eto-fc"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-toth-rajmund",
@@ -605,7 +575,7 @@
         "eto-fc"
       ],
       "appearances": 30,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-urblik-norbert",
@@ -615,7 +585,7 @@
         "eto-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-vingler-laszlo",
@@ -625,7 +595,7 @@
         "eto-fc"
       ],
       "appearances": 16,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-eto-fc-vitalis-milan",
@@ -635,17 +605,7 @@
         "eto-fc"
       ],
       "appearances": 31,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "2025-26-eto-fc-zivkovic-jovan",
-      "name": "ZIVKOVIC JOVAN",
-      "birthDate": "2006-05-23",
-      "clubIds": [
-        "eto-fc"
-      ],
-      "appearances": 7,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-2e55f246af3d",
@@ -656,7 +616,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-2856e20f48e9",
@@ -666,17 +626,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 17,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-ac925c257574",
-      "name": "ARZANI DANIEL",
-      "birthDate": "1999-01-04",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-daf16f0ad982",
@@ -686,27 +636,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-e2c5b45060db",
-      "name": "CISSE IBRAHIM",
-      "birthDate": "1996-05-02",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 17,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-f1d89e4b24a6",
-      "name": "GARTENMANN STEFAN",
-      "birthDate": "1997-02-02",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-33695d632c16",
@@ -716,7 +646,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-446bec57246f",
@@ -726,7 +656,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f71f93fef3da",
@@ -736,7 +666,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 29,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-2156f3e78854",
@@ -746,7 +676,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-c5521bb1a14a",
@@ -756,7 +686,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-93c8afbdc1cc",
@@ -766,7 +696,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-26e52ef046d5",
@@ -776,17 +706,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 16,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-20799794640b",
-      "name": "PESIC ALEKSANDAR",
-      "birthDate": "1992-05-21",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 10,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-2c70f5160a52",
@@ -796,7 +716,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-30a9d08f66f7",
@@ -806,17 +726,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 13,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-888fb69b3ed2",
-      "name": "Sevikyan Edgar",
-      "birthDate": "2001-08-08",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-dd03b70e0766",
@@ -826,27 +736,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 32,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-562eec7bf7c8",
-      "name": "SZÉCSI GERGŐ",
-      "birthDate": "1989-02-07",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-9bcaa22feb14",
-      "name": "TÓTH ALEX LÁSZLÓ",
-      "birthDate": "2005-10-23",
-      "clubIds": [
-        "ferencvarosi-tc"
-      ],
-      "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-536b9ebba33d",
@@ -856,7 +746,7 @@
         "ferencvarosi-tc"
       ],
       "appearances": 17,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-2c1a69d9470c",
@@ -867,7 +757,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 13,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-8061aa670d1b",
@@ -877,7 +767,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-482c77bd9d65",
@@ -887,7 +777,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 28,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-082b9edbee8d",
@@ -897,17 +787,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-a8d4793a3acf",
-      "name": "GYURKÓ MÁTÉ",
-      "birthDate": "2002-11-04",
-      "clubIds": [
-        "kisvarda-master-good"
-      ],
-      "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-9e00c5f876e9",
@@ -917,7 +797,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-3f02cae67457",
@@ -927,7 +807,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-046e04c4b9c4",
@@ -937,7 +817,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 9,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-1fad065b3f0e",
@@ -947,7 +827,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-7012de8d22c6",
@@ -957,7 +837,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 17,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-3ba077e8f4ad",
@@ -967,7 +847,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 33,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-65d519bbe651",
@@ -977,7 +857,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-1ba2fbff76ce",
@@ -987,7 +867,7 @@
         "kisvarda-master-good"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-a758aba5b918",
@@ -997,7 +877,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 7,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-9772e714d434",
@@ -1007,17 +887,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-9fd79da2457a",
-      "name": "BERECZ ZSOMBOR",
-      "birthDate": "1995-12-13",
-      "clubIds": [
-        "kolorcity-kazincbarcika-sc"
-      ],
-      "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-736ba85af5fb",
@@ -1027,7 +897,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-eec90a375152",
@@ -1037,7 +907,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-e2549dc99594",
@@ -1047,7 +917,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-76609d443f2b",
@@ -1057,7 +927,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 9,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-08ae611b5ae9",
@@ -1067,17 +937,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 32,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-89b61b594f5c",
-      "name": "KÖNYVES NORBERT",
-      "birthDate": "1989-06-10",
-      "clubIds": [
-        "kolorcity-kazincbarcika-sc"
-      ],
-      "appearances": 29,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-908d035d3f88",
@@ -1087,27 +947,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 7,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-2ea8190f4383",
-      "name": "MAKRAI GÁBOR",
-      "birthDate": "1996-06-26",
-      "clubIds": [
-        "kolorcity-kazincbarcika-sc"
-      ],
-      "appearances": 11,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-3ba5c3c076ea",
-      "name": "POLGÁR KRISTÓF",
-      "birthDate": "1996-11-28",
-      "clubIds": [
-        "kolorcity-kazincbarcika-sc"
-      ],
-      "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-e8aafa83a1d4",
@@ -1117,7 +957,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-1f4331f2f404",
@@ -1127,7 +967,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 22,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-b94ef8d79d9e",
@@ -1137,17 +977,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 21,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-03a5f4ae3844",
-      "name": "SÓS BENCE",
-      "birthDate": "1994-05-10",
-      "clubIds": [
-        "kolorcity-kazincbarcika-sc"
-      ],
-      "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-b8d2e059092a",
@@ -1157,7 +987,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-3f82844825ac",
@@ -1167,7 +997,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 25,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-4be6c532d850",
@@ -1177,7 +1007,7 @@
         "kolorcity-kazincbarcika-sc"
       ],
       "appearances": 10,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-90096f61aca8",
@@ -1188,7 +1018,7 @@
         "ujpest-fc"
       ],
       "appearances": 16,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-b7bc042974d6",
@@ -1199,7 +1029,7 @@
         "zte-fc"
       ],
       "appearances": 22,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-2fa3cc67b720",
@@ -1210,7 +1040,7 @@
         "zte-fc"
       ],
       "appearances": 20,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-48797bb57d3b",
@@ -1220,7 +1050,7 @@
         "mtk-budapest"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-fd9babf8942f",
@@ -1230,7 +1060,7 @@
         "mtk-budapest"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-50c2af2c255b",
@@ -1240,27 +1070,7 @@
         "mtk-budapest"
       ],
       "appearances": 26,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-65180103ea8c",
-      "name": "KÁDÁR TAMÁS",
-      "birthDate": "1990-03-14",
-      "clubIds": [
-        "mtk-budapest"
-      ],
-      "appearances": 31,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-e995deddab21",
-      "name": "KOVÁCS MÁTYÁS",
-      "birthDate": "2003-07-07",
-      "clubIds": [
-        "mtk-budapest"
-      ],
-      "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f91f570a5cfb",
@@ -1270,7 +1080,7 @@
         "mtk-budapest"
       ],
       "appearances": 26,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-5d2977a43fa3",
@@ -1280,7 +1090,7 @@
         "mtk-budapest"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-1b2e7baa4bf1",
@@ -1290,7 +1100,7 @@
         "mtk-budapest"
       ],
       "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d4fa529dd100",
@@ -1300,37 +1110,7 @@
         "mtk-budapest"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-e740af2d953f",
-      "name": "MOLNÁR RAJMUND",
-      "birthDate": "2002-08-28",
-      "clubIds": [
-        "mtk-budapest"
-      ],
-      "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-ac0c4c17946d",
-      "name": "SZÉPE JÁNOS",
-      "birthDate": "1996-03-15",
-      "clubIds": [
-        "mtk-budapest"
-      ],
-      "appearances": 19,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-4c28b453a679",
-      "name": "SZŰCS PATRIK PÉTER",
-      "birthDate": "2005-08-04",
-      "clubIds": [
-        "mtk-budapest"
-      ],
-      "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-12a8e538cdf0",
@@ -1340,7 +1120,7 @@
         "mtk-budapest"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-b5ef418f7436",
@@ -1350,7 +1130,7 @@
         "mtk-budapest"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-a5450b3d3149",
@@ -1361,27 +1141,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 26,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-009672bb9dae",
-      "name": "BABIC SLOBODAN",
-      "birthDate": "2000-03-04",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-97ee66e0060d",
-      "name": "BEKE PÉTER",
-      "birthDate": "2001-03-14",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f22144ab228e",
@@ -1391,27 +1151,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 22,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-be99bee4d17e",
-      "name": "BESE BALÁZS",
-      "birthDate": "1999-01-22",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-bc0d3bb082a1",
-      "name": "BITRI ENEO",
-      "birthDate": "1996-08-26",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 8,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-dd2ed7b40fbc",
@@ -1421,27 +1161,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-d3753ff5632a",
-      "name": "DRESKOVIC MELDIN",
-      "birthDate": "1998-03-26",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-46d39b6a0699",
-      "name": "EVANGELOU STEFANOS",
-      "birthDate": "1998-05-12",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 10,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-cc0594a97935",
@@ -1451,7 +1171,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 15,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d76b694321c9",
@@ -1461,17 +1181,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 8,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-7f6de355f229",
-      "name": "JOKIC RANKO",
-      "birthDate": "1999-04-22",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d8374af7e29b",
@@ -1481,7 +1191,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 28,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-bebcf82353b9",
@@ -1491,17 +1201,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-2a51d5bc26f1",
-      "name": "KORREA PAVLOS",
-      "birthDate": "1998-07-14",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-c8bdd5aad379",
@@ -1511,17 +1211,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 24,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-e2fffe6885ad",
-      "name": "KOVÁCSRÉTI MÁRK",
-      "birthDate": "2000-09-01",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 23,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-13c97f8a0f73",
@@ -1531,7 +1221,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 25,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-327eba464994",
@@ -1541,17 +1231,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-353c1aa8edb0",
-      "name": "NAGY DOMINIK",
-      "birthDate": "1995-05-08",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-489f67cd7bfb",
@@ -1561,7 +1241,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-9309e1184ef9",
@@ -1571,27 +1251,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 26,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-f1df95d03396",
-      "name": "TIJANI MUHAMED",
-      "birthDate": "2000-07-26",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 15,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-9935ed0b7857",
-      "name": "VARGA KEVIN",
-      "birthDate": "1996-03-30",
-      "clubIds": [
-        "nyiregyhaza-spartacus-fc"
-      ],
-      "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-17831da5b04f",
@@ -1601,7 +1261,7 @@
         "nyiregyhaza-spartacus-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-28243985aab9",
@@ -1612,7 +1272,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-debreceni-akos",
@@ -1622,7 +1282,7 @@
         "paksi-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-galambos-janos",
@@ -1632,7 +1292,7 @@
         "paksi-fc"
       ],
       "appearances": 4,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-gyetvan-mark",
@@ -1642,7 +1302,7 @@
         "paksi-fc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-gyurkits-gergo",
@@ -1652,7 +1312,7 @@
         "paksi-fc"
       ],
       "appearances": 27,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-hinora-kristof",
@@ -1662,7 +1322,7 @@
         "paksi-fc"
       ],
       "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-16115bd7c08a",
@@ -1672,7 +1332,7 @@
         "paksi-fc"
       ],
       "appearances": 32,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-lapu-andor",
@@ -1682,7 +1342,7 @@
         "paksi-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-mate-csaba",
@@ -1692,7 +1352,7 @@
         "paksi-fc"
       ],
       "appearances": 9,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-99f5c34441a0",
@@ -1702,7 +1362,7 @@
         "paksi-fc"
       ],
       "appearances": 28,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-35fb6a54d829",
@@ -1712,7 +1372,7 @@
         "paksi-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d6bfe3acf08d",
@@ -1722,17 +1382,7 @@
         "paksi-fc"
       ],
       "appearances": 15,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "2025-26-paksi-fc-tamas-oliver",
-      "name": "TAMÁS OLIVÉR",
-      "birthDate": "2001-04-14",
-      "clubIds": [
-        "paksi-fc"
-      ],
-      "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "2025-26-paksi-fc-vas-gabor",
@@ -1742,7 +1392,7 @@
         "paksi-fc"
       ],
       "appearances": 10,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f357fac0194c",
@@ -1752,7 +1402,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-a203980db350",
@@ -1762,7 +1412,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-6ea3fef5e246",
@@ -1772,17 +1422,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-8217a333e6ca",
-      "name": "MACEIRAS QUENTIN",
-      "birthDate": "1995-10-10",
-      "clubIds": [
-        "puskas-akademia-fc"
-      ],
-      "appearances": 27,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-8c4a63ee7f39",
@@ -1792,17 +1432,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-603e443aca70",
-      "name": "MARKGRÁF ÁKOS",
-      "birthDate": "2005-06-30",
-      "clubIds": [
-        "puskas-akademia-fc"
-      ],
-      "appearances": 30,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-79f50f3dab7c",
@@ -1812,7 +1442,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-aba6d7c7a00e",
@@ -1822,7 +1452,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d93251228685",
@@ -1832,7 +1462,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 19,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-1ac330c3b480",
@@ -1842,7 +1472,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-36c7b69bf6de",
@@ -1852,17 +1482,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 11,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-fc7f84e54bd8",
-      "name": "SZAPPANOS PÉTER",
-      "birthDate": "1990-11-14",
-      "clubIds": [
-        "puskas-akademia-fc"
-      ],
-      "appearances": 31,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-dd6158c28a79",
@@ -1872,7 +1492,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-c49fbf4d1b2c",
@@ -1882,27 +1502,7 @@
         "puskas-akademia-fc"
       ],
       "appearances": 16,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-125050952c1e",
-      "name": "BERIDZE GIORGI",
-      "birthDate": "1997-05-12",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 24,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-c8706f6c982e",
-      "name": "Brodic Fran",
-      "birthDate": "1997-01-08",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 19,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-cdcee0a96afc",
@@ -1912,7 +1512,7 @@
         "ujpest-fc"
       ],
       "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-8e669f9e52b7",
@@ -1922,7 +1522,7 @@
         "ujpest-fc"
       ],
       "appearances": 7,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f57fdf82fb45",
@@ -1932,17 +1532,7 @@
         "ujpest-fc"
       ],
       "appearances": 7,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-8c93f7633c63",
-      "name": "Gradisar Nejc",
-      "birthDate": "2002-08-06",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 13,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d8405b610920",
@@ -1952,7 +1542,7 @@
         "ujpest-fc"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-200dfa9d0293",
@@ -1962,7 +1552,7 @@
         "ujpest-fc"
       ],
       "appearances": 10,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-4cec72c1de53",
@@ -1972,7 +1562,7 @@
         "ujpest-fc"
       ],
       "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-10f362d76d3c",
@@ -1982,7 +1572,7 @@
         "ujpest-fc"
       ],
       "appearances": 10,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-00550a6ceaf3",
@@ -1992,7 +1582,7 @@
         "ujpest-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-f29a34a866f4",
@@ -2002,7 +1592,7 @@
         "ujpest-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-bbb507993bcc",
@@ -2012,27 +1602,7 @@
         "ujpest-fc"
       ],
       "appearances": 14,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-28e619b948ec",
-      "name": "PISCITELLI RICCARDO",
-      "birthDate": "1993-10-10",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 12,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-0a649d0d446d",
-      "name": "RASAK DAMIAN",
-      "birthDate": "1996-02-08",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 18,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-cd7d6c0e968f",
@@ -2042,7 +1612,7 @@
         "ujpest-fc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-8b6c6b082328",
@@ -2052,7 +1622,7 @@
         "ujpest-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-793bb6e187b4",
@@ -2062,27 +1632,7 @@
         "ujpest-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-1472cba4589d",
-      "name": "TAJTI MÁTYÁS",
-      "birthDate": "1998-06-02",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 7,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-5a0b40fb76af",
-      "name": "TUCIC MILAN",
-      "birthDate": "1996-08-15",
-      "clubIds": [
-        "ujpest-fc"
-      ],
-      "appearances": 22,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-96c730667802",
@@ -2092,7 +1642,7 @@
         "zte-fc"
       ],
       "appearances": 13,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-0e874f2fb0f2",
@@ -2102,7 +1652,7 @@
         "zte-fc"
       ],
       "appearances": 13,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-fac2274b8258",
@@ -2112,7 +1662,7 @@
         "zte-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-c99236f2f76a",
@@ -2122,17 +1672,7 @@
         "zte-fc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-3651048db5ea",
-      "name": "CSÓKA DÁNIEL",
-      "birthDate": "2000-04-04",
-      "clubIds": [
-        "zte-fc"
-      ],
-      "appearances": 9,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-da4caa56cfa0",
@@ -2142,7 +1682,7 @@
         "zte-fc"
       ],
       "appearances": 5,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-50fd7361a98a",
@@ -2152,7 +1692,7 @@
         "zte-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-e6da9ca0a6bb",
@@ -2162,7 +1702,7 @@
         "zte-fc"
       ],
       "appearances": 33,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-6b60d1aa3fdd",
@@ -2172,17 +1712,7 @@
         "zte-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-54deaac330a6",
-      "name": "HUSZTI ANDRÁS",
-      "birthDate": "2001-01-29",
-      "clubIds": [
-        "zte-fc"
-      ],
-      "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-c961340720f0",
@@ -2192,7 +1722,7 @@
         "zte-fc"
       ],
       "appearances": 3,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-bdfe3567975e",
@@ -2202,7 +1732,7 @@
         "zte-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-80fc23823127",
@@ -2212,7 +1742,7 @@
         "zte-fc"
       ],
       "appearances": 1,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-e9c2b788895b",
@@ -2222,7 +1752,7 @@
         "zte-fc"
       ],
       "appearances": 9,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-4de555c90541",
@@ -2232,7 +1762,7 @@
         "zte-fc"
       ],
       "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-d315a942143f",
@@ -2242,7 +1772,7 @@
         "zte-fc"
       ],
       "appearances": 2,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-506f767dee5d",
@@ -2252,7 +1782,7 @@
         "zte-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-6020c82acb33",
@@ -2262,17 +1792,7 @@
         "zte-fc"
       ],
       "appearances": 6,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
-    },
-    {
-      "id": "nb1-b5f89cf00a88",
-      "name": "VÁRKONYI BENCE",
-      "birthDate": "2002-03-18",
-      "clubIds": [
-        "zte-fc"
-      ],
-      "appearances": 30,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-b97cbef16664",
@@ -2282,7 +1802,7 @@
         "zte-fc"
       ],
       "appearances": 0,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     },
     {
       "id": "nb1-5edafc396658",
@@ -2292,7 +1812,1581 @@
         "zte-fc"
       ],
       "appearances": 33,
-      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+      "reason": "A klubkeret-, részletes keret- és HLSZ egyedi profilforrások egyikében sem volt egyértelmű, számszerűen megadott magasság."
     }
-  ]
+  ],
+  "profileAudit": {
+    "sourceId": "hlsz-individual-profiles-heights-2025-26",
+    "checkedAt": "2026-07-30",
+    "requestDelayMs": 3500,
+    "attemptedProfiles": 203,
+    "resolvedProfiles": 48,
+    "unresolvedProfiles": 155,
+    "statusCounts": {
+      "unresolved": 90,
+      "not-found": 65,
+      "resolved": 48
+    },
+    "records": [
+      {
+        "playerId": "2025-26-dvsc-asztalos-noel",
+        "name": "ASZTALOS NOEL",
+        "url": "https://hlsz.hu/2008-08-08/asztalos-noel",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-dvsc-bodnar-balazs",
+        "name": "BODNÁR BALÁZS",
+        "url": "https://hlsz.hu/2007-03-23/bodnar-balazs",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-dvsc-egri-imre",
+        "name": "EGRI IMRE",
+        "url": "https://hlsz.hu/2007-08-18/egri-imre",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-dvsc-erdelyi-benedek-miklos",
+        "name": "ERDÉLYI BENEDEK MIKLÓS",
+        "url": "https://hlsz.hu/2005-09-28/erdelyi-benedek-miklos",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "2025-26-dvsc-lopez-de-la-manzanara",
+        "name": "LOPEZ DE LA MANZANARA",
+        "url": "https://hlsz.hu/1996-09-12/lopez-de-la-manzanara",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "2025-26-dvsc-patai-david",
+        "name": "PATAI DÁVID",
+        "url": "https://hlsz.hu/2007-03-13/patai-david",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-dvsc-regenyei-gergo",
+        "name": "REGENYEI GERGŐ",
+        "url": "https://hlsz.hu/2007-03-08/regenyei-gergo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-575a09ebf626",
+        "name": "Szakál Dénes",
+        "url": "https://hlsz.hu/2009-04-10/szakal-denes",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-cf21a2d9106f",
+        "name": "Szűcs Tamás",
+        "url": "https://hlsz.hu/2005-01-16/szucs-tamas",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-dvsc-tercza-gergo",
+        "name": "TERCZA GERGŐ",
+        "url": "https://hlsz.hu/2007-01-09/tercza-gergo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-89c5690fc8d1",
+        "name": "Vajda Botond",
+        "url": "https://hlsz.hu/2004-03-15/vajda-botond",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-5e793b563440",
+        "name": "BABÓS LEVENTE",
+        "url": "https://hlsz.hu/2004-01-16/babos-levente",
+        "status": "resolved",
+        "heightCm": 183,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-a4c316c79f9f",
+        "name": "BACSA BENJAMIN SÁNDOR",
+        "url": "https://hlsz.hu/2006-01-14/bacsa-benjamin-sandor",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-f050a184fe30",
+        "name": "DEMETER MILÁN",
+        "url": "https://hlsz.hu/2005-02-21/demeter-milan",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-43f6d4cbd5b5",
+        "name": "ESITI ANDERSON",
+        "url": "https://hlsz.hu/1994-05-24/esiti-anderson",
+        "status": "resolved",
+        "heightCm": 189,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-4320e9853a76",
+        "name": "Farkas Ruben Bálint",
+        "url": "https://hlsz.hu/2008-09-21/farkas-ruben-balint",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-c8ce66038cdf",
+        "name": "KISS BÁLINT",
+        "url": "https://hlsz.hu/2007-09-06/kiss-balint",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-9a3e10d01a43",
+        "name": "KISS LÁSZLÓ",
+        "url": "https://hlsz.hu/2007-03-08/kiss-laszlo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-8c8846627b8e",
+        "name": "KOVALENKO NAZAR",
+        "url": "https://hlsz.hu/2006-05-12/kovalenko-nazar",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-087c538ae10a",
+        "name": "MACSÓ MÁTÉ",
+        "url": "https://hlsz.hu/2006-05-10/macso-mate",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-65004939560f",
+        "name": "SAJBÁN MÁTÉ MIHÁLY",
+        "url": "https://hlsz.hu/1995-12-19/sajban-mate-mihaly",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-bacad253368b",
+        "name": "SZLIFKA ZSOMBOR",
+        "url": "https://hlsz.hu/2007-08-20/szlifka-zsombor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-ab542963c480",
+        "name": "TUSKA BÁLINT",
+        "url": "https://hlsz.hu/2008-04-24/tuska-balint",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-6a4e42738867",
+        "name": "VARGA HUNOR ATTILA",
+        "url": "https://hlsz.hu/2010-03-18/varga-hunor-attila",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-ef1c108bca10",
+        "name": "VARGA ZÉTÉNY ISTVÁN",
+        "url": "https://hlsz.hu/2006-07-19/varga-zeteny-istvan",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "2025-26-eto-fc-banati-kevin",
+        "name": "BÁNÁTI KEVIN",
+        "url": "https://hlsz.hu/2005-05-11/banati-kevin",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-biro-barnabas",
+        "name": "BÍRÓ BARNABÁS",
+        "url": "https://hlsz.hu/2005-01-06/biro-barnabas",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-boldor-deian",
+        "name": "BOLDOR DEIAN",
+        "url": "https://hlsz.hu/1995-02-03/boldor-deian",
+        "status": "resolved",
+        "heightCm": 189,
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-brecska-daniel",
+        "name": "BRECSKA DÁNIEL",
+        "url": "https://hlsz.hu/2006-03-05/brecska-daniel",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-herczeg-marcell",
+        "name": "HERCZEG MARCELL",
+        "url": "https://hlsz.hu/2006-10-01/herczeg-marcell",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-kulcsar-martin",
+        "name": "KULCSÁR MARTIN",
+        "url": "https://hlsz.hu/2005-07-05/kulcsar-martin",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+        "name": "MASCOE LAWRENZO NATHANIEL",
+        "url": "https://hlsz.hu/2005-02-11/mascoe-lawrenzo-nathaniel",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "2025-26-eto-fc-szarka-bulcsu-janos",
+        "name": "SZARKA BULCSÚ JÁNOS",
+        "url": "https://hlsz.hu/2008-02-22/szarka-bulcsu-janos",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "2025-26-eto-fc-tollar-imre-adrian",
+        "name": "TOLLÁR IMRE ADRIÁN",
+        "url": "https://hlsz.hu/2006-02-23/tollar-imre-adrian",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "2025-26-eto-fc-toth-rajmund",
+        "name": "TÓTH RAJMUND",
+        "url": "https://hlsz.hu/2004-04-09/toth-rajmund",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-urblik-norbert",
+        "name": "URBLÍK NORBERT",
+        "url": "https://hlsz.hu/2004-04-18/urblik-norbert",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-vingler-laszlo",
+        "name": "VINGLER LÁSZLÓ",
+        "url": "https://hlsz.hu/2005-10-31/vingler-laszlo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-vitalis-milan",
+        "name": "VITÁLIS MILÁN",
+        "url": "https://hlsz.hu/2002-01-28/vitalis-milan",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-eto-fc-zivkovic-jovan",
+        "name": "ZIVKOVIC JOVAN",
+        "url": "https://hlsz.hu/2006-05-23/zivkovic-jovan",
+        "status": "resolved",
+        "heightCm": 175,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-2e55f246af3d",
+        "name": "KOCSIS BOTOND",
+        "url": "https://hlsz.hu/2007-07-10/kocsis-botond",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-2856e20f48e9",
+        "name": "ABU FANI MOHAMMAD",
+        "url": "https://hlsz.hu/1998-04-27/abu-fani-mohammad",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-ac925c257574",
+        "name": "ARZANI DANIEL",
+        "url": "https://hlsz.hu/1999-01-04/arzani-daniel",
+        "status": "resolved",
+        "heightCm": 175,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-daf16f0ad982",
+        "name": "CIRKOVIC ALEKSANDAR",
+        "url": "https://hlsz.hu/2001-09-21/cirkovic-aleksandar",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-e2c5b45060db",
+        "name": "CISSE IBRAHIM",
+        "url": "https://hlsz.hu/1996-05-02/cisse-ibrahim",
+        "status": "resolved",
+        "heightCm": 185,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-f1d89e4b24a6",
+        "name": "GARTENMANN STEFAN",
+        "url": "https://hlsz.hu/1997-02-02/gartenmann-stefan",
+        "status": "resolved",
+        "heightCm": 187,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-33695d632c16",
+        "name": "GÓLIK BENJÁMIN JÁNOS",
+        "url": "https://hlsz.hu/2008-10-19/golik-benjamin-janos",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-446bec57246f",
+        "name": "Gróf Dávid Attila",
+        "url": "https://hlsz.hu/1989-04-17/grof-david-attila",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-f71f93fef3da",
+        "name": "Gruber Zsombor",
+        "url": "https://hlsz.hu/2004-09-07/gruber-zsombor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-2156f3e78854",
+        "name": "LAKATOS CSONGOR",
+        "url": "https://hlsz.hu/2006-03-29/lakatos-csongor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-c5521bb1a14a",
+        "name": "LOPES CRUZ CARLOS EDUARDO",
+        "url": "https://hlsz.hu/1997-08-08/lopes-cruz-carlos-eduardo",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-93c8afbdc1cc",
+        "name": "MADARÁSZ ÁDÁM",
+        "url": "https://hlsz.hu/2007-02-16/madarasz-adam",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-26e52ef046d5",
+        "name": "MAKRECKIS CEBRAILS",
+        "url": "https://hlsz.hu/2000-05-10/makreckis-cebrails",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-20799794640b",
+        "name": "PESIC ALEKSANDAR",
+        "url": "https://hlsz.hu/1992-05-21/pesic-aleksandar",
+        "status": "resolved",
+        "heightCm": 190,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-2c70f5160a52",
+        "name": "RADNÓTI DÁNIEL ISTVÁN",
+        "url": "https://hlsz.hu/2006-10-01/radnoti-daniel-istvan",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-30a9d08f66f7",
+        "name": "RODRIGUES ROMAO JULIO",
+        "url": "https://hlsz.hu/1998-03-29/rodrigues-romao-julio",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-888fb69b3ed2",
+        "name": "Sevikyan Edgar",
+        "url": "https://hlsz.hu/2001-08-08/sevikyan-edgar",
+        "status": "resolved",
+        "heightCm": 175,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-dd03b70e0766",
+        "name": "SZALAI GÁBOR SÁNDOR",
+        "url": "https://hlsz.hu/2000-06-09/szalai-gabor-sandor",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-562eec7bf7c8",
+        "name": "SZÉCSI GERGŐ",
+        "url": "https://hlsz.hu/1989-02-07/szecsi-gergo",
+        "status": "resolved",
+        "heightCm": 185,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-9bcaa22feb14",
+        "name": "TÓTH ALEX LÁSZLÓ",
+        "url": "https://hlsz.hu/2005-10-23/toth-alex-laszlo",
+        "status": "resolved",
+        "heightCm": 181,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-536b9ebba33d",
+        "name": "VARGA BARNABÁS",
+        "url": "https://hlsz.hu/1994-10-25/varga-barnabas",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-2c1a69d9470c",
+        "name": "SZABÓ SZILÁRD",
+        "url": "https://hlsz.hu/2006-10-01/szabo-szilard",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-8061aa670d1b",
+        "name": "ABDULLAHI KAMAL",
+        "url": "https://hlsz.hu/2007-01-16/abdullahi-kamal",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-482c77bd9d65",
+        "name": "ABDULRASAQ RIDWAN POPOOLA",
+        "url": "https://hlsz.hu/2006-11-14/abdulrasaq-ridwan-popoola",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-082b9edbee8d",
+        "name": "BALOGUN TESLIM ABDULATEEF",
+        "url": "https://hlsz.hu/2005-08-28/balogun-teslim-abdulateef",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-a8d4793a3acf",
+        "name": "GYURKÓ MÁTÉ",
+        "url": "https://hlsz.hu/2002-11-04/gyurko-mate",
+        "status": "resolved",
+        "heightCm": 194,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-9e00c5f876e9",
+        "name": "JAZSIK ROMÁN",
+        "url": "https://hlsz.hu/2008-11-28/jazsik-roman",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-3f02cae67457",
+        "name": "KOLIADA NAZAR",
+        "url": "https://hlsz.hu/2007-11-17/koliada-nazar",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-046e04c4b9c4",
+        "name": "LIPPAI TIBOR",
+        "url": "https://hlsz.hu/1997-12-24/lippai-tibor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-1fad065b3f0e",
+        "name": "Osztrovka Maxim",
+        "url": "https://hlsz.hu/2007-04-07/osztrovka-maxim",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-7012de8d22c6",
+        "name": "PINTÉR ATTILA FILIP",
+        "url": "https://hlsz.hu/2005-10-29/pinter-attila-filip",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-3ba077e8f4ad",
+        "name": "POPOVICS ILLYA",
+        "url": "https://hlsz.hu/2005-11-30/popovics-illya",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-65d519bbe651",
+        "name": "SZIKSZAI HENNAGYIJ",
+        "url": "https://hlsz.hu/2007-09-18/szikszai-hennagyij",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-1ba2fbff76ce",
+        "name": "VEPRIK TARASZ",
+        "url": "https://hlsz.hu/2008-01-11/veprik-tarasz",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-a758aba5b918",
+        "name": "BALÁZSI LEVENTE KRISTÓF",
+        "url": "https://hlsz.hu/2005-05-19/balazsi-levente-kristof",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-9772e714d434",
+        "name": "BÁNFALVI GERGŐ",
+        "url": "https://hlsz.hu/2005-07-14/banfalvi-gergo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-9fd79da2457a",
+        "name": "BERECZ ZSOMBOR",
+        "url": "https://hlsz.hu/1995-12-13/berecz-zsombor",
+        "status": "resolved",
+        "heightCm": 180,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-736ba85af5fb",
+        "name": "BOROS ZSOMBOR",
+        "url": "https://hlsz.hu/2005-02-07/boros-zsombor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-eec90a375152",
+        "name": "ELEKE BLESSING CHIBUIKE",
+        "url": "https://hlsz.hu/1996-03-05/eleke-blessing-chibuike",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-e2549dc99594",
+        "name": "FERENCSIK BÁLINT DONÁT",
+        "url": "https://hlsz.hu/2005-09-24/ferencsik-balint-donat",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-76609d443f2b",
+        "name": "HAROYAN VARAZDAT",
+        "url": "https://hlsz.hu/1992-08-24/haroyan-varazdat",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-08ae611b5ae9",
+        "name": "Kártik Bálint József",
+        "url": "https://hlsz.hu/1997-04-18/kartik-balint-jozsef",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-89b61b594f5c",
+        "name": "KÖNYVES NORBERT",
+        "url": "https://hlsz.hu/1989-06-10/konyves-norbert",
+        "status": "resolved",
+        "heightCm": 185,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-908d035d3f88",
+        "name": "KUN OLIVÉR",
+        "url": "https://hlsz.hu/2006-01-03/kun-oliver",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-2ea8190f4383",
+        "name": "MAKRAI GÁBOR",
+        "url": "https://hlsz.hu/1996-06-26/makrai-gabor",
+        "status": "resolved",
+        "heightCm": 185,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-3ba5c3c076ea",
+        "name": "POLGÁR KRISTÓF",
+        "url": "https://hlsz.hu/1996-11-28/polgar-kristof",
+        "status": "resolved",
+        "heightCm": 186,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-e8aafa83a1d4",
+        "name": "PROSSER DÁNIEL BÁLINT",
+        "url": "https://hlsz.hu/1994-06-15/prosser-daniel-balint",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-1f4331f2f404",
+        "name": "RÁCZ LÁSZLÓ",
+        "url": "https://hlsz.hu/1995-04-26/racz-laszlo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-b94ef8d79d9e",
+        "name": "SCHUSZTER RONALD",
+        "url": "https://hlsz.hu/2002-09-18/schuszter-ronald",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-03a5f4ae3844",
+        "name": "SÓS BENCE",
+        "url": "https://hlsz.hu/1994-05-10/sos-bence",
+        "status": "resolved",
+        "heightCm": 178,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-b8d2e059092a",
+        "name": "SZABÓ MÁTÉ NORBERT",
+        "url": "https://hlsz.hu/1999-01-26/szabo-mate-norbert",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-3f82844825ac",
+        "name": "SZŐKE GERGŐ",
+        "url": "https://hlsz.hu/2003-12-26/szoke-gergo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-4be6c532d850",
+        "name": "TRENCSÉNYI BENCE",
+        "url": "https://hlsz.hu/2001-06-20/trencsenyi-bence",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-90096f61aca8",
+        "name": "JUHÁSZ ISTVÁN BENCE",
+        "url": "https://hlsz.hu/2005-09-13/juhasz-istvan-bence",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-b7bc042974d6",
+        "name": "KLAUSZ MILÁN GÁBOR",
+        "url": "https://hlsz.hu/2005-02-24/klausz-milan-gabor",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-2fa3cc67b720",
+        "name": "NYÍRI VINCE TÓBIÁS",
+        "url": "https://hlsz.hu/2001-06-27/nyiri-vince-tobias",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-48797bb57d3b",
+        "name": "BALÁZS JÓZSEF BALÁZS",
+        "url": "https://hlsz.hu/2003-12-02/balazs-jozsef-balazs",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-fd9babf8942f",
+        "name": "GÖRÖG VINCENT",
+        "url": "https://hlsz.hu/2009-01-28/gorog-vincent",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-50c2af2c255b",
+        "name": "HORVÁTH ARTÚR",
+        "url": "https://hlsz.hu/2003-10-02/horvath-artur",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-65180103ea8c",
+        "name": "KÁDÁR TAMÁS",
+        "url": "https://hlsz.hu/1990-03-14/kadar-tamas",
+        "status": "resolved",
+        "heightCm": 188,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-e995deddab21",
+        "name": "KOVÁCS MÁTYÁS",
+        "url": "https://hlsz.hu/2003-07-07/kovacs-matyas",
+        "status": "resolved",
+        "heightCm": 181,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-f91f570a5cfb",
+        "name": "KOVÁCS PATRIK",
+        "url": "https://hlsz.hu/2005-02-09/kovacs-patrik",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-5d2977a43fa3",
+        "name": "LÁSZLÓ KRISZTIÁN",
+        "url": "https://hlsz.hu/2007-03-23/laszlo-krisztian",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-1b2e7baa4bf1",
+        "name": "LEHOCZKY ROLAND PATRIK",
+        "url": "https://hlsz.hu/2002-04-19/lehoczky-roland-patrik",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-d4fa529dd100",
+        "name": "MOLNÁR PÉTER",
+        "url": "https://hlsz.hu/2007-04-14/molnar-peter",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-e740af2d953f",
+        "name": "MOLNÁR RAJMUND",
+        "url": "https://hlsz.hu/2002-08-28/molnar-rajmund",
+        "status": "resolved",
+        "heightCm": 184,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-ac0c4c17946d",
+        "name": "SZÉPE JÁNOS",
+        "url": "https://hlsz.hu/1996-03-15/szepe-janos",
+        "status": "resolved",
+        "heightCm": 188,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-4c28b453a679",
+        "name": "SZŰCS PATRIK PÉTER",
+        "url": "https://hlsz.hu/2005-08-04/szucs-patrik-peter",
+        "status": "resolved",
+        "heightCm": 182,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-12a8e538cdf0",
+        "name": "TÖRŐCSIK PÉTER TIBOR",
+        "url": "https://hlsz.hu/2001-06-27/torocsik-peter-tibor",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-b5ef418f7436",
+        "name": "Vasiljevic Andrej",
+        "url": "https://hlsz.hu/2010-03-25/vasiljevic-andrej",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-a5450b3d3149",
+        "name": "KEREZSI ZALÁN MÁRK",
+        "url": "https://hlsz.hu/2003-07-17/kerezsi-zalan-mark",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-009672bb9dae",
+        "name": "BABIC SLOBODAN",
+        "url": "https://hlsz.hu/2000-03-04/babic-slobodan",
+        "status": "resolved",
+        "heightCm": 188,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-97ee66e0060d",
+        "name": "BEKE PÉTER",
+        "url": "https://hlsz.hu/2001-03-14/beke-peter",
+        "status": "resolved",
+        "heightCm": 181,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-f22144ab228e",
+        "name": "BENCZENLEITNER BARNA",
+        "url": "https://hlsz.hu/2003-09-16/benczenleitner-barna",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-be99bee4d17e",
+        "name": "BESE BALÁZS",
+        "url": "https://hlsz.hu/1999-01-22/bese-balazs",
+        "status": "resolved",
+        "heightCm": 191,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-bc0d3bb082a1",
+        "name": "BITRI ENEO",
+        "url": "https://hlsz.hu/1996-08-26/bitri-eneo",
+        "status": "resolved",
+        "heightCm": 192,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-dd2ed7b40fbc",
+        "name": "CZIMER-NYITRAI ÁDÁM BÁLINT",
+        "url": "https://hlsz.hu/2005-07-02/czimer-nyitrai-adam-balint",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-d3753ff5632a",
+        "name": "DRESKOVIC MELDIN",
+        "url": "https://hlsz.hu/1998-03-26/dreskovic-meldin",
+        "status": "resolved",
+        "heightCm": 192,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-46d39b6a0699",
+        "name": "EVANGELOU STEFANOS",
+        "url": "https://hlsz.hu/1998-05-12/evangelou-stefanos",
+        "status": "resolved",
+        "heightCm": 185,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-cc0594a97935",
+        "name": "FARKAS BENDEGÚZ BENCE",
+        "url": "https://hlsz.hu/2004-08-05/farkas-bendeguz-bence",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-d76b694321c9",
+        "name": "GILBERT DANTAYE MICHAEL LEE",
+        "url": "https://hlsz.hu/2004-12-03/gilbert-dantaye-michael-lee",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-7f6de355f229",
+        "name": "JOKIC RANKO",
+        "url": "https://hlsz.hu/1999-04-22/jokic-ranko",
+        "status": "resolved",
+        "heightCm": 186,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-d8374af7e29b",
+        "name": "KATONA BÁLINT LAJOS",
+        "url": "https://hlsz.hu/2002-09-07/katona-balint-lajos",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-bebcf82353b9",
+        "name": "KERSÁK ROLAND ATTILA",
+        "url": "https://hlsz.hu/1997-07-31/kersak-roland-attila",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-2a51d5bc26f1",
+        "name": "KORREA PAVLOS",
+        "url": "https://hlsz.hu/1998-07-14/korrea-pavlos",
+        "status": "resolved",
+        "heightCm": 186,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-c8bdd5aad379",
+        "name": "KOVÁCS MILÁN",
+        "url": "https://hlsz.hu/1999-09-24/kovacs-milan",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-e2fffe6885ad",
+        "name": "KOVÁCSRÉTI MÁRK",
+        "url": "https://hlsz.hu/2000-09-01/kovacsreti-mark",
+        "status": "resolved",
+        "heightCm": 186,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-13c97f8a0f73",
+        "name": "MANNER BALÁZS",
+        "url": "https://hlsz.hu/2005-04-26/manner-balazs",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-327eba464994",
+        "name": "MOLNÁR MÁTYÁS",
+        "url": "https://hlsz.hu/2006-12-30/molnar-matyas",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-353c1aa8edb0",
+        "name": "NAGY DOMINIK",
+        "url": "https://hlsz.hu/1995-05-08/nagy-dominik",
+        "status": "resolved",
+        "heightCm": 182,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-489f67cd7bfb",
+        "name": "Oláh Benjámin",
+        "url": "https://hlsz.hu/2005-12-05/olah-benjamin",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-9309e1184ef9",
+        "name": "Temesvári Attila",
+        "url": "https://hlsz.hu/2000-06-03/temesvari-attila",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-f1df95d03396",
+        "name": "TIJANI MUHAMED",
+        "url": "https://hlsz.hu/2000-07-26/tijani-muhamed",
+        "status": "resolved",
+        "heightCm": 191,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-9935ed0b7857",
+        "name": "VARGA KEVIN",
+        "url": "https://hlsz.hu/1996-03-30/varga-kevin",
+        "status": "resolved",
+        "heightCm": 178,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-17831da5b04f",
+        "name": "Vukk Zsombor",
+        "url": "https://hlsz.hu/2006-07-07/vukk-zsombor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-28243985aab9",
+        "name": "DALA MARTIN",
+        "url": "https://hlsz.hu/2004-04-26/dala-martin",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-debreceni-akos",
+        "name": "DEBRECENI ÁKOS",
+        "url": "https://hlsz.hu/2003-03-24/debreceni-akos",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-galambos-janos",
+        "name": "GALAMBOS JÁNOS",
+        "url": "https://hlsz.hu/2008-01-09/galambos-janos",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-gyetvan-mark",
+        "name": "GYETVÁN MÁRK",
+        "url": "https://hlsz.hu/2005-02-01/gyetvan-mark",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-gyurkits-gergo",
+        "name": "GYURKITS GERGŐ",
+        "url": "https://hlsz.hu/2002-06-05/gyurkits-gergo",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-hinora-kristof",
+        "name": "HINORA KRISTÓF",
+        "url": "https://hlsz.hu/1998-02-05/hinora-kristof",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-16115bd7c08a",
+        "name": "Horváth Kevin",
+        "url": "https://hlsz.hu/2005-03-02/horvath-kevin",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-lapu-andor",
+        "name": "LAPU ANDOR",
+        "url": "https://hlsz.hu/2005-05-21/lapu-andor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-mate-csaba",
+        "name": "MÁTÉ CSABA",
+        "url": "https://hlsz.hu/2006-04-23/mate-csaba",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-99f5c34441a0",
+        "name": "Papp Kristóf",
+        "url": "https://hlsz.hu/1993-05-14/papp-kristof",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-35fb6a54d829",
+        "name": "Pesti Zoltán",
+        "url": "https://hlsz.hu/2005-04-24/pesti-zoltan",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-d6bfe3acf08d",
+        "name": "Szekszárdi Milán",
+        "url": "https://hlsz.hu/2001-02-08/szekszardi-milan",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-tamas-oliver",
+        "name": "TAMÁS OLIVÉR",
+        "url": "https://hlsz.hu/2001-04-14/tamas-oliver",
+        "status": "resolved",
+        "heightCm": 183,
+        "cached": false
+      },
+      {
+        "playerId": "2025-26-paksi-fc-vas-gabor",
+        "name": "VAS GÁBOR",
+        "url": "https://hlsz.hu/2003-08-29/vas-gabor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-f357fac0194c",
+        "name": "Ásványi Domonkos",
+        "url": "https://hlsz.hu/2006-06-02/asvanyi-domonkos",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-a203980db350",
+        "name": "DUSINSZKI SZABOLCS",
+        "url": "https://hlsz.hu/2005-08-06/dusinszki-szabolcs",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-6ea3fef5e246",
+        "name": "KRUPA ZSOLT",
+        "url": "https://hlsz.hu/2006-03-01/krupa-zsolt",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-8217a333e6ca",
+        "name": "MACEIRAS QUENTIN",
+        "url": "https://hlsz.hu/1995-10-10/maceiras-quentin",
+        "status": "resolved",
+        "heightCm": 180,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-8c4a63ee7f39",
+        "name": "Magyar Zsolt János",
+        "url": "https://hlsz.hu/2001-07-11/magyar-zsolt-janos",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-603e443aca70",
+        "name": "MARKGRÁF ÁKOS",
+        "url": "https://hlsz.hu/2005-06-30/markgraf-akos",
+        "status": "resolved",
+        "heightCm": 179,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-79f50f3dab7c",
+        "name": "MONDOVICS KEVIN",
+        "url": "https://hlsz.hu/2007-03-14/mondovics-kevin",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-aba6d7c7a00e",
+        "name": "NAGY ZOÁRD KORNÉL",
+        "url": "https://hlsz.hu/2000-04-18/nagy-zoard-kornel",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-d93251228685",
+        "name": "OKEKE MICHAEL CHINONSO",
+        "url": "https://hlsz.hu/2005-10-16/okeke-michael-chinonso",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-1ac330c3b480",
+        "name": "ORJÁN ROLAND",
+        "url": "https://hlsz.hu/2005-07-29/orjan-roland",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-36c7b69bf6de",
+        "name": "SAMAL MOSHE",
+        "url": "https://hlsz.hu/2003-05-05/samal-moshe",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-fc7f84e54bd8",
+        "name": "SZAPPANOS PÉTER",
+        "url": "https://hlsz.hu/1990-11-14/szappanos-peter",
+        "status": "resolved",
+        "heightCm": 196,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-dd6158c28a79",
+        "name": "VARGA ZSOMBOR KOPPÁNY",
+        "url": "https://hlsz.hu/2008-01-31/varga-zsombor-koppany",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-c49fbf4d1b2c",
+        "name": "VÉKONY BENCE ZSOLT",
+        "url": "https://hlsz.hu/2005-11-12/vekony-bence-zsolt",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-125050952c1e",
+        "name": "BERIDZE GIORGI",
+        "url": "https://hlsz.hu/1997-05-12/beridze-giorgi",
+        "status": "resolved",
+        "heightCm": 174,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-c8706f6c982e",
+        "name": "Brodic Fran",
+        "url": "https://hlsz.hu/1997-01-08/brodic-fran",
+        "status": "resolved",
+        "heightCm": 180,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-cdcee0a96afc",
+        "name": "FEHÉR CSANÁD LEVENTE",
+        "url": "https://hlsz.hu/2002-06-13/feher-csanad-levente",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-8e669f9e52b7",
+        "name": "GANEA GEORGE DANUT",
+        "url": "https://hlsz.hu/1999-05-26/ganea-george-danut",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-f57fdf82fb45",
+        "name": "GEIGER BÁLINT",
+        "url": "https://hlsz.hu/2004-03-26/geiger-balint",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-8c93f7633c63",
+        "name": "Gradisar Nejc",
+        "url": "https://hlsz.hu/2002-08-06/gradisar-nejc",
+        "status": "resolved",
+        "heightCm": 187,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-d8405b610920",
+        "name": "KACZVINSZKI DOMINIK",
+        "url": "https://hlsz.hu/2006-03-01/kaczvinszki-dominik",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-200dfa9d0293",
+        "name": "KOBOURI DAVITI",
+        "url": "https://hlsz.hu/1998-01-24/kobouri-daviti",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-4cec72c1de53",
+        "name": "LISBOA DA SILVA GONCALVES",
+        "url": "https://hlsz.hu/2000-08-18/lisboa-da-silva-goncalves",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-10f362d76d3c",
+        "name": "LOURENCO DUARTE ANDRÉ",
+        "url": "https://hlsz.hu/1997-09-12/lourenco-duarte-andre",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-00550a6ceaf3",
+        "name": "MÁNDI NARUKI MILÁN",
+        "url": "https://hlsz.hu/2006-07-15/mandi-naruki-milan",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-f29a34a866f4",
+        "name": "PALKÓ ÁRON",
+        "url": "https://hlsz.hu/2008-01-08/palko-aron",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-bbb507993bcc",
+        "name": "PICANCO MEDEIROS IÚRI JOSÉ",
+        "url": "https://hlsz.hu/1994-07-10/picanco-medeiros-iuri-jose",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-28e619b948ec",
+        "name": "PISCITELLI RICCARDO",
+        "url": "https://hlsz.hu/1993-10-10/piscitelli-riccardo",
+        "status": "resolved",
+        "heightCm": 188,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-0a649d0d446d",
+        "name": "RASAK DAMIAN",
+        "url": "https://hlsz.hu/1996-02-08/rasak-damian",
+        "status": "resolved",
+        "heightCm": 184,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-cd7d6c0e968f",
+        "name": "SARKADI KRISTÓF",
+        "url": "https://hlsz.hu/2006-04-06/sarkadi-kristof",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-8b6c6b082328",
+        "name": "SZENTKIRÁLYI SZILÁRD",
+        "url": "https://hlsz.hu/2007-06-20/szentkiralyi-szilard",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-793bb6e187b4",
+        "name": "SZENTMIHÁLYI ÁDÁM DÁNIEL",
+        "url": "https://hlsz.hu/2008-04-22/szentmihalyi-adam-daniel",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-1472cba4589d",
+        "name": "TAJTI MÁTYÁS",
+        "url": "https://hlsz.hu/1998-06-02/tajti-matyas",
+        "status": "resolved",
+        "heightCm": 183,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-5a0b40fb76af",
+        "name": "TUCIC MILAN",
+        "url": "https://hlsz.hu/1996-08-15/tucic-milan",
+        "status": "resolved",
+        "heightCm": 186,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-96c730667802",
+        "name": "AKPE VICTORY MADUABUCHUKWU",
+        "url": "https://hlsz.hu/2006-07-19/akpe-victory-maduabuchukwu",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-0e874f2fb0f2",
+        "name": "BAKTI BALÁZS",
+        "url": "https://hlsz.hu/2004-12-31/bakti-balazs",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-fac2274b8258",
+        "name": "BOBSON DIVAIO JHAIR",
+        "url": "https://hlsz.hu/2004-02-06/bobson-divaio-jhair",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-c99236f2f76a",
+        "name": "BORGES DA SILVA DIEGO",
+        "url": "https://hlsz.hu/2004-12-15/borges-da-silva-diego",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-3651048db5ea",
+        "name": "CSÓKA DÁNIEL",
+        "url": "https://hlsz.hu/2000-04-04/csoka-daniel",
+        "status": "resolved",
+        "heightCm": 187,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-da4caa56cfa0",
+        "name": "DÉNES CSANÁD VILMOS",
+        "url": "https://hlsz.hu/2004-11-17/denes-csanad-vilmos",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-50fd7361a98a",
+        "name": "Garai Zétény Péter",
+        "url": "https://hlsz.hu/2007-11-21/garai-zeteny-peter",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-e6da9ca0a6bb",
+        "name": "GUNDEL-TAKÁCS BENCE",
+        "url": "https://hlsz.hu/1998-04-06/gundel-takacs-bence",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-6b60d1aa3fdd",
+        "name": "HARANGI AIDEN JOSHUA",
+        "url": "https://hlsz.hu/2006-02-28/harangi-aiden-joshua",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-54deaac330a6",
+        "name": "HUSZTI ANDRÁS",
+        "url": "https://hlsz.hu/2001-01-29/huszti-andras",
+        "status": "resolved",
+        "heightCm": 184,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-c961340720f0",
+        "name": "MONTEIRO FERREIRA ANDRÉ",
+        "url": "https://hlsz.hu/2003-04-08/monteiro-ferreira-andre",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-bdfe3567975e",
+        "name": "MULASICS DÁNIEL",
+        "url": "https://hlsz.hu/2006-03-30/mulasics-daniel",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-80fc23823127",
+        "name": "NÉMETH DÁNIEL",
+        "url": "https://hlsz.hu/2003-10-09/nemeth-daniel",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-e9c2b788895b",
+        "name": "Papp Csongor",
+        "url": "https://hlsz.hu/2005-02-22/papp-csongor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-4de555c90541",
+        "name": "PETRÓK VIKTOR",
+        "url": "https://hlsz.hu/2008-03-27/petrok-viktor",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-d315a942143f",
+        "name": "RODRIGUES DA SILVA DIOGO",
+        "url": "https://hlsz.hu/2005-10-06/rodrigues-da-silva-diogo",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-506f767dee5d",
+        "name": "RÓZSA MÁTÉ",
+        "url": "https://hlsz.hu/2007-05-06/rozsa-mate",
+        "status": "unresolved",
+        "reason": "height-not-published",
+        "cached": false
+      },
+      {
+        "playerId": "nb1-6020c82acb33",
+        "name": "TCHICAMBOUD TRYPHOSE AIMÉ QUEYRELL",
+        "url": "https://hlsz.hu/2005-12-08/tchicamboud-tryphose-aime-queyrell",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-b5f89cf00a88",
+        "name": "VÁRKONYI BENCE",
+        "url": "https://hlsz.hu/2002-03-18/varkonyi-bence",
+        "status": "resolved",
+        "heightCm": 187,
+        "cached": false
+      },
+      {
+        "playerId": "nb1-b97cbef16664",
+        "name": "VERA GARCIA FERNANDO JOSE",
+        "url": "https://hlsz.hu/2005-03-05/vera-garcia-fernando-jose",
+        "status": "not-found",
+        "httpStatus": 404
+      },
+      {
+        "playerId": "nb1-5edafc396658",
+        "name": "VIEIRA FERREIRA SOUSA JOAO",
+        "url": "https://hlsz.hu/2004-04-27/vieira-ferreira-sousa-joao",
+        "status": "not-found",
+        "httpStatus": 404
+      }
+    ]
+  }
 }

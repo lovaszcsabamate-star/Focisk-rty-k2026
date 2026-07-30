@@ -1,17 +1,18 @@
 {
   "schemaVersion": 1,
   "season": "2025/26",
-  "generatedAt": "2026-07-30T17:30:34.163Z",
+  "generatedAt": "2026-07-30T17:51:40.089Z",
   "batch": {
     "id": "all-club-verified-heights-2025-26",
     "targetPlayerCount": 309,
-    "heightRecordCount": 106,
+    "heightRecordCount": 154,
     "rule": "Csak hiányzó magasság tölthető ki. Az illesztéshez azonos szezonklub és pontos születési dátum szükséges; a név egyezését tokenalapon is ellenőrizzük."
   },
   "policy": {
     "primarySources": [
       "HLSZ",
-      "Transfermarkt 2025/26 detailed squad pages"
+      "Transfermarkt 2025/26 detailed squad pages",
+      "HLSZ individual player profiles"
     ],
     "heightUnit": "cm",
     "heightRange": {
@@ -166,6 +167,17 @@
         "heightCm"
       ],
       "scope": "A HLSZ nyilvános játékoskeret-oldalán számszerűen közölt magasság, névvel és születési dátummal ellenőrizve."
+    },
+    {
+      "id": "hlsz-individual-profiles-heights-2025-26",
+      "name": "HLSZ – egyedi játékosprofilok",
+      "url": "https://hlsz.hu/",
+      "checkedAt": "2026-07-30",
+      "season": "2025/26",
+      "fields": [
+        "heightCm"
+      ],
+      "scope": "A HLSZ nyilvános, születési dátumot és játékosnevet tartalmazó egyedi profiloldalán számszerűen közölt magasság."
     }
   ],
   "records": [
@@ -209,6 +221,28 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "BABÓS LEVENTE",
+      "birthDate": "2004-01-16",
+      "heightCm": 183,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2004-01-16/babos-levente",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "dvtk",
+      "name": "ESITI ANDERSON",
+      "birthDate": "1994-05-24",
+      "heightCm": 189,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1994-05-24/esiti-anderson",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-eto-fc-heights-2025-26",
       "clubId": "eto-fc",
       "name": "ABRAHAMSSON NILS OSCAR ALEXANDER",
@@ -248,6 +282,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "eto-fc",
+      "name": "BOLDOR DEIAN",
+      "birthDate": "1995-02-03",
+      "heightCm": 189,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1995-02-03/boldor-deian",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -459,6 +504,28 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "eto-fc",
+      "name": "ZIVKOVIC JOVAN",
+      "birthDate": "2006-05-23",
+      "heightCm": 175,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2006-05-23/zivkovic-jovan",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "ARZANI DANIEL",
+      "birthDate": "1999-01-04",
+      "heightCm": 175,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1999-01-04/arzani-daniel",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-ferencvarosi-tc-heights-2025-26",
       "clubId": "ferencvarosi-tc",
       "name": "BOTKA ENDRE",
@@ -467,6 +534,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "CISSE IBRAHIM",
+      "birthDate": "1996-05-02",
+      "heightCm": 185,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-05-02/cisse-ibrahim",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -492,6 +570,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "GARTENMANN STEFAN",
+      "birthDate": "1997-02-02",
+      "heightCm": 187,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1997-02-02/gartenmann-stefan",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -640,6 +729,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "PESIC ALEKSANDAR",
+      "birthDate": "1992-05-21",
+      "heightCm": 190,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1992-05-21/pesic-aleksandar",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-ferencvarosi-tc-heights-2025-26",
       "clubId": "ferencvarosi-tc",
       "name": "RAEMAEKERS TOON",
@@ -659,6 +759,39 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "Sevikyan Edgar",
+      "birthDate": "2001-08-08",
+      "heightCm": 175,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2001-08-08/sevikyan-edgar",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "SZÉCSI GERGŐ",
+      "birthDate": "1989-02-07",
+      "heightCm": 185,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1989-02-07/szecsi-gergo",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "name": "TÓTH ALEX LÁSZLÓ",
+      "birthDate": "2005-10-23",
+      "heightCm": 181,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2005-10-23/toth-alex-laszlo",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -687,6 +820,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "kisvarda-master-good",
+      "name": "GYURKÓ MÁTÉ",
+      "birthDate": "2002-11-04",
+      "heightCm": 194,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2002-11-04/gyurko-mate",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-kisvarda-master-good-heights-2025-26",
       "clubId": "kisvarda-master-good",
       "name": "SOLTÉSZ ISTVÁN ZOLTÁN",
@@ -706,6 +850,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "BERECZ ZSOMBOR",
+      "birthDate": "1995-12-13",
+      "heightCm": 180,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1995-12-13/berecz-zsombor",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -756,6 +911,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "KÖNYVES NORBERT",
+      "birthDate": "1989-06-10",
+      "heightCm": 185,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1989-06-10/konyves-norbert",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-kolorcity-kazincbarcika-sc-heights-2025-26",
       "clubId": "kolorcity-kazincbarcika-sc",
       "name": "MAJOR MARCELL",
@@ -764,6 +930,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "MAKRAI GÁBOR",
+      "birthDate": "1996-06-26",
+      "heightCm": 185,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-06-26/makrai-gabor",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -789,6 +966,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "POLGÁR KRISTÓF",
+      "birthDate": "1996-11-28",
+      "heightCm": 186,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-11-28/polgar-kristof",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -864,6 +1052,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "name": "SÓS BENCE",
+      "birthDate": "1994-05-10",
+      "heightCm": 178,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1994-05-10/sos-bence",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-kolorcity-kazincbarcika-sc-heights-2025-26",
       "clubId": "kolorcity-kazincbarcika-sc",
       "name": "SZUJÓ ATTILA",
@@ -900,6 +1099,72 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "name": "KÁDÁR TAMÁS",
+      "birthDate": "1990-03-14",
+      "heightCm": 188,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1990-03-14/kadar-tamas",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "name": "KOVÁCS MÁTYÁS",
+      "birthDate": "2003-07-07",
+      "heightCm": 181,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2003-07-07/kovacs-matyas",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "name": "MOLNÁR RAJMUND",
+      "birthDate": "2002-08-28",
+      "heightCm": 184,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2002-08-28/molnar-rajmund",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "name": "SZÉPE JÁNOS",
+      "birthDate": "1996-03-15",
+      "heightCm": 188,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-03-15/szepe-janos",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "name": "SZŰCS PATRIK PÉTER",
+      "birthDate": "2005-08-04",
+      "heightCm": 182,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2005-08-04/szucs-patrik-peter",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "BABIC SLOBODAN",
+      "birthDate": "2000-03-04",
+      "heightCm": 188,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2000-03-04/babic-slobodan",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-nyiregyhaza-spartacus-fc-heights-2025-26",
       "clubId": "nyiregyhaza-spartacus-fc",
       "name": "BABUNSKI HRISTOVSKI DORIAN",
@@ -914,6 +1179,50 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "BEKE PÉTER",
+      "birthDate": "2001-03-14",
+      "heightCm": 181,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2001-03-14/beke-peter",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "BESE BALÁZS",
+      "birthDate": "1999-01-22",
+      "heightCm": 191,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1999-01-22/bese-balazs",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "BITRI ENEO",
+      "birthDate": "1996-08-26",
+      "heightCm": 192,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-08-26/bitri-eneo",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "DRESKOVIC MELDIN",
+      "birthDate": "1998-03-26",
+      "heightCm": 192,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1998-03-26/dreskovic-meldin",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-nyiregyhaza-spartacus-fc-heights-2025-26",
       "clubId": "nyiregyhaza-spartacus-fc",
       "name": "EDOMWONYI OSAIGE BRIGHT",
@@ -925,6 +1234,28 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "EVANGELOU STEFANOS",
+      "birthDate": "1998-05-12",
+      "heightCm": 185,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1998-05-12/evangelou-stefanos",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "JOKIC RANKO",
+      "birthDate": "1999-04-22",
+      "heightCm": 186,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1999-04-22/jokic-ranko",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -961,6 +1292,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "KORREA PAVLOS",
+      "birthDate": "1998-07-14",
+      "heightCm": 186,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1998-07-14/korrea-pavlos",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-nyiregyhaza-spartacus-fc-heights-2025-26",
       "clubId": "nyiregyhaza-spartacus-fc",
       "name": "KOVÁCS DÁNIEL",
@@ -969,6 +1311,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "KOVÁCSRÉTI MÁRK",
+      "birthDate": "2000-09-01",
+      "heightCm": 186,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2000-09-01/kovacsreti-mark",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -991,6 +1344,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "NAGY DOMINIK",
+      "birthDate": "1995-05-08",
+      "heightCm": 182,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1995-05-08/nagy-dominik",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -1019,6 +1383,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "TIJANI MUHAMED",
+      "birthDate": "2000-07-26",
+      "heightCm": 191,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2000-07-26/tijani-muhamed",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-nyiregyhaza-spartacus-fc-heights-2025-26",
       "clubId": "nyiregyhaza-spartacus-fc",
       "name": "TOMA GYÖRGY",
@@ -1041,6 +1416,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "name": "VARGA KEVIN",
+      "birthDate": "1996-03-30",
+      "heightCm": 178,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-03-30/varga-kevin",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-paksi-fc-heights-2025-26",
       "clubId": "paksi-fc",
       "name": "ALAXAI ÁRON",
@@ -1060,6 +1446,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "paksi-fc",
+      "name": "TAMÁS OLIVÉR",
+      "birthDate": "2001-04-14",
+      "heightCm": 183,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2001-04-14/tamas-oliver",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -1171,6 +1568,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "puskas-akademia-fc",
+      "name": "MACEIRAS QUENTIN",
+      "birthDate": "1995-10-10",
+      "heightCm": 180,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1995-10-10/maceiras-quentin",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-puskas-akademia-fc-heights-2025-26",
       "clubId": "puskas-akademia-fc",
       "name": "MARKEK TAMÁS",
@@ -1179,6 +1587,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "puskas-akademia-fc",
+      "name": "MARKGRÁF ÁKOS",
+      "birthDate": "2005-06-30",
+      "heightCm": 179,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2005-06-30/markgraf-akos",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -1246,6 +1665,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "puskas-akademia-fc",
+      "name": "SZAPPANOS PÉTER",
+      "birthDate": "1990-11-14",
+      "heightCm": 196,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1990-11-14/szappanos-peter",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-puskas-akademia-fc-heights-2025-26",
       "clubId": "puskas-akademia-fc",
       "name": "SZOLNOKI ROLAND",
@@ -1257,6 +1687,72 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "BERIDZE GIORGI",
+      "birthDate": "1997-05-12",
+      "heightCm": 174,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1997-05-12/beridze-giorgi",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "Brodic Fran",
+      "birthDate": "1997-01-08",
+      "heightCm": 180,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1997-01-08/brodic-fran",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "Gradisar Nejc",
+      "birthDate": "2002-08-06",
+      "heightCm": 187,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2002-08-06/gradisar-nejc",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "PISCITELLI RICCARDO",
+      "birthDate": "1993-10-10",
+      "heightCm": 188,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1993-10-10/piscitelli-riccardo",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "RASAK DAMIAN",
+      "birthDate": "1996-02-08",
+      "heightCm": 184,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-02-08/rasak-damian",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "TAJTI MÁTYÁS",
+      "birthDate": "1998-06-02",
+      "heightCm": 183,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1998-06-02/tajti-matyas",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-ujpest-fc-heights-2025-26",
       "clubId": "ujpest-fc",
       "name": "TAMÁS KRISZTIÁN",
@@ -1265,6 +1761,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "name": "TUCIC MILAN",
+      "birthDate": "1996-08-15",
+      "heightCm": 186,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/1996-08-15/tucic-milan",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -1357,6 +1864,17 @@
       }
     },
     {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "zte-fc",
+      "name": "CSÓKA DÁNIEL",
+      "birthDate": "2000-04-04",
+      "heightCm": 187,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2000-04-04/csoka-daniel",
+        "matchReason": "exact-profile-name-birth-height"
+      }
+    },
+    {
       "sourceId": "hlsz-zte-fc-heights-2025-26",
       "clubId": "zte-fc",
       "name": "Csonka András Mátyás",
@@ -1382,6 +1900,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "zte-fc",
+      "name": "HUSZTI ANDRÁS",
+      "birthDate": "2001-01-29",
+      "heightCm": 184,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2001-01-29/huszti-andras",
+        "matchReason": "exact-profile-name-birth-height"
       }
     },
     {
@@ -1474,6 +2003,17 @@
       "meta": {
         "sourcePlayerUrl": null,
         "matchReason": "club-birth-name"
+      }
+    },
+    {
+      "sourceId": "hlsz-individual-profiles-heights-2025-26",
+      "clubId": "zte-fc",
+      "name": "VÁRKONYI BENCE",
+      "birthDate": "2002-03-18",
+      "heightCm": 187,
+      "meta": {
+        "sourcePlayerUrl": "https://hlsz.hu/2002-03-18/varkonyi-bence",
+        "matchReason": "exact-profile-name-birth-height"
       }
     }
   ]
