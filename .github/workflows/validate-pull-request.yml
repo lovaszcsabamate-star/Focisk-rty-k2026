@@ -22,5 +22,5 @@ jobs:
       - run: npm run lint
       - run: npm run test:ui-components
       - run: node test/tournament-mode.test.mjs
-      - run: npm run build
       - run: git diff --check
+      - run: npm run build
