@@ -17,6 +17,7 @@ import {
   tournamentMatches,
   tournamentNextHumanMatch,
   tournamentStandings,
+  tournamentTeamsCompatible,
 } from '../js/tournament/tournament-domain.js';
 
 const teams = Array.from({ length: 12 }, (_, index) => ({
@@ -132,4 +133,35 @@ const fixedRng = () => 0.42;
     .every(match => match.status === TOURNAMENT_MATCH_STATUS.COMPLETE));
 }
 
-console.log('✓ Torna mód: Magyar Kupa, menthető állapot, klasszikus/büntető formátum és AI-szimuláció rendben.');
+{
+  const nationalTeams = Array.from({ length: 4 }, (_, index) => ({
+    id: `nation:n${index + 1}`,
+    kind: 'nation',
+    label: `Ligaválogatott ${index + 1}`,
+    count: 8,
+    selection: { kind: 'nation', value: `N${index + 1}` },
+  }));
+  const federationTeams = Array.from({ length: 4 }, (_, index) => ({
+    id: `federation:f${index + 1}`,
+    kind: 'federation',
+    label: `Föderáció ${index + 1}`,
+    count: 11,
+    selection: { kind: 'federation', value: `F${index + 1}` },
+  }));
+  assert.equal(tournamentTeamsCompatible(nationalTeams), true);
+  assert.equal(tournamentTeamsCompatible(federationTeams), true);
+  assert.equal(tournamentTeamsCompatible([...nationalTeams.slice(0, 2), ...federationTeams.slice(0, 2)]), false);
+  assert.throws(
+    () => createTournament({
+      name: 'Tiltott vegyes torna',
+      category: TOURNAMENT_CATEGORY.NATIONS,
+      format: TOURNAMENT_FORMAT.LEAGUE,
+      participants: [...nationalTeams.slice(0, 2), ...federationTeams.slice(0, 2)],
+      humanTeamId: nationalTeams[0].id,
+      rng: fixedRng,
+    }),
+    /föderációk nem játszhatnak ligaválogatottak ellen/i,
+  );
+}
+
+console.log('✓ Torna mód: Magyar Kupa, azonos csapattípusú mezőny, klasszikus/büntető formátum és AI-szimuláció rendben.');
