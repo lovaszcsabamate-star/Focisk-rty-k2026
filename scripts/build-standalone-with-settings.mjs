@@ -50,7 +50,13 @@ const tournamentFiles = [
   'js/tournament/tournament-lineup-controller.js',
 ];
 const tournamentSource = tournamentFiles
-  .map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
+  .map(file => {
+    const flattened = flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'));
+    const marker = `\n/* ===== ${file} ===== */\n`;
+    return file.endsWith('tournament-lineup-controller.js')
+      ? `${marker}(() => {\n${flattened}\n})();`
+      : `${marker}${flattened}`;
+  })
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
 const tournamentInlineBundle = `
