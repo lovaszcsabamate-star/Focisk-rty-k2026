@@ -6,14 +6,19 @@ on:
     paths:
       - scripts/enrich-player-heights.mjs
       - .github/workflows/complete-player-heights.yml
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/enrich-player-heights.mjs
+      - .github/workflows/complete-player-heights.yml
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: complete-player-heights-${{ github.ref }}
-  cancel-in-progress: false
+  group: complete-player-heights
+  cancel-in-progress: true
 
 jobs:
   enrich-and-verify:
@@ -23,7 +28,7 @@ jobs:
       - name: Forráskód letöltése
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
           fetch-depth: 0
 
       - name: Node.js beállítása
@@ -47,6 +52,8 @@ jobs:
         run: npm run data:verify-strict
 
       - name: Eredmények mentése az ágra
+        env:
+          TARGET_BRANCH: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -60,5 +67,5 @@ jobs:
             echo "Nincs mentendő változás."
           else
             git commit -m "Complete verified player height data"
-            git push origin HEAD:${{ github.ref_name }}
+            git push origin HEAD:"$TARGET_BRANCH"
           fi
