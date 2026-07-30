@@ -9,12 +9,14 @@ on:
       - 'css/tournament-mode.css'
       - 'js/bootstrap.js'
       - 'js/tournament-mode.js'
+      - 'js/tournament-cup-experience.js'
       - 'js/tournament/**'
       - 'js/services/tournament-storage-service.js'
       - 'js/domain/quick-match-domain.js'
       - 'js/services/quick-match-storage-service.js'
       - 'scripts/build-standalone-with-settings.mjs'
       - 'test/tournament-mode.test.mjs'
+      - 'test/tournament-cup-experience.test.mjs'
   pull_request:
     branches: [main]
     paths:
@@ -23,12 +25,14 @@ on:
       - 'css/tournament-mode.css'
       - 'js/bootstrap.js'
       - 'js/tournament-mode.js'
+      - 'js/tournament-cup-experience.js'
       - 'js/tournament/**'
       - 'js/services/tournament-storage-service.js'
       - 'js/domain/quick-match-domain.js'
       - 'js/services/quick-match-storage-service.js'
       - 'scripts/build-standalone-with-settings.mjs'
       - 'test/tournament-mode.test.mjs'
+      - 'test/tournament-cup-experience.test.mjs'
 
 permissions:
   contents: read
@@ -59,12 +63,17 @@ jobs:
           node --check js/tournament/tournament-domain.js
           node --check js/services/tournament-storage-service.js
           node --check js/tournament-mode.js
+          node --check js/tournament-cup-experience.js
           node --check js/bootstrap.js
           node --check scripts/build-standalone-with-settings.mjs
           node --check test/tournament-mode.test.mjs
+          node --check test/tournament-cup-experience.test.mjs
 
       - name: Torna domain regressziós teszt
         run: node test/tournament-mode.test.mjs
+
+      - name: Kupaélmény integrációs teszt
+        run: node test/tournament-cup-experience.test.mjs
 
       - name: Önálló játék összeállítása
         run: npm run build
@@ -75,6 +84,8 @@ jobs:
           grep -q 'Torna mód' Fociskartyak2026.html
           grep -q 'tournamentStorageService' Fociskartyak2026.html
           grep -q 'tournament-bracket' Fociskartyak2026.html
+          grep -q 'tournament-format-showcase' Fociskartyak2026.html
+          grep -q 'tournament-final-intro' Fociskartyak2026.html
           grep -q 'TOURNAMENT_FORMAT' Fociskartyak2026.html
 
       - name: Mobil webcsomag előkészítése
@@ -86,3 +97,5 @@ jobs:
           grep -q 'Torna mód' mobile-www/index.html
           grep -q 'tournamentStorageService' mobile-www/index.html
           grep -q 'tournament-bracket' mobile-www/index.html
+          grep -q 'tournament-format-showcase' mobile-www/index.html
+          grep -q 'tournament-final-intro' mobile-www/index.html
