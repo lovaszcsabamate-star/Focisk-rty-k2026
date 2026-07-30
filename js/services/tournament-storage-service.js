@@ -16,14 +16,14 @@ export const TOURNAMENT_STORAGE_KEY = 'fociskartyak.tournament.v1';
 export const TOURNAMENT_HISTORY_STORAGE_KEY = 'fociskartyak.tournament-history.v1';
 
 const tournamentStorageText = value => String(value ?? '').trim();
-const clone = value => JSON.parse(JSON.stringify(value));
+const tournamentStorageClone = value => JSON.parse(JSON.stringify(value));
 
 export const migrateStoredTournament = value => {
   if (!value || typeof value !== 'object') return null;
   const version = Number(value.version) || 1;
   if (version > TOURNAMENT_VERSION) return null;
   const migrated = {
-    ...clone(value),
+    ...tournamentStorageClone(value),
     version: TOURNAMENT_VERSION,
     matchMode: value.matchMode === TOURNAMENT_MATCH_MODE.PENALTIES
       ? TOURNAMENT_MATCH_MODE.PENALTIES
