@@ -1,14 +1,14 @@
 # Fociskártyák 2026 – adatbázis-felülvizsgálat
 
-Generálva: 2026-07-28T12:26:24.893Z
+Generálva: 2026-07-30T19:42:38.256Z
 
 ## Összefoglaló
 
 - Játékoskártyák: **440**
 - Klubregisztrációk: **464**
 - Pontos születési dátum: **440/440**
-- Változásnapló-bejegyzések: **4099**
-- Megőrzött forrásütközések: **5**
+- Változásnapló-bejegyzések: **4454**
+- Megőrzött forrásütközések: **6**
 - Kritikus hibák: **0**
 - Figyelmeztetések: **2**
 
@@ -29,7 +29,7 @@ Generálva: 2026-07-28T12:26:24.893Z
 | redCards | 440 | 0 |
 | secondYellowRedCards | 37 | 403 |
 | totalDismissals | 440 | 0 |
-| heightCm | 131 | 309 |
+| heightCm | 285 | 155 |
 | shirtNumber | 288 | 152 |
 
 ## Klubonkénti lefedettség

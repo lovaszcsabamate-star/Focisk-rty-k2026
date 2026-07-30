@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-28T12:26:24.893Z",
+  "generatedAt": "2026-07-30T19:42:38.256Z",
   "databaseId": "hungary-nb1-2025-26",
   "competitionId": "hungary-nb1",
   "seasonId": "2025-26",
@@ -37,6 +37,7 @@
     "data/club-official-enrichment-22-kisvarda-nationalities.json",
     "data/club-official-enrichment-23-final-missing-basic.json",
     "data/club-official-enrichment-24-dvtk-heights.json",
+    "data/club-official-enrichment-25-all-club-heights.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -81,9 +82,9 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 131,
+    "heightCm": 285,
     "shirtNumber": 288,
-    "officialMetadata": 85,
+    "officialMetadata": 227,
     "minutes": 29,
     "substituteAppearances": 440,
     "assists": 29,
@@ -152,15 +153,15 @@
     },
     {
       "field": "nation",
-      "before": 0,
+      "before": 1,
       "after": 440,
-      "added": 440
+      "added": 439
     },
     {
       "field": "heightCm",
       "before": 0,
-      "after": 131,
-      "added": 131
+      "after": 285,
+      "added": 285
     },
     {
       "field": "shirtNumber",
@@ -171,8 +172,8 @@
     {
       "field": "officialMetadata",
       "before": 0,
-      "after": 85,
-      "added": 85
+      "after": 227,
+      "added": 227
     }
   ],
   "officialStatFieldCoverage": [
@@ -248,9 +249,9 @@
       "clubId": "dvsc",
       "clubName": "DVSC",
       "mlszCards": 38,
-      "officialRecords": 72,
-      "eligibleRecords": 65,
-      "matched": 61,
+      "officialRecords": 75,
+      "eligibleRecords": 68,
+      "matched": 64,
       "excluded": 7,
       "review": 4,
       "sourceStatus": "complete-38-of-38-player-review",
@@ -260,9 +261,9 @@
       "clubId": "dvtk",
       "clubName": "DVTK",
       "mlszCards": 45,
-      "officialRecords": 59,
-      "eligibleRecords": 59,
-      "matched": 59,
+      "officialRecords": 61,
+      "eligibleRecords": 61,
+      "matched": 61,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "complete-45-of-45-player-review",
@@ -272,9 +273,9 @@
       "clubId": "eto-fc",
       "clubName": "ETO FC",
       "mlszCards": 35,
-      "officialRecords": 63,
-      "eligibleRecords": 63,
-      "matched": 63,
+      "officialRecords": 85,
+      "eligibleRecords": 85,
+      "matched": 85,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "complete-35-of-35-player-review",
@@ -284,9 +285,9 @@
       "clubId": "ferencvarosi-tc",
       "clubName": "Ferencvárosi TC",
       "mlszCards": 42,
-      "officialRecords": 42,
-      "eligibleRecords": 41,
-      "matched": 41,
+      "officialRecords": 67,
+      "eligibleRecords": 66,
+      "matched": 66,
       "excluded": 1,
       "review": 0,
       "sourceStatus": "structured-season-roster-imported",
@@ -296,9 +297,9 @@
       "clubId": "kisvarda-master-good",
       "clubName": "Kisvárda Master Good",
       "mlszCards": 38,
-      "officialRecords": 118,
-      "eligibleRecords": 118,
-      "matched": 108,
+      "officialRecords": 120,
+      "eligibleRecords": 120,
+      "matched": 110,
       "excluded": 0,
       "review": 10,
       "sourceStatus": "complete-38-of-38-player-review",
@@ -308,9 +309,9 @@
       "clubId": "kolorcity-kazincbarcika-sc",
       "clubName": "Kolorcity Kazincbarcika SC",
       "mlszCards": 40,
-      "officialRecords": 59,
-      "eligibleRecords": 56,
-      "matched": 56,
+      "officialRecords": 80,
+      "eligibleRecords": 77,
+      "matched": 77,
       "excluded": 3,
       "review": 0,
       "sourceStatus": "complete-40-of-40-player-review",
@@ -320,9 +321,9 @@
       "clubId": "mtk-budapest",
       "clubName": "MTK Budapest",
       "mlszCards": 36,
-      "officialRecords": 57,
-      "eligibleRecords": 57,
-      "matched": 55,
+      "officialRecords": 63,
+      "eligibleRecords": 63,
+      "matched": 61,
       "excluded": 0,
       "review": 2,
       "sourceStatus": "complete-36-of-36-player-review",
@@ -332,9 +333,9 @@
       "clubId": "nyiregyhaza-spartacus-fc",
       "clubName": "Nyíregyháza Spartacus FC",
       "mlszCards": 39,
-      "officialRecords": 115,
-      "eligibleRecords": 115,
-      "matched": 115,
+      "officialRecords": 139,
+      "eligibleRecords": 139,
+      "matched": 139,
       "excluded": 0,
       "review": 0,
       "sourceStatus": "complete-39-of-39-player-review",
@@ -344,9 +345,9 @@
       "clubId": "paksi-fc",
       "clubName": "Paksi FC",
       "mlszCards": 33,
-      "officialRecords": 78,
-      "eligibleRecords": 77,
-      "matched": 77,
+      "officialRecords": 81,
+      "eligibleRecords": 80,
+      "matched": 80,
       "excluded": 1,
       "review": 0,
       "sourceStatus": "complete-33-of-33-player-review",
@@ -356,9 +357,9 @@
       "clubId": "puskas-akademia-fc",
       "clubName": "Puskás Akadémia FC",
       "mlszCards": 34,
-      "officialRecords": 66,
-      "eligibleRecords": 61,
-      "matched": 61,
+      "officialRecords": 85,
+      "eligibleRecords": 80,
+      "matched": 80,
       "excluded": 5,
       "review": 0,
       "sourceStatus": "complete-34-of-34-player-review",
@@ -368,9 +369,9 @@
       "clubId": "ujpest-fc",
       "clubName": "Újpest FC",
       "mlszCards": 41,
-      "officialRecords": 67,
-      "eligibleRecords": 62,
-      "matched": 62,
+      "officialRecords": 75,
+      "eligibleRecords": 70,
+      "matched": 70,
       "excluded": 5,
       "review": 0,
       "sourceStatus": "complete-41-of-41-player-review",
@@ -380,9 +381,9 @@
       "clubId": "zte-fc",
       "clubName": "ZTE FC",
       "mlszCards": 43,
-      "officialRecords": 67,
-      "eligibleRecords": 65,
-      "matched": 65,
+      "officialRecords": 86,
+      "eligibleRecords": 84,
+      "matched": 84,
       "excluded": 2,
       "review": 0,
       "sourceStatus": "complete-43-of-43-player-review",
@@ -496,17 +497,17 @@
     "errorCount": 0,
     "warningCount": 2,
     "duplicateCandidateCount": 0,
-    "conflictCount": 5,
-    "changeCount": 4099,
+    "conflictCount": 6,
+    "changeCount": 4454,
     "exactBirthDates": 440,
     "completeGoals": 440
   },
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-24T16:00:00+02:00",
-    "records": 839,
-    "matchedRecords": 823,
+    "generatedAt": "2026-07-30T17:51:40.089Z",
+    "records": 993,
+    "matchedRecords": 977,
     "unmatchedRecords": 16,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -532,12 +533,12 @@
       }
     ],
     "skippedCorrections": [],
-    "conflictCount": 5,
+    "conflictCount": 6,
     "appliedFieldCounts": {
       "position": 439,
-      "nation": 439,
+      "nation": 438,
       "birthDate": 318,
-      "heightCm": 131,
+      "heightCm": 285,
       "shirtNumber": 287,
       "meta.captain": 3,
       "meta.strongFoot": 32,
@@ -583,7 +584,9 @@
       "meta.loanClub": 1,
       "meta.loanEndedAt": 2,
       "meta.sourceNote": 1,
-      "meta.sourcePosition": 1
+      "meta.sourcePosition": 1,
+      "meta.matchReason": 154,
+      "meta.sourcePlayerUrl": 48
     },
     "coverageBefore": {
       "birthDate": 121,
@@ -596,7 +599,7 @@
       "totalDismissals": 143,
       "overallScore": 143,
       "position": 0,
-      "nation": 0,
+      "nation": 1,
       "heightCm": 0,
       "shirtNumber": 0,
       "officialMetadata": 0
@@ -613,9 +616,9 @@
       "overallScore": 143,
       "position": 440,
       "nation": 440,
-      "heightCm": 131,
+      "heightCm": 285,
       "shirtNumber": 288,
-      "officialMetadata": 85
+      "officialMetadata": 227
     },
     "fieldCoverage": [
       {
@@ -680,15 +683,15 @@
       },
       {
         "field": "nation",
-        "before": 0,
+        "before": 1,
         "after": 440,
-        "added": 440
+        "added": 439
       },
       {
         "field": "heightCm",
         "before": 0,
-        "after": 131,
-        "added": 131
+        "after": 285,
+        "added": 285
       },
       {
         "field": "shirtNumber",
@@ -699,8 +702,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 85,
-        "added": 85
+        "after": 227,
+        "added": 227
       }
     ],
     "clubSummary": [
@@ -708,9 +711,9 @@
         "clubId": "dvsc",
         "clubName": "DVSC",
         "mlszCards": 38,
-        "officialRecords": 72,
-        "eligibleRecords": 65,
-        "matched": 61,
+        "officialRecords": 75,
+        "eligibleRecords": 68,
+        "matched": 64,
         "excluded": 7,
         "review": 4,
         "sourceStatus": "complete-38-of-38-player-review",
@@ -720,9 +723,9 @@
         "clubId": "dvtk",
         "clubName": "DVTK",
         "mlszCards": 45,
-        "officialRecords": 59,
-        "eligibleRecords": 59,
-        "matched": 59,
+        "officialRecords": 61,
+        "eligibleRecords": 61,
+        "matched": 61,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-45-of-45-player-review",
@@ -732,9 +735,9 @@
         "clubId": "eto-fc",
         "clubName": "ETO FC",
         "mlszCards": 35,
-        "officialRecords": 63,
-        "eligibleRecords": 63,
-        "matched": 63,
+        "officialRecords": 85,
+        "eligibleRecords": 85,
+        "matched": 85,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-35-of-35-player-review",
@@ -744,9 +747,9 @@
         "clubId": "ferencvarosi-tc",
         "clubName": "Ferencvárosi TC",
         "mlszCards": 42,
-        "officialRecords": 42,
-        "eligibleRecords": 41,
-        "matched": 41,
+        "officialRecords": 67,
+        "eligibleRecords": 66,
+        "matched": 66,
         "excluded": 1,
         "review": 0,
         "sourceStatus": "structured-season-roster-imported",
@@ -756,9 +759,9 @@
         "clubId": "kisvarda-master-good",
         "clubName": "Kisvárda Master Good",
         "mlszCards": 38,
-        "officialRecords": 118,
-        "eligibleRecords": 118,
-        "matched": 108,
+        "officialRecords": 120,
+        "eligibleRecords": 120,
+        "matched": 110,
         "excluded": 0,
         "review": 10,
         "sourceStatus": "complete-38-of-38-player-review",
@@ -768,9 +771,9 @@
         "clubId": "kolorcity-kazincbarcika-sc",
         "clubName": "Kolorcity Kazincbarcika SC",
         "mlszCards": 40,
-        "officialRecords": 59,
-        "eligibleRecords": 56,
-        "matched": 56,
+        "officialRecords": 80,
+        "eligibleRecords": 77,
+        "matched": 77,
         "excluded": 3,
         "review": 0,
         "sourceStatus": "complete-40-of-40-player-review",
@@ -780,9 +783,9 @@
         "clubId": "mtk-budapest",
         "clubName": "MTK Budapest",
         "mlszCards": 36,
-        "officialRecords": 57,
-        "eligibleRecords": 57,
-        "matched": 55,
+        "officialRecords": 63,
+        "eligibleRecords": 63,
+        "matched": 61,
         "excluded": 0,
         "review": 2,
         "sourceStatus": "complete-36-of-36-player-review",
@@ -792,9 +795,9 @@
         "clubId": "nyiregyhaza-spartacus-fc",
         "clubName": "Nyíregyháza Spartacus FC",
         "mlszCards": 39,
-        "officialRecords": 115,
-        "eligibleRecords": 115,
-        "matched": 115,
+        "officialRecords": 139,
+        "eligibleRecords": 139,
+        "matched": 139,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-39-of-39-player-review",
@@ -804,9 +807,9 @@
         "clubId": "paksi-fc",
         "clubName": "Paksi FC",
         "mlszCards": 33,
-        "officialRecords": 78,
-        "eligibleRecords": 77,
-        "matched": 77,
+        "officialRecords": 81,
+        "eligibleRecords": 80,
+        "matched": 80,
         "excluded": 1,
         "review": 0,
         "sourceStatus": "complete-33-of-33-player-review",
@@ -816,9 +819,9 @@
         "clubId": "puskas-akademia-fc",
         "clubName": "Puskás Akadémia FC",
         "mlszCards": 34,
-        "officialRecords": 66,
-        "eligibleRecords": 61,
-        "matched": 61,
+        "officialRecords": 85,
+        "eligibleRecords": 80,
+        "matched": 80,
         "excluded": 5,
         "review": 0,
         "sourceStatus": "complete-34-of-34-player-review",
@@ -828,9 +831,9 @@
         "clubId": "ujpest-fc",
         "clubName": "Újpest FC",
         "mlszCards": 41,
-        "officialRecords": 67,
-        "eligibleRecords": 62,
-        "matched": 62,
+        "officialRecords": 75,
+        "eligibleRecords": 70,
+        "matched": 70,
         "excluded": 5,
         "review": 0,
         "sourceStatus": "complete-41-of-41-player-review",
@@ -840,9 +843,9 @@
         "clubId": "zte-fc",
         "clubName": "ZTE FC",
         "mlszCards": 43,
-        "officialRecords": 67,
-        "eligibleRecords": 65,
-        "matched": 65,
+        "officialRecords": 86,
+        "eligibleRecords": 84,
+        "matched": 84,
         "excluded": 2,
         "review": 0,
         "sourceStatus": "complete-43-of-43-player-review",
@@ -1047,10 +1050,10 @@
     ]
   },
   "verifiedPlayerCorrections": {
-    "requested": 1,
-    "appliedPlayers": 1,
-    "appliedFields": 1,
-    "skipped": 0,
+    "requested": 4,
+    "appliedPlayers": 2,
+    "appliedFields": 2,
+    "skipped": 2,
     "applied": [
       {
         "playerId": "nb1-0313d575ded4",
@@ -1070,9 +1073,36 @@
         "previous": {
           "birthDate": null
         }
+      },
+      {
+        "playerId": "nb1-26e52ef046d5",
+        "playerName": "MAKRECKIS CEBRAILS",
+        "correctionId": "nationality-makreckis-cebrails-latvia-code-2026-07-28",
+        "clubId": "ferencvarosi-tc",
+        "checkedAt": "2026-07-28",
+        "sourceIds": [
+          "source-nationality-code-normalization"
+        ],
+        "sourceUrl": null,
+        "note": "A forrásban szereplő nem szabványos LAT jelölést a már támogatott lett labdarúgó-országkódra, LVA-ra normalizálja; a másodlagos német kötődés nem módosul.",
+        "fieldsApplied": [
+          "nation"
+        ],
+        "previous": {
+          "nation": ""
+        }
       }
     ],
-    "skippedCorrections": []
+    "skippedCorrections": [
+      {
+        "correctionId": "nationality-lenny-joseph-haiti-2026-07-28",
+        "reason": "player-not-found"
+      },
+      {
+        "correctionId": "nationality-callum-odowda-ireland-2026-07-28",
+        "reason": "player-not-found"
+      }
+    ]
   },
   "officialStatPatches": {
     "schemaVersion": 1,
@@ -3201,6 +3231,15 @@
       "clubId": "dvtk"
     },
     {
+      "playerId": "nb1-26e52ef046d5",
+      "playerName": "MAKRECKIS CEBRAILS",
+      "field": "nation",
+      "kept": "LVA",
+      "offered": "LAT / GER",
+      "sourceId": "dvtk-official-nbi-2025-26-ftc",
+      "clubId": "ferencvarosi-tc"
+    },
+    {
       "playerId": "nb1-34295f65a151",
       "playerName": "NAGY KRISZTIÁN",
       "field": "heightCm",
@@ -3237,6 +3276,24 @@
       ],
       "previous": {
         "birthDate": null
+      }
+    },
+    {
+      "playerId": "nb1-26e52ef046d5",
+      "playerName": "MAKRECKIS CEBRAILS",
+      "correctionId": "nationality-makreckis-cebrails-latvia-code-2026-07-28",
+      "clubId": "ferencvarosi-tc",
+      "checkedAt": "2026-07-28",
+      "sourceIds": [
+        "source-nationality-code-normalization"
+      ],
+      "sourceUrl": null,
+      "note": "A forrásban szereplő nem szabványos LAT jelölést a már támogatott lett labdarúgó-országkódra, LVA-ra normalizálja; a másodlagos német kötődés nem módosul.",
+      "fieldsApplied": [
+        "nation"
+      ],
+      "previous": {
+        "nation": ""
       }
     },
     {

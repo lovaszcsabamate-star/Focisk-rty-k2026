@@ -85,18 +85,18 @@
       "maxChoiceHeight": 206,
       "rects": {
         "felt": {
-          "top": 130,
+          "top": 167,
           "bottom": 486,
           "left": 8,
           "right": 312
         },
         "prompt": {
-          "top": 215,
-          "bottom": 256
+          "top": 252,
+          "bottom": 293
         },
         "duel": {
-          "top": 260,
-          "bottom": 418,
+          "top": 297,
+          "bottom": 455,
           "left": 17,
           "right": 303
         },
@@ -133,18 +133,18 @@
       "maxChoiceHeight": 206,
       "rects": {
         "felt": {
-          "top": 130,
+          "top": 167,
           "bottom": 486,
           "left": 8,
           "right": 352
         },
         "prompt": {
-          "top": 215,
-          "bottom": 258
+          "top": 252,
+          "bottom": 295
         },
         "duel": {
-          "top": 262,
-          "bottom": 420,
+          "top": 299,
+          "bottom": 457,
           "left": 17,
           "right": 343
         },
@@ -181,17 +181,17 @@
       "maxChoiceHeight": 250,
       "rects": {
         "felt": {
-          "top": 136,
+          "top": 173,
           "bottom": 458,
           "left": 8,
           "right": 382
         },
         "prompt": {
-          "top": 221,
-          "bottom": 268
+          "top": 258,
+          "bottom": 305
         },
         "duel": {
-          "top": 272,
+          "top": 309,
           "bottom": 449,
           "left": 17,
           "right": 373
@@ -229,17 +229,17 @@
       "maxChoiceHeight": 256,
       "rects": {
         "felt": {
-          "top": 136,
+          "top": 169,
           "bottom": 451,
           "left": 8,
           "right": 404
         },
         "prompt": {
-          "top": 221,
-          "bottom": 270
+          "top": 254,
+          "bottom": 303
         },
         "duel": {
-          "top": 274,
+          "top": 307,
           "bottom": 442,
           "left": 17,
           "right": 395
@@ -277,17 +277,17 @@
       "maxChoiceHeight": 256,
       "rects": {
         "felt": {
-          "top": 136,
+          "top": 172,
           "bottom": 451,
           "left": 8,
           "right": 472
         },
         "prompt": {
-          "top": 221,
-          "bottom": 254
+          "top": 257,
+          "bottom": 290
         },
         "duel": {
-          "top": 258,
+          "top": 294,
           "bottom": 442,
           "left": 17,
           "right": 463
