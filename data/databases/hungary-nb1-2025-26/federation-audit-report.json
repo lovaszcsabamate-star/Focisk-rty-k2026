@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-07-28",
+  "generatedAt": "2026-07-19T17:51:18.342Z",
+  "databaseId": "hungary-nb1-2025-26",
+  "databaseVersion": "3.3.0",
+  "season": "2025/26",
+  "minimumTeamSize": 11,
+  "playerCount": 440,
+  "missingFederation": [],
+  "unmappedCountries": [],
+  "contradictions": [],
+  "duplicatePlayerIds": [],
+  "countries": [
+    {
+      "countryCode": "HU",
+      "nationality": "Hungary",
+      "federationCode": "UEFA",
+      "playerCount": 270,
+      "playable": true
+    },
+    {
+      "countryCode": "ES",
+      "nationality": "Spain",
+      "federationCode": "UEFA",
+      "playerCount": 7,
+      "playable": false
+    },
+    {
+      "countryCode": "FR",
+      "nationality": "France",
+      "federationCode": "UEFA",
+      "playerCount": 7,
+      "playable": false
+    },
+    {
+      "countryCode": "CH",
+      "nationality": "Switzerland",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "RS",
+      "nationality": "Serbia",
+      "federationCode": "UEFA",
+      "playerCount": 13,
+      "playable": true
+    },
+    {
+      "countryCode": "AT",
+      "nationality": "Austria",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "UA",
+      "nationality": "Ukraine",
+      "federationCode": "UEFA",
+      "playerCount": 12,
+      "playable": true
+    },
+    {
+      "countryCode": "VE",
+      "nationality": "Venezuela",
+      "federationCode": "CONMEBOL",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "NG",
+      "nationality": "Nigeria",
+      "federationCode": "CAF",
+      "playerCount": 14,
+      "playable": true
+    },
+    {
+      "countryCode": "CI",
+      "nationality": "Côte d’Ivoire",
+      "federationCode": "CAF",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "ML",
+      "nationality": "Mali",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "CF",
+      "nationality": "Central African Republic",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "XK",
+      "nationality": "Kosovo",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "DK",
+      "nationality": "Denmark",
+      "federationCode": "UEFA",
+      "playerCount": 2,
+      "playable": false
+    },
+    {
+      "countryCode": "SI",
+      "nationality": "Slovenia",
+      "federationCode": "UEFA",
+      "playerCount": 6,
+      "playable": false
+    },
+    {
+      "countryCode": "HR",
+      "nationality": "Croatia",
+      "federationCode": "UEFA",
+      "playerCount": 8,
+      "playable": true
+    },
+    {
+      "countryCode": "BA",
+      "nationality": "Bosnia and Herzegovina",
+      "federationCode": "UEFA",
+      "playerCount": 6,
+      "playable": false
+    },
+    {
+      "countryCode": "NL",
+      "nationality": "Netherlands",
+      "federationCode": "UEFA",
+      "playerCount": 2,
+      "playable": false
+    },
+    {
+      "countryCode": "GM",
+      "nationality": "Gambia",
+      "federationCode": "CAF",
+      "playerCount": 2,
+      "playable": false
+    },
+    {
+      "countryCode": "SE",
+      "nationality": "Sweden",
+      "federationCode": "UEFA",
+      "playerCount": 2,
+      "playable": false
+    },
+    {
+      "countryCode": "RO",
+      "nationality": "Romania",
+      "federationCode": "UEFA",
+      "playerCount": 5,
+      "playable": false
+    },
+    {
+      "countryCode": "DZ",
+      "nationality": "Algeria",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "CA",
+      "nationality": "Canada",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "BE",
+      "nationality": "Belgium",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "TG",
+      "nationality": "Togo",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "SK",
+      "nationality": "Slovakia",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "IL",
+      "nationality": "Israel",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "AU",
+      "nationality": "Australia",
+      "federationCode": "AFC",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "AR",
+      "nationality": "Argentina",
+      "federationCode": "CONMEBOL",
+      "playerCount": 4,
+      "playable": false
+    },
+    {
+      "countryCode": "HT",
+      "nationality": "Haiti",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "GN",
+      "nationality": "Guinea",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "BR",
+      "nationality": "Brazil",
+      "federationCode": "CONMEBOL",
+      "playerCount": 8,
+      "playable": true
+    },
+    {
+      "countryCode": "LV",
+      "nationality": "Latvia",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "IE",
+      "nationality": "Ireland",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "AM",
+      "nationality": "Armenia",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "NO",
+      "nationality": "Norway",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "CZ",
+      "nationality": "Czechia",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "ME",
+      "nationality": "Montenegro",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "BG",
+      "nationality": "Bulgaria",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "US",
+      "nationality": "United States",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "PL",
+      "nationality": "Poland",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "LT",
+      "nationality": "Lithuania",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "GE",
+      "nationality": "Georgia",
+      "federationCode": "UEFA",
+      "playerCount": 3,
+      "playable": false
+    },
+    {
+      "countryCode": "MK",
+      "nationality": "North Macedonia",
+      "federationCode": "UEFA",
+      "playerCount": 2,
+      "playable": false
+    },
+    {
+      "countryCode": "AL",
+      "nationality": "Albania",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "GR",
+      "nationality": "Greece",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "TT",
+      "nationality": "Trinidad and Tobago",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "CY",
+      "nationality": "Cyprus",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "CV",
+      "nationality": "Cabo Verde",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "GH",
+      "nationality": "Ghana",
+      "federationCode": "CAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "FI",
+      "nationality": "Finland",
+      "federationCode": "UEFA",
+      "playerCount": 2,
+      "playable": false
+    },
+    {
+      "countryCode": "GB-ENG",
+      "nationality": "England",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "PT",
+      "nationality": "Portugal",
+      "federationCode": "UEFA",
+      "playerCount": 5,
+      "playable": false
+    },
+    {
+      "countryCode": "SR",
+      "nationality": "Suriname",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "DE",
+      "nationality": "Germany",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "IT",
+      "nationality": "Italy",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "MD",
+      "nationality": "Moldova",
+      "federationCode": "UEFA",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "MX",
+      "nationality": "Mexico",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "CR",
+      "nationality": "Costa Rica",
+      "federationCode": "CONCACAF",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "countryCode": "PY",
+      "nationality": "Paraguay",
+      "federationCode": "CONMEBOL",
+      "playerCount": 1,
+      "playable": false
+    }
+  ],
+  "federations": [
+    {
+      "federationCode": "UEFA",
+      "label": "Európa",
+      "playerCount": 392,
+      "playable": true
+    },
+    {
+      "federationCode": "CAF",
+      "label": "Afrika",
+      "playerCount": 26,
+      "playable": true
+    },
+    {
+      "federationCode": "CONMEBOL",
+      "label": "Dél-Amerika",
+      "playerCount": 14,
+      "playable": true
+    },
+    {
+      "federationCode": "CONCACAF",
+      "label": "CONCACAF",
+      "playerCount": 7,
+      "playable": false
+    },
+    {
+      "federationCode": "AFC",
+      "label": "Ázsia",
+      "playerCount": 1,
+      "playable": false
+    },
+    {
+      "federationCode": "OFC",
+      "label": "Óceánia",
+      "playerCount": 0,
+      "playable": false
+    }
+  ],
+  "playableNationalTeams": [
+    {
+      "countryCode": "HU",
+      "name": "Magyar ligaválogatott",
+      "federationCode": "UEFA",
+      "playerCount": 270
+    },
+    {
+      "countryCode": "NG",
+      "name": "Nigériai ligaválogatott",
+      "federationCode": "CAF",
+      "playerCount": 14
+    },
+    {
+      "countryCode": "RS",
+      "name": "Szerb ligaválogatott",
+      "federationCode": "UEFA",
+      "playerCount": 13
+    },
+    {
+      "countryCode": "UA",
+      "name": "Ukrán ligaválogatott",
+      "federationCode": "UEFA",
+      "playerCount": 12
+    },
+    {
+      "countryCode": "BR",
+      "name": "Brazil ligaválogatott",
+      "federationCode": "CONMEBOL",
+      "playerCount": 8
+    },
+    {
+      "countryCode": "HR",
+      "name": "Horvát ligaválogatott",
+      "federationCode": "UEFA",
+      "playerCount": 8
+    }
+  ],
+  "playableFederationTeams": [
+    {
+      "federationCode": "UEFA",
+      "name": "Európa",
+      "playerCount": 392,
+      "badge": "assets/federations/federation-europe.svg"
+    },
+    {
+      "federationCode": "CAF",
+      "name": "Afrika",
+      "playerCount": 26,
+      "badge": "assets/federations/federation-africa.svg"
+    },
+    {
+      "federationCode": "CONMEBOL",
+      "name": "Dél-Amerika",
+      "playerCount": 14,
+      "badge": "assets/federations/federation-south-america.svg"
+    }
+  ],
+  "summary": {
+    "playerCount": 440,
+    "playablePlayerCount": 440,
+    "mappedCountryCount": 60,
+    "missingFederationCount": 0,
+    "unmappedCountryCount": 0,
+    "contradictionCount": 0,
+    "duplicatePlayerIdCount": 0,
+    "playableNationalTeamCount": 6,
+    "playableFederationTeamCount": 3
+  }
+}
