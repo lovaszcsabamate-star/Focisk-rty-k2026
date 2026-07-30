@@ -112,6 +112,7 @@ const moduleOrder = [
   'js/visual-system.js',
   'js/visual-hierarchy.js',
   'js/gameplay-experience.js',
+  'js/gameplay-polish.js',
   'js/legal-ui.js',
   'js/ui/ui-enhancement-pipeline.js',
   'js/main.js',
