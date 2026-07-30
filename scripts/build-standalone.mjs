@@ -73,6 +73,7 @@ const moduleOrder = [
   'js/domain/deck-selection-domain.js',
   'js/services/deck-selection-storage-service.js',
   'js/ui/deck-selection-menu-component.js',
+  'js/ui/help-popover-component.js',
   'js/quick-match-card-controls.js',
   'js/deck-selection.js',
   'js/branding.js',
@@ -113,6 +114,7 @@ const moduleOrder = [
   'js/visual-system.js',
   'js/visual-hierarchy.js',
   'js/gameplay-experience.js',
+  'js/recent-duels-experience.js',
   'js/gameplay-polish.js',
   'js/legal-ui.js',
   'js/ui/ui-enhancement-pipeline.js',
@@ -136,6 +138,7 @@ const uiEnhancementFiles = new Set([
   'js/visual-system.js',
   'js/visual-hierarchy.js',
   'js/gameplay-experience.js',
+  'js/recent-duels-experience.js',
   'js/legal-ui.js',
 ]);
 
@@ -326,6 +329,8 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/matchday.js"></script>\n', '')
   .replace('  <script type="module" src="js/opponents.js"></script>\n', '')
   .replace('  <script type="module" src="js/pwa.js"></script>\n', '')
+  .replace('  <script type="module" src="js/recent-duels-experience.js"></script>\n', '')
+  .replace('  <script type="module" src="js/ui/help-popover-component.js"></script>\n', '')
   .replace('  <script type="module" src="js/player-profile.js"></script>\n', '')
   .replace('  <script type="module" src="js/reliability-fixes.js"></script>\n', '')
   .replace('  <script type="module" src="js/usability-fixes.js"></script>\n', '')
@@ -346,6 +351,9 @@ if (!output.includes('__FOCISKARTYAK_I18N_CATALOGUES__')
 }
 if (output.includes('href="css/i18n.css"') || output.includes('import.meta.url')) {
   throw new Error('Az önálló lokalizáció külső vagy WebView-inkompatibilis hivatkozást tartalmaz.');
+}
+if (output.includes('<script type="module" src=')) {
+  throw new Error('Az önálló buildben külső JavaScript-modulhivatkozás maradt.');
 }
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
