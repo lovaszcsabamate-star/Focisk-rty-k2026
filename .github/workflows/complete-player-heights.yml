@@ -5,11 +5,13 @@ on:
     branches: [complete-player-heights]
     paths:
       - scripts/enrich-player-heights.mjs
+      - scripts/run-height-enrichment.mjs
       - .github/workflows/complete-player-heights.yml
   pull_request:
     branches: [main]
     paths:
       - scripts/enrich-player-heights.mjs
+      - scripts/run-height-enrichment.mjs
       - .github/workflows/complete-player-heights.yml
   workflow_dispatch:
 
@@ -43,7 +45,7 @@ jobs:
       - name: Magasságadatok ellenőrzött begyűjtése
         env:
           HEIGHT_REQUEST_DELAY_MS: 3500
-        run: node scripts/enrich-player-heights.mjs
+        run: node scripts/run-height-enrichment.mjs
 
       - name: Parser-audit összefoglalása
         if: always()
