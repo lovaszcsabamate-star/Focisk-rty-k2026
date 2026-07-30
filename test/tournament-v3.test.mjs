@@ -18,7 +18,10 @@ import {
 import {
   simulatePendingAiMatchesEnhanced,
 } from '../js/tournament/tournament-simulation.js';
-import { clubBrandForLabel } from '../js/tournament/tournament-presentation-upgrade.js';
+import {
+  clubBrandForLabel,
+  victoryColorsForLabel,
+} from '../js/tournament/tournament-presentation-upgrade.js';
 import { HUMAN } from '../js/engine.js';
 import { PenaltyGame, applyPenaltyRoundScore } from '../js/penalties.js';
 
@@ -93,6 +96,7 @@ const tieResolution = applyPenaltyRoundScore(tiedScore, 'tie', ['human', 'ai']);
 assert.deepEqual(tiedScore, { human: 3, ai: 2 }, 'Döntetlennél mindkét csapat gólt és pontot kap.');
 assert.equal(tieResolution.tie, true);
 assert.deepEqual(tieResolution.goals, { human: 1, ai: 1 });
+assert.match(tieResolution.message, /mindkét csapat gólt és pontot kapott/i);
 
 const telemetryMatch = tournamentMatches(penalties)[0];
 const homeCard = cardsByTeam.get(telemetryMatch.homeId)[0];
@@ -118,9 +122,21 @@ for (const card of [homeCard, awayCard]) {
 }
 
 assert.equal(clubBrandForLabel('Paksi FC')?.short, 'PAKS');
-const presentationSource = readFileSync(new URL('../js/tournament/tournament-lineup-ui.js', import.meta.url), 'utf8');
-assert.match(presentationSource, /tournament-bracket--tree/);
-assert.match(presentationSource, /tournament-bracket__match--connected/);
+assert.deepEqual(
+  victoryColorsForLabel('DVSC').slice(0, 2),
+  ['#c8192e', '#ffffff'],
+  'A konfetti elsődlegesen a győztes klub színeit használja.',
+);
+const modularPresentationSource = readFileSync(new URL('../js/tournament/tournament-presentation-upgrade.js', import.meta.url), 'utf8');
+assert.match(modularPresentationSource, /tournament-trophy/);
+assert.match(modularPresentationSource, /victory-confetti/);
+assert.match(modularPresentationSource, /result-panel--win/);
+assert.match(modularPresentationSource, /tornagyozelem/);
+const standalonePresentationSource = readFileSync(new URL('../js/tournament/tournament-lineup-ui.js', import.meta.url), 'utf8');
+assert.match(standalonePresentationSource, /tournament-bracket--tree/);
+assert.match(standalonePresentationSource, /tournament-bracket__match--connected/);
+assert.match(standalonePresentationSource, /victory-confetti/);
+assert.match(standalonePresentationSource, /tournament-trophy/);
 
 const oldSave = migrateEnhancedTournament({
   ...classic,
@@ -151,4 +167,4 @@ assert.deepEqual(
   'A torna büntetőrúgó-sorrendjének meg kell maradnia a meccs indításakor.',
 );
 
-console.log('Torna v3: klublogók, kupaág, döntetlen büntetők, szimuláció és statisztikák rendben.');
+console.log('Torna v3: kupaikon, klubszínes konfetti, klublogók, kupaág, döntetlen büntetők és statisztikák rendben.');
