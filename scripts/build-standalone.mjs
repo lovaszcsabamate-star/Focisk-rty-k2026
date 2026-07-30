@@ -126,6 +126,15 @@ const moduleOrder = [
   'js/main.js',
 ];
 
+const postprocessedModuleFiles = new Set([
+  'js/tournament/tournament-domain.js',
+  'js/services/tournament-storage-service.js',
+  'js/recent-duels-experience.js',
+  'js/playability-visual-upgrade.js',
+  'js/tournament-mode.js',
+  'js/tournament-cup-experience.js',
+]);
+
 const uiEnhancementFiles = new Set([
   'js/quick-match-card-controls.js',
   'js/ux.js',
@@ -194,6 +203,7 @@ const flagAssetDataUris = Object.fromEntries([
 ]));
 
 let bundle = moduleOrder
+  .filter(file => !postprocessedModuleFiles.has(file))
   .map(flattenModuleFile)
   .join('\n');
 for (const [assetPath, dataUri] of Object.entries(flagAssetDataUris)) {
