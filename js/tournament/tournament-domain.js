@@ -87,6 +87,11 @@ export function normaliseTournamentTeam(entry) {
   });
 }
 
+export function tournamentTeamsCompatible(teams) {
+  const normalized = (Array.isArray(teams) ? teams : []).map(normaliseTournamentTeam).filter(Boolean);
+  return normalized.length > 0 && new Set(normalized.map(team => team.selection.kind)).size === 1;
+}
+
 const roundLabel = teamCount => {
   if (teamCount === 2) return 'Döntő';
   if (teamCount === 4) return 'Elődöntő';
@@ -217,6 +222,9 @@ export function createTournament({
   const uniqueTeams = [...new Map(teams.map(team => [team.id, team])).values()];
   if (uniqueTeams.length < 4) throw new Error('A torna indításához legalább négy különböző csapat szükséges.');
   if (!uniqueTeams.some(team => team.id === humanTeamId)) throw new Error('A saját csapat nem szerepel a résztvevők között.');
+  if (!tournamentTeamsCompatible(uniqueTeams)) {
+    throw new Error('Egy tornában csak azonos csapattípusok szerepelhetnek: a föderációk nem játszhatnak ligaválogatottak ellen.');
+  }
   const specialHungarianCup = category === TOURNAMENT_CATEGORY.HUNGARIAN
     && format === TOURNAMENT_FORMAT.KNOCKOUT && uniqueTeams.length === 12;
   if (format === TOURNAMENT_FORMAT.KNOCKOUT
