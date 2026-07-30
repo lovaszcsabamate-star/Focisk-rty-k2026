@@ -21,6 +21,6 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm run test:ui-components
-      - run: npm run test:tournament
+      - run: node test/tournament-mode.test.mjs
       - run: npm run build
       - run: git diff --check
