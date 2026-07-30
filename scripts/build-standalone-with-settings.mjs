@@ -44,8 +44,10 @@ const quickMatchInlineBundle = [
   .replace(/<\/script/gi, '<\\/script');
 const tournamentFiles = [
   'js/tournament/tournament-domain.js',
+  'js/tournament/tournament-lineup-state.js',
   'js/services/tournament-storage-service.js',
   'js/tournament-mode.js',
+  'js/tournament/tournament-lineup-controller.js',
 ];
 const tournamentSource = tournamentFiles
   .map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
@@ -187,6 +189,10 @@ if (!output.includes('TOURNAMENT_FORMAT') || !output.includes('Torna mód')
   || !output.includes('tournamentStorageService') || !output.includes('.tournament-bracket')) {
   throw new Error('A torna domain, mentés, felület vagy stílus nem került be az önálló buildbe.');
 }
+if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('Automatikus összeállítás')
+  || !output.includes('Kedvenc összeállítás mentése') || !output.includes('tournamentLineupOrder')) {
+  throw new Error('A biztonságos keretválasztás vagy a büntetőrúgó-sorrend nem került be az önálló buildbe.');
+}
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
@@ -201,4 +207,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, Torna mód, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, biztonságos Torna-keret, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
