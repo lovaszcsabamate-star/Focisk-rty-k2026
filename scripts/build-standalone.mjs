@@ -65,6 +65,7 @@ const sourceFiles = [
 ];
 
 const moduleOrder = [
+  'js/i18n.js',
   'js/app/configuration.js',
   'js/services/storage-service.js',
   'js/services/asset-service.js',
@@ -143,8 +144,29 @@ const flattenModule = source => source
   .replace(/^export\s+\{[^}]+\};?\s*$/gm, '')
   .replace(/\bexport\s+(?=(?:const|let|var|class|function|async\s+function)\b)/g, '');
 
+const prepareModuleSource = file => {
+  let source = read(file);
+  if (file === 'js/i18n.js') {
+    source = source
+      .replace(
+        'const catalogueUrl = language => new URL(`../locales/${language}.json`, import.meta.url);',
+        'const catalogueUrl = language => new URL(`locales/${language}.json`, document.baseURI);',
+      )
+      .replace(
+        'async function loadCatalogue(language) {',
+        `async function loadCatalogue(language) {
+  const embeddedCatalogue = globalThis.__FOCISKARTYAK_I18N_CATALOGUES__?.[language];
+  if (embeddedCatalogue && typeof embeddedCatalogue === 'object') return embeddedCatalogue;`,
+      );
+  }
+  return source;
+};
+
 const flattenModuleFile = file => {
-  const flattened = flattenModule(read(file));
+  const flattened = flattenModule(prepareModuleSource(file));
+  if (file === 'js/i18n.js') {
+    return `\n/* ===== ${file} ===== */\n${flattened}\nawait initializeI18n();`;
+  }
   if (!uiEnhancementFiles.has(file)) {
     return `\n/* ===== ${file} ===== */\n${flattened}`;
   }
@@ -250,10 +272,15 @@ const standalonePayload = {
   season: databaseManifest.season,
   seasonMeta: databaseManifest.seasonMeta,
 };
+const i18nCatalogues = {
+  hu: JSON.parse(read('locales/hu.json')),
+  en: JSON.parse(read('locales/en.json')),
+};
 const safeJson = JSON.stringify(standalonePayload).replace(/<\/script/gi, '<\\/script');
 const safeDatabase = JSON.stringify(databaseManifest).replace(/<\/script/gi, '<\\/script');
+const safeI18nCatalogues = JSON.stringify(i18nCatalogues).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}\n\n${read('css/nationality-flags.css')}`;
+let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}\n\n${read('css/nationality-flags.css')}\n\n${read('css/i18n.css')}`;
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -291,6 +318,7 @@ const output = read('index.html')
   .replace('\n  <link rel="stylesheet" href="css/visual-hierarchy.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/category-picker.css">', '')
   .replace('\n  <link rel="stylesheet" href="css/nationality-flags.css">', '')
+  .replace('\n  <link rel="stylesheet" href="css/i18n.css">', '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/branding.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
@@ -308,8 +336,17 @@ const output = read('index.html')
   .replace('  <script type="module" src="js/quick-match-card-controls.js"></script>\n', '')
   .replace(
     '<script type="module" src="js/bootstrap.js"></script>',
-    `<script>globalThis.__FOCISKARTYAK_DATABASE__ = ${safeDatabase}; globalThis.__FOCISKARTYAK_SEASON__ = globalThis.__FOCISKARTYAK_DATABASE__.seasonMeta; globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`,
+    `<script>globalThis.__FOCISKARTYAK_DATABASE__ = ${safeDatabase}; globalThis.__FOCISKARTYAK_SEASON__ = globalThis.__FOCISKARTYAK_DATABASE__.seasonMeta; globalThis.__EMBEDDED_PLAYER_DATA__ = ${safeJson}; globalThis.__FOCISKARTYAK_I18N_CATALOGUES__ = ${safeI18nCatalogues}; globalThis.__FOCISKARTYAK_UI_ENHANCEMENTS_PRELOADED__ = true;</script>\n<script type="module">${safeBundle}</script>`,
   );
+
+if (!output.includes('__FOCISKARTYAK_I18N_CATALOGUES__')
+  || !output.includes('await initializeI18n()')
+  || !output.includes('.language-select')) {
+  throw new Error('A magyar–angol lokalizáció nem került teljesen az önálló buildbe.');
+}
+if (output.includes('href="css/i18n.css"') || output.includes('import.meta.url')) {
+  throw new Error('Az önálló lokalizáció külső vagy WebView-inkompatibilis hivatkozást tartalmaz.');
+}
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
 fs.writeFileSync(outputPath, output);
@@ -358,6 +395,3 @@ fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 console.log(`Elkészült: ${outputPath}`);
 console.log(`Adatbázis: ${databaseManifest.name} (${databaseManifest.id})`);
 console.log(`Szezon: ${databaseManifest.season} (${databaseManifest.seasonId})`);
-console.log(`Manifest: ${databaseManifestFile}`);
-console.log(`Elsődleges build-adatforrás: ${buildDataSource}`);
-console.log(`Adatfelülvizsgálati jelentés: ${auditPath}`);
