@@ -25,6 +25,7 @@ export const BOOLEAN_SETTING_KEYS = Object.freeze({
   animations: 'fociskartyak:animations',
   largeText: 'fociskartyak:largeText',
   simplified: 'fociskartyak:simplified',
+  timedTurns: 'fociskartyak:timedTurns',
 });
 
 export const DEFAULT_EXPERIENCE_SETTINGS = Object.freeze({
@@ -34,6 +35,7 @@ export const DEFAULT_EXPERIENCE_SETTINGS = Object.freeze({
   animations: true,
   largeText: false,
   simplified: false,
+  timedTurns: false,
 });
 
 export const APP_CONFIGURATION = Object.freeze({

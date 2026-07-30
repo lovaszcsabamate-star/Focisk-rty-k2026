@@ -33,7 +33,7 @@ const createAttemptRow = (game, side) => {
   const marks = el('div', 'attempt-marks');
   for (let index = 0; index < 11; index += 1) {
     const outcome = game.attempts[side][index];
-    const symbol = outcome === 'win' ? '⚽' : outcome === 'loss' ? '✕' : outcome === 'tie' ? '—' : '○';
+    const symbol = outcome === 'win' || outcome === 'tie' ? '⚽' : outcome === 'loss' ? '✕' : '○';
     const marker = el('span', `attempt attempt--${outcome ?? 'empty'}`, symbol);
     marker.title = outcome === 'win'
       ? 'Megnyert párbaj'
