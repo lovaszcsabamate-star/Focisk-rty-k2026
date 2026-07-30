@@ -8,6 +8,9 @@ const primitives = read('../js/ui/dom-primitives.js');
 const card = read('../js/ui/card-component.js');
 const scoreboard = read('../js/ui/scoreboard-component.js');
 const picker = read('../js/ui/attribute-picker-component.js');
+const matchday = read('../js/matchday.js');
+const matchdayCss = read('../css/matchday.css');
+const configuration = read('../js/app/configuration.js');
 const build = read('../scripts/build-standalone.mjs');
 const serviceWorker = read('../sw.js');
 
@@ -29,6 +32,18 @@ assert.match(ui, /export \{ \$, ART, el \}/);
 assert.doesNotMatch(ui, /CARD_ATTRIBUTE_KEYS/);
 assert.doesNotMatch(ui, /_renderClassicScores|_renderPenaltyScores|_scoreChip|_cardRows/);
 
+assert.match(configuration, /timedTurns:\s*'fociskartyak:timedTurns'/);
+assert.match(configuration, /timedTurns:\s*false/);
+assert.match(scoreboard, /outcome === 'win' \|\| outcome === 'tie' \? '⚽'/);
+assert.match(matchday, /CHOICE_LIMIT_SECONDS = 90/);
+assert.match(matchday, /\['3', '2', '1', '📣 SÍP!'\]/);
+assert.match(matchday, /dataset\.matchClock/);
+assert.match(matchday, /dataset\.choiceClock/);
+assert.match(matchday, /Meccs újrajátszása/);
+assert.match(matchday, /Torna kezdőlapja/);
+assert.match(matchdayCss, /match-scoreboard__clock/);
+assert.match(matchdayCss, /matchday-kickoff/);
+
 const moduleOrder = [
   'js/ui/dom-primitives.js',
   'js/ui/card-component.js',
@@ -44,4 +59,4 @@ for (const file of moduleOrder) {
   assert.match(serviceWorker, new RegExp(file.replaceAll('/', '\\/').replaceAll('.', '\\.')));
 }
 
-console.log('✓ A vizuális réteg stabil DOM-, kártya-, eredményjelző- és kategóriaválasztó komponensekre bomlik');
+console.log('✓ A vizuális réteg, sporteredményjelző, torna-visszajátszás és időzítés regressziói ellenőrizve');
