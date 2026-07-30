@@ -39,6 +39,7 @@ assert.match(scoreboard, /outcome === 'win' \|\| outcome === 'tie' \? '⚽'/);
 assert.match(matchday, /CHOICE_LIMIT_SECONDS = 90/);
 assert.match(matchday, /writeStoredBoolean\(TIMED_TURNS_KEY/);
 assert.match(matchday, /\['3', '2', '1', '📣 SÍP!'\]/);
+assert.match(matchday, /function prepareWhistle/);
 assert.match(matchday, /dataset\.matchClock/);
 assert.match(matchday, /dataset\.choiceClock/);
 assert.match(matchday, /Meccs újrajátszása/);
