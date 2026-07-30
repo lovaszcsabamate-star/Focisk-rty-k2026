@@ -15,6 +15,7 @@ import {
 } from '../data/federations.js';
 
 export const MINIMUM_TEAM_SIZE = FEDERATION_TEAM_MINIMUM;
+export const NATIONAL_TEAM_MINIMUM = 8;
 
 const federationDomainPlayers = players => (Array.isArray(players) ? players : []);
 const federationDomainText = value => String(value ?? '').trim();
@@ -130,7 +131,7 @@ export function groupPlayersByFederation(players) {
   );
 }
 
-export function getPlayableNationalTeams(players, minimumPlayers = MINIMUM_TEAM_SIZE) {
+export function getPlayableNationalTeams(players, minimumPlayers = NATIONAL_TEAM_MINIMUM) {
   return groupPlayersByCountry(players)
     .filter(group => group.count >= minimumPlayers)
     .map(group => Object.freeze({
@@ -139,8 +140,8 @@ export function getPlayableNationalTeams(players, minimumPlayers = MINIMUM_TEAM_
       kind: 'nation',
       key: group.countryCode,
       value: group.countryCode,
-      name: `${group.label} válogatott`,
-      label: `${group.label} válogatott`,
+      name: `${group.label} ligaválogatott`,
+      label: `${group.label} ligaválogatott`,
       countryCode: group.countryCode,
       federation: group.federation,
       federationCode: group.federationCode,
@@ -219,7 +220,7 @@ export function validatePlayerFederationData(players, minimumPlayers = MINIMUM_T
 
   const countryGroups = groupPlayersByCountry(list);
   const federationGroups = groupPlayersByFederation(list);
-  const playableNationalTeams = getPlayableNationalTeams(list, minimumPlayers);
+  const playableNationalTeams = getPlayableNationalTeams(list, NATIONAL_TEAM_MINIMUM);
   const playableFederationTeams = getPlayableFederationTeams(list, minimumPlayers);
 
   return Object.freeze({
@@ -232,7 +233,7 @@ export function validatePlayerFederationData(players, minimumPlayers = MINIMUM_T
       nationality: group.nationality,
       federationCode: group.federationCode,
       playerCount: group.count,
-      playable: group.count >= minimumPlayers,
+      playable: group.count >= NATIONAL_TEAM_MINIMUM,
     }))),
     federations: Object.freeze(Object.keys(FEDERATION_DEFINITIONS).map(federationCode => {
       const group = federationGroups.find(item => item.federationCode === federationCode);
