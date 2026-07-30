@@ -7,3 +7,25 @@
 @media (max-width:420px){.tournament-panel{width:100vw;max-height:100dvh;border-radius:0}.tournament-section{padding:12px}.tournament-segmented span{font-size:.86rem}.tournament-versus strong{font-size:.86rem}.tournament-team-chips{max-height:116px;overflow:auto}.tournament-tabs{margin-inline:-4px}.tournament-result-row{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding-inline:8px}}
 
 @media (prefers-reduced-motion:reduce){.tournament-progress span{transition:none}}
+
+/* Tornaeredmény: a folytatás mobilon is mindig elérhető marad. */
+.result-panel--tournament{overscroll-behavior:contain}
+.result-panel--tournament .result-actions{position:sticky;z-index:8;bottom:0;margin-top:18px;padding:12px;border:1px solid rgba(255,239,183,.22);border-radius:16px;background:linear-gradient(180deg,rgba(34,23,15,.94),rgba(24,16,11,.99));box-shadow:0 -12px 26px rgba(0,0,0,.42);backdrop-filter:blur(10px)}
+.result-panel--tournament .result-actions .btn{min-height:48px}
+.tournament-result-context--error{color:#ffca9e}
+
+/* A torna ugyanazokat a jogtiszta, klubszínes emblémákat használja, mint a csapatválasztó. */
+.tournament-team-mark__generated{display:grid;place-items:center;width:58px;height:58px;flex:0 0 58px}
+.tournament-team-mark__generated .quick-team-mark__image{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 10px rgba(0,0,0,.45))}
+.tournament-team-mark--small{width:28px!important;height:28px!important;flex:0 0 28px!important;font-size:1rem!important}
+.tournament-team-chip{display:inline-flex;align-items:center;gap:7px}
+.tournament-result-row>span{display:flex;min-width:0;align-items:center;gap:6px}
+.tournament-result-row>span:last-child{justify-content:flex-end}
+.tournament-bracket__match>span{display:flex;min-width:0;align-items:center;gap:6px}
+.tournament-bracket__match>span>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+
+@media (max-width:760px){
+  .result-panel--tournament{padding-bottom:0}
+  .result-panel--tournament .result-actions{margin-inline:-8px;margin-bottom:-8px;padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
+  .tournament-team-mark__generated:not(.tournament-team-mark--small){width:48px;height:48px;flex-basis:48px}
+}
