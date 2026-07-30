@@ -69,10 +69,15 @@ jobs:
           NODE
 
       - name: Normalizált adatbázis újraépítése
-        run: npm run data:normalize
+        run: npm run migrate:database
 
       - name: Szigorú adatellenőrzés
-        run: npm run data:verify-strict
+        run: |
+          npm run check:normalized-database
+          npm run test:normalized-database
+          npm run test:player-model
+          npm run test:nationalities
+          npm run test:database-service
 
       - name: Eredmények mentése az ágra
         env:
