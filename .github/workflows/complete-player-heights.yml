@@ -1,0 +1,64 @@
+name: Játékosmagasságok kiegészítése
+
+on:
+  push:
+    branches: [complete-player-heights]
+    paths:
+      - scripts/enrich-player-heights.mjs
+      - .github/workflows/complete-player-heights.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: complete-player-heights-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  enrich-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Forráskód letöltése
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Node.js beállítása
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Függőségek telepítése
+        run: npm ci
+
+      - name: Magasságadatok ellenőrzött begyűjtése
+        env:
+          HEIGHT_REQUEST_DELAY_MS: 3500
+        run: node scripts/enrich-player-heights.mjs
+
+      - name: Normalizált adatbázis újraépítése
+        run: npm run data:normalize
+
+      - name: Szigorú adatellenőrzés
+        run: npm run data:verify-strict
+
+      - name: Eredmények mentése az ágra
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/club-official-enrichment-25-all-club-heights.json \
+            data/databases/hungary-nb1-2025-26/height-enrichment-report.json \
+            data/databases/hungary-nb1-2025-26/manifest.json \
+            data/databases/hungary-nb1-2025-26/players.normalized.json \
+            data/databases/hungary-nb1-2025-26/normalization-report.json
+          if git diff --cached --quiet; then
+            echo "Nincs mentendő változás."
+          else
+            git commit -m "Complete verified player height data"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
