@@ -132,6 +132,7 @@ const PWA_SHELL = [
   './data/club-official-enrichment-22-kisvarda-nationalities.json',
   './data/club-official-enrichment-23-final-missing-basic.json',
   './data/club-official-enrichment-24-dvtk-heights.json',
+  './data/club-official-enrichment-25-all-club-heights.json',
   './data/club-official-corrections.json',
   './data/club-official-corrections-2.json',
   './data/club-official-corrections-3.json',
