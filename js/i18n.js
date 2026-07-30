@@ -21,7 +21,7 @@ const BUILTIN_FALLBACKS = Object.freeze({
       hungarian: 'Magyar',
       english: 'English',
     },
-    common: { back: 'Vissza', done: 'Kész', retry: 'Újrapróbálás' },
+    common: { back: 'Vissza', done: 'Kész', retry: 'Újrapróbálás', unknown: 'Nincs adat' },
     automatic: {},
   },
   en: {
@@ -32,7 +32,7 @@ const BUILTIN_FALLBACKS = Object.freeze({
       hungarian: 'Magyar',
       english: 'English',
     },
-    common: { back: 'Back', done: 'Done', retry: 'Try Again' },
+    common: { back: 'Back', done: 'Done', retry: 'Try Again', unknown: 'No data' },
     automatic: {},
   },
 });
@@ -81,7 +81,6 @@ const detectDeviceLanguage = () => {
 };
 
 const resolveInitialLanguage = () => readStoredLanguage() ?? detectDeviceLanguage() ?? DEFAULT_LANGUAGE;
-
 const catalogueUrl = language => new URL(`../locales/${language}.json`, import.meta.url);
 
 async function loadCatalogue(language) {
@@ -168,7 +167,9 @@ const exactDictionary = language => catalogues[language]?.automatic ?? {};
 
 const preserveCase = (source, translated) => {
   const letters = source.replace(/[^\p{L}]/gu, '');
-  if (letters && letters === letters.toLocaleUpperCase('hu-HU')) return translated.toLocaleUpperCase(getLocale());
+  if (letters && letters === letters.toLocaleUpperCase('hu-HU')) {
+    return translated.toLocaleUpperCase(getLocale());
+  }
   return translated;
 };
 
@@ -189,35 +190,29 @@ const exactTranslation = source => {
   return source;
 };
 
-const translateDynamicText = source => {
-  if (activeLanguage === 'hu') return source;
-  const exact = exactTranslation(source);
-  if (exact !== source) return exact;
-
-  let match = source.match(/^(\d+)\. kör$/u);
-  if (match) return t('templates.roundNumber', { round: match[1] });
-  match = source.match(/^(\d+)\. párbaj$/u);
-  if (match) return t('templates.duelNumber', { round: match[1] });
-  match = source.match(/^(\d+(?:[\s.,]\d+)*) lap$/u);
-  if (match) return t('templates.cardsCount', { count: localiseNumericToken(match[1]) });
-  match = source.match(/^(\d+(?:[\s.,]\d+)*) gól$/u);
-  if (match) return t('templates.goalsCount', { count: localiseNumericToken(match[1]) });
-  match = source.match(/^(\d+(?:[\s.,]\d+)*) év$/u);
-  if (match) return t('templates.ageYears', { value: localiseNumericToken(match[1]) });
-  match = source.match(/^(\d+(?:[\s.,]\d+)*) perc$/u);
-  if (match) return t('templates.minutesValue', { value: localiseNumericToken(match[1]) });
-  match = source.match(/^JÁTÉKOS\s+(.+?)–(.+?)\s+GÉP$/u);
-  if (match) return t('templates.playerVsComputer', { human: match[1], ai: match[2] });
-  match = source.match(/^(\d+) lap a döntetlenpakliban maradt\.$/u);
-  if (match) return t('templates.cardsInDrawPile', { count: localiseNumericToken(match[1]) });
-
-  return translateEmbeddedSegments(source);
+const parseHungarianNumber = token => {
+  const compact = String(token ?? '').replace(/[\s\u00a0\u202f]/g, '');
+  if (!compact) return null;
+  const comma = compact.lastIndexOf(',');
+  const dot = compact.lastIndexOf('.');
+  let normalized = compact;
+  if (comma >= 0 && dot >= 0) {
+    const decimal = comma > dot ? ',' : '.';
+    normalized = compact
+      .replace(decimal === ',' ? /\./g : /,/g, '')
+      .replace(decimal, '.');
+  } else if (comma >= 0) {
+    normalized = compact.replace(',', '.');
+  } else if ((compact.match(/\./g) ?? []).length > 1) {
+    normalized = compact.replace(/\./g, '');
+  }
+  const numeric = Number(normalized);
+  return Number.isFinite(numeric) ? numeric : null;
 };
 
 const localiseNumericToken = token => {
-  const normalised = String(token).replace(/\s/g, '').replace(',', '.');
-  const number = Number(normalised);
-  return Number.isFinite(number) ? formatNumber(number, { maximumFractionDigits: 2 }) : token;
+  const number = parseHungarianNumber(token);
+  return number == null ? token : formatNumber(number, { maximumFractionDigits: 2 });
 };
 
 const translateEmbeddedSegments = source => {
@@ -237,10 +232,62 @@ const translateEmbeddedSegments = source => {
   return changed ? translated.join('') : source;
 };
 
+const translateDynamicText = source => {
+  if (activeLanguage === 'hu') return source;
+  const exact = exactTranslation(source);
+  if (exact !== source) return exact;
+
+  let match = source.match(/^(\d+)\. kör$/u);
+  if (match) return t('templates.roundNumber', { round: match[1] });
+  match = source.match(/^(\d+)\. párbaj$/u);
+  if (match) return t('templates.duelNumber', { round: match[1] });
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) lap$/u);
+  if (match) return t('templates.cardsCount', { count: localiseNumericToken(match[1]) });
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) kártya$/u);
+  if (match) return `${localiseNumericToken(match[1])} cards`;
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) játékoskártya$/u);
+  if (match) return `${localiseNumericToken(match[1])} player cards`;
+  match = source.match(/^Legalább (\d+) kártya szükséges$/u);
+  if (match) return `At least ${match[1]} cards required`;
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) gól$/u);
+  if (match) return t('templates.goalsCount', { count: localiseNumericToken(match[1]) });
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) év$/u);
+  if (match) return t('templates.ageYears', { value: localiseNumericToken(match[1]) });
+  match = source.match(/^(\d+(?:[\s.,]\d+)*) perc$/u);
+  if (match) return t('templates.minutesValue', { value: localiseNumericToken(match[1]) });
+  match = source.match(/^([\d\s.,\u00a0\u202f]+)\s*cm$/u);
+  if (match) {
+    const number = parseHungarianNumber(match[1]);
+    if (number != null) return formatUnit(number, 'centimeter', { maximumFractionDigits: 2 });
+  }
+  match = source.match(/^([\d\s.,\u00a0\u202f]+)\s*%$/u);
+  if (match) {
+    const number = parseHungarianNumber(match[1]);
+    if (number != null) return `${formatNumber(number, { maximumFractionDigits: 2 })}%`;
+  }
+  match = source.match(/^([\d\s.,\u00a0\u202f]+)\s*€$/u);
+  if (match) {
+    const number = parseHungarianNumber(match[1]);
+    if (number != null) return formatCurrency(number, 'EUR');
+  }
+  match = source.match(/^JÁTÉKOS\s+(.+?)–(.+?)\s+GÉP$/u);
+  if (match) return t('templates.playerVsComputer', { human: match[1], ai: match[2] });
+  match = source.match(/^(\d+) lap a döntetlenpakliban maradt\.$/u);
+  if (match) return t('templates.cardsInDrawPile', { count: localiseNumericToken(match[1]) });
+  match = source.match(/^mentve:\s*(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{1,2}):(\d{2})$/u);
+  if (match) {
+    const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), Number(match[4]), Number(match[5]));
+    return `saved: ${formatDate(date, { dateStyle: 'medium', timeStyle: 'short' })}`;
+  }
+
+  return translateEmbeddedSegments(source);
+};
+
 const renderOriginal = original => {
   const leading = original.match(/^\s*/u)?.[0] ?? '';
   const trailing = original.match(/\s*$/u)?.[0] ?? '';
-  const core = original.slice(leading.length, original.length - trailing.length || undefined);
+  const end = trailing.length ? original.length - trailing.length : original.length;
+  const core = original.slice(leading.length, end);
   if (!core) return original;
   const translated = activeLanguage === 'hu' ? core : translateDynamicText(core);
   return `${leading}${translated}${trailing}`;
@@ -290,10 +337,57 @@ const applyExplicitKeys = root => {
   }
 };
 
+const createLanguageControl = () => {
+  const row = document.createElement('label');
+  row.className = 'setting-switch setting-switch--language';
+  row.dataset.i18nLanguageControl = 'true';
+  row.dataset.i18nIgnore = 'true';
+
+  const copy = document.createElement('span');
+  copy.className = 'setting-switch__copy';
+  copy.append(document.createElement('strong'), document.createElement('small'));
+
+  const select = document.createElement('select');
+  select.className = 'language-select';
+  select.id = 'language-select';
+  select.addEventListener('change', event => setLanguage(event.currentTarget.value));
+
+  row.append(copy, select);
+  return row;
+};
+
+function refreshLanguageControl(control) {
+  const strong = control.querySelector('strong');
+  const small = control.querySelector('small');
+  const select = control.querySelector('select');
+  if (strong) strong.textContent = `🌐 ${t('language.label')}`;
+  if (small) small.textContent = t('language.description');
+  if (select) {
+    select.setAttribute('aria-label', t('language.label'));
+    select.replaceChildren(
+      Object.assign(document.createElement('option'), { value: 'hu', textContent: t('language.hungarian') }),
+      Object.assign(document.createElement('option'), { value: 'en', textContent: t('language.english') }),
+    );
+    select.value = activeLanguage;
+  }
+}
+
+function installLanguageControl() {
+  const list = document.querySelector('.settings-panel .settings-list');
+  if (!list) return;
+  let control = list.querySelector('[data-i18n-language-control]');
+  if (!control) {
+    control = createLanguageControl();
+    list.prepend(control);
+  }
+  refreshLanguageControl(control);
+}
+
 export function localiseRoot(root = document) {
   if (!root || translating) return;
   translating = true;
   try {
+    installLanguageControl();
     applyExplicitKeys(root);
     if (root.nodeType === Node.TEXT_NODE) localiseTextNode(root);
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -305,50 +399,9 @@ export function localiseRoot(root = document) {
     for (const element of elements) {
       for (const attribute of TRANSLATABLE_ATTRIBUTES) localiseAttribute(element, attribute);
     }
-    installLanguageControl();
   } finally {
     translating = false;
   }
-}
-
-const createLanguageControl = () => {
-  const row = document.createElement('label');
-  row.className = 'setting-switch setting-switch--language';
-  row.dataset.i18nLanguageControl = 'true';
-
-  const copy = document.createElement('span');
-  copy.className = 'setting-switch__copy';
-  const strong = document.createElement('strong');
-  strong.textContent = `🌐 ${t('language.label')}`;
-  const small = document.createElement('small');
-  small.textContent = t('language.description');
-  copy.append(strong, small);
-
-  const select = document.createElement('select');
-  select.className = 'language-select';
-  select.id = 'language-select';
-  select.setAttribute('aria-label', t('language.label'));
-  select.innerHTML = `
-    <option value="hu">${t('language.hungarian')}</option>
-    <option value="en">${t('language.english')}</option>
-  `;
-  select.value = activeLanguage;
-  select.addEventListener('change', event => setLanguage(event.currentTarget.value));
-
-  row.append(copy, select);
-  return row;
-};
-
-function installLanguageControl() {
-  const list = document.querySelector('.settings-panel .settings-list');
-  if (!list) return;
-  let control = list.querySelector('[data-i18n-language-control]');
-  if (!control) {
-    control = createLanguageControl();
-    list.prepend(control);
-  }
-  const select = control.querySelector('select');
-  if (select) select.value = activeLanguage;
 }
 
 const updateDocumentMetadata = () => {
