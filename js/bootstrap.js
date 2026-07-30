@@ -12,6 +12,19 @@ import {
 } from './deck-selection.js';
 import { installUiEnhancementPipeline } from './ui/ui-enhancement-pipeline.js';
 
+const LANGUAGE_STORAGE_KEY = 'fociskartyak:language:v1';
+
+function ensureDefaultLanguagePreference() {
+  if (globalThis.__FOCISKARTYAK_DETECT_DEVICE_LANGUAGE__ === true) return;
+  try {
+    if (!globalThis.localStorage?.getItem(LANGUAGE_STORAGE_KEY)) {
+      globalThis.localStorage?.setItem(LANGUAGE_STORAGE_KEY, 'hu');
+    }
+  } catch {
+    // Storage may be unavailable in privacy-restricted browser contexts.
+  }
+}
+
 function showFatalError(error) {
   console.error('[bootstrap] Az alkalmazás nem indítható:', error);
   const loading = document.querySelector('#app-loading');
@@ -29,6 +42,7 @@ function showFatalError(error) {
 }
 
 try {
+  ensureDefaultLanguagePreference();
   await initializeI18n();
   await installUiEnhancementPipeline();
   await import('./gameplay-polish.js');
