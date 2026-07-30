@@ -7,6 +7,7 @@ import {
 } from '../data/nationalities.js';
 import { federationPresentation, normaliseFederationCode } from '../data/federations.js';
 import {
+  NATIONAL_TEAM_MINIMUM,
   getPlayableFederationTeams,
   getPlayableNationalTeams,
   getPlayerFederation,
@@ -14,6 +15,7 @@ import {
 } from './federation-domain.js';
 
 export const MIN_FILTERED_DECK_SIZE = 11;
+export const MIN_NATIONAL_DECK_SIZE = NATIONAL_TEAM_MINIMUM;
 
 export const RANDOM_DECK_SELECTION = Object.freeze({
   kind: 'random',
@@ -55,6 +57,10 @@ const playerNationValue = player => {
     ?? player?.nationalityCode;
 };
 
+const deckSelectionMinimum = (kind, fallback = MIN_FILTERED_DECK_SIZE) => (
+  kind === 'nation' ? MIN_NATIONAL_DECK_SIZE : fallback
+);
+
 export const canonicalClubKey = value => deckDomainFold(value);
 
 export function canonicalNationKey(value) {
@@ -86,7 +92,7 @@ export function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_S
     .filter(item => item.count >= minimum)
     .sort((a, b) => a.label.localeCompare(b.label, 'hu-HU'));
 
-  const nations = getPlayableNationalTeams(pool, minimum).map(team => ({
+  const nations = getPlayableNationalTeams(pool, MIN_NATIONAL_DECK_SIZE).map(team => ({
     key: canonicalNationKey(team.countryCode),
     label: team.label,
     flag: team.flag,
@@ -104,7 +110,14 @@ export function buildDeckSelectionOptions(players, minimum = MIN_FILTERED_DECK_S
     count: team.count,
   }));
 
-  return { minimum, total: pool.length, clubs, nations, federations };
+  return {
+    minimum,
+    nationMinimum: MIN_NATIONAL_DECK_SIZE,
+    total: pool.length,
+    clubs,
+    nations,
+    federations,
+  };
 }
 
 export function normaliseDeckSelection(selection) {
@@ -146,7 +159,8 @@ export function resolveDeckSelection(players, selection) {
 export function validateDeckSelection(players, selection, minimum = MIN_FILTERED_DECK_SIZE) {
   const normalised = normaliseDeckSelection(selection);
   const selectedPlayers = resolveDeckSelection(players, normalised);
-  if (normalised.kind !== 'random' && selectedPlayers.length < minimum) {
+  const required = deckSelectionMinimum(normalised.kind, minimum);
+  if (normalised.kind !== 'random' && selectedPlayers.length < required) {
     return {
       selection: { ...RANDOM_DECK_SELECTION },
       players: deckDomainPlayers(players).filter(isPlayablePlayer),
@@ -162,7 +176,7 @@ export function describeDeckSelection(selection, players = []) {
   if (normalised.kind === 'club') return `Klub: ${normalised.value} · ${count} kártya`;
   if (normalised.kind === 'nation') {
     const nation = nationPresentation(normalised.value);
-    return `Válogatott: ${nation.flag} ${nation.label} · ${count} kártya`;
+    return `Ligaválogatott: ${nation.flag} ${nation.label} · ${count} kártya`;
   }
   if (normalised.kind === 'federation') {
     const federation = federationPresentation(normalised.value);
@@ -178,7 +192,7 @@ export function applyDeckSelectionToPayload(payload, selection) {
     ...checked.selection,
     label: describeDeckSelection(checked.selection, sourcePlayers),
     availableCards: checked.players.length,
-    minimumCards: MIN_FILTERED_DECK_SIZE,
+    minimumCards: deckSelectionMinimum(checked.selection.kind),
   };
 
   if (Array.isArray(payload)) return checked.players;
