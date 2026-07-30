@@ -6,12 +6,14 @@ on:
     paths:
       - scripts/enrich-player-heights.mjs
       - scripts/run-height-enrichment.mjs
+      - test/normalized-database-migration.test.mjs
       - .github/workflows/complete-player-heights.yml
   pull_request:
     branches: [main]
     paths:
       - scripts/enrich-player-heights.mjs
       - scripts/run-height-enrichment.mjs
+      - test/normalized-database-migration.test.mjs
       - .github/workflows/complete-player-heights.yml
   workflow_dispatch:
 
