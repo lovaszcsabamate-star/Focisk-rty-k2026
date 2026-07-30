@@ -1,15 +1,54 @@
 /** Klasszikus és Büntetőpárbaj eredményjelző-komponensek. */
 
 import { AI, HUMAN } from '../engine.js';
-import { el } from './dom-primitives.js';
+import { ART, el, tryArt } from './dom-primitives.js';
 
 const scoreboardQuickMatchLabel = (game, side, fallback) => {
   const label = side === HUMAN ? game?.quickMatch?.humanTeam : game?.quickMatch?.aiTeam;
   return String(label ?? fallback).trim() || fallback;
 };
 
-const createScoreChip = (label, value, leading) => {
+const scoreboardRepresentativeCard = (game, side) => {
+  const team = game?.teams?.[side];
+  if (Array.isArray(team) && team.length) return team[0];
+  const players = Array.isArray(game?.players) ? game.players : [];
+  return players.find(player => player?.meta?.quickMatchSide === side) ?? null;
+};
+
+const createTeamMark = (game, side) => {
+  if (!game?.quickMatch?.enabled) return null;
+  const card = scoreboardRepresentativeCard(game, side);
+  const meta = card?.meta ?? {};
+  const kind = meta.quickMatchTeamKind;
+  const mark = el('span', `score-team-mark score-team-mark--${kind || 'team'}`);
+  mark.setAttribute('aria-hidden', 'true');
+  mark.style.display = 'inline-grid';
+  mark.style.placeItems = 'center';
+  mark.style.width = '28px';
+  mark.style.height = '28px';
+  mark.style.flex = '0 0 28px';
+  mark.style.borderRadius = '50%';
+  mark.style.backgroundPosition = 'center';
+  mark.style.backgroundRepeat = 'no-repeat';
+  mark.style.backgroundSize = 'contain';
+
+  if (kind === 'nation') {
+    mark.textContent = meta.quickMatchTeamIcon || '🌍';
+  } else if (kind === 'federation' && meta.quickMatchTeamBadge) {
+    tryArt(mark, [meta.quickMatchTeamBadge, ART.placeholder('club')]);
+  } else if (kind === 'club') {
+    const clubId = meta.quickMatchTeamClubId ?? card?.clubId ?? card?.meta?.clubId ?? null;
+    tryArt(mark, [...ART.clubLogo({ clubId }), ART.placeholder('club')]);
+  } else {
+    mark.textContent = meta.quickMatchTeamIcon || '🏆';
+  }
+  return mark;
+};
+
+const createScoreChip = (game, side, label, value, leading) => {
   const chip = el('div', `score${leading ? ' leading' : ''}`);
+  const mark = createTeamMark(game, side);
+  if (mark) chip.appendChild(mark);
   chip.append(el('span', null, label), el('b', null, String(value)));
   return chip;
 };
@@ -29,7 +68,11 @@ const renderPiles = (dom, mode, human, ai) => {
 
 const createAttemptRow = (game, side) => {
   const wrapper = el('div', 'attempt-row');
-  wrapper.appendChild(el('strong', null, scoreboardQuickMatchLabel(game, side, side === HUMAN ? 'JÁTÉKOS' : 'GÉP')));
+  const heading = el('strong', null);
+  const mark = createTeamMark(game, side);
+  if (mark) heading.appendChild(mark);
+  heading.appendChild(document.createTextNode(scoreboardQuickMatchLabel(game, side, side === HUMAN ? 'JÁTÉKOS' : 'GÉP')));
+  wrapper.appendChild(heading);
   const marks = el('div', 'attempt-marks');
   for (let index = 0; index < 11; index += 1) {
     const outcome = game.attempts[side][index];
@@ -51,8 +94,8 @@ const createAttemptRow = (game, side) => {
 const renderClassicScoreboard = (dom, game) => {
   const { [HUMAN]: human, [AI]: ai } = game.scores;
   dom.hudScores.replaceChildren(
-    createScoreChip(scoreboardQuickMatchLabel(game, HUMAN, 'Játékos'), human, human > ai),
-    createScoreChip(scoreboardQuickMatchLabel(game, AI, 'Gép'), ai, ai > human),
+    createScoreChip(game, HUMAN, scoreboardQuickMatchLabel(game, HUMAN, 'Játékos'), human, human > ai),
+    createScoreChip(game, AI, scoreboardQuickMatchLabel(game, AI, 'Gép'), ai, ai > human),
   );
   dom.hudMeta.textContent = `${game.round}. kör · ${game.deck.length} lap a pakliban`;
   renderPiles(dom, 'classic', human, ai);
@@ -64,7 +107,13 @@ const renderPenaltyScoreboard = (dom, game) => {
   const ai = game.scores[AI];
   const humanLabel = scoreboardQuickMatchLabel(game, HUMAN, 'JÁTÉKOS');
   const aiLabel = scoreboardQuickMatchLabel(game, AI, 'GÉP');
-  dom.hudScores.replaceChildren(el('div', 'penalty-score', `${humanLabel} ${human}–${ai} ${aiLabel}`));
+  const score = el('div', 'penalty-score');
+  const humanMark = createTeamMark(game, HUMAN);
+  const aiMark = createTeamMark(game, AI);
+  if (humanMark) score.appendChild(humanMark);
+  score.appendChild(document.createTextNode(`${humanLabel} ${human}–${ai} ${aiLabel}`));
+  if (aiMark) score.appendChild(aiMark);
+  dom.hudScores.replaceChildren(score);
   dom.hudMeta.textContent = game.suddenDeath
     ? `Hirtelen halál · ${game.log.length} lejátszott párbaj`
     : `Rendes párbajok: ${game.regularPlayed}/5 · hátra ${game.regularRemaining}`;
