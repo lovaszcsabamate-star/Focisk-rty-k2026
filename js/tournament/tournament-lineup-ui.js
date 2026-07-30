@@ -117,6 +117,59 @@ if (globalThis.document && !document.getElementById('tournament-presentation-upg
     svg.setAttribute('aria-label', `${label} klublogó`);
     return svg;
   };
+  const presentationTournament = () => {
+    try {
+      const raw = localStorage.getItem('fociskartyak.tournament.v1');
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  };
+  const presentationHumanTeam = () => {
+    const tournament = presentationTournament();
+    const team = tournament?.participants?.find?.(item => item?.id === tournament?.humanTeamId);
+    if (team) return team;
+    const quickTeam = globalThis.__FOCISKARTYAK_QUICK_MATCH__?.human;
+    if (quickTeam) return quickTeam;
+    const payload = globalThis.__EMBEDDED_PLAYER_DATA__;
+    const players = Array.isArray(payload) ? payload : payload?.players;
+    const label = players?.find?.(player => player?.meta?.quickMatchSide === 'human')?.meta?.quickMatchTeamLabel;
+    return { label: label || 'Fociskártyák 2026' };
+  };
+  const presentationColors = team => {
+    const brand = presentationBrand(team?.label);
+    const colors = [team?.colors?.primary, team?.colors?.secondary, team?.colors?.accent, brand?.[2], brand?.[3], '#ffd65a', '#fff7df']
+      .filter(value => /^#[0-9a-f]{3,6}$/i.test(String(value ?? '')));
+    return [...new Set(colors)].slice(0, 5);
+  };
+  const presentationConfetti = (team, tournamentVictory = false) => {
+    if (matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return;
+    document.querySelectorAll('.victory-confetti').forEach(node => node.remove());
+    const palette = presentationColors(team);
+    const layer = document.createElement('div');
+    layer.className = `victory-confetti${tournamentVictory ? ' victory-confetti--tournament' : ''}`;
+    layer.setAttribute('aria-hidden', 'true');
+    const count = tournamentVictory ? 104 : 68;
+    for (let index = 0; index < count; index += 1) {
+      const piece = document.createElement('i');
+      piece.className = `victory-confetti__piece victory-confetti__piece--${index % 3}`;
+      piece.style.setProperty('--confetti-x', `${Math.random() * 100}vw`);
+      piece.style.setProperty('--confetti-drift', `${-75 + Math.random() * 150}px`);
+      piece.style.setProperty('--confetti-spin', `${360 + Math.random() * 1080}deg`);
+      piece.style.setProperty('--confetti-delay', `${(Math.random() * (tournamentVictory ? 1.15 : .75)).toFixed(2)}s`);
+      piece.style.setProperty('--confetti-duration', `${(2.7 + Math.random() * 1.65).toFixed(2)}s`);
+      piece.style.setProperty('--confetti-size', `${5 + Math.random() * 7}px`);
+      piece.style.setProperty('--confetti-color', palette[index % palette.length]);
+      layer.appendChild(piece);
+    }
+    document.body.appendChild(layer);
+    setTimeout(() => layer.remove(), tournamentVictory ? 5600 : 4800);
+  };
+  const presentationVictory = node => {
+    if (node.classList.contains('result-panel--win')) return true;
+    return node.classList.contains('tournament-complete')
+      && presentationFold(node.querySelector('h1')?.textContent).includes('tornagyozelem');
+  };
   const presentationEnhance = root => {
     const marks = [];
     if (root?.matches?.('.tournament-team-mark--generated')) marks.push(root);
@@ -146,6 +199,14 @@ if (globalThis.document && !document.getElementById('tournament-presentation-upg
       hint.textContent = 'Húzd oldalra az ág­rajz további fordulóihoz →';
       bracket.before(hint);
     });
+    const trophies = [];
+    if (root?.matches?.('.tournament-trophy')) trophies.push(root);
+    root?.querySelectorAll?.('.tournament-complete .tournament-trophy').forEach(trophy => trophies.push(trophy));
+    trophies.forEach(trophy => {
+      trophy.textContent = '🏆';
+      trophy.setAttribute('role', 'img');
+      trophy.setAttribute('aria-label', 'Kupa');
+    });
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     const nodes = [];
     while (walker.nextNode()) nodes.push(walker.currentNode);
@@ -154,10 +215,18 @@ if (globalThis.document && !document.getElementById('tournament-presentation-upg
         .replaceAll(' · nincs gól', ' · mindkét csapat gólt és pontot kapott')
         .replaceAll('azonos értéknél nincs gól.', 'azonos értéknél mindkét csapat gólt és pontot kap.');
     });
+    const victoryNodes = [];
+    if (root?.matches?.('.result-panel--win,.tournament-complete')) victoryNodes.push(root);
+    root?.querySelectorAll?.('.result-panel--win,.tournament-complete').forEach(node => victoryNodes.push(node));
+    victoryNodes.forEach(node => {
+      if (!presentationVictory(node) || node.dataset.victoryConfetti === 'true') return;
+      node.dataset.victoryConfetti = 'true';
+      presentationConfetti(presentationHumanTeam(), node.classList.contains('tournament-complete'));
+    });
   };
   const style = document.createElement('style');
   style.id = 'tournament-presentation-upgrade-style';
-  style.textContent = `.tournament-team-mark--club{overflow:visible;background:none;border:0;clip-path:none}.tournament-team-mark__club-svg{width:100%;height:100%;filter:drop-shadow(0 4px 8px rgba(0,0,0,.48))}.tournament-v3 .tournament-bracket__scroll-hint{width:max-content;margin:0 0 10px;padding:5px 9px;border:1px solid rgba(255,214,90,.25);border-radius:999px;background:rgba(36,23,14,.94);color:#d9c9a7;font-size:.72rem}.tournament-v3 .tournament-bracket--tree{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(220px,260px);align-items:stretch;gap:52px;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:4px 28px 18px 2px;scroll-snap-type:x proximity}.tournament-v3 .tournament-bracket--tree>.tournament-bracket__round{position:relative;display:flex!important;min-height:310px;flex-direction:column;justify-content:space-around;gap:18px;scroll-snap-align:start}.tournament-v3 .tournament-bracket__match--connected{position:relative;overflow:visible}.tournament-v3 .tournament-bracket__round:not(.is-final) .tournament-bracket__match--connected::after{content:"";position:absolute;right:-53px;top:50%;width:53px;border-top:2px solid rgba(255,214,90,.48)}.tournament-v3 .tournament-bracket__round:not(:first-child)::before{content:"";position:absolute;left:-27px;top:12%;bottom:12%;border-left:2px solid rgba(255,214,90,.34)}@media(min-width:861px){.tournament-v3 .tournament-bracket__scroll-hint{display:none}}@media(max-width:860px){.tournament-v3 .tournament-bracket--tree{grid-auto-columns:minmax(210px,78vw);gap:44px}.tournament-v3 .tournament-bracket__round:not(.is-final) .tournament-bracket__match--connected::after{right:-45px;width:45px}.tournament-v3 .tournament-bracket__round:not(:first-child)::before{left:-23px}.tournament-v3 .tournament-result-row .tournament-team-mark{display:inline-grid}}`;
+  style.textContent = `.tournament-team-mark--club{overflow:visible;background:none;border:0;clip-path:none}.tournament-team-mark__club-svg{width:100%;height:100%;filter:drop-shadow(0 4px 8px rgba(0,0,0,.48))}.tournament-complete .tournament-trophy{filter:drop-shadow(0 8px 16px rgba(255,196,52,.32));animation:tournament-cup-arrive .7s cubic-bezier(.2,.9,.22,1.2) both}.tournament-v3 .tournament-bracket__scroll-hint{width:max-content;margin:0 0 10px;padding:5px 9px;border:1px solid rgba(255,214,90,.25);border-radius:999px;background:rgba(36,23,14,.94);color:#d9c9a7;font-size:.72rem}.tournament-v3 .tournament-bracket--tree{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(220px,260px);align-items:stretch;gap:52px;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:4px 28px 18px 2px;scroll-snap-type:x proximity}.tournament-v3 .tournament-bracket--tree>.tournament-bracket__round{position:relative;display:flex!important;min-height:310px;flex-direction:column;justify-content:space-around;gap:18px;scroll-snap-align:start}.tournament-v3 .tournament-bracket__match--connected{position:relative;overflow:visible}.tournament-v3 .tournament-bracket__round:not(.is-final) .tournament-bracket__match--connected::after{content:"";position:absolute;right:-53px;top:50%;width:53px;border-top:2px solid rgba(255,214,90,.48)}.tournament-v3 .tournament-bracket__round:not(:first-child)::before{content:"";position:absolute;left:-27px;top:12%;bottom:12%;border-left:2px solid rgba(255,214,90,.34)}.victory-confetti{position:fixed;inset:0;z-index:2147483000;overflow:hidden;pointer-events:none;contain:strict}.victory-confetti__piece{position:absolute;top:-12vh;left:var(--confetti-x);display:block;width:var(--confetti-size);height:calc(var(--confetti-size)*1.7);border-radius:2px;background:var(--confetti-color);opacity:0;will-change:transform;animation:victory-confetti-fall var(--confetti-duration) cubic-bezier(.18,.72,.24,1) var(--confetti-delay) forwards}.victory-confetti__piece--1{height:var(--confetti-size);border-radius:50%}.victory-confetti__piece--2{width:calc(var(--confetti-size)*1.6);height:calc(var(--confetti-size)*.55);border-radius:999px}@keyframes tournament-cup-arrive{0%{opacity:0;transform:translateY(-18px) scale(.72) rotate(-8deg)}70%{opacity:1;transform:translateY(2px) scale(1.08) rotate(2deg)}100%{opacity:1;transform:none}}@keyframes victory-confetti-fall{0%{opacity:0;transform:translate3d(0,-8vh,0) rotate(0)}8%{opacity:1}100%{opacity:.94;transform:translate3d(var(--confetti-drift),116vh,0) rotate(var(--confetti-spin))}}@media(min-width:861px){.tournament-v3 .tournament-bracket__scroll-hint{display:none}}@media(max-width:860px){.tournament-v3 .tournament-bracket--tree{grid-auto-columns:minmax(210px,78vw);gap:44px}.tournament-v3 .tournament-bracket__round:not(.is-final) .tournament-bracket__match--connected::after{right:-45px;width:45px}.tournament-v3 .tournament-bracket__round:not(:first-child)::before{left:-23px}.tournament-v3 .tournament-result-row .tournament-team-mark{display:inline-grid}}@media(prefers-reduced-motion:reduce){.victory-confetti{display:none}.tournament-complete .tournament-trophy{animation:none}}`;
   document.head.append(style);
   presentationEnhance(document.body);
   const observer = new MutationObserver(records => records.forEach(record => record.addedNodes.forEach(node => {
