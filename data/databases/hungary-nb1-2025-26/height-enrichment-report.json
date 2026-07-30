@@ -1,0 +1,2298 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T17:30:34.164Z",
+  "season": "2025/26",
+  "before": {
+    "players": 440,
+    "knownHeights": 131,
+    "missingHeights": 309
+  },
+  "generatedRecords": 106,
+  "projected": {
+    "knownHeights": 237,
+    "missingHeights": 203
+  },
+  "sourceAudits": [
+    {
+      "sourceId": "hlsz-dvsc-heights-2025-26",
+      "clubId": "dvsc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/debrecen",
+      "parsedRows": 26,
+      "matchedRows": 3,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-dvsc-heights-2025-26",
+      "clubId": "dvsc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/debreceni-vsc/kader/verein/84/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/diosgyor",
+      "parsedRows": 18,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-dvtk-heights-2025-26",
+      "clubId": "dvtk",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/diosgyori-vtk/kader/verein/9241/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-eto-fc-heights-2025-26",
+      "clubId": "eto-fc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/eto-fc-gyor",
+      "parsedRows": 32,
+      "matchedRows": 20,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-eto-fc-heights-2025-26",
+      "clubId": "eto-fc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/eto-fc/kader/verein/6055/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-ferencvarosi-tc-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/ferencvarosi-tc",
+      "parsedRows": 25,
+      "matchedRows": 18,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-ferencvarosi-tc-heights-2025-26",
+      "clubId": "ferencvarosi-tc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/ferencvarosi-tc/kader/verein/279/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-kolorcity-kazincbarcika-sc-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/kazincbarcika",
+      "parsedRows": 25,
+      "matchedRows": 16,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-kolorcity-kazincbarcika-sc-heights-2025-26",
+      "clubId": "kolorcity-kazincbarcika-sc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/kazincbarcikai-sc/kader/verein/24031/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-kisvarda-master-good-heights-2025-26",
+      "clubId": "kisvarda-master-good",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/kisvarda",
+      "parsedRows": 26,
+      "matchedRows": 1,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-kisvarda-master-good-heights-2025-26",
+      "clubId": "kisvarda-master-good",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/kisvarda-fc/kader/verein/30613/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-mtk-budapest-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/mtk",
+      "parsedRows": 23,
+      "matchedRows": 1,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-mtk-budapest-heights-2025-26",
+      "clubId": "mtk-budapest",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/mtk-budapest/kader/verein/634/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-nyiregyhaza-spartacus-fc-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/nyiregyhaza",
+      "parsedRows": 17,
+      "matchedRows": 12,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-nyiregyhaza-spartacus-fc-heights-2025-26",
+      "clubId": "nyiregyhaza-spartacus-fc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/nyiregyhaza-spartacus/kader/verein/6058/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-paksi-fc-heights-2025-26",
+      "clubId": "paksi-fc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/paks",
+      "parsedRows": 18,
+      "matchedRows": 2,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-paksi-fc-heights-2025-26",
+      "clubId": "paksi-fc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/paksi-fc/kader/verein/12163/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-puskas-akademia-fc-heights-2025-26",
+      "clubId": "puskas-akademia-fc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/puskas-akademia",
+      "parsedRows": 18,
+      "matchedRows": 16,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-puskas-akademia-fc-heights-2025-26",
+      "clubId": "puskas-akademia-fc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/puskas-akademia-fc/kader/verein/37169/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-ujpest-fc-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/ujpest-fc",
+      "parsedRows": 25,
+      "matchedRows": 1,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-ujpest-fc-heights-2025-26",
+      "clubId": "ujpest-fc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/ujpest-fc/kader/verein/708/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "hlsz-zte-fc-heights-2025-26",
+      "clubId": "zte-fc",
+      "sourceKind": "hlsz",
+      "url": "https://hlsz.hu/zte",
+      "parsedRows": 25,
+      "matchedRows": 16,
+      "cached": false,
+      "status": "ok"
+    },
+    {
+      "sourceId": "transfermarkt-zte-fc-heights-2025-26",
+      "clubId": "zte-fc",
+      "sourceKind": "transfermarkt",
+      "url": "https://www.transfermarkt.com/zalaegerszegi-te-fc/kader/verein/1391/saison_id/2025/plus/1",
+      "parsedRows": 0,
+      "matchedRows": 0,
+      "cached": false,
+      "status": "ok"
+    }
+  ],
+  "sourceFailures": [],
+  "conflicts": [],
+  "unresolved": [
+    {
+      "id": "2025-26-dvsc-asztalos-noel",
+      "name": "ASZTALOS NOEL",
+      "birthDate": "2008-08-08",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-bodnar-balazs",
+      "name": "BODNÁR BALÁZS",
+      "birthDate": "2007-03-23",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-egri-imre",
+      "name": "EGRI IMRE",
+      "birthDate": "2007-08-18",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-erdelyi-benedek-miklos",
+      "name": "ERDÉLYI BENEDEK MIKLÓS",
+      "birthDate": "2005-09-28",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-lopez-de-la-manzanara",
+      "name": "LOPEZ DE LA MANZANARA",
+      "birthDate": "1996-09-12",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 16,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-patai-david",
+      "name": "PATAI DÁVID",
+      "birthDate": "2007-03-13",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-regenyei-gergo",
+      "name": "REGENYEI GERGŐ",
+      "birthDate": "2007-03-08",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-575a09ebf626",
+      "name": "Szakál Dénes",
+      "birthDate": "2009-04-10",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-cf21a2d9106f",
+      "name": "Szűcs Tamás",
+      "birthDate": "2005-01-16",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 31,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-dvsc-tercza-gergo",
+      "name": "TERCZA GERGŐ",
+      "birthDate": "2007-01-09",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 8,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-89c5690fc8d1",
+      "name": "Vajda Botond",
+      "birthDate": "2004-03-15",
+      "clubIds": [
+        "dvsc"
+      ],
+      "appearances": 23,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-5e793b563440",
+      "name": "BABÓS LEVENTE",
+      "birthDate": "2004-01-16",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-a4c316c79f9f",
+      "name": "BACSA BENJAMIN SÁNDOR",
+      "birthDate": "2006-01-14",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f050a184fe30",
+      "name": "DEMETER MILÁN",
+      "birthDate": "2005-02-21",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-43f6d4cbd5b5",
+      "name": "ESITI ANDERSON",
+      "birthDate": "1994-05-24",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 17,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-4320e9853a76",
+      "name": "Farkas Ruben Bálint",
+      "birthDate": "2008-09-21",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c8ce66038cdf",
+      "name": "KISS BÁLINT",
+      "birthDate": "2007-09-06",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9a3e10d01a43",
+      "name": "KISS LÁSZLÓ",
+      "birthDate": "2007-03-08",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8c8846627b8e",
+      "name": "KOVALENKO NAZAR",
+      "birthDate": "2006-05-12",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-087c538ae10a",
+      "name": "MACSÓ MÁTÉ",
+      "birthDate": "2006-05-10",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-65004939560f",
+      "name": "SAJBÁN MÁTÉ MIHÁLY",
+      "birthDate": "1995-12-19",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 27,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-bacad253368b",
+      "name": "SZLIFKA ZSOMBOR",
+      "birthDate": "2007-08-20",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-ab542963c480",
+      "name": "TUSKA BÁLINT",
+      "birthDate": "2008-04-24",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-6a4e42738867",
+      "name": "VARGA HUNOR ATTILA",
+      "birthDate": "2010-03-18",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-ef1c108bca10",
+      "name": "VARGA ZÉTÉNY ISTVÁN",
+      "birthDate": "2006-07-19",
+      "clubIds": [
+        "dvtk"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-banati-kevin",
+      "name": "BÁNÁTI KEVIN",
+      "birthDate": "2005-05-11",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 29,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-biro-barnabas",
+      "name": "BÍRÓ BARNABÁS",
+      "birthDate": "2005-01-06",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 16,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-boldor-deian",
+      "name": "BOLDOR DEIAN",
+      "birthDate": "1995-02-03",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-brecska-daniel",
+      "name": "BRECSKA DÁNIEL",
+      "birthDate": "2006-03-05",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-herczeg-marcell",
+      "name": "HERCZEG MARCELL",
+      "birthDate": "2006-10-01",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-kulcsar-martin",
+      "name": "KULCSÁR MARTIN",
+      "birthDate": "2005-07-05",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-mascoe-lawrenzo-nathaniel",
+      "name": "MASCOE LAWRENZO NATHANIEL",
+      "birthDate": "2005-02-11",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-szarka-bulcsu-janos",
+      "name": "SZARKA BULCSÚ JÁNOS",
+      "birthDate": "2008-02-22",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-tollar-imre-adrian",
+      "name": "TOLLÁR IMRE ADRIÁN",
+      "birthDate": "2006-02-23",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-toth-rajmund",
+      "name": "TÓTH RAJMUND",
+      "birthDate": "2004-04-09",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 30,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-urblik-norbert",
+      "name": "URBLÍK NORBERT",
+      "birthDate": "2004-04-18",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-vingler-laszlo",
+      "name": "VINGLER LÁSZLÓ",
+      "birthDate": "2005-10-31",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 16,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-vitalis-milan",
+      "name": "VITÁLIS MILÁN",
+      "birthDate": "2002-01-28",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 31,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-eto-fc-zivkovic-jovan",
+      "name": "ZIVKOVIC JOVAN",
+      "birthDate": "2006-05-23",
+      "clubIds": [
+        "eto-fc"
+      ],
+      "appearances": 7,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2e55f246af3d",
+      "name": "KOCSIS BOTOND",
+      "birthDate": "2007-07-10",
+      "clubIds": [
+        "eto-fc",
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2856e20f48e9",
+      "name": "ABU FANI MOHAMMAD",
+      "birthDate": "1998-04-27",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 17,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-ac925c257574",
+      "name": "ARZANI DANIEL",
+      "birthDate": "1999-01-04",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-daf16f0ad982",
+      "name": "CIRKOVIC ALEKSANDAR",
+      "birthDate": "2001-09-21",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e2c5b45060db",
+      "name": "CISSE IBRAHIM",
+      "birthDate": "1996-05-02",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 17,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f1d89e4b24a6",
+      "name": "GARTENMANN STEFAN",
+      "birthDate": "1997-02-02",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-33695d632c16",
+      "name": "GÓLIK BENJÁMIN JÁNOS",
+      "birthDate": "2008-10-19",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-446bec57246f",
+      "name": "Gróf Dávid Attila",
+      "birthDate": "1989-04-17",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f71f93fef3da",
+      "name": "Gruber Zsombor",
+      "birthDate": "2004-09-07",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 29,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2156f3e78854",
+      "name": "LAKATOS CSONGOR",
+      "birthDate": "2006-03-29",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c5521bb1a14a",
+      "name": "LOPES CRUZ CARLOS EDUARDO",
+      "birthDate": "1997-08-08",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-93c8afbdc1cc",
+      "name": "MADARÁSZ ÁDÁM",
+      "birthDate": "2007-02-16",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-26e52ef046d5",
+      "name": "MAKRECKIS CEBRAILS",
+      "birthDate": "2000-05-10",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 16,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-20799794640b",
+      "name": "PESIC ALEKSANDAR",
+      "birthDate": "1992-05-21",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 10,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2c70f5160a52",
+      "name": "RADNÓTI DÁNIEL ISTVÁN",
+      "birthDate": "2006-10-01",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-30a9d08f66f7",
+      "name": "RODRIGUES ROMAO JULIO",
+      "birthDate": "1998-03-29",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 13,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-888fb69b3ed2",
+      "name": "Sevikyan Edgar",
+      "birthDate": "2001-08-08",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-dd03b70e0766",
+      "name": "SZALAI GÁBOR SÁNDOR",
+      "birthDate": "2000-06-09",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 32,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-562eec7bf7c8",
+      "name": "SZÉCSI GERGŐ",
+      "birthDate": "1989-02-07",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9bcaa22feb14",
+      "name": "TÓTH ALEX LÁSZLÓ",
+      "birthDate": "2005-10-23",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-536b9ebba33d",
+      "name": "VARGA BARNABÁS",
+      "birthDate": "1994-10-25",
+      "clubIds": [
+        "ferencvarosi-tc"
+      ],
+      "appearances": 17,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2c1a69d9470c",
+      "name": "SZABÓ SZILÁRD",
+      "birthDate": "2006-10-01",
+      "clubIds": [
+        "ferencvarosi-tc",
+        "kisvarda-master-good"
+      ],
+      "appearances": 13,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8061aa670d1b",
+      "name": "ABDULLAHI KAMAL",
+      "birthDate": "2007-01-16",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-482c77bd9d65",
+      "name": "ABDULRASAQ RIDWAN POPOOLA",
+      "birthDate": "2006-11-14",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 28,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-082b9edbee8d",
+      "name": "BALOGUN TESLIM ABDULATEEF",
+      "birthDate": "2005-08-28",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-a8d4793a3acf",
+      "name": "GYURKÓ MÁTÉ",
+      "birthDate": "2002-11-04",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9e00c5f876e9",
+      "name": "JAZSIK ROMÁN",
+      "birthDate": "2008-11-28",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-3f02cae67457",
+      "name": "KOLIADA NAZAR",
+      "birthDate": "2007-11-17",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-046e04c4b9c4",
+      "name": "LIPPAI TIBOR",
+      "birthDate": "1997-12-24",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 9,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-1fad065b3f0e",
+      "name": "Osztrovka Maxim",
+      "birthDate": "2007-04-07",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-7012de8d22c6",
+      "name": "PINTÉR ATTILA FILIP",
+      "birthDate": "2005-10-29",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 17,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-3ba077e8f4ad",
+      "name": "POPOVICS ILLYA",
+      "birthDate": "2005-11-30",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 33,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-65d519bbe651",
+      "name": "SZIKSZAI HENNAGYIJ",
+      "birthDate": "2007-09-18",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-1ba2fbff76ce",
+      "name": "VEPRIK TARASZ",
+      "birthDate": "2008-01-11",
+      "clubIds": [
+        "kisvarda-master-good"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-a758aba5b918",
+      "name": "BALÁZSI LEVENTE KRISTÓF",
+      "birthDate": "2005-05-19",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 7,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9772e714d434",
+      "name": "BÁNFALVI GERGŐ",
+      "birthDate": "2005-07-14",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9fd79da2457a",
+      "name": "BERECZ ZSOMBOR",
+      "birthDate": "1995-12-13",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-736ba85af5fb",
+      "name": "BOROS ZSOMBOR",
+      "birthDate": "2005-02-07",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-eec90a375152",
+      "name": "ELEKE BLESSING CHIBUIKE",
+      "birthDate": "1996-03-05",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e2549dc99594",
+      "name": "FERENCSIK BÁLINT DONÁT",
+      "birthDate": "2005-09-24",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-76609d443f2b",
+      "name": "HAROYAN VARAZDAT",
+      "birthDate": "1992-08-24",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 9,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-08ae611b5ae9",
+      "name": "Kártik Bálint József",
+      "birthDate": "1997-04-18",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 32,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-89b61b594f5c",
+      "name": "KÖNYVES NORBERT",
+      "birthDate": "1989-06-10",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 29,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-908d035d3f88",
+      "name": "KUN OLIVÉR",
+      "birthDate": "2006-01-03",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 7,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2ea8190f4383",
+      "name": "MAKRAI GÁBOR",
+      "birthDate": "1996-06-26",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 11,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-3ba5c3c076ea",
+      "name": "POLGÁR KRISTÓF",
+      "birthDate": "1996-11-28",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e8aafa83a1d4",
+      "name": "PROSSER DÁNIEL BÁLINT",
+      "birthDate": "1994-06-15",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-1f4331f2f404",
+      "name": "RÁCZ LÁSZLÓ",
+      "birthDate": "1995-04-26",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 22,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-b94ef8d79d9e",
+      "name": "SCHUSZTER RONALD",
+      "birthDate": "2002-09-18",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 21,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-03a5f4ae3844",
+      "name": "SÓS BENCE",
+      "birthDate": "1994-05-10",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-b8d2e059092a",
+      "name": "SZABÓ MÁTÉ NORBERT",
+      "birthDate": "1999-01-26",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-3f82844825ac",
+      "name": "SZŐKE GERGŐ",
+      "birthDate": "2003-12-26",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 25,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-4be6c532d850",
+      "name": "TRENCSÉNYI BENCE",
+      "birthDate": "2001-06-20",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc"
+      ],
+      "appearances": 10,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-90096f61aca8",
+      "name": "JUHÁSZ ISTVÁN BENCE",
+      "birthDate": "2005-09-13",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc",
+        "ujpest-fc"
+      ],
+      "appearances": 16,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-b7bc042974d6",
+      "name": "KLAUSZ MILÁN GÁBOR",
+      "birthDate": "2005-02-24",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc",
+        "zte-fc"
+      ],
+      "appearances": 22,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2fa3cc67b720",
+      "name": "NYÍRI VINCE TÓBIÁS",
+      "birthDate": "2001-06-27",
+      "clubIds": [
+        "kolorcity-kazincbarcika-sc",
+        "zte-fc"
+      ],
+      "appearances": 20,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-48797bb57d3b",
+      "name": "BALÁZS JÓZSEF BALÁZS",
+      "birthDate": "2003-12-02",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-fd9babf8942f",
+      "name": "GÖRÖG VINCENT",
+      "birthDate": "2009-01-28",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-50c2af2c255b",
+      "name": "HORVÁTH ARTÚR",
+      "birthDate": "2003-10-02",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 26,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-65180103ea8c",
+      "name": "KÁDÁR TAMÁS",
+      "birthDate": "1990-03-14",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 31,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e995deddab21",
+      "name": "KOVÁCS MÁTYÁS",
+      "birthDate": "2003-07-07",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f91f570a5cfb",
+      "name": "KOVÁCS PATRIK",
+      "birthDate": "2005-02-09",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 26,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-5d2977a43fa3",
+      "name": "LÁSZLÓ KRISZTIÁN",
+      "birthDate": "2007-03-23",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-1b2e7baa4bf1",
+      "name": "LEHOCZKY ROLAND PATRIK",
+      "birthDate": "2002-04-19",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d4fa529dd100",
+      "name": "MOLNÁR PÉTER",
+      "birthDate": "2007-04-14",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e740af2d953f",
+      "name": "MOLNÁR RAJMUND",
+      "birthDate": "2002-08-28",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-ac0c4c17946d",
+      "name": "SZÉPE JÁNOS",
+      "birthDate": "1996-03-15",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 19,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-4c28b453a679",
+      "name": "SZŰCS PATRIK PÉTER",
+      "birthDate": "2005-08-04",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-12a8e538cdf0",
+      "name": "TÖRŐCSIK PÉTER TIBOR",
+      "birthDate": "2001-06-27",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-b5ef418f7436",
+      "name": "Vasiljevic Andrej",
+      "birthDate": "2010-03-25",
+      "clubIds": [
+        "mtk-budapest"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-a5450b3d3149",
+      "name": "KEREZSI ZALÁN MÁRK",
+      "birthDate": "2003-07-17",
+      "clubIds": [
+        "mtk-budapest",
+        "puskas-akademia-fc"
+      ],
+      "appearances": 26,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-009672bb9dae",
+      "name": "BABIC SLOBODAN",
+      "birthDate": "2000-03-04",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-97ee66e0060d",
+      "name": "BEKE PÉTER",
+      "birthDate": "2001-03-14",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f22144ab228e",
+      "name": "BENCZENLEITNER BARNA",
+      "birthDate": "2003-09-16",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 22,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-be99bee4d17e",
+      "name": "BESE BALÁZS",
+      "birthDate": "1999-01-22",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-bc0d3bb082a1",
+      "name": "BITRI ENEO",
+      "birthDate": "1996-08-26",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 8,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-dd2ed7b40fbc",
+      "name": "CZIMER-NYITRAI ÁDÁM BÁLINT",
+      "birthDate": "2005-07-02",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d3753ff5632a",
+      "name": "DRESKOVIC MELDIN",
+      "birthDate": "1998-03-26",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-46d39b6a0699",
+      "name": "EVANGELOU STEFANOS",
+      "birthDate": "1998-05-12",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 10,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-cc0594a97935",
+      "name": "FARKAS BENDEGÚZ BENCE",
+      "birthDate": "2004-08-05",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 15,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d76b694321c9",
+      "name": "GILBERT DANTAYE MICHAEL LEE",
+      "birthDate": "2004-12-03",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 8,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-7f6de355f229",
+      "name": "JOKIC RANKO",
+      "birthDate": "1999-04-22",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d8374af7e29b",
+      "name": "KATONA BÁLINT LAJOS",
+      "birthDate": "2002-09-07",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 28,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-bebcf82353b9",
+      "name": "KERSÁK ROLAND ATTILA",
+      "birthDate": "1997-07-31",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-2a51d5bc26f1",
+      "name": "KORREA PAVLOS",
+      "birthDate": "1998-07-14",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c8bdd5aad379",
+      "name": "KOVÁCS MILÁN",
+      "birthDate": "1999-09-24",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 24,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e2fffe6885ad",
+      "name": "KOVÁCSRÉTI MÁRK",
+      "birthDate": "2000-09-01",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 23,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-13c97f8a0f73",
+      "name": "MANNER BALÁZS",
+      "birthDate": "2005-04-26",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 25,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-327eba464994",
+      "name": "MOLNÁR MÁTYÁS",
+      "birthDate": "2006-12-30",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-353c1aa8edb0",
+      "name": "NAGY DOMINIK",
+      "birthDate": "1995-05-08",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-489f67cd7bfb",
+      "name": "Oláh Benjámin",
+      "birthDate": "2005-12-05",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9309e1184ef9",
+      "name": "Temesvári Attila",
+      "birthDate": "2000-06-03",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 26,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f1df95d03396",
+      "name": "TIJANI MUHAMED",
+      "birthDate": "2000-07-26",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 15,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-9935ed0b7857",
+      "name": "VARGA KEVIN",
+      "birthDate": "1996-03-30",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-17831da5b04f",
+      "name": "Vukk Zsombor",
+      "birthDate": "2006-07-07",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-28243985aab9",
+      "name": "DALA MARTIN",
+      "birthDate": "2004-04-26",
+      "clubIds": [
+        "nyiregyhaza-spartacus-fc",
+        "puskas-akademia-fc"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-debreceni-akos",
+      "name": "DEBRECENI ÁKOS",
+      "birthDate": "2003-03-24",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-galambos-janos",
+      "name": "GALAMBOS JÁNOS",
+      "birthDate": "2008-01-09",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 4,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-gyetvan-mark",
+      "name": "GYETVÁN MÁRK",
+      "birthDate": "2005-02-01",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-gyurkits-gergo",
+      "name": "GYURKITS GERGŐ",
+      "birthDate": "2002-06-05",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 27,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-hinora-kristof",
+      "name": "HINORA KRISTÓF",
+      "birthDate": "1998-02-05",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-16115bd7c08a",
+      "name": "Horváth Kevin",
+      "birthDate": "2005-03-02",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 32,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-lapu-andor",
+      "name": "LAPU ANDOR",
+      "birthDate": "2005-05-21",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-mate-csaba",
+      "name": "MÁTÉ CSABA",
+      "birthDate": "2006-04-23",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 9,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-99f5c34441a0",
+      "name": "Papp Kristóf",
+      "birthDate": "1993-05-14",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 28,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-35fb6a54d829",
+      "name": "Pesti Zoltán",
+      "birthDate": "2005-04-24",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d6bfe3acf08d",
+      "name": "Szekszárdi Milán",
+      "birthDate": "2001-02-08",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 15,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-tamas-oliver",
+      "name": "TAMÁS OLIVÉR",
+      "birthDate": "2001-04-14",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "2025-26-paksi-fc-vas-gabor",
+      "name": "VAS GÁBOR",
+      "birthDate": "2003-08-29",
+      "clubIds": [
+        "paksi-fc"
+      ],
+      "appearances": 10,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f357fac0194c",
+      "name": "Ásványi Domonkos",
+      "birthDate": "2006-06-02",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-a203980db350",
+      "name": "DUSINSZKI SZABOLCS",
+      "birthDate": "2005-08-06",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-6ea3fef5e246",
+      "name": "KRUPA ZSOLT",
+      "birthDate": "2006-03-01",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8217a333e6ca",
+      "name": "MACEIRAS QUENTIN",
+      "birthDate": "1995-10-10",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 27,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8c4a63ee7f39",
+      "name": "Magyar Zsolt János",
+      "birthDate": "2001-07-11",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-603e443aca70",
+      "name": "MARKGRÁF ÁKOS",
+      "birthDate": "2005-06-30",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 30,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-79f50f3dab7c",
+      "name": "MONDOVICS KEVIN",
+      "birthDate": "2007-03-14",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-aba6d7c7a00e",
+      "name": "NAGY ZOÁRD KORNÉL",
+      "birthDate": "2000-04-18",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d93251228685",
+      "name": "OKEKE MICHAEL CHINONSO",
+      "birthDate": "2005-10-16",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 19,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-1ac330c3b480",
+      "name": "ORJÁN ROLAND",
+      "birthDate": "2005-07-29",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-36c7b69bf6de",
+      "name": "SAMAL MOSHE",
+      "birthDate": "2003-05-05",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 11,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-fc7f84e54bd8",
+      "name": "SZAPPANOS PÉTER",
+      "birthDate": "1990-11-14",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 31,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-dd6158c28a79",
+      "name": "VARGA ZSOMBOR KOPPÁNY",
+      "birthDate": "2008-01-31",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c49fbf4d1b2c",
+      "name": "VÉKONY BENCE ZSOLT",
+      "birthDate": "2005-11-12",
+      "clubIds": [
+        "puskas-akademia-fc"
+      ],
+      "appearances": 16,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-125050952c1e",
+      "name": "BERIDZE GIORGI",
+      "birthDate": "1997-05-12",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 24,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c8706f6c982e",
+      "name": "Brodic Fran",
+      "birthDate": "1997-01-08",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 19,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-cdcee0a96afc",
+      "name": "FEHÉR CSANÁD LEVENTE",
+      "birthDate": "2002-06-13",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8e669f9e52b7",
+      "name": "GANEA GEORGE DANUT",
+      "birthDate": "1999-05-26",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 7,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f57fdf82fb45",
+      "name": "GEIGER BÁLINT",
+      "birthDate": "2004-03-26",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 7,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8c93f7633c63",
+      "name": "Gradisar Nejc",
+      "birthDate": "2002-08-06",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 13,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d8405b610920",
+      "name": "KACZVINSZKI DOMINIK",
+      "birthDate": "2006-03-01",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-200dfa9d0293",
+      "name": "KOBOURI DAVITI",
+      "birthDate": "1998-01-24",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 10,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-4cec72c1de53",
+      "name": "LISBOA DA SILVA GONCALVES",
+      "birthDate": "2000-08-18",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-10f362d76d3c",
+      "name": "LOURENCO DUARTE ANDRÉ",
+      "birthDate": "1997-09-12",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 10,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-00550a6ceaf3",
+      "name": "MÁNDI NARUKI MILÁN",
+      "birthDate": "2006-07-15",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-f29a34a866f4",
+      "name": "PALKÓ ÁRON",
+      "birthDate": "2008-01-08",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-bbb507993bcc",
+      "name": "PICANCO MEDEIROS IÚRI JOSÉ",
+      "birthDate": "1994-07-10",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 14,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-28e619b948ec",
+      "name": "PISCITELLI RICCARDO",
+      "birthDate": "1993-10-10",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 12,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-0a649d0d446d",
+      "name": "RASAK DAMIAN",
+      "birthDate": "1996-02-08",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 18,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-cd7d6c0e968f",
+      "name": "SARKADI KRISTÓF",
+      "birthDate": "2006-04-06",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-8b6c6b082328",
+      "name": "SZENTKIRÁLYI SZILÁRD",
+      "birthDate": "2007-06-20",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-793bb6e187b4",
+      "name": "SZENTMIHÁLYI ÁDÁM DÁNIEL",
+      "birthDate": "2008-04-22",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-1472cba4589d",
+      "name": "TAJTI MÁTYÁS",
+      "birthDate": "1998-06-02",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 7,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-5a0b40fb76af",
+      "name": "TUCIC MILAN",
+      "birthDate": "1996-08-15",
+      "clubIds": [
+        "ujpest-fc"
+      ],
+      "appearances": 22,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-96c730667802",
+      "name": "AKPE VICTORY MADUABUCHUKWU",
+      "birthDate": "2006-07-19",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 13,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-0e874f2fb0f2",
+      "name": "BAKTI BALÁZS",
+      "birthDate": "2004-12-31",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 13,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-fac2274b8258",
+      "name": "BOBSON DIVAIO JHAIR",
+      "birthDate": "2004-02-06",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c99236f2f76a",
+      "name": "BORGES DA SILVA DIEGO",
+      "birthDate": "2004-12-15",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-3651048db5ea",
+      "name": "CSÓKA DÁNIEL",
+      "birthDate": "2000-04-04",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 9,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-da4caa56cfa0",
+      "name": "DÉNES CSANÁD VILMOS",
+      "birthDate": "2004-11-17",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 5,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-50fd7361a98a",
+      "name": "Garai Zétény Péter",
+      "birthDate": "2007-11-21",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e6da9ca0a6bb",
+      "name": "GUNDEL-TAKÁCS BENCE",
+      "birthDate": "1998-04-06",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 33,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-6b60d1aa3fdd",
+      "name": "HARANGI AIDEN JOSHUA",
+      "birthDate": "2006-02-28",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-54deaac330a6",
+      "name": "HUSZTI ANDRÁS",
+      "birthDate": "2001-01-29",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-c961340720f0",
+      "name": "MONTEIRO FERREIRA ANDRÉ",
+      "birthDate": "2003-04-08",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 3,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-bdfe3567975e",
+      "name": "MULASICS DÁNIEL",
+      "birthDate": "2006-03-30",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-80fc23823127",
+      "name": "NÉMETH DÁNIEL",
+      "birthDate": "2003-10-09",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 1,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-e9c2b788895b",
+      "name": "Papp Csongor",
+      "birthDate": "2005-02-22",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 9,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-4de555c90541",
+      "name": "PETRÓK VIKTOR",
+      "birthDate": "2008-03-27",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-d315a942143f",
+      "name": "RODRIGUES DA SILVA DIOGO",
+      "birthDate": "2005-10-06",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 2,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-506f767dee5d",
+      "name": "RÓZSA MÁTÉ",
+      "birthDate": "2007-05-06",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-6020c82acb33",
+      "name": "TCHICAMBOUD TRYPHOSE AIMÉ QUEYRELL",
+      "birthDate": "2005-12-08",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 6,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-b5f89cf00a88",
+      "name": "VÁRKONYI BENCE",
+      "birthDate": "2002-03-18",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 30,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-b97cbef16664",
+      "name": "VERA GARCIA FERNANDO JOSE",
+      "birthDate": "2005-03-05",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 0,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    },
+    {
+      "id": "nb1-5edafc396658",
+      "name": "VIEIRA FERREIRA SOUSA JOAO",
+      "birthDate": "2004-04-27",
+      "clubIds": [
+        "zte-fc"
+      ],
+      "appearances": 33,
+      "reason": "A két ellenőrzött keretforrás egyikében sem volt egyértelmű, számszerűen megadott magasság."
+    }
+  ]
+}
