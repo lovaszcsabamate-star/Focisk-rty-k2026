@@ -13,13 +13,14 @@ const flatten = (value, prefix = '', output = new Map()) => {
   return output;
 };
 
-const [hu, en, service, bootstrap, index, styles] = await Promise.all([
+const [hu, en, service, bootstrap, index, styles, standaloneBuilder] = await Promise.all([
   readJson('locales/hu.json'),
   readJson('locales/en.json'),
   readText('js/i18n.js'),
   readText('js/bootstrap.js'),
   readText('index.html'),
   readText('css/i18n.css'),
+  readText('scripts/build-standalone.mjs'),
 ]);
 
 const huKeys = flatten(hu);
@@ -93,6 +94,19 @@ assert.match(bootstrap, /await initializeI18n\(\)/, 'Localization must initializ
 assert.match(index, /css\/i18n\.css/, 'Localization layout stylesheet must be loaded');
 assert.match(styles, /\.language-select/, 'Visible text-based language selector styling is required');
 assert.match(styles, /html\[data-language="en"\]/, 'English overflow safeguards are required');
+assert.match(standaloneBuilder, /'js\/i18n\.js'/, 'The standalone build must include the localization runtime');
+assert.match(standaloneBuilder, /locales\/hu\.json/, 'The standalone build must embed the Hungarian catalogue');
+assert.match(standaloneBuilder, /locales\/en\.json/, 'The standalone build must embed the English catalogue');
+assert.match(
+  standaloneBuilder,
+  /__FOCISKARTYAK_I18N_CATALOGUES__/,
+  'The standalone and Android builds must receive embedded catalogues without network access',
+);
+assert.match(
+  standaloneBuilder,
+  /await initializeI18n\(\)/,
+  'The standalone build must initialize localization before the game modules',
+);
 
 console.log(
   `i18n catalogue test passed: ${huKeys.size} shared keys, ${Object.keys(en.automatic).length} legacy UI mappings`,
