@@ -49,7 +49,12 @@ jobs:
       - name: Klubkeret-források feldolgozása
         env:
           HEIGHT_REQUEST_DELAY_MS: 3500
-        run: node scripts/run-height-enrichment.mjs
+        run: |
+          if [ -f data/club-official-enrichment-25-all-club-heights.json ] && [ -f data/databases/hungary-nb1-2025-26/height-enrichment-report.json ]; then
+            echo "A klubkeret-alapú 106 rekord már commitolva van; folytatás az egyedi profilokkal."
+          else
+            node scripts/run-height-enrichment.mjs
+          fi
 
       - name: Egyedi HLSZ-profilok ellenőrzése
         env:
