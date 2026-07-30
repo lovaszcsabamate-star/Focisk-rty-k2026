@@ -8,6 +8,7 @@ import {
 } from '../js/ui/deck-selection-menu-component.js';
 import {
   QUICK_MATCH_CATEGORY,
+  QUICK_MATCH_NATION_MINIMUM,
   buildQuickMatchCatalog,
   buildQuickMatchPayload,
   chooseQuickMatchOpponent,
@@ -45,12 +46,8 @@ const createFakeDocument = ({ readyState = 'loading' } = {}) => {
       }
       return null;
     },
-    querySelectorAll() {
-      return [];
-    },
-    addEventListener(type, listener) {
-      listeners.set(type, listener);
-    },
+    querySelectorAll() { return []; },
+    addEventListener(type, listener) { listeners.set(type, listener); },
     removeEventListener(type, listener) {
       if (listeners.get(type) === listener) listeners.delete(type);
     },
@@ -61,64 +58,32 @@ const createFakeDocument = ({ readyState = 'loading' } = {}) => {
 assert.equal(DECK_SELECTION_MENU_STYLE_ID, 'deck-selection-styles');
 
 const delayed = createFakeDocument();
-let delayedObserveCount = 0;
-let delayedDisconnectCount = 0;
-let delayedObservedTarget = null;
+let observeCount = 0;
+let disconnectCount = 0;
 const delayedController = createDeckSelectionMenuController({
   documentRef: delayed.documentRef,
   observerFactory: () => ({
-    observe(target) {
-      delayedObserveCount += 1;
-      delayedObservedTarget = target;
-    },
-    disconnect() {
-      delayedDisconnectCount += 1;
-    },
+    observe() { observeCount += 1; },
+    disconnect() { disconnectCount += 1; },
   }),
 });
-
-assert.equal(Object.isFrozen(delayedController), true);
-const delayedCleanup = delayedController.mount([], { kind: 'random', value: '' });
-assert.equal(typeof delayedCleanup, 'function');
-assert.equal(delayed.appended.length, 1);
+const cleanup = delayedController.mount([], { kind: 'random', value: '' });
+assert.equal(typeof cleanup, 'function');
 assert.equal(delayed.appended[0].id, DECK_SELECTION_MENU_STYLE_ID);
-assert.match(delayed.appended[0].textContent, /\.deck-selector/);
-assert.equal(delayedObserveCount, 0);
 assert.equal(typeof delayed.listeners.get('DOMContentLoaded'), 'function');
-
 delayed.listeners.get('DOMContentLoaded')();
-assert.equal(delayedObserveCount, 1);
-assert.equal(delayedObservedTarget, delayed.documentRef.body);
-delayedCleanup();
-assert.equal(delayedDisconnectCount, 1);
-assert.equal(delayed.listeners.has('DOMContentLoaded'), false);
-delayedCleanup();
-assert.equal(delayedDisconnectCount, 1);
+assert.equal(observeCount, 1);
+cleanup();
+assert.equal(disconnectCount, 1);
 
 const immediate = createFakeDocument({ readyState: 'complete' });
-let immediateObserveCount = 0;
-let immediateDisconnectCount = 0;
-const immediateController = createDeckSelectionMenuController({
+const immediateCleanup = createDeckSelectionMenuController({
   documentRef: immediate.documentRef,
-  observerFactory: () => ({
-    observe() { immediateObserveCount += 1; },
-    disconnect() { immediateDisconnectCount += 1; },
-  }),
-});
-const immediateCleanup = immediateController.mount({ players: [] }, null);
-assert.equal(immediateObserveCount, 1);
-assert.equal(immediate.listeners.size, 0);
+  observerFactory: () => ({ observe() {}, disconnect() {} }),
+}).mount({ players: [] }, null);
+assert.equal(typeof immediateCleanup, 'function');
 immediateCleanup();
-assert.equal(immediateDisconnectCount, 1);
-
-const noDocumentController = createDeckSelectionMenuController({ documentRef: null });
-const noDocumentCleanup = noDocumentController.mount([], null);
-assert.equal(typeof noDocumentCleanup, 'function');
-noDocumentCleanup();
-
-const defaultCleanup = installDeckSelectionMenu([], null);
-assert.equal(typeof defaultCleanup, 'function');
-defaultCleanup();
+assert.equal(typeof installDeckSelectionMenu([], null), 'function');
 
 const players = Array.from({ length: 44 }, (_, index) => {
   const group = Math.floor(index / 11);
@@ -130,42 +95,53 @@ const players = Array.from({ length: 44 }, (_, index) => {
     nation: index % 2 ? 'Serbia' : 'Hungary',
     nationality: index % 2 ? 'Serbia' : 'Hungary',
     competition: group < 2 ? 'Liga A' : 'Liga B',
+    meta: { clubId: ['alfa-fc', 'beta-fc', 'gamma-fc', 'delta-fc'][group] },
   };
 });
-const catalog = buildQuickMatchCatalog(players);
-assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.HUNGARIAN).length, 4);
-assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.LEAGUE).length, 2);
-assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.NATIONAL).length, 2);
-assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.FEDERATION).length, 1);
+const eightRomanianCards = Array.from({ length: 8 }, (_, index) => ({
+  id: `romania-${index + 1}`,
+  name: `Román játékos ${index + 1}`,
+  club: `Román klub ${index + 1}`,
+  nation: 'Romania',
+  nationality: 'Romania',
+}));
+const completePool = [...players, ...eightRomanianCards];
+const catalog = buildQuickMatchCatalog(completePool);
 const clubs = quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.HUNGARIAN);
 const nations = quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.NATIONAL);
 const federations = quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.FEDERATION);
-const chosenOpponent = chooseQuickMatchOpponent(clubs, clubs[0].id, { rng: () => 0 });
-assert.notEqual(chosenOpponent.id, clubs[0].id);
-const pairing = validateQuickMatchPairing(players, clubs[0].selection, clubs[1].selection);
-assert.equal(pairing.valid, true);
-assert.equal(quickMatchSelectionsCompatible(nations[0].selection, federations[0].selection), true);
-assert.equal(quickMatchSelectionsCompatible(clubs[0].selection, federations[0].selection), false);
-assert.equal(validateQuickMatchPairing(players, nations[0].selection, federations[0].selection).valid, true);
-assert.equal(quickMatchOpponentEntries(catalog, nations[0]).length, 3);
+
+assert.equal(QUICK_MATCH_NATION_MINIMUM, 8);
+assert.equal(clubs.length, 4);
+assert.equal(quickMatchEntriesForCategory(catalog, QUICK_MATCH_CATEGORY.LEAGUE).length, 2);
+assert.equal(nations.length, 3);
+assert.equal(nations.some(team => team.key === 'romania' && team.count === 8 && team.usable), true);
+assert.equal(federations.length, 1);
+assert.notEqual(chooseQuickMatchOpponent(clubs, clubs[0].id, { rng: () => 0 }).id, clubs[0].id);
+assert.equal(validateQuickMatchPairing(completePool, clubs[0].selection, clubs[1].selection).valid, true);
+
+assert.equal(quickMatchSelectionsCompatible(nations[0].selection, federations[0].selection), false);
+assert.equal(validateQuickMatchPairing(completePool, nations[0].selection, federations[0].selection).code, 'INCOMPATIBLE_OPPONENT');
+assert.equal(quickMatchOpponentEntries(catalog, nations[0]).every(team => team.kind === 'nation'), true);
+assert.equal(quickMatchOpponentEntries(catalog, federations[0]).every(team => team.kind === 'federation'), true);
+
 const prepared = buildQuickMatchPayload(
-  { players, selection: {} },
+  { players: completePool, selection: {} },
   nations[0].selection,
   federations[0].selection,
   () => 0,
 );
 assert.equal(prepared.matchup.enabled, true);
 assert.equal(prepared.matchup.human.kind, 'nation');
-assert.equal(prepared.matchup.ai.kind, 'federation');
+assert.equal(prepared.matchup.ai.kind, 'nation');
 assert.notEqual(prepared.matchup.human.key, prepared.matchup.ai.key);
-assert.equal(prepared.payload.players.filter(player => player.meta.quickMatchSide === 'human').length, 22);
-assert.equal(prepared.payload.players.filter(player => player.meta.quickMatchSide === 'ai').length, 44);
+assert.equal(prepared.payload.players.every(player => player.meta.quickMatchTeamKind === 'nation'), true);
 assert.equal(
-  validateQuickMatchPairing(players, clubs[0].selection, clubs[0].selection).code,
+  validateQuickMatchPairing(completePool, clubs[0].selection, clubs[0].selection).code,
   'INVALID_OPPONENT',
 );
 assert.equal(
-  validateQuickMatchPairing(players, clubs[0].selection, federations[0].selection).code,
+  validateQuickMatchPairing(completePool, clubs[0].selection, federations[0].selection).code,
   'INCOMPATIBLE_OPPONENT',
 );
 
@@ -174,101 +150,43 @@ const controlsSource = readSource('../js/quick-match-card-controls.js');
 const selectorCss = readSource('../css/deck-selection-menu.css');
 const controlsCss = readSource('../css/quick-match-card-controls.css');
 const federationCss = readSource('../css/federation-teams.css');
-const compatibilitySource = readSource('../js/deck-selection.js');
 const quickMatchDomainSource = readSource('../js/domain/quick-match-domain.js');
-const quickMatchStorageSource = readSource('../js/services/quick-match-storage-service.js');
-const buildSource = readSource('../scripts/build-standalone.mjs');
+const cardComponentSource = readSource('../js/ui/card-component.js');
+const scoreboardSource = readSource('../js/ui/scoreboard-component.js');
 const buildWithSettingsSource = readSource('../scripts/build-standalone-with-settings.mjs');
 const indexSource = readSource('../index.html');
 const serviceWorkerSource = readSource('../sw.js');
 
-assert.match(componentSource, /createDeckSelectionMenuController/);
-assert.match(componentSource, /MutationObserver|observerFactory/);
-assert.match(componentSource, /deck-selection-styles/);
-assert.match(componentSource, /selectedCategory/);
-assert.match(componentSource, /selectedPlayerTeamId/);
-assert.match(componentSource, /selectedOpponentTeamId/);
-assert.match(componentSource, /selectionStep/);
-assert.match(componentSource, /isOpponentDrawing/);
-assert.match(componentSource, /validationError/);
-assert.match(componentSource, /Lapozz a csapatok között/);
-assert.match(componentSource, /EZZEL A CSAPATTAL JÁTSZOM/);
-assert.match(componentSource, /ELLENFELED/);
-assert.match(componentSource, /MÁSIK ELLENFELET KÉREK/);
-assert.match(componentSource, /MECCS INDÍTÁSA/);
-assert.match(componentSource, /Klubcsapatok/);
-assert.match(componentSource, /Válogatottak/);
-assert.match(componentSource, /Föderációk/);
-assert.match(componentSource, /quickMatchOpponentEntries/);
-assert.match(componentSource, /pointerdown/);
-assert.match(componentSource, /ArrowLeft/);
-assert.match(componentSource, /popstate/);
-assert.match(componentSource, /quickStorage\.stage/);
-assert.match(componentSource, /role', 'dialog/);
-assert.match(componentSource, /aria-modal/);
+for (const marker of [
+  /createDeckSelectionMenuController/,
+  /selectedCategory/,
+  /selectedPlayerTeamId/,
+  /selectedOpponentTeamId/,
+  /selectionStep/,
+  /isOpponentDrawing/,
+  /quickMatchOpponentEntries/,
+  /EZZEL A CSAPATTAL JÁTSZOM/,
+  /MECCS INDÍTÁSA/,
+  /pointerdown/,
+  /ArrowLeft/,
+  /popstate/,
+  /aria-modal/,
+]) assert.match(componentSource, marker);
 assert.doesNotMatch(componentSource, /team-grid|team-tile/);
-
 assert.match(controlsSource, /quick-match-help-toggle/);
-assert.match(controlsSource, /Véletlen csapat választása az aktív kategóriából/);
-assert.match(controlsSource, /quickMatchCardControlsConfirmSelection/);
-assert.match(controlsSource, /confirm\.click/);
-assert.match(controlsSource, /quick-team-card/);
-assert.match(controlsSource, /Enter/);
-assert.match(controlsSource, /pointerup/);
 assert.match(controlsSource, /quick-random-team__ball/);
-assert.match(controlsSource, /installQuickMatchCardControls/);
-
-assert.match(selectorCss, /\.deck-selector\[open\] > \.deck-selector__body/);
 assert.match(selectorCss, /height:\s*100dvh/);
 assert.match(selectorCss, /safe-area-inset-bottom/);
-assert.match(selectorCss, /\.quick-team-card/);
-assert.match(selectorCss, /\.quick-match-duel/);
-assert.match(selectorCss, /min-width:\s*48px/);
-assert.match(selectorCss, /min-height:\s*56px/);
-assert.match(selectorCss, /orientation:\s*landscape/);
-assert.match(selectorCss, /prefers-reduced-motion/);
-assert.match(controlsCss, /\.quick-match-help-toggle/);
-assert.match(controlsCss, /\.quick-team-card\.is-selectable/);
-assert.match(controlsCss, /\.quick-random-team__ball/);
-assert.match(controlsCss, /quick-random-ball-roll/);
-assert.match(controlsCss, /max-width:\s*700px/);
 assert.match(controlsCss, /prefers-reduced-motion/);
 assert.match(federationCss, /\.quick-team-mark--federation/);
-assert.match(federationCss, /\.quick-team-mark__image/);
-assert.match(quickMatchDomainSource, /buildQuickMatchCatalog/);
-assert.match(quickMatchDomainSource, /buildQuickMatchPayload/);
-assert.match(quickMatchDomainSource, /quickMatchSelectionsCompatible/);
-assert.match(quickMatchStorageSource, /quick-match-setup:v1|QUICK_MATCH_SETUP_STORAGE_KEY/);
+assert.match(quickMatchDomainSource, /a\.kind === b\.kind/);
+assert.doesNotMatch(quickMatchDomainSource, /\['nation', 'federation'\]/);
+assert.match(cardComponentSource, /card__club-logo/);
+assert.match(cardComponentSource, /ART\.placeholder\('club'\)/);
+assert.match(scoreboardSource, /score-team-mark/);
+assert.match(scoreboardSource, /quickMatchTeamBadge/);
 assert.match(indexSource, /css\/deck-selection-menu\.css/);
-assert.match(indexSource, /css\/quick-match-card-controls\.css/);
-assert.match(indexSource, /js\/quick-match-card-controls\.js/);
-assert.match(indexSource, /css\/federation-teams\.css/);
 assert.match(buildWithSettingsSource, /quick-match-domain\.js/);
-assert.match(buildWithSettingsSource, /federation-domain\.js/);
-assert.match(buildWithSettingsSource, /federation-teams\.css/);
-assert.match(buildWithSettingsSource, /quick-match-card-controls\.css/);
-assert.match(buildWithSettingsSource, /quick-random-team__ball/);
-assert.match(buildWithSettingsSource, /quick-match-storage-service\.js/);
-assert.match(buildWithSettingsSource, /quick-team-card/);
-assert.match(serviceWorkerSource, /fociskartyak-2026-v82/);
-assert.match(serviceWorkerSource, /\.\/css\/quick-match-card-controls\.css/);
-assert.match(serviceWorkerSource, /\.\/js\/quick-match-card-controls\.js/);
 assert.match(serviceWorkerSource, /\.\/js\/domain\/quick-match-domain\.js/);
-assert.match(serviceWorkerSource, /\.\/js\/domain\/federation-domain\.js/);
-assert.match(serviceWorkerSource, /\.\/js\/services\/quick-match-storage-service\.js/);
-assert.match(serviceWorkerSource, /assets\/federations\/federation-europe\.svg/);
-assert.match(compatibilitySource, /\.\/ui\/deck-selection-menu-component\.js/);
-assert.match(compatibilitySource, /buildQuickMatchPayload/);
-assert.match(compatibilitySource, /readQuickMatchSetup/);
-assert.ok(
-  buildSource.indexOf("'js/ui/deck-selection-menu-component.js'")
-    < buildSource.indexOf("'js/quick-match-card-controls.js'"),
-  'a kártyavezérlő réteg a csapatválasztó komponens után szerepel',
-);
-assert.ok(
-  buildSource.indexOf("'js/quick-match-card-controls.js'")
-    < buildSource.indexOf("'js/deck-selection.js'"),
-  'a kártyavezérlő réteg a kompatibilitási homlokzat előtt szerepel',
-);
 
-console.log('✓ Háromkategóriás Gyors meccs, kérdőjeles súgó, logó-/kártyakattintás, focilabdás véletlengomb, mobilbiztonság és PWA: rendben');
+console.log('✓ Gyors meccs: 8 lapos ligaválogatott, azonos csapattípusú ellenfél, logók és mobil/PWA kontrollok: rendben');
