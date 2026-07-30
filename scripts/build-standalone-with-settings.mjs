@@ -16,6 +16,7 @@ const FEDERATION_CSS_LINK = '  <link rel="stylesheet" href="css/federation-teams
 const TOURNAMENT_CSS_LINK = '  <link rel="stylesheet" href="css/tournament-mode.css">';
 const JS_TAG = '  <script type="module" src="js/visual-settings-persistence.js"></script>';
 const RECENT_DUELS_JS_TAG = '  <script type="module" src="js/recent-duels-experience.js"></script>';
+const HELP_POPOVER_JS_TAG = '  <script type="module" src="js/ui/help-popover-component.js"></script>';
 const TEAM_SELECTOR_BUNDLE_MARKER = '/* ===== js/ui/deck-selection-menu-component.js ===== */';
 const UI_RUNTIME_BUNDLE_MARKER = '/* ===== js/ui.js ===== */';
 const QUICK_MATCH_CONTROLS_BUNDLE_MARKER = '/* ===== js/quick-match-card-controls.js · isolated UI class layer ===== */';
@@ -34,6 +35,10 @@ const flattenInlineModule = source => source
   .replace(/^import\s+[^;]+;\s*$/gm, '')
   .replace(/^export\s+\{[^}]+\};?\s*$/gm, '')
   .replace(/\bexport\s+(?=(?:const|let|var|class|function|async\s+function)\b)/g, '');
+const helpPopoverFile = 'js/ui/help-popover-component.js';
+const helpPopoverSource = flattenInlineModule(fs.readFileSync(path.join(ROOT, helpPopoverFile), 'utf8'))
+  .replace(/<\/script/gi, '<\\/script');
+const helpPopoverInlineScript = `  <script>\n/* ===== ${helpPopoverFile} · helyi standalone modul ===== */\n(() => {\n${helpPopoverSource}\n})();\n  </script>`;
 const quickMatchInlineBundle = [
   'js/data/federations.js',
   'js/domain/federation-domain.js',
@@ -142,6 +147,7 @@ output = output
   .replace(TOURNAMENT_CSS_LINK, `  <style>\n${tournamentCss}\n  </style>`)
   .replace(JS_TAG, `  <script>\n${sizingJs}\n  </script>`)
   .replace(RECENT_DUELS_JS_TAG, '')
+  .replace(HELP_POPOVER_JS_TAG, helpPopoverInlineScript)
   .replace(
     TEAM_SELECTOR_BUNDLE_MARKER,
     `${quickMatchInlineBundle}\n${runtimeSmokeCompatibility}\n${TEAM_SELECTOR_BUNDLE_MARKER}`,
@@ -170,7 +176,7 @@ for (const [assetPath, dataUri] of Object.entries(federationAssetDataUris)) {
 if (output.includes(CSS_LINK) || output.includes(TEAM_SELECTOR_CSS_LINK)
   || output.includes(QUICK_MATCH_CONTROLS_CSS_LINK) || output.includes(FEDERATION_CSS_LINK)
   || output.includes(TOURNAMENT_CSS_LINK)
-  || output.includes(JS_TAG) || output.includes(RECENT_DUELS_JS_TAG)) {
+  || output.includes(JS_TAG) || output.includes(RECENT_DUELS_JS_TAG) || output.includes(HELP_POPOVER_JS_TAG)) {
   throw new Error('Az önálló buildből külső felületi asset maradt bent.');
 }
 if (!output.includes('Méretezés mentése') || !output.includes('fociskartyak.visual-sizing.v1')) {
@@ -181,6 +187,9 @@ if (!output.includes('quick-team-card') || !output.includes('quick-match-duel'))
 }
 if (!output.includes('quick-match-help-toggle') || !output.includes('quick-random-team__ball')) {
   throw new Error('A kérdőjeles súgó vagy a focilabdás véletlengomb nem került be az önálló buildbe.');
+}
+if (!output.includes('createHelpPopover') || !output.includes('installHelpPopovers')) {
+  throw new Error('A kérdőjeles súgó helyi modulja nem került be az önálló buildbe.');
 }
 if (!output.includes('buildQuickMatchCatalog') || !output.includes('quickMatchStorageService')) {
   throw new Error('A Gyors meccs központi domainje vagy tárolója nem került be az önálló buildbe.');
