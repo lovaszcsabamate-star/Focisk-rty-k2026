@@ -29,8 +29,10 @@ import {
   tournamentTeamById,
 } from './tournament/tournament-domain.js';
 import { tournamentStorageService } from './services/tournament-storage-service.js';
+import { UI } from './ui.js';
 
 const runtime = { observer: null, resultPanels: new WeakSet(), lastMenuPanel: null };
+const TOURNAMENT_RESULT_HOOK_KEY = '__fociskartyakTournamentResultHook';
 const escapeHtml = value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const fold = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -59,10 +61,34 @@ const playerStrength = player => {
 };
 const initials = label => String(label ?? '').split(/\s+/).filter(Boolean).slice(0, 3).map(word => word[0]).join('').toUpperCase();
 const hue = label => [...String(label ?? '')].reduce((sum, char) => (sum + char.charCodeAt(0) * 7) % 360, 28);
-const teamMark = team => {
-  if (team?.badge) return `<img class="tournament-team-mark__image" src="${escapeHtml(team.badge)}" alt="" loading="lazy">`;
-  if (team?.kind === 'nation' && team?.icon) return `<span class="tournament-team-mark__fallback" aria-hidden="true">${escapeHtml(team.icon)}</span>`;
-  return `<span class="tournament-team-mark__generated" aria-hidden="true" style="display:grid;place-items:center;width:54px;height:62px;clip-path:polygon(50% 0,94% 18%,88% 75%,50% 100%,12% 75%,6% 18%);background:hsl(${hue(team?.label)} 58% 35%);border:2px solid rgba(255,255,255,.7);font-weight:900;color:white;text-shadow:0 1px 3px #000">${escapeHtml(initials(team?.label) || 'FK')}</span>`;
+const TOURNAMENT_CLUB_PRESENTATION = Object.freeze({
+  dvsc: Object.freeze({ short: 'DVSC', primary: '#c8192e', secondary: '#ffffff' }),
+  dvtk: Object.freeze({ short: 'DVTK', primary: '#d71920', secondary: '#ffffff' }),
+  'eto fc': Object.freeze({ short: 'ETO', primary: '#159447', secondary: '#ffffff' }),
+  'ferencvarosi tc': Object.freeze({ short: 'FTC', primary: '#16854a', secondary: '#ffffff' }),
+  'kisvarda master good': Object.freeze({ short: 'KISV', primary: '#d8222a', secondary: '#ffffff' }),
+  'kolorcity kazincbarcika sc': Object.freeze({ short: 'KBSC', primary: '#2468a9', secondary: '#f2cf2f' }),
+  'mtk budapest': Object.freeze({ short: 'MTK', primary: '#246eb9', secondary: '#ffffff' }),
+  'nyiregyhaza spartacus fc': Object.freeze({ short: 'NYÍR', primary: '#c61f30', secondary: '#254f9a' }),
+  'paksi fc': Object.freeze({ short: 'PAKS', primary: '#23864a', secondary: '#ffffff' }),
+  'puskas akademia fc': Object.freeze({ short: 'PAFC', primary: '#1f66ad', secondary: '#f0c640' }),
+  'ujpest fc': Object.freeze({ short: 'UTE', primary: '#6d3a93', secondary: '#ffffff' }),
+  'zte fc': Object.freeze({ short: 'ZTE', primary: '#185ea9', secondary: '#ffffff' }),
+});
+const clubPresentation = team => TOURNAMENT_CLUB_PRESENTATION[fold(team?.label)] ?? Object.freeze({
+  short: initials(team?.label).slice(0, 4) || 'FC',
+  primary: '#6d4d2f',
+  secondary: '#d5b45d',
+});
+const teamMark = (team, size = 'normal') => {
+  const sizeClass = size === 'small' ? ' tournament-team-mark--small' : '';
+  if (team?.kind === 'club') {
+    const presentation = clubPresentation(team);
+    return `<span class="tournament-team-mark__generated${sizeClass} quick-team-mark quick-team-mark--text" data-tournament-club-mark="true" aria-hidden="true" style="--team-primary:${presentation.primary};--team-secondary:${presentation.secondary}">${escapeHtml(presentation.short)}</span>`;
+  }
+  if (team?.badge) return `<img class="tournament-team-mark__image${sizeClass}" src="${escapeHtml(team.badge)}" alt="" loading="lazy">`;
+  if (team?.kind === 'nation' && team?.icon) return `<span class="tournament-team-mark__fallback${sizeClass}" aria-hidden="true">${escapeHtml(team.icon)}</span>`;
+  return `<span class="tournament-team-mark__generated${sizeClass}" aria-hidden="true" style="clip-path:polygon(50% 0,94% 18%,88% 75%,50% 100%,12% 75%,6% 18%);background:hsl(${hue(team?.label)} 58% 35%);border:2px solid rgba(255,255,255,.7);font-weight:900;color:white;text-shadow:0 1px 3px #000">${escapeHtml(initials(team?.label) || 'FK')}</span>`;
 };
 const panel = className => {
   const node = document.createElement('div');
@@ -182,7 +208,7 @@ function showTournamentSetup(returnPanel = runtime.lastMenuPanel) {
       </section>
       <section class="tournament-section"><h2>4. Saját csapat</h2>${selected ? `<div class="tournament-selected-team">${teamMark(selected)}<div><strong>${escapeHtml(selected.label)}</strong><small>${selected.count} kártya</small></div></div>` : '<p class="tournament-warning">Nincs használható csapat.</p>'}<select id="tournament-human-team">${pool.map(team => `<option value="${escapeHtml(team.id)}" ${team.id === setup.humanTeamId ? 'selected' : ''}>${escapeHtml(team.label)} (${team.count})</option>`).join('')}</select></section>
       ${setup.category === TOURNAMENT_CATEGORY.HUNGARIAN && setup.format === TOURNAMENT_FORMAT.KNOCKOUT && setup.count === 12 ? '<section class="tournament-section"><h2>Magyar Kupa lebonyolítása</h2><p><b>1. kör:</b> 8 csapat, 4 továbbjutó és 4 erőnyerő. <b>Negyeddöntő:</b> 8 csapat. <b>Elődöntő:</b> 4 csapat. <b>Döntő:</b> 2 csapat.</p></section>' : ''}
-      <section class="tournament-section"><h2>Várható mezőny</h2><div class="tournament-team-chips">${preview.map(team => `<span class="tournament-team-chip ${team.id === setup.humanTeamId ? 'is-human' : ''}">${escapeHtml(team.icon || '⚽')} ${escapeHtml(team.label)}</span>`).join('')}</div></section>
+      <section class="tournament-section"><h2>Várható mezőny</h2><div class="tournament-team-chips">${preview.map(team => `<span class="tournament-team-chip ${team.id === setup.humanTeamId ? 'is-human' : ''}">${teamMark(team, 'small')}<span>${escapeHtml(team.label)}</span></span>`).join('')}</div></section>
       <div class="tournament-actions"><button class="btn btn--ghost" id="tournament-back">Vissza</button><button class="btn" id="tournament-start" ${canStart ? '' : 'disabled'}>Torna indítása</button></div>
       <dialog class="tournament-help-dialog"><h2>Hogyan működik?</h2><p>A gépi találkozók automatikusan leszimulálódnak. Saját meccs előtt 11 játékoskártyából álló keretet választhatsz. A torna automatikusan mentődik, és külön Mentés gombbal is rögzíthető.</p><button class="btn">Értem</button></dialog>`;
     node.querySelectorAll('[data-preset]').forEach(button => button.addEventListener('click', () => preset(button.dataset.preset)));
@@ -235,13 +261,13 @@ const strengthResolver = state => {
 const simulateAndSave = state => {
   let next = simulatePendingAiMatches(advanceTournament(state), strengthResolver(state));
   next = advanceTournament(next);
-  tournamentStorageService.save(next);
+  if (!tournamentStorageService.save(next)) throw new Error('A tornaállapot nem menthető.');
   if (next.status === TOURNAMENT_STATUS.COMPLETE) tournamentStorageService.archive(next);
   return next;
 };
 const standingsTable = (state, groupId = null) => `<div class="tournament-table-wrap"><table class="tournament-table"><thead><tr><th>#</th><th>Csapat</th><th>M</th><th>GY</th><th>D</th><th>V</th><th>+/−</th><th>P</th></tr></thead><tbody>${tournamentStandings(state, groupId).map(row => {
   const team = tournamentTeamById(state, row.teamId);
-  return `<tr class="${row.teamId === state.humanTeamId ? 'is-human' : ''}"><td>${row.position}</td><td><span style="display:inline-flex;align-items:center;gap:6px">${teamMark(team)}<b>${escapeHtml(team?.label || row.teamId)}</b></span></td><td>${row.played}</td><td>${row.wins}</td><td>${row.draws}</td><td>${row.losses}</td><td>${row.difference > 0 ? '+' : ''}${row.difference}</td><td><b>${row.points}</b></td></tr>`;
+  return `<tr class="${row.teamId === state.humanTeamId ? 'is-human' : ''}"><td>${row.position}</td><td><span style="display:inline-flex;align-items:center;gap:6px">${teamMark(team, 'small')}<b>${escapeHtml(team?.label || row.teamId)}</b></span></td><td>${row.played}</td><td>${row.wins}</td><td>${row.draws}</td><td>${row.losses}</td><td>${row.difference > 0 ? '+' : ''}${row.difference}</td><td><b>${row.points}</b></td></tr>`;
 }).join('')}</tbody></table></div>`;
 const tables = state => state.format === TOURNAMENT_FORMAT.LEAGUE ? standingsTable(state)
   : state.groups?.length ? `<div class="tournament-groups">${state.groups.map(group => `<section><h3>${escapeHtml(group.label)}</h3>${standingsTable(state, group.id)}</section>`).join('')}</div>` : '';
@@ -249,12 +275,15 @@ const bracket = state => {
   const rounds = state.rounds?.filter(round => round.stage === 'knockout') ?? [];
   if (!rounds.length) return '';
   const byes = isHungarianCup12(state) && state.hungarianCupByeTeamIds?.length
-    ? `<section class="tournament-bracket__round"><h3>Erőnyerők</h3>${state.hungarianCupByeTeamIds.map(id => `<div class="tournament-bracket__match"><span class="is-winner">${escapeHtml(tournamentTeamById(state, id)?.label || id)}</span><b>→</b><span>Negyeddöntő</span></div>`).join('')}</section>` : '';
+    ? `<section class="tournament-bracket__round"><h3>Erőnyerők</h3>${state.hungarianCupByeTeamIds.map(id => {
+      const team = tournamentTeamById(state, id);
+      return `<div class="tournament-bracket__match"><span class="is-winner">${teamMark(team, 'small')}<span>${escapeHtml(team?.label || id)}</span></span><b>→</b><span>Negyeddöntő</span></div>`;
+    }).join('')}</section>` : '';
   return `<div class="tournament-bracket" aria-label="Kieséses tornaág">${byes}${rounds.map(round => `<section class="tournament-bracket__round"><h3>${escapeHtml(round.label)}</h3>${round.matches.map(match => {
     const home = tournamentTeamById(state, match.homeId);
     const away = tournamentTeamById(state, match.awayId);
     const score = match.status === TOURNAMENT_MATCH_STATUS.COMPLETE ? `${match.homeScore}–${match.awayScore}${String(match.decidedBy).includes('penalties') ? ' (b.)' : ''}` : match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK ? 'Büntetők' : '–';
-    return `<div class="tournament-bracket__match ${[match.homeId, match.awayId].includes(state.humanTeamId) ? 'is-human' : ''}"><span class="${match.winnerId === match.homeId ? 'is-winner' : ''}">${escapeHtml(home?.label || match.homeId)}</span><b>${score}</b><span class="${match.winnerId === match.awayId ? 'is-winner' : ''}">${escapeHtml(away?.label || match.awayId)}</span></div>`;
+    return `<div class="tournament-bracket__match ${[match.homeId, match.awayId].includes(state.humanTeamId) ? 'is-human' : ''}"><span class="${match.winnerId === match.homeId ? 'is-winner' : ''}">${teamMark(home, 'small')}<span>${escapeHtml(home?.label || match.homeId)}</span></span><b>${score}</b><span class="${match.winnerId === match.awayId ? 'is-winner' : ''}">${teamMark(away, 'small')}<span>${escapeHtml(away?.label || match.awayId)}</span></span></div>`;
   }).join('')}</section>`).join('')}</div>`;
 };
 const recentResults = state => {
@@ -263,7 +292,7 @@ const recentResults = state => {
   return `<div class="tournament-results-list">${matches.map(match => {
     const home = tournamentTeamById(state, match.homeId);
     const away = tournamentTeamById(state, match.awayId);
-    return `<div class="tournament-result-row"><span>${teamMark(home)} ${escapeHtml(home?.label || match.homeId)}</span><b>${match.homeScore}–${match.awayScore}${String(match.decidedBy).includes('penalties') ? ' (b.)' : ''}</b><span>${teamMark(away)} ${escapeHtml(away?.label || match.awayId)}</span></div>`;
+    return `<div class="tournament-result-row"><span>${teamMark(home, 'small')} ${escapeHtml(home?.label || match.homeId)}</span><b>${match.homeScore}–${match.awayScore}${String(match.decidedBy).includes('penalties') ? ' (b.)' : ''}</b><span>${teamMark(away, 'small')} ${escapeHtml(away?.label || match.awayId)}</span></div>`;
   }).join('')}</div>`;
 };
 const playerStatsView = state => {
@@ -339,7 +368,13 @@ function showTournamentComplete(state, returnPanel = null) {
 
 function showTournamentCenter(inputState = tournamentStorageService.read(), returnPanel = runtime.lastMenuPanel) {
   if (!inputState) { showTournamentSetup(returnPanel); return; }
-  const state = simulateAndSave(inputState);
+  let state;
+  try {
+    state = simulateAndSave(inputState);
+  } catch (error) {
+    console.error('[tournament] A torna központ nem frissíthető:', error);
+    state = inputState;
+  }
   if (state.status === TOURNAMENT_STATUS.COMPLETE) { showTournamentComplete(state, returnPanel); return; }
   const nextMatch = tournamentNextHumanMatch(state);
   const human = tournamentTeamById(state, state.humanTeamId);
@@ -392,6 +427,25 @@ const updatePlayerStats = (state, result) => {
   }
   return next;
 };
+const createTournamentResultContext = (node, text, error = false) => {
+  node.querySelector('.tournament-result-context')?.remove();
+  const context = document.createElement('p');
+  context.className = `tournament-result-context${error ? ' tournament-result-context--error' : ''}`;
+  context.textContent = text;
+  node.prepend(context);
+  return context;
+};
+const createTournamentHomeButton = originalHome => {
+  const homeButton = document.createElement('button');
+  homeButton.type = 'button';
+  homeButton.className = 'btn btn--ghost';
+  homeButton.textContent = 'Főmenü';
+  homeButton.addEventListener('click', () => {
+    if (originalHome) originalHome.click();
+    else navigateHome();
+  }, { once: true });
+  return homeButton;
+};
 const handleResultPanel = node => {
   if (!node || runtime.resultPanels.has(node)) return;
   const stored = tournamentStorageService.read();
@@ -399,7 +453,9 @@ const handleResultPanel = node => {
   const current = tournamentMatchById(stored, stored.currentMatchId);
   const result = parseResult(node);
   if (!current || !result) return;
-  runtime.resultPanels.add(node);
+
+  node.classList.add('result-panel--tournament');
+  node.dataset.tournamentResult = 'true';
   const originalHome = node.querySelector('#menu-btn');
   const humanHome = current.homeId === stored.humanTeamId;
   const homeScore = humanHome ? result.humanScore : result.aiScore;
@@ -421,28 +477,43 @@ const handleResultPanel = node => {
     next = simulateAndSave(next);
   } catch (error) {
     console.error('[tournament] A mérkőzés eredménye nem menthető:', error);
+    runtime.resultPanels.add(node);
+    const actions = node.querySelector('.result-actions');
+    if (actions) {
+      actions.replaceChildren();
+      const retryButton = document.createElement('button');
+      retryButton.type = 'button';
+      retryButton.className = 'btn';
+      retryButton.textContent = '🏆 Torna központ';
+      retryButton.addEventListener('click', () => showTournamentCenter(tournamentStorageService.read() ?? stored, null), { once: true });
+      actions.append(retryButton, createTournamentHomeButton(originalHome));
+    }
+    createTournamentResultContext(node, `${stored.name} · az eredmény mentése nem sikerült, a tornaállapot megmaradt`, true);
     return;
   }
+
+  runtime.resultPanels.add(node);
   const actions = node.querySelector('.result-actions');
   if (actions) {
     actions.replaceChildren();
     const continueButton = document.createElement('button');
+    continueButton.type = 'button';
     continueButton.className = 'btn';
     continueButton.textContent = next.status === TOURNAMENT_STATUS.COMPLETE ? '🏆 Torna végeredménye' : '🏆 Torna folytatása';
     continueButton.addEventListener('click', () => showTournamentCenter(next, null), { once: true });
-    const homeButton = document.createElement('button');
-    homeButton.className = 'btn btn--ghost';
-    homeButton.textContent = 'Főmenü';
-    homeButton.addEventListener('click', () => {
-      if (originalHome) originalHome.click();
-      else navigateHome();
-    }, { once: true });
-    actions.append(continueButton, homeButton);
+    actions.append(continueButton, createTournamentHomeButton(originalHome));
   }
-  const context = document.createElement('p');
-  context.className = 'tournament-result-context';
-  context.textContent = `${next.name} · ${phaseLabel(next)} · eredmény elmentve`;
-  node.prepend(context);
+  createTournamentResultContext(node, `${next.name} · ${phaseLabel(next)} · eredmény elmentve`);
+};
+const installTournamentResultHook = () => {
+  const previousShowOverlay = UI.prototype.showOverlay;
+  if (typeof previousShowOverlay !== 'function' || previousShowOverlay[TOURNAMENT_RESULT_HOOK_KEY]) return;
+  function showTournamentResultOverlay(node) {
+    if (node?.classList?.contains('result-panel')) handleResultPanel(node);
+    return previousShowOverlay.call(this, node);
+  }
+  Object.defineProperty(showTournamentResultOverlay, TOURNAMENT_RESULT_HOOK_KEY, { value: true });
+  UI.prototype.showOverlay = showTournamentResultOverlay;
 };
 const enhanceMenu = node => {
   if (!node || node.dataset.tournamentEnhanced === 'true') return;
@@ -467,6 +538,7 @@ const enhanceMenu = node => {
 };
 const refresh = () => { enhanceMenu(document.querySelector('.menu-panel.mobile-home')); handleResultPanel(document.querySelector('.result-panel')); };
 export function installTournamentMode() {
+  installTournamentResultHook();
   if (runtime.observer) return runtime.observer;
   runtime.observer = new MutationObserver(refresh);
   runtime.observer.observe(document.documentElement, { childList: true, subtree: true });
