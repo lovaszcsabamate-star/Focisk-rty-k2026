@@ -20,8 +20,19 @@ const penaltyQuickMatchPools = players => ({
   [AI]: players.filter(player => player?.meta?.quickMatchSide === AI),
 });
 
+const tournamentOrderedPlayers = players => {
+  const source = Array.isArray(players) ? players : [];
+  const hasTournamentOrder = source.some(player => Number.isFinite(Number(player?.meta?.tournamentLineupOrder)));
+  if (!hasTournamentOrder) return null;
+  return [...source].sort((left, right) => (
+    Number(left?.meta?.tournamentLineupOrder ?? Number.MAX_SAFE_INTEGER)
+    - Number(right?.meta?.tournamentLineupOrder ?? Number.MAX_SAFE_INTEGER)
+  ));
+};
+
 const penaltyBuildQuickMatchTeam = (players, side, rng) => {
-  const source = shuffle(players, rng);
+  const ordered = side === HUMAN ? tournamentOrderedPlayers(players) : null;
+  const source = ordered ?? shuffle(players, rng);
   const team = source.slice(0, PENALTY_TEAM_SIZE);
   let mirrorIndex = 0;
   while (team.length < PENALTY_TEAM_SIZE) {
@@ -68,9 +79,13 @@ export class PenaltyGame {
       this.quickMatch = null;
     }
 
+    const orderedTournamentHuman = tournamentOrderedPlayers(humanTeam);
     this.poolSize = players.length;
     this.teams = { [HUMAN]: humanTeam, [AI]: aiTeam };
-    this.hands = { [HUMAN]: shuffle(humanTeam, rng), [AI]: shuffle(aiTeam, rng) };
+    this.hands = {
+      [HUMAN]: orderedTournamentHuman ?? shuffle(humanTeam, rng),
+      [AI]: shuffle(aiTeam, rng),
+    };
     this.used = { [HUMAN]: [], [AI]: [] };
     this.scores = { [HUMAN]: 0, [AI]: 0 };
     this.attempts = { [HUMAN]: [], [AI]: [] };
@@ -186,8 +201,9 @@ export class PenaltyGame {
     let reshuffled = false;
 
     if (this.hands[HUMAN].length === 0 || this.hands[AI].length === 0) {
+      const orderedHuman = tournamentOrderedPlayers(this.teams[HUMAN]);
       this.hands = {
-        [HUMAN]: shuffle(this.teams[HUMAN], this.rng),
+        [HUMAN]: orderedHuman ?? shuffle(this.teams[HUMAN], this.rng),
         [AI]: shuffle(this.teams[AI], this.rng),
       };
       this.used = { [HUMAN]: [], [AI]: [] };
