@@ -56,8 +56,12 @@ assert.equal(records.get('SOISALO MIKAEL ANTERO').birthDate, '1998-04-24');
 assert.equal(correction.recordPatches.length, 1);
 assert.equal(correction.recordPatches[0].name, 'Mikael Soisalo');
 assert.equal(correction.recordPatches[0].birthDate, '1998-04-24');
-assert.equal(correction.verifiedCorrections.length, 1);
-assert.deepEqual(correction.verifiedCorrections[0].overrideFields, ['birthDate']);
+assert.equal(correction.verifiedCorrections.length, 4);
+const soisaloCorrection = correction.verifiedCorrections.find(item => (
+  item.correctionId === 'puskas-soisalo-birth-date-2025-26'
+));
+assert.ok(soisaloCorrection, 'Hiányzó Soisalo születésidátum-korrekció');
+assert.deepEqual(soisaloCorrection.overrideFields, ['birthDate']);
 const preparedCurrent = prepareClubEnrichment(currentRoster, correction);
 assert.equal(
   preparedCurrent.records.find(record => record.name === 'Mikael Soisalo').birthDate,
@@ -106,9 +110,16 @@ assert.equal(expected.get('MARKGRÁF ÁKOS')[7], 1);
 assert.deepEqual(expected.get('KRUPA ZSOLT').slice(1, 6), [0, 0, 0, 3, 0]);
 
 const corrected = applyVerifiedPlayerCorrections(base, correction.verifiedCorrections);
-assert.equal(corrected.verifiedPlayerCorrections.requested, 1);
-assert.equal(corrected.verifiedPlayerCorrections.appliedPlayers, 1);
-assert.equal(corrected.verifiedPlayerCorrections.appliedFields, 1);
+assert.equal(corrected.verifiedPlayerCorrections.requested, correction.verifiedCorrections.length);
+assert.equal(
+  corrected.verifiedPlayerCorrections.appliedPlayers + corrected.verifiedPlayerCorrections.skipped,
+  correction.verifiedCorrections.length,
+);
+const appliedSoisalo = corrected.verifiedPlayerCorrections.applied.find(item => (
+  item.correctionId === 'puskas-soisalo-birth-date-2025-26'
+));
+assert.ok(appliedSoisalo, 'A Soisalo-korrekció nem került alkalmazásra');
+assert.deepEqual(appliedSoisalo.fieldsApplied, ['birthDate']);
 assert.equal(
   corrected.players.find(card => card.id === 'nb1-0313d575ded4').birthDate,
   '1998-04-24',
