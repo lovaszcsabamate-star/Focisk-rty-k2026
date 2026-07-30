@@ -76,6 +76,8 @@ const moduleOrder = [
   'js/ui/help-popover-component.js',
   'js/quick-match-card-controls.js',
   'js/deck-selection.js',
+  'js/tournament/tournament-domain.js',
+  'js/services/tournament-storage-service.js',
   'js/branding.js',
   'js/data/categories.js',
   'js/data/players.js',
@@ -116,7 +118,10 @@ const moduleOrder = [
   'js/gameplay-experience.js',
   'js/recent-duels-experience.js',
   'js/gameplay-polish.js',
+  'js/playability-visual-upgrade.js',
   'js/legal-ui.js',
+  'js/tournament-mode.js',
+  'js/tournament-cup-experience.js',
   'js/ui/ui-enhancement-pipeline.js',
   'js/main.js',
 ];
@@ -139,6 +144,7 @@ const uiEnhancementFiles = new Set([
   'js/visual-hierarchy.js',
   'js/gameplay-experience.js',
   'js/recent-duels-experience.js',
+  'js/playability-visual-upgrade.js',
   'js/legal-ui.js',
 ]);
 
@@ -283,7 +289,10 @@ const safeJson = JSON.stringify(standalonePayload).replace(/<\/script/gi, '<\\/s
 const safeDatabase = JSON.stringify(databaseManifest).replace(/<\/script/gi, '<\\/script');
 const safeI18nCatalogues = JSON.stringify(i18nCatalogues).replace(/<\/script/gi, '<\\/script');
 const safeBundle = bundle.replace(/<\/script/gi, '<\\/script');
-let css = `${read('css/style.css')}\n\n${read('css/ux.css')}\n\n${read('css/matchday.css')}\n\n${read('css/opponents.css')}\n\n${read('css/pwa.css')}\n\n${read('css/mobile-experience.css')}\n\n${read('css/mobile-overlay-fix.css')}\n\n${read('css/player-profile.css')}\n\n${read('css/focus-experience.css')}\n\n${read('css/mobile-selection-fix.css')}\n\n${read('css/duel-emphasis.css')}\n\n${read('css/phase-refinements.css')}\n\n${read('css/visual-system.css')}\n\n${read('css/legal-ui.css')}\n\n${read('css/visual-hierarchy.css')}\n\n${read('css/category-picker.css')}\n\n${read('css/nationality-flags.css')}\n\n${read('css/i18n.css')}`;
+const indexTemplate = read('index.html');
+const stylesheetFiles = [...indexTemplate.matchAll(/<link\s+rel="stylesheet"\s+href="([^"]+)"/g)]
+  .map(match => match[1]);
+let css = stylesheetFiles.map(file => read(file)).join('\n\n');
 
 const playerPlaceholder = fs.readFileSync(path.join(ROOT, 'src/assets/placeholders/player-silhouette.svg')).toString('base64');
 css = css.replaceAll('../src/assets/placeholders/player-silhouette.svg', `data:image/svg+xml;base64,${playerPlaceholder}`);
@@ -303,25 +312,9 @@ if (backgroundFile) {
   css += `\n#pub { background-image: linear-gradient(rgba(18,11,5,.36), rgba(18,11,5,.64)), url("data:${mime};base64,${background}") !important; }\n`;
 }
 
-const output = read('index.html')
+const output = indexTemplate
   .replace('<link rel="stylesheet" href="css/style.css">', `<style>${css}</style>`)
-  .replace('\n  <link rel="stylesheet" href="css/ux.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/matchday.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/opponents.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/pwa.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/mobile-experience.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/mobile-overlay-fix.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/player-profile.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/focus-experience.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/mobile-selection-fix.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/duel-emphasis.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/phase-refinements.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/visual-system.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/legal-ui.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/visual-hierarchy.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/category-picker.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/nationality-flags.css">', '')
-  .replace('\n  <link rel="stylesheet" href="css/i18n.css">', '')
+  .replace(/^\s*<link\s+rel="stylesheet"\s+href="[^"]+">\s*$/gm, '')
   .replace('<div id="app-loading" role=', '<div id="app-loading" hidden role=')
   .replace('  <script type="module" src="js/branding.js"></script>\n', '')
   .replace('  <script type="module" src="js/ux.js"></script>\n', '')
@@ -352,8 +345,8 @@ if (!output.includes('__FOCISKARTYAK_I18N_CATALOGUES__')
 if (output.includes('href="css/i18n.css"') || output.includes('import.meta.url')) {
   throw new Error('Az önálló lokalizáció külső vagy WebView-inkompatibilis hivatkozást tartalmaz.');
 }
-if (output.includes('<script type="module" src=')) {
-  throw new Error('Az önálló buildben külső JavaScript-modulhivatkozás maradt.');
+if (output.includes('<script type="module" src=') || output.includes('<link rel="stylesheet" href=')) {
+  throw new Error('Az önálló buildben külső kód- vagy stílushivatkozás maradt.');
 }
 
 const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
