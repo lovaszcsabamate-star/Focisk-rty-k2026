@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+// The source collector is patched at runtime so legacy club aliases resolve to canonical database IDs.
 const sourceFile = path.resolve('scripts/enrich-player-heights.mjs');
 const runtimeFile = path.resolve('scripts/.enrich-player-heights.runtime.mjs');
 let source = await fs.readFile(sourceFile, 'utf8');
