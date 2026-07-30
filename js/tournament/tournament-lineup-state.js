@@ -15,9 +15,10 @@ const normaliseIdMap = value => Object.fromEntries(
 );
 
 export function tournamentLineupScope(state, { seasonId = '' } = {}) {
+  const activeSeason = globalThis.__FOCISKARTYAK_SEASON__;
   return Object.freeze({
     tournamentId: text(state?.id),
-    seasonId: text(seasonId || state?.seasonId || globalThis.__FOCISKARTYAK_SEASON__?.id),
+    seasonId: text(seasonId || state?.seasonId || activeSeason?.seasonId || activeSeason?.id),
     teamId: text(state?.humanTeamId),
   });
 }
