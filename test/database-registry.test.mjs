@@ -100,25 +100,62 @@ assert.equal(report.playerCount, 440);
 const availableSeasons = await getAvailableSeasons();
 assert.equal(availableSeasons.length, 1);
 assert.equal(availableSeasons[0].id, '2025-26');
-assert.equal(availableSeasons[0].label, '2025/26');
+assert.equal(availableSeasons[0].databaseId, 'hungary-nb1-2025-26');
+assert.equal((await getDatabaseBySeason('2025/26', { competitionId: 'hungary-nb1' })).id, manifest.id);
 assert.equal((await getDefaultSeason()).id, '2025-26');
-assert.equal((await getDatabaseBySeason('2025-26')).id, 'hungary-nb1-2025-26');
-assert.equal((await getDatabaseBySeason('2025/26')).id, 'hungary-nb1-2025-26');
-
-const legacyManifest = normaliseDatabaseManifest({
-  schemaVersion: 1,
-  id: 'legacy-sample',
-  name: 'Legacy Sample',
-  competition: 'Sample League',
-  country: 'Magyarország',
-  season: '2024/25',
-  files: { players: 'data/players.json' },
-});
-assert.equal(legacyManifest.competitionId, 'legacy-sample');
-assert.equal(legacyManifest.seasonId, '2024-25');
-assert.equal(legacyManifest.seasonMeta.startYear, 2024);
-assert.equal(legacyManifest.seasonMeta.endYear, 2025);
-assert.equal(legacyManifest.seasonMeta.sortOrder, 20242025);
-
 globalThis.fetch = originalFetch;
-console.log('Database registry test passed.');
+
+assert.throws(
+  () => validateDatabaseRegistry({
+    schemaVersion: 1,
+    defaultDatabaseId: 'missing',
+    databases: [{ id: 'one', manifest: 'one.json', enabled: true }],
+  }),
+  /alapértelmezett adatbázis nem elérhető/,
+);
+
+assert.throws(
+  () => validateDatabaseRegistry({
+    schemaVersion: 1,
+    defaultDatabaseId: 'same',
+    databases: [
+      { id: 'same', manifest: 'one.json', enabled: true },
+      { id: 'same', manifest: 'two.json', enabled: true },
+    ],
+  }),
+  /duplikált adatbázis-azonosító/,
+);
+
+assert.throws(
+  () => validateDatabaseRegistry({
+    schemaVersion: 2,
+    defaultDatabaseId: 'one',
+    defaultSeasonId: '2025-26',
+    databases: [{ id: 'one', manifest: 'one.json', competitionId: 'test', seasonId: '2024-25' }],
+  }),
+  /alapértelmezett adatbázis és szezon nem egyezik/,
+);
+
+const incomplete = normaliseDatabaseManifest({
+  schemaVersion: 1,
+  id: 'incomplete',
+  name: 'Hiányos',
+  competition: 'Tesztliga',
+  season: '2025/26',
+  minimumPlayers: 22,
+  supportedModes: ['classic'],
+  files: {},
+});
+assert.deepEqual(incomplete.files.enrichments, []);
+assert.throws(() => validateDatabaseManifest(incomplete), /hiányzó játékosadat-fájl/);
+
+const missingNormalized = {
+  ...rawManifest,
+  files: { ...rawManifest.files, normalizedPlayers: '' },
+};
+assert.throws(
+  () => validateDatabaseManifest(missingNormalized),
+  /hiányzó normalizált játékosadat-fájl/,
+);
+
+console.log('✓ Adatbázis-regiszter, szezonmanifest és v3 játékosmodell összhangban');
