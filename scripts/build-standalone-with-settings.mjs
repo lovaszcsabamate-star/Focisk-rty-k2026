@@ -225,5 +225,6 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
   throw new Error('A központi nemzetiségi feloldó vagy a játékoszászló-komponens hiányzik az önálló buildből.');
 }
 
+output = output.replace(/[ \t]+$/gm, '');
 fs.writeFileSync(OUTPUT, output);
 console.log('Méretezésmentés, Gyors meccs, biztonságos Torna-keret, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
