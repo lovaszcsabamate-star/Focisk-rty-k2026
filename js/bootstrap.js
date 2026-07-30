@@ -61,6 +61,7 @@ try {
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
   await import('./tournament-mode.js');
+  await import('./tournament-cup-experience.js');
 
   console.info(
     `[database] ${database.name} · ${database.season} (${database.seasonId}) · ${source} · manifest: ${database.manifestUrl}`,
