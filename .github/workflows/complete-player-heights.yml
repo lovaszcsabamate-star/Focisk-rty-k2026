@@ -6,6 +6,7 @@ on:
     paths:
       - scripts/enrich-player-heights.mjs
       - scripts/run-height-enrichment.mjs
+      - scripts/enrich-player-heights-from-hlsz-profiles.mjs
       - test/normalized-database-migration.test.mjs
       - .github/workflows/complete-player-heights.yml
   pull_request:
@@ -13,6 +14,7 @@ on:
     paths:
       - scripts/enrich-player-heights.mjs
       - scripts/run-height-enrichment.mjs
+      - scripts/enrich-player-heights-from-hlsz-profiles.mjs
       - test/normalized-database-migration.test.mjs
       - .github/workflows/complete-player-heights.yml
   workflow_dispatch:
@@ -27,7 +29,7 @@ concurrency:
 jobs:
   enrich-and-verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Forráskód letöltése
         uses: actions/checkout@v4
@@ -44,12 +46,17 @@ jobs:
       - name: Függőségek telepítése
         run: npm ci
 
-      - name: Magasságadatok ellenőrzött begyűjtése
+      - name: Klubkeret-források feldolgozása
         env:
           HEIGHT_REQUEST_DELAY_MS: 3500
         run: node scripts/run-height-enrichment.mjs
 
-      - name: Parser-audit összefoglalása
+      - name: Egyedi HLSZ-profilok ellenőrzése
+        env:
+          HEIGHT_REQUEST_DELAY_MS: 3500
+        run: node scripts/enrich-player-heights-from-hlsz-profiles.mjs
+
+      - name: Forrásaudit összefoglalása
         if: always()
         run: |
           node --input-type=module <<'NODE'
@@ -64,9 +71,14 @@ jobs:
             before: report.before,
             generatedRecords: report.generatedRecords,
             projected: report.projected,
-            sourceAudits: report.sourceAudits,
             sourceFailures: report.sourceFailures,
             conflicts: report.conflicts,
+            profileAudit: report.profileAudit ? {
+              attemptedProfiles: report.profileAudit.attemptedProfiles,
+              resolvedProfiles: report.profileAudit.resolvedProfiles,
+              unresolvedProfiles: report.profileAudit.unresolvedProfiles,
+              statusCounts: report.profileAudit.statusCounts,
+            } : null,
           }, null, 2));
           NODE
 
