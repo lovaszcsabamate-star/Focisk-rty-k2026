@@ -1,0 +1,35 @@
+name: Localization checks
+
+on:
+  push:
+    branches:
+      - feature/hu-en-localization
+  pull_request:
+    paths:
+      - 'locales/**'
+      - 'js/i18n.js'
+      - 'js/bootstrap.js'
+      - 'css/i18n.css'
+      - 'index.html'
+      - 'test/i18n-catalogues.test.mjs'
+      - '.github/workflows/i18n.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-i18n:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check localization service syntax
+        run: node --check js/i18n.js
+      - name: Check bootstrap syntax
+        run: node --check js/bootstrap.js
+      - name: Validate translation catalogues
+        run: node test/i18n-catalogues.test.mjs
