@@ -45,6 +45,27 @@ jobs:
           HEIGHT_REQUEST_DELAY_MS: 3500
         run: node scripts/enrich-player-heights.mjs
 
+      - name: Parser-audit összefoglalása
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const file = 'data/databases/hungary-nb1-2025-26/height-enrichment-report.json';
+          if (!fs.existsSync(file)) {
+            console.log('Nem készült auditjelentés.');
+            process.exit(0);
+          }
+          const report = JSON.parse(fs.readFileSync(file, 'utf8'));
+          console.log(JSON.stringify({
+            before: report.before,
+            generatedRecords: report.generatedRecords,
+            projected: report.projected,
+            sourceAudits: report.sourceAudits,
+            sourceFailures: report.sourceFailures,
+            conflicts: report.conflicts,
+          }, null, 2));
+          NODE
+
       - name: Normalizált adatbázis újraépítése
         run: npm run data:normalize
 
