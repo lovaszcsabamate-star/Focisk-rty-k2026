@@ -25,12 +25,38 @@ export function getCardRows(card, activeAttributeKey) {
   return [active, ...rows];
 }
 
+function createCardClubLogo(card) {
+  const logo = el('span', 'card__club-logo');
+  logo.setAttribute('aria-hidden', 'true');
+  logo.style.display = 'inline-block';
+  logo.style.width = '20px';
+  logo.style.height = '20px';
+  logo.style.flex = '0 0 20px';
+  logo.style.borderRadius = '50%';
+  logo.style.backgroundPosition = 'center';
+  logo.style.backgroundRepeat = 'no-repeat';
+  logo.style.backgroundSize = 'contain';
+  logo.style.verticalAlign = 'middle';
+  const clubId = card?.clubId ?? card?.meta?.clubId ?? null;
+  tryArt(logo, [
+    ...ART.clubLogo({ clubId }),
+    ART.placeholder('club'),
+  ]);
+  return logo;
+}
+
 function createCardIdentityLine(card) {
   const line = el('div', 'card__club');
-  if (card.club) line.appendChild(document.createTextNode(card.club));
+  line.style.display = 'flex';
+  line.style.alignItems = 'center';
+  line.style.gap = '6px';
+  line.appendChild(createCardClubLogo(card));
+  const copy = el('span', 'card__club-copy');
+  if (card.club) copy.appendChild(document.createTextNode(card.club));
   const flag = createPlayerFlagElement(document, card, { compact: true });
-  if (card.club) line.appendChild(document.createTextNode(' · '));
-  line.appendChild(flag);
+  if (card.club) copy.appendChild(document.createTextNode(' · '));
+  copy.appendChild(flag);
+  line.appendChild(copy);
   return line;
 }
 
