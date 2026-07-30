@@ -37,6 +37,7 @@ assert.match(configuration, /timedTurns:\s*'fociskartyak:timedTurns'/);
 assert.match(configuration, /timedTurns:\s*false/);
 assert.match(scoreboard, /outcome === 'win' \|\| outcome === 'tie' \? '⚽'/);
 assert.match(matchday, /CHOICE_LIMIT_SECONDS = 90/);
+assert.match(matchday, /writeStoredBoolean\(TIMED_TURNS_KEY/);
 assert.match(matchday, /\['3', '2', '1', '📣 SÍP!'\]/);
 assert.match(matchday, /dataset\.matchClock/);
 assert.match(matchday, /dataset\.choiceClock/);
