@@ -11,16 +11,49 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm run lint
-      - run: npm run test:ui-components
-      - run: node test/tournament-mode.test.mjs
-      - run: git diff --check
-      - run: npm run build
+      - name: Függőségek telepítése
+        run: npm ci
+      - name: Forráskód és új modulok ellenőrzése
+        run: |
+          npm run lint
+          node --check js/tournament/tournament-lineup-state.js
+          node --check js/tournament/tournament-lineup-controller.js
+          node --check js/services/tournament-storage-service.js
+          node --check test/tournament-lineup-state.test.mjs
+          node --check test/tournament-lineup-ui.test.mjs
+      - name: Torna regressziós tesztek
+        run: |
+          node test/tournament-mode.test.mjs
+          node test/tournament-lineup-state.test.mjs
+          node test/tournament-lineup-ui.test.mjs
+      - name: Teljes tesztcsomag
+        run: |
+          npm test
+          npm run test:all
+      - name: Standalone és mobil layout
+        run: |
+          npm run build
+          npm run build:standalone
+          npm run test:mobile-layout
+          npm run test:runtime
+      - name: Mobil webcsomag és Android runtime-smoke
+        run: |
+          npm run mobile:prepare
+          test -s mobile-www/index.html
+          grep -q 'mobile-webview-compatible' mobile-www/index.html
+          ! grep -Fq 'type="module"' mobile-www/index.html
+          ! grep -Eq '<script[^>]+src=' mobile-www/index.html
+          node scripts/mobile-runtime-smoke.mjs
+      - name: Forrásfájlok whitespace-ellenőrzése
+        run: |
+          git diff --check "${{ github.event.pull_request.base.sha }}...HEAD" -- . ':!Fociskartyak2026.html'
+          git diff --check -- . ':!Fociskartyak2026.html' ':!mobile-www/index.html'
