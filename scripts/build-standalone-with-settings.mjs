@@ -59,7 +59,13 @@ const tournamentFiles = [
   'js/tournament/cup-atmosphere.js',
 ];
 const tournamentSource = tournamentFiles
-  .map(file => `\n/* ===== ${file} ===== */\n${flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'))}`)
+  .map(file => {
+    const source = flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'));
+    const isolatedSource = file === 'js/tournament/cup-atmosphere.js'
+      ? `(() => {\n${source}\n})();`
+      : source;
+    return `\n/* ===== ${file} ===== */\n${isolatedSource}`;
+  })
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
 const tournamentInlineBundle = `
