@@ -1,0 +1,81 @@
+/* Hungarian–English localization layout safeguards. */
+
+.setting-switch--language {
+  align-items: center;
+  gap: 14px;
+}
+
+.language-select {
+  min-width: 132px;
+  max-width: min(44vw, 220px);
+  min-height: 44px;
+  padding: 9px 36px 9px 12px;
+  border: 1px solid rgba(232, 195, 122, .46);
+  border-radius: 12px;
+  background: rgba(20, 13, 9, .82);
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.language-select:focus-visible {
+  outline: 3px solid #fff3bd;
+  outline-offset: 3px;
+}
+
+html[data-language="en"] :where(
+  .btn,
+  button,
+  summary,
+  .setting-switch__copy,
+  .category-card,
+  .deck-menu__tab,
+  .quick-match-card-control,
+  .result-panel,
+  .confirm-panel,
+  .mobile-sheet
+) {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+html[data-language="en"] :where(.btn, button, summary) {
+  white-space: normal;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+html[data-language="en"] .primary-mode-actions .btn,
+html[data-language="en"] .secondary-menu-actions .btn,
+html[data-language="en"] .pause-actions .btn,
+html[data-language="en"] .result-actions .btn {
+  min-width: 0;
+  height: auto;
+  min-height: 48px;
+}
+
+html[data-language="en"] .score-strip,
+html[data-language="en"] #hud-meta,
+html[data-language="en"] #prompt,
+html[data-language="en"] #verdict {
+  text-wrap: balance;
+}
+
+@media (max-width: 560px) {
+  .setting-switch--language {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .language-select {
+    width: 100%;
+    max-width: none;
+  }
+
+  html[data-language="en"] .settings-actions,
+  html[data-language="en"] .result-actions,
+  html[data-language="en"] .secondary-menu-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
