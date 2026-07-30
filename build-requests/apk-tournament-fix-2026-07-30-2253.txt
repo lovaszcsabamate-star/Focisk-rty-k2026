@@ -1,0 +1,5 @@
+APK build request
+
+Source main commit: 40749e30a51c274117903ed7afc035e56f2a4eca
+Includes tournament result freeze fix and tournament club badge integration.
+Requested: 2026-07-30 22:53 Europe/Budapest
