@@ -24,6 +24,7 @@ const enrichment = readJson(`../data/${ENRICHMENT_FILE}`);
 const correction = readJson(`../data/${CORRECTION_FILE}`);
 const patch = readJson(`../data/${PATCH_FILE}`);
 const currentRoster = readJson('../data/club-official-enrichment-6-eto-puskas.json');
+const puskasVerifiedCorrections = correction.verifiedCorrections.filter(item => item.clubId === CLUB_ID);
 
 assert.equal(enrichment.schemaVersion, 1);
 assert.equal(enrichment.season, '2025/26');
@@ -56,8 +57,8 @@ assert.equal(records.get('SOISALO MIKAEL ANTERO').birthDate, '1998-04-24');
 assert.equal(correction.recordPatches.length, 1);
 assert.equal(correction.recordPatches[0].name, 'Mikael Soisalo');
 assert.equal(correction.recordPatches[0].birthDate, '1998-04-24');
-assert.equal(correction.verifiedCorrections.length, 1);
-assert.deepEqual(correction.verifiedCorrections[0].overrideFields, ['birthDate']);
+assert.equal(puskasVerifiedCorrections.length, 1);
+assert.deepEqual(puskasVerifiedCorrections[0].overrideFields, ['birthDate']);
 const preparedCurrent = prepareClubEnrichment(currentRoster, correction);
 assert.equal(
   preparedCurrent.records.find(record => record.name === 'Mikael Soisalo').birthDate,
@@ -105,7 +106,7 @@ assert.deepEqual(expected.get('SZAPPANOS PÉTER').slice(1, 6), [31, 31, 0, 31, 0
 assert.equal(expected.get('MARKGRÁF ÁKOS')[7], 1);
 assert.deepEqual(expected.get('KRUPA ZSOLT').slice(1, 6), [0, 0, 0, 3, 0]);
 
-const corrected = applyVerifiedPlayerCorrections(base, correction.verifiedCorrections);
+const corrected = applyVerifiedPlayerCorrections(base, puskasVerifiedCorrections);
 assert.equal(corrected.verifiedPlayerCorrections.requested, 1);
 assert.equal(corrected.verifiedPlayerCorrections.appliedPlayers, 1);
 assert.equal(corrected.verifiedPlayerCorrections.appliedFields, 1);
