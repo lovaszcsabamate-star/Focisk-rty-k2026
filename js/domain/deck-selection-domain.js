@@ -7,7 +7,6 @@ import {
 } from '../data/nationalities.js';
 import { federationPresentation, normaliseFederationCode } from '../data/federations.js';
 import {
-  NATIONAL_TEAM_MINIMUM,
   getPlayableFederationTeams,
   getPlayableNationalTeams,
   getPlayerFederation,
@@ -15,7 +14,8 @@ import {
 } from './federation-domain.js';
 
 export const MIN_FILTERED_DECK_SIZE = 11;
-export const MIN_NATIONAL_DECK_SIZE = NATIONAL_TEAM_MINIMUM;
+// Önálló/Android buildben is betöltési sorrendtől független, a federation-domain tesztjeivel szinkronban tartott szabály.
+export const MIN_NATIONAL_DECK_SIZE = 8;
 
 export const RANDOM_DECK_SELECTION = Object.freeze({
   kind: 'random',
