@@ -124,7 +124,7 @@ assert.match(pwaCss, /\.pwa-update-notice\s*\{/);
 assert.match(pwaCss, /safe-area-inset-bottom/);
 
 assert.doesNotMatch(indexHtml, />\s*Penalties(?: mód)?\s*</u, 'A fő HTML-ben angol Penalties felirat maradt.');
-assert.match(indexHtml, /büntetőpárbaj móddal/i);
+assert.match(indexHtml, /büntetőpárbaj(?:\s+és\s+torna)?\s+móddal/i);
 assert.match(indexHtml, /css\/phase-refinements\.css/);
 assert.doesNotMatch(indexHtml, /js\/(?:player-profile|reliability-fixes|usability-fixes|focus-experience)\.js/);
 assert.match(
