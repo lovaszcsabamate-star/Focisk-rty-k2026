@@ -116,11 +116,12 @@ function showTournamentWizard(returnPanel, existingDraft = null, initialStep = '
     const pool = usableTeams(draft.category);
     const human = pool.find(team => team.id === draft.humanTeamId);
     if (!human) { next('team'); return; }
-    const selected = new Set(draft.participantIds.filter(id => pool.some(team => team.id === id)));
-    selected.add(human.id);
-    if (selected.size !== draft.count) {
-      const seeded = selectParticipants(pool, draft.count, human.id, [...selected]).map(team => team.id);
-      draft.participantIds = seeded;
+    const validIds = draft.participantIds.filter(id => pool.some(team => team.id === id));
+    if (!validIds.length || !validIds.includes(human.id)) {
+      draft.participantIds = selectParticipants(pool, draft.count, human.id).map(team => team.id);
+    } else {
+      const unique = [human.id, ...validIds.filter(id => id !== human.id)];
+      draft.participantIds = unique.slice(0, draft.count);
     }
     const current = new Set(draft.participantIds);
     const toggle = (id, checked) => {
