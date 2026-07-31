@@ -1,4 +1,4 @@
-/** Add deck selection and the rapid tournament upgrade to the generated single-file build. */
+/** Add deck selection and tournament upgrades to the generated single-file build. */
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,9 +10,16 @@ const outputPath = path.join(ROOT, 'Fociskartyak2026.html');
 const helperPath = path.join(ROOT, 'js/deck-selection.js');
 const rapidTournamentPath = path.join(ROOT, 'js/tournament-rapid-upgrade.js');
 const rapidTournamentStylePath = path.join(ROOT, 'css/tournament-rapid-upgrade.css');
+const flowTournamentPaths = [
+  path.join(ROOT, 'js/tournament/tournament-flow-shared.js'),
+  path.join(ROOT, 'js/tournament/tournament-flow-wizard.js'),
+  path.join(ROOT, 'js/tournament/tournament-flow-runtime.js'),
+  path.join(ROOT, 'js/tournament-flow-upgrade.js'),
+];
 const MAIN_MARKER = '\n/* ===== js/main.js ===== */';
 const HELPER_MARKER = '\n/* ===== js/deck-selection.js ===== */';
 const RAPID_TOURNAMENT_MARKER = '\n/* ===== js/tournament-rapid-upgrade.js ===== */';
+const FLOW_TOURNAMENT_MARKER = '\n/* ===== js/tournament-flow-upgrade.js ===== */';
 const RAPID_TOURNAMENT_STYLE_MARKER = 'data-standalone-tournament-rapid-upgrade';
 
 const flattenModule = source => source
@@ -24,6 +31,9 @@ if (!fs.existsSync(outputPath)) throw new Error(`Hiányzó önálló build: ${ou
 if (!fs.existsSync(helperPath)) throw new Error(`Hiányzó pakliválasztó modul: ${helperPath}`);
 if (!fs.existsSync(rapidTournamentPath)) throw new Error(`Hiányzó tornafejlesztési modul: ${rapidTournamentPath}`);
 if (!fs.existsSync(rapidTournamentStylePath)) throw new Error(`Hiányzó tornafejlesztési stílus: ${rapidTournamentStylePath}`);
+for (const flowTournamentPath of flowTournamentPaths) {
+  if (!fs.existsSync(flowTournamentPath)) throw new Error(`Hiányzó tornaválasztási modul: ${flowTournamentPath}`);
+}
 
 let html = fs.readFileSync(outputPath, 'utf8');
 if (!html.includes(MAIN_MARKER)) throw new Error('Az önálló buildben nem található a main.js beszúrási pontja.');
@@ -38,6 +48,13 @@ if (standaloneFullPayload?.players) {
   globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = standaloneFullPayload;
   globalThis.__FOCISKARTYAK_DECK_SELECTION__ = standaloneDeckSelection;
   globalThis.__EMBEDDED_PLAYER_DATA__ = applyDeckSelectionToPayload(standaloneFullPayload, standaloneDeckSelection);
+  globalThis.FociskartyakDeckSelectionRuntime = Object.freeze({
+    buildQuickMatchCatalog,
+    quickMatchEntriesForCategory,
+    resolveQuickMatchSelection,
+    stageQuickMatch,
+    TOURNAMENT_LINEUP_STORAGE_KEY,
+  });
   installDeckSelectionMenu(standaloneFullPayload, standaloneDeckSelection);
 }
 `;
@@ -63,6 +80,19 @@ if (!html.includes(RAPID_TOURNAMENT_MARKER)) {
   );
 }
 
+if (!html.includes(FLOW_TOURNAMENT_MARKER)) {
+  const flowTournament = flowTournamentPaths
+    .map(flowTournamentPath => flattenModule(fs.readFileSync(flowTournamentPath, 'utf8')))
+    .join('\n')
+    .replaceAll('tournamentStorageService.read()', 'globalThis.FociskartyakTournament?.read?.()')
+    .replaceAll('tournamentStorageService.save(', 'globalThis.FociskartyakTournament?.save?.(')
+    .replace(/<\/script/gi, '<\\/script');
+  html = html.replace(
+    MAIN_MARKER,
+    `${FLOW_TOURNAMENT_MARKER}\n{\n${flowTournament}\n}\n${MAIN_MARKER}`,
+  );
+}
+
 if (!html.includes(RAPID_TOURNAMENT_MARKER)
   || !html.includes(RAPID_TOURNAMENT_STYLE_MARKER)
   || !html.includes('globalThis.FociskartyakTournament?.read?.()')
@@ -71,7 +101,17 @@ if (!html.includes(RAPID_TOURNAMENT_MARKER)
   throw new Error('A gyors tornaélmény-fejlesztés nem került be az önálló buildbe.');
 }
 
+if (!html.includes(FLOW_TOURNAMENT_MARKER)
+  || !html.includes('FociskartyakDeckSelectionRuntime')
+  || !html.includes('Tovább a tornában')
+  || !html.includes('Vissza a tornaághoz')
+  || !html.includes('Kilépés a főmenübe')
+  || !html.includes('Magyar Bajnokság')
+  || !html.includes('Világkupa')) {
+  throw new Error('A többlépcsős tornaválasztás nem került be az önálló buildbe.');
+}
+
 html = html.replace(/[ \t]+$/gm, '');
 fs.writeFileSync(outputPath, html);
 
-console.log(`Pakliválasztás és gyors tornaélmény beépítve az önálló játékfájlba: ${outputPath}`);
+console.log(`Pakliválasztás és tornafejlesztések beépítve az önálló játékfájlba: ${outputPath}`);
