@@ -46,6 +46,8 @@ assert.match(flow, /min-height:44px/, 'A mobilos érintési felület legalább 4
 assert.match(flow, /@media\(max-width:720px\)/, 'A tornaválasztás kapjon mobilos töréspontot.');
 assert.match(flow, /input type=\"radio\" disabled[\s\S]*Vegyes mezőny/, 'A nem támogatott vegyes mezőny ne legyen félig működő opció.');
 assert.match(flow, /TOURNAMENT_MATCH_STATUS\.TIEBREAK[\s\S]*TOURNAMENT_MATCH_MODE\.PENALTIES/, 'A döntetlen utáni büntetőpárbajt a véletlen keret is kezelje.');
+assert.match(flow, /pushState[\s\S]*TOURNAMENT_HISTORY_KEY/, 'A tornaoverlay hozzon létre böngésző- és Android-kompatibilis visszalépési előzményt.');
+assert.match(flow, /addEventListener\?\.\('popstate', handler/, 'A rendszer-vissza popstate eseménye legyen kezelve.');
 assert.doesNotMatch(flow, /originalHome\.click\(\)/, 'A tornaeredmény navigációja ne függjön korábbi DOM-elem kattintásától.');
 
 assert.match(standalone, /RAPID_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési modult.');
