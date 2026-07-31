@@ -20,5 +20,10 @@ assert.match(styles, /@media\(max-width:620px\)/, 'A fejlesztés maradjon mobilb
 assert.match(standalone, /RAPID_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési modult.');
 assert.match(standalone, /RAPID_TOURNAMENT_STYLE_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési stílust.');
 assert.match(standalone, /import\.meta\.url/, 'A standalone transzformáció kezelje a modul relatív stílusútvonalát.');
+assert.match(
+  standalone,
+  /replaceAll\('tournamentStorageService\.read\(\)', 'globalThis\.FociskartyakTournament\?\.read\?\.\(\)'\)/,
+  'Az egyfájlos build a publikus torna API-n keresztül olvassa a mentést.',
+);
 
 console.log('Tournament rapid upgrade regression checks passed.');
