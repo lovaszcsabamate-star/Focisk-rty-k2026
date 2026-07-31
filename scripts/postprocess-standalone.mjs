@@ -17,6 +17,8 @@ const flowTournamentPaths = [
   path.join(ROOT, 'js/tournament-flow-upgrade.js'),
 ];
 const MAIN_MARKER = '\n/* ===== js/main.js ===== */';
+const TOURNAMENT_IIFE_MARKER = '/* ===== Torna mód · önálló IIFE ===== */';
+const TOURNAMENT_IIFE_END = '\n })();';
 const HELPER_MARKER = '\n/* ===== js/deck-selection.js ===== */';
 const RAPID_TOURNAMENT_MARKER = '\n/* ===== js/tournament-rapid-upgrade.js ===== */';
 const FLOW_TOURNAMENT_MARKER = '\n/* ===== js/tournament-flow-upgrade.js ===== */';
@@ -26,6 +28,17 @@ const flattenModule = source => source
   .replace(/^import\s+[^;]+;\s*$/gm, '')
   .replace(/^export\s+\{[^}]+\};?\s*$/gm, '')
   .replace(/\bexport\s+(?=(?:const|let|var|class|function|async\s+function)\b)/g, '');
+
+function assertFlowRuntimeScope(source) {
+  const tournamentStart = source.indexOf(TOURNAMENT_IIFE_MARKER);
+  const flowStart = source.indexOf(FLOW_TOURNAMENT_MARKER, tournamentStart);
+  const mainStart = source.indexOf(MAIN_MARKER, tournamentStart);
+  const tournamentEnd = source.lastIndexOf(TOURNAMENT_IIFE_END, mainStart);
+  if (!(tournamentStart >= 0 && flowStart > tournamentStart
+    && tournamentEnd > flowStart && mainStart > tournamentEnd)) {
+    throw new Error('A többlépcsős Torna mód nem a meglévő torna-futtatókörnyezetben található.');
+  }
+}
 
 if (!fs.existsSync(outputPath)) throw new Error(`Hiányzó önálló build: ${outputPath}`);
 if (!fs.existsSync(helperPath)) throw new Error(`Hiányzó pakliválasztó modul: ${helperPath}`);
@@ -85,14 +98,17 @@ if (!html.includes(FLOW_TOURNAMENT_MARKER)) {
   const flowTournament = flowTournamentPaths
     .map(flowTournamentPath => flattenModule(fs.readFileSync(flowTournamentPath, 'utf8')))
     .join('\n')
-    .replaceAll('tournamentStorageService.read()', 'globalThis.FociskartyakTournament?.read?.()')
-    .replaceAll('tournamentStorageService.save(', 'globalThis.FociskartyakTournament?.save?.(')
     .replace(/<\/script/gi, '<\\/script');
-  html = html.replace(
-    MAIN_MARKER,
-    `${FLOW_TOURNAMENT_MARKER}\n{\n${flowTournament}\n}\n${MAIN_MARKER}`,
-  );
+  const tournamentStart = html.indexOf(TOURNAMENT_IIFE_MARKER);
+  const mainStart = html.indexOf(MAIN_MARKER, tournamentStart);
+  const tournamentEnd = html.lastIndexOf(TOURNAMENT_IIFE_END, mainStart);
+  if (tournamentStart < 0 || mainStart < 0 || tournamentEnd < tournamentStart) {
+    throw new Error('Az önálló Torna mód futtatókörnyezete nem található.');
+  }
+  html = `${html.slice(0, tournamentEnd)}${FLOW_TOURNAMENT_MARKER}\n{\n${flowTournament}\n}\n${html.slice(tournamentEnd)}`;
 }
+
+assertFlowRuntimeScope(html);
 
 if (!html.includes(RAPID_TOURNAMENT_MARKER)
   || !html.includes(RAPID_TOURNAMENT_STYLE_MARKER)
