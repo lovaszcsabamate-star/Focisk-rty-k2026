@@ -30,6 +30,7 @@ const deckRuntime = globalThis.FociskartyakDeckSelectionRuntime ?? Object.freeze
   resolveQuickMatchSelection,
   stageQuickMatch,
   TOURNAMENT_LINEUP_STORAGE_KEY,
+  QUICK_MATCH_CATEGORY,
 });
 
 const FLOW_VERSION = 1;
@@ -40,6 +41,7 @@ const runtime = {
   resultPanels: new WeakSet(),
   menuPanels: new WeakSet(),
   centers: new WeakSet(),
+  completePanels: new WeakSet(),
 };
 
 const STYLE_ID = 'tournament-flow-upgrade-style';
@@ -106,10 +108,10 @@ const allTeams = category => {
   const value = catalog();
   const entries = category === TOURNAMENT_CATEGORY.NATIONS
     ? [
-        ...deckRuntime.quickMatchEntriesForCategory(value, QUICK_MATCH_CATEGORY.NATIONAL),
-        ...deckRuntime.quickMatchEntriesForCategory(value, QUICK_MATCH_CATEGORY.FEDERATION),
+        ...deckRuntime.quickMatchEntriesForCategory(value, deckRuntime.QUICK_MATCH_CATEGORY.NATIONAL),
+        ...deckRuntime.quickMatchEntriesForCategory(value, deckRuntime.QUICK_MATCH_CATEGORY.FEDERATION),
       ]
-    : deckRuntime.quickMatchEntriesForCategory(value, QUICK_MATCH_CATEGORY.HUNGARIAN);
+    : deckRuntime.quickMatchEntriesForCategory(value, deckRuntime.QUICK_MATCH_CATEGORY.HUNGARIAN);
   return [...new Map(entries.map(entry => [entry.id, entry])).values()]
     .sort((a, b) => text(a.label).localeCompare(text(b.label), 'hu-HU'));
 };
@@ -165,6 +167,8 @@ function closeTournamentLayers() {
   document.body.classList.remove('modal-open', 'overlay-open', 'no-scroll');
   document.documentElement.classList.remove('modal-open', 'overlay-open', 'no-scroll');
   document.querySelectorAll('[data-tournament-focus-trap]').forEach(node => node.removeAttribute('data-tournament-focus-trap'));
+  document.querySelectorAll('#pub[inert],#table[inert],body[inert]').forEach(node => node.removeAttribute('inert'));
+  document.querySelectorAll('#pub[aria-hidden="true"],#table[aria-hidden="true"]').forEach(node => node.removeAttribute('aria-hidden'));
 }
 
 function saveAndVerifyTournament(state) {
