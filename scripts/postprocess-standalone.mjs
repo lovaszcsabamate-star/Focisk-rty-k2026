@@ -54,6 +54,7 @@ if (!html.includes(RAPID_TOURNAMENT_STYLE_MARKER)) {
 if (!html.includes(RAPID_TOURNAMENT_MARKER)) {
   const rapidTournament = flattenModule(fs.readFileSync(rapidTournamentPath, 'utf8'))
     .replace("new URL('../css/tournament-rapid-upgrade.css', import.meta.url).href", "'css/tournament-rapid-upgrade.css'")
+    .replaceAll('tournamentStorageService.read()', 'globalThis.FociskartyakTournament?.read?.()')
     .replace(/^\s*ensureStylesheet\(\);\s*$/m, '')
     .replace(/<\/script/gi, '<\\/script');
   html = html.replace(
@@ -64,6 +65,7 @@ if (!html.includes(RAPID_TOURNAMENT_MARKER)) {
 
 if (!html.includes(RAPID_TOURNAMENT_MARKER)
   || !html.includes(RAPID_TOURNAMENT_STYLE_MARKER)
+  || !html.includes('globalThis.FociskartyakTournament?.read?.()')
   || !html.includes('tournament-match-intro-trigger')
   || !html.includes('tournament-match-summary')) {
   throw new Error('A gyors tornaélmény-fejlesztés nem került be az önálló buildbe.');
