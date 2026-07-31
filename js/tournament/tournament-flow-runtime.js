@@ -77,9 +77,15 @@ function enhanceCenter(panel) {
   runtime.centers.add(panel);
   const nextMatch = tournamentNextHumanMatch(stored);
   if (!nextMatch) return;
-  const replacement = play.cloneNode(true);
-  replacement.textContent = '⚽ Véletlen keret és meccs indítása';
-  play.replaceWith(replacement);
+  const rapidTrigger = panel.querySelector('.tournament-match-intro-trigger');
+  const target = rapidTrigger ?? play;
+  const replacement = target.cloneNode(true);
+  replacement.classList.remove('tournament-native-play');
+  replacement.textContent = rapidTrigger
+    ? '▶ Véletlen keretes mérkőzés indítása'
+    : '⚽ Véletlen keret és meccs indítása';
+  target.replaceWith(replacement);
+  if (rapidTrigger && play.isConnected) play.remove();
   replacement.addEventListener('click', () => {
     try {
       if (!launchRandomLineup(tournamentStorageService.read() ?? stored, nextMatch)) alert('A véletlen keret nem indítható el.');
@@ -88,6 +94,16 @@ function enhanceCenter(panel) {
       alert(error.message || 'A véletlen keret nem indítható el.');
     }
   });
+}
+
+function enhanceCompletePanel(panel) {
+  if (!panel || runtime.completePanels.has(panel)) return;
+  const button = panel.querySelector('#tournament-new');
+  if (!button) return;
+  runtime.completePanels.add(panel);
+  const replacement = button.cloneNode(true);
+  button.replaceWith(replacement);
+  replacement.addEventListener('click', () => showTournamentWizard(null));
 }
 
 function navigateToMainMenu() {
@@ -159,6 +175,7 @@ function refresh() {
   ensureStyle();
   enhanceMenu(document.querySelector('.menu-panel.mobile-home'));
   enhanceCenter(document.querySelector('.tournament-center'));
+  enhanceCompletePanel(document.querySelector('.tournament-complete'));
   const result = document.querySelector('.result-panel--tournament');
   if (result) queueMicrotask(() => enhanceResultPanel(result));
 }
@@ -175,7 +192,7 @@ function installBackNavigation() {
     }
     const stored = tournamentStorageService.read();
     try { if (stored) saveAndVerifyTournament(stored); } catch (error) { console.error('[tournament-flow] Visszalépési mentési hiba:', error); }
-    if (activePanel?.classList.contains('tournament-lineup') && stored) {
+    if ((activePanel?.classList.contains('tournament-lineup') || activePanel?.classList.contains('tournament-match-intro')) && stored) {
       closeTournamentLayers();
       globalThis.FociskartyakTournament?.showCenter?.(stored, null);
       return;
