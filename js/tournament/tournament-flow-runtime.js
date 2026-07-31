@@ -9,6 +9,8 @@ import {
 } from './tournament-flow-shared.js';
 
 const enhancedCarousels = new WeakSet();
+const TOURNAMENT_HISTORY_KEY = '__fociskartyakTournamentOverlay';
+let lastBackNavigationAt = 0;
 
 function describeResume(state) {
   const next = tournamentNextHumanMatch(state);
@@ -208,6 +210,22 @@ function enhanceResultPanel(panel) {
   actions.append(continueButton, bracketButton, homeButton);
 }
 
+function activeTournamentPanel() {
+  return document.querySelector('#overlay:not([hidden]) .tournament-panel');
+}
+
+function armTournamentHistory() {
+  if (!runtime.wizard && !activeTournamentPanel()) return;
+  const current = globalThis.history?.state;
+  if (current && typeof current === 'object' && current[TOURNAMENT_HISTORY_KEY] === true) return;
+  try {
+    const previous = current && typeof current === 'object' ? current : {};
+    globalThis.history?.pushState?.({ ...previous, [TOURNAMENT_HISTORY_KEY]: true }, '');
+  } catch (error) {
+    console.warn('[tournament-flow] A rendszer-vissza előzmény nem hozható létre:', error);
+  }
+}
+
 function refresh() {
   ensureStyle();
   enhanceMenu(document.querySelector('.menu-panel.mobile-home'));
@@ -216,16 +234,21 @@ function refresh() {
   document.querySelectorAll('.tournament-team-carousel').forEach(enhanceTeamSwipe);
   const result = document.querySelector('.result-panel--tournament');
   if (result) queueMicrotask(() => enhanceResultPanel(result));
+  armTournamentHistory();
 }
 
 function installBackNavigation() {
   const handler = event => {
-    const activePanel = document.querySelector('#overlay:not([hidden]) .tournament-panel');
+    const activePanel = activeTournamentPanel();
     if (!runtime.wizard && !activePanel) return;
+    const now = Date.now();
+    if (now - lastBackNavigationAt < 180) return;
+    lastBackNavigationAt = now;
     event?.preventDefault?.();
     event?.stopImmediatePropagation?.();
     if (runtime.wizard) {
       runtime.wizard.previous();
+      queueMicrotask(armTournamentHistory);
       return;
     }
     const stored = tournamentStorageService.read();
@@ -233,11 +256,13 @@ function installBackNavigation() {
     if ((activePanel?.classList.contains('tournament-lineup') || activePanel?.classList.contains('tournament-match-intro')) && stored) {
       closeTournamentLayers();
       globalThis.FociskartyakTournament?.showCenter?.(stored, null);
+      queueMicrotask(armTournamentHistory);
       return;
     }
     navigateToMainMenu();
   };
   document.addEventListener('backbutton', handler, true);
+  globalThis.addEventListener?.('popstate', handler, true);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') handler(event); }, true);
   globalThis.Capacitor?.Plugins?.App?.addListener?.('backButton', handler);
 }
