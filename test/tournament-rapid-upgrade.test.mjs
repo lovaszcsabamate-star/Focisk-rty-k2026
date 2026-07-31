@@ -1,12 +1,27 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 const source = readFileSync(new URL('../js/tournament-rapid-upgrade.js', import.meta.url), 'utf8');
+const flowPaths = [
+  '../js/tournament/tournament-flow-shared.js',
+  '../js/tournament/tournament-flow-wizard.js',
+  '../js/tournament/tournament-flow-runtime.js',
+  '../js/tournament-flow-upgrade.js',
+].map(relative => fileURLToPath(new URL(relative, import.meta.url)));
+const flow = flowPaths.map(path => readFileSync(path, 'utf8')).join('\n');
 const bootstrap = readFileSync(new URL('../js/bootstrap.js', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../css/tournament-rapid-upgrade.css', import.meta.url), 'utf8');
 const standalone = readFileSync(new URL('../scripts/postprocess-standalone.mjs', import.meta.url), 'utf8');
 
+for (const flowPath of flowPaths) {
+  const syntax = spawnSync(process.execPath, ['--check', flowPath], { encoding: 'utf8' });
+  assert.equal(syntax.status, 0, syntax.stderr || `A tornaválasztási modul szintaktikailag hibás: ${flowPath}`);
+}
+
 assert.match(bootstrap, /import\('\.\/tournament-rapid-upgrade\.js'\)/, 'A bootstrap töltse be a fejlesztést.');
+assert.match(bootstrap, /import\('\.\/tournament-flow-upgrade\.js'\)/, 'A bootstrap töltse be a többlépcsős tornaválasztást.');
 assert.match(source, /GROUP_KNOCKOUT[\s\S]*state\.phase === 'group'[\s\S]*return null;/, 'A csoportkör ne ígérjen hibás győzelemszámot.');
 assert.ok(
   source.indexOf("label.includes('elodont')") < source.indexOf("label === 'donto'"),
@@ -17,7 +32,25 @@ assert.match(source, /gyűjts pontokat a továbbjutáshoz/i, 'A csoportkör kapj
 assert.match(styles, /\.tournament-roadmap/, 'A tornahaladás vizuális elemei legyenek formázva.');
 assert.match(styles, /\.tournament-match-summary/, 'A meccsösszefoglaló legyen formázva.');
 assert.match(styles, /@media\(max-width:620px\)/, 'A fejlesztés maradjon mobilbarát.');
+
+for (const label of ['Magyar Bajnokság', 'Magyar Kupa', 'Világkupa', 'Saját torna']) {
+  assert.match(flow, new RegExp(label), `Hiányzó tornatípus: ${label}`);
+}
+for (const label of ['Tovább a tornában', 'Vissza a tornaághoz', 'Kilépés a főmenübe']) {
+  assert.match(flow, new RegExp(label), `Hiányzó biztonságos eredményművelet: ${label}`);
+}
+assert.match(flow, /saveAndVerifyTournament[\s\S]*tournamentStorageService\.save\(state\)[\s\S]*tournamentStorageService\.read\(\)/, 'A mentést visszaolvasással kell ellenőrizni.');
+assert.match(flow, /Már van egy folyamatban lévő tornád/, 'Az aktív torna felülírása kérjen megerősítést.');
+assert.match(flow, /Jelenlegi torna folytatása[\s\S]*Új torna indítása[\s\S]*Mégse/, 'A felülírási párbeszéd mindhárom műveletet tartalmazza.');
+assert.match(flow, /min-height:44px/, 'A mobilos érintési felület legalább 44 px legyen.');
+assert.match(flow, /@media\(max-width:720px\)/, 'A tornaválasztás kapjon mobilos töréspontot.');
+assert.match(flow, /Vegyes mezőny[\s\S]*disabled/, 'A nem támogatott vegyes mezőny ne legyen félig működő opció.');
+assert.match(flow, /TOURNAMENT_MATCH_STATUS\.TIEBREAK[\s\S]*TOURNAMENT_MATCH_MODE\.PENALTIES/, 'A döntetlen utáni büntetőpárbajt a véletlen keret is kezelje.');
+assert.doesNotMatch(flow, /originalHome\.click\(\)/, 'A tornaeredmény navigációja ne függjön korábbi DOM-elem kattintásától.');
+
 assert.match(standalone, /RAPID_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési modult.');
+assert.match(standalone, /FLOW_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a többlépcsős tornaválasztást.');
+assert.match(standalone, /FociskartyakDeckSelectionRuntime/, 'Az egyfájlos build tegye elérhetővé a pakliválasztó futtatókörnyezetet.');
 assert.match(standalone, /RAPID_TOURNAMENT_STYLE_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési stílust.');
 assert.match(standalone, /import\.meta\.url/, 'A standalone transzformáció kezelje a modul relatív stílusútvonalát.');
 assert.match(
@@ -26,4 +59,4 @@ assert.match(
   'Az egyfájlos build a publikus torna API-n keresztül olvassa a mentést.',
 );
 
-console.log('Tournament rapid upgrade regression checks passed.');
+console.log('Tournament rapid and flow upgrade regression checks passed.');
