@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 const source = readFileSync(new URL('../js/tournament-rapid-upgrade.js', import.meta.url), 'utf8');
 const bootstrap = readFileSync(new URL('../js/bootstrap.js', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../css/tournament-rapid-upgrade.css', import.meta.url), 'utf8');
+const standalone = readFileSync(new URL('../scripts/postprocess-standalone.mjs', import.meta.url), 'utf8');
 
 assert.match(bootstrap, /import\('\.\/tournament-rapid-upgrade\.js'\)/, 'A bootstrap töltse be a fejlesztést.');
 assert.match(source, /GROUP_KNOCKOUT[\s\S]*state\.phase === 'group'[\s\S]*return null;/, 'A csoportkör ne ígérjen hibás győzelemszámot.');
@@ -16,5 +17,8 @@ assert.match(source, /gyűjts pontokat a továbbjutáshoz/i, 'A csoportkör kapj
 assert.match(styles, /\.tournament-roadmap/, 'A tornahaladás vizuális elemei legyenek formázva.');
 assert.match(styles, /\.tournament-match-summary/, 'A meccsösszefoglaló legyen formázva.');
 assert.match(styles, /@media\(max-width:620px\)/, 'A fejlesztés maradjon mobilbarát.');
+assert.match(standalone, /RAPID_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési modult.');
+assert.match(standalone, /RAPID_TOURNAMENT_STYLE_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési stílust.');
+assert.match(standalone, /import\.meta\.url/, 'A standalone transzformáció kezelje a modul relatív stílusútvonalát.');
 
 console.log('Tournament rapid upgrade regression checks passed.');
