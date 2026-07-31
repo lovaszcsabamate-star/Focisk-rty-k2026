@@ -51,12 +51,15 @@ assert.doesNotMatch(flow, /originalHome\.click\(\)/, 'A tornaeredmény navigáci
 assert.match(standalone, /RAPID_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési modult.');
 assert.match(standalone, /FLOW_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a többlépcsős tornaválasztást.');
 assert.match(standalone, /FociskartyakDeckSelectionRuntime/, 'Az egyfájlos build tegye elérhetővé a pakliválasztó futtatókörnyezetet.');
+assert.match(standalone, /TOURNAMENT_IIFE_MARKER/, 'A standalone build az eredeti torna-IIFE-t használja.');
+assert.match(standalone, /lastIndexOf\(TOURNAMENT_IIFE_END, mainStart\)/, 'A flow modulokat a torna-IIFE lezárása elé kell beilleszteni.');
+assert.match(standalone, /assertFlowRuntimeScope\(html\)/, 'A standalone build ellenőrizze a flow modulok futtatási hatókörét.');
 assert.match(standalone, /RAPID_TOURNAMENT_STYLE_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési stílust.');
 assert.match(standalone, /import\.meta\.url/, 'A standalone transzformáció kezelje a modul relatív stílusútvonalát.');
 assert.match(
   standalone,
   /replaceAll\('tournamentStorageService\.read\(\)', 'globalThis\.FociskartyakTournament\?\.read\?\.\(\)'\)/,
-  'Az egyfájlos build a publikus torna API-n keresztül olvassa a mentést.',
+  'A gyors tornafejlesztés a publikus torna API-n keresztül olvassa a mentést.',
 );
 
 console.log('Tournament rapid and flow upgrade regression checks passed.');
