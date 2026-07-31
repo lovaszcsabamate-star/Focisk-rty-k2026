@@ -44,7 +44,7 @@ assert.match(flow, /Már van egy folyamatban lévő tornád/, 'Az aktív torna f
 assert.match(flow, /Jelenlegi torna folytatása[\s\S]*Új torna indítása[\s\S]*Mégse/, 'A felülírási párbeszéd mindhárom műveletet tartalmazza.');
 assert.match(flow, /min-height:44px/, 'A mobilos érintési felület legalább 44 px legyen.');
 assert.match(flow, /@media\(max-width:720px\)/, 'A tornaválasztás kapjon mobilos töréspontot.');
-assert.match(flow, /Vegyes mezőny[\s\S]*disabled/, 'A nem támogatott vegyes mezőny ne legyen félig működő opció.');
+assert.match(flow, /input type=\"radio\" disabled[\s\S]*Vegyes mezőny/, 'A nem támogatott vegyes mezőny ne legyen félig működő opció.');
 assert.match(flow, /TOURNAMENT_MATCH_STATUS\.TIEBREAK[\s\S]*TOURNAMENT_MATCH_MODE\.PENALTIES/, 'A döntetlen utáni büntetőpárbajt a véletlen keret is kezelje.');
 assert.doesNotMatch(flow, /originalHome\.click\(\)/, 'A tornaeredmény navigációja ne függjön korábbi DOM-elem kattintásától.');
 
