@@ -79,6 +79,7 @@ try {
   await import('./tournament-mode.js');
   await import('./tournament-cup-experience.js');
   await import('./tournament/cup-atmosphere.js');
+  await import('./tournament-rapid-upgrade.js');
 
   console.info(
     `[database] ${database.name} · ${database.season} (${database.seasonId}) · ${source} · manifest: ${database.manifestUrl}`,

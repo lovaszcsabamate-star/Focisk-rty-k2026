@@ -42,6 +42,12 @@ jobs:
       - name: Szintaktikai ellenőrzés
         run: npm run lint
 
+      - name: Torna mód gyorsfejlesztés ellenőrzése
+        run: |
+          node --check js/tournament-rapid-upgrade.js
+          node --check scripts/postprocess-standalone.mjs
+          node test/tournament-rapid-upgrade.test.mjs
+
       - name: Assetlicenc-ellenőrzés
         run: npm run audit:assets
 
@@ -131,7 +137,7 @@ jobs:
             exit 0
           fi
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898246+github-actions[bot]@users.noreply.github.com"
           git add $GENERATED_FILES
           git commit -m "Önálló build, vizuális előnézetek és audit frissítése [skip ci]"
           git push
