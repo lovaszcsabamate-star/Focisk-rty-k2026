@@ -3,10 +3,12 @@
 import { showTournamentWizard } from './tournament-flow-wizard.js';
 import {
   TOURNAMENT_MATCH_MODE, TOURNAMENT_MATCH_STATUS, TOURNAMENT_STATUS,
-  closeTournamentLayers, deckRuntime, ensureStyle, escapeHtml, fold, players, runtime, saveAndVerifyTournament,
+  closeTournamentLayers, deckRuntime, ensureStyle, escapeHtml, players, runtime, saveAndVerifyTournament,
   tournamentNextHumanMatch, tournamentProgress, tournamentRoundForMatch, tournamentShuffle,
   tournamentStorageService, tournamentTeamById,
 } from './tournament-flow-shared.js';
+
+const enhancedCarousels = new WeakSet();
 
 function describeResume(state) {
   const next = tournamentNextHumanMatch(state);
@@ -20,28 +22,63 @@ function describeResume(state) {
   return { detail, percent: progress.percent };
 }
 
-function enhanceMenu(panel) {
-  if (!panel || runtime.menuPanels.has(panel)) return;
-  const oldButton = panel.querySelector('#tournament-mode-btn');
-  if (!oldButton) return;
-  runtime.menuPanels.add(panel);
-  const button = oldButton.cloneNode(true);
-  button.dataset.flowUpgrade = 'true';
-  button.innerHTML = '<span>🏆 Torna mód</span><small>Bajnokság, Magyar Kupa, Világkupa vagy saját torna</small>';
-  oldButton.replaceWith(button);
-  button.addEventListener('click', () => showTournamentWizard(panel));
-
+function syncResumeButton(panel) {
   const stored = tournamentStorageService.read();
-  const oldResume = panel.querySelector('.tournament-continue-button');
-  if (oldResume && stored) {
-    const resume = oldResume.cloneNode(true);
-    const description = describeResume(stored);
-    resume.innerHTML = stored.status === TOURNAMENT_STATUS.COMPLETE
-      ? `<span>🏆 Tornaeredmények megtekintése</span><small>${escapeHtml(stored.name)} · ${escapeHtml(description.detail)}</small>`
-      : `<span>▶ Torna folytatása · ${description.percent}%</span><small>${escapeHtml(stored.name)} · ${escapeHtml(description.detail)}</small>`;
-    oldResume.replaceWith(resume);
-    resume.addEventListener('click', () => globalThis.FociskartyakTournament?.showCenter?.(tournamentStorageService.read(), panel));
+  let resume = panel.querySelector('.tournament-continue-button');
+  if (!stored) {
+    resume?.remove();
+    return;
   }
+  if (!resume || resume.dataset.flowResume !== 'true') {
+    const replacement = resume?.cloneNode(true) ?? document.createElement('button');
+    replacement.className = 'btn btn--continue tournament-continue-button';
+    replacement.dataset.flowResume = 'true';
+    if (resume) resume.replaceWith(replacement);
+    else panel.querySelector('.menu-section-title')?.before(replacement);
+    resume = replacement;
+    resume.addEventListener('click', () => {
+      const latest = tournamentStorageService.read();
+      if (latest) globalThis.FociskartyakTournament?.showCenter?.(latest, panel);
+    });
+  }
+  const description = describeResume(stored);
+  const markup = stored.status === TOURNAMENT_STATUS.COMPLETE
+    ? `<span>🏆 Tornaeredmények megtekintése</span><small>${escapeHtml(stored.name)} · ${escapeHtml(description.detail)}</small>`
+    : `<span>▶ Torna folytatása · ${description.percent}%</span><small>${escapeHtml(stored.name)} · ${escapeHtml(description.detail)}</small>`;
+  if (resume.innerHTML !== markup) resume.innerHTML = markup;
+}
+
+function enhanceMenu(panel) {
+  if (!panel) return;
+  if (!runtime.menuPanels.has(panel)) {
+    const oldButton = panel.querySelector('#tournament-mode-btn');
+    if (oldButton) {
+      runtime.menuPanels.add(panel);
+      const button = oldButton.cloneNode(true);
+      button.dataset.flowUpgrade = 'true';
+      button.innerHTML = '<span>🏆 Torna mód</span><small>Bajnokság, Magyar Kupa, Világkupa vagy saját torna</small>';
+      oldButton.replaceWith(button);
+      button.addEventListener('click', () => showTournamentWizard(panel));
+    }
+  }
+  syncResumeButton(panel);
+}
+
+function enhanceTeamSwipe(carousel) {
+  if (!carousel || enhancedCarousels.has(carousel)) return;
+  enhancedCarousels.add(carousel);
+  let startX = null;
+  carousel.addEventListener('touchstart', event => {
+    startX = event.touches?.[0]?.clientX ?? null;
+  }, { passive: true });
+  carousel.addEventListener('touchend', event => {
+    if (startX === null) return;
+    const endX = event.changedTouches?.[0]?.clientX ?? startX;
+    const delta = endX - startX;
+    startX = null;
+    if (Math.abs(delta) < 42) return;
+    carousel.querySelector(delta < 0 ? '[data-next-team]' : '[data-prev]')?.click?.();
+  }, { passive: true });
 }
 
 function launchRandomLineup(state, match) {
@@ -176,6 +213,7 @@ function refresh() {
   enhanceMenu(document.querySelector('.menu-panel.mobile-home'));
   enhanceCenter(document.querySelector('.tournament-center'));
   enhanceCompletePanel(document.querySelector('.tournament-complete'));
+  document.querySelectorAll('.tournament-team-carousel').forEach(enhanceTeamSwipe);
   const result = document.querySelector('.result-panel--tournament');
   if (result) queueMicrotask(() => enhanceResultPanel(result));
 }
