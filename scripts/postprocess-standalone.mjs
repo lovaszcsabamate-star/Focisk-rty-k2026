@@ -54,6 +54,7 @@ if (standaloneFullPayload?.players) {
     resolveQuickMatchSelection,
     stageQuickMatch,
     TOURNAMENT_LINEUP_STORAGE_KEY,
+    QUICK_MATCH_CATEGORY,
   });
   installDeckSelectionMenu(standaloneFullPayload, standaloneDeckSelection);
 }
