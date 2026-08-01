@@ -1,4 +1,4 @@
-/** Torna menü-, eredmény- és rendszer-vissza integráció. */
+/** Torna menü-, eredmény-, meccsindítási és rendszer-vissza integráció. */
 
 import { showTournamentWizard } from './tournament-flow-wizard.js';
 import {
@@ -9,7 +9,10 @@ import {
 } from './tournament-flow-shared.js';
 
 const enhancedCarousels = new WeakSet();
+const enhancedLaunchButtons = new WeakSet();
+const enhancedKickoffButtons = new WeakSet();
 const TOURNAMENT_HISTORY_KEY = '__fociskartyakTournamentOverlay';
+const MATCH_LAUNCH_QUERY_KEY = 'tournamentMatchLaunch';
 let lastBackNavigationAt = 0;
 
 function describeResume(state) {
@@ -83,28 +86,79 @@ function enhanceTeamSwipe(carousel) {
   }, { passive: true });
 }
 
-function launchRandomLineup(state, match) {
+function navigateToStagedMatch(trigger) {
+  if (trigger) {
+    trigger.disabled = true;
+    trigger.dataset.matchLaunching = 'true';
+    trigger.textContent = '⚽ Párbaj indítása…';
+  }
+  try {
+    const target = new URL(globalThis.location.href);
+    target.searchParams.set(MATCH_LAUNCH_QUERY_KEY, String(Date.now()));
+    globalThis.location.replace(target.href);
+  } catch (error) {
+    console.warn('[tournament-flow] A kényszerített meccsnavigáció nem használható:', error);
+    globalThis.location.reload();
+  }
+  globalThis.setTimeout?.(() => {
+    try { globalThis.location.reload(); } catch { /* A navigáció már elindult. */ }
+  }, 700);
+}
+
+function launchPreparedMatch(state, match, lineupIds, trigger = null) {
   const human = tournamentTeamById(state, state.humanTeamId);
-  const opponentId = match.homeId === state.humanTeamId ? match.awayId : match.homeId;
+  const opponentId = match?.homeId === state.humanTeamId ? match?.awayId : match?.homeId;
   const opponent = tournamentTeamById(state, opponentId);
-  if (!human || !opponent) return false;
-  const cards = tournamentShuffle(deckRuntime.resolveQuickMatchSelection(players(), human.selection)).slice(0, 11);
-  if (cards.length < 4) return false;
-  const lineupIds = cards.map(card => String(card.id));
+  const uniqueLineupIds = [...new Set((lineupIds ?? []).map(id => String(id)).filter(Boolean))];
+  if (!human || !opponent || !match || uniqueLineupIds.length < 4) return false;
+
   const mode = match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK
     ? TOURNAMENT_MATCH_MODE.PENALTIES
     : (state.currentMatchMode || state.matchMode);
-  const next = saveAndVerifyTournament({ ...state, currentMatchId: match.id, currentMatchMode: mode, currentLineupIds: lineupIds, lastLineupIds: lineupIds, updatedAt: new Date().toISOString() });
-  try {
-    localStorage.setItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY, JSON.stringify({ tournamentId: next.id, matchId: match.id, humanIds: lineupIds }));
-  } catch { /* A tárolási korlátozás nem blokkolhatja a meccset. */ }
-  const staged = deckRuntime.stageQuickMatch({
-    playerTeamId: human.id, opponentTeamId: opponent.id, playerSelection: human.selection,
-    opponentSelection: opponent.selection, mode, difficulty: state.difficulty, createdAt: new Date().toISOString(),
+  const next = saveAndVerifyTournament({
+    ...state,
+    currentMatchId: match.id,
+    currentMatchMode: mode,
+    currentLineupIds: uniqueLineupIds,
+    lastLineupIds: uniqueLineupIds,
+    updatedAt: new Date().toISOString(),
   });
-  if (!staged) return false;
-  globalThis.location.reload();
+
+  try {
+    localStorage.setItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY, JSON.stringify({
+      tournamentId: next.id,
+      matchId: match.id,
+      humanIds: uniqueLineupIds,
+    }));
+  } catch { /* A tárolási korlátozás nem blokkolhatja a meccset. */ }
+
+  const staged = deckRuntime.stageQuickMatch({
+    playerTeamId: human.id,
+    opponentTeamId: opponent.id,
+    playerSelection: human.selection,
+    opponentSelection: opponent.selection,
+    mode,
+    difficulty: state.difficulty,
+    createdAt: new Date().toISOString(),
+  });
+  if (!staged) {
+    try {
+      localStorage.removeItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY);
+      saveAndVerifyTournament(state);
+    } catch { /* Az eredeti tornaállapot visszaállítása best effort. */ }
+    return false;
+  }
+
+  navigateToStagedMatch(trigger);
   return true;
+}
+
+function launchRandomLineup(state, match, trigger = null) {
+  const human = tournamentTeamById(state, state.humanTeamId);
+  if (!human || !match) return false;
+  const cards = tournamentShuffle(deckRuntime.resolveQuickMatchSelection(players(), human.selection)).slice(0, 11);
+  if (cards.length < 4) return false;
+  return launchPreparedMatch(state, match, cards.map(card => card.id), trigger);
 }
 
 function enhanceCenter(panel) {
@@ -127,12 +181,60 @@ function enhanceCenter(panel) {
   if (rapidTrigger && play.isConnected) play.remove();
   replacement.addEventListener('click', () => {
     try {
-      if (!launchRandomLineup(tournamentStorageService.read() ?? stored, nextMatch)) alert('A véletlen keret nem indítható el.');
+      if (!launchRandomLineup(tournamentStorageService.read() ?? stored, nextMatch, replacement)) {
+        replacement.disabled = false;
+        alert('A véletlen keret nem indítható el.');
+      }
     } catch (error) {
+      replacement.disabled = false;
       console.error('[tournament-flow] Véletlen keret hiba:', error);
       alert(error.message || 'A véletlen keret nem indítható el.');
     }
   });
+}
+
+function enhanceLineup(panel) {
+  const start = panel?.querySelector('#lineup-start');
+  if (!start || enhancedLaunchButtons.has(start) || start.dataset.flowMatchLaunch === 'true') return;
+  const replacement = start.cloneNode(true);
+  replacement.dataset.flowMatchLaunch = 'true';
+  start.replaceWith(replacement);
+  enhancedLaunchButtons.add(replacement);
+  replacement.addEventListener('click', () => {
+    const state = tournamentStorageService.read();
+    const match = state ? tournamentNextHumanMatch(state) : null;
+    const lineupIds = [...panel.querySelectorAll('[data-player-id]:checked')]
+      .map(input => input.dataset.playerId)
+      .filter(Boolean);
+    try {
+      if (!state || !match || !launchPreparedMatch(state, match, lineupIds, replacement)) {
+        replacement.disabled = false;
+        replacement.removeAttribute('data-match-launching');
+        replacement.textContent = 'Meccs indítása';
+        alert('A párbaj indítása nem sikerült. Ellenőrizd a kiválasztott keretet, majd próbáld újra.');
+      }
+    } catch (error) {
+      replacement.disabled = false;
+      replacement.removeAttribute('data-match-launching');
+      replacement.textContent = 'Meccs indítása';
+      console.error('[tournament-flow] A párbaj indítása sikertelen:', error);
+      alert(error.message || 'A párbaj indítása nem sikerült.');
+    }
+  });
+}
+
+function enhanceTournamentKickoff(button) {
+  if (!button || enhancedKickoffButtons.has(button)) return;
+  const state = tournamentStorageService.read();
+  if (!state?.currentMatchId) return;
+  enhancedKickoffButtons.add(button);
+  button.textContent = '⚽ Párbaj indítása…';
+  button.disabled = true;
+  globalThis.setTimeout?.(() => {
+    if (!button.isConnected) return;
+    button.disabled = false;
+    button.click();
+  }, 120);
 }
 
 function enhanceCompletePanel(panel) {
@@ -230,6 +332,8 @@ function refresh() {
   ensureStyle();
   enhanceMenu(document.querySelector('.menu-panel.mobile-home'));
   enhanceCenter(document.querySelector('.tournament-center'));
+  enhanceLineup(document.querySelector('.tournament-lineup'));
+  enhanceTournamentKickoff(document.querySelector('.penalty-intro #kickoff-btn'));
   enhanceCompletePanel(document.querySelector('.tournament-complete'));
   document.querySelectorAll('.tournament-team-carousel').forEach(enhanceTeamSwipe);
   const result = document.querySelector('.result-panel--tournament');
@@ -278,6 +382,7 @@ function installTournamentFlowUpgrade() {
     show: returnPanel => showTournamentWizard(returnPanel),
     saveAndVerify: saveAndVerifyTournament,
     closeLayers: closeTournamentLayers,
+    launchPreparedMatch,
   });
   return runtime.observer;
 }
