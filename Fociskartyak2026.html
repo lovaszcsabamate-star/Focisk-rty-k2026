@@ -7355,6 +7355,25 @@ html[data-language="en"] #verdict {
 @media(prefers-reduced-motion:reduce){.tournament-next-match.is-rapid-upgraded,.tournament-match-intro-trigger{scroll-behavior:auto}}
 
 </style>
+<style data-standalone-tournament-experience-v2>
+.tournament-flow.tournament-experience-v2{--tx-gold:#f2c45e;--tx-cream:#fff1bd;--tx-border:rgba(255,255,255,.14);width:min(1060px,100%);gap:18px}
+.tournament-experience-v2 *{box-sizing:border-box}.tournament-experience-v2 button,.tournament-experience-v2 input{font:inherit}.tournament-experience-v2 button:focus-visible,.tournament-experience-v2 input:focus-visible{outline:3px solid #ffe07d;outline-offset:3px}
+.tx-header{position:sticky;z-index:8;top:0;display:grid;gap:11px;padding:8px 0 14px;background:linear-gradient(#21150f 72%,transparent)}.tx-header__top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.tx-header h1{margin:2px 0 0;font-size:clamp(1.5rem,5vw,2.5rem)}.tx-stepper{display:flex;gap:8px;overflow:auto;padding:2px 1px 5px}.tx-step{flex:1 0 138px;display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:7px;padding:8px 10px;border:1px solid var(--tx-border);border-radius:999px;background:rgba(0,0,0,.2);color:#cbbda5;font-size:.7rem;font-weight:900}.tx-step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.07)}.tx-step.is-active{border-color:var(--tx-gold);background:rgba(242,196,94,.14);color:var(--tx-cream)}.tx-step.is-complete{border-color:rgba(98,184,119,.45);color:#c6ebcf}
+.tx-section{display:grid;gap:13px;padding:17px;border:1px solid var(--tx-border);border-radius:20px;background:rgba(0,0,0,.2)}.tx-section h2,.tx-section h3,.tx-section p{margin:0}.tx-section-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.tx-help{display:grid;place-items:center;width:30px;min-height:30px;border:1px solid rgba(255,255,255,.24);border-radius:50%;background:rgba(255,255,255,.06);color:#ffe28a;font-weight:1000}.tx-info,.tx-warning{padding:12px;border-radius:13px;font-size:.78rem;line-height:1.45}.tx-info{border:1px solid rgba(242,196,94,.24);background:rgba(242,196,94,.07);color:#e5d5b8}.tx-warning{border:1px solid rgba(220,112,68,.48);background:rgba(128,52,31,.2);color:#ffd6bb}
+.tx-location-tabs,.tx-team-source{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:6px;border:1px solid var(--tx-border);border-radius:18px;background:rgba(0,0,0,.22)}.tx-location-tabs button,.tx-team-source button{min-height:50px;border:0;border-radius:13px;background:transparent;color:#cdbfa9;font-weight:950}.tx-location-tabs button.is-active,.tx-team-source button.is-active{background:linear-gradient(135deg,rgba(242,196,94,.24),rgba(118,77,31,.38));color:#fff2c2;box-shadow:inset 0 0 0 1px rgba(242,196,94,.38)}
+.tx-trophy-stage{position:relative;display:grid;justify-items:center;gap:12px;overflow:hidden;min-height:300px;padding:24px;border:1px solid rgba(242,196,94,.28);border-radius:28px;background:radial-gradient(circle at 50% 20%,rgba(242,196,94,.18),transparent 38%),linear-gradient(160deg,rgba(42,27,17,.94),rgba(17,11,9,.96));text-align:center}.tx-trophy-stage:before{content:'';position:absolute;inset:0;opacity:.35;pointer-events:none}.tx-trophy-stage[data-pattern=stadium]:before{background:linear-gradient(105deg,transparent 22%,rgba(255,255,255,.14) 23% 24%,transparent 25% 75%,rgba(255,255,255,.12) 76% 77%,transparent 78%)}.tx-trophy-stage[data-pattern=rays]:before{background:repeating-conic-gradient(from -12deg at 50% 28%,rgba(255,255,255,.1) 0 4deg,transparent 4deg 15deg)}.tx-trophy-stage[data-pattern=stars]:before{background:radial-gradient(circle at 18% 20%,#fff 0 1px,transparent 2px),radial-gradient(circle at 72% 16%,#fff 0 1px,transparent 2px),radial-gradient(circle at 84% 54%,#fff 0 1px,transparent 2px)}.tx-trophy-stage h2,.tx-trophy-stage p{margin:0}.tx-trophy-stage p{max-width:620px;color:#d8c9b2}.tx-trophy-stage small{color:#ffe28a;font-weight:900}
+.tx-trophy{--a:#f7cf66;--b:#98672e;position:relative;display:grid;place-items:center;width:clamp(130px,30vw,190px);height:clamp(145px,34vw,215px);filter:drop-shadow(0 22px 28px rgba(0,0,0,.45));animation:txFloat 3.8s ease-in-out infinite}.tx-trophy[data-accent=silver]{--a:#eef2f5;--b:#7b8790}.tx-trophy[data-accent=bronze]{--a:#e7a565;--b:#70411f}.tx-trophy[data-accent=emerald]{--a:#8de0ad;--b:#21613c}.tx-trophy[data-accent=crimson]{--a:#f28b96;--b:#7e2330}.tx-trophy__cup{position:absolute;top:20px;width:78px;height:82px;border:5px solid rgba(255,255,255,.6);border-radius:18px 18px 42px 42px;background:linear-gradient(145deg,var(--a),var(--b));box-shadow:inset 10px 0 14px rgba(255,255,255,.2),inset -10px 0 16px rgba(0,0,0,.18)}.tx-trophy__cup:before,.tx-trophy__cup:after{content:'';position:absolute;top:14px;width:38px;height:48px;border:7px solid var(--a);border-radius:50%}.tx-trophy__cup:before{right:55px;border-right:0}.tx-trophy__cup:after{left:55px;border-left:0}.tx-trophy__stem{position:absolute;top:96px;width:24px;height:55px;background:linear-gradient(90deg,var(--b),var(--a),var(--b))}.tx-trophy__base{position:absolute;top:142px;width:100px;height:26px;border-radius:8px 8px 15px 15px;background:linear-gradient(145deg,var(--a),var(--b))}.tx-trophy[data-style=shield] .tx-trophy__cup{width:102px;height:112px;clip-path:polygon(50% 0,100% 18%,88% 76%,50% 100%,12% 76%,0 18%)}.tx-trophy[data-style=shield] .tx-trophy__cup:before,.tx-trophy[data-style=shield] .tx-trophy__cup:after,.tx-trophy[data-style=modern] .tx-trophy__cup:before,.tx-trophy[data-style=modern] .tx-trophy__cup:after{display:none}.tx-trophy[data-style=shield] .tx-trophy__stem{top:125px;height:30px}.tx-trophy[data-style=shield] .tx-trophy__base{top:150px}.tx-trophy[data-style=orb] .tx-trophy__cup{width:96px;height:96px;border-radius:50%}.tx-trophy[data-style=modern] .tx-trophy__cup{width:92px;height:112px;border-radius:45% 12% 45% 12%;transform:rotate(8deg)}.tx-trophy--compact{width:76px;height:86px;animation:none}.tx-trophy--compact .tx-trophy__cup,.tx-trophy--compact[data-style] .tx-trophy__cup{top:6px;width:44px;height:48px;border-width:3px;border-radius:10px 10px 22px 22px;clip-path:none;transform:none}.tx-trophy--compact .tx-trophy__cup:before,.tx-trophy--compact .tx-trophy__cup:after{display:none}.tx-trophy--compact .tx-trophy__stem,.tx-trophy--compact[data-style=shield] .tx-trophy__stem{top:52px;width:12px;height:17px}.tx-trophy--compact .tx-trophy__base,.tx-trophy--compact[data-style=shield] .tx-trophy__base{top:66px;width:54px;height:13px}@keyframes txFloat{50%{transform:translateY(-8px) rotate(.7deg)}}
+.tx-type-strip,.tx-choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.tx-type-card,.tx-choice{display:grid;gap:7px;min-height:110px;padding:15px;border:1px solid var(--tx-border);border-radius:18px;background:rgba(255,255,255,.04);color:inherit;text-align:left}.tx-type-card.is-selected,.tx-choice.is-selected{border-color:var(--tx-gold);background:rgba(242,196,94,.12)}.tx-type-card h3,.tx-type-card p{margin:0}.tx-type-card p,.tx-choice small{color:#cdbfa9;font-size:.78rem}.tx-type-card small{margin-top:auto;color:#ffe18a;font-weight:850}
+.tx-team-carousel{display:grid;grid-template-columns:52px minmax(0,1fr) 52px;align-items:center;gap:12px}.tx-team-arrow{display:grid;place-items:center;width:52px;min-height:52px;padding:0;border-radius:50%;font-size:1.7rem}.tx-team-hero{display:grid;justify-items:center;gap:12px;min-width:0;padding:22px;border:1px solid rgba(242,196,94,.3);border-radius:26px;background:radial-gradient(circle at 50% 10%,rgba(242,196,94,.17),transparent 40%),rgba(18,12,9,.76);text-align:center}.tx-team-hero h2,.tx-team-hero p{margin:0}.tx-team-mark{display:grid;place-items:center;overflow:hidden;width:clamp(116px,28vw,174px);height:clamp(116px,28vw,174px);border:4px solid rgba(255,255,255,.75);border-radius:44% 44% 50% 50%/34% 34% 62% 62%;background:linear-gradient(145deg,#77502c,#d4b05d);color:#fff;font-size:clamp(2rem,8vw,4.2rem);font-weight:1000}.tx-team-mark img{width:100%;height:100%;object-fit:contain;padding:12px}.tx-team-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}.tx-team-meta span{padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.07);font-size:.7rem;font-weight:900}.tx-mini-teams{display:flex;gap:8px;overflow:auto;padding:5px 2px 9px}.tx-mini-team{flex:0 0 64px;display:grid;justify-items:center;gap:4px;min-height:72px;padding:7px;border:1px solid var(--tx-border);border-radius:13px;background:rgba(255,255,255,.04);color:inherit}.tx-mini-team.is-selected{border-color:var(--tx-gold);background:rgba(242,196,94,.12)}.tx-mini-team .tx-team-mark{width:40px;height:40px;border-width:2px;border-radius:50%;font-size:.72rem}.tx-mini-team small{max-width:54px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tx-random-wrap{display:flex;justify-content:center}.tx-random-ball{position:relative;display:grid;place-items:center;width:64px;min-height:64px;padding:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 16%,#222 17% 25%,#fff 26% 44%,#222 45% 54%,#fff 55%);font-size:0}.tx-random-ball:after{content:'⚄';position:absolute;right:-5px;bottom:-4px;display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#2d1c12;color:#f4ce71;font-size:1rem}
+.tx-field-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.7fr);gap:12px}.tx-selected-teams{display:grid;gap:7px}.tx-selected-team{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:9px;padding:8px;border:1px solid var(--tx-border);border-radius:13px;background:rgba(255,255,255,.04)}.tx-selected-team .tx-team-mark{width:38px;height:38px;border-width:2px;border-radius:50%;font-size:.65rem}.tx-slot-counter{padding:7px 10px;border-radius:999px;background:rgba(242,196,94,.1);color:#ffe28a;font-weight:950}.tx-candidate{display:grid;justify-items:center;gap:9px;padding:14px;border:1px solid var(--tx-border);border-radius:16px;background:rgba(0,0,0,.18);text-align:center}.tx-candidate .tx-team-mark{width:84px;height:84px;font-size:1.4rem}.tx-candidate-nav{display:flex;align-items:center;justify-content:center;gap:8px}.tx-candidate-nav button{min-width:44px;min-height:44px;border-radius:50%}.tx-form-row{display:grid;gap:7px}.tx-form-row input{width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--tx-border);border-radius:13px;background:rgba(0,0,0,.25);color:#fff}.tx-color-options{display:flex;flex-wrap:wrap;gap:9px}.tx-color{width:48px;min-height:48px;padding:0;border:2px solid transparent;border-radius:50%;background:var(--swatch)}.tx-color.is-selected{border-color:#fff;box-shadow:0 0 0 3px var(--tx-gold)}
+.tx-summary-hero{display:grid;grid-template-columns:minmax(220px,.75fr) minmax(0,1.25fr);align-items:center;gap:20px;padding:20px;border:1px solid rgba(242,196,94,.3);border-radius:25px;background:radial-gradient(circle at 15% 25%,rgba(242,196,94,.16),transparent 38%),rgba(20,13,10,.78)}.tx-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tx-summary-item{padding:12px;border:1px solid var(--tx-border);border-radius:13px;background:rgba(255,255,255,.04)}.tx-summary-item small,.tx-summary-item strong{display:block}.tx-summary-item small{color:#bbaa91;font-size:.65rem;font-weight:900;text-transform:uppercase}.tx-summary-item strong{margin-top:4px;color:#fff0bd;overflow-wrap:anywhere}.tx-participant-chips{display:flex;flex-wrap:wrap;gap:7px}.tx-participant-chip{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.07);font-size:.72rem;font-weight:850}.tx-actions{position:sticky;z-index:9;bottom:0;display:flex;justify-content:space-between;gap:9px;padding:14px 0 max(13px,env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,#21150f 30%)}.tx-actions .btn{min-width:160px}.tx-actions__primary{margin-left:auto}
+.tx-draw{text-align:center}.tx-draw__stage{display:grid;grid-template-columns:minmax(160px,.65fr) minmax(0,1.35fr);align-items:center;gap:18px;padding:22px;border:1px solid rgba(242,196,94,.32);border-radius:27px;background:rgba(18,12,9,.84)}.tx-draw__pairs{display:grid;gap:8px}.tx-draw__pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;min-height:56px;padding:9px;border:1px solid var(--tx-border);border-radius:13px;background:rgba(255,255,255,.04);opacity:.22;transform:translateY(8px);transition:.28s ease}.tx-draw__pair.is-revealed{opacity:1;transform:none}.tx-draw__pair.is-human{border-color:var(--tx-gold);background:rgba(242,196,94,.1)}.tx-draw__complete{padding:11px;border-radius:14px;background:rgba(75,150,93,.13);color:#c8efd1;font-weight:950}
+.tx-center-status{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:11px;margin-bottom:12px;padding:11px;border:1px solid rgba(242,196,94,.28);border-radius:18px;background:rgba(18,12,9,.72)}.tx-center-status strong,.tx-center-status small{display:block}.tx-center-progress{text-align:right}.tournament-center[data-experience-v2=true] .tournament-heading,.tournament-center[data-experience-v2=true]>.tournament-progress,.tournament-center[data-experience-v2=true]>.tournament-progress-label{display:none}.tournament-center[data-experience-v2=true] .tournament-tabs{position:sticky;z-index:4;bottom:0;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:9px;background:rgba(25,16,12,.96);border-radius:16px}.tournament-center[data-experience-v2=true] .tournament-tabs button{min-height:48px}.tx-center-secondary{margin-top:12px}.tx-center-secondary__actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.tx-final-banner,.tx-round-transition,.tx-complete-hero{padding:15px;border:1px solid rgba(242,196,94,.35);border-radius:18px;background:rgba(36,23,14,.74)}.tx-final-banner,.tx-complete-hero{display:grid;justify-items:center;gap:7px;text-align:center}.tx-round-transition{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;gap:13px}.tx-bracket-round-nav{display:flex;gap:7px;overflow:auto;margin-bottom:10px}.tx-bracket-round-nav button{flex:0 0 auto;min-height:42px;border:1px solid var(--tx-border);border-radius:999px;background:rgba(255,255,255,.04);color:#d3c4ad}.tx-bracket-round-nav button.is-active{border-color:var(--tx-gold);color:#fff0b5}.tx-complete-details summary,.tx-center-secondary summary{cursor:pointer;color:#ffe08a;font-weight:900}
+@media(max-width:760px){.tx-field-layout,.tx-summary-hero,.tx-draw__stage{grid-template-columns:1fr}.tx-summary-grid{grid-template-columns:1fr}.tx-team-carousel{grid-template-columns:44px minmax(0,1fr) 44px;gap:7px}.tx-team-arrow{width:44px;min-height:44px}.tx-actions{display:grid;grid-template-columns:1fr 1fr}.tx-actions .btn{min-width:0;width:100%}.tx-actions__primary{grid-column:1/-1;margin:0}.tx-center-status{grid-template-columns:48px minmax(0,1fr)}.tx-center-progress{grid-column:1/-1;text-align:left}.tournament-center[data-experience-v2=true] .tournament-bracket__round{display:none}.tournament-center[data-experience-v2=true] .tournament-bracket__round.is-mobile-active{display:block}.tournament-center[data-experience-v2=true] .tournament-table th:nth-child(7),.tournament-center[data-experience-v2=true] .tournament-table td:nth-child(7){display:none}}
+@media(max-width:440px){.tx-location-tabs,.tx-team-source{grid-template-columns:1fr}.tx-header h1{font-size:1.38rem}.tx-section{padding:13px}.tx-actions{grid-template-columns:1fr}.tx-actions__primary{grid-column:auto}.tournament-center[data-experience-v2=true] .tournament-tabs{grid-template-columns:1fr}.tx-center-secondary__actions{grid-template-columns:1fr}.tx-draw__pair{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.tx-trophy{animation:none}.tx-draw__pair{transition:none}}
+
+</style>
 </head>
 <body>
   <a class="skip-link" href="#felt">Ugrás a játéktérhez</a>
@@ -24267,6 +24286,994 @@ function installTournamentFlowUpgrade() {
 
 
 installTournamentFlowUpgrade();
+
+
+globalThis.__FociskartyakTournamentFlowShared = Object.freeze({
+  FLOW_VERSION, MINIMUM_CARDS, TOURNAMENT_CATEGORY, TOURNAMENT_FORMAT,
+  TOURNAMENT_MATCH_MODE, TOURNAMENT_STATUS, closeTournamentLayers,
+  createTournament, deckRuntime, difficultyLabel, escapeHtml, formatLabel,
+  makePanel, matchModeLabel, players, runtime, safeTournamentName,
+  saveAndVerifyTournament, selectParticipants, showPanel, tournamentMatches,
+  tournamentNextHumanMatch, tournamentProgress, tournamentRoundForMatch,
+  tournamentStorageService, tournamentTeamById,
+});
+
+}
+
+/* ===== js/tournament-experience-v2.js ===== */
+{
+
+const {
+  FLOW_VERSION, MINIMUM_CARDS, TOURNAMENT_CATEGORY, TOURNAMENT_FORMAT,
+  TOURNAMENT_MATCH_MODE, TOURNAMENT_STATUS, closeTournamentLayers,
+  createTournament, deckRuntime, difficultyLabel, escapeHtml, formatLabel,
+  makePanel, matchModeLabel, players, runtime, safeTournamentName,
+  saveAndVerifyTournament, selectParticipants, showPanel, tournamentMatches,
+  tournamentNextHumanMatch, tournamentProgress, tournamentRoundForMatch,
+  tournamentStorageService, tournamentTeamById,
+} = globalThis.__FociskartyakTournamentFlowShared;
+
+/**
+ * Fociskártyák 2026 – Torna mód élmény- és információsűrűség-frissítés.
+ *
+ * A modul a meglévő torna-domainre, mentési szolgáltatásra és mérkőzésindításra
+ * épül. Nem módosítja a továbbjutási szabályokat vagy az eredményszámítást.
+ */
+
+
+const EXPERIENCE_VERSION = 2;
+const STYLE_ID = 'tournament-experience-v2-style';
+const DRAFT_KEY = 'fociskartyak:tournament-draft:v2';
+const TEAM_SOURCE = Object.freeze({
+  HUNGARIAN: 'hungarian',
+  LEAGUE: 'league',
+  NATIONAL: 'national',
+});
+const LOCATION = Object.freeze({
+  HUNGARY: 'hungary',
+  INTERNATIONAL: 'international',
+  CUSTOM: 'custom',
+});
+const OPPONENT_MODE = Object.freeze({
+  RANDOM: 'random',
+  MANUAL: 'manual',
+  MIXED: 'mixed',
+});
+
+const TOURNAMENTS = Object.freeze({
+  'hungarian-league': Object.freeze({
+    key: 'hungarian-league',
+    location: LOCATION.HUNGARY,
+    title: 'Magyar Bajnokság',
+    description: 'Teljes hazai bajnoki idény, minden ellenféllel egy mérkőzés.',
+    shortFormat: '12 csapat · bajnoki rendszer',
+    category: TOURNAMENT_CATEGORY.HUNGARIAN,
+    teamSource: TEAM_SOURCE.HUNGARIAN,
+    format: TOURNAMENT_FORMAT.LEAGUE,
+    count: 12,
+    trophyStyle: 'shield',
+    trophyAccent: 'gold',
+    trophyPattern: 'stadium',
+  }),
+  'hungarian-cup': Object.freeze({
+    key: 'hungarian-cup',
+    location: LOCATION.HUNGARY,
+    title: 'Magyar Kupa',
+    description: 'Kieséses hazai kupasorozat, külön döntőfelvezetéssel.',
+    shortFormat: '12 csapat · kieséses rendszer',
+    category: TOURNAMENT_CATEGORY.HUNGARIAN,
+    teamSource: TEAM_SOURCE.HUNGARIAN,
+    format: TOURNAMENT_FORMAT.KNOCKOUT,
+    count: 12,
+    trophyStyle: 'classic',
+    trophyAccent: 'bronze',
+    trophyPattern: 'rays',
+  }),
+  'world-cup': Object.freeze({
+    key: 'world-cup',
+    location: LOCATION.INTERNATIONAL,
+    title: 'Nemzetközi Kupa',
+    description: 'Nagyszabású csoportkör és kieséses szakasz válogatottakkal.',
+    shortFormat: '8 csapat · csoportkör és kiesés',
+    category: TOURNAMENT_CATEGORY.NATIONS,
+    teamSource: TEAM_SOURCE.NATIONAL,
+    format: TOURNAMENT_FORMAT.GROUP_KNOCKOUT,
+    count: 8,
+    trophyStyle: 'orb',
+    trophyAccent: 'silver',
+    trophyPattern: 'stars',
+  }),
+  custom: Object.freeze({
+    key: 'custom',
+    location: LOCATION.CUSTOM,
+    title: 'Saját kupa',
+    description: 'Egyedi név, mezőny, formátum és saját tervezésű serleg.',
+    shortFormat: '4–16 csapat · személyre szabható',
+    category: TOURNAMENT_CATEGORY.HUNGARIAN,
+    teamSource: TEAM_SOURCE.HUNGARIAN,
+    format: TOURNAMENT_FORMAT.KNOCKOUT,
+    count: 4,
+    trophyStyle: 'modern',
+    trophyAccent: 'emerald',
+    trophyPattern: 'none',
+  }),
+});
+
+const LOCATION_LABELS = Object.freeze({
+  [LOCATION.HUNGARY]: 'Magyarország',
+  [LOCATION.INTERNATIONAL]: 'Nemzetközi',
+  [LOCATION.CUSTOM]: 'Saját',
+});
+
+const TROPHY_STYLES = Object.freeze([
+  Object.freeze({ key: 'classic', label: 'Klasszikus serleg' }),
+  Object.freeze({ key: 'shield', label: 'Bajnoki pajzs' }),
+  Object.freeze({ key: 'orb', label: 'Nemzetközi gömbserleg' }),
+  Object.freeze({ key: 'modern', label: 'Modern kupa' }),
+]);
+
+const TROPHY_ACCENTS = Object.freeze([
+  Object.freeze({ key: 'gold', label: 'Arany' }),
+  Object.freeze({ key: 'silver', label: 'Ezüst' }),
+  Object.freeze({ key: 'bronze', label: 'Bronz' }),
+  Object.freeze({ key: 'emerald', label: 'Smaragd' }),
+  Object.freeze({ key: 'crimson', label: 'Bíbor' }),
+]);
+
+const TROPHY_PATTERNS = Object.freeze([
+  Object.freeze({ key: 'none', label: 'Letisztult' }),
+  Object.freeze({ key: 'stadium', label: 'Stadionfény' }),
+  Object.freeze({ key: 'rays', label: 'Fénysugarak' }),
+  Object.freeze({ key: 'stars', label: 'Csillagmező' }),
+]);
+
+const text = value => String(value ?? '').trim();
+const fold = value => text(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .toLocaleLowerCase('hu-HU').replace(/[^a-z0-9]+/g, ' ').trim();
+const initials = value => text(value).split(/\s+/).filter(Boolean).slice(0, 3)
+  .map(word => word[0]).join('').toUpperCase() || 'FK';
+
+function ensureExperienceStyle() {
+  if (document.getElementById(STYLE_ID) || document.querySelector('[data-standalone-tournament-experience-v2]')) return;
+  const link = document.createElement('link');
+  link.id = STYLE_ID;
+  link.rel = 'stylesheet';
+  link.href = 'css/tournament-experience-v2.css';
+  document.head.appendChild(link);
+}
+
+function readDraft() {
+  try {
+    const raw = globalThis.localStorage?.getItem(DRAFT_KEY);
+    const value = raw ? JSON.parse(raw) : null;
+    return value?.experienceVersion === EXPERIENCE_VERSION ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveDraft(draft) {
+  try {
+    globalThis.localStorage?.setItem(DRAFT_KEY, JSON.stringify({ ...draft, experienceVersion: EXPERIENCE_VERSION }));
+  } catch {
+    // A privát böngészési mód nem blokkolhatja a tornaválasztást.
+  }
+}
+
+function clearDraft() {
+  try { globalThis.localStorage?.removeItem(DRAFT_KEY); } catch { /* best effort */ }
+}
+
+function presetFor(type) {
+  return TOURNAMENTS[type] ?? TOURNAMENTS['hungarian-league'];
+}
+
+function initialDraft(type = 'hungarian-league') {
+  const preset = presetFor(type);
+  return {
+    experienceVersion: EXPERIENCE_VERSION,
+    location: preset.location,
+    type: preset.key,
+    teamSource: preset.teamSource,
+    category: preset.category,
+    format: preset.format,
+    count: preset.count,
+    humanTeamId: '',
+    participantIds: [],
+    opponentMode: OPPONENT_MODE.RANDOM,
+    matchMode: TOURNAMENT_MATCH_MODE.CLASSIC,
+    difficulty: 'medium',
+    lineupMode: 'own',
+    name: preset.title,
+    trophyStyle: preset.trophyStyle,
+    trophyAccent: preset.trophyAccent,
+    trophyPattern: preset.trophyPattern,
+    teamIndex: 0,
+    candidateIndex: 0,
+  };
+}
+
+function applyTournament(draft, type) {
+  const preset = presetFor(type);
+  const previousDifficulty = draft.difficulty;
+  const previousMatchMode = draft.matchMode;
+  Object.assign(draft, initialDraft(type));
+  draft.difficulty = previousDifficulty ?? 'medium';
+  draft.matchMode = previousMatchMode ?? TOURNAMENT_MATCH_MODE.CLASSIC;
+  saveDraft(draft);
+}
+
+function quickMatchCatalog() {
+  return deckRuntime.buildQuickMatchCatalog(players());
+}
+
+function teamsForSource(source) {
+  const catalog = quickMatchCatalog();
+  if (source === TEAM_SOURCE.LEAGUE) {
+    return deckRuntime.quickMatchEntriesForCategory(catalog, deckRuntime.QUICK_MATCH_CATEGORY.LEAGUE);
+  }
+  if (source === TEAM_SOURCE.NATIONAL) {
+    return [
+      ...deckRuntime.quickMatchEntriesForCategory(catalog, deckRuntime.QUICK_MATCH_CATEGORY.NATIONAL),
+      ...deckRuntime.quickMatchEntriesForCategory(catalog, deckRuntime.QUICK_MATCH_CATEGORY.FEDERATION),
+    ];
+  }
+  return deckRuntime.quickMatchEntriesForCategory(catalog, deckRuntime.QUICK_MATCH_CATEGORY.HUNGARIAN);
+}
+
+function usableTeamsForSource(source) {
+  return [...new Map(teamsForSource(source).map(team => [team.id, team])).values()]
+    .filter(team => team.usable && Number(team.count) >= MINIMUM_CARDS)
+    .sort((a, b) => text(a.label).localeCompare(text(b.label), 'hu-HU'));
+}
+
+function domainCategoryForSource(source) {
+  return source === TEAM_SOURCE.HUNGARIAN ? TOURNAMENT_CATEGORY.HUNGARIAN : TOURNAMENT_CATEGORY.NATIONS;
+}
+
+function tournamentOptionsForLocation(location) {
+  return Object.values(TOURNAMENTS).filter(item => item.location === location);
+}
+
+function locationDefaultType(location) {
+  return tournamentOptionsForLocation(location)[0]?.key ?? 'hungarian-league';
+}
+
+function stepList(draft) {
+  return draft.type === 'custom'
+    ? [['type', 'Tornaválasztás'], ['team', 'Csapatválasztás'], ['custom', 'Torna beállításai'], ['summary', 'Összefoglaló']]
+    : [['type', 'Tornaválasztás'], ['team', 'Csapatválasztás'], ['summary', 'Összefoglaló']];
+}
+
+function trophyMarkup(presentation = {}, compact = false) {
+  const style = presentation.style ?? presentation.trophyStyle ?? 'classic';
+  const accent = presentation.accent ?? presentation.trophyAccent ?? 'gold';
+  const className = compact ? 'tx-trophy tx-trophy--compact' : 'tx-trophy';
+  return `<span class="${className}" data-style="${escapeHtml(style)}" data-accent="${escapeHtml(accent)}" aria-hidden="true"><span class="tx-trophy__cup"></span><span class="tx-trophy__stem"></span><span class="tx-trophy__base"></span></span>`;
+}
+
+function trophyPresentation(draft) {
+  return {
+    style: draft.trophyStyle,
+    accent: draft.trophyAccent,
+    pattern: draft.trophyPattern,
+  };
+}
+
+function teamMark(team, className = 'tx-team-mark') {
+  const image = team?.badge
+    ? `<img src="${escapeHtml(team.badge)}" alt="" loading="lazy">`
+    : escapeHtml(team?.icon || team?.flag || initials(team?.label));
+  return `<span class="${className}" aria-hidden="true">${image}</span>`;
+}
+
+function headerMarkup(draft, step, exitLabel = 'Kilépés') {
+  const steps = stepList(draft);
+  const current = steps.findIndex(([key]) => key === step);
+  return `<header class="tx-header"><div class="tx-header__top"><div><p class="eyebrow">Torna mód</p><h1>${escapeHtml(steps[current]?.[1] ?? 'Tornaválasztás')}</h1></div><button class="btn btn--ghost" type="button" data-exit>${escapeHtml(exitLabel)}</button></div><div class="tx-stepper" aria-label="Torna létrehozásának lépései">${steps.map(([key, label], index) => `<span class="tx-step ${index === current ? 'is-active' : index < current ? 'is-complete' : ''}" aria-current="${key === step ? 'step' : 'false'}"><b>${index < current ? '✓' : index + 1}</b><span>${escapeHtml(label)}</span></span>`).join('')}</div></header>`;
+}
+
+function estimatedMatches(format, count) {
+  if (format === TOURNAMENT_FORMAT.LEAGUE) return count * (count - 1) / 2;
+  if (format === TOURNAMENT_FORMAT.KNOCKOUT) return Math.max(0, count - 1);
+  const groupSize = 4;
+  const groups = Math.max(2, count / groupSize);
+  const knockoutTeams = Math.max(4, 2 ** Math.floor(Math.log2(Math.max(4, count - 1))));
+  return groups * (groupSize * (groupSize - 1) / 2) + knockoutTeams - 1;
+}
+
+function estimatedRounds(format, count) {
+  if (format === TOURNAMENT_FORMAT.LEAGUE) return Math.max(1, count - 1);
+  if (format === TOURNAMENT_FORMAT.KNOCKOUT) return Math.max(1, Math.ceil(Math.log2(count)));
+  return 3 + Math.max(2, Math.ceil(Math.log2(Math.max(4, count / 2))));
+}
+
+function supportedCustomCounts(draft, poolLength) {
+  const candidates = draft.format === TOURNAMENT_FORMAT.LEAGUE ? [4, 6, 8, 10, 12, 16]
+    : draft.format === TOURNAMENT_FORMAT.KNOCKOUT ? [4, 8, 16]
+      : [8, 12, 16];
+  return candidates.filter(count => count <= poolLength && (draft.format !== TOURNAMENT_FORMAT.GROUP_KNOCKOUT || count % 4 === 0));
+}
+
+function normaliseParticipantIds(draft, pool) {
+  const valid = new Set(pool.map(team => team.id));
+  const unique = [...new Set((draft.participantIds ?? []).filter(id => valid.has(id)))];
+  draft.participantIds = draft.humanTeamId
+    ? [draft.humanTeamId, ...unique.filter(id => id !== draft.humanTeamId)].slice(0, draft.count)
+    : unique.slice(0, draft.count);
+}
+
+function participantsForDraft(draft) {
+  const pool = usableTeamsForSource(draft.teamSource);
+  const human = pool.find(team => team.id === draft.humanTeamId);
+  if (!human) return [];
+  normaliseParticipantIds(draft, pool);
+  if (draft.type !== 'custom' || draft.opponentMode === OPPONENT_MODE.RANDOM) {
+    return selectParticipants(pool, draft.count, human.id, []);
+  }
+  if (draft.opponentMode === OPPONENT_MODE.MANUAL) {
+    return draft.participantIds.map(id => pool.find(team => team.id === id)).filter(Boolean).slice(0, draft.count);
+  }
+  return selectParticipants(pool, draft.count, human.id, draft.participantIds);
+}
+
+function validationErrors(draft) {
+  const preset = presetFor(draft.type);
+  const pool = usableTeamsForSource(draft.teamSource);
+  const participants = participantsForDraft(draft);
+  const errors = [];
+  if (!preset) errors.push('Nincs kiválasztott torna.');
+  if (!pool.some(team => team.id === draft.humanTeamId)) errors.push('Nincs kiválasztott használható saját csapat.');
+  if (!Number.isInteger(Number(draft.count)) || Number(draft.count) < 4) errors.push('A résztvevők száma nem érvényes.');
+  if (participants.length !== draft.count) errors.push('A mezőny még nem teljes.');
+  if (new Set(participants.map(team => team.id)).size !== participants.length) errors.push('Ugyanaz a csapat többször szerepel.');
+  if (draft.type === 'custom' && draft.opponentMode === OPPONENT_MODE.MANUAL && draft.participantIds.length !== draft.count) {
+    errors.push('Kézi kiválasztásnál minden résztvevőt meg kell adni.');
+  }
+  return errors;
+}
+
+function createConfiguredTournament(draft) {
+  const participants = participantsForDraft(draft);
+  const fallbackName = presetFor(draft.type).title;
+  const category = domainCategoryForSource(draft.teamSource);
+  const base = createTournament({
+    name: safeTournamentName(draft.name, fallbackName),
+    category,
+    format: draft.format,
+    matchMode: draft.matchMode,
+    participants,
+    humanTeamId: draft.humanTeamId,
+    difficulty: draft.difficulty,
+  });
+  return {
+    ...base,
+    tournamentType: draft.type,
+    setupVersion: FLOW_VERSION,
+    experienceVersion: EXPERIENCE_VERSION,
+    configuration: {
+      lineupMode: draft.lineupMode,
+      autoSimulateAi: true,
+      participantCount: draft.count,
+      lockedStructure: draft.type !== 'custom',
+      opponentMode: draft.opponentMode,
+      teamSource: draft.teamSource,
+      trophy: trophyPresentation(draft),
+      drawPresented: false,
+    },
+  };
+}
+
+function showDrawScene(state, returnPanel) {
+  const node = makePanel('tournament-experience-v2 tx-draw');
+  const presentation = state.configuration?.trophy ?? {};
+  const firstRound = state.rounds?.find(round => Array.isArray(round.matches) && round.matches.length) ?? null;
+  const matches = firstRound?.matches ?? tournamentMatches(state).slice(0, Math.max(1, Math.min(8, state.teams?.length ?? 4)));
+  let revealIndex = 0;
+  let completed = false;
+  let timer = 0;
+
+  const pairMarkup = match => {
+    const home = tournamentTeamById(state, match.homeId);
+    const away = tournamentTeamById(state, match.awayId);
+    const human = [match.homeId, match.awayId].includes(state.humanTeamId);
+    return `<div class="tx-draw__pair ${human ? 'is-human' : ''}" data-draw-pair><span>${escapeHtml(home?.label || 'Később dől el')}</span><b>–</b><span>${escapeHtml(away?.label || 'Később dől el')}</span></div>`;
+  };
+
+  const finish = () => {
+    if (completed) return;
+    completed = true;
+    globalThis.clearTimeout?.(timer);
+    node.querySelectorAll('[data-draw-pair]').forEach(pair => pair.classList.add('is-revealed'));
+    node.querySelector('[data-draw-status]')?.removeAttribute('hidden');
+    const continueButton = node.querySelector('[data-continue]');
+    if (continueButton) continueButton.disabled = false;
+    const skipButton = node.querySelector('[data-skip]');
+    if (skipButton) skipButton.hidden = true;
+    try {
+      saveAndVerifyTournament({
+        ...state,
+        configuration: { ...(state.configuration ?? {}), drawPresented: true },
+        updatedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.warn('[tournament-experience-v2] A sorsolás állapota nem menthető:', error);
+    }
+  };
+
+  const revealNext = () => {
+    const pairs = [...node.querySelectorAll('[data-draw-pair]')];
+    if (revealIndex >= pairs.length) { finish(); return; }
+    pairs[revealIndex]?.classList.add('is-revealed');
+    revealIndex += 1;
+    timer = globalThis.setTimeout?.(revealNext, 360) ?? 0;
+  };
+
+  node.innerHTML = `${headerMarkup({ type: state.tournamentType ?? 'custom' }, 'summary', 'Sorsolás átugrása')}<p class="eyebrow">${state.format === TOURNAMENT_FORMAT.LEAGUE ? 'Mérkőzéssorrend' : 'Tornasorsolás'}</p><h1>${state.format === TOURNAMENT_FORMAT.LEAGUE ? 'A fordulók összeállítása' : 'A párosítások elkészülnek'}</h1><div class="tx-draw__stage">${trophyMarkup(presentation)}<div class="tx-draw__pairs">${matches.map(pairMarkup).join('')}</div></div><p class="tx-draw__complete" data-draw-status hidden>Elkészült a torna sorsolása</p><div class="tx-actions"><button class="btn btn--ghost" type="button" data-skip>Sorsolás átugrása</button><button class="btn tx-actions__primary" type="button" data-continue disabled>Tovább a tornához</button></div>`;
+  node.querySelectorAll('[data-exit],[data-skip]').forEach(button => button.addEventListener('click', finish));
+  node.querySelector('[data-continue]')?.addEventListener('click', () => {
+    const latest = tournamentStorageService.read() ?? state;
+    runtime.wizard = null;
+    globalThis.FociskartyakTournament?.showCenter?.(latest, returnPanel);
+  });
+  showPanel(node);
+  const reduceMotion = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+  if (reduceMotion || matches.length === 0) finish();
+  else timer = globalThis.setTimeout?.(revealNext, 220) ?? 0;
+}
+
+
+/** Többlépcsős, alacsony információsűrűségű tornaindítás. */
+
+
+const experienceWizardInitials = value => String(value ?? '').trim().split(/\s+/).filter(Boolean).slice(0, 3)
+  .map(word => word[0]).join('').toUpperCase() || 'FK';
+function normaliseWizardParticipantIds(draft, pool) {
+  const valid = new Set(pool.map(team => team.id));
+  const unique = [...new Set((draft.participantIds ?? []).filter(id => valid.has(id)))];
+  draft.participantIds = draft.humanTeamId
+    ? [draft.humanTeamId, ...unique.filter(id => id !== draft.humanTeamId)].slice(0, draft.count)
+    : unique.slice(0, draft.count);
+}
+
+function showExperienceWizard(returnPanel, suppliedDraft = null, initialStep = 'type') {
+  ensureExperienceStyle();
+  const restored = suppliedDraft ?? readDraft();
+  const draft = restored && TOURNAMENTS[restored.type] ? { ...initialDraft(restored.type), ...restored } : initialDraft();
+  let step = stepList(draft).some(([key]) => key === initialStep) ? initialStep : 'type';
+  const node = makePanel('tournament-experience-v2');
+  let keydownInstalled = false;
+
+  const exit = () => {
+    runtime.wizard = null;
+    if (returnPanel?.isConnected || returnPanel) showPanel(returnPanel);
+    else closeTournamentLayers();
+  };
+  const previous = () => {
+    const steps = stepList(draft);
+    const index = steps.findIndex(([key]) => key === step);
+    if (index <= 0) { exit(); return; }
+    step = steps[index - 1][0];
+    render();
+  };
+  const next = target => { step = target; saveDraft(draft); render(); };
+  runtime.wizard = { previous, exit };
+
+  const wireCommon = () => {
+    node.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', previous));
+    node.querySelectorAll('[data-exit]').forEach(button => button.addEventListener('click', exit));
+    if (!keydownInstalled) {
+      keydownInstalled = true;
+      node.addEventListener('keydown', event => {
+        if (step !== 'team' || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        if (event.target?.matches?.('input,select,textarea')) return;
+        event.preventDefault();
+        node.querySelector(event.key === 'ArrowLeft' ? '[data-team-prev]' : '[data-team-next]')?.click?.();
+      });
+    }
+  };
+
+  const renderType = () => {
+    const options = tournamentOptionsForLocation(draft.location);
+    if (!options.some(option => option.key === draft.type)) applyTournament(draft, locationDefaultType(draft.location));
+    const preset = presetFor(draft.type);
+    node.innerHTML = `${headerMarkup(draft, step, 'Vissza a főmenübe')}<section class="tx-section"><div class="tx-section-title"><h2>Bajnokság helye</h2><button class="tx-help" type="button" data-info aria-label="Tornaválasztási súgó">?</button></div><div class="tx-location-tabs" role="tablist">${Object.values(LOCATION).map(location => `<button type="button" role="tab" aria-selected="${draft.location === location}" class="${draft.location === location ? 'is-active' : ''}" data-location="${location}">${escapeHtml(LOCATION_LABELS[location])}</button>`).join('')}</div><p class="tx-info" data-info-text hidden>Egy képernyőn csak az aktuális választás jelenik meg. A kupa és az alsó tornakártyák a felső kategóriával együtt frissülnek.</p></section><section class="tx-trophy-stage" data-pattern="${escapeHtml(preset.trophyPattern)}">${trophyMarkup({ style: preset.trophyStyle, accent: preset.trophyAccent })}<h2>${escapeHtml(preset.title)}</h2><p>${escapeHtml(preset.description)}</p><small>${escapeHtml(preset.shortFormat)}</small></section><section class="tx-section"><h2>Tornatípus</h2><div class="tx-type-strip">${options.map(option => `<button type="button" class="tx-type-card ${draft.type === option.key ? 'is-selected' : ''}" data-type="${option.key}" aria-pressed="${draft.type === option.key}"><h3>${escapeHtml(option.title)}</h3><p>${escapeHtml(option.description)}</p><small>${escapeHtml(option.shortFormat)}</small></button>`).join('')}</div></section><div class="tx-actions"><button class="btn btn--ghost" type="button" data-exit>Vissza a főmenübe</button><button class="btn tx-actions__primary" type="button" data-next>Tovább a csapatválasztáshoz</button></div>`;
+    node.querySelectorAll('[data-location]').forEach(button => button.addEventListener('click', () => {
+      draft.location = button.dataset.location;
+      applyTournament(draft, locationDefaultType(draft.location));
+      render();
+    }));
+    node.querySelectorAll('[data-type]').forEach(button => button.addEventListener('click', () => {
+      applyTournament(draft, button.dataset.type);
+      render();
+    }));
+    node.querySelector('[data-info]')?.addEventListener('click', () => {
+      const info = node.querySelector('[data-info-text]');
+      if (info) info.hidden = !info.hidden;
+    });
+    node.querySelector('[data-next]')?.addEventListener('click', () => next('team'));
+  };
+
+  const renderTeam = () => {
+    const pool = usableTeamsForSource(draft.teamSource);
+    if (!pool.length) {
+      node.innerHTML = `${headerMarkup(draft, step)}<p class="tx-warning">Ehhez a kategóriához nincs legalább ${MINIMUM_CARDS} kártyával rendelkező csapat.</p><div class="tx-actions"><button class="btn" data-back>Vissza</button></div>`;
+      return;
+    }
+    if (!pool.some(team => team.id === draft.humanTeamId)) draft.humanTeamId = pool[0].id;
+    let index = pool.findIndex(team => team.id === draft.humanTeamId);
+    index = index < 0 ? 0 : index;
+    draft.teamIndex = index;
+    const team = pool[index];
+    const cycle = offset => {
+      draft.teamIndex = (index + offset + pool.length) % pool.length;
+      draft.humanTeamId = pool[draft.teamIndex].id;
+      draft.participantIds = [draft.humanTeamId];
+      saveDraft(draft);
+      render();
+    };
+    const nextStep = draft.type === 'custom' ? 'custom' : 'summary';
+    node.innerHTML = `${headerMarkup(draft, step)}${draft.type === 'custom' ? `<section class="tx-section"><h2>Csapatkategória</h2><div class="tx-team-source">${[[TEAM_SOURCE.HUNGARIAN,'Magyar bajnokság'],[TEAM_SOURCE.LEAGUE,'Liga'],[TEAM_SOURCE.NATIONAL,'Válogatott']].map(([value,label]) => `<button type="button" class="${draft.teamSource === value ? 'is-active' : ''}" data-team-source="${value}" aria-pressed="${draft.teamSource === value}">${label}</button>`).join('')}</div></section>` : ''}<section class="tx-section"><div class="tx-section-title"><h2>Saját csapat</h2><span>${index + 1} / ${pool.length}</span></div><div class="tx-team-carousel"><button class="btn btn--ghost tx-team-arrow" type="button" data-team-prev aria-label="Előző csapat">‹</button><article class="tx-team-hero"><button type="button" class="tx-team-mark" data-select-team aria-label="${escapeHtml(team.label)} kiválasztása">${team?.badge ? `<img src="${escapeHtml(team.badge)}" alt="" loading="lazy">` : escapeHtml(team?.icon || experienceWizardInitials(team.label))}</button><h2>${escapeHtml(team.label)}</h2><div class="tx-team-meta"><span>${Number(team.count) || 0} játékoskártya</span><span>${draft.teamSource === TEAM_SOURCE.HUNGARIAN ? 'Magyar klub' : draft.teamSource === TEAM_SOURCE.LEAGUE ? 'Liga-válogatott' : 'Válogatott / régió'}</span><span>Kiválasztva</span></div><p>A logóra kattintva is megerősítheted a választást.</p></article><button class="btn btn--ghost tx-team-arrow" type="button" data-team-next aria-label="Következő csapat">›</button></div><div class="tx-mini-teams" aria-label="Csapatok gyorsválasztója">${pool.map(item => `<button type="button" class="tx-mini-team ${item.id === team.id ? 'is-selected' : ''}" data-mini-team="${escapeHtml(item.id)}" aria-label="${escapeHtml(item.label)}">${teamMark(item)}<small>${escapeHtml(item.label)}</small></button>`).join('')}</div><div class="tx-random-wrap"><button type="button" class="tx-random-ball" data-random-team aria-label="Véletlenszerű csapat dobókockás futball-labdával">Véletlen csapat</button></div></section><div class="tx-actions"><button class="btn btn--ghost" type="button" data-back>Vissza</button><button class="btn tx-actions__primary" type="button" data-next>Csapat kiválasztása</button></div>`;
+    node.querySelector('[data-team-prev]')?.addEventListener('click', () => cycle(-1));
+    node.querySelector('[data-team-next]')?.addEventListener('click', () => cycle(1));
+    node.querySelector('[data-random-team]')?.addEventListener('click', () => {
+      const chosen = pool[Math.floor(Math.random() * pool.length)] ?? null;
+      if (!chosen) return;
+      draft.humanTeamId = chosen.id;
+      draft.participantIds = [chosen.id];
+      saveDraft(draft);
+      render();
+    });
+    node.querySelectorAll('[data-mini-team]').forEach(button => button.addEventListener('click', () => {
+      draft.humanTeamId = button.dataset.miniTeam;
+      draft.participantIds = [draft.humanTeamId];
+      saveDraft(draft);
+      render();
+    }));
+    node.querySelector('[data-select-team]')?.addEventListener('click', () => next(nextStep));
+    node.querySelector('[data-next]')?.addEventListener('click', () => next(nextStep));
+    node.querySelectorAll('[data-team-source]').forEach(button => button.addEventListener('click', () => {
+      draft.teamSource = button.dataset.teamSource;
+      draft.category = domainCategoryForSource(draft.teamSource);
+      draft.humanTeamId = '';
+      draft.participantIds = [];
+      draft.teamIndex = 0;
+      draft.candidateIndex = 0;
+      saveDraft(draft);
+      render();
+    }));
+  };
+
+  const renderCustom = () => {
+    const pool = usableTeamsForSource(draft.teamSource);
+    if (!pool.some(team => team.id === draft.humanTeamId)) { next('team'); return; }
+    const counts = supportedCustomCounts(draft, pool.length);
+    if (!counts.includes(draft.count)) draft.count = counts[0] ?? 0;
+    normaliseWizardParticipantIds(draft, pool);
+    if (!draft.participantIds.includes(draft.humanTeamId)) draft.participantIds.unshift(draft.humanTeamId);
+    const selected = draft.participantIds.map(id => pool.find(team => team.id === id)).filter(Boolean);
+    const candidates = pool.filter(team => !draft.participantIds.includes(team.id));
+    draft.candidateIndex = Math.max(0, Math.min(draft.candidateIndex ?? 0, Math.max(0, candidates.length - 1)));
+    const candidate = candidates[draft.candidateIndex] ?? null;
+    const availableSlots = Math.max(0, draft.count - selected.length);
+    const modeValid = draft.opponentMode !== OPPONENT_MODE.MANUAL || selected.length === draft.count;
+    const canContinue = draft.count && modeValid;
+
+    const changeCandidate = offset => {
+      if (!candidates.length) return;
+      draft.candidateIndex = (draft.candidateIndex + offset + candidates.length) % candidates.length;
+      render();
+    };
+    const addCandidate = () => {
+      if (!candidate || selected.length >= draft.count) return;
+      draft.participantIds = [...draft.participantIds, candidate.id];
+      draft.candidateIndex = 0;
+      saveDraft(draft);
+      render();
+    };
+
+    node.innerHTML = `${headerMarkup(draft, step)}<section class="tx-section"><div class="tx-section-title"><h2>Kupa neve</h2><button class="tx-help" type="button" data-name-help aria-label="Névsúgó">?</button></div><label class="tx-form-row"><span>Legfeljebb 32 karakter</span><input type="text" maxlength="32" data-name value="${escapeHtml(draft.name)}" placeholder="Saját kupa"></label><p class="tx-info" data-name-info hidden>Üres név esetén a játék a „Saját kupa” elnevezést használja. A hosszkorlát megakadályozza a kártyák szétesését.</p></section><section class="tx-section"><h2>Résztvevő csapatok száma</h2><div class="tx-choice-grid">${counts.map(count => `<button type="button" class="tx-choice tx-count-card ${draft.count === count ? 'is-selected' : ''}" data-count="${count}"><strong>${count} csapat</strong><small>${estimatedRounds(draft.format, count)} forduló · körülbelül ${Math.round(estimatedMatches(draft.format, count))} mérkőzés</small></button>`).join('')}</div></section><section class="tx-section"><h2>Torna formátuma</h2><div class="tx-choice-grid">${[[TOURNAMENT_FORMAT.KNOCKOUT,'Kieséses torna','Egymeccses párharcok'],[TOURNAMENT_FORMAT.LEAGUE,'Bajnoki rendszer','Mindenki játszik mindenkivel'],[TOURNAMENT_FORMAT.GROUP_KNOCKOUT,'Csoportkör és kiesés','Csoportok után kupaág']].map(([value,label,description]) => `<button type="button" class="tx-choice ${draft.format === value ? 'is-selected' : ''}" data-format="${value}"><b>${label}</b><small>${description}</small></button>`).join('')}</div></section><section class="tx-section"><h2>Ellenfelek kiválasztása</h2><div class="tx-choice-grid">${[[OPPONENT_MODE.RANDOM,'Minden ellenfél véletlenszerű','A rendszer tölti fel a teljes mezőnyt.'],[OPPONENT_MODE.MANUAL,'Kézi kiválasztás','Minden csapatot te adsz hozzá.'],[OPPONENT_MODE.MIXED,'Vegyes kiválasztás','Néhány csapatot kiválasztasz, a többit a gép tölti fel.']].map(([value,label,description]) => `<button type="button" class="tx-choice ${draft.opponentMode === value ? 'is-selected' : ''}" data-opponent-mode="${value}"><b>${label}</b><small>${description}</small></button>`).join('')}</div>${draft.opponentMode === OPPONENT_MODE.RANDOM ? '<p class="tx-info">A saját csapat automatikusan bekerül, a többi helyet a rendszer egyedi csapatokkal tölti fel.</p>' : `<div class="tx-field-layout"><div class="tx-selected-teams"><div class="tx-section-title"><h3>Kiválasztott résztvevők</h3><span class="tx-slot-counter">Résztvevők: ${selected.length} / ${draft.count}</span></div>${selected.map(team => `<div class="tx-selected-team">${teamMark(team)}<span><b>${escapeHtml(team.label)}</b><small>${team.id === draft.humanTeamId ? 'Saját csapat' : 'Ellenfél'}</small></span>${team.id === draft.humanTeamId ? '<span>✓</span>' : `<button type="button" class="btn btn--ghost" data-remove-team="${escapeHtml(team.id)}" aria-label="${escapeHtml(team.label)} eltávolítása">×</button>`}</div>`).join('')}</div><div class="tx-candidate"><h3>Új ellenfél</h3>${candidate ? `${teamMark(candidate)}<b>${escapeHtml(candidate.label)}</b><small>${Number(candidate.count) || 0} kártya</small><div class="tx-candidate-nav"><button class="btn btn--ghost" type="button" data-candidate-prev aria-label="Előző jelölt">‹</button><button class="btn" type="button" data-add-candidate ${availableSlots ? '' : 'disabled'}>Hozzáadás</button><button class="btn btn--ghost" type="button" data-candidate-next aria-label="Következő jelölt">›</button></div>` : '<p>Minden elérhető csapat szerepel a mezőnyben.</p>'}</div></div>${draft.opponentMode === OPPONENT_MODE.MIXED ? `<p class="tx-info">Még ${availableSlots} helyet a rendszer tölt fel véletlenszerűen.</p>` : ''}`}</section><section class="tx-section"><h2>Kupa megjelenése</h2><div class="tx-field-layout"><div class="tx-trophy-stage" data-pattern="${escapeHtml(draft.trophyPattern)}">${trophyMarkup(trophyPresentation(draft))}<small>Az előnézet azonnal frissül.</small></div><div class="tx-trophy-options"><div><h3>Forma</h3><div class="tx-choice-grid">${TROPHY_STYLES.map(item => `<button type="button" class="tx-choice ${draft.trophyStyle === item.key ? 'is-selected' : ''}" data-trophy-style="${item.key}"><b>${escapeHtml(item.label)}</b></button>`).join('')}</div></div><div><h3>Kiemelőszín</h3><div class="tx-color-options">${TROPHY_ACCENTS.map(item => `<button type="button" class="tx-color ${draft.trophyAccent === item.key ? 'is-selected' : ''}" data-trophy-accent="${item.key}" style="--swatch:${item.key === 'gold' ? '#d8a93f' : item.key === 'silver' ? '#bdc6cc' : item.key === 'bronze' ? '#a96b36' : item.key === 'crimson' ? '#a73948' : '#2f8a55'}" aria-label="${escapeHtml(item.label)}"></button>`).join('')}</div></div><div><h3>Háttérminta</h3><div class="tx-choice-grid">${TROPHY_PATTERNS.map(item => `<button type="button" class="tx-choice ${draft.trophyPattern === item.key ? 'is-selected' : ''}" data-trophy-pattern="${item.key}"><b>${escapeHtml(item.label)}</b></button>`).join('')}</div></div></div></div></section><section class="tx-section"><h2>Játékmenet</h2><div class="tx-choice-grid">${[[TOURNAMENT_MATCH_MODE.CLASSIC,'Klasszikus','Kártyás összehasonlító mérkőzés'],[TOURNAMENT_MATCH_MODE.PENALTIES,'Büntetőpárbaj','Gyors, 11 lapos párbaj']].map(([value,label,description]) => `<button type="button" class="tx-choice ${draft.matchMode === value ? 'is-selected' : ''}" data-match-mode="${value}"><b>${label}</b><small>${description}</small></button>`).join('')}</div><div class="tx-choice-grid">${[['easy','Könnyű'],['medium','Normál'],['hard','Nehéz']].map(([value,label]) => `<button type="button" class="tx-choice ${draft.difficulty === value ? 'is-selected' : ''}" data-difficulty="${value}"><b>${label}</b></button>`).join('')}</div></section><div class="tx-actions"><button class="btn btn--ghost" type="button" data-back>Vissza a csapatválasztáshoz</button><button class="btn tx-actions__primary" type="button" data-next ${canContinue ? '' : 'disabled'}>Beállítások mentése és tovább</button></div>`;
+
+    node.querySelector('[data-name]')?.addEventListener('input', event => { draft.name = event.target.value.slice(0, 32); saveDraft(draft); });
+    node.querySelector('[data-name-help]')?.addEventListener('click', () => { const info = node.querySelector('[data-name-info]'); if (info) info.hidden = !info.hidden; });
+    node.querySelectorAll('[data-count]').forEach(button => button.addEventListener('click', () => {
+      draft.count = Number(button.dataset.count);
+      draft.participantIds = [draft.humanTeamId, ...draft.participantIds.filter(id => id !== draft.humanTeamId)].slice(0, draft.count);
+      saveDraft(draft); render();
+    }));
+    node.querySelectorAll('[data-format]').forEach(button => button.addEventListener('click', () => {
+      draft.format = button.dataset.format;
+      draft.participantIds = [draft.humanTeamId];
+      saveDraft(draft); render();
+    }));
+    node.querySelectorAll('[data-opponent-mode]').forEach(button => button.addEventListener('click', () => {
+      draft.opponentMode = button.dataset.opponentMode;
+      if (draft.opponentMode === OPPONENT_MODE.RANDOM) draft.participantIds = [draft.humanTeamId];
+      saveDraft(draft); render();
+    }));
+    node.querySelectorAll('[data-remove-team]').forEach(button => button.addEventListener('click', () => {
+      draft.participantIds = draft.participantIds.filter(id => id !== button.dataset.removeTeam);
+      draft.candidateIndex = 0; saveDraft(draft); render();
+    }));
+    node.querySelector('[data-candidate-prev]')?.addEventListener('click', () => changeCandidate(-1));
+    node.querySelector('[data-candidate-next]')?.addEventListener('click', () => changeCandidate(1));
+    node.querySelector('[data-add-candidate]')?.addEventListener('click', addCandidate);
+    node.querySelectorAll('[data-trophy-style]').forEach(button => button.addEventListener('click', () => { draft.trophyStyle = button.dataset.trophyStyle; saveDraft(draft); render(); }));
+    node.querySelectorAll('[data-trophy-accent]').forEach(button => button.addEventListener('click', () => { draft.trophyAccent = button.dataset.trophyAccent; saveDraft(draft); render(); }));
+    node.querySelectorAll('[data-trophy-pattern]').forEach(button => button.addEventListener('click', () => { draft.trophyPattern = button.dataset.trophyPattern; saveDraft(draft); render(); }));
+    node.querySelectorAll('[data-match-mode]').forEach(button => button.addEventListener('click', () => { draft.matchMode = button.dataset.matchMode; saveDraft(draft); render(); }));
+    node.querySelectorAll('[data-difficulty]').forEach(button => button.addEventListener('click', () => { draft.difficulty = button.dataset.difficulty; saveDraft(draft); render(); }));
+    node.querySelector('[data-next]')?.addEventListener('click', () => next('summary'));
+  };
+
+  const renderSummary = () => {
+    const preset = presetFor(draft.type);
+    const pool = usableTeamsForSource(draft.teamSource);
+    const human = pool.find(team => team.id === draft.humanTeamId);
+    const participants = participantsForDraft(draft);
+    const errors = validationErrors(draft);
+    const name = safeTournamentName(draft.name, preset.title);
+
+    const start = () => {
+      try {
+        const state = saveAndVerifyTournament(createConfiguredTournament(draft));
+        clearDraft();
+        runtime.wizard = null;
+        showDrawScene(state, returnPanel);
+      } catch (error) {
+        console.error('[tournament-experience-v2] A torna nem indítható:', error);
+        globalThis.alert?.(error.message || 'A torna nem indítható el.');
+      }
+    };
+
+    const confirmOverwrite = () => {
+      const stored = tournamentStorageService.read();
+      if (!stored?.id || stored.status !== TOURNAMENT_STATUS.ACTIVE) { start(); return; }
+      node.innerHTML = `${headerMarkup(draft, step)}<section class="tx-section"><p class="eyebrow">Aktív torna</p><h2>Az új torna felülírja a jelenlegi mentést.</h2><div class="tx-summary-grid"><div class="tx-summary-item"><small>Jelenlegi torna</small><strong>${escapeHtml(stored.name)}</strong></div><div class="tx-summary-item"><small>Állapot</small><strong>${escapeHtml(tournamentProgress(stored).percent)}% kész</strong></div></div><p class="tx-warning">A jelenlegi torna eredményei az új torna indítása után nem folytathatók.</p></section><div class="tx-actions"><button class="btn btn--ghost" type="button" data-cancel>Mégse</button><button class="btn" type="button" data-continue-current>Jelenlegi torna folytatása</button><button class="btn btn--danger tx-actions__primary" type="button" data-replace>Új torna indítása</button></div>`;
+      node.querySelector('[data-cancel]')?.addEventListener('click', render);
+      node.querySelector('[data-continue-current]')?.addEventListener('click', () => {
+        runtime.wizard = null;
+        globalThis.FociskartyakTournament?.showCenter?.(stored, returnPanel);
+      });
+      node.querySelector('[data-replace]')?.addEventListener('click', start);
+      wireCommon();
+    };
+
+    node.innerHTML = `${headerMarkup(draft, step)}${errors.length ? `<p class="tx-warning">${errors.map(escapeHtml).join('<br>')}</p>` : ''}<section class="tx-summary-hero" data-pattern="${escapeHtml(draft.trophyPattern)}">${trophyMarkup(trophyPresentation(draft))}<div><p class="eyebrow">Indítás előtti összefoglaló</p><h2>${escapeHtml(name)}</h2><p>${escapeHtml(preset.description)}</p><div class="tx-summary-grid">${[
+      ['Kategória', LOCATION_LABELS[draft.location]],
+      ['Sorozat', preset.title],
+      ['Saját csapat', human?.label || 'Nincs'],
+      ['Résztvevők', `${draft.count} csapat`],
+      ['Tornaformátum', formatLabel(draft.format)],
+      ['Fordulók', `${estimatedRounds(draft.format, draft.count)}`],
+      ['Várható mérkőzések', `${Math.round(estimatedMatches(draft.format, draft.count))}`],
+      ['Mérkőzésmód', matchModeLabel(draft.matchMode)],
+      ['Nehézség', difficultyLabel(draft.difficulty)],
+      ['Ellenfelek', draft.type === 'custom' ? (draft.opponentMode === OPPONENT_MODE.RANDOM ? 'Véletlenszerű' : draft.opponentMode === OPPONENT_MODE.MANUAL ? 'Kézi' : 'Vegyes') : 'Sorozatszabály szerint'],
+    ].map(([label, value]) => `<div class="tx-summary-item"><small>${escapeHtml(label)}</small><strong>${escapeHtml(value)}</strong></div>`).join('')}</div></div></section><section class="tx-section"><h2>Résztvevő csapatok</h2><div class="tx-participant-chips">${participants.map(team => `<span class="tx-participant-chip">${escapeHtml(team.label)}</span>`).join('')}</div></section><div class="tx-actions"><button class="btn btn--ghost" type="button" data-back>Vissza és módosítás</button><button class="btn tx-actions__primary" type="button" data-start ${errors.length ? 'disabled' : ''}>Torna indítása</button></div>`;
+    node.querySelector('[data-start]')?.addEventListener('click', confirmOverwrite);
+  };
+
+  const render = () => {
+    node.classList.add('tournament-experience-v2');
+    if (step === 'type') renderType();
+    else if (step === 'team') renderTeam();
+    else if (step === 'custom') renderCustom();
+    else renderSummary();
+    wireCommon();
+    saveDraft(draft);
+  };
+
+  render();
+  showPanel(node);
+}
+
+
+/** Torna menü-, központ-, forduló- és lezárásélmény. */
+
+
+
+function describeResume(state) {
+  const next = tournamentNextHumanMatch(state);
+  const round = next ? tournamentRoundForMatch(state, next.id) : null;
+  const opponentId = next ? (next.homeId === state.humanTeamId ? next.awayId : next.homeId) : null;
+  const opponent = tournamentTeamById(state, opponentId);
+  return {
+    stage: round?.label || state.phase || 'Következő forduló',
+    opponent: opponent?.label || '',
+    progress: tournamentProgress(state),
+  };
+}
+
+function patchMenu(panel) {
+  if (!panel) return;
+  panel.dataset.tournamentExperienceV2 = 'true';
+  const button = panel.querySelector('#tournament-mode-btn');
+  if (!button) return;
+  const stored = tournamentStorageService.read();
+  const resume = stored?.status === TOURNAMENT_STATUS.ACTIVE ? describeResume(stored) : null;
+  const stateKey = resume
+    ? `active:${stored.id}:${stored.updatedAt ?? ''}:${resume.stage}:${resume.opponent}`
+    : 'new';
+  if (button.dataset.experienceV2 === 'true' && button.dataset.experienceState === stateKey) return;
+
+  const replacement = button.cloneNode(true);
+  replacement.dataset.experienceV2 = 'true';
+  replacement.dataset.experienceState = stateKey;
+  button.replaceWith(replacement);
+  panel.querySelector('.tournament-new-button-v2')?.remove();
+
+  if (resume) {
+    replacement.innerHTML = `<span>▶ Torna folytatása</span><small>${escapeHtml(stored.name)} · ${escapeHtml(resume.stage)}${resume.opponent ? ` · Következő: ${escapeHtml(resume.opponent)}` : ''}</small>`;
+    replacement.addEventListener('click', () => globalThis.FociskartyakTournament?.showCenter?.(tournamentStorageService.read() ?? stored, panel));
+    const newButton = document.createElement('button');
+    newButton.type = 'button';
+    newButton.className = 'btn btn--ghost tournament-new-button-v2';
+    newButton.textContent = '＋ Új torna';
+    newButton.addEventListener('click', () => showExperienceWizard(panel, null, 'type'));
+    replacement.after(newButton);
+  } else {
+    replacement.innerHTML = '<span>🏆 Új torna</span><small>Magyarország, nemzetközi vagy saját kupa</small>';
+    replacement.addEventListener('click', () => showExperienceWizard(panel, null, 'type'));
+  }
+}
+
+function stateTrophy(state) {
+  return state?.configuration?.trophy ?? {
+    style: presetFor(state?.tournamentType).trophyStyle,
+    accent: presetFor(state?.tournamentType).trophyAccent,
+    pattern: presetFor(state?.tournamentType).trophyPattern,
+  };
+}
+
+function enhanceBracket(center) {
+  const bracket = center?.querySelector('.tournament-bracket');
+  if (!bracket || bracket.dataset.experienceV2 === 'true') return;
+  bracket.dataset.experienceV2 = 'true';
+  const rounds = [...bracket.querySelectorAll('.tournament-bracket__round')];
+  if (!rounds.length) return;
+  const nav = document.createElement('nav');
+  nav.className = 'tx-bracket-round-nav';
+  nav.setAttribute('aria-label', 'Fordulóválasztó');
+  const selectRound = index => {
+    rounds.forEach((round, roundIndex) => round.classList.toggle('is-mobile-active', roundIndex === index));
+    [...nav.querySelectorAll('button')].forEach((button, buttonIndex) => {
+      button.classList.toggle('is-active', buttonIndex === index);
+      button.setAttribute('aria-selected', buttonIndex === index ? 'true' : 'false');
+    });
+    rounds[index]?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  };
+  rounds.forEach((round, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = round.querySelector('h3')?.textContent?.trim() || `${index + 1}. forduló`;
+    button.addEventListener('click', () => selectRound(index));
+    nav.appendChild(button);
+  });
+  bracket.before(nav);
+  selectRound(Math.max(0, rounds.findIndex(round => round.querySelector('.is-human'))));
+}
+
+function simplifyCenterOverview(center) {
+  const overview = center.querySelector('[data-content="overview"]');
+  if (!overview || overview.dataset.experienceV2 === 'true') return;
+  overview.dataset.experienceV2 = 'true';
+  const selected = overview.querySelector('.tournament-selected-team');
+  const heading = overview.querySelector('h2');
+  if (heading) heading.textContent = 'Saját csapat állapota';
+  overview.querySelectorAll('.tournament-results-list,.tournament-empty').forEach(node => node.remove());
+  if (!selected) overview.innerHTML = '<p class="tournament-empty">A következő mérkőzés fent látható.</p>';
+}
+
+function enhanceCenter(center) {
+  if (!center || center.dataset.experienceV2 === 'true') return;
+  const state = tournamentStorageService.read();
+  if (!state || state.status !== TOURNAMENT_STATUS.ACTIVE) return;
+  center.dataset.experienceV2 = 'true';
+  const next = tournamentNextHumanMatch(state);
+  const round = next ? tournamentRoundForMatch(state, next.id) : null;
+  const progress = tournamentProgress(state);
+  const human = tournamentTeamById(state, state.humanTeamId);
+  const trophy = stateTrophy(state);
+  const status = document.createElement('section');
+  status.className = 'tx-center-status';
+  status.innerHTML = `${trophyMarkup(trophy, true)}<div><small>${escapeHtml(state.tournamentType === 'custom' ? 'Saját kupa' : presetFor(state.tournamentType).title)}</small><strong>${escapeHtml(state.name)}</strong><span>${escapeHtml(round?.label || state.phase || 'Aktív torna')} · ${escapeHtml(human?.label || '')}</span></div><div class="tx-center-progress"><b>${progress.percent}%</b><span>${progress.completed} mérkőzés kész</span></div>`;
+  center.prepend(status);
+
+  const tabs = center.querySelector('.tournament-tabs');
+  const overviewButton = tabs?.querySelector('[data-tab="overview"]');
+  const resultsButton = tabs?.querySelector('[data-tab="results"]');
+  const tableButton = tabs?.querySelector('[data-tab="table"]');
+  const bracketButton = tabs?.querySelector('[data-tab="bracket"]');
+  const playersButton = tabs?.querySelector('[data-tab="players"]');
+  if (overviewButton) overviewButton.textContent = 'Következő mérkőzés';
+  if (resultsButton) resultsButton.textContent = 'Eredmények';
+  playersButton?.remove();
+  center.querySelector('[data-content="players"]')?.remove();
+  const structureButton = state.format === TOURNAMENT_FORMAT.LEAGUE || state.phase === 'group' ? tableButton : bracketButton;
+  const unusedStructure = structureButton === tableButton ? bracketButton : tableButton;
+  if (structureButton) structureButton.textContent = structureButton === tableButton ? 'Tabella' : 'Tornaág';
+  unusedStructure?.remove();
+  if (tabs && overviewButton && structureButton && resultsButton) tabs.replaceChildren(overviewButton, structureButton, resultsButton);
+  simplifyCenterOverview(center);
+
+  const nextCard = center.querySelector('.tournament-next-match');
+  if (nextCard && fold(round?.label).includes('donto')) {
+    const banner = document.createElement('section');
+    banner.className = 'tx-final-banner';
+    banner.innerHTML = `${trophyMarkup(trophy, true)}<strong>A döntő következik</strong><span>A kupa egyetlen mérkőzésre van.</span>`;
+    nextCard.before(banner);
+    const play = nextCard.querySelector('#tournament-play,.tournament-match-intro-trigger');
+    if (play) play.textContent = 'Döntő indítása';
+  }
+
+  const actions = center.querySelector('.tournament-actions--secondary');
+  if (actions) {
+    const save = actions.querySelector('#tournament-save');
+    const home = actions.querySelector('#tournament-center-home');
+    const abandon = actions.querySelector('#tournament-abandon');
+    save?.remove();
+    const details = document.createElement('details');
+    details.className = 'tx-center-secondary';
+    details.innerHTML = '<summary>További lehetőségek</summary><div class="tx-center-secondary__actions"></div>';
+    const target = details.querySelector('div');
+    if (home) target.appendChild(home);
+    if (abandon) target.appendChild(abandon);
+    actions.replaceWith(details);
+  }
+  enhanceBracket(center);
+}
+
+function enhanceResultPanel(panel) {
+  if (!panel || panel.dataset.experienceV2 === 'true' || !panel.classList.contains('result-panel--tournament')) return;
+  const state = tournamentStorageService.read();
+  if (!state) return;
+  panel.dataset.experienceV2 = 'true';
+  const next = tournamentNextHumanMatch(state);
+  const round = next ? tournamentRoundForMatch(state, next.id) : null;
+  const opponentId = next ? (next.homeId === state.humanTeamId ? next.awayId : next.homeId) : null;
+  const opponent = tournamentTeamById(state, opponentId);
+  const heading = fold(panel.querySelector('h1')?.textContent);
+  const won = heading.includes('gyozelem');
+  const lost = heading.includes('vereseg');
+  const complete = state.status === TOURNAMENT_STATUS.COMPLETE;
+  const title = complete
+    ? (state.championId === state.humanTeamId ? 'Tornagyőztes!' : 'A torna számodra véget ért')
+    : won ? (round?.label ? 'Bejutottál a következő szakaszba!' : 'Győzelemmel folytatod!')
+      : lost ? 'A torna számodra véget ért' : 'A forduló lezárult';
+  const detail = complete ? 'Nézd meg a végső helyezést és a torna összesítését.'
+    : opponent ? `Következő ellenfeled: ${opponent.label}`
+      : round?.label ? `Következő szakasz: ${round.label}` : 'A tornaállapot automatikusan elmentve.';
+  const transition = document.createElement('section');
+  transition.className = 'tx-round-transition';
+  transition.innerHTML = `${trophyMarkup(stateTrophy(state), true)}<div><h2>${escapeHtml(title)}</h2><p>${escapeHtml(detail)}</p></div>`;
+  const actions = panel.querySelector('.result-actions');
+  (actions ?? panel.firstElementChild)?.before?.(transition);
+}
+
+function enhanceComplete(panel) {
+  if (!panel || panel.dataset.experienceV2 === 'true') return;
+  const state = tournamentStorageService.read();
+  if (!state || state.status !== TOURNAMENT_STATUS.COMPLETE) return;
+  panel.dataset.experienceV2 = 'true';
+  const champion = tournamentTeamById(state, state.championId);
+  const won = state.championId === state.humanTeamId;
+  panel.querySelectorAll(':scope > p.eyebrow,:scope > h1').forEach(node => node.remove());
+  const hero = document.createElement('section');
+  hero.className = 'tx-complete-hero';
+  hero.innerHTML = `${trophyMarkup(stateTrophy(state))}<p class="eyebrow">${escapeHtml(state.name)}</p><h1>${won ? 'Tornagyőztes!' : 'A torna véget ért'}</h1><p>${escapeHtml(champion?.label || 'Ismeretlen csapat')} lett a bajnok.</p>`;
+  panel.prepend(hero);
+  const detailedNodes = [...panel.children].filter(node =>
+    node !== hero
+    && !node.classList.contains('tournament-actions')
+    && !node.classList.contains('tournament-champion')
+  );
+  if (detailedNodes.length) {
+    const details = document.createElement('details');
+    details.className = 'tx-complete-details';
+    details.innerHTML = '<summary>Részletes tornaeredmények és játékosstatisztikák</summary>';
+    detailedNodes.forEach(node => details.appendChild(node));
+    const actions = panel.querySelector('.tournament-actions');
+    if (actions) actions.before(details); else panel.appendChild(details);
+  }
+  const newTournament = panel.querySelector('#tournament-new');
+  if (newTournament) {
+    const replacement = newTournament.cloneNode(true);
+    newTournament.replaceWith(replacement);
+    replacement.addEventListener('click', () => showExperienceWizard(null, null, 'type'));
+  }
+}
+
+function refreshExperience() {
+  ensureExperienceStyle();
+  patchMenu(document.querySelector('.menu-panel.mobile-home'));
+  enhanceCenter(document.querySelector('.tournament-center'));
+  enhanceBracket(document.querySelector('.tournament-center'));
+  enhanceResultPanel(document.querySelector('.result-panel--tournament'));
+  enhanceComplete(document.querySelector('.tournament-complete'));
+}
+
+function installTournamentExperienceV2() {
+  ensureExperienceStyle();
+  if (globalThis.__FOCISKARTYAK_TOURNAMENT_EXPERIENCE_V2__) return globalThis.__FOCISKARTYAK_TOURNAMENT_EXPERIENCE_V2__;
+  const observer = new MutationObserver(refreshExperience);
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+  globalThis.__FOCISKARTYAK_TOURNAMENT_EXPERIENCE_V2__ = observer;
+  globalThis.FociskartyakTournamentExperience = Object.freeze({
+    show: returnPanel => showExperienceWizard(returnPanel),
+    version: EXPERIENCE_VERSION,
+    refresh: refreshExperience,
+  });
+  refreshExperience();
+  return observer;
+}
+
+
+/** Fociskártyák 2026 – Torna mód v2 élményréteg. */
+
+if (!document.getElementById('tournament-experience-v2-compat-style')) {
+  const style = document.createElement('style');
+  style.id = 'tournament-experience-v2-compat-style';
+  style.textContent = `
+    .menu-panel[data-tournament-experience-v2="true"] .tournament-continue-button{display:none!important}
+    @media(max-width:520px){
+      .tournament-center[data-experience-v2="true"] .tournament-table th:nth-child(4),
+      .tournament-center[data-experience-v2="true"] .tournament-table td:nth-child(4),
+      .tournament-center[data-experience-v2="true"] .tournament-table th:nth-child(5),
+      .tournament-center[data-experience-v2="true"] .tournament-table td:nth-child(5),
+      .tournament-center[data-experience-v2="true"] .tournament-table th:nth-child(6),
+      .tournament-center[data-experience-v2="true"] .tournament-table td:nth-child(6),
+      .tournament-center[data-experience-v2="true"] .tournament-table th:nth-child(7),
+      .tournament-center[data-experience-v2="true"] .tournament-table td:nth-child(7){display:none}
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+const swipeEnhanced = new WeakSet();
+function addHorizontalSwipe(node, onPrevious, onNext) {
+  if (!node || swipeEnhanced.has(node)) return;
+  swipeEnhanced.add(node);
+  let startX = null;
+  node.addEventListener('touchstart', event => {
+    startX = event.touches?.[0]?.clientX ?? null;
+  }, { passive: true });
+  node.addEventListener('touchend', event => {
+    if (startX === null) return;
+    const endX = event.changedTouches?.[0]?.clientX ?? startX;
+    const delta = endX - startX;
+    startX = null;
+    if (Math.abs(delta) < 42) return;
+    if (delta > 0) onPrevious(); else onNext();
+  }, { passive: true });
+}
+
+function enhanceTournamentSwipes() {
+  document.querySelectorAll('.tx-team-carousel').forEach(carousel => {
+    addHorizontalSwipe(
+      carousel,
+      () => carousel.querySelector('[data-team-prev]')?.click?.(),
+      () => carousel.querySelector('[data-team-next]')?.click?.(),
+    );
+  });
+  document.querySelectorAll('.tournament-center[data-experience-v2="true"] .tournament-bracket').forEach(bracket => {
+    addHorizontalSwipe(bracket, () => {
+      const buttons = [...bracket.previousElementSibling?.querySelectorAll?.('button') ?? []];
+      const active = Math.max(0, buttons.findIndex(button => button.classList.contains('is-active')));
+      buttons[Math.max(0, active - 1)]?.click?.();
+    }, () => {
+      const buttons = [...bracket.previousElementSibling?.querySelectorAll?.('button') ?? []];
+      const active = Math.max(0, buttons.findIndex(button => button.classList.contains('is-active')));
+      buttons[Math.min(buttons.length - 1, active + 1)]?.click?.();
+    });
+  });
+}
+
+const swipeObserver = new MutationObserver(enhanceTournamentSwipes);
+swipeObserver.observe(document.documentElement, { childList: true, subtree: true });
+enhanceTournamentSwipes();
+
+installTournamentExperienceV2();
 
 }
 
