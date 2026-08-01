@@ -22,6 +22,7 @@ function describeResume(state) {
 
 function patchMenu(panel) {
   if (!panel) return;
+  panel.dataset.tournamentExperienceV2 = 'true';
   const button = panel.querySelector('#tournament-mode-btn');
   if (!button) return;
   const stored = tournamentStorageService.read();
@@ -35,7 +36,6 @@ function patchMenu(panel) {
   replacement.dataset.experienceV2 = 'true';
   replacement.dataset.experienceState = stateKey;
   button.replaceWith(replacement);
-  panel.querySelector('.tournament-continue-button')?.remove();
   panel.querySelector('.tournament-new-button-v2')?.remove();
 
   if (resume) {
@@ -193,6 +193,7 @@ function enhanceComplete(panel) {
   panel.dataset.experienceV2 = 'true';
   const champion = tournamentTeamById(state, state.championId);
   const won = state.championId === state.humanTeamId;
+  panel.querySelectorAll(':scope > p.eyebrow,:scope > h1').forEach(node => node.remove());
   const hero = document.createElement('section');
   hero.className = 'tx-complete-hero';
   hero.innerHTML = `${trophyMarkup(stateTrophy(state))}<p class="eyebrow">${escapeHtml(state.name)}</p><h1>${won ? 'Tornagyőztes!' : 'A torna véget ért'}</h1><p>${escapeHtml(champion?.label || 'Ismeretlen csapat')} lett a bajnok.</p>`;
@@ -201,7 +202,6 @@ function enhanceComplete(panel) {
     node !== hero
     && !node.classList.contains('tournament-actions')
     && !node.classList.contains('tournament-champion')
-    && !node.matches('p.eyebrow,h1')
   );
   if (detailedNodes.length) {
     const details = document.createElement('details');
@@ -210,6 +210,12 @@ function enhanceComplete(panel) {
     detailedNodes.forEach(node => details.appendChild(node));
     const actions = panel.querySelector('.tournament-actions');
     if (actions) actions.before(details); else panel.appendChild(details);
+  }
+  const newTournament = panel.querySelector('#tournament-new');
+  if (newTournament) {
+    const replacement = newTournament.cloneNode(true);
+    newTournament.replaceWith(replacement);
+    replacement.addEventListener('click', () => showExperienceWizard(null, null, 'type'));
   }
 }
 
