@@ -50,6 +50,13 @@ assert.match(flow, /pushState[\s\S]*TOURNAMENT_HISTORY_KEY/, 'A tornaoverlay hoz
 assert.match(flow, /addEventListener\?\.\('popstate', handler/, 'A rendszer-vissza popstate eseménye legyen kezelve.');
 assert.doesNotMatch(flow, /originalHome\.click\(\)/, 'A tornaeredmény navigációja ne függjön korábbi DOM-elem kattintásától.');
 
+assert.match(flow, /function launchPreparedMatch\(/, 'A kézi és véletlen keret ugyanazt a megbízható meccsindítást használja.');
+assert.match(flow, /deckRuntime\.stageQuickMatch\([\s\S]*navigateToStagedMatch\(trigger\)/, 'A párbaj csak sikeres előkészítés után navigáljon a játéktérre.');
+assert.match(flow, /searchParams\.set\(MATCH_LAUNCH_QUERY_KEY/, 'Az Android WebView kapjon új URL-lekérést a meccs indulásakor.');
+assert.match(flow, /enhanceLineup\(document\.querySelector\('\.tournament-lineup'\)\)/, 'A kézi keret Meccs indítása gombját a javított indító kezelje.');
+assert.match(flow, /enhanceTournamentKickoff\(document\.querySelector\('\.penalty-intro #kickoff-btn'\)\)/, 'A torna büntetőpárbaja ne akadjon meg a második indítóképernyőn.');
+assert.match(flow, /Párbaj indítása…/, 'A felhasználó kapjon egyértelmű indítási visszajelzést.');
+
 assert.match(standalone, /RAPID_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a tornafejlesztési modult.');
 assert.match(standalone, /FLOW_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a többlépcsős tornaválasztást.');
 assert.match(standalone, /FociskartyakDeckSelectionRuntime/, 'Az egyfájlos build tegye elérhetővé a pakliválasztó futtatókörnyezetet.');
