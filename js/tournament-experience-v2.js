@@ -107,10 +107,10 @@ function showCupSelectorV3(returnPanel = null, suppliedDraft = null) {
   const node = makePanel('tournament-experience-v2 tx-cup-selector-v3');
   const exit = () => { runtime.wizard = null; returnPanel ? showPanel(returnPanel) : closeTournamentLayers(); };
   const cycle = offset => {
-    const options = cupOptions(draft.location);
+    const options = cupOptions(draft.location).filter(item => !item.saved || savedCustom);
     const index = Math.max(0, options.findIndex(item => item.k === selected.k));
-    selected = options[(index + offset + options.length) % options.length];
-    choose(selected);
+    const candidate = options[(index + offset + options.length) % options.length];
+    if (candidate) choose(candidate);
   };
   const choose = item => {
     if (item.saved) {
@@ -126,10 +126,11 @@ function showCupSelectorV3(returnPanel = null, suppliedDraft = null) {
     selected = cupSelected(draft);
     if (selected.saved && savedCustom) selected = { ...selected, n:draft.name || selected.n, f:draft.format, c:draft.count, s:draft.trophyStyle, a:draft.trophyAccent, p:draft.trophyPattern };
     const options = cupOptions(draft.location);
-    const index = Math.max(0, options.findIndex(item => item.k === selected.k));
-    const previous = options[(index - 1 + options.length) % options.length];
-    const next = options[(index + 1) % options.length];
-    const carousel = options.length > 1;
+    const carouselOptions = options.filter(item => !item.saved || savedCustom);
+    const index = Math.max(0, carouselOptions.findIndex(item => item.k === selected.k));
+    const previous = carouselOptions[(index - 1 + carouselOptions.length) % carouselOptions.length];
+    const next = carouselOptions[(index + 1) % carouselOptions.length];
+    const carousel = carouselOptions.length > 1;
     node.innerHTML = `<header class="tx-cup-head"><div class="tx-cup-top"><button class="tx-cup-icon-btn" data-exit aria-label="Vissza">‹</button><div><p class="eyebrow">Új versenysorozat</p><h1>Torna mód</h1></div><button class="tx-cup-icon-btn" data-help aria-label="Súgó">?</button></div>${cupSteps(selected.t === 'custom')}<p class="tx-cup-helptext" data-helptext hidden>Először csak a kupát választod ki. A csapat és a szükséges beállítások külön képernyőn következnek.</p></header>
       <nav class="tx-cup-locations">${Object.values(LOCATION).map(location => `<button class="${draft.location === location ? 'is-active' : ''}" data-location="${location}"><span>${CUP_LOCATION_ICON[location]}</span><b>${escapeHtml(CUP_LOCATION_NAME[location])}</b></button>`).join('')}</nav>
       <section class="tx-cup-stage" aria-live="polite">${carousel ? `<span class="tx-cup-peek left">${cupTrophy(previous,true)}</span><button class="tx-cup-arrow" data-prev aria-label="Előző kupa">‹</button>` : '<span></span>'}<div class="tx-cup-main">${cupTrophy(selected)}<h2>${escapeHtml(selected.n)}</h2><p>${escapeHtml(selected.d)}</p><div class="tx-cup-meta"><span>🏆 <b>Típus:</b> ${escapeHtml(cupFormat(selected.f))}</span><span>👥 <b>Csapatok:</b> ${selected.c}</span></div></div>${carousel ? `<button class="tx-cup-arrow" data-next-series aria-label="Következő kupa">›</button><span class="tx-cup-peek right">${cupTrophy(next,true)}</span>` : '<span></span>'}</section>
@@ -144,7 +145,8 @@ function showCupSelectorV3(returnPanel = null, suppliedDraft = null) {
     if (carousel) addHorizontalSwipe(node.querySelector('.tx-cup-stage'), () => cycle(-1), () => cycle(1));
   };
   node.addEventListener('keydown', event => {
-    if (!['ArrowLeft','ArrowRight'].includes(event.key) || event.target?.matches?.('input,select,textarea') || cupOptions(draft.location).length < 2) return;
+    if (!['ArrowLeft','ArrowRight'].includes(event.key) || event.target?.matches?.('input,select,textarea')
+      || cupOptions(draft.location).filter(item => !item.saved || savedCustom).length < 2) return;
     event.preventDefault(); cycle(event.key === 'ArrowLeft' ? -1 : 1);
   });
   render(); showPanel(node);
