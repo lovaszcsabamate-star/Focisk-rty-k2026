@@ -13,6 +13,7 @@ const flowPaths = [
   '../js/tournament/tournament-experience-v2-wizard.js',
   '../js/tournament/tournament-experience-v2-runtime.js',
   '../js/tournament-experience-v2.js',
+  '../js/tournament/tournament-experience-v2-presets.js',
 ].map(relative => fileURLToPath(new URL(relative, import.meta.url)));
 const flow = flowPaths.map(path => readFileSync(path, 'utf8')).join('\n');
 const bootstrap = readFileSync(new URL('../js/bootstrap.js', import.meta.url), 'utf8');
@@ -28,6 +29,7 @@ for (const flowPath of flowPaths) {
 assert.match(bootstrap, /import\('\.\/tournament-rapid-upgrade\.js'\)/, 'A bootstrap töltse be a fejlesztést.');
 assert.match(bootstrap, /import\('\.\/tournament-flow-upgrade\.js'\)/, 'A bootstrap töltse be a többlépcsős tornaválasztást.');
 assert.match(bootstrap, /import\('\.\/tournament-experience-v2\.js'\)/, 'A bootstrap töltse be a Torna mód v2 élményrétegét.');
+assert.match(bootstrap, /import\('\.\/tournament\/tournament-experience-v2-presets\.js'\)/, 'A bootstrap töltse be a gyors tornaelőbeállításokat.');
 assert.match(source, /GROUP_KNOCKOUT[\s\S]*state\.phase === 'group'[\s\S]*return null;/, 'A csoportkör ne ígérjen hibás győzelemszámot.');
 assert.ok(
   source.indexOf("label.includes('elodont')") < source.indexOf("label === 'donto'"),
@@ -69,6 +71,12 @@ for (const label of ['Magyarország', 'Nemzetközi', 'Saját', 'Tovább a csapat
 for (const label of ['Minden ellenfél véletlenszerű', 'Kézi kiválasztás', 'Vegyes kiválasztás']) {
   assert.match(flow, new RegExp(label), `A Saját kupából hiányzik: ${label}`);
 }
+for (const label of ['Rövid torna', 'Klasszikus torna', 'Hosszú bajnokság']) {
+  assert.match(flow, new RegExp(label), `A Saját kupából hiányzik a gyors előbeállítás: ${label}`);
+}
+assert.match(flow, /FociskartyakTournamentQuickPresets/, 'A gyors előbeállítások kapjanak ellenőrizhető futtatási API-t.');
+assert.match(flow, /aria-live=\"polite\"/, 'A gyors előbeállítás visszajelzése legyen akadálymentesen bemondható.');
+assert.match(flow, /prefers-reduced-motion:reduce/, 'A gyors előbeállítások is tiszteljék a csökkentett mozgást.');
 assert.match(flow, /Elkészült a torna sorsolása/, 'A sorsolás kapjon egyértelmű lezárást.');
 assert.match(flow, /Sorsolás átugrása/, 'A sorsolási jelenet legyen átugorható.');
 assert.match(flow, /configuration:[\s\S]*trophy:[\s\S]*drawPresented:/, 'A kupa megjelenése és a sorsolás állapota legyen a mentett torna része.');
@@ -88,6 +96,8 @@ assert.match(standalone, /FLOW_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza
 assert.match(standalone, /EXPERIENCE_TOURNAMENT_MARKER/, 'Az egyfájlos build ágyazza be a Torna mód v2 élményrétegét.');
 assert.match(standalone, /EXPERIENCE_TOURNAMENT_STYLE_MARKER/, 'Az egyfájlos build ágyazza be a Torna mód v2 stílusát.');
 assert.match(standalone, /FociskartyakDeckSelectionRuntime/, 'Az egyfájlos build tegye elérhetővé a pakliválasztó futtatókörnyezetet.');
+assert.match(standalone, /FociskartyakTournamentQuickPresets/, 'Az egyfájlos build ágyazza be a gyors tornaelőbeállításokat.');
+assert.match(standalone, /tournament-experience-v2-presets\.js/, 'A standalone modul-lista tartalmazza a gyors előbeállításokat.');
 assert.match(standalone, /TOURNAMENT_IIFE_MARKER/, 'A standalone build az eredeti torna-IIFE-t használja.');
 assert.match(standalone, /lastIndexOf\(TOURNAMENT_IIFE_END, mainStart\)/, 'A flow modulokat a torna-IIFE lezárása elé kell beilleszteni.');
 assert.match(standalone, /assertFlowRuntimeScope\(html\)/, 'A standalone build ellenőrizze a flow modulok futtatási hatókörét.');
