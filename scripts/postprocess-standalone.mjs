@@ -22,6 +22,7 @@ const experienceTournamentPaths = [
   path.join(ROOT, 'js/tournament/tournament-experience-v2-wizard.js'),
   path.join(ROOT, 'js/tournament/tournament-experience-v2-runtime.js'),
   path.join(ROOT, 'js/tournament-experience-v2.js'),
+  path.join(ROOT, 'js/tournament/tournament-experience-v2-presets.js'),
 ];
 const MAIN_MARKER = '\n/* ===== js/main.js ===== */';
 const TOURNAMENT_IIFE_MARKER = '/* ===== Torna mód · önálló IIFE ===== */';
@@ -203,6 +204,10 @@ if (!html.includes(FLOW_TOURNAMENT_MARKER)
 if (!html.includes(EXPERIENCE_TOURNAMENT_MARKER)
   || !html.includes(EXPERIENCE_TOURNAMENT_STYLE_MARKER)
   || !html.includes('FociskartyakTournamentExperience')
+  || !html.includes('FociskartyakTournamentQuickPresets')
+  || !html.includes('Rövid torna')
+  || !html.includes('Klasszikus torna')
+  || !html.includes('Hosszú bajnokság')
   || !html.includes('Tovább a csapatválasztáshoz')
   || !html.includes('Elkészült a torna sorsolása')
   || !html.includes('normaliseWizardParticipantIds')) {
