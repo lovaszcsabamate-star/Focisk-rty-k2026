@@ -1,5 +1,6 @@
 /** Fociskártyák 2026 – Torna mód v2 élményréteg. */
 import { installTournamentExperienceV2 } from './tournament/tournament-experience-v2-runtime.js';
+import { installCupSelectorV3 } from './tournament/tournament-cup-selector-v3.js';
 
 if (!document.getElementById('tournament-experience-v2-compat-style')) {
   const style = document.createElement('style');
@@ -64,4 +65,5 @@ swipeObserver.observe(document.documentElement, { childList: true, subtree: true
 enhanceTournamentSwipes();
 
 installTournamentExperienceV2();
-export { installTournamentExperienceV2 };
+installCupSelectorV3();
+export { installTournamentExperienceV2, installCupSelectorV3 };
