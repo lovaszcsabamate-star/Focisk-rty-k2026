@@ -14,6 +14,20 @@ const seasonSaveAsText = value => typeof value === 'string' ? value.trim() : '';
 const seasonSaveClone = value => JSON.parse(JSON.stringify(value));
 const seasonSaveIdPattern = /^(\d{4})-(\d{2})$/;
 const seasonSaveLabelPattern = /^(\d{4})\s*[\/-]\s*(\d{2}|\d{4})$/;
+const seasonSaveCardReference = card => card && typeof card === 'object'
+  && !Array.isArray(card) && typeof card.id === 'string' && card.id.trim() !== ''
+  ? { id: card.id }
+  : card;
+const seasonSaveCompactClassicPlayers = snapshot => {
+  if (snapshot?.mode !== 'classic' || !Array.isArray(snapshot?.game?.players)) return snapshot;
+  return {
+    ...snapshot,
+    game: {
+      ...snapshot.game,
+      players: snapshot.game.players.map(seasonSaveCardReference),
+    },
+  };
+};
 
 export const SEASON_SAVE_STATUS = Object.freeze({
   OK: 'OK',
@@ -193,9 +207,10 @@ export function createSeasonSaveService({
     try {
       const snapshot = createSavedMatchSnapshot(payload, now);
       if (!snapshot) return false;
+      const compactSnapshot = seasonSaveCompactClassicPlayers(snapshot);
       const context = getContext?.() ?? {};
       const scoped = {
-        ...snapshot,
+        ...compactSnapshot,
         databaseId: seasonSaveAsText(payload?.databaseId || context.databaseId) || null,
         competitionId: seasonSaveAsText(payload?.competitionId || context.competitionId) || null,
         seasonId: seasonSaveDeriveSeasonId(payload?.seasonId || context.seasonId) || null,
