@@ -10,6 +10,7 @@ import {
 export const TOURNAMENT_STORAGE_KEY = 'fociskartyak.tournament.v1';
 export const TOURNAMENT_HISTORY_STORAGE_KEY = 'fociskartyak.tournament-history.v1';
 export const TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY = 'fociskartyak.tournament-pending-launch.v1';
+const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
 const tournamentStorageText = value => String(value ?? '').trim();
 
@@ -127,3 +128,8 @@ export const clearTournament = (...args) => tournamentStorageService.clear(...ar
 export const readPendingTournamentLaunch = (...args) => tournamentStorageService.readPendingLaunch(...args);
 export const commitPendingTournamentLaunch = (...args) => tournamentStorageService.commitPendingLaunch(...args);
 export const rollbackPendingTournamentLaunch = (...args) => tournamentStorageService.rollbackPendingLaunch(...args);
+
+globalThis[TOURNAMENT_LAUNCH_TRANSACTION_HOOK] = Object.freeze({
+  commit: commitPendingTournamentLaunch,
+  rollback: rollbackPendingTournamentLaunch,
+});
