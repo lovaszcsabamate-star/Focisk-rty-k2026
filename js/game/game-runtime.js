@@ -72,10 +72,9 @@ export class GameRuntime {
     return this.modeFactory.create(mode, { players: this.players, rng: this.rng });
   }
 
-  _prepareAi() {
-    this._requireGame();
-    const aiDeck = this.modeFactory.aiDeck(this.mode, this.game);
-    this.ai = this.aiFactory(this.difficulty, aiDeck);
+  _createAi(mode, difficulty, game) {
+    const aiDeck = this.modeFactory.aiDeck(mode, game);
+    return this.aiFactory(difficulty, aiDeck);
   }
 
   _requireGame() {
@@ -92,12 +91,17 @@ export class GameRuntime {
   }
 
   start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
-    this.mode = this.modeFactory.normalize(mode);
-    this.difficulty = this._resolveDifficulty(difficulty);
-    this.game = this._createGame(this.mode);
+    const nextMode = this.modeFactory.normalize(mode);
+    const nextDifficulty = this._resolveDifficulty(difficulty);
+    const nextGame = this._createGame(nextMode);
+    const nextAi = this._createAi(nextMode, nextDifficulty, nextGame);
+
+    this.mode = nextMode;
+    this.difficulty = nextDifficulty;
+    this.game = nextGame;
+    this.ai = nextAi;
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
-    this._prepareAi();
     return this.state();
   }
 
@@ -109,18 +113,25 @@ export class GameRuntime {
       throw new TypeError('A mentett játék visszaállításához hydrate függvény szükséges.');
     }
 
-    this.mode = this.modeFactory.normalize(saved.mode);
-    this.difficulty = this._resolveDifficulty(saved.difficulty);
-    const emptyGame = this._createGame(this.mode);
-    this.game = hydrate(emptyGame, saved.game);
-    if (!this.game || typeof this.game !== 'object') {
+    const nextMode = this.modeFactory.normalize(saved.mode);
+    const nextDifficulty = this._resolveDifficulty(saved.difficulty);
+    const emptyGame = this._createGame(nextMode);
+    const nextGame = hydrate(emptyGame, saved.game);
+    if (!nextGame || typeof nextGame !== 'object') {
       throw new GameRuntimeError('INVALID_SAVE', 'A mentett játékmotor nem állítható vissza.');
     }
-    this.pendingAttribute = typeof saved.pendingAttribute === 'string'
+    const nextPendingAttribute = typeof saved.pendingAttribute === 'string'
       ? saved.pendingAttribute
       : null;
-    this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
-    this._prepareAi();
+    const nextAwaitingChooserCard = Boolean(saved.awaitingChooserCard);
+    const nextAi = this._createAi(nextMode, nextDifficulty, nextGame);
+
+    this.mode = nextMode;
+    this.difficulty = nextDifficulty;
+    this.game = nextGame;
+    this.ai = nextAi;
+    this.pendingAttribute = nextPendingAttribute;
+    this.awaitingChooserCard = nextAwaitingChooserCard;
     return this.state();
   }
 
