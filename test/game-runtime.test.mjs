@@ -6,6 +6,7 @@ import { GAME_MODE, GameRuntime, GameRuntimeError } from '../js/game/game-runtim
 
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
 const source = fs.readFileSync(new URL('../js/game/game-runtime.js', import.meta.url), 'utf8');
+const mainSource = fs.readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
 const normalized = readJson('../data/databases/hungary-nb1-2025-26/players.normalized.json');
 const players = normalized.players;
 
@@ -96,10 +97,54 @@ const aiStartingPenalty = new GameRuntime({ players, rng: () => 0.999, aiFactory
 state = aiStartingPenalty.start(GAME_MODE.PENALTIES, 'easy');
 assert.equal(state.chooser, AI, 'Büntetőpárbajban a gép is kezdhet véletlenszerűen.');
 
+const transactional = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
+transactional.start(GAME_MODE.CLASSIC, 'medium');
+const transactionalAttribute = transactional.availableAttributeKeys()[0];
+transactional.selectHumanAttribute(transactionalAttribute);
+const originalRuntimeState = {
+  mode: transactional.mode,
+  difficulty: transactional.difficulty,
+  game: transactional.game,
+  ai: transactional.ai,
+  pendingAttribute: transactional.pendingAttribute,
+  awaitingChooserCard: transactional.awaitingChooserCard,
+};
+transactional.aiFactory = () => { throw new Error('ai initialization failed'); };
+
+assert.throws(
+  () => transactional.start(GAME_MODE.PENALTIES, 'easy'),
+  /ai initialization failed/,
+  'egy sikertelen új játék nem írhatja felül a futó állapotot',
+);
+assert.equal(transactional.mode, originalRuntimeState.mode);
+assert.equal(transactional.difficulty, originalRuntimeState.difficulty);
+assert.equal(transactional.game, originalRuntimeState.game);
+assert.equal(transactional.ai, originalRuntimeState.ai);
+assert.equal(transactional.pendingAttribute, originalRuntimeState.pendingAttribute);
+assert.equal(transactional.awaitingChooserCard, originalRuntimeState.awaitingChooserCard);
+
+assert.throws(
+  () => transactional.restore(saved, (target, snapshot) => Object.assign(target, snapshot)),
+  /ai initialization failed/,
+  'egy sikertelen visszaállítás nem írhatja felül a futó állapotot',
+);
+assert.equal(transactional.mode, originalRuntimeState.mode);
+assert.equal(transactional.difficulty, originalRuntimeState.difficulty);
+assert.equal(transactional.game, originalRuntimeState.game);
+assert.equal(transactional.ai, originalRuntimeState.ai);
+assert.equal(transactional.pendingAttribute, originalRuntimeState.pendingAttribute);
+assert.equal(transactional.awaitingChooserCard, originalRuntimeState.awaitingChooserCard);
+
+assert.match(
+  mainSource,
+  /start\(mode, difficulty\) \{\s*this\.runtime\.start\(mode,[\s\S]*?clearSeasonSavedMatch\(\);/,
+  'a korábbi mentés csak a játékmotor sikeres indítása után törlődhet',
+);
+
 runtime.reset();
 assert.equal(runtime.game, null);
 assert.throws(() => runtime.playHumanCard('missing'), error => (
   error instanceof GameRuntimeError && error.code === 'NO_ACTIVE_GAME'
 ));
 
-console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, mentés és visszaállítás rendben');
+console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, tranzakciós indítás, mentés és visszaállítás rendben');
