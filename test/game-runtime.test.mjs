@@ -71,10 +71,15 @@ assert.equal(secondResult.round, 2);
 assert.equal(runtime.game.phase, PHASE.REVEAL);
 
 const saved = JSON.parse(JSON.stringify(runtime.toSavePayload({ roundsViewed: 2 })));
-const restored = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
+saved.game.players = saved.game.players.map(card => ({ id: card.id }));
+const restored = new GameRuntime({ players, rng: () => 0.731, aiFactory: deterministicAiFactory });
 restored.restore(saved, (target, snapshot) => Object.assign(target, snapshot));
 assert.equal(restored.mode, GAME_MODE.CLASSIC);
 assert.equal(restored.game.round, runtime.game.round);
+assert.ok(
+  restored.game.players.every(card => typeof card.name === 'string' && card.name.length > 0),
+  'a kompakt kártyahivatkozásoknak az aktív adatbázisból teljes AI-kártyákká kell visszaépülniük',
+);
 assert.deepEqual(restored.toSavePayload({ roundsViewed: 2 }).uxStats, { roundsViewed: 2 });
 
 const missingCardSave = JSON.parse(JSON.stringify(saved));
