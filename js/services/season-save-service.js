@@ -15,6 +15,18 @@ const seasonSaveClone = value => JSON.parse(JSON.stringify(value));
 const seasonSaveIdPattern = /^(\d{4})-(\d{2})$/;
 const seasonSaveLabelPattern = /^(\d{4})\s*[\/-]\s*(\d{2}|\d{4})$/;
 
+export const SEASON_SAVE_STATUS = Object.freeze({
+  OK: 'OK',
+  NO_SAVE: 'NO_SAVE',
+  INVALID_JSON: 'INVALID_JSON',
+  INVALID_SCHEMA: 'INVALID_SCHEMA',
+  UNSUPPORTED_VERSION: 'UNSUPPORTED_VERSION',
+  DATABASE_MISMATCH: 'DATABASE_MISMATCH',
+  SEASON_MISMATCH: 'SEASON_MISMATCH',
+  MISSING_CARD: 'MISSING_CARD',
+  PARTIAL_RESTORE: 'PARTIAL_RESTORE',
+});
+
 const seasonSaveDeriveSeasonId = value => {
   const text = seasonSaveAsText(value);
   if (seasonSaveIdPattern.test(text)) return text;
@@ -27,12 +39,36 @@ const seasonSaveDeriveSeasonId = value => {
   return endYear === startYear + 1 ? `${startYear}-${String(endYear).slice(-2)}` : '';
 };
 
-const seasonSaveValidationResult = (value, errors = [], warnings = []) => Object.freeze({
+const seasonSaveValidationResult = (
+  value,
+  errors = [],
+  warnings = [],
+  {
+    code = errors.length
+      ? SEASON_SAVE_STATUS.INVALID_SCHEMA
+      : warnings.length
+        ? SEASON_SAVE_STATUS.PARTIAL_RESTORE
+        : SEASON_SAVE_STATUS.OK,
+    hasStoredValue = value != null,
+  } = {},
+) => Object.freeze({
   ok: errors.length === 0,
   value: errors.length === 0 ? value : null,
   errors: Object.freeze(errors.slice()),
   warnings: Object.freeze(warnings.slice()),
+  code,
+  hasStoredValue: Boolean(hasStoredValue),
 });
+
+const seasonSaveValidationCode = errors => {
+  if (errors.some(error => String(error).startsWith('version:'))) {
+    return SEASON_SAVE_STATUS.UNSUPPORTED_VERSION;
+  }
+  if (errors.some(error => /ismeretlen kártyaazonosító/i.test(String(error)))) {
+    return SEASON_SAVE_STATUS.MISSING_CARD;
+  }
+  return SEASON_SAVE_STATUS.INVALID_SCHEMA;
+};
 
 export function currentSeasonSaveContext() {
   const database = globalThis.__FOCISKARTYAK_DATABASE__ ?? {};
@@ -67,30 +103,90 @@ export function createSeasonSaveService({
   now = () => new Date(),
   getContext = currentSeasonSaveContext,
 } = {}) {
-  const inspect = () => {
-    const raw = storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null) ?? null;
-    if (raw == null) return seasonSaveValidationResult(null);
+  const inspectParsed = (raw, hasStoredValue = true) => {
     const validation = validateSavedMatch(raw);
-    if (!validation.ok) return validation;
+    if (!validation.ok) {
+      return seasonSaveValidationResult(null, validation.errors, validation.warnings, {
+        code: seasonSaveValidationCode(validation.errors),
+        hasStoredValue,
+      });
+    }
 
     const context = getContext?.() ?? {};
-    if (!savedMatchMatchesSeason(raw, context)) {
+    const expectedDatabaseId = seasonSaveAsText(context.databaseId);
+    const expectedSeasonId = seasonSaveDeriveSeasonId(context.seasonId);
+    const savedDatabaseId = seasonSaveAsText(raw.databaseId);
+    const savedSeasonId = seasonSaveDeriveSeasonId(raw.seasonId);
+    const isAllowedLegacySave = !savedDatabaseId && !savedSeasonId
+      && expectedDatabaseId === SEASON_SAVE_LEGACY_DATABASE_ID
+      && expectedSeasonId === SEASON_SAVE_LEGACY_SEASON_ID;
+
+    if (!isAllowedLegacySave && expectedDatabaseId && savedDatabaseId !== expectedDatabaseId) {
       return seasonSaveValidationResult(null, [
-        `season: a mentés ${raw.seasonId ?? 'ismeretlen'} szezonhoz tartozik, az aktív szezon ${context.seasonId ?? 'ismeretlen'}`,
-      ], validation.warnings);
+        `database: a mentés ${savedDatabaseId || 'ismeretlen'} adatbázishoz tartozik, az aktív adatbázis ${expectedDatabaseId}`,
+      ], validation.warnings, {
+        code: SEASON_SAVE_STATUS.DATABASE_MISMATCH,
+        hasStoredValue,
+      });
+    }
+
+    if (!isAllowedLegacySave && expectedSeasonId && savedSeasonId !== expectedSeasonId) {
+      return seasonSaveValidationResult(null, [
+        `season: a mentés ${savedSeasonId || 'ismeretlen'} szezonhoz tartozik, az aktív szezon ${expectedSeasonId}`,
+      ], validation.warnings, {
+        code: SEASON_SAVE_STATUS.SEASON_MISMATCH,
+        hasStoredValue,
+      });
     }
 
     return seasonSaveValidationResult({
       ...validation.value,
-      databaseId: seasonSaveAsText(raw.databaseId) || null,
+      databaseId: savedDatabaseId || null,
       competitionId: seasonSaveAsText(raw.competitionId) || null,
-      seasonId: seasonSaveDeriveSeasonId(raw.seasonId) || null,
-    }, [], validation.warnings);
+      seasonId: savedSeasonId || null,
+    }, [], validation.warnings, {
+      code: validation.warnings.length
+        ? SEASON_SAVE_STATUS.PARTIAL_RESTORE
+        : SEASON_SAVE_STATUS.OK,
+      hasStoredValue,
+    });
+  };
+
+  const inspect = () => {
+    if (typeof storage?.readString === 'function') {
+      const rawText = storage.readString(APP_STORAGE_KEYS.savedMatch, null);
+      if (rawText == null) {
+        return seasonSaveValidationResult(null, [], [], {
+          code: SEASON_SAVE_STATUS.NO_SAVE,
+          hasStoredValue: false,
+        });
+      }
+
+      try {
+        return inspectParsed(JSON.parse(rawText), true);
+      } catch (error) {
+        return seasonSaveValidationResult(null, [
+          `json: a mentés nem érvényes JSON (${error?.message ?? 'ismeretlen feldolgozási hiba'})`,
+        ], [], {
+          code: SEASON_SAVE_STATUS.INVALID_JSON,
+          hasStoredValue: true,
+        });
+      }
+    }
+
+    const raw = storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null) ?? null;
+    if (raw == null) {
+      return seasonSaveValidationResult(null, [], [], {
+        code: SEASON_SAVE_STATUS.NO_SAVE,
+        hasStoredValue: false,
+      });
+    }
+    return inspectParsed(raw, true);
   };
 
   const read = () => {
     const validation = inspect();
-    return validation.ok ? validation.value : null;
+    return validation.ok && validation.value ? validation.value : null;
   };
 
   const write = payload => {
