@@ -50,6 +50,20 @@ assert.deepEqual(
   [],
   'az opcionális statisztika hiánya nem teheti használhatatlanná a teljes valós adatforrást',
 );
+
+const canonicalClubCard = normaliseCard({
+  id: 'canonical-club-1',
+  name: 'Kanonikus Klubmezős Játékos',
+  clubName: 'Kanonikus FC',
+  stats: { goals: null },
+});
+assert.equal(canonicalClubCard.club, 'Kanonikus FC', 'a kanonikus clubName mezőből visszafelé kompatibilis club mező készül');
+assert.deepEqual(
+  validatePlayers([canonicalClubCard]),
+  [],
+  'a kanonikus játékosmodell clubName mezője önmagában is elegendő klubazonosító',
+);
+
 assert.match(
   validatePlayers([{ id: '', name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
   /missing id, name or club/,
@@ -59,6 +73,13 @@ assert.match(
   /missing id, name or club/,
   'a csak szóközt tartalmazó azonosító nem érvényes',
 );
+for (const placeholder of ['-', 'n/a', 'null', 'ismeretlen']) {
+  assert.match(
+    validatePlayers([{ id: placeholder, name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
+    /missing id, name or club/,
+    `a helykitöltő azonosító nem lehet játszható: ${placeholder}`,
+  );
+}
 assert.match(
   validatePlayers([null]).join('\n'),
   /valid card object is required/,
