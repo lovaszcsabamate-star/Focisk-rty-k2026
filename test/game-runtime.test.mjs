@@ -136,9 +136,10 @@ assert.equal(transactional.ai, originalRuntimeState.ai);
 assert.equal(transactional.pendingAttribute, originalRuntimeState.pendingAttribute);
 assert.equal(transactional.awaitingChooserCard, originalRuntimeState.awaitingChooserCard);
 
-assert.match(
-  mainSource,
-  /start\(mode, difficulty\) \{\s*this\.runtime\.start\(mode,[\s\S]*?clearSeasonSavedMatch\(\);/,
+const startFlow = mainSource.match(/start\(mode, difficulty\) \{[\s\S]*?\n  \}\n\n  showPenaltyIntro/)?.[0] ?? '';
+assert.match(startFlow, /this\.runtime\.start\(mode, resolvedDifficulty\);[\s\S]*?this\.ui\.resetTable\(\);[\s\S]*?clearSeasonSavedMatch\(\)/);
+assert.ok(
+  startFlow.indexOf('this.runtime.start(mode, resolvedDifficulty)') < startFlow.indexOf('clearSeasonSavedMatch()'),
   'a korábbi mentés csak a játékmotor sikeres indítása után törlődhet',
 );
 assert.match(
@@ -147,10 +148,20 @@ assert.match(
   'a csere megerősítése nem törölheti a mentést a sikeres indítás előtt',
 );
 
+const resumeFlow = mainSource.match(/resumeSavedMatch\(\) \{[\s\S]*?\n  \}\n\n  restoreSavedView/)?.[0] ?? '';
+assert.doesNotMatch(
+  resumeFlow,
+  /clearSeasonSavedMatch\(\)/,
+  'a sérült vagy inkompatibilis mentést a visszaállítási hibaág nem törölheti automatikusan',
+);
+assert.match(mainSource, /launchInProgress/, 'közös indítási zárolás szükséges');
+assert.match(mainSource, /Mérkőzés előkészítése…/, 'az indítás alatt érthető állapotjelzés szükséges');
+assert.match(mainSource, /Mentés törlése[\s\S]*Vissza a főmenübe/, 'a hibás mentéshez két egyértelmű felhasználói döntés szükséges');
+
 runtime.reset();
 assert.equal(runtime.game, null);
 assert.throws(() => runtime.playHumanCard('missing'), error => (
   error instanceof GameRuntimeError && error.code === 'NO_ACTIVE_GAME'
 ));
 
-console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, tranzakciós indítás, mentés és visszaállítás rendben');
+console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, tranzakciós indítás, zárolás, mentés és visszaállítás rendben');
