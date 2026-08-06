@@ -70,6 +70,7 @@ class Session {
     }, this.settings);
     this.busy = false;
     this.launchInProgress = false;
+    this.suppressPersistence = false;
     this.menu = createMenuController({
       ui: this.ui,
       getState: () => ({
@@ -220,16 +221,31 @@ class Session {
     });
   }
 
+  _restoreRuntimeViewAfterFailure() {
+    try {
+      this.busy = false;
+      this.ui.setInteractionBusy(false);
+      this.ui.resetTable();
+      this.ui.setMode(this.mode ?? 'classic');
+      if (this.game && !this.game.isOver) this.restoreSavedView();
+    } catch (restoreError) {
+      console.error('[launch] A korábbi játéknézet sem állítható teljesen helyre:', restoreError);
+    }
+  }
+
   _runLaunch(operation, { retry = null, onError = null } = {}) {
     if (this.launchInProgress) return false;
     this.launchInProgress = true;
     this.busy = true;
-    this.ui.setInteractionBusy(false);
+    this.ui.setInteractionBusy(true);
     this._setLaunchControlsDisabled(true);
     this.ui.showToast('Mérkőzés előkészítése…', 'info', 1400);
+    let succeeded = false;
 
     try {
-      return operation();
+      const result = operation();
+      succeeded = result !== false;
+      return result;
     } catch (error) {
       console.error('[launch] A mérkőzés előkészítése sikertelen:', error);
       if (typeof onError === 'function') onError(error);
@@ -237,9 +253,11 @@ class Session {
       return false;
     } finally {
       this.launchInProgress = false;
-      this.busy = false;
-      this.ui.setInteractionBusy(false);
       this._setLaunchControlsDisabled(false);
+      if (!succeeded) {
+        this.busy = false;
+        this.ui.setInteractionBusy(false);
+      }
     }
   }
 
@@ -334,19 +352,38 @@ class Session {
 
   start(mode, difficulty) {
     const resolvedDifficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
+    const checkpoint = this.runtime.checkpoint();
     return this._runLaunch(() => {
-      this.runtime.start(mode, resolvedDifficulty);
-      this.ui.resetTable();
-      this.ui.setMode(this.mode);
-      if (!clearSeasonSavedMatch() && inspectSeasonSavedMatch().hasStoredValue) {
-        console.warn('[save] A korábbi mentést nem sikerült eltávolítani az új játék indítása után.');
-      }
+      this.suppressPersistence = true;
+      try {
+        this.runtime.start(mode, resolvedDifficulty);
+        this.ui.resetTable();
+        this.ui.setMode(this.mode);
 
-      if (this.mode === 'penalties') this.showPenaltyIntro();
-      else this._beginMatch();
-      return true;
+        if (this.mode === 'penalties') {
+          this.busy = false;
+          this.ui.setInteractionBusy(false);
+          this.showPenaltyIntro();
+        } else {
+          this._beginMatch();
+        }
+
+        this.suppressPersistence = false;
+        if (!this.saveCurrentGame()) {
+          throw new Error('Az új mérkőzés elkészült, de a kezdeti állapot nem menthető.');
+        }
+        return true;
+      } catch (error) {
+        this.suppressPersistence = false;
+        this.runtime.rollback(checkpoint);
+        throw error;
+      }
     }, {
       retry: () => this.start(mode, difficulty),
+      onError: () => {
+        this._restoreRuntimeViewAfterFailure();
+        this.showLaunchError(() => this.start(mode, difficulty));
+      },
     });
   }
 
@@ -389,6 +426,7 @@ class Session {
   }
 
   saveCurrentGame() {
+    if (this.suppressPersistence) return true;
     if (!this.game || this.game.isOver) return false;
     return writeSeasonSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
@@ -406,33 +444,49 @@ class Session {
     }
 
     const saved = inspection.value;
+    const checkpoint = this.runtime.checkpoint();
     return this._runLaunch(() => {
-      this.runtime.restore({
-        ...saved,
-        difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
-      }, hydrateSeasonGame);
-      this.ui.resetTable();
-      this.ui.setMode(this.mode);
-      if (saved.uxStats) this.ui.uxStats = saved.uxStats;
-      this._hidePanel();
-      this.restoreSavedView();
-      this.ui.showToast(
-        inspection.warnings.length
-          ? 'A mentés figyelmeztetéssel, de sikeresen folytatva.'
-          : 'Mentett játék folytatva',
-        inspection.warnings.length ? 'info' : 'success',
-        3000,
-      );
-      return true;
+      this.suppressPersistence = true;
+      try {
+        this.runtime.restore({
+          ...saved,
+          difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
+        }, hydrateSeasonGame);
+        this.ui.resetTable();
+        this.ui.setMode(this.mode);
+        if (saved.uxStats) this.ui.uxStats = saved.uxStats;
+        this._hidePanel();
+        this.busy = false;
+        this.ui.setInteractionBusy(false);
+        this.restoreSavedView();
+        this.suppressPersistence = false;
+        this.ui.showToast(
+          inspection.warnings.length
+            ? 'A mentés figyelmeztetéssel, de sikeresen folytatva.'
+            : 'Mentett játék folytatva',
+          inspection.warnings.length ? 'info' : 'success',
+          3000,
+        );
+        return true;
+      } catch (error) {
+        this.suppressPersistence = false;
+        this.runtime.rollback(checkpoint);
+        throw error;
+      }
     }, {
       retry: () => this.resumeSavedMatch(),
-      onError: error => this.showSaveProblem({
-        ...inspection,
-        ok: false,
-        value: null,
-        code: SEASON_SAVE_STATUS.INVALID_SCHEMA,
-        errors: [...inspection.errors, error?.message ?? 'ismeretlen visszaállítási hiba'],
-      }),
+      onError: error => {
+        this._restoreRuntimeViewAfterFailure();
+        this.showSaveProblem({
+          ...inspection,
+          ok: false,
+          value: null,
+          code: error?.code === 'SAVE_CARD_MISSING'
+            ? SEASON_SAVE_STATUS.MISSING_CARD
+            : SEASON_SAVE_STATUS.INVALID_SCHEMA,
+          errors: [...inspection.errors, error?.message ?? 'ismeretlen visszaállítási hiba'],
+        });
+      },
     });
   }
 
