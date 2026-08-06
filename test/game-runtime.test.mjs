@@ -7,6 +7,7 @@ import { GAME_MODE, GameRuntime, GameRuntimeError } from '../js/game/game-runtim
 const readJson = relative => JSON.parse(fs.readFileSync(new URL(relative, import.meta.url), 'utf8'));
 const source = fs.readFileSync(new URL('../js/game/game-runtime.js', import.meta.url), 'utf8');
 const mainSource = fs.readFileSync(new URL('../js/main.js', import.meta.url), 'utf8');
+const menuSource = fs.readFileSync(new URL('../js/app/menu-controller.js', import.meta.url), 'utf8');
 const normalized = readJson('../data/databases/hungary-nb1-2025-26/players.normalized.json');
 const players = normalized.players;
 
@@ -139,6 +140,11 @@ assert.match(
   mainSource,
   /start\(mode, difficulty\) \{\s*this\.runtime\.start\(mode,[\s\S]*?clearSeasonSavedMatch\(\);/,
   'a korábbi mentés csak a játékmotor sikeres indítása után törlődhet',
+);
+assert.match(
+  menuSource,
+  /#replace-save-btn'\)\.addEventListener\('click', \(\) => \{\s*actions\.start\(mode, difficulty\);\s*\}, \{ once: true \}\);/,
+  'a csere megerősítése nem törölheti a mentést a sikeres indítás előtt',
 );
 
 runtime.reset();
