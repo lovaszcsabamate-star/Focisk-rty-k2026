@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 
 import { APP_STORAGE_KEYS } from '../js/app/configuration.js';
-import { createQuickMatchStorageService } from '../js/services/quick-match-storage-service.js';
+import {
+  QUICK_MATCH_LAUNCH_STORAGE_KEY,
+  QuickMatchStorageError,
+  createQuickMatchStorageService,
+} from '../js/services/quick-match-storage-service.js';
 import {
   TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY,
   TOURNAMENT_STORAGE_KEY,
@@ -101,4 +105,65 @@ assert.equal(values.get(APP_STORAGE_KEYS.quickMatchLaunch), oldLaunch);
 assert.equal(values.has(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY), false);
 assert.equal(JSON.parse(values.get(TOURNAMENT_STORAGE_KEY)).currentMatchId ?? null, null);
 
-console.log('✓ Sikertelen torna-staging után a Gyors meccs és minden ideiglenes állapot visszagördül');
+const rollbackValues = new Map([
+  [APP_STORAGE_KEYS.deckSelection, oldDeck],
+  [APP_STORAGE_KEYS.quickMatchSetup, oldSetup],
+  [APP_STORAGE_KEYS.quickMatchLaunch, oldLaunch],
+]);
+let failLaunchWrite = true;
+let failDeckRollback = true;
+const rollbackFailingStorage = {
+  readJson(key, fallback = null) {
+    if (!rollbackValues.has(key)) return fallback;
+    try { return JSON.parse(rollbackValues.get(key)); } catch { return fallback; }
+  },
+  readString(key, fallback = null) {
+    return rollbackValues.has(key) ? rollbackValues.get(key) : fallback;
+  },
+  writeString(key, value) {
+    if (key === APP_STORAGE_KEYS.deckSelection && failDeckRollback) {
+      failDeckRollback = false;
+      return false;
+    }
+    rollbackValues.set(key, String(value));
+    return true;
+  },
+  writeJson(key, value) {
+    if (key === QUICK_MATCH_LAUNCH_STORAGE_KEY && failLaunchWrite) {
+      failLaunchWrite = false;
+      return false;
+    }
+    rollbackValues.set(key, JSON.stringify(value));
+    return true;
+  },
+  remove(key) {
+    rollbackValues.delete(key);
+    return true;
+  },
+};
+const rollbackFailingService = createQuickMatchStorageService({
+  storage: rollbackFailingStorage,
+  commitTournamentLaunch: () => true,
+  rollbackTournamentLaunch: () => true,
+});
+assert.throws(
+  () => rollbackFailingService.stage({
+    playerTeamId: teams[0].id,
+    opponentTeamId: teams[1].id,
+    playerSelection: teams[0].selection,
+    opponentSelection: teams[1].selection,
+    mode: 'classic',
+    difficulty: 'medium',
+    createdAt: '2026-08-06T12:00:00.000Z',
+  }),
+  error => error instanceof QuickMatchStorageError && error.code === 'STAGING_ROLLBACK_FAILED',
+  'a részleges staging-rollback nem maradhat néma',
+);
+assert.equal(
+  rollbackValues.get(APP_STORAGE_KEYS.quickMatchSetup),
+  oldSetup,
+  'egy rollback-hiba nem szakíthatja meg a többi staging-kulcs helyreállítását',
+);
+assert.equal(rollbackValues.get(APP_STORAGE_KEYS.quickMatchLaunch), oldLaunch);
+
+console.log('✓ Sikertelen torna-staging és rollback-hiba után sem marad észrevétlen részleges állapot');
