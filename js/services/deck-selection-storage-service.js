@@ -50,7 +50,8 @@ export function createDeckSelectionStorageService({
   storage = storageService,
   keys = DECK_SELECTION_STORAGE_KEYS,
 } = {}) {
-  ['readJson', 'readString', 'writeJson', 'remove'].forEach(method => deckStorageAssertMethod(storage, method));
+  ['readJson', 'readString', 'writeString', 'writeJson', 'remove']
+    .forEach(method => deckStorageAssertMethod(storage, method));
   const configuredKeys = deckStorageValidateKeys(keys);
 
   const read = (players = []) => {
@@ -68,8 +69,24 @@ export function createDeckSelectionStorageService({
 
   const replace = (selection, { clearSavedMatch: shouldClearSavedMatch = true } = {}) => {
     const normalized = normaliseDeckSelection(selection);
-    if (shouldClearSavedMatch) clearSavedMatch();
+    const previousSavedMatch = shouldClearSavedMatch
+      ? storage.readString(configuredKeys.savedMatch, null)
+      : null;
+
+    if (shouldClearSavedMatch && previousSavedMatch != null && !clearSavedMatch()) {
+      return Object.freeze({ selection: normalized, saved: false });
+    }
+
     const saved = storage.writeJson(configuredKeys.selection, normalized);
+    if (!saved && shouldClearSavedMatch && previousSavedMatch != null) {
+      const restored = storage.writeString(configuredKeys.savedMatch, previousSavedMatch);
+      if (!restored) {
+        throw new DeckSelectionStorageError(
+          'SAVE_ROLLBACK_FAILED',
+          'A pakliválasztás sikertelen volt, és a korábbi mérkőzésmentés sem állítható vissza.',
+        );
+      }
+    }
     return Object.freeze({ selection: normalized, saved });
   };
 
