@@ -211,8 +211,8 @@ class Session {
   }
 
   start(mode, difficulty) {
-    clearSeasonSavedMatch();
     this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
+    clearSeasonSavedMatch();
     this.busy = false;
     this.ui.resetTable();
     this.ui.setMode(this.mode);
