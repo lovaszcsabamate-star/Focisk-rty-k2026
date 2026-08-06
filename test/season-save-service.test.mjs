@@ -51,10 +51,39 @@ assert.equal(raw.version, 2, 'A meglévő játékmenet-mentési séma nem válto
 assert.equal(raw.databaseId, context.databaseId);
 assert.equal(raw.competitionId, context.competitionId);
 assert.equal(raw.seasonId, context.seasonId);
+assert.ok(
+  raw.game.players.every(card => Object.keys(card).length === 1 && typeof card.id === 'string'),
+  'a Klasszikus mentés állandó játékoslistája csak kártyahivatkozásokat tartalmazhat',
+);
 assert.equal(service.read().seasonId, '2025-26');
 assert.equal(service.inspect().code, SEASON_SAVE_STATUS.OK);
 assert.equal(service.inspect().hasStoredValue, true);
 assert.equal(savedMatchMatchesSeason(raw, context), true);
+
+const quotaMemory = new Map();
+const quotaStorage = createStorageService({
+  getItem: key => quotaMemory.has(key) ? quotaMemory.get(key) : null,
+  setItem: (key, value) => {
+    const text = String(value);
+    if (text.length > 300_000) throw new Error('QuotaExceededError');
+    quotaMemory.set(key, text);
+  },
+  removeItem: key => quotaMemory.delete(key),
+});
+const quotaService = createSeasonSaveService({
+  storage: quotaStorage,
+  now: () => new Date('2026-07-28T12:00:00.000Z'),
+  getContext: () => context,
+});
+assert.equal(
+  quotaService.write(savePayload),
+  true,
+  'a normalizált Klasszikus mentésnek a mobil WebView szűkebb tárhelykeretébe is bele kell férnie',
+);
+assert.ok(
+  quotaMemory.get(APP_STORAGE_KEYS.savedMatch).length < 300_000,
+  'a teljes játékoskártyák nem ismétlődhetnek a mentés állandó játékoslistájában',
+);
 
 const wrongSeasonService = createSeasonSaveService({
   storage,
