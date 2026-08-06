@@ -10,6 +10,10 @@ import {
 } from '../domain/quick-match-domain.js';
 import { RANDOM_DECK_SELECTION } from '../domain/deck-selection-domain.js';
 import { storageService } from './storage-service.js';
+import {
+  commitPendingTournamentLaunch,
+  rollbackPendingTournamentLaunch,
+} from './tournament-storage-service.js';
 
 export const QUICK_MATCH_SETUP_VERSION = 2;
 export const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
@@ -40,7 +44,11 @@ export function normaliseQuickMatchSetup(setup) {
   });
 }
 
-export function createQuickMatchStorageService({ storage = storageService } = {}) {
+export function createQuickMatchStorageService({
+  storage = storageService,
+  commitTournamentLaunch = commitPendingTournamentLaunch,
+  rollbackTournamentLaunch = rollbackPendingTournamentLaunch,
+} = {}) {
   const readSetup = (players = []) => {
     const setup = normaliseQuickMatchSetup(storage.readJson(QUICK_MATCH_SETUP_STORAGE_KEY, null));
     if (!setup) return null;
@@ -62,7 +70,10 @@ export function createQuickMatchStorageService({ storage = storageService } = {}
 
   const stage = setup => {
     const normalised = normaliseQuickMatchSetup(setup);
-    if (!normalised) return false;
+    if (!normalised) {
+      rollbackTournamentLaunch();
+      return false;
+    }
 
     const stagedValues = [
       [
@@ -79,12 +90,21 @@ export function createQuickMatchStorageService({ storage = storageService } = {}
       }],
     ];
     const checkpoint = new Map(stagedValues.map(([key]) => [key, storage.readString(key, null)]));
-
-    for (const [key, value] of stagedValues) {
-      if (storage.writeJson(key, value)) continue;
+    const rollbackStage = () => {
       for (const [rollbackKey, previous] of checkpoint.entries()) {
         restoreRawValue(rollbackKey, previous);
       }
+      rollbackTournamentLaunch();
+    };
+
+    for (const [key, value] of stagedValues) {
+      if (storage.writeJson(key, value)) continue;
+      rollbackStage();
+      return false;
+    }
+
+    if (!commitTournamentLaunch()) {
+      rollbackStage();
       return false;
     }
 
