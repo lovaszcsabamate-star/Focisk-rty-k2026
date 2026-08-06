@@ -8,6 +8,7 @@ export { GAME_MODE };
 const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 const cloneSaveValue = value => (value == null ? value : structuredClone(value));
+const runtimeCardId = card => typeof card?.id === 'string' ? card.id.trim() : '';
 
 export class GameRuntimeError extends Error {
   constructor(code, message) {
@@ -90,6 +91,23 @@ export class GameRuntime {
     return game;
   }
 
+  _assertSavedCardsAvailable(mode, savedGame) {
+    const currentIds = new Set(this.players.map(runtimeCardId).filter(Boolean));
+    const savedCards = mode === GAME_MODE.PENALTIES
+      ? [
+        ...(Array.isArray(savedGame?.teams?.[HUMAN]) ? savedGame.teams[HUMAN] : []),
+        ...(Array.isArray(savedGame?.teams?.[AI]) ? savedGame.teams[AI] : []),
+      ]
+      : Array.isArray(savedGame?.players) ? savedGame.players : [];
+    const missingIds = [...new Set(savedCards.map(runtimeCardId).filter(id => id && !currentIds.has(id)))];
+    if (missingIds.length) {
+      throw new GameRuntimeError(
+        'SAVE_CARD_MISSING',
+        `A mentés ${missingIds.length} már nem elérhető játékoskártyát tartalmaz: ${missingIds.slice(0, 5).join(', ')}`,
+      );
+    }
+  }
+
   start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
     const nextMode = this.modeFactory.normalize(mode);
     const nextDifficulty = this._resolveDifficulty(difficulty);
@@ -115,6 +133,7 @@ export class GameRuntime {
 
     const nextMode = this.modeFactory.normalize(saved.mode);
     const nextDifficulty = this._resolveDifficulty(saved.difficulty);
+    this._assertSavedCardsAvailable(nextMode, saved.game);
     const emptyGame = this._createGame(nextMode);
     const nextGame = hydrate(emptyGame, saved.game);
     if (!nextGame || typeof nextGame !== 'object') {
