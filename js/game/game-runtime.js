@@ -49,6 +49,30 @@ export class GameRuntime {
     return this.state();
   }
 
+  checkpoint() {
+    return Object.freeze({
+      mode: this.mode,
+      difficulty: this.difficulty,
+      game: this.game,
+      ai: this.ai,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+    });
+  }
+
+  rollback(checkpoint) {
+    if (!checkpoint || typeof checkpoint !== 'object') {
+      throw new GameRuntimeError('INVALID_CHECKPOINT', 'A visszaállítandó runtime-állapot hiányzik.');
+    }
+    this.mode = checkpoint.mode ?? null;
+    this.difficulty = checkpoint.difficulty ?? null;
+    this.game = checkpoint.game ?? null;
+    this.ai = checkpoint.ai ?? null;
+    this.pendingAttribute = checkpoint.pendingAttribute ?? null;
+    this.awaitingChooserCard = Boolean(checkpoint.awaitingChooserCard);
+    return this.state();
+  }
+
   state() {
     return Object.freeze({
       mode: this.mode,
