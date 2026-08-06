@@ -16,6 +16,14 @@ export const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
 export const QUICK_MATCH_LAUNCH_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchLaunch;
 export const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
+export class QuickMatchStorageError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'QuickMatchStorageError';
+    this.code = code;
+  }
+}
+
 const quickMatchStorageText = value => String(value ?? '').trim();
 const quickMatchStorageMode = value => (value === 'penalties' ? 'penalties' : 'classic');
 const quickMatchStorageDifficulty = value => quickMatchStorageText(value) || 'medium';
@@ -80,10 +88,28 @@ export function createQuickMatchStorageService({
     return storage.writeString(key, value);
   };
 
+  const requireSuccessfulRollback = (restored, tournamentRolledBack) => {
+    if (restored && tournamentRolledBack) return true;
+    throw new QuickMatchStorageError(
+      'STAGING_ROLLBACK_FAILED',
+      'A Gyors meccs előkészítése sikertelen volt, és az ideiglenes állapot nem állítható teljesen vissza.',
+    );
+  };
+
+  const rollbackTournamentOnly = () => {
+    let tournamentRolledBack = false;
+    try {
+      tournamentRolledBack = rollbackTournamentLaunch() !== false;
+    } catch {
+      tournamentRolledBack = false;
+    }
+    return requireSuccessfulRollback(true, tournamentRolledBack);
+  };
+
   const stage = setup => {
     const normalised = normaliseQuickMatchSetup(setup);
     if (!normalised) {
-      rollbackTournamentLaunch();
+      rollbackTournamentOnly();
       return false;
     }
 
@@ -103,10 +129,22 @@ export function createQuickMatchStorageService({
     ];
     const checkpoint = new Map(stagedValues.map(([key]) => [key, storage.readString(key, null)]));
     const rollbackStage = () => {
+      let restored = true;
       for (const [rollbackKey, previous] of checkpoint.entries()) {
-        restoreRawValue(rollbackKey, previous);
+        try {
+          if (!restoreRawValue(rollbackKey, previous)) restored = false;
+        } catch {
+          restored = false;
+        }
       }
-      rollbackTournamentLaunch();
+
+      let tournamentRolledBack = false;
+      try {
+        tournamentRolledBack = rollbackTournamentLaunch() !== false;
+      } catch {
+        tournamentRolledBack = false;
+      }
+      return requireSuccessfulRollback(restored, tournamentRolledBack);
     };
 
     for (const [key, value] of stagedValues) {
