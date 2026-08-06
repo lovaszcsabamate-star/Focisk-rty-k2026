@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+import './deck-selection-transaction.test.mjs';
+
 // A generált fájlt nem szerkesztjük kézzel. Az alap runtime-jelenlétet a már
 // generált HTML-en, az új stabilizációs szolgáltatásokat pedig a forrás- és
 // buildlistán ellenőrizzük; így az `npm test` a build előtt is determinisztikus.
