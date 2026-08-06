@@ -21,6 +21,23 @@ assert.equal(cards.filter(card => card.clubs.length > 1).length, 24);
 assert.equal(Object.values(payload.clubs).reduce((sum, count) => sum + count, 0), 464);
 assert.deepEqual(validatePlayers(cards), []);
 
+const partialCard = normaliseCard({
+  id: 'partial-1',
+  name: 'Hiányos Adatú Játékos',
+  club: 'Teszt FC',
+  stats: { goals: null, appearances: null },
+});
+assert.equal(partialCard.stats.goals, null);
+assert.deepEqual(
+  validatePlayers([partialCard]),
+  [],
+  'az opcionális statisztika hiánya nem teheti használhatatlanná a teljes valós adatforrást',
+);
+assert.match(
+  validatePlayers([{ id: '', name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
+  /missing id, name or club/,
+);
+
 for (const card of cards) {
   assert.ok(Array.isArray(card.clubs) && card.clubs.length >= 1, `${card.id}: clubs`);
   assert.equal(card.club, card.clubs.join(' / '), `${card.id}: combined club label`);
@@ -72,4 +89,4 @@ assert.equal(
 assert.equal(cardPlayerDisplayName({ name: 'PESIC... ALEKSANDAR' }), 'Pesic Aleksandar');
 assert.ok(cards.every(card => !cardPlayerDisplayName(card).includes('...')));
 
-console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, konzisztens és olvasható kártyanevek');
+console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, opcionális null értékek és olvasható kártyanevek');
