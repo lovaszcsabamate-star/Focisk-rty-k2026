@@ -11,10 +11,18 @@ assert.match(
   /consumeQuickMatchLaunch/,
   'A játékmenet-vezérlőnek be kell olvasnia az egyszeri Gyors meccs indítási kérést.',
 );
+const quickMatchConstructorFlow = mainSource.match(
+  /if \(quickMatchLaunch\)[\s\S]*?else \{[\s\S]*?showTitleScreen\(\{ offerOnboarding: true \}\);[\s\S]*?\}/,
+)?.[0] ?? '';
 assert.match(
-  mainSource,
-  /if \(quickMatchLaunch\) this\.start\(quickMatchLaunch\.mode, quickMatchLaunch\.difficulty\);/,
-  'A Gyors meccset közvetlenül, szintetikus menükattintás nélkül kell elindítani.',
+  quickMatchConstructorFlow,
+  /this\.start\(quickMatchLaunch\.mode, quickMatchLaunch\.difficulty\);/,
+  'A Gyors meccset közvetlenül, a kód tördelésétől függetlenül kell elindítani.',
+);
+assert.doesNotMatch(
+  quickMatchConstructorFlow,
+  /\.click\(/,
+  'A Gyors meccs automatikus indítása nem használhat szintetikus menükattintást.',
 );
 assert.match(
   mainSource,
