@@ -6,6 +6,7 @@ import { Game } from '../js/engine.js';
 import {
   createSeasonSaveService,
   savedMatchMatchesSeason,
+  SEASON_SAVE_STATUS,
 } from '../js/services/season-save-service.js';
 import { createSavedMatchSnapshot } from '../js/services/save-service.js';
 import { createStorageService } from '../js/services/storage-service.js';
@@ -51,18 +52,48 @@ assert.equal(raw.databaseId, context.databaseId);
 assert.equal(raw.competitionId, context.competitionId);
 assert.equal(raw.seasonId, context.seasonId);
 assert.equal(service.read().seasonId, '2025-26');
+assert.equal(service.inspect().code, SEASON_SAVE_STATUS.OK);
+assert.equal(service.inspect().hasStoredValue, true);
 assert.equal(savedMatchMatchesSeason(raw, context), true);
 
 const wrongSeasonService = createSeasonSaveService({
   storage,
   getContext: () => ({
-    databaseId: 'hungary-nb1-2026-27',
+    databaseId: 'hungary-nb1-2025-26',
     competitionId: 'hungary-nb1',
     seasonId: '2026-27',
   }),
 });
 assert.equal(wrongSeasonService.read(), null);
+assert.equal(wrongSeasonService.inspect().code, SEASON_SAVE_STATUS.SEASON_MISMATCH);
+assert.equal(wrongSeasonService.inspect().hasStoredValue, true);
 assert.match(wrongSeasonService.inspect().errors.join('\n'), /aktív szezon 2026-27/);
+assert.equal(memory.has(APP_STORAGE_KEYS.savedMatch), true, 'Az inkompatibilis mentés nem törlődhet automatikusan.');
+
+const wrongDatabaseService = createSeasonSaveService({
+  storage,
+  getContext: () => ({
+    databaseId: 'hungary-nb2-2025-26',
+    competitionId: 'hungary-nb2',
+    seasonId: '2025-26',
+  }),
+});
+assert.equal(wrongDatabaseService.inspect().code, SEASON_SAVE_STATUS.DATABASE_MISMATCH);
+assert.equal(memory.has(APP_STORAGE_KEYS.savedMatch), true, 'A másik adatbázishoz tartozó mentés sem törlődhet automatikusan.');
+
+memory.set(APP_STORAGE_KEYS.savedMatch, '{hibás-json');
+const invalidJson = service.inspect();
+assert.equal(invalidJson.ok, false);
+assert.equal(invalidJson.code, SEASON_SAVE_STATUS.INVALID_JSON);
+assert.equal(invalidJson.hasStoredValue, true);
+assert.equal(service.read(), null);
+assert.equal(memory.has(APP_STORAGE_KEYS.savedMatch), true, 'A sérült JSON csak felhasználói döntésre törölhető.');
+
+memory.set(APP_STORAGE_KEYS.savedMatch, JSON.stringify({ ...raw, version: 999 }));
+const unsupported = service.inspect();
+assert.equal(unsupported.ok, false);
+assert.equal(unsupported.code, SEASON_SAVE_STATUS.UNSUPPORTED_VERSION);
+assert.equal(memory.has(APP_STORAGE_KEYS.savedMatch), true);
 
 const legacy = createSavedMatchSnapshot(savePayload, () => new Date('2026-07-28T12:00:00.000Z'));
 memory.set(APP_STORAGE_KEYS.savedMatch, JSON.stringify(legacy));
@@ -71,5 +102,9 @@ assert.equal(wrongSeasonService.read(), null, 'A régi, jelöletlen mentés más
 
 assert.equal(service.clear(), true);
 assert.equal(memory.has(APP_STORAGE_KEYS.savedMatch), false);
+const empty = service.inspect();
+assert.equal(empty.ok, true);
+assert.equal(empty.code, SEASON_SAVE_STATUS.NO_SAVE);
+assert.equal(empty.hasStoredValue, false);
 
-console.log('✓ Szezonhoz kötött mentés: v2 kompatibilitás, adatbázis- és szezonazonosító, valamint keresztidényes védelem rendben');
+console.log('✓ Szezonhoz kötött mentés: v2 kompatibilitás, diagnosztika, adatbázis- és szezonvédelem, valamint nem destruktív hibakezelés rendben');
