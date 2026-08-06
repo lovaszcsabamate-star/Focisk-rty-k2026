@@ -115,6 +115,22 @@ export class GameRuntime {
     return game;
   }
 
+  _expandSavedClassicPlayers(mode, savedGame) {
+    if (mode !== GAME_MODE.CLASSIC || !Array.isArray(savedGame?.players)) return savedGame;
+    const currentCards = new Map(this.players
+      .map(card => [runtimeCardId(card), card])
+      .filter(([id]) => Boolean(id)));
+    return {
+      ...savedGame,
+      players: savedGame.players.map(card => {
+        const id = runtimeCardId(card);
+        const isCompactReference = id && card && typeof card === 'object'
+          && !Array.isArray(card) && Object.keys(card).length === 1;
+        return isCompactReference ? (currentCards.get(id) ?? card) : card;
+      }),
+    };
+  }
+
   _assertSavedCardsAvailable(mode, savedGame) {
     const currentIds = new Set(this.players.map(runtimeCardId).filter(Boolean));
     const savedCards = mode === GAME_MODE.PENALTIES
@@ -158,8 +174,9 @@ export class GameRuntime {
     const nextMode = this.modeFactory.normalize(saved.mode);
     const nextDifficulty = this._resolveDifficulty(saved.difficulty);
     this._assertSavedCardsAvailable(nextMode, saved.game);
+    const expandedSavedGame = this._expandSavedClassicPlayers(nextMode, saved.game);
     const emptyGame = this._createGame(nextMode);
-    const nextGame = hydrate(emptyGame, saved.game);
+    const nextGame = hydrate(emptyGame, expandedSavedGame);
     if (!nextGame || typeof nextGame !== 'object') {
       throw new GameRuntimeError('INVALID_SAVE', 'A mentett játékmotor nem állítható vissza.');
     }
