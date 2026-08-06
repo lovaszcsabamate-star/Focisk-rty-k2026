@@ -77,6 +77,16 @@ assert.equal(restored.mode, GAME_MODE.CLASSIC);
 assert.equal(restored.game.round, runtime.game.round);
 assert.deepEqual(restored.toSavePayload({ roundsViewed: 2 }).uxStats, { roundsViewed: 2 });
 
+const missingCardSave = JSON.parse(JSON.stringify(saved));
+missingCardSave.game.players[0].id = 'removed-player-card';
+const incompatible = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
+assert.throws(
+  () => incompatible.restore(missingCardSave, (target, snapshot) => Object.assign(target, snapshot)),
+  error => error instanceof GameRuntimeError && error.code === 'SAVE_CARD_MISSING',
+  'a jelenlegi adatbázisból hiányzó kártyát tartalmazó mentés külön hibát kap',
+);
+assert.equal(incompatible.game, null);
+
 const penalty = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
 state = penalty.start(GAME_MODE.PENALTIES, 'easy');
 assert.equal(state.mode, GAME_MODE.PENALTIES);
@@ -136,11 +146,30 @@ assert.equal(transactional.ai, originalRuntimeState.ai);
 assert.equal(transactional.pendingAttribute, originalRuntimeState.pendingAttribute);
 assert.equal(transactional.awaitingChooserCard, originalRuntimeState.awaitingChooserCard);
 
+transactional.aiFactory = deterministicAiFactory;
+const checkpoint = transactional.checkpoint();
+transactional.start(GAME_MODE.PENALTIES, 'easy');
+assert.notEqual(transactional.game, checkpoint.game);
+transactional.rollback(checkpoint);
+assert.equal(transactional.mode, checkpoint.mode);
+assert.equal(transactional.difficulty, checkpoint.difficulty);
+assert.equal(transactional.game, checkpoint.game);
+assert.equal(transactional.ai, checkpoint.ai);
+assert.equal(transactional.pendingAttribute, checkpoint.pendingAttribute);
+assert.equal(transactional.awaitingChooserCard, checkpoint.awaitingChooserCard);
+
 const startFlow = mainSource.match(/start\(mode, difficulty\) \{[\s\S]*?\n  \}\n\n  showPenaltyIntro/)?.[0] ?? '';
-assert.match(startFlow, /this\.runtime\.start\(mode, resolvedDifficulty\);[\s\S]*?this\.ui\.resetTable\(\);[\s\S]*?clearSeasonSavedMatch\(\)/);
+assert.match(startFlow, /const checkpoint = this\.runtime\.checkpoint\(\)/);
+assert.match(startFlow, /this\.runtime\.start\(mode, resolvedDifficulty\);[\s\S]*?this\.ui\.resetTable\(\);[\s\S]*?this\.saveCurrentGame\(\)/);
+assert.match(startFlow, /this\.runtime\.rollback\(checkpoint\)/);
+assert.doesNotMatch(
+  startFlow,
+  /clearSeasonSavedMatch\(\)/,
+  'az új játék nem törölheti előre a korábbi mentést; csak a kész új snapshot írhatja felül',
+);
 assert.ok(
-  startFlow.indexOf('this.runtime.start(mode, resolvedDifficulty)') < startFlow.indexOf('clearSeasonSavedMatch()'),
-  'a korábbi mentés csak a játékmotor sikeres indítása után törlődhet',
+  startFlow.indexOf('this.runtime.start(mode, resolvedDifficulty)') < startFlow.indexOf('this.saveCurrentGame()'),
+  'az új snapshot csak a motor és a játéknézet sikeres előkészítése után írható ki',
 );
 assert.match(
   menuSource,
@@ -154,9 +183,12 @@ assert.doesNotMatch(
   /clearSeasonSavedMatch\(\)/,
   'a sérült vagy inkompatibilis mentést a visszaállítási hibaág nem törölheti automatikusan',
 );
+assert.match(resumeFlow, /SAVE_CARD_MISSING[\s\S]*SEASON_SAVE_STATUS\.MISSING_CARD/);
 assert.match(mainSource, /launchInProgress/, 'közös indítási zárolás szükséges');
+assert.match(mainSource, /setInteractionBusy\(true\)/, 'indítás közben a játéktér interakciói is zároltak');
 assert.match(mainSource, /Mérkőzés előkészítése…/, 'az indítás alatt érthető állapotjelzés szükséges');
 assert.match(mainSource, /Mentés törlése[\s\S]*Vissza a főmenübe/, 'a hibás mentéshez két egyértelmű felhasználói döntés szükséges');
+assert.match(mainSource, /suppressPersistence/, 'a részleges UI-indítás nem írhat korai snapshotot');
 
 runtime.reset();
 assert.equal(runtime.game, null);
@@ -164,4 +196,4 @@ assert.throws(() => runtime.playHumanCard('missing'), error => (
   error instanceof GameRuntimeError && error.code === 'NO_ACTIVE_GAME'
 ));
 
-console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, tranzakciós indítás, zárolás, mentés és visszaállítás rendben');
+console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, checkpoint-rollback, kártyakompatibilitás, mentés és visszaállítás rendben');
