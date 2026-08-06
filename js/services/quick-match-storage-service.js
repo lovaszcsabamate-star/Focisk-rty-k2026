@@ -55,19 +55,42 @@ export function createQuickMatchStorageService({ storage = storageService } = {}
     return storage.writeJson(QUICK_MATCH_SETUP_STORAGE_KEY, normalised);
   };
 
+  const restoreRawValue = (key, value) => {
+    if (value == null) return storage.remove(key);
+    return storage.writeString(key, value);
+  };
+
   const stage = setup => {
     const normalised = normaliseQuickMatchSetup(setup);
     if (!normalised) return false;
-    storage.remove(APP_STORAGE_KEYS.savedMatch);
-    storage.writeJson(APP_STORAGE_KEYS.deckSelection,
-      normalised.playerSelection.kind === 'league' ? RANDOM_DECK_SELECTION : normalised.playerSelection);
-    const setupSaved = storage.writeJson(QUICK_MATCH_SETUP_STORAGE_KEY, normalised);
-    const launchSaved = storage.writeJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, {
-      mode: normalised.mode,
-      difficulty: normalised.difficulty,
-      createdAt: normalised.createdAt,
-    });
-    return Boolean(setupSaved && launchSaved);
+
+    const stagedValues = [
+      [
+        APP_STORAGE_KEYS.deckSelection,
+        normalised.playerSelection.kind === 'league'
+          ? RANDOM_DECK_SELECTION
+          : normalised.playerSelection,
+      ],
+      [QUICK_MATCH_SETUP_STORAGE_KEY, normalised],
+      [QUICK_MATCH_LAUNCH_STORAGE_KEY, {
+        mode: normalised.mode,
+        difficulty: normalised.difficulty,
+        createdAt: normalised.createdAt,
+      }],
+    ];
+    const checkpoint = new Map(stagedValues.map(([key]) => [key, storage.readString(key, null)]));
+
+    for (const [key, value] of stagedValues) {
+      if (storage.writeJson(key, value)) continue;
+      for (const [rollbackKey, previous] of checkpoint.entries()) {
+        restoreRawValue(rollbackKey, previous);
+      }
+      return false;
+    }
+
+    // A meglévő mérkőzésmentést a staging soha nem törli. A teljesen
+    // inicializált új Session snapshotja csak sikeres indulás után írhatja felül.
+    return true;
   };
 
   const peekLaunch = () => {
