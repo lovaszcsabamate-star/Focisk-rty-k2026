@@ -47,17 +47,17 @@ export function normaliseQuickMatchSetup(setup) {
 
 export function createQuickMatchStorageService({
   storage = storageService,
-  commitTournamentLaunch = null,
-  rollbackTournamentLaunch = null,
+  commitTournamentLaunch: commitTournamentLaunchOverride = null,
+  rollbackTournamentLaunch: rollbackTournamentLaunchOverride = null,
 } = {}) {
-  const commitTournament = () => (
-    typeof commitTournamentLaunch === 'function'
-      ? commitTournamentLaunch()
+  const commitTournamentLaunch = () => (
+    typeof commitTournamentLaunchOverride === 'function'
+      ? commitTournamentLaunchOverride()
       : resolveTournamentHook('commit')()
   );
-  const rollbackTournament = () => (
-    typeof rollbackTournamentLaunch === 'function'
-      ? rollbackTournamentLaunch()
+  const rollbackTournamentLaunch = () => (
+    typeof rollbackTournamentLaunchOverride === 'function'
+      ? rollbackTournamentLaunchOverride()
       : resolveTournamentHook('rollback')()
   );
 
@@ -83,7 +83,7 @@ export function createQuickMatchStorageService({
   const stage = setup => {
     const normalised = normaliseQuickMatchSetup(setup);
     if (!normalised) {
-      rollbackTournament();
+      rollbackTournamentLaunch();
       return false;
     }
 
@@ -106,7 +106,7 @@ export function createQuickMatchStorageService({
       for (const [rollbackKey, previous] of checkpoint.entries()) {
         restoreRawValue(rollbackKey, previous);
       }
-      rollbackTournament();
+      rollbackTournamentLaunch();
     };
 
     for (const [key, value] of stagedValues) {
@@ -115,7 +115,7 @@ export function createQuickMatchStorageService({
       return false;
     }
 
-    if (!commitTournament()) {
+    if (!commitTournamentLaunch()) {
       rollbackStage();
       return false;
     }
