@@ -8,6 +8,7 @@ const manifest = read('manifest.webmanifest');
 const css = read('css/visual-system.css');
 const sizingCss = read('css/visual-settings-persistence.css');
 const legalCss = read('css/legal-ui.css');
+const mobileEntryCss = read('css/mobile-entry-fixes.css');
 const visual = read('js/visual-system.js');
 const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
@@ -16,11 +17,33 @@ const legalUi = read('js/legal-ui.js');
 const enhancementPipeline = read('js/ui/ui-enhancement-pipeline.js');
 const configuration = read('js/app/configuration.js');
 const storageService = read('js/services/storage-service.js');
+const buildScript = read('scripts/build-standalone.mjs');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
 assert.match(index, /css\/visual-settings-persistence\.css/, 'A méretezésmentés visszajelző stílusa nincs betöltve.');
 assert.match(index, /css\/legal-ui\.css/, 'A kezdőképernyős jogi stílus nincs betöltve.');
+assert.match(index, /css\/mobile-entry-fixes\.css/, 'A mobil belépési javítások külön CSS-modulja nincs betöltve.');
+assert.ok(
+  index.indexOf('css/mobile-selection-fix.css') < index.indexOf('css/mobile-entry-fixes.css')
+    && index.indexOf('css/mobile-entry-fixes.css') < index.indexOf('css/duel-emphasis.css'),
+  'A mobil belépési CSS sorrendje nem determinisztikus.',
+);
+const inlineStyles = [...index.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(match => match[1]).join('\n');
+assert.doesNotMatch(
+  inlineStyles,
+  /\.pile__inspect|--mobile-safe-bottom/,
+  'A mobilos nagyító javítása nem maradhat közvetlenül az index.html fájlban.',
+);
+assert.match(mobileEntryCss, /@media \(max-width: 900px\)[\s\S]*\.pile__inspect/);
+assert.match(mobileEntryCss, /safe-area-inset-left/);
+assert.match(mobileEntryCss, /safe-area-inset-bottom/);
+assert.match(mobileEntryCss, /@media \(orientation: landscape\) and \(max-height: 500px\)/);
+assert.match(
+  buildScript,
+  /stylesheetFiles[\s\S]*indexTemplate\.matchAll[\s\S]*stylesheetFiles\.map\(file => read\(file\)\)\.join/,
+  'A standalone buildnek az index stylesheet-sorrendjét kell változtatás nélkül követnie.',
+);
 assert.match(
   enhancementPipeline,
   /\.\.\/visual-settings-persistence\.js[\s\S]*\.\.\/visual-system\.js[\s\S]*\.\.\/legal-ui\.js/,
@@ -92,4 +115,4 @@ assert.ok(placeholders.every(asset => asset.approvedForRelease === true), 'A pro
 assert.ok(licenses.filter(asset => ['club-logo', 'league-logo'].includes(asset.assetType) && asset.sourceType !== 'placeholder')
   .every(asset => asset.approvedForRelease !== true), 'Nem jóváhagyott hivatalos logó nem kerülhet kiadásra.');
 
-console.log('Vizuális rendszer: rendben.');
+console.log('Vizuális rendszer és determinisztikus belépési rétegek: rendben.');
