@@ -29,6 +29,10 @@ assert.ok(
   index.indexOf('css/mobile-selection-fix.css') < index.indexOf('css/duel-emphasis.css'),
   'A mobil belépési szabályok CSS-sorrendje nem determinisztikus.',
 );
+assert.ok(
+  index.indexOf('css/mobile-selection-fix.css') < index.indexOf('css/legal-ui.css'),
+  'A tesztnek védenie kell, hogy a későbbi alap nagyítóstílus felülírhatja a mobilmodult.',
+);
 const inlineStyles = [...index.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(match => match[1]).join('\n');
 assert.doesNotMatch(
   inlineStyles,
@@ -39,6 +43,16 @@ assert.match(mobileSelectionCss, /@media \(max-width: 900px\)[\s\S]*\.pile__insp
 assert.match(mobileSelectionCss, /safe-area-inset-left/);
 assert.match(mobileSelectionCss, /safe-area-inset-bottom/);
 assert.match(mobileSelectionCss, /@media \(orientation: landscape\) and \(max-height: 500px\)/);
+assert.match(
+  mobileSelectionCss,
+  /@media \(max-width: 900px\) and \(max-height: 700px\)[\s\S]*width:\s*42px\s*!important[\s\S]*font-size:\s*20px\s*!important/,
+  'A rövid kijelzős nagyítóméretnek ellen kell állnia a később betöltött legal-ui.css alapméretének.',
+);
+assert.match(
+  mobileSelectionCss,
+  /@media \(orientation: landscape\) and \(max-height: 500px\)[\s\S]*width:\s*40px\s*!important[\s\S]*font-size:\s*19px\s*!important/,
+  'A fekvő nézeti kompakt nagyítóméretnek a teljes CSS-sorrendben is érvényesülnie kell.',
+);
 assert.match(serviceWorker, /\.\/css\/mobile-selection-fix\.css/, 'A mobil belépési szabályok forrását offline is gyorsítótárazni kell.');
 assert.doesNotMatch(index, /css\/mobile-entry-fixes\.css/, 'Nem maradhat külön, offline listán kívüli mobil CSS-hivatkozás.');
 assert.match(
