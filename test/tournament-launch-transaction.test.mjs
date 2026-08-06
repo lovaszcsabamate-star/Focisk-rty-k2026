@@ -105,6 +105,7 @@ assert.equal(values.get(APP_STORAGE_KEYS.quickMatchLaunch), oldLaunch);
 assert.equal(values.has(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY), false);
 assert.equal(JSON.parse(values.get(TOURNAMENT_STORAGE_KEY)).currentMatchId ?? null, null);
 
+// A második forgatókönyv azt védi, hogy a rollback egyetlen hibája se állítsa le a többi kulcs helyreállítását.
 const rollbackValues = new Map([
   [APP_STORAGE_KEYS.deckSelection, oldDeck],
   [APP_STORAGE_KEYS.quickMatchSetup, oldSetup],
