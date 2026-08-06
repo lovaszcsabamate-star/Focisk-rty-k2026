@@ -29,6 +29,7 @@ const database = Object.freeze({
 const makePlayer = index => {
   const firstClub = index < 7;
   const hungarian = index < 11;
+  const partialOptionalData = index === 0;
   return {
     id: `player-${index + 1}`,
     name: `Teszt Játékos ${index + 1}`,
@@ -39,17 +40,17 @@ const makePlayer = index => {
     nation: hungarian ? 'HUN' : 'SRB',
     nationality: hungarian ? 'HUN' : 'SRB',
     nationalityCode: hungarian ? 'HUN' : 'SRB',
-    position: index % 4 === 0 ? 'Kapus' : 'Középpályás',
-    birthDate: `199${index % 10}-01-01`,
-    dateOfBirth: `199${index % 10}-01-01`,
+    position: partialOptionalData ? '' : (index % 4 === 0 ? 'Kapus' : 'Középpályás'),
+    birthDate: partialOptionalData ? null : `199${index % 10}-01-01`,
+    dateOfBirth: partialOptionalData ? null : `199${index % 10}-01-01`,
     stats: {
-      appearances: 10 + index,
-      starts: 5 + index,
-      goals: index,
-      squads: 12 + index,
-      yellowCards: index % 4,
-      redCards: 0,
-      totalDismissals: 0,
+      appearances: partialOptionalData ? null : 10 + index,
+      starts: partialOptionalData ? null : 5 + index,
+      goals: partialOptionalData ? null : index,
+      squads: partialOptionalData ? null : 12 + index,
+      yellowCards: partialOptionalData ? null : index % 4,
+      redCards: partialOptionalData ? null : 0,
+      totalDismissals: partialOptionalData ? null : 0,
     },
   };
 };
@@ -109,7 +110,11 @@ const secondLoad = await service.loadDatabase(database.id);
 assert.strictEqual(firstLoad, secondLoad, 'Az adatbázisnak csak egyszer kell betöltődnie.');
 assert.equal(firstLoad.source, 'normalized');
 assert.equal(firstLoad.players.length, 12);
-assert.equal(firstLoad.playablePlayers.length, 12);
+assert.equal(firstLoad.playablePlayers.length, 12, 'az opcionális statisztika hiánya nem zárhat ki valós játékost');
+assert.equal(firstLoad.playablePlayers[0].goals, null);
+assert.equal(firstLoad.playablePlayers[0].dateOfBirth, null);
+assert.equal(firstLoad.playablePayload.selection.incompleteButPlayableCards, 1);
+assert.equal(firstLoad.playablePayload.selection.excludedUnplayableCards, 0);
 assert.equal(firstLoad.validation.summary.valid, true);
 assert.equal(fetchCounts.get('normalized.json'), 1);
 assert.equal(fetchCounts.get('clubs.json'), 1);
@@ -133,6 +138,7 @@ assert.deepEqual(eligibleTeams.map(team => [team.id, team.count]), [
 const statistics = await service.getDatabaseStatistics(database.id);
 assert.equal(statistics.playerCount, 12);
 assert.equal(statistics.playablePlayerCount, 12);
+assert.equal(statistics.excludedPlayerCount, 0);
 assert.equal(statistics.clubCount, 2);
 assert.equal(statistics.nationalityCount, 2);
 assert.equal(statistics.source, 'normalized');
@@ -158,6 +164,7 @@ const fallbackService = createDatabaseService({
 const fallback = await fallbackService.loadDatabase(database.id);
 assert.equal(fallback.source, 'legacy-fallback');
 assert.equal(fallback.players.length, 12);
+assert.equal(fallback.playablePlayers.length, 12);
 assert.equal(warnings.some(message => /Visszaállás a régi forrásrétegekre/.test(message)), true);
 
 await assert.rejects(
@@ -165,4 +172,4 @@ await assert.rejects(
   /Ismeretlen vagy letiltott adatbázis/,
 );
 
-console.log('✓ Központi adatbázis-szolgáltatás: cache, betöltés, fallback, klub- és nemzetiségi szűrés, jogosultság, validáció és statisztika rendben');
+console.log('✓ Központi adatbázis-szolgáltatás: cache, fallback, részleges opcionális adatok, klub- és nemzetiségi szűrés, validáció és statisztika rendben');
