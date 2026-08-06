@@ -202,15 +202,27 @@ const makeMockPlayer = index => {
 
 export const MOCK_PLAYERS = Array.from({ length: 52 }, (_, index) => makeMockPlayer(index));
 
+const nonEmptyText = value => typeof value === 'string' && value.trim() !== '';
+
 /** Validate the complete pool while allowing source-declared optional nulls. */
 export function validatePlayers(cards) {
+  if (!Array.isArray(cards)) return ['players: card array is required'];
   const problems = [];
+  const validIds = [];
 
   cards.forEach((card, index) => {
-    if (!card?.id || !card?.name || !card?.club) problems.push(`card ${index}: missing id, name or club`);
+    if (!card || typeof card !== 'object' || Array.isArray(card)) {
+      problems.push(`card ${index}: valid card object is required`);
+      return;
+    }
+    if (!nonEmptyText(card.id) || !nonEmptyText(card.name) || !nonEmptyText(card.club)) {
+      problems.push(`card ${index}: missing id, name or club`);
+      return;
+    }
+    validIds.push(card.id.trim());
   });
 
-  if (new Set(cards.map(card => card?.id)).size !== cards.length) problems.push('duplicate card ids');
+  if (new Set(validIds).size !== validIds.length) problems.push('duplicate card ids');
   return problems;
 }
 
