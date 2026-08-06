@@ -25,9 +25,26 @@ const partialCard = normaliseCard({
   id: 'partial-1',
   name: 'Hiányos Adatú Játékos',
   club: 'Teszt FC',
-  stats: { goals: null, appearances: null },
+  birthDate: null,
+  stats: {
+    appearances: null,
+    starts: null,
+    goals: null,
+    minutes: null,
+    assists: null,
+    yellowCards: null,
+    redCards: null,
+    heightCm: null,
+    marketValue: null,
+  },
 });
-assert.equal(partialCard.stats.goals, null);
+for (const field of [
+  'appearances', 'starts', 'goals', 'minutes', 'assists',
+  'yellowCards', 'redCards', 'heightCm', 'marketValue',
+]) {
+  assert.equal(partialCard.stats[field], null, `${field}: az ismeretlen érték null marad`);
+}
+assert.equal(partialCard.birthDate, null);
 assert.deepEqual(
   validatePlayers([partialCard]),
   [],
@@ -37,6 +54,25 @@ assert.match(
   validatePlayers([{ id: '', name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
   /missing id, name or club/,
 );
+assert.match(
+  validatePlayers([{ id: '   ', name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
+  /missing id, name or club/,
+  'a csak szóközt tartalmazó azonosító nem érvényes',
+);
+assert.match(
+  validatePlayers([null]).join('\n'),
+  /valid card object is required/,
+  'a kártyaobjektum továbbra is kötelező',
+);
+assert.match(
+  validatePlayers([
+    { id: 'duplicate-1', name: 'Első', club: 'Teszt FC' },
+    { id: 'duplicate-1', name: 'Második', club: 'Másik FC' },
+  ]).join('\n'),
+  /duplicate card ids/,
+  'a játékosazonosítók továbbra sem lehetnek duplikáltak',
+);
+assert.match(validatePlayers(null).join('\n'), /card array is required/);
 
 for (const card of cards) {
   assert.ok(Array.isArray(card.clubs) && card.clubs.length >= 1, `${card.id}: clubs`);
@@ -89,4 +125,4 @@ assert.equal(
 assert.equal(cardPlayerDisplayName({ name: 'PESIC... ALEKSANDAR' }), 'Pesic Aleksandar');
 assert.ok(cards.every(card => !cardPlayerDisplayName(card).includes('...')));
 
-console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, opcionális null értékek és olvasható kártyanevek');
+console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, opcionális null értékek, kötelező azonosítók és olvasható kártyanevek');
