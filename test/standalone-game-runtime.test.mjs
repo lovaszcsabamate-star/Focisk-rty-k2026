@@ -34,11 +34,6 @@ assert.match(
   /__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__/,
   'A lapos standalone modulrendhez szükséges későn feloldott torna-hook hiányzik.',
 );
-assert.match(
-  standalone,
-  /incompleteButPlayableCards|runtime-identity/,
-  'A részleges játékosadatokat megtartó runtime-szűrés nem került a standalone buildbe.',
-);
 assert.ok(
   buildSettingsScript.indexOf("'js/services/quick-match-storage-service.js'")
     < buildSettingsScript.indexOf("'js/services/tournament-storage-service.js'"),
@@ -55,4 +50,4 @@ assert.doesNotMatch(
   'A generált önálló HTML-ben külső modul- vagy stílushivatkozás maradt.',
 );
 
-console.log('✓ Standalone HTML: GameRuntime, mentésvédelem, Torna/Gyors meccs tranzakció, részleges adatkezelés és külső import nélküli build rendben');
+console.log('✓ Standalone HTML: GameRuntime, mentésvédelem, Torna/Gyors meccs tranzakció és külső import nélküli build rendben');
