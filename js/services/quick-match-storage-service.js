@@ -10,18 +10,19 @@ import {
 } from '../domain/quick-match-domain.js';
 import { RANDOM_DECK_SELECTION } from '../domain/deck-selection-domain.js';
 import { storageService } from './storage-service.js';
-import {
-  commitPendingTournamentLaunch,
-  rollbackPendingTournamentLaunch,
-} from './tournament-storage-service.js';
 
 export const QUICK_MATCH_SETUP_VERSION = 2;
 export const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
 export const QUICK_MATCH_LAUNCH_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchLaunch;
+export const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
 const quickMatchStorageText = value => String(value ?? '').trim();
 const quickMatchStorageMode = value => (value === 'penalties' ? 'penalties' : 'classic');
 const quickMatchStorageDifficulty = value => quickMatchStorageText(value) || 'medium';
+const resolveTournamentHook = action => {
+  const handler = globalThis[TOURNAMENT_LAUNCH_TRANSACTION_HOOK]?.[action];
+  return typeof handler === 'function' ? handler : () => true;
+};
 
 export function normaliseQuickMatchSetup(setup) {
   if (!setup || typeof setup !== 'object') return null;
@@ -46,9 +47,20 @@ export function normaliseQuickMatchSetup(setup) {
 
 export function createQuickMatchStorageService({
   storage = storageService,
-  commitTournamentLaunch = commitPendingTournamentLaunch,
-  rollbackTournamentLaunch = rollbackPendingTournamentLaunch,
+  commitTournamentLaunch = null,
+  rollbackTournamentLaunch = null,
 } = {}) {
+  const commitTournament = () => (
+    typeof commitTournamentLaunch === 'function'
+      ? commitTournamentLaunch()
+      : resolveTournamentHook('commit')()
+  );
+  const rollbackTournament = () => (
+    typeof rollbackTournamentLaunch === 'function'
+      ? rollbackTournamentLaunch()
+      : resolveTournamentHook('rollback')()
+  );
+
   const readSetup = (players = []) => {
     const setup = normaliseQuickMatchSetup(storage.readJson(QUICK_MATCH_SETUP_STORAGE_KEY, null));
     if (!setup) return null;
@@ -71,7 +83,7 @@ export function createQuickMatchStorageService({
   const stage = setup => {
     const normalised = normaliseQuickMatchSetup(setup);
     if (!normalised) {
-      rollbackTournamentLaunch();
+      rollbackTournament();
       return false;
     }
 
@@ -94,7 +106,7 @@ export function createQuickMatchStorageService({
       for (const [rollbackKey, previous] of checkpoint.entries()) {
         restoreRawValue(rollbackKey, previous);
       }
-      rollbackTournamentLaunch();
+      rollbackTournament();
     };
 
     for (const [key, value] of stagedValues) {
@@ -103,7 +115,7 @@ export function createQuickMatchStorageService({
       return false;
     }
 
-    if (!commitTournamentLaunch()) {
+    if (!commitTournament()) {
       rollbackStage();
       return false;
     }
