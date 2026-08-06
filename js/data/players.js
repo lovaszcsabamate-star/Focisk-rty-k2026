@@ -127,6 +127,13 @@ export const formatAttribute = formatCategoryValue;
 export const configureAttributes = configureCategories;
 
 const pickNumber = (...values) => firstValid(values.map(normaliseNumber));
+const meaningfulRequiredText = value => typeof value === 'string'
+  && !PLACEHOLDER_VALUES.has(value.trim().toLocaleLowerCase('hu-HU'));
+const normaliseRequiredClub = card => {
+  if (meaningfulRequiredText(card?.club)) return card.club.trim();
+  if (meaningfulRequiredText(card?.clubName)) return card.clubName.trim();
+  return '';
+};
 
 /** Backward-compatible normalisation for older and future enriched JSON payloads. */
 export function normaliseCard(card = {}) {
@@ -162,6 +169,7 @@ export function normaliseCard(card = {}) {
   return {
     ...card,
     birthDate,
+    club: normaliseRequiredClub(card),
     nation: typeof card.nation === 'string' ? card.nation : '',
     position: typeof card.position === 'string' ? card.position : '',
     stats,
@@ -202,8 +210,6 @@ const makeMockPlayer = index => {
 
 export const MOCK_PLAYERS = Array.from({ length: 52 }, (_, index) => makeMockPlayer(index));
 
-const nonEmptyText = value => typeof value === 'string' && value.trim() !== '';
-
 /** Validate the complete pool while allowing source-declared optional nulls. */
 export function validatePlayers(cards) {
   if (!Array.isArray(cards)) return ['players: card array is required'];
@@ -215,7 +221,8 @@ export function validatePlayers(cards) {
       problems.push(`card ${index}: valid card object is required`);
       return;
     }
-    if (!nonEmptyText(card.id) || !nonEmptyText(card.name) || !nonEmptyText(card.club)) {
+    const club = meaningfulRequiredText(card.club) ? card.club : card.clubName;
+    if (!meaningfulRequiredText(card.id) || !meaningfulRequiredText(card.name) || !meaningfulRequiredText(club)) {
       problems.push(`card ${index}: missing id, name or club`);
       return;
     }
