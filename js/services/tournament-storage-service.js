@@ -9,6 +9,7 @@ import {
 
 export const TOURNAMENT_STORAGE_KEY = 'fociskartyak.tournament.v1';
 export const TOURNAMENT_HISTORY_STORAGE_KEY = 'fociskartyak.tournament-history.v1';
+export const TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY = 'fociskartyak.tournament-pending-launch.v1';
 
 const tournamentStorageText = value => String(value ?? '').trim();
 
@@ -41,11 +42,51 @@ export function normaliseStoredTournament(value) {
 
 export function createTournamentStorageService({ storage = storageService } = {}) {
   const read = () => normaliseStoredTournament(storage.readJson(TOURNAMENT_STORAGE_KEY, null));
+  const readPendingLaunch = () => {
+    const value = storage.readJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, null);
+    const previous = normaliseStoredTournament(value?.previous);
+    const next = normaliseStoredTournament(value?.next);
+    if (!previous || !next || previous.id !== next.id || !tournamentStorageText(next.currentMatchId)) return null;
+    return Object.freeze({ previous, next });
+  };
+  const rollbackPendingLaunch = () => {
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    return true;
+  };
+  const commitPendingLaunch = () => {
+    const pending = readPendingLaunch();
+    if (!pending) {
+      storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+      return true;
+    }
+    if (!storage.writeJson(TOURNAMENT_STORAGE_KEY, pending.next)) return false;
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    return true;
+  };
   const save = state => {
     const normalised = normaliseStoredTournament(state);
-    return normalised ? storage.writeJson(TOURNAMENT_STORAGE_KEY, normalised) : false;
+    if (!normalised) return false;
+    const active = read();
+    const startsNewMatch = Boolean(
+      active
+      && active.id === normalised.id
+      && tournamentStorageText(normalised.currentMatchId)
+      && tournamentStorageText(active.currentMatchId) !== tournamentStorageText(normalised.currentMatchId),
+    );
+    if (startsNewMatch) {
+      return storage.writeJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, {
+        previous: active,
+        next: normalised,
+      });
+    }
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    return storage.writeJson(TOURNAMENT_STORAGE_KEY, normalised);
   };
-  const clear = () => { storage.remove(TOURNAMENT_STORAGE_KEY); return true; };
+  const clear = () => {
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    storage.remove(TOURNAMENT_STORAGE_KEY);
+    return true;
+  };
   const readHistory = () => {
     const value = storage.readJson(TOURNAMENT_HISTORY_STORAGE_KEY, []);
     return Array.isArray(value) ? value.filter(item => item && typeof item === 'object').slice(0, 30) : [];
@@ -67,10 +108,22 @@ export function createTournamentStorageService({ storage = storageService } = {}
     };
     return storage.writeJson(TOURNAMENT_HISTORY_STORAGE_KEY, [record, ...history.filter(item => item.id !== record.id)].slice(0, 30));
   };
-  return Object.freeze({ read, save, clear, readHistory, archive });
+  return Object.freeze({
+    read,
+    save,
+    clear,
+    readPendingLaunch,
+    commitPendingLaunch,
+    rollbackPendingLaunch,
+    readHistory,
+    archive,
+  });
 }
 
 export const tournamentStorageService = createTournamentStorageService();
 export const readTournament = (...args) => tournamentStorageService.read(...args);
 export const saveTournament = (...args) => tournamentStorageService.save(...args);
 export const clearTournament = (...args) => tournamentStorageService.clear(...args);
+export const readPendingTournamentLaunch = (...args) => tournamentStorageService.readPendingLaunch(...args);
+export const commitPendingTournamentLaunch = (...args) => tournamentStorageService.commitPendingLaunch(...args);
+export const rollbackPendingTournamentLaunch = (...args) => tournamentStorageService.rollbackPendingLaunch(...args);
