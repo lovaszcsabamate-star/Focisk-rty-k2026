@@ -208,9 +208,6 @@ export function validatePlayers(cards) {
 
   cards.forEach((card, index) => {
     if (!card?.id || !card?.name || !card?.club) problems.push(`card ${index}: missing id, name or club`);
-    if (attributeValue(card, 'goals') == null) {
-      problems.push(`${card?.name ?? `card ${index}`}: goals is missing or invalid`);
-    }
   });
 
   if (new Set(cards.map(card => card?.id)).size !== cards.length) problems.push('duplicate card ids');
