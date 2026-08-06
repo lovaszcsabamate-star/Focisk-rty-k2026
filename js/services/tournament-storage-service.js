@@ -42,6 +42,8 @@ export function normaliseStoredTournament(value) {
 }
 
 export function createTournamentStorageService({ storage = storageService } = {}) {
+  let pendingLaunchWriteFailed = false;
+
   const read = () => normaliseStoredTournament(storage.readJson(TOURNAMENT_STORAGE_KEY, null));
   const readPendingLaunch = () => {
     const value = storage.readJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, null);
@@ -51,16 +53,22 @@ export function createTournamentStorageService({ storage = storageService } = {}
     return Object.freeze({ previous, next });
   };
   const rollbackPendingLaunch = () => {
+    pendingLaunchWriteFailed = false;
     storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
     return true;
   };
   const commitPendingLaunch = () => {
+    if (pendingLaunchWriteFailed) {
+      rollbackPendingLaunch();
+      return false;
+    }
     const pending = readPendingLaunch();
     if (!pending) {
       storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
       return true;
     }
     if (!storage.writeJson(TOURNAMENT_STORAGE_KEY, pending.next)) return false;
+    pendingLaunchWriteFailed = false;
     storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
     return true;
   };
@@ -75,15 +83,19 @@ export function createTournamentStorageService({ storage = storageService } = {}
       && tournamentStorageText(active.currentMatchId) !== tournamentStorageText(normalised.currentMatchId),
     );
     if (startsNewMatch) {
-      return storage.writeJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, {
+      const saved = storage.writeJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, {
         previous: active,
         next: normalised,
       });
+      pendingLaunchWriteFailed = !saved;
+      return saved;
     }
+    pendingLaunchWriteFailed = false;
     storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
     return storage.writeJson(TOURNAMENT_STORAGE_KEY, normalised);
   };
   const clear = () => {
+    pendingLaunchWriteFailed = false;
     storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
     storage.remove(TOURNAMENT_STORAGE_KEY);
     return true;
