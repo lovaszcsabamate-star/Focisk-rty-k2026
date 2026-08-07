@@ -54,6 +54,13 @@ assert.equal(unavailable.readString('x', 'safe'), 'safe');
 assert.equal(unavailable.writeString('x', 'y'), false);
 assert.equal(unavailable.writeJson('x', {}), false);
 assert.equal(unavailable.remove('x'), false);
+assert.deepEqual(unavailable.inspectLastFailure(), {
+  operation: 'remove',
+  key: 'x',
+  code: 'unavailable',
+  name: 'StorageUnavailable',
+  message: 'A böngészői tárhely nem érhető el.',
+});
 
 const throwing = createStorageService({
   getItem() { throw new Error('blocked'); },
@@ -63,7 +70,15 @@ const throwing = createStorageService({
 assert.equal(throwing.readString('x', 'safe'), 'safe');
 assert.equal(throwing.readJson('x', null), null);
 assert.equal(throwing.writeString('x', 'y'), false);
+assert.deepEqual(throwing.inspectLastFailure(), {
+  operation: 'write',
+  key: 'x',
+  code: 'failed',
+  name: 'Error',
+  message: 'blocked',
+});
 assert.equal(throwing.remove('x'), false);
+assert.equal(throwing.inspectLastFailure().operation, 'remove');
 
 const consumers = [
   'js/deck-selection.js',

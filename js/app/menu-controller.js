@@ -196,7 +196,6 @@ export function createMenuController({
       </div>
     `;
     panel.querySelector('#replace-save-btn').addEventListener('click', () => {
-      clearSaved();
       actions.start(mode, difficulty);
     }, { once: true });
     panel.querySelector('#keep-save-btn').addEventListener('click', () => showTitleScreen({ offerOnboarding: false }), { once: true });

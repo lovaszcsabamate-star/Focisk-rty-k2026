@@ -8,6 +8,7 @@ export { GAME_MODE };
 const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 const cloneSaveValue = value => (value == null ? value : structuredClone(value));
+const runtimeCardId = card => typeof card?.id === 'string' ? card.id.trim() : '';
 
 export class GameRuntimeError extends Error {
   constructor(code, message) {
@@ -48,6 +49,30 @@ export class GameRuntime {
     return this.state();
   }
 
+  checkpoint() {
+    return Object.freeze({
+      mode: this.mode,
+      difficulty: this.difficulty,
+      game: this.game,
+      ai: this.ai,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+    });
+  }
+
+  rollback(checkpoint) {
+    if (!checkpoint || typeof checkpoint !== 'object') {
+      throw new GameRuntimeError('INVALID_CHECKPOINT', 'A visszaállítandó runtime-állapot hiányzik.');
+    }
+    this.mode = checkpoint.mode ?? null;
+    this.difficulty = checkpoint.difficulty ?? null;
+    this.game = checkpoint.game ?? null;
+    this.ai = checkpoint.ai ?? null;
+    this.pendingAttribute = checkpoint.pendingAttribute ?? null;
+    this.awaitingChooserCard = Boolean(checkpoint.awaitingChooserCard);
+    return this.state();
+  }
+
   state() {
     return Object.freeze({
       mode: this.mode,
@@ -72,10 +97,9 @@ export class GameRuntime {
     return this.modeFactory.create(mode, { players: this.players, rng: this.rng });
   }
 
-  _prepareAi() {
-    this._requireGame();
-    const aiDeck = this.modeFactory.aiDeck(this.mode, this.game);
-    this.ai = this.aiFactory(this.difficulty, aiDeck);
+  _createAi(mode, difficulty, game) {
+    const aiDeck = this.modeFactory.aiDeck(mode, game);
+    return this.aiFactory(difficulty, aiDeck);
   }
 
   _requireGame() {
@@ -91,13 +115,81 @@ export class GameRuntime {
     return game;
   }
 
+  _expandSavedClassicPlayers(mode, savedGame) {
+    if (mode !== GAME_MODE.CLASSIC || !Array.isArray(savedGame?.players)) return savedGame;
+    const currentCards = new Map(this.players
+      .map(card => [runtimeCardId(card), card])
+      .filter(([id]) => Boolean(id)));
+    const expandCard = card => {
+      const id = runtimeCardId(card);
+      const isCompactReference = id && card && typeof card === 'object'
+        && !Array.isArray(card) && Object.keys(card).length === 1;
+      return isCompactReference ? (currentCards.get(id) ?? card) : card;
+    };
+    const expandCards = cards => Array.isArray(cards) ? cards.map(expandCard) : cards;
+    const expandSides = sides => sides && typeof sides === 'object' && !Array.isArray(sides)
+      ? {
+        ...sides,
+        [HUMAN]: expandCards(sides[HUMAN]),
+        [AI]: expandCards(sides[AI]),
+      }
+      : sides;
+    const expandPlayed = played => played && typeof played === 'object' && !Array.isArray(played)
+      ? {
+        ...played,
+        [HUMAN]: expandCard(played[HUMAN]),
+        [AI]: expandCard(played[AI]),
+      }
+      : played;
+    const expandResult = result => result && typeof result === 'object' && !Array.isArray(result)
+      ? {
+        ...result,
+        humanCard: expandCard(result.humanCard),
+        aiCard: expandCard(result.aiCard),
+      }
+      : result;
+    return {
+      ...savedGame,
+      players: expandCards(savedGame.players),
+      deck: expandCards(savedGame.deck),
+      hands: expandSides(savedGame.hands),
+      won: expandSides(savedGame.won),
+      pot: expandCards(savedGame.pot),
+      played: expandPlayed(savedGame.played),
+      lastResult: expandResult(savedGame.lastResult),
+      log: Array.isArray(savedGame.log) ? savedGame.log.map(expandResult) : savedGame.log,
+    };
+  }
+
+  _assertSavedCardsAvailable(mode, savedGame) {
+    const currentIds = new Set(this.players.map(runtimeCardId).filter(Boolean));
+    const savedCards = mode === GAME_MODE.PENALTIES
+      ? [
+        ...(Array.isArray(savedGame?.teams?.[HUMAN]) ? savedGame.teams[HUMAN] : []),
+        ...(Array.isArray(savedGame?.teams?.[AI]) ? savedGame.teams[AI] : []),
+      ]
+      : Array.isArray(savedGame?.players) ? savedGame.players : [];
+    const missingIds = [...new Set(savedCards.map(runtimeCardId).filter(id => id && !currentIds.has(id)))];
+    if (missingIds.length) {
+      throw new GameRuntimeError(
+        'SAVE_CARD_MISSING',
+        `A mentés ${missingIds.length} már nem elérhető játékoskártyát tartalmaz: ${missingIds.slice(0, 5).join(', ')}`,
+      );
+    }
+  }
+
   start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
-    this.mode = this.modeFactory.normalize(mode);
-    this.difficulty = this._resolveDifficulty(difficulty);
-    this.game = this._createGame(this.mode);
+    const nextMode = this.modeFactory.normalize(mode);
+    const nextDifficulty = this._resolveDifficulty(difficulty);
+    const nextGame = this._createGame(nextMode);
+    const nextAi = this._createAi(nextMode, nextDifficulty, nextGame);
+
+    this.mode = nextMode;
+    this.difficulty = nextDifficulty;
+    this.game = nextGame;
+    this.ai = nextAi;
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
-    this._prepareAi();
     return this.state();
   }
 
@@ -109,18 +201,27 @@ export class GameRuntime {
       throw new TypeError('A mentett játék visszaállításához hydrate függvény szükséges.');
     }
 
-    this.mode = this.modeFactory.normalize(saved.mode);
-    this.difficulty = this._resolveDifficulty(saved.difficulty);
-    const emptyGame = this._createGame(this.mode);
-    this.game = hydrate(emptyGame, saved.game);
-    if (!this.game || typeof this.game !== 'object') {
+    const nextMode = this.modeFactory.normalize(saved.mode);
+    const nextDifficulty = this._resolveDifficulty(saved.difficulty);
+    this._assertSavedCardsAvailable(nextMode, saved.game);
+    const expandedSavedGame = this._expandSavedClassicPlayers(nextMode, saved.game);
+    const emptyGame = this._createGame(nextMode);
+    const nextGame = hydrate(emptyGame, expandedSavedGame);
+    if (!nextGame || typeof nextGame !== 'object') {
       throw new GameRuntimeError('INVALID_SAVE', 'A mentett játékmotor nem állítható vissza.');
     }
-    this.pendingAttribute = typeof saved.pendingAttribute === 'string'
+    const nextPendingAttribute = typeof saved.pendingAttribute === 'string'
       ? saved.pendingAttribute
       : null;
-    this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
-    this._prepareAi();
+    const nextAwaitingChooserCard = Boolean(saved.awaitingChooserCard);
+    const nextAi = this._createAi(nextMode, nextDifficulty, nextGame);
+
+    this.mode = nextMode;
+    this.difficulty = nextDifficulty;
+    this.game = nextGame;
+    this.ai = nextAi;
+    this.pendingAttribute = nextPendingAttribute;
+    this.awaitingChooserCard = nextAwaitingChooserCard;
     return this.state();
   }
 

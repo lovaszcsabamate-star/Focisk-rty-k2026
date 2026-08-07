@@ -51,6 +51,7 @@ const PWA_SHELL = [
   './js/domain/quick-match-domain.js',
   './js/services/deck-selection-storage-service.js',
   './js/services/quick-match-storage-service.js',
+  './js/services/tournament-storage-service.js',
   './js/ui/deck-selection-menu-component.js',
   './js/quick-match-card-controls.js',
   './js/ui/help-popover-component.js',
