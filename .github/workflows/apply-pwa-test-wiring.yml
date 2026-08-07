@@ -1,0 +1,96 @@
+name: Apply PWA test wiring
+
+on:
+  push:
+    branches:
+      - fix/atomic-pwa-cache
+    paths:
+      - .github/workflows/apply-pwa-test-wiring.yml
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/atomic-pwa-cache
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify PWA implementation
+        id: verify
+        shell: bash
+        run: |
+          set +e
+          {
+            node --check sw.js
+            node --check scripts/audit-pwa-shell.mjs
+            node --check test/pwa-cache.test.mjs
+            node scripts/audit-pwa-shell.mjs
+            node test/pwa-cache.test.mjs
+          } > .pwa-diagnostic.txt 2>&1
+          status=$?
+          cat .pwa-diagnostic.txt
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Persist diagnostics on failure
+        if: steps.verify.outputs.status != '0'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .pwa-diagnostic.txt
+          git commit -m "Rögzítsd a PWA ellenőrzés diagnosztikáját"
+          git push origin HEAD:fix/atomic-pwa-cache
+          exit 1
+      - name: Wire PWA checks into project tests
+        if: steps.verify.outputs.status == '0'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          pkg = Path('package.json')
+          data = json.loads(pkg.read_text())
+          scripts = data['scripts']
+          scripts['audit:pwa'] = 'node scripts/audit-pwa-shell.mjs'
+          scripts['test:pwa-cache'] = 'node test/pwa-cache.test.mjs'
+          for key in ['test', 'test:all']:
+              for command in ['node scripts/audit-pwa-shell.mjs', 'node test/pwa-cache.test.mjs']:
+                  if command not in scripts[key]: scripts[key] += f' && {command}'
+          for command in ['node --check scripts/audit-pwa-shell.mjs', 'node --check test/pwa-cache.test.mjs']:
+              if command not in scripts['lint']: scripts['lint'] += f' && {command}'
+          pkg.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+
+          static = Path('test/static.test.mjs')
+          source = static.read_text()
+          old = "assert.match(serviceWorker, /fociskartyak-2026-v30/);"
+          new = """assert.match(serviceWorker, /const CORE_SHELL/);
+          assert.match(serviceWorker, /const OPTIONAL_ASSETS/);
+          assert.match(serviceWorker, /cache\\.addAll\\(CORE_SHELL\\)/);
+          assert.match(serviceWorker, /SHA-256/);
+          assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
+          if old not in source:
+              raise SystemExit('A régi service-worker verzióőr nem található a static tesztben.')
+          static.write_text(source.replace(old, new, 1))
+          PY
+          rm -f .pwa-diagnostic.txt
+          npm test
+      - name: Commit verified wiring
+        if: steps.verify.outputs.status == '0'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/apply-pwa-test-wiring.yml
+          git add package.json test/static.test.mjs
+          git commit -m "Kösd be az atomikus PWA ellenőrzéseit"
+          git push origin HEAD:fix/atomic-pwa-cache
