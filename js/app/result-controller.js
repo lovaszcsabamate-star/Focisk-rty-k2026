@@ -3,6 +3,11 @@
 import { AI, HUMAN } from '../engine.js';
 import { getLine } from '../banter.js';
 import { ATTRIBUTE_BY_KEY } from '../data/players.js';
+import {
+  TOURNAMENT_MATCH_STATUS,
+  TOURNAMENT_STRUCTURED_RESULT_KEY,
+  tournamentMatchById,
+} from '../tournament/tournament-domain.js';
 import { el } from '../ui.js';
 
 export class ResultControllerError extends Error {
@@ -24,6 +29,45 @@ const resultControllerAssertMethod = (target, method, code) => {
   if (typeof target?.[method] !== 'function') {
     throw new ResultControllerError(code, `Az eredményvezérlőből hiányzik a(z) ${method} művelet.`);
   }
+};
+
+const stageStructuredTournamentResult = ({ result, mode, won, lost }) => {
+  const tournament = globalThis.FociskartyakTournament?.read?.();
+  if (!tournament?.currentMatchId) return null;
+  const match = tournamentMatchById(tournament, tournament.currentMatchId);
+  if (!match || match.status === TOURNAMENT_MATCH_STATUS.COMPLETE) return null;
+
+  const humanScore = Number(result?.human);
+  const aiScore = Number(result?.ai);
+  if (!Number.isFinite(humanScore) || !Number.isFinite(aiScore)) return null;
+
+  const humanHome = match.homeId === tournament.humanTeamId;
+  const opponentId = humanHome ? match.awayId : match.homeId;
+  const playerPayload = globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ ?? globalThis.__EMBEDDED_PLAYER_DATA__;
+  const playerById = new Map((Array.isArray(playerPayload?.players) ? playerPayload.players : [])
+    .map(player => [String(player.id), player]));
+  const lineup = (Array.isArray(tournament.currentLineupIds) ? tournament.currentLineupIds : []).map(playerId => ({
+    playerId: String(playerId),
+    name: playerById.get(String(playerId))?.name || String(playerId),
+  }));
+  const payload = Object.freeze({
+    schemaVersion: 1,
+    tournamentId: tournament.id,
+    matchId: match.id,
+    homeScore: humanHome ? humanScore : aiScore,
+    awayScore: humanHome ? aiScore : humanScore,
+    winnerId: won ? tournament.humanTeamId : lost ? opponentId : null,
+    decidedBy: mode === 'penalties'
+      ? (match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK ? 'penalties' : 'played-penalties')
+      : 'played',
+    humanOutcome: won ? 'win' : lost ? 'loss' : 'draw',
+    penaltyMatch: mode === 'penalties',
+    tiebreak: match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK,
+    lineup,
+    createdAt: new Date().toISOString(),
+  });
+  globalThis[TOURNAMENT_STRUCTURED_RESULT_KEY] = payload;
+  return payload;
 };
 
 export function createResultController({
@@ -69,13 +113,26 @@ export function createResultController({
 
     actions.setBusy(true);
     ui.setInteractionBusy(false);
-    clearSaved();
 
     const won = result.winner === humanId;
     const lost = result.winner === aiId;
+    const structuredTournamentResult = stageStructuredTournamentResult({
+      result,
+      mode: state.mode,
+      won,
+      lost,
+    });
+    clearSaved();
     ui.say(getBanterLine(won ? 'gameOverWin' : lost ? 'gameOverLose' : 'gameOverTie'));
 
     const panel = elementFactory('div', `result-panel ${won ? 'result-panel--win' : 'result-panel--loss'}`);
+    if (structuredTournamentResult && panel && typeof panel === 'object') {
+      Object.defineProperty(panel, 'fociskartyakTournamentResult', {
+        value: structuredTournamentResult,
+        enumerable: false,
+        configurable: false,
+      });
+    }
     if (state.mode === 'penalties') {
       const best = bestCategoryLabel(result);
       panel.innerHTML = `

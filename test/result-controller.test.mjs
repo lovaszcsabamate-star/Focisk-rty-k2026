@@ -5,6 +5,7 @@ import {
   ResultControllerError,
   createResultController,
 } from '../js/app/result-controller.js';
+import { TOURNAMENT_STRUCTURED_RESULT_KEY } from '../js/tournament/tournament-domain.js';
 
 const readSource = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 
@@ -69,6 +70,26 @@ assert.deepEqual(Object.keys(controller), ['bestCategoryLabel', 'showGameOver'])
 assert.equal(controller.bestCategoryLabel({ bestCategories: [] }), 'Nem volt megnyert kategória');
 assert.equal(controller.bestCategoryLabel({ bestCategories: ['goals', 'cards'] }), '⚽ Gólok, 🟨 Sárga lapok');
 
+globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__ = {
+  players: [{ id: 'player-1', name: 'Teszt Játékos' }],
+};
+globalThis.FociskartyakTournament = {
+  read: () => ({
+    id: 'tournament-structured',
+    humanTeamId: 'club:human',
+    currentMatchId: 'match-1',
+    currentLineupIds: ['player-1'],
+    rounds: [{
+      matches: [{
+        id: 'match-1',
+        homeId: 'club:human',
+        awayId: 'club:ai',
+        status: 'pending',
+      }],
+    }],
+  }),
+};
+
 const classicPanel = controller.showGameOver();
 assert.equal(cleared, 1);
 assert.match(classicPanel.className, /result-panel--win/);
@@ -76,10 +97,22 @@ assert.match(classicPanel.innerHTML, /GYŐZELEM/);
 assert.match(classicPanel.innerHTML, /JÁTÉKOS 30–22 GÉP/);
 assert.match(classicPanel.innerHTML, /2 lap a döntetlenpakliban maradt/);
 assert.deepEqual(calls.find(call => call[0] === 'say'), ['say', 'banter:gameOverWin']);
+const structuredTournamentResult = globalThis[TOURNAMENT_STRUCTURED_RESULT_KEY];
+assert.equal(structuredTournamentResult.tournamentId, 'tournament-structured');
+assert.equal(structuredTournamentResult.matchId, 'match-1');
+assert.equal(structuredTournamentResult.homeScore, 30);
+assert.equal(structuredTournamentResult.awayScore, 22);
+assert.equal(structuredTournamentResult.winnerId, 'club:human');
+assert.equal(structuredTournamentResult.humanOutcome, 'win');
+assert.deepEqual(structuredTournamentResult.lineup, [{ playerId: 'player-1', name: 'Teszt Játékos' }]);
+assert.equal(classicPanel.fociskartyakTournamentResult, structuredTournamentResult);
 buttons.get('#rematch-btn').click();
 assert.deepEqual(calls.at(-1), ['start', 'classic', 'medium']);
 buttons.get('#menu-btn').click();
 assert.deepEqual(calls.at(-1), ['title', { offerOnboarding: false }]);
+delete globalThis.FociskartyakTournament;
+delete globalThis.__FOCISKARTYAK_FULL_PLAYER_DATA__;
+delete globalThis[TOURNAMENT_STRUCTURED_RESULT_KEY];
 
 buttons.clear();
 state.mode = 'penalties';
@@ -138,6 +171,8 @@ const serviceWorkerSource = readSource('../sw.js');
 assert.match(controllerSource, /Legeredményesebb kategória/);
 assert.match(controllerSource, /Visszavágó/);
 assert.match(controllerSource, /Vissza a főmenübe/);
+assert.match(controllerSource, /TOURNAMENT_STRUCTURED_RESULT_KEY/);
+assert.match(controllerSource, /stageStructuredTournamentResult/);
 assert.doesNotMatch(controllerSource, /mobile-experience\.js/);
 assert.match(mainSource, /\.\/app\/result-controller\.js/);
 assert.match(mainSource, /this\.results\s*=\s*createResultController/);
@@ -158,4 +193,4 @@ assert.match(serviceWorkerSource, /const CACHE_PREFIX = 'fociskartyak-2026-build
 assert.match(serviceWorkerSource, /cache\.addAll\(CORE_SHELL\)/);
 assert.doesNotMatch(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
-console.log('✓ Végeredmény-vezérlő és Session-integráció: rendben');
+console.log('✓ Végeredmény-vezérlő, strukturált Torna eredmény és Session-integráció: rendben');
