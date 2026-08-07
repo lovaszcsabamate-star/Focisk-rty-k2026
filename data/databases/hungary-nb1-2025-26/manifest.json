@@ -14,7 +14,7 @@
     "endYear": 2026,
     "status": "current"
   },
-  "version": "3.3.0",
+  "version": "3.4.0",
   "enabled": true,
   "default": true,
   "minimumPlayers": 22,
@@ -28,7 +28,7 @@
     "nation",
     "federation"
   ],
-  "lastUpdated": "2026-07-30",
+  "lastUpdated": "2026-08-08",
   "files": {
     "players": "data/players.json",
     "normalizedPlayers": "data/databases/hungary-nb1-2025-26/players.normalized.json",
@@ -60,7 +60,8 @@
       "data/club-official-enrichment-22-kisvarda-nationalities.json",
       "data/club-official-enrichment-23-final-missing-basic.json",
       "data/club-official-enrichment-24-dvtk-heights.json",
-      "data/club-official-enrichment-25-all-club-heights.json"
+      "data/club-official-enrichment-25-all-club-heights.json",
+      "data/club-official-enrichment-26-height-1-reviewed.json"
     ],
     "corrections": [
       "data/club-official-corrections.json",
