@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "databaseId": "hungary-nb1-2025-26",
-  "databaseVersion": "3.3.0",
+  "databaseVersion": "3.4.0",
   "competitionId": "hungary-nb1",
   "seasonId": "2025-26",
   "season": "2025/26",
@@ -47,6 +47,7 @@
     "data/club-official-enrichment-23-final-missing-basic.json",
     "data/club-official-enrichment-24-dvtk-heights.json",
     "data/club-official-enrichment-25-all-club-heights.json",
+    "data/club-official-enrichment-26-height-1-reviewed.json",
     "data/club-official-corrections.json",
     "data/club-official-corrections-2.json",
     "data/club-official-corrections-3.json",
@@ -66,10 +67,10 @@
     "data/club-official-stat-patches-zte.json",
     "data/club-official-stat-patches-puskas.json"
   ],
-  "sourceDigest": "42ec2c236ae22cef02d9519e1550503f0828e1494b96a53438aa78a74e40b599",
-  "playersDigest": "16febff15da8c7bee923be04b3c19db28fee5caecd0405ac59190d44a42836ff",
+  "sourceDigest": "d94e78fc3f72fe97ea1df9eb1de1d4155186e0e9be2d1afb2a66986009612a96",
+  "playersDigest": "53d10ed31a11793e5528e8ba95b7ae44ff2d6e7f8e4b23c4131dadf76fa6f2bd",
   "sourceLayerCounts": {
-    "enrichments": 25,
+    "enrichments": 26,
     "corrections": 5,
     "statPatches": 13
   },
@@ -93,13 +94,13 @@
     "warnings": []
   },
   "completeness": {
-    "averageRatio": 0.8831,
+    "averageRatio": 0.8848,
     "completeRecords": 22,
     "incompleteRecords": 418,
     "missingFieldCounts": {
       "assists": 411,
       "minutesPlayed": 411,
-      "heightCm": 155
+      "heightCm": 141
     }
   },
   "preservation": {
