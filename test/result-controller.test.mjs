@@ -32,6 +32,25 @@ const panelFactory = (_tag, className) => {
 const state = {
   mode: 'classic',
   difficulty: 'medium',
+  game: {
+    mode: 'classic',
+    log: [
+      {
+        round: 1,
+        attribute: 'goals',
+        humanCard: { id: 'player-1', name: 'Teszt Játékos' },
+        aiCard: { id: 'ai-1', name: 'Gép Egy' },
+        winner: 'human',
+      },
+      {
+        round: 2,
+        attribute: 'cards',
+        humanCard: { id: 'player-1', name: 'Teszt Játékos' },
+        aiCard: { id: 'ai-2', name: 'Gép Kettő' },
+        winner: 'tie',
+      },
+    ],
+  },
   result: {
     winner: 'human',
     human: 30,
@@ -100,11 +119,27 @@ assert.deepEqual(calls.find(call => call[0] === 'say'), ['say', 'banter:gameOver
 const structuredTournamentResult = globalThis[TOURNAMENT_STRUCTURED_RESULT_KEY];
 assert.equal(structuredTournamentResult.tournamentId, 'tournament-structured');
 assert.equal(structuredTournamentResult.matchId, 'match-1');
+assert.equal(structuredTournamentResult.mode, 'classic');
 assert.equal(structuredTournamentResult.homeScore, 30);
 assert.equal(structuredTournamentResult.awayScore, 22);
 assert.equal(structuredTournamentResult.winnerId, 'club:human');
 assert.equal(structuredTournamentResult.humanOutcome, 'win');
 assert.deepEqual(structuredTournamentResult.lineup, [{ playerId: 'player-1', name: 'Teszt Játékos' }]);
+assert.equal(structuredTournamentResult.duels.length, 2);
+assert.deepEqual(
+  structuredTournamentResult.duels.map(duel => ({
+    round: duel.round,
+    attribute: duel.attribute,
+    outcome: duel.outcome,
+    humanPlayerId: duel.humanPlayerId,
+    aiPlayerId: duel.aiPlayerId,
+  })),
+  [
+    { round: 1, attribute: 'goals', outcome: 'win', humanPlayerId: 'player-1', aiPlayerId: 'ai-1' },
+    { round: 2, attribute: 'cards', outcome: 'draw', humanPlayerId: 'player-1', aiPlayerId: 'ai-2' },
+  ],
+);
+assert.match(structuredTournamentResult.duels[0].id, /^match-1:classic:1:player-1:goals$/);
 assert.equal(classicPanel.fociskartyakTournamentResult, structuredTournamentResult);
 buttons.get('#rematch-btn').click();
 assert.deepEqual(calls.at(-1), ['start', 'classic', 'medium']);
@@ -116,6 +151,7 @@ delete globalThis[TOURNAMENT_STRUCTURED_RESULT_KEY];
 
 buttons.clear();
 state.mode = 'penalties';
+state.game = { mode: 'penalties', log: [] };
 state.difficulty = 'hard';
 state.result = {
   winner: 'ai',
@@ -173,6 +209,7 @@ assert.match(controllerSource, /Visszavágó/);
 assert.match(controllerSource, /Vissza a főmenübe/);
 assert.match(controllerSource, /TOURNAMENT_STRUCTURED_RESULT_KEY/);
 assert.match(controllerSource, /stageStructuredTournamentResult/);
+assert.match(controllerSource, /resultControllerDuelEvents/);
 assert.doesNotMatch(controllerSource, /mobile-experience\.js/);
 assert.match(mainSource, /\.\/app\/result-controller\.js/);
 assert.match(mainSource, /this\.results\s*=\s*createResultController/);
@@ -193,4 +230,4 @@ assert.match(serviceWorkerSource, /const CACHE_PREFIX = 'fociskartyak-2026-build
 assert.match(serviceWorkerSource, /cache\.addAll\(CORE_SHELL\)/);
 assert.doesNotMatch(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
-console.log('✓ Végeredmény-vezérlő, strukturált Torna eredmény és Session-integráció: rendben');
+console.log('✓ Végeredmény-vezérlő, valós párbajnapló és strukturált Torna eredmény: rendben');
