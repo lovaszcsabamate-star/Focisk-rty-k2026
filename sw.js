@@ -59,6 +59,7 @@ const CORE_SHELL = Object.freeze([
   './js/data/club-stat-patches.js',
   './js/data/verified-player-corrections.js',
   './js/data/categories.js',
+  './js/data/height.js',
   './js/data/players.js',
   './js/domain/federation-domain.js',
   './js/domain/deck-selection-domain.js',
