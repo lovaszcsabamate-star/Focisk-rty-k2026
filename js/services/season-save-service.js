@@ -329,11 +329,10 @@ export function createSeasonSaveService({
         message: error?.message ?? 'Ismeretlen mentési hiba.',
         errors: validationErrors,
       });
-      console.error('[save] A szezonhoz kötött játékállás nem menthető:', {
-        code: result.code,
-        message: result.message,
-        errors: result.errors,
-      });
+      const validationDetail = result.errors.length ? `; hibák=${result.errors.join(' | ')}` : '';
+      console.error(
+        `[save] ${result.code}; üzenet=${result.message}${validationDetail}`,
+      );
       return result;
     }
   };
