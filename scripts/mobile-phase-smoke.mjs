@@ -124,6 +124,11 @@ const inspectorCardJs = JSON.stringify(card('csoka', 'Csóka Dániel', 'ZTE FC')
 const humanBattleCardJs = JSON.stringify(card('csoka', 'Csóka Dániel', 'ZTE FC'));
 const aiBattleCardJs = JSON.stringify(card('nagy', 'Nagy Barnabás', 'Ferencváros'));
 
+const previewDocuments = [
+  ['selection-phase-mobile.png', selectionBody({ selected: true })],
+  ['battle-phase-mobile.png', battleBody()],
+];
+
 try {
 for (const width of WIDTHS) {
   const fixtureFileName = `phase-app-${width}.html`;
@@ -242,10 +247,6 @@ const frame=document.querySelector('#app');frame.addEventListener('load',()=>set
 }
 
 fs.mkdirSync(PREVIEW_DIRECTORY, { recursive: true });
-const previewDocuments = [
-  ['selection-phase-mobile.png', selectionBody({ selected: true })],
-  ['battle-phase-mobile.png', battleBody()],
-];
 for (const [fileName, body] of previewDocuments) {
   const htmlFile = path.join(temporaryDirectory, fileName.replace(/\.png$/, '.html'));
   fs.writeFileSync(htmlFile, `<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${previewCss}</style></head><body>${body}</body></html>`);
