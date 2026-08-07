@@ -1,6 +1,6 @@
 /** Render the exact in-round mobile selection layout in real headless Chrome. */
 
-import { spawnSync } from 'node:child_process';
+import { describeChromeFailure, findChrome, runChrome } from './lib/chrome-smoke-runner.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -14,13 +14,7 @@ const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 820;
 const MAX_SELECTION_CARD_HEIGHT = 260;
 
-const chrome = [
-  process.env.CHROME_BIN,
-  'google-chrome-stable',
-  'google-chrome',
-  'chromium',
-  'chromium-browser',
-].filter(Boolean).find(command => spawnSync(command, ['--version'], { encoding: 'utf8' }).status === 0);
+const chrome = findChrome();
 
 if (!chrome) throw new Error('A mobilos választási teszthez nem található Chrome vagy Chromium.');
 if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskartyak2026.html.');
@@ -51,6 +45,7 @@ const card = name => `
     </div>
   </article>`;
 
+try {
 for (const width of WIDTHS) {
   const fixtureFileName = `selection-app-${width}.html`;
   const fixtureFile = path.join(temporaryDirectory, fixtureFileName);
@@ -155,17 +150,18 @@ frame.addEventListener('load',()=>setTimeout(()=>{
 
   const harnessFile = path.join(temporaryDirectory, `selection-harness-${width}.html`);
   fs.writeFileSync(harnessFile, harness);
-  const run = spawnSync(chrome, [
+  const run = runChrome(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
     '--virtual-time-budget=5000', '--dump-dom', `file://${harnessFile}`,
   ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
   const match = run.stdout.match(/data-selection-smoke="([^"]+)"/);
-  if (run.status !== 0 || !match) {
-    const message = `${width}px: a választási állapot nem mérhető.`;
+  if (!run.ok || !match) {
+    const reason = !run.ok ? describeChromeFailure(run) : 'nem érkezett mérési eredmény';
+    const message = `${width}px: a választási állapot nem mérhető (${reason}).`;
     failures.push(message);
-    measurements.push({ width, failure: message, status: run.status, stderr: run.stderr.slice(-2000), domTail: run.stdout.slice(-2000) });
+    measurements.push({ width, failure: message, failureKind: run.failureKind, status: run.status, stderr: run.stderr.slice(-2000), domTail: run.stdout.slice(-2000) });
     continue;
   }
 
@@ -189,7 +185,9 @@ frame.addEventListener('load',()=>setTimeout(()=>{
   console.log(`✓ ${width}px választási nézet: prompt ${result.promptHeight}px, kártya max. ${result.maxChoiceHeight}px`);
 }
 
-fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+} finally {
+  fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+}
 let report = {};
 try { report = JSON.parse(fs.readFileSync(REPORT, 'utf8')); } catch { /* standalone report */ }
 report.selectionMeasurements = measurements;

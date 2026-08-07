@@ -1,6 +1,6 @@
 /** Validate the selection-to-battle transition and generate mobile phase previews. */
 
-import { spawnSync } from 'node:child_process';
+import { describeChromeFailure, findChrome, runChrome } from './lib/chrome-smoke-runner.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -14,13 +14,7 @@ const PREVIEW_DIRECTORY = path.join(ROOT, 'previews');
 const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 900;
 
-const chrome = [
-  process.env.CHROME_BIN,
-  'google-chrome-stable',
-  'google-chrome',
-  'chromium',
-  'chromium-browser',
-].filter(Boolean).find(command => spawnSync(command, ['--version'], { encoding: 'utf8' }).status === 0);
+const chrome = findChrome();
 
 if (!chrome) throw new Error('A fázisváltási teszthez nem található Chrome vagy Chromium.');
 if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskartyak2026.html.');
@@ -130,6 +124,12 @@ const inspectorCardJs = JSON.stringify(card('csoka', 'Csóka Dániel', 'ZTE FC')
 const humanBattleCardJs = JSON.stringify(card('csoka', 'Csóka Dániel', 'ZTE FC'));
 const aiBattleCardJs = JSON.stringify(card('nagy', 'Nagy Barnabás', 'Ferencváros'));
 
+const previewDocuments = [
+  ['selection-phase-mobile.png', selectionBody({ selected: true })],
+  ['battle-phase-mobile.png', battleBody()],
+];
+
+try {
 for (const width of WIDTHS) {
   const fixtureFileName = `phase-app-${width}.html`;
   const fixtureFile = path.join(temporaryDirectory, fixtureFileName);
@@ -210,17 +210,18 @@ const frame=document.querySelector('#app');frame.addEventListener('load',()=>set
   const harnessFile = path.join(temporaryDirectory, `phase-harness-${width}.html`);
   fs.writeFileSync(harnessFile, harness);
 
-  const run = spawnSync(chrome, [
+  const run = runChrome(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
     '--virtual-time-budget=5500', '--dump-dom', `file://${harnessFile}`,
   ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
   const match = run.stdout.match(/data-phase-smoke="([^"]+)"/);
-  if (run.status !== 0 || !match) {
-    const message = `${width}px: a fázisváltás nem mérhető.`;
+  if (!run.ok || !match) {
+    const reason = !run.ok ? describeChromeFailure(run) : 'nem érkezett mérési eredmény';
+    const message = `${width}px: a fázisváltás nem mérhető (${reason}).`;
     failures.push(message);
-    measurements.push({ width, failure: message, status: run.status, stderr: run.stderr.slice(-2500), domTail: run.stdout.slice(-2500) });
+    measurements.push({ width, failure: message, failureKind: run.failureKind, status: run.status, stderr: run.stderr.slice(-2500), domTail: run.stdout.slice(-2500) });
     continue;
   }
 
@@ -246,23 +247,21 @@ const frame=document.querySelector('#app');frame.addEventListener('load',()=>set
 }
 
 fs.mkdirSync(PREVIEW_DIRECTORY, { recursive: true });
-const previewDocuments = [
-  ['selection-phase-mobile.png', selectionBody({ selected: true })],
-  ['battle-phase-mobile.png', battleBody()],
-];
 for (const [fileName, body] of previewDocuments) {
   const htmlFile = path.join(temporaryDirectory, fileName.replace(/\.png$/, '.html'));
   fs.writeFileSync(htmlFile, `<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${previewCss}</style></head><body>${body}</body></html>`);
   const output = path.join(PREVIEW_DIRECTORY, fileName);
-  const shot = spawnSync(chrome, [
+  const shot = runChrome(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--hide-scrollbars',
     '--allow-file-access-from-files', '--window-size=720,1536', '--force-device-scale-factor=1',
     '--virtual-time-budget=1800', `--screenshot=${output}`, `file://${htmlFile}`,
   ], { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
-  if (shot.status !== 0 || !fs.existsSync(output)) failures.push(`Nem készült el a(z) ${fileName} előnézet.`);
+  if (!shot.ok || !fs.existsSync(output)) failures.push(`Nem készült el a(z) ${fileName} előnézet (${shot.ok ? 'hiányzó fájl' : describeChromeFailure(shot)}).`);
 }
 
-fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+} finally {
+  fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+}
 let report = {};
 try { report = JSON.parse(fs.readFileSync(REPORT, 'utf8')); } catch { /* standalone report */ }
 report.phaseMeasurements = measurements;
