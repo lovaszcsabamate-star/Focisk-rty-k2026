@@ -31,7 +31,29 @@ const resultControllerAssertMethod = (target, method, code) => {
   }
 };
 
-const stageStructuredTournamentResult = ({ result, mode, won, lost }) => {
+const resultControllerCardId = card => String(card?.meta?.mirrorOf ?? card?.id ?? '').trim();
+const resultControllerDuelEvents = (game, matchId) => {
+  const log = Array.isArray(game?.log) ? game.log : [];
+  return log.map((duel, index) => {
+    const humanPlayerId = resultControllerCardId(duel?.humanCard);
+    const aiPlayerId = resultControllerCardId(duel?.aiCard);
+    const attribute = String(duel?.attribute ?? '').trim();
+    const outcome = duel?.winner === HUMAN ? 'win' : duel?.winner === AI ? 'loss' : 'draw';
+    if (!humanPlayerId || !attribute) return null;
+    return Object.freeze({
+      id: `${matchId}:${game?.mode ?? 'classic'}:${index + 1}:${humanPlayerId}:${attribute}`,
+      round: Number(duel?.round) || index + 1,
+      attribute,
+      outcome,
+      humanPlayerId,
+      humanPlayerName: String(duel?.humanCard?.name ?? humanPlayerId),
+      aiPlayerId,
+      aiPlayerName: String(duel?.aiCard?.name ?? aiPlayerId),
+    });
+  }).filter(Boolean);
+};
+
+const stageStructuredTournamentResult = ({ result, mode, game, won, lost }) => {
   const tournament = globalThis.FociskartyakTournament?.read?.();
   if (!tournament?.currentMatchId) return null;
   const match = tournamentMatchById(tournament, tournament.currentMatchId);
@@ -54,6 +76,7 @@ const stageStructuredTournamentResult = ({ result, mode, won, lost }) => {
     schemaVersion: 1,
     tournamentId: tournament.id,
     matchId: match.id,
+    mode,
     homeScore: humanHome ? humanScore : aiScore,
     awayScore: humanHome ? aiScore : humanScore,
     winnerId: won ? tournament.humanTeamId : lost ? opponentId : null,
@@ -64,6 +87,7 @@ const stageStructuredTournamentResult = ({ result, mode, won, lost }) => {
     penaltyMatch: mode === 'penalties',
     tiebreak: match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK,
     lineup,
+    duels: resultControllerDuelEvents(game, match.id),
     createdAt: new Date().toISOString(),
   });
   globalThis[TOURNAMENT_STRUCTURED_RESULT_KEY] = payload;
@@ -119,6 +143,7 @@ export function createResultController({
     const structuredTournamentResult = stageStructuredTournamentResult({
       result,
       mode: state.mode,
+      game: state.game,
       won,
       lost,
     });
