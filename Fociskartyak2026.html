@@ -8083,33 +8083,59 @@ const resolveDefaultStorage = () => {
 };
 
 function createStorageService(storage = resolveDefaultStorage()) {
+  let lastFailure = null;
+  const rememberFailure = (operation, key, error, code = 'failed') => {
+    lastFailure = Object.freeze({
+      operation,
+      key: String(key ?? ''),
+      code,
+      name: String(error?.name || (code === 'unavailable' ? 'StorageUnavailable' : 'Error')),
+      message: String(error?.message || (code === 'unavailable'
+        ? 'A böngészői tárhely nem érhető el.'
+        : 'Ismeretlen storage-hiba.')),
+    });
+    return false;
+  };
+  const clearFailure = () => { lastFailure = null; };
+
   const readString = (key, fallback = null) => {
     try {
-      if (!storage || typeof storage.getItem !== 'function') return fallback;
+      if (!storage || typeof storage.getItem !== 'function') {
+        rememberFailure('read', key, null, 'unavailable');
+        return fallback;
+      }
       const value = storage.getItem(key);
+      clearFailure();
       return value == null ? fallback : String(value);
-    } catch {
+    } catch (error) {
+      rememberFailure('read', key, error);
       return fallback;
     }
   };
 
   const writeString = (key, value) => {
     try {
-      if (!storage || typeof storage.setItem !== 'function') return false;
+      if (!storage || typeof storage.setItem !== 'function') {
+        return rememberFailure('write', key, null, 'unavailable');
+      }
       storage.setItem(key, String(value));
+      clearFailure();
       return true;
-    } catch {
-      return false;
+    } catch (error) {
+      return rememberFailure('write', key, error);
     }
   };
 
   const remove = key => {
     try {
-      if (!storage || typeof storage.removeItem !== 'function') return false;
+      if (!storage || typeof storage.removeItem !== 'function') {
+        return rememberFailure('remove', key, null, 'unavailable');
+      }
       storage.removeItem(key);
+      clearFailure();
       return true;
-    } catch {
-      return false;
+    } catch (error) {
+      return rememberFailure('remove', key, error);
     }
   };
 
@@ -8149,6 +8175,7 @@ function createStorageService(storage = resolveDefaultStorage()) {
     readBoolean,
     writeBoolean,
     remove,
+    inspectLastFailure: () => lastFailure,
     available: Boolean(storage),
   });
 }
@@ -8982,7 +9009,8 @@ function createDeckSelectionStorageService({
   storage = storageService,
   keys = DECK_SELECTION_STORAGE_KEYS,
 } = {}) {
-  ['readJson', 'readString', 'writeJson', 'remove'].forEach(method => deckStorageAssertMethod(storage, method));
+  ['readJson', 'readString', 'writeString', 'writeJson', 'remove']
+    .forEach(method => deckStorageAssertMethod(storage, method));
   const configuredKeys = deckStorageValidateKeys(keys);
 
   const read = (players = []) => {
@@ -9000,8 +9028,24 @@ function createDeckSelectionStorageService({
 
   const replace = (selection, { clearSavedMatch: shouldClearSavedMatch = true } = {}) => {
     const normalized = normaliseDeckSelection(selection);
-    if (shouldClearSavedMatch) clearSavedMatch();
+    const previousSavedMatch = shouldClearSavedMatch
+      ? storage.readString(configuredKeys.savedMatch, null)
+      : null;
+
+    if (shouldClearSavedMatch && previousSavedMatch != null && !clearSavedMatch()) {
+      return Object.freeze({ selection: normalized, saved: false });
+    }
+
     const saved = storage.writeJson(configuredKeys.selection, normalized);
+    if (!saved && shouldClearSavedMatch && previousSavedMatch != null) {
+      const restored = storage.writeString(configuredKeys.savedMatch, previousSavedMatch);
+      if (!restored) {
+        throw new DeckSelectionStorageError(
+          'SAVE_ROLLBACK_FAILED',
+          'A pakliválasztás sikertelen volt, és a korábbi mérkőzésmentés sem állítható vissza.',
+        );
+      }
+    }
     return Object.freeze({ selection: normalized, saved });
   };
 
@@ -9789,10 +9833,23 @@ function buildQuickMatchPayload(payload, playerSelection, opponentSelection = nu
 const QUICK_MATCH_SETUP_VERSION = 2;
 const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
 const QUICK_MATCH_LAUNCH_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchLaunch;
+const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
+
+class QuickMatchStorageError extends Error {
+  constructor(code, message) {
+    super(message);
+    this.name = 'QuickMatchStorageError';
+    this.code = code;
+  }
+}
 
 const quickMatchStorageText = value => String(value ?? '').trim();
 const quickMatchStorageMode = value => (value === 'penalties' ? 'penalties' : 'classic');
 const quickMatchStorageDifficulty = value => quickMatchStorageText(value) || 'medium';
+const resolveTournamentHook = action => {
+  const handler = globalThis[TOURNAMENT_LAUNCH_TRANSACTION_HOOK]?.[action];
+  return typeof handler === 'function' ? handler : () => true;
+};
 
 function normaliseQuickMatchSetup(setup) {
   if (!setup || typeof setup !== 'object') return null;
@@ -9815,7 +9872,22 @@ function normaliseQuickMatchSetup(setup) {
   });
 }
 
-function createQuickMatchStorageService({ storage = storageService } = {}) {
+function createQuickMatchStorageService({
+  storage = storageService,
+  commitTournamentLaunch: commitTournamentLaunchOverride = null,
+  rollbackTournamentLaunch: rollbackTournamentLaunchOverride = null,
+} = {}) {
+  const commitTournamentLaunch = () => (
+    typeof commitTournamentLaunchOverride === 'function'
+      ? commitTournamentLaunchOverride()
+      : resolveTournamentHook('commit')()
+  );
+  const rollbackTournamentLaunch = () => (
+    typeof rollbackTournamentLaunchOverride === 'function'
+      ? rollbackTournamentLaunchOverride()
+      : resolveTournamentHook('rollback')()
+  );
+
   const readSetup = (players = []) => {
     const setup = normaliseQuickMatchSetup(storage.readJson(QUICK_MATCH_SETUP_STORAGE_KEY, null));
     if (!setup) return null;
@@ -9830,19 +9902,84 @@ function createQuickMatchStorageService({ storage = storageService } = {}) {
     return storage.writeJson(QUICK_MATCH_SETUP_STORAGE_KEY, normalised);
   };
 
+  const restoreRawValue = (key, value) => {
+    if (value == null) return storage.remove(key);
+    return storage.writeString(key, value);
+  };
+
+  const requireSuccessfulRollback = (restored, tournamentRolledBack) => {
+    if (restored && tournamentRolledBack) return true;
+    throw new QuickMatchStorageError(
+      'STAGING_ROLLBACK_FAILED',
+      'A Gyors meccs előkészítése sikertelen volt, és az ideiglenes állapot nem állítható teljesen vissza.',
+    );
+  };
+
+  const rollbackTournamentOnly = () => {
+    let tournamentRolledBack = false;
+    try {
+      tournamentRolledBack = rollbackTournamentLaunch() !== false;
+    } catch {
+      tournamentRolledBack = false;
+    }
+    return requireSuccessfulRollback(true, tournamentRolledBack);
+  };
+
   const stage = setup => {
     const normalised = normaliseQuickMatchSetup(setup);
-    if (!normalised) return false;
-    storage.remove(APP_STORAGE_KEYS.savedMatch);
-    storage.writeJson(APP_STORAGE_KEYS.deckSelection,
-      normalised.playerSelection.kind === 'league' ? RANDOM_DECK_SELECTION : normalised.playerSelection);
-    const setupSaved = storage.writeJson(QUICK_MATCH_SETUP_STORAGE_KEY, normalised);
-    const launchSaved = storage.writeJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, {
-      mode: normalised.mode,
-      difficulty: normalised.difficulty,
-      createdAt: normalised.createdAt,
-    });
-    return Boolean(setupSaved && launchSaved);
+    if (!normalised) {
+      rollbackTournamentOnly();
+      return false;
+    }
+
+    const stagedValues = [
+      [
+        APP_STORAGE_KEYS.deckSelection,
+        normalised.playerSelection.kind === 'league'
+          ? RANDOM_DECK_SELECTION
+          : normalised.playerSelection,
+      ],
+      [QUICK_MATCH_SETUP_STORAGE_KEY, normalised],
+      [QUICK_MATCH_LAUNCH_STORAGE_KEY, {
+        mode: normalised.mode,
+        difficulty: normalised.difficulty,
+        createdAt: normalised.createdAt,
+      }],
+    ];
+    const checkpoint = new Map(stagedValues.map(([key]) => [key, storage.readString(key, null)]));
+    const rollbackStage = () => {
+      let restored = true;
+      for (const [rollbackKey, previous] of checkpoint.entries()) {
+        try {
+          if (!restoreRawValue(rollbackKey, previous)) restored = false;
+        } catch {
+          restored = false;
+        }
+      }
+
+      let tournamentRolledBack = false;
+      try {
+        tournamentRolledBack = rollbackTournamentLaunch() !== false;
+      } catch {
+        tournamentRolledBack = false;
+      }
+      return requireSuccessfulRollback(restored, tournamentRolledBack);
+    };
+
+    for (const [key, value] of stagedValues) {
+      if (storage.writeJson(key, value)) continue;
+      rollbackStage();
+      return false;
+    }
+
+    if (!commitTournamentLaunch()) {
+      rollbackStage();
+      return false;
+    }
+
+    // A meglévő mérkőzésmentést a staging soha nem törli. A teljesen
+    // inicializált új Session snapshotja csak sikeres indulás után írhatja felül.
+    return true;
   };
 
   const peekLaunch = () => {
@@ -12906,6 +13043,97 @@ const seasonSaveAsText = value => typeof value === 'string' ? value.trim() : '';
 const seasonSaveClone = value => JSON.parse(JSON.stringify(value));
 const seasonSaveIdPattern = /^(\d{4})-(\d{2})$/;
 const seasonSaveLabelPattern = /^(\d{4})\s*[\/-]\s*(\d{2}|\d{4})$/;
+const seasonSaveCardReference = card => card && typeof card === 'object'
+  && !Array.isArray(card) && typeof card.id === 'string' && card.id.trim() !== ''
+  ? { id: card.id }
+  : card;
+const seasonSaveCompactCardArray = cards => Array.isArray(cards)
+  ? cards.map(seasonSaveCardReference)
+  : cards;
+const seasonSaveCompactSideCards = sides => sides && typeof sides === 'object'
+  && !Array.isArray(sides)
+  ? {
+    ...sides,
+    human: seasonSaveCompactCardArray(sides.human),
+    ai: seasonSaveCompactCardArray(sides.ai),
+  }
+  : sides;
+const seasonSaveCompactPlayed = played => played && typeof played === 'object'
+  && !Array.isArray(played)
+  ? {
+    ...played,
+    human: seasonSaveCardReference(played.human),
+    ai: seasonSaveCardReference(played.ai),
+  }
+  : played;
+const seasonSaveCompactResult = result => result && typeof result === 'object'
+  && !Array.isArray(result)
+  ? {
+    ...result,
+    humanCard: seasonSaveCardReference(result.humanCard),
+    aiCard: seasonSaveCardReference(result.aiCard),
+  }
+  : result;
+const seasonSaveCompactClassicSnapshot = snapshot => {
+  if (snapshot?.mode !== 'classic' || !Array.isArray(snapshot?.game?.players)) return snapshot;
+  const game = snapshot.game;
+  return {
+    ...snapshot,
+    game: {
+      ...game,
+      players: seasonSaveCompactCardArray(game.players),
+      deck: seasonSaveCompactCardArray(game.deck),
+      hands: seasonSaveCompactSideCards(game.hands),
+      won: seasonSaveCompactSideCards(game.won),
+      pot: seasonSaveCompactCardArray(game.pot),
+      played: seasonSaveCompactPlayed(game.played),
+      lastResult: seasonSaveCompactResult(game.lastResult),
+      log: Array.isArray(game.log) ? game.log.map(seasonSaveCompactResult) : game.log,
+    },
+  };
+};
+
+const SEASON_SAVE_STATUS = Object.freeze({
+  OK: 'OK',
+  NO_SAVE: 'NO_SAVE',
+  INVALID_JSON: 'INVALID_JSON',
+  INVALID_SCHEMA: 'INVALID_SCHEMA',
+  UNSUPPORTED_VERSION: 'UNSUPPORTED_VERSION',
+  DATABASE_MISMATCH: 'DATABASE_MISMATCH',
+  SEASON_MISMATCH: 'SEASON_MISMATCH',
+  MISSING_CARD: 'MISSING_CARD',
+  PARTIAL_RESTORE: 'PARTIAL_RESTORE',
+});
+
+const SEASON_SAVE_WRITE_STATUS = Object.freeze({
+  OK: 'OK',
+  NO_SNAPSHOT: 'NO_SNAPSHOT',
+  VALIDATION_FAILED: 'VALIDATION_FAILED',
+  SERIALIZATION_FAILED: 'SERIALIZATION_FAILED',
+  STORAGE_WRITE_FAILED: 'STORAGE_WRITE_FAILED',
+});
+
+const seasonSaveWriteResult = ({
+  ok,
+  code,
+  message = '',
+  errors = [],
+  serializedLength = null,
+  storageFailure = null,
+}) => Object.freeze({
+  ok: Boolean(ok),
+  code,
+  message: String(message || ''),
+  errors: Object.freeze(errors.map(error => String(error))),
+  serializedLength: Number.isInteger(serializedLength) ? serializedLength : null,
+  storageFailure: storageFailure ? Object.freeze({
+    operation: String(storageFailure.operation || ''),
+    key: String(storageFailure.key || ''),
+    code: String(storageFailure.code || ''),
+    name: String(storageFailure.name || ''),
+    message: String(storageFailure.message || ''),
+  }) : null,
+});
 
 const seasonSaveDeriveSeasonId = value => {
   const text = seasonSaveAsText(value);
@@ -12919,12 +13147,36 @@ const seasonSaveDeriveSeasonId = value => {
   return endYear === startYear + 1 ? `${startYear}-${String(endYear).slice(-2)}` : '';
 };
 
-const seasonSaveValidationResult = (value, errors = [], warnings = []) => Object.freeze({
+const seasonSaveValidationResult = (
+  value,
+  errors = [],
+  warnings = [],
+  {
+    code = errors.length
+      ? SEASON_SAVE_STATUS.INVALID_SCHEMA
+      : warnings.length
+        ? SEASON_SAVE_STATUS.PARTIAL_RESTORE
+        : SEASON_SAVE_STATUS.OK,
+    hasStoredValue = value != null,
+  } = {},
+) => Object.freeze({
   ok: errors.length === 0,
   value: errors.length === 0 ? value : null,
   errors: Object.freeze(errors.slice()),
   warnings: Object.freeze(warnings.slice()),
+  code,
+  hasStoredValue: Boolean(hasStoredValue),
 });
+
+const seasonSaveValidationCode = errors => {
+  if (errors.some(error => String(error).startsWith('version:'))) {
+    return SEASON_SAVE_STATUS.UNSUPPORTED_VERSION;
+  }
+  if (errors.some(error => /ismeretlen kártyaazonosító/i.test(String(error)))) {
+    return SEASON_SAVE_STATUS.MISSING_CARD;
+  }
+  return SEASON_SAVE_STATUS.INVALID_SCHEMA;
+};
 
 function currentSeasonSaveContext() {
   const database = globalThis.__FOCISKARTYAK_DATABASE__ ?? {};
@@ -12959,57 +13211,171 @@ function createSeasonSaveService({
   now = () => new Date(),
   getContext = currentSeasonSaveContext,
 } = {}) {
-  const inspect = () => {
-    const raw = storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null) ?? null;
-    if (raw == null) return seasonSaveValidationResult(null);
+  const inspectParsed = (raw, hasStoredValue = true) => {
     const validation = validateSavedMatch(raw);
-    if (!validation.ok) return validation;
+    if (!validation.ok) {
+      return seasonSaveValidationResult(null, validation.errors, validation.warnings, {
+        code: seasonSaveValidationCode(validation.errors),
+        hasStoredValue,
+      });
+    }
 
     const context = getContext?.() ?? {};
-    if (!savedMatchMatchesSeason(raw, context)) {
+    const expectedDatabaseId = seasonSaveAsText(context.databaseId);
+    const expectedSeasonId = seasonSaveDeriveSeasonId(context.seasonId);
+    const savedDatabaseId = seasonSaveAsText(raw.databaseId);
+    const savedSeasonId = seasonSaveDeriveSeasonId(raw.seasonId);
+    const isAllowedLegacySave = !savedDatabaseId && !savedSeasonId
+      && expectedDatabaseId === SEASON_SAVE_LEGACY_DATABASE_ID
+      && expectedSeasonId === SEASON_SAVE_LEGACY_SEASON_ID;
+
+    if (!isAllowedLegacySave && expectedDatabaseId && savedDatabaseId !== expectedDatabaseId) {
       return seasonSaveValidationResult(null, [
-        `season: a mentés ${raw.seasonId ?? 'ismeretlen'} szezonhoz tartozik, az aktív szezon ${context.seasonId ?? 'ismeretlen'}`,
-      ], validation.warnings);
+        `database: a mentés ${savedDatabaseId || 'ismeretlen'} adatbázishoz tartozik, az aktív adatbázis ${expectedDatabaseId}`,
+      ], validation.warnings, {
+        code: SEASON_SAVE_STATUS.DATABASE_MISMATCH,
+        hasStoredValue,
+      });
+    }
+
+    if (!isAllowedLegacySave && expectedSeasonId && savedSeasonId !== expectedSeasonId) {
+      return seasonSaveValidationResult(null, [
+        `season: a mentés ${savedSeasonId || 'ismeretlen'} szezonhoz tartozik, az aktív szezon ${expectedSeasonId}`,
+      ], validation.warnings, {
+        code: SEASON_SAVE_STATUS.SEASON_MISMATCH,
+        hasStoredValue,
+      });
     }
 
     return seasonSaveValidationResult({
       ...validation.value,
-      databaseId: seasonSaveAsText(raw.databaseId) || null,
+      databaseId: savedDatabaseId || null,
       competitionId: seasonSaveAsText(raw.competitionId) || null,
-      seasonId: seasonSaveDeriveSeasonId(raw.seasonId) || null,
-    }, [], validation.warnings);
+      seasonId: savedSeasonId || null,
+    }, [], validation.warnings, {
+      code: validation.warnings.length
+        ? SEASON_SAVE_STATUS.PARTIAL_RESTORE
+        : SEASON_SAVE_STATUS.OK,
+      hasStoredValue,
+    });
+  };
+
+  const inspect = () => {
+    if (typeof storage?.readString === 'function') {
+      const rawText = storage.readString(APP_STORAGE_KEYS.savedMatch, null);
+      if (rawText == null) {
+        return seasonSaveValidationResult(null, [], [], {
+          code: SEASON_SAVE_STATUS.NO_SAVE,
+          hasStoredValue: false,
+        });
+      }
+
+      try {
+        return inspectParsed(JSON.parse(rawText), true);
+      } catch (error) {
+        return seasonSaveValidationResult(null, [
+          `json: a mentés nem érvényes JSON (${error?.message ?? 'ismeretlen feldolgozási hiba'})`,
+        ], [], {
+          code: SEASON_SAVE_STATUS.INVALID_JSON,
+          hasStoredValue: true,
+        });
+      }
+    }
+
+    const raw = storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null) ?? null;
+    if (raw == null) {
+      return seasonSaveValidationResult(null, [], [], {
+        code: SEASON_SAVE_STATUS.NO_SAVE,
+        hasStoredValue: false,
+      });
+    }
+    return inspectParsed(raw, true);
   };
 
   const read = () => {
     const validation = inspect();
-    return validation.ok ? validation.value : null;
+    return validation.ok && validation.value ? validation.value : null;
   };
 
-  const write = payload => {
+  let lastWriteResult = seasonSaveWriteResult({
+    ok: true,
+    code: SEASON_SAVE_WRITE_STATUS.OK,
+  });
+  const rememberWriteResult = result => {
+    lastWriteResult = seasonSaveWriteResult(result);
+    return lastWriteResult;
+  };
+
+  const writeDetailed = payload => {
     try {
       const snapshot = createSavedMatchSnapshot(payload, now);
-      if (!snapshot) return false;
+      if (!snapshot) {
+        return rememberWriteResult({
+          ok: false,
+          code: SEASON_SAVE_WRITE_STATUS.NO_SNAPSHOT,
+          message: 'A lezárt vagy hiányzó játékállapotból nem készíthető mentés.',
+        });
+      }
+      const compactSnapshot = seasonSaveCompactClassicSnapshot(snapshot);
       const context = getContext?.() ?? {};
       const scoped = {
-        ...snapshot,
+        ...compactSnapshot,
         databaseId: seasonSaveAsText(payload?.databaseId || context.databaseId) || null,
         competitionId: seasonSaveAsText(payload?.competitionId || context.competitionId) || null,
         seasonId: seasonSaveDeriveSeasonId(payload?.seasonId || context.seasonId) || null,
       };
-      return Boolean(storage?.writeJson?.(APP_STORAGE_KEYS.savedMatch, seasonSaveClone(scoped)));
+      const cloned = seasonSaveClone(scoped);
+      const serializedLength = JSON.stringify(cloned).length;
+      if (!storage?.writeJson?.(APP_STORAGE_KEYS.savedMatch, cloned)) {
+        const storageFailure = storage?.inspectLastFailure?.() ?? null;
+        const result = rememberWriteResult({
+          ok: false,
+          code: SEASON_SAVE_WRITE_STATUS.STORAGE_WRITE_FAILED,
+          message: 'A böngésző tárhelye nem fogadta el a mentést.',
+          serializedLength,
+          storageFailure,
+        });
+        const cause = result.storageFailure
+          ? `${result.storageFailure.name}: ${result.storageFailure.message}`
+          : 'ismeretlen storage-hiba';
+        console.error(
+          `[save] STORAGE_WRITE_FAILED; karakterek=${serializedLength}; ok=${cause}`,
+        );
+        return result;
+      }
+      return rememberWriteResult({
+        ok: true,
+        code: SEASON_SAVE_WRITE_STATUS.OK,
+        serializedLength,
+      });
     } catch (error) {
-      console.warn('[save] A szezonhoz kötött játékállás nem menthető:', error);
-      return false;
+      const validationErrors = Array.isArray(error?.errors) ? error.errors : [];
+      const result = rememberWriteResult({
+        ok: false,
+        code: validationErrors.length
+          ? SEASON_SAVE_WRITE_STATUS.VALIDATION_FAILED
+          : SEASON_SAVE_WRITE_STATUS.SERIALIZATION_FAILED,
+        message: error?.message ?? 'Ismeretlen mentési hiba.',
+        errors: validationErrors,
+      });
+      const validationDetail = result.errors.length ? `; hibák=${result.errors.join(' | ')}` : '';
+      console.error(
+        `[save] ${result.code}; üzenet=${result.message}${validationDetail}`,
+      );
+      return result;
     }
   };
 
+  const write = payload => writeDetailed(payload).ok;
+  const inspectLastWrite = () => lastWriteResult;
   const clear = () => Boolean(storage?.remove?.(APP_STORAGE_KEYS.savedMatch));
-  return Object.freeze({ inspect, read, write, clear });
+  return Object.freeze({ inspect, read, write, writeDetailed, inspectLastWrite, clear });
 }
 
 const hydrateSeasonGame = (...args) => hydrateGame(...args);
 const seasonSaveService = createSeasonSaveService();
 const inspectSeasonSavedMatch = () => seasonSaveService.inspect();
+const inspectLastSeasonSaveWrite = () => seasonSaveService.inspectLastWrite();
 const readSeasonSavedMatch = () => seasonSaveService.read();
 const writeSeasonSavedMatch = payload => seasonSaveService.write(payload);
 const clearSeasonSavedMatch = () => seasonSaveService.clear();
@@ -13405,6 +13771,7 @@ const gameModeFactory = createGameModeFactory();
 const isRuntimeDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const defaultDifficulty = () => (isRuntimeDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 const cloneSaveValue = value => (value == null ? value : structuredClone(value));
+const runtimeCardId = card => typeof card?.id === 'string' ? card.id.trim() : '';
 
 class GameRuntimeError extends Error {
   constructor(code, message) {
@@ -13445,6 +13812,30 @@ class GameRuntime {
     return this.state();
   }
 
+  checkpoint() {
+    return Object.freeze({
+      mode: this.mode,
+      difficulty: this.difficulty,
+      game: this.game,
+      ai: this.ai,
+      pendingAttribute: this.pendingAttribute,
+      awaitingChooserCard: this.awaitingChooserCard,
+    });
+  }
+
+  rollback(checkpoint) {
+    if (!checkpoint || typeof checkpoint !== 'object') {
+      throw new GameRuntimeError('INVALID_CHECKPOINT', 'A visszaállítandó runtime-állapot hiányzik.');
+    }
+    this.mode = checkpoint.mode ?? null;
+    this.difficulty = checkpoint.difficulty ?? null;
+    this.game = checkpoint.game ?? null;
+    this.ai = checkpoint.ai ?? null;
+    this.pendingAttribute = checkpoint.pendingAttribute ?? null;
+    this.awaitingChooserCard = Boolean(checkpoint.awaitingChooserCard);
+    return this.state();
+  }
+
   state() {
     return Object.freeze({
       mode: this.mode,
@@ -13469,10 +13860,9 @@ class GameRuntime {
     return this.modeFactory.create(mode, { players: this.players, rng: this.rng });
   }
 
-  _prepareAi() {
-    this._requireGame();
-    const aiDeck = this.modeFactory.aiDeck(this.mode, this.game);
-    this.ai = this.aiFactory(this.difficulty, aiDeck);
+  _createAi(mode, difficulty, game) {
+    const aiDeck = this.modeFactory.aiDeck(mode, game);
+    return this.aiFactory(difficulty, aiDeck);
   }
 
   _requireGame() {
@@ -13488,13 +13878,81 @@ class GameRuntime {
     return game;
   }
 
+  _expandSavedClassicPlayers(mode, savedGame) {
+    if (mode !== GAME_MODE.CLASSIC || !Array.isArray(savedGame?.players)) return savedGame;
+    const currentCards = new Map(this.players
+      .map(card => [runtimeCardId(card), card])
+      .filter(([id]) => Boolean(id)));
+    const expandCard = card => {
+      const id = runtimeCardId(card);
+      const isCompactReference = id && card && typeof card === 'object'
+        && !Array.isArray(card) && Object.keys(card).length === 1;
+      return isCompactReference ? (currentCards.get(id) ?? card) : card;
+    };
+    const expandCards = cards => Array.isArray(cards) ? cards.map(expandCard) : cards;
+    const expandSides = sides => sides && typeof sides === 'object' && !Array.isArray(sides)
+      ? {
+        ...sides,
+        [HUMAN]: expandCards(sides[HUMAN]),
+        [AI]: expandCards(sides[AI]),
+      }
+      : sides;
+    const expandPlayed = played => played && typeof played === 'object' && !Array.isArray(played)
+      ? {
+        ...played,
+        [HUMAN]: expandCard(played[HUMAN]),
+        [AI]: expandCard(played[AI]),
+      }
+      : played;
+    const expandResult = result => result && typeof result === 'object' && !Array.isArray(result)
+      ? {
+        ...result,
+        humanCard: expandCard(result.humanCard),
+        aiCard: expandCard(result.aiCard),
+      }
+      : result;
+    return {
+      ...savedGame,
+      players: expandCards(savedGame.players),
+      deck: expandCards(savedGame.deck),
+      hands: expandSides(savedGame.hands),
+      won: expandSides(savedGame.won),
+      pot: expandCards(savedGame.pot),
+      played: expandPlayed(savedGame.played),
+      lastResult: expandResult(savedGame.lastResult),
+      log: Array.isArray(savedGame.log) ? savedGame.log.map(expandResult) : savedGame.log,
+    };
+  }
+
+  _assertSavedCardsAvailable(mode, savedGame) {
+    const currentIds = new Set(this.players.map(runtimeCardId).filter(Boolean));
+    const savedCards = mode === GAME_MODE.PENALTIES
+      ? [
+        ...(Array.isArray(savedGame?.teams?.[HUMAN]) ? savedGame.teams[HUMAN] : []),
+        ...(Array.isArray(savedGame?.teams?.[AI]) ? savedGame.teams[AI] : []),
+      ]
+      : Array.isArray(savedGame?.players) ? savedGame.players : [];
+    const missingIds = [...new Set(savedCards.map(runtimeCardId).filter(id => id && !currentIds.has(id)))];
+    if (missingIds.length) {
+      throw new GameRuntimeError(
+        'SAVE_CARD_MISSING',
+        `A mentés ${missingIds.length} már nem elérhető játékoskártyát tartalmaz: ${missingIds.slice(0, 5).join(', ')}`,
+      );
+    }
+  }
+
   start(mode = GAME_MODE.CLASSIC, difficulty = defaultDifficulty()) {
-    this.mode = this.modeFactory.normalize(mode);
-    this.difficulty = this._resolveDifficulty(difficulty);
-    this.game = this._createGame(this.mode);
+    const nextMode = this.modeFactory.normalize(mode);
+    const nextDifficulty = this._resolveDifficulty(difficulty);
+    const nextGame = this._createGame(nextMode);
+    const nextAi = this._createAi(nextMode, nextDifficulty, nextGame);
+
+    this.mode = nextMode;
+    this.difficulty = nextDifficulty;
+    this.game = nextGame;
+    this.ai = nextAi;
     this.pendingAttribute = null;
     this.awaitingChooserCard = false;
-    this._prepareAi();
     return this.state();
   }
 
@@ -13506,18 +13964,27 @@ class GameRuntime {
       throw new TypeError('A mentett játék visszaállításához hydrate függvény szükséges.');
     }
 
-    this.mode = this.modeFactory.normalize(saved.mode);
-    this.difficulty = this._resolveDifficulty(saved.difficulty);
-    const emptyGame = this._createGame(this.mode);
-    this.game = hydrate(emptyGame, saved.game);
-    if (!this.game || typeof this.game !== 'object') {
+    const nextMode = this.modeFactory.normalize(saved.mode);
+    const nextDifficulty = this._resolveDifficulty(saved.difficulty);
+    this._assertSavedCardsAvailable(nextMode, saved.game);
+    const expandedSavedGame = this._expandSavedClassicPlayers(nextMode, saved.game);
+    const emptyGame = this._createGame(nextMode);
+    const nextGame = hydrate(emptyGame, expandedSavedGame);
+    if (!nextGame || typeof nextGame !== 'object') {
       throw new GameRuntimeError('INVALID_SAVE', 'A mentett játékmotor nem állítható vissza.');
     }
-    this.pendingAttribute = typeof saved.pendingAttribute === 'string'
+    const nextPendingAttribute = typeof saved.pendingAttribute === 'string'
       ? saved.pendingAttribute
       : null;
-    this.awaitingChooserCard = Boolean(saved.awaitingChooserCard);
-    this._prepareAi();
+    const nextAwaitingChooserCard = Boolean(saved.awaitingChooserCard);
+    const nextAi = this._createAi(nextMode, nextDifficulty, nextGame);
+
+    this.mode = nextMode;
+    this.difficulty = nextDifficulty;
+    this.game = nextGame;
+    this.ai = nextAi;
+    this.pendingAttribute = nextPendingAttribute;
+    this.awaitingChooserCard = nextAwaitingChooserCard;
     return this.state();
   }
 
@@ -16869,7 +17336,6 @@ function createMenuController({
       </div>
     `;
     panel.querySelector('#replace-save-btn').addEventListener('click', () => {
-      clearSaved();
       actions.start(mode, difficulty);
     }, { once: true });
     panel.querySelector('#keep-save-btn').addEventListener('click', () => showTitleScreen({ offerOnboarding: false }), { once: true });
@@ -21245,12 +21711,24 @@ GameRuntime.prototype.start = function startWithSelectedLength(mode, difficulty)
     (sum, hand) => sum + (Array.isArray(hand) ? hand.length : 0),
     0,
   );
-  const targetCards = Math.min(selected.cards, cardsAlreadyDealt + game.deck.length);
-  const remainingCards = Math.max(0, targetCards - cardsAlreadyDealt);
-  if (game.deck.length > remainingCards) game.deck = game.deck.slice(-remainingCards);
-  game.matchDeckSize = targetCards;
+  game.matchDeckSize = Math.min(selected.cards, cardsAlreadyDealt + game.deck.length);
   game.matchLengthPreset = selected.id;
   return this.state();
+};
+
+const previousClassicNextRound = Game.prototype.nextRound;
+Game.prototype.nextRound = function nextRoundWithSelectedLength(...args) {
+  if (this.mode === 'classic' && this.phase === PHASE.REVEAL) {
+    const selected = MATCH_LENGTHS[this.matchLengthPreset] ?? selectedMatchLength();
+    const targetDuels = Math.max(1, Math.floor(selected.cards / 2));
+    if (this.round >= targetDuels) {
+      this.played = { [HUMAN]: null, [AI]: null };
+      this.attribute = null;
+      this.phase = PHASE.GAME_OVER;
+      return this;
+    }
+  }
+  return previousClassicNextRound.apply(this, args);
 };
 
 const matchSideName = (game, side) => {
@@ -22210,6 +22688,8 @@ function tournamentProgress(state) {
 
 const TOURNAMENT_STORAGE_KEY = 'fociskartyak.tournament.v1';
 const TOURNAMENT_HISTORY_STORAGE_KEY = 'fociskartyak.tournament-history.v1';
+const TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY = 'fociskartyak.tournament-pending-launch.v1';
+const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
 const tournamentStorageText = value => String(value ?? '').trim();
 
@@ -22241,12 +22721,64 @@ function normaliseStoredTournament(value) {
 }
 
 function createTournamentStorageService({ storage = storageService } = {}) {
+  let pendingLaunchWriteFailed = false;
+
   const read = () => normaliseStoredTournament(storage.readJson(TOURNAMENT_STORAGE_KEY, null));
+  const readPendingLaunch = () => {
+    const value = storage.readJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, null);
+    const previous = normaliseStoredTournament(value?.previous);
+    const next = normaliseStoredTournament(value?.next);
+    if (!previous || !next || previous.id !== next.id || !tournamentStorageText(next.currentMatchId)) return null;
+    return Object.freeze({ previous, next });
+  };
+  const rollbackPendingLaunch = () => {
+    pendingLaunchWriteFailed = false;
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    return true;
+  };
+  const commitPendingLaunch = () => {
+    if (pendingLaunchWriteFailed) {
+      rollbackPendingLaunch();
+      return false;
+    }
+    const pending = readPendingLaunch();
+    if (!pending) {
+      storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+      return true;
+    }
+    if (!storage.writeJson(TOURNAMENT_STORAGE_KEY, pending.next)) return false;
+    pendingLaunchWriteFailed = false;
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    return true;
+  };
   const save = state => {
     const normalised = normaliseStoredTournament(state);
-    return normalised ? storage.writeJson(TOURNAMENT_STORAGE_KEY, normalised) : false;
+    if (!normalised) return false;
+    const active = read();
+    const startsNewMatch = Boolean(
+      active
+      && active.id === normalised.id
+      && tournamentStorageText(normalised.currentMatchId)
+      && tournamentStorageText(active.currentMatchId) !== tournamentStorageText(normalised.currentMatchId),
+    );
+    if (startsNewMatch) {
+      const saved = storage.writeJson(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, {
+        previous: active,
+        next: normalised,
+      });
+      pendingLaunchWriteFailed = !saved;
+      return saved;
+    }
+    pendingLaunchWriteFailed = false;
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    return storage.writeJson(TOURNAMENT_STORAGE_KEY, normalised);
   };
-  const clear = () => { storage.remove(TOURNAMENT_STORAGE_KEY); return true; };
+  const clear = () => {
+    pendingLaunchWriteFailed = false;
+    storage.remove(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY);
+    storage.remove(TOURNAMENT_STORAGE_KEY);
+    return true;
+  };
   const readHistory = () => {
     const value = storage.readJson(TOURNAMENT_HISTORY_STORAGE_KEY, []);
     return Array.isArray(value) ? value.filter(item => item && typeof item === 'object').slice(0, 30) : [];
@@ -22268,13 +22800,30 @@ function createTournamentStorageService({ storage = storageService } = {}) {
     };
     return storage.writeJson(TOURNAMENT_HISTORY_STORAGE_KEY, [record, ...history.filter(item => item.id !== record.id)].slice(0, 30));
   };
-  return Object.freeze({ read, save, clear, readHistory, archive });
+  return Object.freeze({
+    read,
+    save,
+    clear,
+    readPendingLaunch,
+    commitPendingLaunch,
+    rollbackPendingLaunch,
+    readHistory,
+    archive,
+  });
 }
 
 const tournamentStorageService = createTournamentStorageService();
 const readTournament = (...args) => tournamentStorageService.read(...args);
 const saveTournament = (...args) => tournamentStorageService.save(...args);
 const clearTournament = (...args) => tournamentStorageService.clear(...args);
+const readPendingTournamentLaunch = (...args) => tournamentStorageService.readPendingLaunch(...args);
+const commitPendingTournamentLaunch = (...args) => tournamentStorageService.commitPendingLaunch(...args);
+const rollbackPendingTournamentLaunch = (...args) => tournamentStorageService.rollbackPendingLaunch(...args);
+
+globalThis[TOURNAMENT_LAUNCH_TRANSACTION_HOOK] = Object.freeze({
+  commit: commitPendingTournamentLaunch,
+  rollback: rollbackPendingTournamentLaunch,
+});
 
 
 /* ===== js/tournament-mode.js ===== */
@@ -25993,10 +26542,28 @@ installTournamentRapidUpgrade();
 
 
 
+
 const validDifficulty = value => Object.prototype.hasOwnProperty.call(DIFFICULTY, value);
 const selectedOpponentDifficulty = () => {
   const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
   return validDifficulty(id) ? id : (validDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
+};
+
+const saveProblemMessage = inspection => {
+  switch (inspection?.code) {
+    case SEASON_SAVE_STATUS.SEASON_MISMATCH:
+      return 'Ez a mentés egy másik szezonhoz tartozik, ezért nem folytatható a jelenlegi adatbázissal.';
+    case SEASON_SAVE_STATUS.DATABASE_MISMATCH:
+      return 'Ez a mentés egy másik játékos-adatbázishoz tartozik, ezért nem folytatható.';
+    case SEASON_SAVE_STATUS.UNSUPPORTED_VERSION:
+      return 'A mentés egy nem támogatott játékverzióval készült.';
+    case SEASON_SAVE_STATUS.MISSING_CARD:
+      return 'A mentés olyan játékoskártyát tartalmaz, amely már nem érhető el a jelenlegi adatbázisban.';
+    case SEASON_SAVE_STATUS.INVALID_JSON:
+    case SEASON_SAVE_STATUS.INVALID_SCHEMA:
+    default:
+      return 'A mentett játék sérült vagy már nem kompatibilis ezzel a verzióval.';
+  }
 };
 
 class Session {
@@ -26017,6 +26584,8 @@ class Session {
       onOpenSettings: () => this.showSettings(() => this.showTitleScreen({ offerOnboarding: false })),
     }, this.settings);
     this.busy = false;
+    this.launchInProgress = false;
+    this.suppressPersistence = false;
     this.menu = createMenuController({
       ui: this.ui,
       getState: () => ({
@@ -26082,8 +26651,13 @@ class Session {
     applyExperienceSettings(this.settings);
     this.installLifecycleHandlers();
 
-    if (quickMatchLaunch) this.start(quickMatchLaunch.mode, quickMatchLaunch.difficulty);
-    else this.showTitleScreen({ offerOnboarding: true });
+    if (quickMatchLaunch) {
+      this.start(quickMatchLaunch.mode, quickMatchLaunch.difficulty);
+    } else {
+      const saveInspection = inspectSeasonSavedMatch();
+      if (saveInspection.hasStoredValue && !saveInspection.ok) this.showSaveProblem(saveInspection);
+      else this.showTitleScreen({ offerOnboarding: true });
+    }
   }
 
   get game() { return this.runtime.game; }
@@ -26139,6 +26713,118 @@ class Session {
     return this.menu.hidePanel();
   }
 
+  _setLaunchControlsDisabled(disabled) {
+    const buttons = document.querySelectorAll('#overlay button');
+    buttons.forEach(button => {
+      const stateKey = 'launchPreviousDisabled';
+      const ariaKey = 'launchPreviousAriaDisabled';
+      if (disabled) {
+        if (!(stateKey in button.dataset)) {
+          button.dataset[stateKey] = String(Boolean(button.disabled));
+          button.dataset[ariaKey] = button.getAttribute('aria-disabled') ?? '';
+        }
+        button.disabled = true;
+        button.setAttribute('aria-disabled', 'true');
+        return;
+      }
+      if (!(stateKey in button.dataset)) return;
+      button.disabled = button.dataset[stateKey] === 'true';
+      if (button.dataset[ariaKey]) button.setAttribute('aria-disabled', button.dataset[ariaKey]);
+      else button.removeAttribute('aria-disabled');
+      delete button.dataset[stateKey];
+      delete button.dataset[ariaKey];
+    });
+  }
+
+  _restoreRuntimeViewAfterFailure() {
+    try {
+      this.busy = false;
+      this.ui.setInteractionBusy(false);
+      this.ui.resetTable();
+      this.ui.setMode(this.mode ?? 'classic');
+      if (this.game && !this.game.isOver) this.restoreSavedView();
+    } catch (restoreError) {
+      console.error('[launch] A korábbi játéknézet sem állítható teljesen helyre:', restoreError);
+    }
+  }
+
+  _runLaunch(operation, { retry = null, onError = null } = {}) {
+    if (this.launchInProgress) return false;
+    this.launchInProgress = true;
+    this.busy = true;
+    this.ui.setInteractionBusy(true);
+    this._setLaunchControlsDisabled(true);
+    this.ui.showToast('Mérkőzés előkészítése…', 'info', 1400);
+    let succeeded = false;
+
+    try {
+      const result = operation();
+      succeeded = result !== false;
+      return result;
+    } catch (error) {
+      console.error('[launch] A mérkőzés előkészítése sikertelen:', error);
+      if (typeof onError === 'function') onError(error);
+      else this.showLaunchError(retry);
+      return false;
+    } finally {
+      this.launchInProgress = false;
+      this._setLaunchControlsDisabled(false);
+      if (!succeeded) {
+        this.busy = false;
+        this.ui.setInteractionBusy(false);
+      }
+    }
+  }
+
+  showLaunchError(retry = null) {
+    const panel = el('div', 'confirm-panel launch-error-panel');
+    panel.innerHTML = `
+      <p class="eyebrow">Indítási hiba</p>
+      <h1>A mérkőzés nem indult el</h1>
+      <p>A korábbi játék és mentés változatlan maradt. Próbáld újra, vagy térj vissza.</p>
+      <div class="result-actions">
+        ${typeof retry === 'function' ? '<button class="btn" id="retry-launch-btn">Újrapróbálás</button>' : ''}
+        <button class="btn btn--ghost" id="launch-back-btn">Vissza</button>
+      </div>
+    `;
+    panel.querySelector('#retry-launch-btn')?.addEventListener('click', retry, { once: true });
+    const back = () => {
+      if (this.game && !this.game.isOver) this.showPauseMenu();
+      else this.showTitleScreen({ offerOnboarding: false });
+    };
+    panel.querySelector('#launch-back-btn').addEventListener('click', back, { once: true });
+    this._showPanel(panel, back);
+  }
+
+  showSaveProblem(inspection) {
+    console.error('[save] A mentett játék nem folytatható:', {
+      code: inspection?.code,
+      errors: inspection?.errors ?? [],
+      warnings: inspection?.warnings ?? [],
+    });
+    const panel = el('div', 'confirm-panel save-error-panel');
+    panel.innerHTML = `
+      <p class="eyebrow">Mentési probléma</p>
+      <h1>A játék nem folytatható</h1>
+      <p>${saveProblemMessage(inspection)}</p>
+      <div class="result-actions">
+        <button class="btn btn--danger" id="delete-invalid-save-btn">Mentés törlése</button>
+        <button class="btn btn--ghost" id="invalid-save-back-btn">Vissza a főmenübe</button>
+      </div>
+    `;
+    const back = () => this.showTitleScreen({ offerOnboarding: false });
+    panel.querySelector('#delete-invalid-save-btn').addEventListener('click', () => {
+      if (!clearSeasonSavedMatch()) {
+        this.ui.showToast('A mentést nem sikerült törölni.', 'error', 3000);
+        return;
+      }
+      this.ui.showToast('A hibás mentés törölve.', 'success');
+      back();
+    }, { once: true });
+    panel.querySelector('#invalid-save-back-btn').addEventListener('click', back, { once: true });
+    this._showPanel(panel, back);
+  }
+
   showTitleScreen(options = {}) {
     return this.menu.showTitleScreen(options);
   }
@@ -26180,14 +26866,40 @@ class Session {
   }
 
   start(mode, difficulty) {
-    clearSeasonSavedMatch();
-    this.runtime.start(mode, validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty());
-    this.busy = false;
-    this.ui.resetTable();
-    this.ui.setMode(this.mode);
+    const resolvedDifficulty = validDifficulty(difficulty) ? difficulty : selectedOpponentDifficulty();
+    const checkpoint = this.runtime.checkpoint();
+    return this._runLaunch(() => {
+      this.suppressPersistence = true;
+      try {
+        this.runtime.start(mode, resolvedDifficulty);
+        this.ui.resetTable();
+        this.ui.setMode(this.mode);
 
-    if (this.mode === 'penalties') this.showPenaltyIntro();
-    else this._beginMatch();
+        if (this.mode === 'penalties') {
+          this.busy = false;
+          this.ui.setInteractionBusy(false);
+          this.showPenaltyIntro();
+        } else {
+          this._beginMatch();
+        }
+
+        this.suppressPersistence = false;
+        if (!this.saveCurrentGame()) {
+          throw new Error('Az új mérkőzés elkészült, de a kezdeti állapot nem menthető.');
+        }
+        return true;
+      } catch (error) {
+        this.suppressPersistence = false;
+        this.runtime.rollback(checkpoint);
+        throw error;
+      }
+    }, {
+      retry: () => this.start(mode, difficulty),
+      onError: () => {
+        this._restoreRuntimeViewAfterFailure();
+        this.showLaunchError(() => this.start(mode, difficulty));
+      },
+    });
   }
 
   showPenaltyIntro() {
@@ -26229,37 +26941,68 @@ class Session {
   }
 
   saveCurrentGame() {
+    if (this.suppressPersistence) return true;
     if (!this.game || this.game.isOver) return false;
     return writeSeasonSavedMatch(this.runtime.toSavePayload(this.ui.uxStats));
   }
 
   resumeSavedMatch() {
-    const saved = readSeasonSavedMatch();
-    if (!saved) {
+    const inspection = inspectSeasonSavedMatch();
+    if (inspection.code === SEASON_SAVE_STATUS.NO_SAVE) {
       this.ui.showToast('Nincs folytatható mentett játék', 'error');
       this.showTitleScreen({ offerOnboarding: false });
-      return;
+      return false;
+    }
+    if (!inspection.ok || !inspection.value) {
+      this.showSaveProblem(inspection);
+      return false;
     }
 
-    try {
-      this.runtime.restore({
-        ...saved,
-        difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
-      }, hydrateSeasonGame);
-      this.ui.resetTable();
-      this.ui.setMode(this.mode);
-      if (saved.uxStats) this.ui.uxStats = saved.uxStats;
-      this._hidePanel();
-      this.busy = false;
-      this.ui.setInteractionBusy(false);
-      this.restoreSavedView();
-      this.ui.showToast('Mentett játék folytatva', 'success');
-    } catch (error) {
-      console.error('[save] A mentett játék nem állítható vissza:', error);
-      clearSeasonSavedMatch();
-      this.ui.showToast('A mentés sérült, ezért új játék szükséges.', 'error', 3400);
-      this.showTitleScreen({ offerOnboarding: false });
-    }
+    const saved = inspection.value;
+    const checkpoint = this.runtime.checkpoint();
+    return this._runLaunch(() => {
+      this.suppressPersistence = true;
+      try {
+        this.runtime.restore({
+          ...saved,
+          difficulty: validDifficulty(saved.difficulty) ? saved.difficulty : selectedOpponentDifficulty(),
+        }, hydrateSeasonGame);
+        this.ui.resetTable();
+        this.ui.setMode(this.mode);
+        if (saved.uxStats) this.ui.uxStats = saved.uxStats;
+        this._hidePanel();
+        this.busy = false;
+        this.ui.setInteractionBusy(false);
+        this.restoreSavedView();
+        this.suppressPersistence = false;
+        this.ui.showToast(
+          inspection.warnings.length
+            ? 'A mentés figyelmeztetéssel, de sikeresen folytatva.'
+            : 'Mentett játék folytatva',
+          inspection.warnings.length ? 'info' : 'success',
+          3000,
+        );
+        return true;
+      } catch (error) {
+        this.suppressPersistence = false;
+        this.runtime.rollback(checkpoint);
+        throw error;
+      }
+    }, {
+      retry: () => this.resumeSavedMatch(),
+      onError: error => {
+        this._restoreRuntimeViewAfterFailure();
+        this.showSaveProblem({
+          ...inspection,
+          ok: false,
+          value: null,
+          code: error?.code === 'SAVE_CARD_MISSING'
+            ? SEASON_SAVE_STATUS.MISSING_CARD
+            : SEASON_SAVE_STATUS.INVALID_SCHEMA,
+          errors: [...inspection.errors, error?.message ?? 'ismeretlen visszaállítási hiba'],
+        });
+      },
+    });
   }
 
   restoreSavedView() {
