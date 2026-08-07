@@ -7,6 +7,7 @@ import {
   createSeasonSaveService,
   savedMatchMatchesSeason,
   SEASON_SAVE_STATUS,
+  SEASON_SAVE_WRITE_STATUS,
 } from '../js/services/season-save-service.js';
 import { createSavedMatchSnapshot } from '../js/services/save-service.js';
 import { createStorageService } from '../js/services/storage-service.js';
@@ -70,6 +71,34 @@ assert.equal(service.read().seasonId, '2025-26');
 assert.equal(service.inspect().code, SEASON_SAVE_STATUS.OK);
 assert.equal(service.inspect().hasStoredValue, true);
 assert.equal(savedMatchMatchesSeason(raw, context), true);
+const successfulWrite = service.inspectLastWrite();
+assert.equal(successfulWrite.ok, true);
+assert.equal(successfulWrite.code, SEASON_SAVE_WRITE_STATUS.OK);
+assert.ok(successfulWrite.serializedLength > 0);
+
+const rejectingService = createSeasonSaveService({
+  storage: {
+    readString: () => null,
+    writeJson: () => false,
+    remove: () => true,
+  },
+  now: () => new Date('2026-07-28T12:00:00.000Z'),
+  getContext: () => context,
+});
+assert.equal(rejectingService.write(savePayload), false, 'a régi logikai write API kompatibilis marad');
+const rejectedWrite = rejectingService.inspectLastWrite();
+assert.equal(rejectedWrite.code, SEASON_SAVE_WRITE_STATUS.STORAGE_WRITE_FAILED);
+assert.ok(rejectedWrite.serializedLength > 0);
+assert.deepEqual(rejectedWrite.errors, []);
+
+const invalidWrite = rejectingService.writeDetailed({
+  ...savePayload,
+  game: { mode: 'classic' },
+});
+assert.equal(invalidWrite.ok, false);
+assert.equal(invalidWrite.code, SEASON_SAVE_WRITE_STATUS.VALIDATION_FAILED);
+assert.ok(invalidWrite.errors.length > 0);
+assert.equal(rejectingService.inspectLastWrite(), invalidWrite);
 
 const quotaMemory = new Map();
 const quotaStorage = createStorageService({
