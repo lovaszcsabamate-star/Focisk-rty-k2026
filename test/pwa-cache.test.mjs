@@ -51,7 +51,7 @@ class FakeCache {
 }
 
 function createEnvironment({ failCore = [], failOptional = [], scriptSource = swSource } = {}) {
-  const origin = 'https://example.test/';
+  const origin = 'https://example.test';
   const listeners = {};
   const cachesByName = new Map();
   const env = {
@@ -78,7 +78,7 @@ function createEnvironment({ failCore = [], failOptional = [], scriptSource = sw
   };
 
   const self = {
-    location: { href: `${origin}sw.js`, origin },
+    location: { href: `${origin}/sw.js`, origin },
     clients: { claim: async () => { env.claimCalls += 1; } },
     skipWaiting: async () => { env.skipWaitingCalls += 1; },
     addEventListener: (type, handler) => { listeners[type] = handler; },
@@ -154,7 +154,7 @@ assert.equal(names.includes(legacyName), false, 'sikeres aktiválás után a ré
 assert.equal(successful.env.claimCalls, 1);
 
 successful.env.offline = true;
-const navigation = successful.triggerFetch({ method: 'GET', mode: 'navigate', url: `${successful.env.origin}deep/link` });
+const navigation = successful.triggerFetch({ method: 'GET', mode: 'navigate', url: `${successful.env.origin}/deep/link` });
 assert.equal(await (await navigation.response).text(), 'cached:./index.html');
 
 const optionalFailure = createEnvironment({ failOptional: [OPTIONAL[0]] });
