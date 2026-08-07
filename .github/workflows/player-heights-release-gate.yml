@@ -86,6 +86,8 @@ jobs:
       - run: npm ci
       - name: Mobile prepare
         run: npm run mobile:prepare
+      - name: Add Android platform
+        run: npx cap add android
       - name: Capacitor sync Android
         run: npx cap sync android
       - name: Mobile and WebView runtime smoke
