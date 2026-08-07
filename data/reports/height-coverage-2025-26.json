@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "checkedAt": "2026-08-08",
+  "scope": {
+    "clubs": 12,
+    "uniquePlayers": 440,
+    "registrationRecords": 464
+  },
+  "validation": {
+    "minimumHeightCm": 140,
+    "maximumHeightCm": 220,
+    "integerOnly": true,
+    "invalidHeightCount": 0
+  },
+  "coverage": {
+    "before": { "known": 285, "missing": 155, "players": 440, "percent": 64.8 },
+    "newVerifiedUniquePlayers": 14,
+    "after": { "known": 299, "missing": 141, "players": 440, "percent": 68.0 },
+    "deltaPercentagePoints": 3.2
+  },
+  "sources": {
+    "newRecords": 14,
+    "HLSZ": 2,
+    "TransfermarktPublicPlayerPages": 12,
+    "unverifiedOrEstimated": 0,
+    "policy": "Hiteles adat > teljes adat. Nincs becslés, fotóalapú következtetés vagy bizonytalan névegyezés; meglévő heightCm nem írható felül automatikusan."
+  },
+  "clubs": [
+    { "club": "DVSC", "players": 38, "heightBefore": 27, "newRegistrationCoverage": 1, "heightAfter": 28, "missing": 10, "coveragePercent": 73.7 },
+    { "club": "DVTK", "players": 45, "heightBefore": 33, "newRegistrationCoverage": 0, "heightAfter": 33, "missing": 12, "coveragePercent": 73.3 },
+    { "club": "ETO FC", "players": 35, "heightBefore": 22, "newRegistrationCoverage": 0, "heightAfter": 22, "missing": 13, "coveragePercent": 62.9 },
+    { "club": "Ferencvárosi TC", "players": 42, "heightBefore": 28, "newRegistrationCoverage": 4, "heightAfter": 32, "missing": 10, "coveragePercent": 76.2 },
+    { "club": "Kisvárda Master Good", "players": 38, "heightBefore": 26, "newRegistrationCoverage": 0, "heightAfter": 26, "missing": 12, "coveragePercent": 68.4 },
+    { "club": "Kolorcity Kazincbarcika SC", "players": 40, "heightBefore": 22, "newRegistrationCoverage": 3, "heightAfter": 25, "missing": 15, "coveragePercent": 62.5 },
+    { "club": "MTK Budapest", "players": 36, "heightBefore": 26, "newRegistrationCoverage": 1, "heightAfter": 27, "missing": 9, "coveragePercent": 75.0 },
+    { "club": "Nyíregyháza Spartacus FC", "players": 39, "heightBefore": 26, "newRegistrationCoverage": 2, "heightAfter": 28, "missing": 11, "coveragePercent": 71.8 },
+    { "club": "Paksi FC", "players": 33, "heightBefore": 21, "newRegistrationCoverage": 0, "heightAfter": 21, "missing": 12, "coveragePercent": 63.6 },
+    { "club": "Puskás Akadémia FC", "players": 34, "heightBefore": 21, "newRegistrationCoverage": 1, "heightAfter": 22, "missing": 12, "coveragePercent": 64.7, "note": "Kerezsi Zalán klubváltó személymagassága az MTK és a Puskás Akadémia szezonbeli regisztrációján is ugyanaz a személyadat." },
+    { "club": "Újpest FC", "players": 41, "heightBefore": 27, "newRegistrationCoverage": 3, "heightAfter": 30, "missing": 11, "coveragePercent": 73.2 },
+    { "club": "ZTE FC", "players": 43, "heightBefore": 23, "newRegistrationCoverage": 0, "heightAfter": 23, "missing": 20, "coveragePercent": 53.5 }
+  ],
+  "reviewedProblemGroups": {
+    "Kisvarda": {
+      "requestedManualReview": ["Alic Enes", "Balogh Norbert", "Gyenge Szilárd", "Jordanov Toniszlav", "Kovacic Dominik", "Matanovics Marko", "Melnik Bohdan", "Nikolov Boban", "Petkovic Danijel", "Rubus Tamás"],
+      "remainingMissingAmongThese": 0,
+      "newInHeight1": 0,
+      "status": "Mind a 10 rekordnak van magassága a végső normalizált adatbázisban; meglévő adatot a Height 1.0 nem írt felül."
+    },
+    "DVSC": {
+      "requestedManualReview": ["Gordic Djordje", "Manzanara Fran", "Ojediran Hamzat", "Oliveira Joao"],
+      "remainingMissingAmongThese": 0,
+      "newInHeight1": 1,
+      "newRecord": { "player": "Manzanara Fran", "heightCm": 182, "source": "HLSZ" },
+      "status": "Manzanara Fran strict club+birthDate+name ellenőrzéssel került be; a másik három meglévő érték változatlan maradt."
+    },
+    "MTK": {
+      "requestedManualReview": ["Belényesi Csaba", "Kosznovszky Márk"],
+      "remainingMissingAmongThese": 0,
+      "newInHeight1": 0,
+      "status": "Mindkét rekordnak van magassága a végső normalizált adatbázisban; a Height 1.0 nem írta felül őket."
+    }
+  },
+  "conflicts": [
+    {
+      "player": "VARGA BARNABÁS",
+      "club": "Ferencvárosi TC",
+      "currentBirthDate": "1994-10-25",
+      "sourceBirthDate": "1994-01-25",
+      "source": "HLSZ",
+      "status": "unresolved-no-height-applied",
+      "reason": "A születési dátum eltér; automatikus heightCm enrichment tiltva."
+    }
+  ],
+  "unresolved": {
+    "missingUniquePlayers": 141,
+    "sourceIdentityConflicts": 1
+  }
+}
