@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 
-import { compare } from '../js/engine.js';
+import { AI, Game, HUMAN, compare } from '../js/engine.js';
+import { PenaltyGame } from '../js/penalties.js';
 import { isValidHeightCm } from '../js/data/height.js';
 import {
   ATTRIBUTE_BY_KEY,
@@ -17,11 +18,15 @@ import {
   createHeightCoverageAudit,
 } from '../scripts/audit-player-heights.mjs';
 
-const heightCard = (id, heightCm) => normaliseCard({
+const heightCard = (id, heightCm, extra = {}) => normaliseCard({
   id,
   name: `Teszt ${id}`,
   club: 'Teszt FC',
   stats: { heightCm },
+  ...extra,
+});
+const quickSideCard = (side, index, heightCm) => heightCard(`${side}-${index}`, heightCm, {
+  meta: { quickMatchSide: side, quickMatchTeamLabel: `${side} tesztcsapat` },
 });
 
 // Kategóriaszerződés és megjelenítés.
@@ -59,6 +64,41 @@ for (const invalid of [0, 235, 'magas']) {
   assert.equal(formatAttribute(card, 'heightCm'), '', `invalid height nem jelenik meg: ${invalid}`);
 }
 
+// Klasszikus / Quick Match: csak akkor választható, ha mindkét oldalon van kijátszható hiteles heightCm.
+const classicPlayers = [
+  ...Array.from({ length: 5 }, (_, index) => quickSideCard(HUMAN, index, index === 0 ? 190 : null)),
+  ...Array.from({ length: 5 }, (_, index) => quickSideCard(AI, index, 180 + index)),
+];
+const classic = new Game({ players: classicPlayers, rng: () => 0 });
+assert.equal(classic.quickMatch?.enabled, true);
+assert.ok(classic.availableAttributeKeys().includes('heightCm'));
+const classicMissingSide = new Game({
+  players: [
+    ...Array.from({ length: 5 }, (_, index) => quickSideCard(HUMAN, index + 20, null)),
+    ...Array.from({ length: 5 }, (_, index) => quickSideCard(AI, index + 20, 180 + index)),
+  ],
+  rng: () => 0,
+});
+assert.equal(classicMissingSide.availableAttributeKeys().includes('heightCm'), false);
+
+// Büntetőpárbaj: ugyanaz a központi missing-data filtering működik a 11 fős keretekkel.
+const penalty = new PenaltyGame({
+  players: [
+    ...Array.from({ length: 11 }, (_, index) => quickSideCard(HUMAN, index + 40, index === 0 ? 191 : null)),
+    ...Array.from({ length: 11 }, (_, index) => quickSideCard(AI, index + 40, 179 + (index % 5))),
+  ],
+  rng: () => 0,
+});
+assert.ok(penalty.availableAttributeKeys().includes('heightCm'));
+const penaltyMissingSide = new PenaltyGame({
+  players: [
+    ...Array.from({ length: 11 }, (_, index) => quickSideCard(HUMAN, index + 80, null)),
+    ...Array.from({ length: 11 }, (_, index) => quickSideCard(AI, index + 80, 180)),
+  ],
+  rng: () => 0,
+});
+assert.equal(penaltyMissingSide.availableAttributeKeys().includes('heightCm'), false);
+
 // Adatbázis-audit: 440 személy, 464 klubregisztráció, 0 invalid és nem romló coverage.
 const { output } = buildNormalizedDatabase();
 const audit = createHeightCoverageAudit(output.players);
@@ -76,4 +116,4 @@ assert.equal(isValidHeightCm(139), false);
 assert.equal(isValidHeightCm(221), false);
 assert.equal(isValidHeightCm(184.5), false);
 
-console.log(`✓ Height 1.0: összehasonlítás + missing/invalid safety + coverage ${audit.summary.known}/${audit.summary.players} (${audit.summary.coveragePercent}%), regisztráció=${audit.summary.registrationRecords}, hiányzó=${audit.summary.missing}, invalid=${audit.summary.invalid}`);
+console.log(`✓ Height 1.0: Classic/Quick Match + Penalties + missing/invalid safety + coverage ${audit.summary.known}/${audit.summary.players} (${audit.summary.coveragePercent}%), regisztráció=${audit.summary.registrationRecords}, hiányzó=${audit.summary.missing}, invalid=${audit.summary.invalid}`);
