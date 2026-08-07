@@ -69,7 +69,8 @@ const kocsis = cards.find(card => card.name === 'KOCSIS BOTOND');
 assert.deepEqual(clubIds(kocsis), ['eto-fc', 'kolorcity-kazincbarcika-sc']);
 
 assertRegisteredDataFile(ENRICHMENT_FILE, 'enrichments');
-assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
+assert.match(readText('../sw.js'), /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(readText('../sw.js'), /SHA-256/);
 
 const directory = readJson('../data/club-official-sources.json');
 const club = directory.clubs.find(item => item.clubId === CLUB_ID);
