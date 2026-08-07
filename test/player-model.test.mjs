@@ -87,6 +87,19 @@ const invalidPayload = normalisePlayerPayload({
 const invalidValidation = validatePlayerPayload(invalidPayload.players);
 assert.ok(invalidValidation.errors.includes('duplicate player ids'));
 
+for (const invalidHeight of [0, 139, 221, 235, 184.5]) {
+  const invalidHeightPlayer = normalisePlayerRecord({
+    ...sample,
+    id: `invalid-height-${String(invalidHeight)}`,
+    stats: { ...sample.stats, heightCm: invalidHeight },
+  });
+  const validation = validatePlayerPayload([invalidHeightPlayer]);
+  assert.ok(
+    validation.errors.some(error => error.includes('heightCm must be an integer between 140 and 220')),
+    `A kanonikus modellnek el kell utasítania: ${invalidHeight}`,
+  );
+}
+
 const reviewed = readJson('../data/players-reviewed.json');
 const modelled = normalisePlayerPayload(reviewed);
 assert.equal(modelled.players.length, 440);
@@ -114,4 +127,4 @@ assert.equal(playable.players.length, 440);
 assert.equal(playable.playerModel.version, PLAYER_MODEL_VERSION);
 assert.equal(playable.completenessFilter.excludedIncompleteCards, 0);
 
-console.log('✓ Egységes játékos-adatmodell v3: 440 rekord, ISO countryCode, föderáció, stabil azonosítók és változatlan statisztikák');
+console.log('✓ Egységes játékos-adatmodell v3: 440 rekord, Height 1.0 validáció, ISO countryCode, föderáció, stabil azonosítók és változatlan statisztikák');
