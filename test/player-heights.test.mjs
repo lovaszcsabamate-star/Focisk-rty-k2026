@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict';
 
+import { compare } from '../js/engine.js';
 import { isValidHeightCm } from '../js/data/height.js';
+import {
+  ATTRIBUTE_BY_KEY,
+  CARD_ATTRIBUTE_KEYS,
+  formatAttribute,
+  hasAttributeData,
+  normaliseCard,
+} from '../js/data/players.js';
 import { buildNormalizedDatabase } from '../scripts/migrate-normalized-database.mjs';
 import {
   BASELINE_HEIGHT_COUNT,
@@ -9,6 +17,49 @@ import {
   createHeightCoverageAudit,
 } from '../scripts/audit-player-heights.mjs';
 
+const heightCard = (id, heightCm) => normaliseCard({
+  id,
+  name: `Teszt ${id}`,
+  club: 'Teszt FC',
+  stats: { heightCm },
+});
+
+// Kategóriaszerződés és megjelenítés.
+assert.equal(ATTRIBUTE_BY_KEY.heightCm.label, 'Magasabb játékos');
+assert.equal(ATTRIBUTE_BY_KEY.heightCm.icon, '📏');
+assert.equal(ATTRIBUTE_BY_KEY.heightCm.direction, 'higher');
+assert.equal(ATTRIBUTE_BY_KEY.heightCm.unit, 'cm');
+assert.ok(CARD_ATTRIBUTE_KEYS.includes('heightCm'));
+assert.equal(formatAttribute(heightCard('format', 187), 'heightCm'), '187 cm');
+
+// A feladatban kért összehasonlítási esetek.
+assert.equal(compare('heightCm', heightCard('human-190', 190), heightCard('ai-185', 185)), 'human');
+assert.equal(compare('heightCm', heightCard('human-178', 178), heightCard('ai-193', 193)), 'ai');
+assert.equal(compare('heightCm', heightCard('human-184', 184), heightCard('ai-184', 184)), 'tie');
+
+const missingHuman = heightCard('missing-human', null);
+const validAi = heightCard('valid-ai', 190);
+assert.equal(hasAttributeData(missingHuman, 'heightCm'), false);
+assert.equal(hasAttributeData(validAi, 'heightCm'), true);
+assert.throws(() => compare('heightCm', missingHuman, validAi), /mindkét kártyán hiteles adat/);
+
+const validHuman = heightCard('valid-human', 190);
+const missingAi = heightCard('missing-ai', null);
+assert.equal(hasAttributeData(validHuman, 'heightCm'), true);
+assert.equal(hasAttributeData(missingAi, 'heightCm'), false);
+assert.throws(() => compare('heightCm', validHuman, missingAi), /mindkét kártyán hiteles adat/);
+
+assert.equal(hasAttributeData(heightCard('missing-both-a', null), 'heightCm'), false);
+assert.equal(hasAttributeData(heightCard('missing-both-b', null), 'heightCm'), false);
+
+for (const invalid of [0, 235, 'magas']) {
+  const card = heightCard(`invalid-${String(invalid)}`, invalid);
+  assert.equal(card.stats.heightCm, null, `invalid height normalizálása: ${invalid}`);
+  assert.equal(hasAttributeData(card, 'heightCm'), false, `invalid height nem játszható: ${invalid}`);
+  assert.equal(formatAttribute(card, 'heightCm'), '', `invalid height nem jelenik meg: ${invalid}`);
+}
+
+// Adatbázis-audit: 440 személy, 464 klubregisztráció, 0 invalid és nem romló coverage.
 const { output } = buildNormalizedDatabase();
 const audit = createHeightCoverageAudit(output.players);
 
@@ -25,4 +76,4 @@ assert.equal(isValidHeightCm(139), false);
 assert.equal(isValidHeightCm(221), false);
 assert.equal(isValidHeightCm(184.5), false);
 
-console.log(`✓ Height coverage audit: ${audit.summary.known}/${audit.summary.players} (${audit.summary.coveragePercent}%), regisztráció=${audit.summary.registrationRecords}, hiányzó=${audit.summary.missing}, invalid=${audit.summary.invalid}`);
+console.log(`✓ Height 1.0: összehasonlítás + missing/invalid safety + coverage ${audit.summary.known}/${audit.summary.players} (${audit.summary.coveragePercent}%), regisztráció=${audit.summary.registrationRecords}, hiányzó=${audit.summary.missing}, invalid=${audit.summary.invalid}`);
