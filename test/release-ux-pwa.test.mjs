@@ -9,9 +9,10 @@ const experience = read('js/recent-duels-experience.js');
 const packageWorkflow = read('.github/workflows/build-download-package.yml');
 
 assert.match(index, /js\/recent-duels-experience\.js/, 'Az új játékélmény-modul nincs betöltve az index.html-ben.');
-assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-'/, 'A service workerből hiányzik a cache-prefix.');
-assert.match(serviceWorker, /key\.startsWith\(CACHE_PREFIX\)/, 'A service worker nem csak a saját régi cache-eit törli.');
-assert.match(serviceWorker, /caches\.match\('\.\/index\.html'\)/, 'Hiányzik az offline navigációs index-fallback.');
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/, 'A service workerből hiányzik a determinisztikus build-cache prefix.');
+assert.match(serviceWorker, /managedCache = name => name !== META_CACHE && name\.startsWith\(LEGACY_CACHE_PREFIX\)/, 'A service worker nem csak a saját régi cache-eit kezeli.');
+assert.match(serviceWorker, /cache\.addAll\(CORE_SHELL\)/, 'A kötelező offline mag nem atomikusan települ.');
+assert.match(serviceWorker, /matchActive\('\.\/index\.html'\)/, 'Hiányzik az aktív offline cache index-fallbackje.');
 assert.match(serviceWorker, /js\/recent-duels-experience\.js/, 'Az új játékélmény-modul nincs a PWA shellben.');
 assert.match(experience, /Legutóbbi párbajok/, 'Hiányzik a legutóbbi párbajok felülete.');
 assert.match(experience, /A mérkőzés játékosa/, 'Hiányzik a mérkőzés játékosa blokk.');
