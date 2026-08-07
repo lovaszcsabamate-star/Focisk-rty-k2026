@@ -90,12 +90,20 @@ const seasonSaveWriteResult = ({
   message = '',
   errors = [],
   serializedLength = null,
+  storageFailure = null,
 }) => Object.freeze({
   ok: Boolean(ok),
   code,
   message: String(message || ''),
   errors: Object.freeze(errors.map(error => String(error))),
   serializedLength: Number.isInteger(serializedLength) ? serializedLength : null,
+  storageFailure: storageFailure ? Object.freeze({
+    operation: String(storageFailure.operation || ''),
+    key: String(storageFailure.key || ''),
+    code: String(storageFailure.code || ''),
+    name: String(storageFailure.name || ''),
+    message: String(storageFailure.message || ''),
+  }) : null,
 });
 
 const seasonSaveDeriveSeasonId = value => {
@@ -290,13 +298,20 @@ export function createSeasonSaveService({
       const cloned = seasonSaveClone(scoped);
       const serializedLength = JSON.stringify(cloned).length;
       if (!storage?.writeJson?.(APP_STORAGE_KEYS.savedMatch, cloned)) {
+        const storageFailure = storage?.inspectLastFailure?.() ?? null;
         const result = rememberWriteResult({
           ok: false,
           code: SEASON_SAVE_WRITE_STATUS.STORAGE_WRITE_FAILED,
           message: 'A böngésző tárhelye nem fogadta el a mentést.',
           serializedLength,
+          storageFailure,
         });
-        console.error('[save] A szezonhoz kötött játékállás tárhelyírása sikertelen:', result);
+        const cause = result.storageFailure
+          ? `${result.storageFailure.name}: ${result.storageFailure.message}`
+          : 'ismeretlen storage-hiba';
+        console.error(
+          `[save] STORAGE_WRITE_FAILED; karakterek=${serializedLength}; ok=${cause}`,
+        );
         return result;
       }
       return rememberWriteResult({
