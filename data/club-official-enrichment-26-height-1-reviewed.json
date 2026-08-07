@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "season": "2025/26",
+  "generatedAt": "2026-08-08T00:00:00.000Z",
+  "batch": {
+    "id": "player-height-1-reviewed-2026-08-08",
+    "targetPlayerCount": 14,
+    "heightRecordCount": 14,
+    "rule": "Csak hiányzó heightCm tölthető. Klub + pontos születési dátum + normalizált név/alias egyértelmű egyezése kötelező; meglévő érték nem írható felül."
+  },
+  "policy": {
+    "primarySources": ["HLSZ", "Transfermarkt public player pages"],
+    "heightUnit": "cm",
+    "heightRange": { "minimum": 140, "maximum": 220 },
+    "overwriteExisting": false,
+    "checkedAt": "2026-08-08",
+    "rule": "Nincs becslés, fotóalapú következtetés vagy bizonytalan névegyezés. Eltérő születési dátum esetén nincs automatikus adatbevitel."
+  },
+  "sources": [
+    {"id":"hlsz-manzanara-height-2026-08-08","clubId":"dvsc","clubName":"DVSC","name":"HLSZ – Debrecen keret / Manzanara Fran","url":"https://hlsz.hu/debrecen","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"hlsz-prosser-height-2026-08-08","clubId":"kolorcity-kazincbarcika-sc","clubName":"Kolorcity Kazincbarcika SC","name":"HLSZ – Prosser Dániel nyilvános játékosadat","url":"https://hlsz.hu/tatabanya","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-haroyan-height-2026-08-08","clubId":"kolorcity-kazincbarcika-sc","clubName":"Kolorcity Kazincbarcika SC","name":"Transfermarkt – Varazdat Haroyan","url":"https://www.transfermarkt.com/varazdat-haroyan/profil/spieler/155423","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-eleke-height-2026-08-08","clubId":"kolorcity-kazincbarcika-sc","clubName":"Kolorcity Kazincbarcika SC","name":"Transfermarkt – Blessing Eleke","url":"https://www.transfermarkt.com/blessing-eleke/leistungsdaten/spieler/348229/saison/sort/tore.desc","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-makreckis-height-2026-08-08","clubId":"ferencvarosi-tc","clubName":"Ferencvárosi TC","name":"Transfermarkt – Cebrail Makreckis","url":"https://www.transfermarkt.com/cebrail-makreckis/leistungsdatenverein/spieler/363425","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-romao-height-2026-08-08","clubId":"ferencvarosi-tc","clubName":"Ferencvárosi TC","name":"Transfermarkt – Júlio Romão","url":"https://www.transfermarkt.com/julio-romao/siege/spieler/645423","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-szalai-height-2026-08-08","clubId":"ferencvarosi-tc","clubName":"Ferencvárosi TC","name":"Transfermarkt – Gábor Szalai","url":"https://www.transfermarkt.com/gabor-szalai/profil/spieler/830057","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-cirkovic-height-2026-08-08","clubId":"ferencvarosi-tc","clubName":"Ferencvárosi TC","name":"Transfermarkt – Aleksandar Cirkovic","url":"https://www.transfermarkt.com/aleksandar-cirkovic/rueckennummern/spieler/452218","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-kerezsi-height-2026-08-08","clubId":"mtk-budapest","clubName":"MTK Budapest","name":"Transfermarkt – Zalán Kerezsi","url":"https://www.transfermarkt.com/zalan-kerezsi/profil/spieler/831677","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-temesvari-height-2026-08-08","clubId":"nyiregyhaza-spartacus-fc","clubName":"Nyíregyháza Spartacus FC","name":"Transfermarkt – Attila Temesvári","url":"https://www.transfermarkt.com/attila-temesvari/profil/spieler/532857","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-kersak-height-2026-08-08","clubId":"nyiregyhaza-spartacus-fc","clubName":"Nyíregyháza Spartacus FC","name":"Transfermarkt – Roland Kersák","url":"https://www.transfermarkt.com/roland-kersak/profil/spieler/392737","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-ganea-height-2026-08-08","clubId":"ujpest-fc","clubName":"Újpest FC","name":"Transfermarkt – George Ganea","url":"https://www.transfermarkt.com/george-ganea/siege/spieler/335821","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-medeiros-height-2026-08-08","clubId":"ujpest-fc","clubName":"Újpest FC","name":"Transfermarkt – Iuri Medeiros","url":"https://www.transfermarkt.com/iuri-medeiros/nationalmannschaft/spieler/193830/verein_id/30503","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]},
+    {"id":"tm-duarte-height-2026-08-08","clubId":"ujpest-fc","clubName":"Újpest FC","name":"Transfermarkt – André Duarte","url":"https://www.transfermarkt.com/andre-duarte/profil/spieler/588095","checkedAt":"2026-08-08","season":"2025/26","fields":["heightCm"]}
+  ],
+  "records": [
+    {"sourceId":"hlsz-manzanara-height-2026-08-08","clubId":"dvsc","name":"LOPEZ DE LA MANZANARA","aliases":["Manzanara Fran"],"birthDate":"1996-09-12","heightCm":182,"meta":{"sourcePlayerUrl":"https://hlsz.hu/debrecen","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"hlsz-prosser-height-2026-08-08","clubId":"kolorcity-kazincbarcika-sc","name":"PROSSER DÁNIEL BÁLINT","aliases":["Prosser Dániel"],"birthDate":"1994-06-15","heightCm":175,"meta":{"sourcePlayerUrl":"https://hlsz.hu/tatabanya","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-haroyan-height-2026-08-08","clubId":"kolorcity-kazincbarcika-sc","name":"HAROYAN VARAZDAT","aliases":["Varazdat Haroyan"],"birthDate":"1992-08-24","heightCm":185,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/varazdat-haroyan/profil/spieler/155423","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-eleke-height-2026-08-08","clubId":"kolorcity-kazincbarcika-sc","name":"ELEKE BLESSING CHIBUIKE","aliases":["Blessing Eleke"],"birthDate":"1996-03-05","heightCm":190,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/blessing-eleke/leistungsdaten/spieler/348229/saison/sort/tore.desc","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-makreckis-height-2026-08-08","clubId":"ferencvarosi-tc","name":"MAKRECKIS CEBRAILS","aliases":["Cebrail Makreckis"],"birthDate":"2000-05-10","heightCm":181,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/cebrail-makreckis/leistungsdatenverein/spieler/363425","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-romao-height-2026-08-08","clubId":"ferencvarosi-tc","name":"RODRIGUES ROMAO JULIO","aliases":["Júlio Romão","Julio Romao"],"birthDate":"1998-03-29","heightCm":183,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/julio-romao/siege/spieler/645423","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-szalai-height-2026-08-08","clubId":"ferencvarosi-tc","name":"SZALAI GÁBOR SÁNDOR","aliases":["Gábor Szalai"],"birthDate":"2000-06-09","heightCm":191,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/gabor-szalai/profil/spieler/830057","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-cirkovic-height-2026-08-08","clubId":"ferencvarosi-tc","name":"CIRKOVIC ALEKSANDAR","aliases":["Aleksandar Cirkovic"],"birthDate":"2001-09-21","heightCm":180,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/aleksandar-cirkovic/rueckennummern/spieler/452218","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-kerezsi-height-2026-08-08","clubId":"mtk-budapest","name":"KEREZSI ZALÁN MÁRK","aliases":["Zalán Kerezsi","Kerezsi Zalán"],"birthDate":"2003-07-17","heightCm":180,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/zalan-kerezsi/profil/spieler/831677","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-temesvari-height-2026-08-08","clubId":"nyiregyhaza-spartacus-fc","name":"Temesvári Attila","aliases":["Attila Temesvári"],"birthDate":"2000-06-03","heightCm":200,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/attila-temesvari/profil/spieler/532857","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-kersak-height-2026-08-08","clubId":"nyiregyhaza-spartacus-fc","name":"KERSÁK ROLAND ATTILA","aliases":["Roland Kersák"],"birthDate":"1997-07-31","heightCm":191,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/roland-kersak/profil/spieler/392737","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-ganea-height-2026-08-08","clubId":"ujpest-fc","name":"GANEA GEORGE DANUT","aliases":["George Ganea"],"birthDate":"1999-05-26","heightCm":180,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/george-ganea/siege/spieler/335821","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-medeiros-height-2026-08-08","clubId":"ujpest-fc","name":"PICANCO MEDEIROS IÚRI JOSÉ","aliases":["Iuri Medeiros"],"birthDate":"1994-07-10","heightCm":174,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/iuri-medeiros/nationalmannschaft/spieler/193830/verein_id/30503","matchReason":"club-birth-name-reviewed"}},
+    {"sourceId":"tm-duarte-height-2026-08-08","clubId":"ujpest-fc","name":"LOURENCO DUARTE ANDRÉ","aliases":["André Duarte","André Lourenço Duarte"],"birthDate":"1997-09-12","heightCm":195,"meta":{"sourcePlayerUrl":"https://www.transfermarkt.com/andre-duarte/profil/spieler/588095","matchReason":"club-birth-name-reviewed"}}
+  ],
+  "conflicts": [
+    {"player":"VARGA BARNABÁS","clubId":"ferencvarosi-tc","currentBirthDate":"1994-10-25","sourceBirthDate":"1994-01-25","source":"HLSZ","url":"https://hlsz.hu/1994-01-25/varga-barnabas","status":"unresolved-no-height-applied","reason":"birthDate mismatch; automatic enrichment forbidden"}
+  ]
+}
