@@ -1,0 +1,133 @@
+name: Finalize atomic PWA cache
+
+on:
+  push:
+    branches:
+      - fix/atomic-pwa-cache
+    paths:
+      - .github/workflows/apply-pwa-finalize.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/atomic-pwa-cache
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Apply audit-discovered dependencies and update guards
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          sw = Path('sw.js')
+          source = sw.read_text()
+          old = """  './js/tournament-rapid-upgrade.js',
+  './js/tournament-flow-upgrade.js',
+  './js/tournament-experience-v2.js',
+  './js/tournament/tournament-experience-v2-presets.js',"""
+          new = """  './js/tournament-rapid-upgrade.js',
+  './js/tournament-flow-upgrade.js',
+  './js/tournament/tournament-flow-runtime.js',
+  './js/tournament/tournament-flow-shared.js',
+  './js/tournament/tournament-flow-wizard.js',
+  './js/tournament-experience-v2.js',
+  './js/tournament/tournament-experience-v2-runtime.js',
+  './js/tournament/tournament-experience-v2-shared.js',
+  './js/tournament/tournament-experience-v2-wizard.js',
+  './js/tournament/tournament-experience-v2-presets.js',"""
+          if old in source:
+              source = source.replace(old, new, 1)
+          for required in [
+              './js/tournament/tournament-flow-runtime.js',
+              './js/tournament/tournament-flow-shared.js',
+              './js/tournament/tournament-flow-wizard.js',
+              './js/tournament/tournament-experience-v2-runtime.js',
+              './js/tournament/tournament-experience-v2-shared.js',
+              './js/tournament/tournament-experience-v2-wizard.js',
+          ]:
+              if required not in source:
+                  raise SystemExit(f'Hiányzó CORE Torna-függőség: {required}')
+          sw.write_text(source)
+
+          pwa_test = Path('test/pwa-cache.test.mjs')
+          source = pwa_test.read_text().replace("const origin = 'https://example.test/';", "const origin = 'https://example.test';")
+          pwa_test.write_text(source)
+
+          release = Path('test/release-ux-pwa.test.mjs')
+          source = release.read_text()
+          source = source.replace(
+              "assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-'/, 'A service workerből hiányzik a cache-prefix.');",
+              "assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/, 'A service workerből hiányzik a build-cache prefix.');",
+          )
+          source = source.replace(
+              "assert.match(serviceWorker, /key\\.startsWith\\(CACHE_PREFIX\\)/, 'A service worker nem csak a saját régi cache-eit törli.');",
+              "assert.match(serviceWorker, /managedCache = name => name !== META_CACHE && name\\.startsWith\\(LEGACY_CACHE_PREFIX\\)/, 'A service worker nem csak a saját régi cache-eit kezeli.');",
+          )
+          source = source.replace(
+              "assert.match(serviceWorker, /caches\\.match\\('\\.\\/index\\.html'\\)/, 'Hiányzik az offline navigációs index-fallback.');",
+              "assert.match(serviceWorker, /matchActive\\('\\.\\/index\\.html'\\)/, 'Hiányzik az aktív offline cache index-fallbackje.');",
+          )
+          release.write_text(source)
+
+          static = Path('test/static.test.mjs')
+          source = static.read_text()
+          old_static = "assert.match(serviceWorker, /fociskartyak-2026-v30/);"
+          new_static = """assert.match(serviceWorker, /const CORE_SHELL/);
+assert.match(serviceWorker, /const OPTIONAL_ASSETS/);
+assert.match(serviceWorker, /cache\\.addAll\\(CORE_SHELL\\)/);
+assert.match(serviceWorker, /SHA-256/);
+assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
+          if old_static in source:
+              source = source.replace(old_static, new_static, 1)
+          static.write_text(source)
+
+          pkg = Path('package.json')
+          data = json.loads(pkg.read_text())
+          scripts = data['scripts']
+          scripts['audit:pwa'] = 'node scripts/audit-pwa-shell.mjs'
+          scripts['test:pwa-cache'] = 'node test/pwa-cache.test.mjs'
+          for key in ['test', 'test:all']:
+              for command in ['node scripts/audit-pwa-shell.mjs', 'node test/pwa-cache.test.mjs']:
+                  if command not in scripts[key]:
+                      scripts[key] += f' && {command}'
+          for command in ['node --check scripts/audit-pwa-shell.mjs', 'node --check test/pwa-cache.test.mjs']:
+              if command not in scripts['lint']:
+                  scripts['lint'] += f' && {command}'
+          pkg.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+          PY
+
+      - name: Verify PWA audit and behavior
+        shell: bash
+        run: |
+          node --check sw.js
+          node --check scripts/audit-pwa-shell.mjs
+          node --check test/pwa-cache.test.mjs
+          node scripts/audit-pwa-shell.mjs
+          node test/pwa-cache.test.mjs
+          node test/release-ux-pwa.test.mjs
+          node test/static.test.mjs
+          npm run lint
+          npm test
+
+      - name: Commit verified final diff
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/apply-pwa-finalize.yml
+          git add sw.js scripts/audit-pwa-shell.mjs test/pwa-cache.test.mjs test/release-ux-pwa.test.mjs test/static.test.mjs package.json
+          git commit -m "Fejezd be az atomikus PWA cache védelmét"
+          git push origin HEAD:fix/atomic-pwa-cache
