@@ -1,0 +1,85 @@
+name: Update stale PWA guards
+
+on:
+  push:
+    branches:
+      - fix/atomic-pwa-cache
+    paths:
+      - .github/workflows/update-stale-pwa-guards.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/atomic-pwa-cache
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Replace only legacy PWA version guards
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          files = [
+              'test/deck-selection-menu-component.test.mjs',
+              'test/interface-regression.test.mjs',
+              'test/final-missing-complete.test.mjs',
+              'test/kisvarda-nationalities-complete.test.mjs',
+              'test/result-controller.test.mjs',
+              'test/round-controller.test.mjs',
+              'test/ui-enhancement-pipeline.test.mjs',
+          ]
+          replacements = {
+              "assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\\d+';/);": "assert.match(serviceWorkerSource, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);\nassert.match(serviceWorkerSource, /SHA-256/);",
+              "assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\\d+';/);": "assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);\nassert.match(serviceWorker, /SHA-256/);",
+              "assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);": "assert.match(readText('../sw.js'), /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);\nassert.match(readText('../sw.js'), /SHA-256/);",
+          }
+
+          changed = []
+          for name in files:
+              path = Path(name)
+              source = path.read_text()
+              original = source
+              for old, new in replacements.items():
+                  source = source.replace(old, new)
+              if source == original:
+                  raise SystemExit(f'Nem található elavult PWA őr: {name}')
+              if 'PWA_CACHE' in source or 'fociskartyak-2026-v30' in source:
+                  raise SystemExit(f'Elavult PWA őr maradt: {name}')
+              path.write_text(source)
+              changed.append(name)
+          print('Frissítve:', ', '.join(changed))
+          PY
+      - name: Verify all stale guards are gone and project tests stay green
+        shell: bash
+        run: |
+          ! grep -RIn "PWA_CACHE\|fociskartyak-2026-v30" test
+          node test/deck-selection-menu-component.test.mjs
+          node test/interface-regression.test.mjs
+          node test/final-missing-complete.test.mjs
+          node test/kisvarda-nationalities-complete.test.mjs
+          node test/result-controller.test.mjs
+          node test/round-controller.test.mjs
+          node test/ui-enhancement-pipeline.test.mjs
+          node scripts/audit-pwa-shell.mjs
+          node test/pwa-cache.test.mjs
+          npm test
+      - name: Commit verified guard updates
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/update-stale-pwa-guards.yml
+          git add test/deck-selection-menu-component.test.mjs test/interface-regression.test.mjs test/final-missing-complete.test.mjs test/kisvarda-nationalities-complete.test.mjs test/result-controller.test.mjs test/round-controller.test.mjs test/ui-enhancement-pipeline.test.mjs
+          git commit -m "Frissítsd a maradék PWA cache őrteszteket"
+          git push origin HEAD:fix/atomic-pwa-cache
