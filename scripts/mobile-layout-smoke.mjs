@@ -87,6 +87,7 @@ frame.addEventListener('load', () => setTimeout(() => {
     `file://${harnessFile}`,
   ], {
     encoding: 'utf8',
+    timeoutMs: 45_000,
     maxBuffer: 30 * 1024 * 1024,
   });
 
