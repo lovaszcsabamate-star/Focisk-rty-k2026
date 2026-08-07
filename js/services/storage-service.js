@@ -12,33 +12,59 @@ const resolveDefaultStorage = () => {
 };
 
 export function createStorageService(storage = resolveDefaultStorage()) {
+  let lastFailure = null;
+  const rememberFailure = (operation, key, error, code = 'failed') => {
+    lastFailure = Object.freeze({
+      operation,
+      key: String(key ?? ''),
+      code,
+      name: String(error?.name || (code === 'unavailable' ? 'StorageUnavailable' : 'Error')),
+      message: String(error?.message || (code === 'unavailable'
+        ? 'A böngészői tárhely nem érhető el.'
+        : 'Ismeretlen storage-hiba.')),
+    });
+    return false;
+  };
+  const clearFailure = () => { lastFailure = null; };
+
   const readString = (key, fallback = null) => {
     try {
-      if (!storage || typeof storage.getItem !== 'function') return fallback;
+      if (!storage || typeof storage.getItem !== 'function') {
+        rememberFailure('read', key, null, 'unavailable');
+        return fallback;
+      }
       const value = storage.getItem(key);
+      clearFailure();
       return value == null ? fallback : String(value);
-    } catch {
+    } catch (error) {
+      rememberFailure('read', key, error);
       return fallback;
     }
   };
 
   const writeString = (key, value) => {
     try {
-      if (!storage || typeof storage.setItem !== 'function') return false;
+      if (!storage || typeof storage.setItem !== 'function') {
+        return rememberFailure('write', key, null, 'unavailable');
+      }
       storage.setItem(key, String(value));
+      clearFailure();
       return true;
-    } catch {
-      return false;
+    } catch (error) {
+      return rememberFailure('write', key, error);
     }
   };
 
   const remove = key => {
     try {
-      if (!storage || typeof storage.removeItem !== 'function') return false;
+      if (!storage || typeof storage.removeItem !== 'function') {
+        return rememberFailure('remove', key, null, 'unavailable');
+      }
       storage.removeItem(key);
+      clearFailure();
       return true;
-    } catch {
-      return false;
+    } catch (error) {
+      return rememberFailure('remove', key, error);
     }
   };
 
@@ -78,6 +104,7 @@ export function createStorageService(storage = resolveDefaultStorage()) {
     readBoolean,
     writeBoolean,
     remove,
+    inspectLastFailure: () => lastFailure,
     available: Boolean(storage),
   });
 }
