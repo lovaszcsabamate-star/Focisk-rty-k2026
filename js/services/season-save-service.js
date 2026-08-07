@@ -18,13 +18,48 @@ const seasonSaveCardReference = card => card && typeof card === 'object'
   && !Array.isArray(card) && typeof card.id === 'string' && card.id.trim() !== ''
   ? { id: card.id }
   : card;
-const seasonSaveCompactClassicPlayers = snapshot => {
+const seasonSaveCompactCardArray = cards => Array.isArray(cards)
+  ? cards.map(seasonSaveCardReference)
+  : cards;
+const seasonSaveCompactSideCards = sides => sides && typeof sides === 'object'
+  && !Array.isArray(sides)
+  ? {
+    ...sides,
+    human: seasonSaveCompactCardArray(sides.human),
+    ai: seasonSaveCompactCardArray(sides.ai),
+  }
+  : sides;
+const seasonSaveCompactPlayed = played => played && typeof played === 'object'
+  && !Array.isArray(played)
+  ? {
+    ...played,
+    human: seasonSaveCardReference(played.human),
+    ai: seasonSaveCardReference(played.ai),
+  }
+  : played;
+const seasonSaveCompactResult = result => result && typeof result === 'object'
+  && !Array.isArray(result)
+  ? {
+    ...result,
+    humanCard: seasonSaveCardReference(result.humanCard),
+    aiCard: seasonSaveCardReference(result.aiCard),
+  }
+  : result;
+const seasonSaveCompactClassicSnapshot = snapshot => {
   if (snapshot?.mode !== 'classic' || !Array.isArray(snapshot?.game?.players)) return snapshot;
+  const game = snapshot.game;
   return {
     ...snapshot,
     game: {
-      ...snapshot.game,
-      players: snapshot.game.players.map(seasonSaveCardReference),
+      ...game,
+      players: seasonSaveCompactCardArray(game.players),
+      deck: seasonSaveCompactCardArray(game.deck),
+      hands: seasonSaveCompactSideCards(game.hands),
+      won: seasonSaveCompactSideCards(game.won),
+      pot: seasonSaveCompactCardArray(game.pot),
+      played: seasonSaveCompactPlayed(game.played),
+      lastResult: seasonSaveCompactResult(game.lastResult),
+      log: Array.isArray(game.log) ? game.log.map(seasonSaveCompactResult) : game.log,
     },
   };
 };
@@ -207,7 +242,7 @@ export function createSeasonSaveService({
     try {
       const snapshot = createSavedMatchSnapshot(payload, now);
       if (!snapshot) return false;
-      const compactSnapshot = seasonSaveCompactClassicPlayers(snapshot);
+      const compactSnapshot = seasonSaveCompactClassicSnapshot(snapshot);
       const context = getContext?.() ?? {};
       const scoped = {
         ...compactSnapshot,
