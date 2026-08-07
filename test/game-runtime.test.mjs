@@ -71,14 +71,53 @@ assert.equal(secondResult.round, 2);
 assert.equal(runtime.game.phase, PHASE.REVEAL);
 
 const saved = JSON.parse(JSON.stringify(runtime.toSavePayload({ roundsViewed: 2 })));
-saved.game.players = saved.game.players.map(card => ({ id: card.id }));
+const compactCard = card => card?.id ? { id: card.id } : card;
+const compactCards = cards => Array.isArray(cards) ? cards.map(compactCard) : cards;
+const compactSides = sides => ({
+  ...sides,
+  [HUMAN]: compactCards(sides?.[HUMAN]),
+  [AI]: compactCards(sides?.[AI]),
+});
+const compactResult = result => result ? {
+  ...result,
+  humanCard: compactCard(result.humanCard),
+  aiCard: compactCard(result.aiCard),
+} : result;
+saved.game = {
+  ...saved.game,
+  players: compactCards(saved.game.players),
+  deck: compactCards(saved.game.deck),
+  hands: compactSides(saved.game.hands),
+  won: compactSides(saved.game.won),
+  pot: compactCards(saved.game.pot),
+  played: {
+    ...saved.game.played,
+    [HUMAN]: compactCard(saved.game.played?.[HUMAN]),
+    [AI]: compactCard(saved.game.played?.[AI]),
+  },
+  lastResult: compactResult(saved.game.lastResult),
+  log: saved.game.log.map(compactResult),
+};
 const restored = new GameRuntime({ players, rng: () => 0.731, aiFactory: deterministicAiFactory });
 restored.restore(saved, (target, snapshot) => Object.assign(target, snapshot));
 assert.equal(restored.mode, GAME_MODE.CLASSIC);
 assert.equal(restored.game.round, runtime.game.round);
-assert.ok(
-  restored.game.players.every(card => typeof card.name === 'string' && card.name.length > 0),
-  'a kompakt kártyahivatkozásoknak az aktív adatbázisból teljes AI-kártyákká kell visszaépülniük',
+const assertFullCards = (cards, label) => assert.ok(
+  cards.filter(Boolean).every(card => typeof card.name === 'string' && card.name.length > 0),
+  `${label}: a kompakt kártyahivatkozásoknak az aktív adatbázisból teljes kártyákká kell visszaépülniük`,
+);
+assertFullCards(restored.game.players, 'players');
+assertFullCards(restored.game.deck, 'deck');
+assertFullCards(restored.game.hands[HUMAN], 'hands.human');
+assertFullCards(restored.game.hands[AI], 'hands.ai');
+assertFullCards(restored.game.won[HUMAN], 'won.human');
+assertFullCards(restored.game.won[AI], 'won.ai');
+assertFullCards(restored.game.pot, 'pot');
+assertFullCards([restored.game.played[HUMAN], restored.game.played[AI]], 'played');
+assertFullCards([restored.game.lastResult?.humanCard, restored.game.lastResult?.aiCard], 'lastResult');
+assertFullCards(
+  restored.game.log.flatMap(result => [result.humanCard, result.aiCard]),
+  'log',
 );
 assert.deepEqual(restored.toSavePayload({ roundsViewed: 2 }).uxStats, { roundsViewed: 2 });
 
