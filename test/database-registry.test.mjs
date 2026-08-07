@@ -127,14 +127,35 @@ assert.throws(
 );
 
 assert.throws(
-  () => normaliseDatabaseManifest({
-    id: 'bad',
-    name: 'Bad',
-    competitionId: 'hungary-nb1',
-    seasonId: '2025-26',
-    files: { normalizedPlayers: 'data/missing.json' },
-  }, 'bad.json'),
-  /hiányzik a szezonleírás/,
+  () => validateDatabaseRegistry({
+    schemaVersion: 2,
+    defaultDatabaseId: 'one',
+    defaultSeasonId: '2025-26',
+    databases: [{ id: 'one', manifest: 'one.json', competitionId: 'test', seasonId: '2024-25' }],
+  }),
+  /alapértelmezett adatbázis és szezon nem egyezik/,
 );
 
-console.log('✓ Adatbázis-regiszter v3.4 + Height 1.0 manifest: rendben');
+const incomplete = normaliseDatabaseManifest({
+  schemaVersion: 1,
+  id: 'incomplete',
+  name: 'Hiányos',
+  competition: 'Tesztliga',
+  season: '2025/26',
+  minimumPlayers: 22,
+  supportedModes: ['classic'],
+  files: {},
+});
+assert.deepEqual(incomplete.files.enrichments, []);
+assert.throws(() => validateDatabaseManifest(incomplete), /hiányzó játékosadat-fájl/);
+
+const missingNormalized = {
+  ...rawManifest,
+  files: { ...rawManifest.files, normalizedPlayers: '' },
+};
+assert.throws(
+  () => validateDatabaseManifest(missingNormalized),
+  /hiányzó normalizált játékosadat-fájl/,
+);
+
+console.log('✓ Adatbázis-regiszter v3.4, szezonmanifest, Height 1.0 és v3 játékosmodell összhangban');
