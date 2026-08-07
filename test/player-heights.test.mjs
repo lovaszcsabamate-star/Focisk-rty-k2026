@@ -6,6 +6,7 @@ import { isValidHeightCm } from '../js/data/height.js';
 import {
   ATTRIBUTE_BY_KEY,
   CARD_ATTRIBUTE_KEYS,
+  configureAttributes,
   formatAttribute,
   hasAttributeData,
   normaliseCard,
@@ -69,34 +70,34 @@ const classicPlayers = [
   ...Array.from({ length: 5 }, (_, index) => quickSideCard(HUMAN, index, index === 0 ? 190 : null)),
   ...Array.from({ length: 5 }, (_, index) => quickSideCard(AI, index, 180 + index)),
 ];
+configureAttributes(classicPlayers, { minimumCoverage: 0 });
 const classic = new Game({ players: classicPlayers, rng: () => 0 });
 assert.equal(classic.quickMatch?.enabled, true);
 assert.ok(classic.availableAttributeKeys().includes('heightCm'));
-const classicMissingSide = new Game({
-  players: [
-    ...Array.from({ length: 5 }, (_, index) => quickSideCard(HUMAN, index + 20, null)),
-    ...Array.from({ length: 5 }, (_, index) => quickSideCard(AI, index + 20, 180 + index)),
-  ],
-  rng: () => 0,
-});
+
+const classicMissingPlayers = [
+  ...Array.from({ length: 5 }, (_, index) => quickSideCard(HUMAN, index + 20, null)),
+  ...Array.from({ length: 5 }, (_, index) => quickSideCard(AI, index + 20, 180 + index)),
+];
+configureAttributes(classicMissingPlayers, { minimumCoverage: 0 });
+const classicMissingSide = new Game({ players: classicMissingPlayers, rng: () => 0 });
 assert.equal(classicMissingSide.availableAttributeKeys().includes('heightCm'), false);
 
 // Büntetőpárbaj: ugyanaz a központi missing-data filtering működik a 11 fős keretekkel.
-const penalty = new PenaltyGame({
-  players: [
-    ...Array.from({ length: 11 }, (_, index) => quickSideCard(HUMAN, index + 40, index === 0 ? 191 : null)),
-    ...Array.from({ length: 11 }, (_, index) => quickSideCard(AI, index + 40, 179 + (index % 5))),
-  ],
-  rng: () => 0,
-});
+const penaltyPlayers = [
+  ...Array.from({ length: 11 }, (_, index) => quickSideCard(HUMAN, index + 40, index === 0 ? 191 : null)),
+  ...Array.from({ length: 11 }, (_, index) => quickSideCard(AI, index + 40, 179 + (index % 5))),
+];
+configureAttributes(penaltyPlayers, { minimumCoverage: 0 });
+const penalty = new PenaltyGame({ players: penaltyPlayers, rng: () => 0 });
 assert.ok(penalty.availableAttributeKeys().includes('heightCm'));
-const penaltyMissingSide = new PenaltyGame({
-  players: [
-    ...Array.from({ length: 11 }, (_, index) => quickSideCard(HUMAN, index + 80, null)),
-    ...Array.from({ length: 11 }, (_, index) => quickSideCard(AI, index + 80, 180)),
-  ],
-  rng: () => 0,
-});
+
+const penaltyMissingPlayers = [
+  ...Array.from({ length: 11 }, (_, index) => quickSideCard(HUMAN, index + 80, null)),
+  ...Array.from({ length: 11 }, (_, index) => quickSideCard(AI, index + 80, 180)),
+];
+configureAttributes(penaltyMissingPlayers, { minimumCoverage: 0 });
+const penaltyMissingSide = new PenaltyGame({ players: penaltyMissingPlayers, rng: () => 0 });
 assert.equal(penaltyMissingSide.availableAttributeKeys().includes('heightCm'), false);
 
 // Adatbázis-audit: 440 személy, 464 klubregisztráció, 0 invalid és nem romló coverage.
