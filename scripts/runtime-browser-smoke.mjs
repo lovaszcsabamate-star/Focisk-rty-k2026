@@ -1,6 +1,6 @@
 /** Start both game modes in real headless Chrome and detect runtime/UI errors. */
 
-import { spawnSync } from 'node:child_process';
+import { describeChromeFailure, findChrome, runChrome } from './lib/chrome-smoke-runner.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -15,13 +15,7 @@ const MODES = [
   { id: 'penalties', button: '#penalties-btn', expectedClass: 'mode-penalties', minimumCards: 11 },
 ];
 
-const chrome = [
-  process.env.CHROME_BIN,
-  'google-chrome-stable',
-  'google-chrome',
-  'chromium',
-  'chromium-browser',
-].filter(Boolean).find(command => spawnSync(command, ['--version'], { encoding: 'utf8' }).status === 0);
+const chrome = findChrome();
 
 if (!chrome) throw new Error('A futásidejű böngészőteszthez nem található Chrome vagy Chromium.');
 if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskartyak2026.html. Futtasd előbb az npm run build parancsot.');
@@ -66,6 +60,7 @@ const instrumentation = `<script>
 })();
 </script>`;
 
+try {
 for (const mode of MODES) {
   const appFileName = `app-${mode.id}.html`;
   const appFile = path.join(temporaryDirectory, appFileName);
@@ -221,16 +216,16 @@ for (const mode of MODES) {
 
   const harnessFile = path.join(temporaryDirectory, `harness-${mode.id}.html`);
   fs.writeFileSync(harnessFile, harness);
-  const run = spawnSync(chrome, [
+  const run = runChrome(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=1300,940', '--force-device-scale-factor=1',
     '--virtual-time-budget=9000', '--dump-dom', `file://${harnessFile}`,
   ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
-  if (run.status !== 0) {
-    const message = `${mode.id}: a Chrome hibával leállt.`;
+  if (!run.ok) {
+    const message = `${mode.id}: ${describeChromeFailure(run)}.`;
     failures.push(message);
-    results.push({ mode: mode.id, failure: message, stderr: run.stderr.slice(-4000) });
+    results.push({ mode: mode.id, failure: message, failureKind: run.failureKind, stderr: run.stderr.slice(-4000) });
     continue;
   }
 
@@ -276,7 +271,9 @@ if (results.length === MODES.length && results.every(result => !result.failure))
   }
 }
 
-fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+} finally {
+  fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+}
 fs.writeFileSync(REPORT, `${JSON.stringify({ chrome, results, failures }, null, 2)}\n`);
 
 if (failures.length) {

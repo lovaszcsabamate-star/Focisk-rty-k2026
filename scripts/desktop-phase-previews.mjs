@@ -1,6 +1,6 @@
 /** Generate deterministic desktop previews from the same bundled CSS as the game. */
 
-import { spawnSync } from 'node:child_process';
+import { describeChromeFailure, findChrome, runChrome } from './lib/chrome-smoke-runner.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -13,13 +13,7 @@ const PREVIEW_DIRECTORY = path.join(ROOT, 'previews');
 const WIDTH = 1440;
 const HEIGHT = 1000;
 
-const chrome = [
-  process.env.CHROME_BIN,
-  'google-chrome-stable',
-  'google-chrome',
-  'chromium',
-  'chromium-browser',
-].filter(Boolean).find(command => spawnSync(command, ['--version'], { encoding: 'utf8' }).status === 0);
+const chrome = findChrome();
 
 if (!chrome) throw new Error('Az asztali előnézethez nem található Chrome vagy Chromium.');
 if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskartyak2026.html.');
@@ -112,19 +106,22 @@ const previews = [
 ];
 
 const failures = [];
+try {
 for (const [fileName, body] of previews) {
   const htmlPath = path.join(temporaryDirectory, fileName.replace(/\.png$/, '.html'));
   fs.writeFileSync(htmlPath, `<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${previewCss}</style></head><body>${body}</body></html>`);
   const output = path.join(PREVIEW_DIRECTORY, fileName);
-  const shot = spawnSync(chrome, [
+  const shot = runChrome(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--hide-scrollbars',
     `--window-size=${WIDTH},${HEIGHT}`, '--force-device-scale-factor=1', '--virtual-time-budget=1800',
     `--screenshot=${output}`, `file://${htmlPath}`,
   ], { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
-  if (shot.status !== 0 || !fs.existsSync(output)) failures.push(`${fileName}: ${shot.stderr.slice(-700)}`);
+  if (!shot.ok || !fs.existsSync(output)) failures.push(`${fileName}: ${shot.ok ? 'hiányzó képfájl' : describeChromeFailure(shot)} ${shot.stderr.slice(-700)}`);
 }
 
-fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+} finally {
+  fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+}
 if (failures.length) {
   console.error(`Asztali előnézeti hibák:\n- ${failures.join('\n- ')}`);
   process.exitCode = 1;

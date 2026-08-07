@@ -41,6 +41,8 @@ try {
   result = spawnSync(process.execPath, [RUNTIME_SCRIPT], {
     cwd: ROOT,
     stdio: 'inherit',
+    timeout: 120_000,
+    killSignal: 'SIGTERM',
     env: {
       ...process.env,
       FOCISKARTYAK_RUNTIME_TARGET: 'android-mobile-www',
@@ -51,6 +53,9 @@ try {
   fs.rmSync(BACKUP, { force: true });
 }
 
+if (result.error?.code === 'ETIMEDOUT') {
+  throw new Error('A mobil APK böngészős futástesztje 120000 ms után időtúllépéssel leállt.');
+}
 if (result.error) throw result.error;
 if (result.status !== 0) {
   throw new Error(`A mobil APK futásidejű tesztje hibával leállt (${result.status ?? 'ismeretlen'}).`);

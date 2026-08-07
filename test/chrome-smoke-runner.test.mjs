@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { CHROME_PROBE_TIMEOUT_MS, DEFAULT_CHROME_TIMEOUT_MS, describeChromeFailure, findChrome, runChrome, tailChromeOutput } from '../scripts/lib/chrome-smoke-runner.mjs';
+const calls=[]; const fakeSpawn=(command,args,options)=>{calls.push({command,args,options}); if(command==='missing') return {status:null,error:Object.assign(new Error('ENOENT'),{code:'ENOENT'}),stdout:'',stderr:''}; if(command==='broken') return {status:1,stdout:'',stderr:'broken'}; return {status:0,stdout:'Chrome 1',stderr:''};};
+assert.equal(findChrome({candidates:['missing','broken','chromium'],spawn:fakeSpawn}),'chromium');
+assert.equal(calls[0].options.timeout,CHROME_PROBE_TIMEOUT_MS); assert.equal(calls.at(-1).options.maxBuffer,1024*1024); assert.equal(findChrome({candidates:['missing','broken'],spawn:fakeSpawn}),null);
+const success=runChrome('chromium',['--version'],{spawn:fakeSpawn}); assert.equal(success.ok,true); assert.equal(success.failureKind,null); assert.equal(success.timeoutMs,DEFAULT_CHROME_TIMEOUT_MS);
+const exit=runChrome('broken',['--dump-dom'],{spawn:fakeSpawn,timeoutMs:12345}); assert.equal(exit.ok,false); assert.equal(exit.failureKind,'exit'); assert.match(describeChromeFailure(exit),/hibakóddal/);
+const timeout=runChrome('chromium',['--dump-dom'],{timeoutMs:321,spawn:()=>({status:null,signal:'SIGTERM',error:Object.assign(new Error('timed out'),{code:'ETIMEDOUT'}),stdout:'partial',stderr:'timeout diagnostic'})}); assert.equal(timeout.ok,false); assert.equal(timeout.timedOut,true); assert.equal(timeout.failureKind,'timeout'); assert.match(describeChromeFailure(timeout),/321 ms/);
+const startup=runChrome('missing',['--dump-dom'],{spawn:fakeSpawn}); assert.equal(startup.startupError,true); assert.equal(startup.failureKind,'startup'); assert.match(describeChromeFailure(startup),/ENOENT/); assert.equal(tailChromeOutput('123456',4),'3456');
+console.log('✓ Chrome smoke runner: felderítés, timeout, indulási hiba, exit kód és diagnosztika rendben');

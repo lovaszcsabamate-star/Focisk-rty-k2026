@@ -1,6 +1,6 @@
 /** Render the standalone game in a real headless Chrome at common mobile widths. */
 
-import { spawnSync } from 'node:child_process';
+import { describeChromeFailure, findChrome, runChrome } from './lib/chrome-smoke-runner.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -13,16 +13,7 @@ const REPORT = path.join(ROOT, 'mobile-layout-report.json');
 const WIDTHS = [320, 360, 390, 412, 480];
 const HEIGHT = 900;
 
-const chrome = [
-  process.env.CHROME_BIN,
-  'google-chrome-stable',
-  'google-chrome',
-  'chromium',
-  'chromium-browser',
-].filter(Boolean).find(command => {
-  const result = spawnSync(command, ['--version'], { encoding: 'utf8' });
-  return result.status === 0;
-});
+const chrome = findChrome();
 
 if (!chrome) throw new Error('A mobilos megjelenítési teszthez nem található Chrome vagy Chromium.');
 if (!fs.existsSync(STANDALONE)) throw new Error('Hiányzik a generált Fociskartyak2026.html. Futtasd előbb az npm run build parancsot.');
@@ -32,6 +23,7 @@ const temporaryDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'fociskartyak-l
 const failures = [];
 const measurements = [];
 
+try {
 for (const width of WIDTHS) {
   const appFileName = `app-${width}.html`;
   const appFile = path.join(temporaryDirectory, appFileName);
@@ -82,7 +74,7 @@ frame.addEventListener('load', () => setTimeout(() => {
   const harnessFile = path.join(temporaryDirectory, `harness-${width}.html`);
   fs.writeFileSync(harnessFile, harness);
 
-  const run = spawnSync(chrome, [
+  const run = runChrome(chrome, [
     '--headless=new',
     '--no-sandbox',
     '--disable-gpu',
@@ -98,10 +90,10 @@ frame.addEventListener('load', () => setTimeout(() => {
     maxBuffer: 30 * 1024 * 1024,
   });
 
-  if (run.status !== 0) {
-    const failure = `${width}px: a Chrome hibával leállt.`;
+  if (!run.ok) {
+    const failure = `${width}px: ${describeChromeFailure(run)}.`;
     failures.push(failure);
-    measurements.push({ width, failure, stderr: run.stderr.slice(-4000) });
+    measurements.push({ width, failure, failureKind: run.failureKind, stderr: run.stderr.slice(-4000) });
     continue;
   }
 
@@ -133,7 +125,9 @@ frame.addEventListener('load', () => setTimeout(() => {
   console.log(`✓ ${width}px: mért viewport ${result.viewport}px, dokumentumszélesség ${result.documentWidth}px, kilógás ${Math.max(0, overflow)}px`);
 }
 
-fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+} finally {
+  fs.rmSync(temporaryDirectory, { recursive: true, force: true });
+}
 fs.writeFileSync(REPORT, `${JSON.stringify({ chrome, measurements, failures }, null, 2)}\n`);
 
 if (failures.length) {
