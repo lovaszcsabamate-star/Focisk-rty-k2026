@@ -1,9 +1,11 @@
-// Korábbi cache-verziók: fociskartyak-2026-v30 ... fociskartyak-2026-v83
-// freshCodeOrData: új kód vagy adat kiadásakor a cache-verziót növelni kell.
-const CACHE_PREFIX = 'fociskartyak-2026-';
-const PWA_CACHE = 'fociskartyak-2026-v84';
-const PWA_SHELL = [
-  './',
+// Atomikus, build-azonosítós PWA-cache. A cache-nevet a service worker tartalma határozza meg.
+const LEGACY_CACHE_PREFIX = 'fociskartyak-2026-';
+const CACHE_PREFIX = 'fociskartyak-2026-build-';
+const META_CACHE = 'fociskartyak-2026-meta';
+const ACTIVE_META_KEY = new URL('./__pwa-active-cache__', self.location.href).href;
+const PENDING_META_KEY = new URL('./__pwa-pending-cache__', self.location.href).href;
+
+const CORE_SHELL = Object.freeze([
   './index.html',
   './mobil.html',
   './manifest.webmanifest',
@@ -29,6 +31,7 @@ const PWA_SHELL = [
   './css/help-popover.css',
   './css/federation-teams.css',
   './css/nationality-flags.css',
+  './css/tournament-mode.css',
   './css/i18n.css',
   './js/app/configuration.js',
   './js/services/storage-service.js',
@@ -37,8 +40,12 @@ const PWA_SHELL = [
   './js/services/season-save-service.js',
   './js/services/turn-timing-service.js',
   './js/app/session-lifecycle-service.js',
+  './js/app/menu-controller.js',
+  './js/app/result-controller.js',
+  './js/app/round-controller.js',
   './js/branding.js',
   './js/i18n.js',
+  './js/pwa.js',
   './js/bootstrap.js',
   './js/database/season-model.js',
   './js/database/database-registry.js',
@@ -46,17 +53,6 @@ const PWA_SHELL = [
   './js/database/season-service.js',
   './js/models/player-model.js',
   './js/data/federations.js',
-  './js/domain/federation-domain.js',
-  './js/domain/deck-selection-domain.js',
-  './js/domain/quick-match-domain.js',
-  './js/services/deck-selection-storage-service.js',
-  './js/services/quick-match-storage-service.js',
-  './js/services/tournament-storage-service.js',
-  './js/ui/deck-selection-menu-component.js',
-  './js/quick-match-card-controls.js',
-  './js/ui/help-popover-component.js',
-  './js/ui/ui-enhancement-pipeline.js',
-  './js/deck-selection.js',
   './js/data/nationalities.js',
   './js/data/complete-cards.js',
   './js/data/club-enrichment.js',
@@ -64,6 +60,18 @@ const PWA_SHELL = [
   './js/data/verified-player-corrections.js',
   './js/data/categories.js',
   './js/data/players.js',
+  './js/domain/federation-domain.js',
+  './js/domain/deck-selection-domain.js',
+  './js/domain/quick-match-domain.js',
+  './js/tournament/tournament-domain.js',
+  './js/services/deck-selection-storage-service.js',
+  './js/services/quick-match-storage-service.js',
+  './js/services/tournament-storage-service.js',
+  './js/ui/deck-selection-menu-component.js',
+  './js/ui/help-popover-component.js',
+  './js/ui/ui-enhancement-pipeline.js',
+  './js/quick-match-card-controls.js',
+  './js/deck-selection.js',
   './js/game/game-mode-factory.js',
   './js/game/game-runtime.js',
   './js/engine.js',
@@ -82,29 +90,38 @@ const PWA_SHELL = [
   './js/focus-experience.js',
   './js/matchday.js',
   './js/opponents.js',
-  './js/pwa.js',
   './js/mobile-experience.js',
   './js/category-picker.js',
-  './js/app/menu-controller.js',
-  './js/app/result-controller.js',
-  './js/app/round-controller.js',
   './js/player-profile.js',
   './js/reliability-fixes.js',
   './js/usability-fixes.js',
-  './js/focus-experience.js',
   './js/visual-settings-persistence.js',
   './js/visual-system.js',
   './js/visual-hierarchy.js',
   './js/gameplay-experience.js',
-  './js/gameplay-polish.js',
   './js/recent-duels-experience.js',
+  './js/gameplay-polish.js',
+  './js/playability-visual-upgrade.js',
   './js/legal-ui.js',
+  './js/tournament-mode.js',
+  './js/tournament-cup-experience.js',
+  './js/tournament/cup-atmosphere.js',
+  './js/tournament-rapid-upgrade.js',
+  './js/tournament-flow-upgrade.js',
+  './js/tournament-experience-v2.js',
+  './js/tournament/tournament-experience-v2-presets.js',
   './js/main.js',
   './locales/hu.json',
   './locales/en.json',
   './data/databases/registry.json',
   './data/databases/hungary-nb1-2025-26/manifest.json',
   './data/databases/hungary-nb1-2025-26/players.normalized.json',
+  './src/assets/placeholders/player-silhouette.svg',
+  './src/assets/placeholders/club-badge.svg',
+  './src/assets/placeholders/app-icon.svg'
+]);
+
+const OPTIONAL_ASSETS = Object.freeze([
   './data/databases/hungary-nb1-2025-26/normalization-report.json',
   './data/databases/hungary-nb1-2025-26/nationality-audit-report.json',
   './data/databases/hungary-nb1-2025-26/federation-audit-report.json',
@@ -164,17 +181,67 @@ const PWA_SHELL = [
   './assets/federations/federation-asia.svg',
   './assets/federations/federation-oceania.svg',
   './src/assets/licenses/assets-licenses.json',
-  './src/assets/placeholders/player-silhouette.svg',
-  './src/assets/placeholders/club-badge.svg',
-  './src/assets/placeholders/app-icon.svg',
   './assets/qr/mobil-eleres.svg'
-];
+]);
+
+let currentCacheName = null;
+
+const managedCache = name => name !== META_CACHE && name.startsWith(LEGACY_CACHE_PREFIX);
+const responseText = async response => response ? response.text() : null;
+
+async function readMeta(key) {
+  const cache = await caches.open(META_CACHE);
+  return responseText(await cache.match(key));
+}
+
+async function writeMeta(key, value) {
+  const cache = await caches.open(META_CACHE);
+  await cache.put(key, new Response(String(value), { headers: { 'content-type': 'text/plain' } }));
+}
+
+async function clearMeta(key) {
+  const cache = await caches.open(META_CACHE);
+  await cache.delete(key);
+}
+
+async function sha256Hex(value) {
+  const data = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function candidateCacheName() {
+  const response = await fetch(new Request(self.location.href, { cache: 'no-store' }));
+  if (!response.ok) throw new Error(`A service worker buildazonosítója nem olvasható: ${response.status}`);
+  const source = await response.text();
+  const signature = JSON.stringify({ source, core: CORE_SHELL, optional: OPTIONAL_ASSETS });
+  return `${CACHE_PREFIX}${(await sha256Hex(signature)).slice(0, 16)}`;
+}
+
+async function resolveActiveCacheName() {
+  if (currentCacheName) return currentCacheName;
+  const mapped = await readMeta(ACTIVE_META_KEY);
+  const keys = await caches.keys();
+  if (mapped && keys.includes(mapped)) {
+    currentCacheName = mapped;
+    return mapped;
+  }
+  const candidates = keys.filter(name => name.startsWith(CACHE_PREFIX));
+  currentCacheName = candidates.at(-1) ?? null;
+  return currentCacheName;
+}
+
+async function matchActive(request) {
+  const name = await resolveActiveCacheName();
+  if (!name) return null;
+  return (await caches.open(name)).match(request);
+}
 
 async function cacheResponse(request, response) {
   if (!response?.ok) return response;
   try {
-    const cache = await caches.open(PWA_CACHE);
-    await cache.put(request, response.clone());
+    const name = await resolveActiveCacheName();
+    if (name) await (await caches.open(name)).put(request, response.clone());
   } catch (error) {
     console.warn('[pwa] A sikeres hálózati válasz gyorsítótárazása kimaradt:', error);
   }
@@ -185,12 +252,12 @@ async function networkFirst(request) {
   try {
     return await cacheResponse(request, await fetch(request));
   } catch {
-    return (await caches.match(request)) || Response.error();
+    return (await matchActive(request)) || Response.error();
   }
 }
 
 async function cacheFirstWithRefresh(request, event) {
-  const cached = await caches.match(request);
+  const cached = await matchActive(request);
   const refresh = fetch(request)
     .then(response => cacheResponse(request, response))
     .catch(() => null);
@@ -200,20 +267,44 @@ async function cacheFirstWithRefresh(request, event) {
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
-    const cache = await caches.open(PWA_CACHE);
-    const results = await Promise.allSettled(PWA_SHELL.map(resource => cache.add(resource)));
-    const failed = results.filter(result => result.status === 'rejected').length;
-    if (failed) console.warn(`[pwa] ${failed} erőforrás előtöltése kimaradt; az online játék ettől még elindul.`);
-    await self.skipWaiting();
+    let candidate = null;
+    try {
+      candidate = await candidateCacheName();
+      const active = await readMeta(ACTIVE_META_KEY);
+      if (candidate !== active) {
+        const cache = await caches.open(candidate);
+        await cache.addAll(CORE_SHELL);
+        const optionalResults = await Promise.allSettled(OPTIONAL_ASSETS.map(resource => cache.add(resource)));
+        const failed = optionalResults.filter(result => result.status === 'rejected').length;
+        if (failed) console.warn(`[pwa] ${failed} opcionális erőforrás előtöltése kimaradt.`);
+      }
+      await writeMeta(PENDING_META_KEY, candidate);
+      await self.skipWaiting();
+    } catch (error) {
+      const active = await readMeta(ACTIVE_META_KEY).catch(() => null);
+      if (candidate && candidate !== active) await caches.delete(candidate).catch(() => false);
+      await clearMeta(PENDING_META_KEY).catch(() => false);
+      console.error('[pwa] A kötelező offline mag nem telepíthető; a korábbi verzió marad aktív.', error);
+      throw error;
+    }
   })());
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
+    const pending = await readMeta(PENDING_META_KEY);
     const keys = await caches.keys();
-    await Promise.all(keys
-      .filter(key => key.startsWith(CACHE_PREFIX) && key !== PWA_CACHE)
-      .map(key => caches.delete(key)));
+    if (!pending || !keys.includes(pending)) {
+      throw new Error('Az új PWA-cache nem aktiválható: hiányzik a teljes, ellenőrzött build-cache.');
+    }
+    await writeMeta(ACTIVE_META_KEY, pending);
+    currentCacheName = pending;
+    const cleanup = await Promise.allSettled(keys
+      .filter(name => managedCache(name) && name !== pending)
+      .map(name => caches.delete(name)));
+    const failedDeletes = cleanup.filter(result => result.status === 'rejected').length;
+    if (failedDeletes) console.warn(`[pwa] ${failedDeletes} régi cache törlése későbbre maradt.`);
+    await clearMeta(PENDING_META_KEY);
     await self.clients.claim();
   })());
 });
@@ -227,7 +318,7 @@ self.addEventListener('fetch', event => {
     event.respondWith((async () => {
       const response = await networkFirst(request);
       if (response.ok) return response;
-      return (await caches.match(request)) || (await caches.match('./index.html')) || response;
+      return (await matchActive(request)) || (await matchActive('./index.html')) || response;
     })());
     return;
   }
