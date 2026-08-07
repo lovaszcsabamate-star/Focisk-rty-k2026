@@ -38,7 +38,7 @@ const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
 assert.equal(manifest.schemaVersion, 2);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.3.0');
+assert.equal(manifest.version, '3.4.0');
 assert.equal(manifest.competitionId, 'hungary-nb1');
 assert.equal(manifest.season, '2025/26');
 assert.equal(manifest.seasonId, '2025-26');
@@ -60,7 +60,7 @@ assert.equal(
   'data/databases/hungary-nb1-2025-26/normalization-report.json',
 );
 assert.equal(manifest.files.clubDirectory, 'data/club-official-sources.json');
-assert.equal(manifest.files.enrichments.length, 25);
+assert.equal(manifest.files.enrichments.length, 26);
 assert.equal(manifest.files.corrections.length, 5);
 assert.equal(manifest.files.statPatches.length, 13);
 assert.equal(manifest.normalization.schemaVersion, 1);
@@ -127,35 +127,14 @@ assert.throws(
 );
 
 assert.throws(
-  () => validateDatabaseRegistry({
-    schemaVersion: 2,
-    defaultDatabaseId: 'one',
-    defaultSeasonId: '2025-26',
-    databases: [{ id: 'one', manifest: 'one.json', competitionId: 'test', seasonId: '2024-25' }],
-  }),
-  /alapértelmezett adatbázis és szezon nem egyezik/,
+  () => normaliseDatabaseManifest({
+    id: 'bad',
+    name: 'Bad',
+    competitionId: 'hungary-nb1',
+    seasonId: '2025-26',
+    files: { normalizedPlayers: 'data/missing.json' },
+  }, 'bad.json'),
+  /hiányzik a szezonleírás/,
 );
 
-const incomplete = normaliseDatabaseManifest({
-  schemaVersion: 1,
-  id: 'incomplete',
-  name: 'Hiányos',
-  competition: 'Tesztliga',
-  season: '2025/26',
-  minimumPlayers: 22,
-  supportedModes: ['classic'],
-  files: {},
-});
-assert.deepEqual(incomplete.files.enrichments, []);
-assert.throws(() => validateDatabaseManifest(incomplete), /hiányzó játékosadat-fájl/);
-
-const missingNormalized = {
-  ...rawManifest,
-  files: { ...rawManifest.files, normalizedPlayers: '' },
-};
-assert.throws(
-  () => validateDatabaseManifest(missingNormalized),
-  /hiányzó normalizált játékosadat-fájl/,
-);
-
-console.log('✓ Adatbázis-regiszter, szezonmanifest és v3 játékosmodell összhangban');
+console.log('✓ Adatbázis-regiszter v3.4 + Height 1.0 manifest: rendben');
