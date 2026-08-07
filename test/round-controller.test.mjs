@@ -267,6 +267,8 @@ assert.ok(
   'a körvezérlő a Session előtt szerepel',
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/round-controller\.js/);
-assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
+assert.match(serviceWorkerSource, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(serviceWorkerSource, /cache\.addAll\(CORE_SHELL\)/);
+assert.doesNotMatch(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
 console.log('✓ Körvezérlő alkalmazási szolgáltatás, explicit időzítés és gépi kör helyreállítás: rendben');
