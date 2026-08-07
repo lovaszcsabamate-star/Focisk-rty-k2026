@@ -132,8 +132,10 @@ assert.match(
   /\.\.\/player-profile\.js[\s\S]*\.\.\/reliability-fixes\.js[\s\S]*\.\.\/usability-fixes\.js[\s\S]*\.\.\/focus-experience\.js/,
 );
 assert.match(manifest.description, /büntetőpárbaj/i);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
-assert.match(serviceWorker, /Promise\.allSettled\(PWA_SHELL/);
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(serviceWorker, /cache\.addAll\(CORE_SHELL\)/);
+assert.match(serviceWorker, /Promise\.allSettled\(OPTIONAL_ASSETS\.map/);
+assert.doesNotMatch(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
 assert.match(serviceWorker, /js\/reliability-fixes\.js/);
