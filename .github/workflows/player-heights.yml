@@ -9,9 +9,11 @@ on:
       - 'docs/data/**'
       - 'js/data/categories.js'
       - 'js/data/club-enrichment.js'
+      - 'js/data/height.js'
       - 'js/data/players.js'
       - 'js/models/player-model.js'
       - 'scripts/audit-player-heights.mjs'
+      - 'scripts/validate-height-enrichment.mjs'
       - 'scripts/migrate-normalized-database.mjs'
       - 'test/player-heights.test.mjs'
       - 'test/category-registry.test.mjs'
@@ -31,6 +33,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Strict Height 1.0 source identity validation
+        run: node scripts/validate-height-enrichment.mjs
       - name: Height coverage audit
         run: node scripts/audit-player-heights.mjs
       - name: Player height regression
