@@ -120,14 +120,44 @@ export class GameRuntime {
     const currentCards = new Map(this.players
       .map(card => [runtimeCardId(card), card])
       .filter(([id]) => Boolean(id)));
+    const expandCard = card => {
+      const id = runtimeCardId(card);
+      const isCompactReference = id && card && typeof card === 'object'
+        && !Array.isArray(card) && Object.keys(card).length === 1;
+      return isCompactReference ? (currentCards.get(id) ?? card) : card;
+    };
+    const expandCards = cards => Array.isArray(cards) ? cards.map(expandCard) : cards;
+    const expandSides = sides => sides && typeof sides === 'object' && !Array.isArray(sides)
+      ? {
+        ...sides,
+        [HUMAN]: expandCards(sides[HUMAN]),
+        [AI]: expandCards(sides[AI]),
+      }
+      : sides;
+    const expandPlayed = played => played && typeof played === 'object' && !Array.isArray(played)
+      ? {
+        ...played,
+        [HUMAN]: expandCard(played[HUMAN]),
+        [AI]: expandCard(played[AI]),
+      }
+      : played;
+    const expandResult = result => result && typeof result === 'object' && !Array.isArray(result)
+      ? {
+        ...result,
+        humanCard: expandCard(result.humanCard),
+        aiCard: expandCard(result.aiCard),
+      }
+      : result;
     return {
       ...savedGame,
-      players: savedGame.players.map(card => {
-        const id = runtimeCardId(card);
-        const isCompactReference = id && card && typeof card === 'object'
-          && !Array.isArray(card) && Object.keys(card).length === 1;
-        return isCompactReference ? (currentCards.get(id) ?? card) : card;
-      }),
+      players: expandCards(savedGame.players),
+      deck: expandCards(savedGame.deck),
+      hands: expandSides(savedGame.hands),
+      won: expandSides(savedGame.won),
+      pot: expandCards(savedGame.pot),
+      played: expandPlayed(savedGame.played),
+      lastResult: expandResult(savedGame.lastResult),
+      log: Array.isArray(savedGame.log) ? savedGame.log.map(expandResult) : savedGame.log,
     };
   }
 
