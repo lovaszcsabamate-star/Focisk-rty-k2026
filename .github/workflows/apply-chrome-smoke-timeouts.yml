@@ -1,0 +1,112 @@
+name: Apply Chrome smoke timeouts
+
+on:
+  push:
+    branches:
+      - fix/chrome-smoke-timeouts
+    paths:
+      - .github/workflows/apply-chrome-smoke-timeouts.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/chrome-smoke-timeouts
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Apply bounded Chrome runner
+        shell: bash
+        run: |
+          mkdir -p scripts/lib
+          cat > scripts/lib/chrome-smoke-runner.mjs <<'EOF'
+          /** Shared bounded Chrome/Chromium process runner for CI smoke tests. */
+          import { spawnSync } from 'node:child_process';
+          export const CHROME_PROBE_TIMEOUT_MS = 5_000;
+          export const DEFAULT_CHROME_TIMEOUT_MS = 25_000;
+          export const DEFAULT_CHROME_MAX_BUFFER = 30 * 1024 * 1024;
+          export const DEFAULT_CHROME_CANDIDATES = Object.freeze([
+            process.env.CHROME_BIN, 'google-chrome-stable', 'google-chrome', 'chromium', 'chromium-browser',
+          ].filter(Boolean));
+          const text = value => typeof value === 'string' ? value : (value == null ? '' : String(value));
+          export function tailChromeOutput(value, maximum = 4_000) {
+            const output = text(value);
+            return output.length <= maximum ? output : output.slice(-maximum);
+          }
+          export function normaliseChromeResult(result, { command, timeoutMs }) {
+            const errorCode = result?.error?.code ?? null;
+            const timedOut = errorCode === 'ETIMEDOUT';
+            const startupError = Boolean(result?.error) && !timedOut;
+            const status = Number.isInteger(result?.status) ? result.status : null;
+            return { ...result, command, timeoutMs, status, stdout: text(result?.stdout), stderr: text(result?.stderr), timedOut, startupError,
+              ok: !timedOut && !startupError && status === 0,
+              failureKind: timedOut ? 'timeout' : (startupError ? 'startup' : (status === 0 ? null : 'exit')) };
+          }
+          export function runChrome(command, args, { timeoutMs = DEFAULT_CHROME_TIMEOUT_MS, maxBuffer = DEFAULT_CHROME_MAX_BUFFER, spawn = spawnSync, ...options } = {}) {
+            if (!command) throw new TypeError('A Chrome/Chromium parancs kötelező.');
+            if (!Array.isArray(args)) throw new TypeError('A Chrome argumentumlistája tömb kell legyen.');
+            const result = spawn(command, args, { encoding: 'utf8', timeout: timeoutMs, maxBuffer, killSignal: 'SIGTERM', ...options });
+            return normaliseChromeResult(result, { command, timeoutMs });
+          }
+          export function findChrome({ candidates = DEFAULT_CHROME_CANDIDATES, timeoutMs = CHROME_PROBE_TIMEOUT_MS, spawn = spawnSync } = {}) {
+            for (const command of [...new Set(candidates.filter(Boolean))]) {
+              const result = runChrome(command, ['--version'], { timeoutMs, maxBuffer: 1024 * 1024, spawn });
+              if (result.ok) return command;
+            }
+            return null;
+          }
+          export function describeChromeFailure(result) {
+            if (result?.timedOut) return `a Chrome időtúllépés miatt leállt (${result.timeoutMs} ms)`;
+            if (result?.startupError) return `a Chrome nem indítható (${result.error?.code ?? 'ismeretlen'}: ${result.error?.message ?? 'ismeretlen hiba'})`;
+            return `a Chrome hibakóddal leállt (${result?.status ?? 'ismeretlen'})`;
+          }
+          EOF
+          python - <<'PY'
+          from pathlib import Path
+          import re, json
+          root=Path('.')
+          files=['scripts/mobile-layout-smoke.mjs','scripts/mobile-selection-smoke.mjs','scripts/mobile-phase-smoke.mjs','scripts/desktop-phase-previews.mjs','scripts/runtime-browser-smoke.mjs']
+          for rel in files:
+              p=root/rel; s=p.read_text()
+              s=s.replace("import { spawnSync } from 'node:child_process';\n", "import { describeChromeFailure, findChrome, runChrome } from './lib/chrome-smoke-runner.mjs';\n")
+              s=re.sub(r"const chrome = \[\n  process\.env\.CHROME_BIN,[\s\S]*?\n\]\.filter\(Boolean\)\.find\(command => \{?\n?\s*(?:const result = )?spawnSync\(command, \['--version'\], \{ encoding: 'utf8' \}\)(?:\.status === 0|;\n\s*return result\.status === 0;)\n?\s*\}?\);", "const chrome = findChrome();", s, count=1)
+              s=re.sub(r"const chrome = \[\n  process\.env\.CHROME_BIN,[\s\S]*?\n\]\.filter\(Boolean\)\.find\(command => spawnSync\(command, \['--version'\], \{ encoding: 'utf8' \}\)\.status === 0\);", "const chrome = findChrome();", s, count=1)
+              s=s.replace('spawnSync(chrome, [', 'runChrome(chrome, [')
+              p.write_text(s)
+          p=root/'scripts/mobile-layout-smoke.mjs'; s=p.read_text(); s=s.replace("  if (run.status !== 0) {\n    const failure = `${width}px: a Chrome hibával leállt.`;", "  if (!run.ok) {\n    const failure = `${width}px: ${describeChromeFailure(run)}.`;"); s=s.replace("measurements.push({ width, failure, stderr: run.stderr.slice(-4000) });", "measurements.push({ width, failure, failureKind: run.failureKind, stderr: run.stderr.slice(-4000) });"); s=s.replace('for (const width of WIDTHS) {','try {\nfor (const width of WIDTHS) {',1); s=s.replace("fs.rmSync(temporaryDirectory, { recursive: true, force: true });","} finally {\n  fs.rmSync(temporaryDirectory, { recursive: true, force: true });\n}",1); p.write_text(s)
+          p=root/'scripts/mobile-selection-smoke.mjs'; s=p.read_text(); s=s.replace("  const match = run.stdout.match(/data-selection-smoke=\"([^\"]+)\"/);\n  if (run.status !== 0 || !match) {\n    const message = `${width}px: a választási állapot nem mérhető.`;", "  const match = run.stdout.match(/data-selection-smoke=\"([^\"]+)\"/);\n  if (!run.ok || !match) {\n    const reason = !run.ok ? describeChromeFailure(run) : 'nem érkezett mérési eredmény';\n    const message = `${width}px: a választási állapot nem mérhető (${reason}).`;"); s=s.replace("measurements.push({ width, failure: message, status: run.status, stderr: run.stderr.slice(-2000), domTail: run.stdout.slice(-2000) });","measurements.push({ width, failure: message, failureKind: run.failureKind, status: run.status, stderr: run.stderr.slice(-2000), domTail: run.stdout.slice(-2000) });"); s=s.replace('for (const width of WIDTHS) {','try {\nfor (const width of WIDTHS) {',1); s=s.replace("fs.rmSync(temporaryDirectory, { recursive: true, force: true });","} finally {\n  fs.rmSync(temporaryDirectory, { recursive: true, force: true });\n}",1); p.write_text(s)
+          p=root/'scripts/mobile-phase-smoke.mjs'; s=p.read_text(); s=s.replace("  const match = run.stdout.match(/data-phase-smoke=\"([^\"]+)\"/);\n  if (run.status !== 0 || !match) {\n    const message = `${width}px: a fázisváltás nem mérhető.`;", "  const match = run.stdout.match(/data-phase-smoke=\"([^\"]+)\"/);\n  if (!run.ok || !match) {\n    const reason = !run.ok ? describeChromeFailure(run) : 'nem érkezett mérési eredmény';\n    const message = `${width}px: a fázisváltás nem mérhető (${reason}).`;"); s=s.replace("measurements.push({ width, failure: message, status: run.status, stderr: run.stderr.slice(-2500), domTail: run.stdout.slice(-2500) });","measurements.push({ width, failure: message, failureKind: run.failureKind, status: run.status, stderr: run.stderr.slice(-2500), domTail: run.stdout.slice(-2500) });"); s=s.replace("if (shot.status !== 0 || !fs.existsSync(output)) failures.push(`Nem készült el a(z) ${fileName} előnézet.`);","if (!shot.ok || !fs.existsSync(output)) failures.push(`Nem készült el a(z) ${fileName} előnézet (${shot.ok ? 'hiányzó fájl' : describeChromeFailure(shot)}).`);"); s=s.replace('for (const width of WIDTHS) {','try {\nfor (const width of WIDTHS) {',1); s=s.replace("fs.rmSync(temporaryDirectory, { recursive: true, force: true });","} finally {\n  fs.rmSync(temporaryDirectory, { recursive: true, force: true });\n}",1); p.write_text(s)
+          p=root/'scripts/desktop-phase-previews.mjs'; s=p.read_text(); s=s.replace("const failures = [];\nfor (const [fileName, body] of previews) {","const failures = [];\ntry {\nfor (const [fileName, body] of previews) {"); s=s.replace("if (shot.status !== 0 || !fs.existsSync(output)) failures.push(`${fileName}: ${shot.stderr.slice(-700)}`);","if (!shot.ok || !fs.existsSync(output)) failures.push(`${fileName}: ${shot.ok ? 'hiányzó képfájl' : describeChromeFailure(shot)} ${shot.stderr.slice(-700)}`);"); s=s.replace("fs.rmSync(temporaryDirectory, { recursive: true, force: true });","} finally {\n  fs.rmSync(temporaryDirectory, { recursive: true, force: true });\n}",1); p.write_text(s)
+          p=root/'scripts/runtime-browser-smoke.mjs'; s=p.read_text(); s=s.replace('for (const mode of MODES) {','try {\nfor (const mode of MODES) {',1); s=s.replace("  if (run.status !== 0) {\n    const message = `${mode.id}: a Chrome hibával leállt.`;","  if (!run.ok) {\n    const message = `${mode.id}: ${describeChromeFailure(run)}.`;"); s=s.replace("results.push({ mode: mode.id, failure: message, stderr: run.stderr.slice(-4000) });","results.push({ mode: mode.id, failure: message, failureKind: run.failureKind, stderr: run.stderr.slice(-4000) });"); s=s.replace("fs.rmSync(temporaryDirectory, { recursive: true, force: true });","} finally {\n  fs.rmSync(temporaryDirectory, { recursive: true, force: true });\n}",1); p.write_text(s)
+          p=root/'scripts/mobile-runtime-smoke.mjs'; s=p.read_text(); s=s.replace("    stdio: 'inherit',\n    env:","    stdio: 'inherit',\n    timeout: 120_000,\n    killSignal: 'SIGTERM',\n    env:"); s=s.replace("if (result.error) throw result.error;","if (result.error?.code === 'ETIMEDOUT') {\n  throw new Error('A mobil APK böngészős futástesztje 120000 ms után időtúllépéssel leállt.');\n}\nif (result.error) throw result.error;"); p.write_text(s)
+          test=root/'test/chrome-smoke-runner.test.mjs'; test.write_text("""import assert from 'node:assert/strict';\nimport { CHROME_PROBE_TIMEOUT_MS, DEFAULT_CHROME_TIMEOUT_MS, describeChromeFailure, findChrome, runChrome, tailChromeOutput } from '../scripts/lib/chrome-smoke-runner.mjs';\nconst calls=[]; const fakeSpawn=(command,args,options)=>{calls.push({command,args,options}); if(command==='missing') return {status:null,error:Object.assign(new Error('ENOENT'),{code:'ENOENT'}),stdout:'',stderr:''}; if(command==='broken') return {status:1,stdout:'',stderr:'broken'}; return {status:0,stdout:'Chrome 1',stderr:''};};\nassert.equal(findChrome({candidates:['missing','broken','chromium'],spawn:fakeSpawn}),'chromium');\nassert.equal(calls[0].options.timeout,CHROME_PROBE_TIMEOUT_MS); assert.equal(calls.at(-1).options.maxBuffer,1024*1024); assert.equal(findChrome({candidates:['missing','broken'],spawn:fakeSpawn}),null);\nconst success=runChrome('chromium',['--version'],{spawn:fakeSpawn}); assert.equal(success.ok,true); assert.equal(success.failureKind,null); assert.equal(success.timeoutMs,DEFAULT_CHROME_TIMEOUT_MS);\nconst exit=runChrome('broken',['--dump-dom'],{spawn:fakeSpawn,timeoutMs:12345}); assert.equal(exit.ok,false); assert.equal(exit.failureKind,'exit'); assert.match(describeChromeFailure(exit),/hibakóddal/);\nconst timeout=runChrome('chromium',['--dump-dom'],{timeoutMs:321,spawn:()=>({status:null,signal:'SIGTERM',error:Object.assign(new Error('timed out'),{code:'ETIMEDOUT'}),stdout:'partial',stderr:'timeout diagnostic'})}); assert.equal(timeout.ok,false); assert.equal(timeout.timedOut,true); assert.equal(timeout.failureKind,'timeout'); assert.match(describeChromeFailure(timeout),/321 ms/);\nconst startup=runChrome('missing',['--dump-dom'],{spawn:fakeSpawn}); assert.equal(startup.startupError,true); assert.equal(startup.failureKind,'startup'); assert.match(describeChromeFailure(startup),/ENOENT/); assert.equal(tailChromeOutput('123456',4),'3456');\nconsole.log('✓ Chrome smoke runner: felderítés, timeout, indulási hiba, exit kód és diagnosztika rendben');\n""")
+          pkg=root/'package.json'; data=json.loads(pkg.read_text()); marker='node test/chrome-smoke-runner.test.mjs'
+          for key in ['test','test:all']:
+              if marker not in data['scripts'][key]: data['scripts'][key]+=' && '+marker
+          pkg.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Verify bounded smoke infrastructure
+        shell: bash
+        run: |
+          ! grep -RIn "spawnSync(chrome\|spawnSync(command, \['--version'" scripts
+          node test/chrome-smoke-runner.test.mjs
+          for f in scripts/lib/chrome-smoke-runner.mjs scripts/mobile-layout-smoke.mjs scripts/mobile-selection-smoke.mjs scripts/mobile-phase-smoke.mjs scripts/desktop-phase-previews.mjs scripts/runtime-browser-smoke.mjs scripts/mobile-runtime-smoke.mjs; do node --check "$f"; done
+          npm test
+      - name: Commit tested fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/apply-chrome-smoke-timeouts.yml
+          git add scripts/lib/chrome-smoke-runner.mjs scripts/mobile-layout-smoke.mjs scripts/mobile-selection-smoke.mjs scripts/mobile-phase-smoke.mjs scripts/desktop-phase-previews.mjs scripts/runtime-browser-smoke.mjs scripts/mobile-runtime-smoke.mjs test/chrome-smoke-runner.test.mjs package.json
+          git commit -m "Adj időkorlátot a Chrome smoke tesztekhez"
+          git push origin HEAD:fix/chrome-smoke-timeouts
