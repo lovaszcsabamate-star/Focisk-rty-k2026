@@ -14,6 +14,10 @@ execFileSync(process.execPath, [path.join(HERE, 'build-standalone-with-settings.
   cwd: ROOT,
   stdio: 'inherit',
 });
+execFileSync(process.execPath, [path.join(HERE, 'postprocess-standalone.mjs')], {
+  cwd: ROOT,
+  stdio: 'inherit',
+});
 
 fs.rmSync(MOBILE_DIR, { recursive: true, force: true });
 fs.mkdirSync(MOBILE_DIR, { recursive: true });
@@ -70,7 +74,8 @@ const standalone = convertStandaloneModuleForAndroidWebView(standaloneSource)
       '  <meta name="format-detection" content="telephone=no">\n' +
       '  <meta name="mobile-webview-compatible" content="true">\n' +
       '</head>',
-  );
+  )
+  .replace(/[ \t]+$/gm, '');
 
 fs.writeFileSync(path.join(MOBILE_DIR, 'index.html'), standalone);
 
