@@ -220,7 +220,7 @@ for (const mode of MODES) {
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=1300,940', '--force-device-scale-factor=1',
     '--virtual-time-budget=9000', '--dump-dom', `file://${harnessFile}`,
-  ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
+  ], { encoding: 'utf8', timeoutMs: 45_000, maxBuffer: 30 * 1024 * 1024 });
 
   if (!run.ok) {
     const message = `${mode.id}: ${describeChromeFailure(run)}.`;
