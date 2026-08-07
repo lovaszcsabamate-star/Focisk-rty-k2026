@@ -144,8 +144,11 @@ assert.ok(databaseManifest.files.enrichments.some(file => file.endsWith(FILE)));
 assert.match(readText('../js/bootstrap.js'), /loadDatabase/);
 assert.match(readText('../js/database/database-service.js'), /getRegisteredDefaultDatabase/);
 assert.match(readText('../scripts/build-standalone.mjs'), /databaseManifestFile/);
-assert.match(readText('../sw.js'), new RegExp(FILE.replaceAll('.', '\.')));
-assert.match(readText('../sw.js'), /fociskartyak-2026-v30/);
+const serviceWorker = readText('../sw.js');
+assert.match(serviceWorker, new RegExp(FILE.replaceAll('.', '\\.')));
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(serviceWorker, /crypto\.subtle\.digest\('SHA-256'/);
+assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\d+/);
 assert.match(readText('../js/data/club-stat-patches.js'), /officialStatConsensus/);
 
 console.log(`✓ Végső adatlezárás: ${completion.records.length} kiegészítés, teljes nemzetiség-, poszt-, mérkőzés-, kezdés-, keret- és lapadat`);

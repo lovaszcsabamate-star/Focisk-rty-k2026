@@ -95,6 +95,7 @@ assert.match(serviceWorker, /players\.normalized\.json/);
 assert.match(serviceWorker, /normalization-report\.json/);
 assert.match(serviceWorker, /nationality-audit-report\.json/);
 assert.match(serviceWorker, /federation-audit-report\.json/);
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+'/);
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(serviceWorker, /SHA-256/);
 
 console.log('✓ A v3.3-as 2025/26-os normalizált adatbázis modell v3-mal, teljes zászló- és föderációs audittal elsődleges forrás');

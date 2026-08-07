@@ -154,6 +154,8 @@ assert.ok(
   'az eredményvezérlő a Session belépési pont előtt szerepel',
 );
 assert.match(serviceWorkerSource, /\.\/js\/app\/result-controller\.js/);
-assert.match(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
+assert.match(serviceWorkerSource, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(serviceWorkerSource, /cache\.addAll\(CORE_SHELL\)/);
+assert.doesNotMatch(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
 
 console.log('✓ Végeredmény-vezérlő és Session-integráció: rendben');
