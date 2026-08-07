@@ -94,6 +94,14 @@ assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
               source = source.replace(old_static, new_static, 1)
           static.write_text(source)
 
+          normalized = Path('test/normalized-database-loading.test.mjs')
+          source = normalized.read_text()
+          source = source.replace(
+              "assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\\d+'/);",
+              "assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);\nassert.match(serviceWorker, /SHA-256/);",
+          )
+          normalized.write_text(source)
+
           pkg = Path('package.json')
           data = json.loads(pkg.read_text())
           scripts = data['scripts']
@@ -119,6 +127,7 @@ assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
           node test/pwa-cache.test.mjs
           node test/release-ux-pwa.test.mjs
           node test/static.test.mjs
+          node test/normalized-database-loading.test.mjs
           npm run lint
           npm test
 
@@ -128,6 +137,6 @@ assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/apply-pwa-finalize.yml
-          git add sw.js scripts/audit-pwa-shell.mjs test/pwa-cache.test.mjs test/release-ux-pwa.test.mjs test/static.test.mjs package.json
+          git add sw.js scripts/audit-pwa-shell.mjs test/pwa-cache.test.mjs test/release-ux-pwa.test.mjs test/static.test.mjs test/normalized-database-loading.test.mjs package.json
           git commit -m "Fejezd be az atomikus PWA cache védelmét"
           git push origin HEAD:fix/atomic-pwa-cache
