@@ -29,6 +29,16 @@ export const TOURNAMENT_MATCH_STATUS = Object.freeze({
   COMPLETE: 'complete',
 });
 
+export const TOURNAMENT_FINALIZATION_STATUS = Object.freeze({
+  FINALIZED: 'finalized',
+  ALREADY_FINALIZED: 'already-finalized',
+  TIEBREAK_REQUIRED: 'tiebreak-required',
+  INVALID_RESULT: 'invalid-result',
+  MATCH_NOT_FOUND: 'match-not-found',
+});
+
+export const TOURNAMENT_STRUCTURED_RESULT_KEY = '__FOCISKARTYAK_STRUCTURED_TOURNAMENT_RESULT__';
+
 const tournamentFormats = new Set(Object.values(TOURNAMENT_FORMAT));
 const tournamentMatchModes = new Set(Object.values(TOURNAMENT_MATCH_MODE));
 const tournamentCategories = new Set(Object.values(TOURNAMENT_CATEGORY));
@@ -110,6 +120,8 @@ const createMatch = ({ id, stage, roundIndex, homeId, awayId, groupId = null, la
   winnerId: null,
   decidedBy: null,
   playedAt: null,
+  finalizedAt: null,
+  finalizationVersion: null,
 });
 
 export function createRoundRobinRounds(teamIds, { stage = 'league', groupId = null, idPrefix = stage } = {}) {
@@ -330,41 +342,195 @@ const groupQualifiers = state => {
 const roundComplete = round => (round?.matches ?? []).length > 0
   && round.matches.every(match => match.status === TOURNAMENT_MATCH_STATUS.COMPLETE);
 
-export function recordTournamentMatch(state, matchId, { homeScore, awayScore, winnerId = null, decidedBy = 'played' } = {}) {
+const finalizationOutcome = (status, state, matchId, extra = {}) => Object.freeze({
+  status,
+  state,
+  match: tournamentMatchById(state, matchId),
+  ...extra,
+});
+
+const structuredTournamentResult = (state, matchId, fallback) => {
+  const candidate = globalThis?.[TOURNAMENT_STRUCTURED_RESULT_KEY];
+  if (candidate?.schemaVersion !== 1 || candidate?.tournamentId !== state?.id || candidate?.matchId !== matchId) {
+    return fallback;
+  }
+  return candidate;
+};
+
+const applyStructuredPlayerStats = (state, result) => {
+  const lineup = Array.isArray(result?.lineup) ? result.lineup : [];
+  const outcome = text(result?.humanOutcome);
+  if (!lineup.length || !['win', 'draw', 'loss'].includes(outcome)) return state;
+  const next = state;
+  next.playerStats = { ...(next.playerStats ?? {}) };
+  for (const item of lineup) {
+    const playerId = text(item?.playerId);
+    if (!playerId) continue;
+    const previous = next.playerStats[playerId] ?? {
+      playerId,
+      name: text(item?.name) || playerId,
+      appearances: 0,
+      wins: 0,
+      draws: 0,
+      losses: 0,
+      penaltyMatches: 0,
+    };
+    next.playerStats[playerId] = {
+      ...previous,
+      name: previous.name || text(item?.name) || playerId,
+      appearances: Number(previous.appearances || 0) + 1,
+      wins: Number(previous.wins || 0) + (outcome === 'win' ? 1 : 0),
+      draws: Number(previous.draws || 0) + (outcome === 'draw' ? 1 : 0),
+      losses: Number(previous.losses || 0) + (outcome === 'loss' ? 1 : 0),
+      penaltyMatches: Number(previous.penaltyMatches || 0) + (result?.penaltyMatch ? 1 : 0),
+    };
+  }
+  return next;
+};
+
+const clearConsumedMatchContext = (state, matchId) => {
+  if (state.currentMatchId !== matchId) return state;
+  state.currentMatchId = null;
+  state.currentMatchMode = null;
+  state.currentLineupIds = [];
+  return state;
+};
+
+const finalizationConflict = (match, result) => {
+  const winnerId = text(result?.winnerId) || null;
+  if (result?.tiebreak && match?.tiebreakScore) {
+    return Number(match.tiebreakScore.home) !== Number(result.homeScore)
+      || Number(match.tiebreakScore.away) !== Number(result.awayScore)
+      || (match.winnerId ?? null) !== winnerId;
+  }
+  return Number(match?.homeScore) !== Number(result?.homeScore)
+    || Number(match?.awayScore) !== Number(result?.awayScore)
+    || (match?.winnerId ?? null) !== winnerId;
+};
+
+export function finalizeTournamentMatch(state, matchId, result = {}) {
+  if (!state || typeof state !== 'object') {
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.MATCH_NOT_FOUND, state, matchId, {
+      reason: 'A tornaállapot nem érhető el.',
+    });
+  }
   const next = clone(state);
   const match = tournamentMatchById(next, matchId);
-  if (!match) throw new Error(`A tornamérkőzés nem található: ${matchId}`);
-  if (match.status === TOURNAMENT_MATCH_STATUS.COMPLETE) return next;
-  const home = Number(homeScore);
-  const away = Number(awayScore);
-  if (!Number.isFinite(home) || !Number.isFinite(away) || home < 0 || away < 0) throw new Error('A mérkőzés eredménye nem érvényes.');
+  if (!match) {
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.MATCH_NOT_FOUND, next, matchId, {
+      reason: `A tornamérkőzés nem található: ${matchId}`,
+    });
+  }
+  if (match.status === TOURNAMENT_MATCH_STATUS.COMPLETE) {
+    clearConsumedMatchContext(next, matchId);
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.ALREADY_FINALIZED, next, matchId, {
+      conflict: finalizationConflict(match, result),
+    });
+  }
+
+  const home = Number(result?.homeScore);
+  const away = Number(result?.awayScore);
+  if (!Number.isInteger(home) || !Number.isInteger(away) || home < 0 || away < 0) {
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.INVALID_RESULT, next, matchId, {
+      reason: 'A mérkőzés eredménye nem negatív egész számokból kell álljon.',
+    });
+  }
+
+  const winnerId = text(result?.winnerId) || null;
+  if (winnerId && ![match.homeId, match.awayId].includes(winnerId)) {
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.INVALID_RESULT, next, matchId, {
+      reason: 'A megadott győztes nem résztvevője a mérkőzésnek.',
+    });
+  }
+  const scoreWinnerId = home > away ? match.homeId : away > home ? match.awayId : null;
+
+  if (match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK || result?.tiebreak === true) {
+    if (match.status !== TOURNAMENT_MATCH_STATUS.TIEBREAK || !winnerId || home === away || winnerId !== scoreWinnerId) {
+      return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.INVALID_RESULT, next, matchId, {
+        reason: 'A büntetőpárbaj csak egyértelmű, érvényes győztessel véglegesíthető.',
+      });
+    }
+    match.status = TOURNAMENT_MATCH_STATUS.COMPLETE;
+    match.winnerId = winnerId;
+    match.decidedBy = text(result?.decidedBy) || 'penalties';
+    match.tiebreakScore = { home, away };
+    match.playedAt = now();
+    match.finalizedAt = match.playedAt;
+    match.finalizationVersion = 1;
+    applyStructuredPlayerStats(next, result);
+    clearConsumedMatchContext(next, matchId);
+    next.updatedAt = now();
+    return finalizationOutcome(
+      TOURNAMENT_FINALIZATION_STATUS.FINALIZED,
+      advanceTournament(next),
+      matchId,
+      { decidedBy: match.decidedBy },
+    );
+  }
+
+  if (home === away && winnerId) {
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.INVALID_RESULT, next, matchId, {
+      reason: 'Döntetlen rendes eredményhez nem tartozhat győztes.',
+    });
+  }
+  if (home !== away && winnerId && winnerId !== scoreWinnerId) {
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.INVALID_RESULT, next, matchId, {
+      reason: 'A győztes nem egyezik az eredménnyel.',
+    });
+  }
+
   match.homeScore = home;
   match.awayScore = away;
   match.playedAt = now();
-  if (match.stage === 'knockout' && home === away && !winnerId) {
+  if (match.stage === 'knockout' && home === away) {
     match.status = TOURNAMENT_MATCH_STATUS.TIEBREAK;
+    match.winnerId = null;
     match.decidedBy = 'pending-penalties';
-  } else {
-    match.status = TOURNAMENT_MATCH_STATUS.COMPLETE;
-    match.winnerId = winnerId || (home > away ? match.homeId : away > home ? match.awayId : null);
-    match.decidedBy = decidedBy;
+    applyStructuredPlayerStats(next, result);
+    clearConsumedMatchContext(next, matchId);
+    next.updatedAt = now();
+    return finalizationOutcome(TOURNAMENT_FINALIZATION_STATUS.TIEBREAK_REQUIRED, next, matchId);
   }
+
+  match.status = TOURNAMENT_MATCH_STATUS.COMPLETE;
+  match.winnerId = winnerId || scoreWinnerId;
+  match.decidedBy = text(result?.decidedBy) || 'played';
+  match.finalizedAt = match.playedAt;
+  match.finalizationVersion = 1;
+  applyStructuredPlayerStats(next, result);
+  clearConsumedMatchContext(next, matchId);
   next.updatedAt = now();
-  return next;
+  return finalizationOutcome(
+    TOURNAMENT_FINALIZATION_STATUS.FINALIZED,
+    advanceTournament(next),
+    matchId,
+    { decidedBy: match.decidedBy },
+  );
 }
 
-export function recordTournamentTiebreak(state, matchId, { homeScore, awayScore, winnerId } = {}) {
-  const next = clone(state);
-  const match = tournamentMatchById(next, matchId);
-  if (!match || match.status !== TOURNAMENT_MATCH_STATUS.TIEBREAK) throw new Error('Ehhez a mérkőzéshez nincs folyamatban lévő büntetőpárbaj.');
-  if (![match.homeId, match.awayId].includes(winnerId)) throw new Error('A büntetőpárbaj győztese érvénytelen.');
-  match.status = TOURNAMENT_MATCH_STATUS.COMPLETE;
-  match.winnerId = winnerId;
-  match.decidedBy = 'penalties';
-  match.tiebreakScore = { home: Number(homeScore) || 0, away: Number(awayScore) || 0 };
-  match.playedAt = now();
-  next.updatedAt = now();
-  return next;
+const throwForFinalizationFailure = outcome => {
+  if (outcome.status === TOURNAMENT_FINALIZATION_STATUS.MATCH_NOT_FOUND
+    || outcome.status === TOURNAMENT_FINALIZATION_STATUS.INVALID_RESULT) {
+    throw new Error(outcome.reason || 'A tornamérkőzés nem véglegesíthető.');
+  }
+  return outcome.state;
+};
+
+export function recordTournamentMatch(state, matchId, result = {}) {
+  const authoritative = structuredTournamentResult(state, matchId, result);
+  return throwForFinalizationFailure(finalizeTournamentMatch(state, matchId, {
+    ...authoritative,
+    tiebreak: false,
+  }));
+}
+
+export function recordTournamentTiebreak(state, matchId, result = {}) {
+  const authoritative = structuredTournamentResult(state, matchId, result);
+  return throwForFinalizationFailure(finalizeTournamentMatch(state, matchId, {
+    ...authoritative,
+    tiebreak: true,
+    decidedBy: text(authoritative?.decidedBy) || 'penalties',
+  }));
 }
 
 export function advanceTournament(state) {
@@ -437,12 +603,12 @@ export function simulateTournamentMatch(state, matchId, strengthResolver = () =>
     const homeWins = rng() < homeWinChance;
     const loser = 2 + Math.floor(rng() * 3);
     const winner = Math.min(6, loser + 1);
-    return recordTournamentMatch(state, matchId, {
+    return finalizeTournamentMatch(state, matchId, {
       homeScore: homeWins ? winner : loser,
       awayScore: homeWins ? loser : winner,
       winnerId: homeWins ? match.homeId : match.awayId,
       decidedBy: 'simulation-penalties',
-    });
+    }).state;
   }
   const drawChance = match.stage === 'knockout' ? 0 : clamp(0.22 - Math.abs(relative) * 0.14, 0.08, 0.24);
   const first = rng();
@@ -458,7 +624,12 @@ export function simulateTournamentMatch(state, matchId, strengthResolver = () =>
     awayScore = homeWins ? losingScore : winningScore;
     winnerId = homeWins ? match.homeId : match.awayId;
   }
-  return recordTournamentMatch(state, matchId, { homeScore, awayScore, winnerId, decidedBy: 'simulation' });
+  return finalizeTournamentMatch(state, matchId, {
+    homeScore,
+    awayScore,
+    winnerId,
+    decidedBy: 'simulation',
+  }).state;
 }
 
 export function simulatePendingAiMatches(state, strengthResolver = () => 1) {
