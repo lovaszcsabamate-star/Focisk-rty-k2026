@@ -8,6 +8,7 @@ const manifest = read('manifest.webmanifest');
 const css = read('css/visual-system.css');
 const sizingCss = read('css/visual-settings-persistence.css');
 const legalCss = read('css/legal-ui.css');
+const mobileSelectionCss = read('css/mobile-selection-fix.css');
 const visual = read('js/visual-system.js');
 const sizingPersistence = read('js/visual-settings-persistence.js');
 const usability = read('js/usability-fixes.js');
@@ -16,11 +17,49 @@ const legalUi = read('js/legal-ui.js');
 const enhancementPipeline = read('js/ui/ui-enhancement-pipeline.js');
 const configuration = read('js/app/configuration.js');
 const storageService = read('js/services/storage-service.js');
+const buildScript = read('scripts/build-standalone.mjs');
+const serviceWorker = read('sw.js');
 const licenses = JSON.parse(read('src/assets/licenses/assets-licenses.json'));
 
 assert.match(index, /css\/visual-system\.css/, 'A központi vizuális CSS nincs betöltve.');
 assert.match(index, /css\/visual-settings-persistence\.css/, 'A méretezésmentés visszajelző stílusa nincs betöltve.');
 assert.match(index, /css\/legal-ui\.css/, 'A kezdőképernyős jogi stílus nincs betöltve.');
+assert.match(index, /css\/mobile-selection-fix\.css/, 'A gyorsítótárazott mobil CSS-modul nincs betöltve.');
+assert.ok(
+  index.indexOf('css/mobile-selection-fix.css') < index.indexOf('css/duel-emphasis.css'),
+  'A mobil belépési szabályok CSS-sorrendje nem determinisztikus.',
+);
+assert.ok(
+  index.indexOf('css/mobile-selection-fix.css') < index.indexOf('css/legal-ui.css'),
+  'A tesztnek védenie kell, hogy a későbbi alap nagyítóstílus felülírhatja a mobilmodult.',
+);
+const inlineStyles = [...index.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(match => match[1]).join('\n');
+assert.doesNotMatch(
+  inlineStyles,
+  /\.pile__inspect|--mobile-safe-bottom/,
+  'A mobilos nagyító javítása nem maradhat közvetlenül az index.html fájlban.',
+);
+assert.match(mobileSelectionCss, /@media \(max-width: 900px\)[\s\S]*\.pile__inspect/);
+assert.match(mobileSelectionCss, /safe-area-inset-left/);
+assert.match(mobileSelectionCss, /safe-area-inset-bottom/);
+assert.match(mobileSelectionCss, /@media \(orientation: landscape\) and \(max-height: 500px\)/);
+assert.match(
+  mobileSelectionCss,
+  /@media \(max-width: 900px\) and \(max-height: 700px\)[\s\S]*width:\s*42px\s*!important[\s\S]*font-size:\s*20px\s*!important/,
+  'A rövid kijelzős nagyítóméretnek ellen kell állnia a később betöltött legal-ui.css alapméretének.',
+);
+assert.match(
+  mobileSelectionCss,
+  /@media \(orientation: landscape\) and \(max-height: 500px\)[\s\S]*width:\s*40px\s*!important[\s\S]*font-size:\s*19px\s*!important/,
+  'A fekvő nézeti kompakt nagyítóméretnek a teljes CSS-sorrendben is érvényesülnie kell.',
+);
+assert.match(serviceWorker, /\.\/css\/mobile-selection-fix\.css/, 'A mobil belépési szabályok forrását offline is gyorsítótárazni kell.');
+assert.doesNotMatch(index, /css\/mobile-entry-fixes\.css/, 'Nem maradhat külön, offline listán kívüli mobil CSS-hivatkozás.');
+assert.match(
+  buildScript,
+  /stylesheetFiles[\s\S]*indexTemplate\.matchAll[\s\S]*stylesheetFiles\.map\(file => read\(file\)\)\.join/,
+  'A standalone buildnek az index stylesheet-sorrendjét kell változtatás nélkül követnie.',
+);
 assert.match(
   enhancementPipeline,
   /\.\.\/visual-settings-persistence\.js[\s\S]*\.\.\/visual-system\.js[\s\S]*\.\.\/legal-ui\.js/,
@@ -92,4 +131,4 @@ assert.ok(placeholders.every(asset => asset.approvedForRelease === true), 'A pro
 assert.ok(licenses.filter(asset => ['club-logo', 'league-logo'].includes(asset.assetType) && asset.sourceType !== 'placeholder')
   .every(asset => asset.approvedForRelease !== true), 'Nem jóváhagyott hivatalos logó nem kerülhet kiadásra.');
 
-console.log('Vizuális rendszer: rendben.');
+console.log('Vizuális rendszer és determinisztikus, offline kompatibilis belépési rétegek: rendben.');
