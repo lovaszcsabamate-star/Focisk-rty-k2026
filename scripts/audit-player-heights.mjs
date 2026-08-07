@@ -1,64 +1,87 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { isValidHeightCm, MAX_VALID_HEIGHT_CM, MIN_VALID_HEIGHT_CM } from '../js/data/height.js';
 import { buildNormalizedDatabase, PROJECT_ROOT } from './migrate-normalized-database.mjs';
 
-export const MIN_VALID_HEIGHT_CM = 140;
-export const MAX_VALID_HEIGHT_CM = 220;
 export const BASELINE_HEIGHT_COUNT = 285;
 export const EXPECTED_PLAYER_COUNT = 440;
+export const EXPECTED_REGISTRATION_COUNT = 464;
 
-export function isValidHeightCm(value) {
-  return Number.isInteger(value) && value >= MIN_VALID_HEIGHT_CM && value <= MAX_VALID_HEIGHT_CM;
-}
+const CLUB_NAMES = Object.freeze({
+  dvsc: 'DVSC',
+  dvtk: 'DVTK',
+  'eto-fc': 'ETO FC',
+  'ferencvarosi-tc': 'Ferencvárosi TC',
+  'kisvarda-master-good': 'Kisvárda Master Good',
+  'kolorcity-kazincbarcika-sc': 'Kolorcity Kazincbarcika SC',
+  'mtk-budapest': 'MTK Budapest',
+  'nyiregyhaza-spartacus-fc': 'Nyíregyháza Spartacus FC',
+  'paksi-fc': 'Paksi FC',
+  'puskas-akademia-fc': 'Puskás Akadémia FC',
+  'ujpest-fc': 'Újpest FC',
+  'zte-fc': 'ZTE FC',
+});
 
 const percent = (known, total) => total ? Number((known / total * 100).toFixed(1)) : 0;
+const playerName = player => player?.displayName ?? player?.name ?? null;
+const birthDate = player => player?.dateOfBirth ?? player?.birthDate ?? null;
+const playerHeight = player => player?.heightCm ?? player?.stats?.heightCm ?? null;
+
+function registrationClubIds(player) {
+  const ids = Array.isArray(player?.meta?.clubIds) ? player.meta.clubIds.filter(Boolean) : [];
+  if (ids.length) return [...new Set(ids)];
+  if (player?.meta?.clubId) return [player.meta.clubId];
+  return [];
+}
 
 export function createHeightCoverageAudit(players, { baselineKnown = BASELINE_HEIGHT_COUNT } = {}) {
   const list = Array.isArray(players) ? players : [];
-  const clubs = new Map();
+  const clubs = new Map(Object.entries(CLUB_NAMES).map(([clubId, club]) => [clubId, {
+    clubId, club, players: 0, known: 0, missing: 0, invalid: 0, missingPlayers: [],
+  }]));
   const invalid = [];
   const missing = [];
+  let registrationRecords = 0;
 
   for (const player of list) {
-    const club = player?.clubName ?? player?.club ?? 'Ismeretlen klub';
-    if (!clubs.has(club)) clubs.set(club, { club, players: 0, known: 0, missing: 0, invalid: 0, missingPlayers: [] });
-    const clubAudit = clubs.get(club);
-    clubAudit.players += 1;
+    const heightCm = playerHeight(player);
+    const missingEntry = {
+      id: player?.id ?? null,
+      name: playerName(player),
+      birthDate: birthDate(player),
+      clubIds: registrationClubIds(player),
+    };
 
-    const heightCm = player?.heightCm ?? player?.stats?.heightCm ?? null;
-    if (heightCm == null) {
-      clubAudit.missing += 1;
-      clubAudit.missingPlayers.push({
-        id: player?.id ?? null,
-        name: player?.displayName ?? player?.name ?? null,
-        birthDate: player?.dateOfBirth ?? player?.birthDate ?? null,
-      });
-      missing.push({
-        id: player?.id ?? null,
-        name: player?.displayName ?? player?.name ?? null,
-        club,
-        birthDate: player?.dateOfBirth ?? player?.birthDate ?? null,
-      });
-      continue;
+    if (heightCm == null) missing.push(missingEntry);
+    else if (!isValidHeightCm(heightCm)) invalid.push({ ...missingEntry, heightCm });
+
+    const clubIds = registrationClubIds(player);
+    registrationRecords += clubIds.length;
+    for (const clubId of clubIds) {
+      if (!clubs.has(clubId)) {
+        clubs.set(clubId, { clubId, club: clubId, players: 0, known: 0, missing: 0, invalid: 0, missingPlayers: [] });
+      }
+      const clubAudit = clubs.get(clubId);
+      clubAudit.players += 1;
+      if (heightCm == null) {
+        clubAudit.missing += 1;
+        clubAudit.missingPlayers.push({ id: player?.id ?? null, name: playerName(player), birthDate: birthDate(player) });
+      } else if (!isValidHeightCm(heightCm)) {
+        clubAudit.invalid += 1;
+      } else {
+        clubAudit.known += 1;
+      }
     }
-
-    if (!isValidHeightCm(heightCm)) {
-      clubAudit.invalid += 1;
-      invalid.push({ id: player?.id ?? null, name: player?.displayName ?? player?.name ?? null, club, heightCm });
-      continue;
-    }
-
-    clubAudit.known += 1;
   }
 
   const clubRows = [...clubs.values()]
     .map(row => ({ ...row, coveragePercent: percent(row.known, row.players) }))
     .sort((a, b) => a.club.localeCompare(b.club, 'hu'));
-  const known = clubRows.reduce((sum, row) => sum + row.known, 0);
+  const known = list.filter(player => isValidHeightCm(playerHeight(player))).length;
 
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     season: '2025/26',
     checkedAt: '2026-08-08',
     validation: {
@@ -69,6 +92,7 @@ export function createHeightCoverageAudit(players, { baselineKnown = BASELINE_HE
     baseline: { known: baselineKnown, players: EXPECTED_PLAYER_COUNT, coveragePercent: percent(baselineKnown, EXPECTED_PLAYER_COUNT) },
     summary: {
       players: list.length,
+      registrationRecords,
       known,
       missing: missing.length,
       invalid: invalid.length,
@@ -88,7 +112,7 @@ export function renderHeightCoverageMarkdown(audit) {
     .map(row => `### ${row.club}\n\n${row.missingPlayers.map(player => `- ${player.name} (${player.birthDate ?? 'születési dátum nélkül'})`).join('\n')}`)
     .join('\n\n');
 
-  return `# Height Coverage Audit – NB I 2025/26\n\nEllenőrzés dátuma: **${audit.checkedAt}**\n\n## Összesítés\n\n- Játékosok: **${audit.summary.players}**\n- Ismert hiteles magasság: **${audit.summary.known}**\n- Hiányzó magasság: **${audit.summary.missing}**\n- Érvénytelen magasság: **${audit.summary.invalid}**\n- Lefedettség: **${audit.summary.coveragePercent.toFixed(1)}%**\n- Kiinduló lefedettség: **${audit.baseline.known}/${audit.baseline.players} (${audit.baseline.coveragePercent.toFixed(1)}%)**\n\n## Klub szerinti lefedettség\n\n| Klub | Játékos | Magasság ismert | Hiányzik | Lefedettség |\n| --- | ---: | ---: | ---: | ---: |\n${rows.join('\n')}\n\n## Hiányzó magasságú játékosok\n\n${missingSections || 'Nincs hiányzó rekord.'}\n`;
+  return `# Height Coverage Audit – NB I 2025/26\n\nEllenőrzés dátuma: **${audit.checkedAt}**\n\n## Összesítés\n\n- Egyedi játékosok: **${audit.summary.players}**\n- Szezonbeli klubregisztrációk: **${audit.summary.registrationRecords}**\n- Ismert hiteles magasság: **${audit.summary.known}**\n- Hiányzó magasság: **${audit.summary.missing}**\n- Érvénytelen magasság: **${audit.summary.invalid}**\n- Lefedettség: **${audit.summary.coveragePercent.toFixed(1)}%**\n- Kiinduló lefedettség: **${audit.baseline.known}/${audit.baseline.players} (${audit.baseline.coveragePercent.toFixed(1)}%)**\n\n## Klub szerinti lefedettség\n\nA klubtábla regisztrációszintű, ezért a klubonkénti játékosszámok összege 464. A klubváltó játékos magassága személyadatként ugyanaz minden regisztrációjánál.\n\n| Klub | Játékos | Magasság ismert | Hiányzik | Lefedettség |\n| --- | ---: | ---: | ---: | ---: |\n${rows.join('\n')}\n\n## Hiányzó magasságú játékosok\n\n${missingSections || 'Nincs hiányzó rekord.'}\n`;
 }
 
 function writeReports(audit) {
@@ -113,6 +137,10 @@ if (isCli) {
   if (audit.summary.players !== EXPECTED_PLAYER_COUNT) {
     throw new Error(`Váratlan játékosszám: ${audit.summary.players} (várt: ${EXPECTED_PLAYER_COUNT})`);
   }
+  if (audit.summary.registrationRecords !== EXPECTED_REGISTRATION_COUNT) {
+    throw new Error(`Váratlan klubregisztráció-szám: ${audit.summary.registrationRecords} (várt: ${EXPECTED_REGISTRATION_COUNT})`);
+  }
+  if (audit.clubs.length !== 12) throw new Error(`Váratlan klubszám: ${audit.clubs.length} (várt: 12)`);
   if (audit.summary.invalid !== 0) throw new Error(`Érvénytelen magasságok: ${audit.summary.invalid}`);
   if (audit.summary.known < BASELINE_HEIGHT_COUNT) {
     throw new Error(`A magasságlefedettség romlott: ${audit.summary.known}/${audit.summary.players}`);
