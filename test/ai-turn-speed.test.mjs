@@ -36,7 +36,8 @@ assert.match(ai, /const upperBound/);
 assert.match(ai, /strengthCache = new WeakMap/);
 assert.doesNotMatch(ai, /for \(const other of values\)/);
 
-assert.match(serviceWorker, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
+assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
+assert.match(serviceWorker, /SHA-256/);
 assert.match(serviceWorker, /async function networkFirst/);
 assert.match(serviceWorker, /freshCodeOrData/);
 
