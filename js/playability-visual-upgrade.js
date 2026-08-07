@@ -1,7 +1,7 @@
 /** Playability, pacing and match-presentation upgrades layered over the existing game. */
 
 import { ATTRIBUTES } from './data/players.js';
-import { AI, HUMAN, PHASE } from './engine.js';
+import { AI, Game, HUMAN, PHASE } from './engine.js';
 import { GameRuntime } from './game/game-runtime.js';
 import { UI, el } from './ui.js';
 
@@ -148,12 +148,24 @@ GameRuntime.prototype.start = function startWithSelectedLength(mode, difficulty)
     (sum, hand) => sum + (Array.isArray(hand) ? hand.length : 0),
     0,
   );
-  const targetCards = Math.min(selected.cards, cardsAlreadyDealt + game.deck.length);
-  const remainingCards = Math.max(0, targetCards - cardsAlreadyDealt);
-  if (game.deck.length > remainingCards) game.deck = game.deck.slice(-remainingCards);
-  game.matchDeckSize = targetCards;
+  game.matchDeckSize = Math.min(selected.cards, cardsAlreadyDealt + game.deck.length);
   game.matchLengthPreset = selected.id;
   return this.state();
+};
+
+const previousClassicNextRound = Game.prototype.nextRound;
+Game.prototype.nextRound = function nextRoundWithSelectedLength(...args) {
+  if (this.mode === 'classic' && this.phase === PHASE.REVEAL) {
+    const selected = MATCH_LENGTHS[this.matchLengthPreset] ?? selectedMatchLength();
+    const targetDuels = Math.max(1, Math.floor(selected.cards / 2));
+    if (this.round >= targetDuels) {
+      this.played = { [HUMAN]: null, [AI]: null };
+      this.attribute = null;
+      this.phase = PHASE.GAME_OVER;
+      return this;
+    }
+  }
+  return previousClassicNextRound.apply(this, args);
 };
 
 const matchSideName = (game, side) => {

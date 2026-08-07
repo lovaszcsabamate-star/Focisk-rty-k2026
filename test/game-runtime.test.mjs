@@ -240,4 +240,85 @@ assert.throws(() => runtime.playHumanCard('missing'), error => (
   error instanceof GameRuntimeError && error.code === 'NO_ACTIVE_GAME'
 ));
 
+// A rövid Klasszikus meccs nem vághatja le a motor pakliját, mert az megsértené
+// a mentési kártyamegmaradási invariánst. A meccshossz ehelyett a lezárási körszámot korlátozza.
+const matchLengthStorage = new Map([['fociskartyak:match-length:v1', 'quick']]);
+globalThis.localStorage = {
+  getItem: key => matchLengthStorage.has(key) ? matchLengthStorage.get(key) : null,
+  setItem: (key, value) => matchLengthStorage.set(key, String(value)),
+  removeItem: key => matchLengthStorage.delete(key),
+};
+await import('../js/playability-visual-upgrade.js?game-runtime-match-length-regression');
+const {
+  createSavedMatchSnapshot: createMatchLengthSnapshot,
+  hydrateGame: hydrateMatchLengthGame,
+  validateSavedMatch: validateMatchLengthSave,
+} = await import('../js/services/save-service.js');
+
+const playClassicDuel = activeRuntime => {
+  const activeGame = activeRuntime.game;
+  if (activeGame.chooser === HUMAN) {
+    const attribute = activeRuntime.availableAttributeKeys()[0];
+    activeRuntime.selectHumanAttribute(attribute);
+    const card = activeGame.availableCards(HUMAN, attribute)[0];
+    activeRuntime.commitHumanChooserCard(card.id);
+    return activeRuntime.playAiCard();
+  }
+  const choice = activeRuntime.chooseAiAttribute();
+  const card = activeGame.availableCards(HUMAN, choice.attribute)[0];
+  return activeRuntime.playHumanCard(card.id);
+};
+
+const assertMatchLength = (preset, targetDuels) => {
+  matchLengthStorage.set('fociskartyak:match-length:v1', preset);
+  const limited = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
+  limited.start(GAME_MODE.CLASSIC, 'medium');
+  assert.equal(
+    limited.game.deck.length,
+    limited.game.players.length - 10,
+    `${preset}: a rövid meccs nem dobhat el kártyákat a pakliból`,
+  );
+  const initialSnapshot = createMatchLengthSnapshot(limited.toSavePayload());
+  assert.equal(validateMatchLengthSave(initialSnapshot).ok, true, `${preset}: a kezdőmentésnek érvényesnek kell maradnia`);
+
+  for (let duel = 1; duel <= targetDuels; duel += 1) {
+    playClassicDuel(limited);
+    assert.equal(limited.game.phase, PHASE.REVEAL);
+    const midSnapshot = createMatchLengthSnapshot(limited.toSavePayload());
+    assert.equal(validateMatchLengthSave(midSnapshot).ok, true, `${preset}: a ${duel}. párbaj mentése érvényes`);
+    limited.advance();
+    assert.equal(
+      limited.game.isOver,
+      duel === targetDuels,
+      `${preset}: pontosan ${targetDuels} párbaj után kell lezárni a mérkőzést`,
+    );
+  }
+  return limited;
+};
+
+const quickLimited = assertMatchLength('quick', 10);
+assert.equal(quickLimited.game.round, 10);
+assertMatchLength('normal', 18);
+assertMatchLength('full', 26);
+
+// Mentés → új runtime → visszaállítás esetén is ugyanaz a 10 párbajos limit marad.
+matchLengthStorage.set('fociskartyak:match-length:v1', 'quick');
+const resumable = new GameRuntime({ players, rng: () => 0, aiFactory: deterministicAiFactory });
+resumable.start(GAME_MODE.CLASSIC, 'medium');
+for (let duel = 1; duel <= 3; duel += 1) {
+  playClassicDuel(resumable);
+  resumable.advance();
+}
+const resumeSnapshot = createMatchLengthSnapshot(resumable.toSavePayload());
+const resumed = new GameRuntime({ players, rng: () => 0.731, aiFactory: deterministicAiFactory });
+resumed.restore(resumeSnapshot, hydrateMatchLengthGame);
+assert.equal(resumed.game.round, 4);
+for (let duel = 4; duel <= 10; duel += 1) {
+  playClassicDuel(resumed);
+  resumed.advance();
+  assert.equal(resumed.game.isOver, duel === 10);
+}
+
+delete globalThis.localStorage;
+
 console.log('✓ DOM-mentes GameRuntime: Klasszikus, Büntetőpárbaj, AI-lépések, checkpoint-rollback, kártyakompatibilitás, mentés és visszaállítás rendben');
