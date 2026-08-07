@@ -6,7 +6,9 @@ const source = fs.readFileSync(new URL('../js/playability-visual-upgrade.js', im
 assert.match(source, /quick:[\s\S]*cards:\s*20/);
 assert.match(source, /normal:[\s\S]*cards:\s*36/);
 assert.match(source, /full:[\s\S]*cards:\s*52/);
-assert.match(source, /game\.deck\s*=\s*game\.deck\.slice\(-remainingCards\)/);
+assert.doesNotMatch(source, /game\.deck\s*=\s*game\.deck\.slice/);
+assert.match(source, /Game\.prototype\.nextRound/);
+assert.match(source, /targetDuels\s*=\s*Math\.max\(1, Math\.floor\(selected\.cards \/ 2\)\)/);
 assert.match(source, /Megnyert lapok:/);
 assert.match(source, /A kör győztese választ kategóriát a következő körben/);
 assert.match(source, /DAILY_FALLBACK_CATEGORY\s*=\s*'totalDismissals'/);
