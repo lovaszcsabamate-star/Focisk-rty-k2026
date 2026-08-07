@@ -5,6 +5,7 @@ import {
   validateNationalityAssignments,
 } from '../data/nationalities.js';
 import { KNOWN_FEDERATION_CODES } from '../data/federations.js';
+import { isValidHeightCm, MAX_VALID_HEIGHT_CM, MIN_VALID_HEIGHT_CM } from '../data/height.js';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const LEGACY_NATIONALITY_CODE = /^[A-Z]{2,3}(\s*\/\s*[A-Z]{2,3})*$/;
@@ -271,6 +272,10 @@ export function validatePlayerRecord(player, { index = null } = {}) {
     if (value == null) continue;
     if (typeof value !== 'number' || !Number.isFinite(value)) errors.push(`${prefix}: invalid ${field}`);
     else if (value < 0) errors.push(`${prefix}: negative ${field}`);
+  }
+
+  if (player?.heightCm != null && !isValidHeightCm(player.heightCm)) {
+    errors.push(`${prefix}: heightCm must be an integer between ${MIN_VALID_HEIGHT_CM} and ${MAX_VALID_HEIGHT_CM}`);
   }
 
   for (const field of ['dateOfBirth', 'nationality', 'countryCode', 'federation', 'federationCode', 'clubId', 'position']) {
