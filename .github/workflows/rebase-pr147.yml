@@ -1,0 +1,31 @@
+name: Rebase PR 147 onto main
+
+on:
+  push:
+    branches:
+      - fix/entrypoint-style-order
+    paths:
+      - .github/workflows/rebase-pr147.yml
+
+permissions:
+  contents: write
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/entrypoint-style-order
+          fetch-depth: 0
+      - name: Rebase onto current main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git rebase origin/main
+          git rm .github/workflows/rebase-pr147.yml
+          git commit -m "Távolítsd el az ideiglenes rebase workflow-t"
+          git push --force-with-lease origin HEAD:fix/entrypoint-style-order
