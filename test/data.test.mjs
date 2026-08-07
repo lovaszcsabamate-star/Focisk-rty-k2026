@@ -21,6 +21,80 @@ assert.equal(cards.filter(card => card.clubs.length > 1).length, 24);
 assert.equal(Object.values(payload.clubs).reduce((sum, count) => sum + count, 0), 464);
 assert.deepEqual(validatePlayers(cards), []);
 
+const partialCard = normaliseCard({
+  id: 'partial-1',
+  name: 'Hiányos Adatú Játékos',
+  club: 'Teszt FC',
+  birthDate: null,
+  stats: {
+    appearances: null,
+    starts: null,
+    goals: null,
+    minutes: null,
+    assists: null,
+    yellowCards: null,
+    redCards: null,
+    heightCm: null,
+    marketValue: null,
+  },
+});
+for (const field of [
+  'appearances', 'starts', 'goals', 'minutes', 'assists',
+  'yellowCards', 'redCards', 'heightCm', 'marketValue',
+]) {
+  assert.equal(partialCard.stats[field], null, `${field}: az ismeretlen érték null marad`);
+}
+assert.equal(partialCard.birthDate, null);
+assert.deepEqual(
+  validatePlayers([partialCard]),
+  [],
+  'az opcionális statisztika hiánya nem teheti használhatatlanná a teljes valós adatforrást',
+);
+
+const canonicalClubCard = normaliseCard({
+  id: 'canonical-club-1',
+  name: 'Kanonikus Klubmezős Játékos',
+  clubName: 'Kanonikus FC',
+  stats: { goals: null },
+});
+assert.equal(canonicalClubCard.club, 'Kanonikus FC', 'a kanonikus clubName mezőből visszafelé kompatibilis club mező készül');
+assert.deepEqual(
+  validatePlayers([canonicalClubCard]),
+  [],
+  'a kanonikus játékosmodell clubName mezője önmagában is elegendő klubazonosító',
+);
+
+assert.match(
+  validatePlayers([{ id: '', name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
+  /missing id, name or club/,
+);
+assert.match(
+  validatePlayers([{ id: '   ', name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
+  /missing id, name or club/,
+  'a csak szóközt tartalmazó azonosító nem érvényes',
+);
+for (const placeholder of ['-', 'n/a', 'null', 'ismeretlen']) {
+  assert.match(
+    validatePlayers([{ id: placeholder, name: 'Hibás', club: 'Teszt FC' }]).join('\n'),
+    /missing id, name or club/,
+    `a helykitöltő azonosító nem lehet játszható: ${placeholder}`,
+  );
+}
+assert.match(
+  validatePlayers([null]).join('\n'),
+  /valid card object is required/,
+  'a kártyaobjektum továbbra is kötelező',
+);
+assert.match(
+  validatePlayers([
+    { id: 'duplicate-1', name: 'Első', club: 'Teszt FC' },
+    { id: 'duplicate-1', name: 'Második', club: 'Másik FC' },
+  ]).join('\n'),
+  /duplicate card ids/,
+  'a játékosazonosítók továbbra sem lehetnek duplikáltak',
+);
+assert.match(validatePlayers(null).join('\n'), /card array is required/);
+
 for (const card of cards) {
   assert.ok(Array.isArray(card.clubs) && card.clubs.length >= 1, `${card.id}: clubs`);
   assert.equal(card.club, card.clubs.join(' / '), `${card.id}: combined club label`);
@@ -72,4 +146,4 @@ assert.equal(
 assert.equal(cardPlayerDisplayName({ name: 'PESIC... ALEKSANDAR' }), 'Pesic Aleksandar');
 assert.ok(cards.every(card => !cardPlayerDisplayName(card).includes('...')));
 
-console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, konzisztens és olvasható kártyanevek');
+console.log('✓ Teljes NB I-adatbázis: 440 személy / 464 klubregisztráció, opcionális null értékek, kötelező azonosítók és olvasható kártyanevek');
