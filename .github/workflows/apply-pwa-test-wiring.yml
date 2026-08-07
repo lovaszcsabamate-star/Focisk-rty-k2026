@@ -24,6 +24,40 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Apply audit-discovered runtime dependencies
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          sw = Path('sw.js')
+          source = sw.read_text()
+          old = """  './js/tournament-rapid-upgrade.js',
+  './js/tournament-flow-upgrade.js',
+  './js/tournament-experience-v2.js',
+  './js/tournament/tournament-experience-v2-presets.js',"""
+          new = """  './js/tournament-rapid-upgrade.js',
+  './js/tournament-flow-upgrade.js',
+  './js/tournament/tournament-flow-runtime.js',
+  './js/tournament/tournament-flow-shared.js',
+  './js/tournament/tournament-flow-wizard.js',
+  './js/tournament-experience-v2.js',
+  './js/tournament/tournament-experience-v2-runtime.js',
+  './js/tournament/tournament-experience-v2-shared.js',
+  './js/tournament/tournament-experience-v2-wizard.js',
+  './js/tournament/tournament-experience-v2-presets.js',"""
+          if old not in source:
+              raise SystemExit('A Torna CORE beszúrási pont nem található.')
+          sw.write_text(source.replace(old, new, 1))
+
+          test = Path('test/pwa-cache.test.mjs')
+          source = test.read_text()
+          old_origin = "const origin = 'https://example.test/';"
+          new_origin = "const origin = 'https://example.test';"
+          if old_origin not in source:
+              raise SystemExit('A PWA mock-origin beszúrási pont nem található.')
+          test.write_text(source.replace(old_origin, new_origin, 1))
+          PY
       - name: Verify PWA implementation
         id: verify
         shell: bash
@@ -46,7 +80,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .pwa-diagnostic.txt
+          git add .pwa-diagnostic.txt sw.js test/pwa-cache.test.mjs
           git commit -m "Rögzítsd a PWA ellenőrzés diagnosztikáját"
           git push origin HEAD:fix/atomic-pwa-cache
           exit 1
@@ -74,10 +108,10 @@ jobs:
           source = static.read_text()
           old = "assert.match(serviceWorker, /fociskartyak-2026-v30/);"
           new = """assert.match(serviceWorker, /const CORE_SHELL/);
-          assert.match(serviceWorker, /const OPTIONAL_ASSETS/);
-          assert.match(serviceWorker, /cache\\.addAll\\(CORE_SHELL\\)/);
-          assert.match(serviceWorker, /SHA-256/);
-          assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
+assert.match(serviceWorker, /const OPTIONAL_ASSETS/);
+assert.match(serviceWorker, /cache\\.addAll\\(CORE_SHELL\\)/);
+assert.match(serviceWorker, /SHA-256/);
+assert.doesNotMatch(serviceWorker, /fociskartyak-2026-v\\d+/);"""
           if old not in source:
               raise SystemExit('A régi service-worker verzióőr nem található a static tesztben.')
           static.write_text(source.replace(old, new, 1))
@@ -91,6 +125,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/apply-pwa-test-wiring.yml
-          git add package.json test/static.test.mjs
+          git add sw.js test/pwa-cache.test.mjs package.json test/static.test.mjs
+          git add -u .pwa-diagnostic.txt || true
           git commit -m "Kösd be az atomikus PWA ellenőrzéseit"
           git push origin HEAD:fix/atomic-pwa-cache
