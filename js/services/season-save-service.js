@@ -76,6 +76,28 @@ export const SEASON_SAVE_STATUS = Object.freeze({
   PARTIAL_RESTORE: 'PARTIAL_RESTORE',
 });
 
+export const SEASON_SAVE_WRITE_STATUS = Object.freeze({
+  OK: 'OK',
+  NO_SNAPSHOT: 'NO_SNAPSHOT',
+  VALIDATION_FAILED: 'VALIDATION_FAILED',
+  SERIALIZATION_FAILED: 'SERIALIZATION_FAILED',
+  STORAGE_WRITE_FAILED: 'STORAGE_WRITE_FAILED',
+});
+
+const seasonSaveWriteResult = ({
+  ok,
+  code,
+  message = '',
+  errors = [],
+  serializedLength = null,
+}) => Object.freeze({
+  ok: Boolean(ok),
+  code,
+  message: String(message || ''),
+  errors: Object.freeze(errors.map(error => String(error))),
+  serializedLength: Number.isInteger(serializedLength) ? serializedLength : null,
+});
+
 const seasonSaveDeriveSeasonId = value => {
   const text = seasonSaveAsText(value);
   if (seasonSaveIdPattern.test(text)) return text;
@@ -238,10 +260,25 @@ export function createSeasonSaveService({
     return validation.ok && validation.value ? validation.value : null;
   };
 
-  const write = payload => {
+  let lastWriteResult = seasonSaveWriteResult({
+    ok: true,
+    code: SEASON_SAVE_WRITE_STATUS.OK,
+  });
+  const rememberWriteResult = result => {
+    lastWriteResult = seasonSaveWriteResult(result);
+    return lastWriteResult;
+  };
+
+  const writeDetailed = payload => {
     try {
       const snapshot = createSavedMatchSnapshot(payload, now);
-      if (!snapshot) return false;
+      if (!snapshot) {
+        return rememberWriteResult({
+          ok: false,
+          code: SEASON_SAVE_WRITE_STATUS.NO_SNAPSHOT,
+          message: 'A lezárt vagy hiányzó játékállapotból nem készíthető mentés.',
+        });
+      }
       const compactSnapshot = seasonSaveCompactClassicSnapshot(snapshot);
       const context = getContext?.() ?? {};
       const scoped = {
@@ -250,20 +287,52 @@ export function createSeasonSaveService({
         competitionId: seasonSaveAsText(payload?.competitionId || context.competitionId) || null,
         seasonId: seasonSaveDeriveSeasonId(payload?.seasonId || context.seasonId) || null,
       };
-      return Boolean(storage?.writeJson?.(APP_STORAGE_KEYS.savedMatch, seasonSaveClone(scoped)));
+      const cloned = seasonSaveClone(scoped);
+      const serializedLength = JSON.stringify(cloned).length;
+      if (!storage?.writeJson?.(APP_STORAGE_KEYS.savedMatch, cloned)) {
+        const result = rememberWriteResult({
+          ok: false,
+          code: SEASON_SAVE_WRITE_STATUS.STORAGE_WRITE_FAILED,
+          message: 'A böngésző tárhelye nem fogadta el a mentést.',
+          serializedLength,
+        });
+        console.error('[save] A szezonhoz kötött játékállás tárhelyírása sikertelen:', result);
+        return result;
+      }
+      return rememberWriteResult({
+        ok: true,
+        code: SEASON_SAVE_WRITE_STATUS.OK,
+        serializedLength,
+      });
     } catch (error) {
-      console.warn('[save] A szezonhoz kötött játékállás nem menthető:', error);
-      return false;
+      const validationErrors = Array.isArray(error?.errors) ? error.errors : [];
+      const result = rememberWriteResult({
+        ok: false,
+        code: validationErrors.length
+          ? SEASON_SAVE_WRITE_STATUS.VALIDATION_FAILED
+          : SEASON_SAVE_WRITE_STATUS.SERIALIZATION_FAILED,
+        message: error?.message ?? 'Ismeretlen mentési hiba.',
+        errors: validationErrors,
+      });
+      console.error('[save] A szezonhoz kötött játékállás nem menthető:', {
+        code: result.code,
+        message: result.message,
+        errors: result.errors,
+      });
+      return result;
     }
   };
 
+  const write = payload => writeDetailed(payload).ok;
+  const inspectLastWrite = () => lastWriteResult;
   const clear = () => Boolean(storage?.remove?.(APP_STORAGE_KEYS.savedMatch));
-  return Object.freeze({ inspect, read, write, clear });
+  return Object.freeze({ inspect, read, write, writeDetailed, inspectLastWrite, clear });
 }
 
 export const hydrateSeasonGame = (...args) => hydrateGame(...args);
 export const seasonSaveService = createSeasonSaveService();
 export const inspectSeasonSavedMatch = () => seasonSaveService.inspect();
+export const inspectLastSeasonSaveWrite = () => seasonSaveService.inspectLastWrite();
 export const readSeasonSavedMatch = () => seasonSaveService.read();
 export const writeSeasonSavedMatch = payload => seasonSaveService.write(payload);
 export const clearSeasonSavedMatch = () => seasonSaveService.clear();
