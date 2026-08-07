@@ -51,10 +51,21 @@ assert.equal(raw.version, 2, 'A meglévő játékmenet-mentési séma nem válto
 assert.equal(raw.databaseId, context.databaseId);
 assert.equal(raw.competitionId, context.competitionId);
 assert.equal(raw.seasonId, context.seasonId);
-assert.ok(
-  raw.game.players.every(card => Object.keys(card).length === 1 && typeof card.id === 'string'),
-  'a Klasszikus mentés állandó játékoslistája csak kártyahivatkozásokat tartalmazhat',
+const isCardReference = card => card == null
+  || (Object.keys(card).length === 1 && typeof card.id === 'string');
+const assertReferenceArray = (cards, label) => assert.ok(
+  Array.isArray(cards) && cards.every(isCardReference),
+  `${label}: a Klasszikus mentés csak kártyahivatkozásokat tartalmazhat`,
 );
+assertReferenceArray(raw.game.players, 'players');
+assertReferenceArray(raw.game.deck, 'deck');
+assertReferenceArray(raw.game.hands.human, 'hands.human');
+assertReferenceArray(raw.game.hands.ai, 'hands.ai');
+assertReferenceArray(raw.game.won.human, 'won.human');
+assertReferenceArray(raw.game.won.ai, 'won.ai');
+assertReferenceArray(raw.game.pot, 'pot');
+assert.ok(isCardReference(raw.game.played.human));
+assert.ok(isCardReference(raw.game.played.ai));
 assert.equal(service.read().seasonId, '2025-26');
 assert.equal(service.inspect().code, SEASON_SAVE_STATUS.OK);
 assert.equal(service.inspect().hasStoredValue, true);
@@ -65,7 +76,7 @@ const quotaStorage = createStorageService({
   getItem: key => quotaMemory.has(key) ? quotaMemory.get(key) : null,
   setItem: (key, value) => {
     const text = String(value);
-    if (text.length > 300_000) throw new Error('QuotaExceededError');
+    if (text.length > 100_000) throw new Error('QuotaExceededError');
     quotaMemory.set(key, text);
   },
   removeItem: key => quotaMemory.delete(key),
@@ -81,8 +92,8 @@ assert.equal(
   'a normalizált Klasszikus mentésnek a mobil WebView szűkebb tárhelykeretébe is bele kell férnie',
 );
 assert.ok(
-  quotaMemory.get(APP_STORAGE_KEYS.savedMatch).length < 300_000,
-  'a teljes játékoskártyák nem ismétlődhetnek a mentés állandó játékoslistájában',
+  quotaMemory.get(APP_STORAGE_KEYS.savedMatch).length < 100_000,
+  'a teljes játékoskártyák nem ismétlődhetnek a Klasszikus mentés egyik aktív zónájában sem',
 );
 
 const wrongSeasonService = createSeasonSaveService({
