@@ -169,12 +169,28 @@ export function createQuickMatchStorageService({
     return Object.freeze({
       mode: quickMatchStorageMode(launch.mode),
       difficulty: quickMatchStorageDifficulty(launch.difficulty),
+      createdAt: quickMatchStorageText(launch.createdAt) || null,
     });
   };
 
+  /**
+   * A launch marker csak akkor fogyhat el, amikor az új Session már sikeresen
+   * létrehozta és elmentette a mérkőzést. Így process-kill vagy reload közben
+   * az indítás nem vész el félúton.
+   */
+  const acknowledgeLaunch = expectedLaunch => {
+    const current = peekLaunch();
+    if (!current) return true;
+    const expectedCreatedAt = quickMatchStorageText(expectedLaunch?.createdAt);
+    if (expectedCreatedAt && current.createdAt && expectedCreatedAt !== current.createdAt) return false;
+    return Boolean(storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY));
+  };
+
+  const clearLaunch = () => Boolean(storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY));
+
   const consumeLaunch = () => {
     const launch = peekLaunch();
-    storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY);
+    if (launch) acknowledgeLaunch(launch);
     return launch;
   };
 
@@ -184,10 +200,22 @@ export function createQuickMatchStorageService({
     return true;
   };
 
-  return Object.freeze({ readSetup, saveSetup, stage, peekLaunch, consumeLaunch, clear });
+  return Object.freeze({
+    readSetup,
+    saveSetup,
+    stage,
+    peekLaunch,
+    acknowledgeLaunch,
+    clearLaunch,
+    consumeLaunch,
+    clear,
+  });
 }
 
 export const quickMatchStorageService = createQuickMatchStorageService();
 export const readQuickMatchSetup = (...args) => quickMatchStorageService.readSetup(...args);
 export const stageQuickMatch = (...args) => quickMatchStorageService.stage(...args);
+export const peekQuickMatchLaunch = (...args) => quickMatchStorageService.peekLaunch(...args);
+export const acknowledgeQuickMatchLaunch = (...args) => quickMatchStorageService.acknowledgeLaunch(...args);
+export const clearQuickMatchLaunch = (...args) => quickMatchStorageService.clearLaunch(...args);
 export const consumeQuickMatchLaunch = (...args) => quickMatchStorageService.consumeLaunch(...args);
