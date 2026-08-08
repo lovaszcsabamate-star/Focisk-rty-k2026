@@ -74,9 +74,12 @@ const tournamentLineup = (humanClub, aiClub, seed) => {
   return [...human, ...ai];
 };
 
-const choosePlayableMove = game => {
-  const keys = game.availableAttributeKeys();
-  assert.ok(keys.length > 0, `Nincs közös játszható kategória a(z) ${game.round}. körben.`);
+const choosePlayableMove = (game, { preferHeight = false } = {}) => {
+  const available = game.availableAttributeKeys();
+  assert.ok(available.length > 0, `Nincs közös játszható kategória a(z) ${game.round}. körben.`);
+  const keys = preferHeight && available.includes('heightCm')
+    ? ['heightCm', ...available.filter(key => key !== 'heightCm')]
+    : available;
   const chooser = game.chooser;
   const other = chooser === HUMAN ? AI : HUMAN;
 
@@ -89,10 +92,10 @@ const choosePlayableMove = game => {
     if (!chooserCards.length || !otherCards.length) continue;
     fallback ??= { key, chooserCard: chooserCards[0], otherCard: otherCards[0] };
     for (const left of chooserCards) {
-      const leftValue = game.constructor === Game ? null : null;
       for (const right of otherCards) {
-        // A motor maga végzi az összehasonlítást; itt elég az eltérő statisztikai objektumot keresni.
-        if (JSON.stringify(left.stats ?? {}) !== JSON.stringify(right.stats ?? {})) {
+        const leftValue = left?.stats?.[key] ?? left?.[key];
+        const rightValue = right?.stats?.[key] ?? right?.[key];
+        if (leftValue != null && rightValue != null && leftValue !== rightValue) {
           return { key, chooserCard: left, otherCard: right };
         }
       }
@@ -102,14 +105,16 @@ const choosePlayableMove = game => {
   return fallback;
 };
 
-const playToCompletion = (GameClass, cards, rng, label) => {
+const playToCompletion = (GameClass, cards, rng, label, { preferHeight = false } = {}) => {
   const game = new GameClass({ players: cards, rng });
-  const maximumSteps = GameClass === PenaltyGame ? 240 : 120;
+  const maximumSteps = GameClass === PenaltyGame ? 260 : 140;
   let steps = 0;
+  let heightDuels = 0;
   while (!game.isOver && steps < maximumSteps) {
     steps += 1;
     if (game.phase === PHASE.CHOOSE_ATTRIBUTE) {
-      const move = choosePlayableMove(game);
+      const move = choosePlayableMove(game, { preferHeight: preferHeight && game.log.length === 0 });
+      if (move.key === 'heightCm') heightDuels += 1;
       game.chooseAttribute(move.key, move.chooserCard.id);
       const other = game.chooser === HUMAN ? AI : HUMAN;
       const eligible = game.availableCards(other, move.key);
@@ -133,32 +138,57 @@ const playToCompletion = (GameClass, cards, rng, label) => {
     assert.fail(`${label}: ismeretlen vagy beragadt játékfázis: ${game.phase}`);
   }
   assert.equal(game.isOver, true, `${label}: ${maximumSteps} lépés után sem ért véget a mérkőzés.`);
-  return { rounds: Number(game.round) || 0, log: game.log.length };
+  assert.ok([HUMAN, AI, 'tie'].includes(game.result().winner), `${label}: a lezárt eredmény győztese érvénytelen.`);
+  return { rounds: Number(game.round) || 0, log: game.log.length, steps, heightDuels };
 };
 
 let classicMatches = 0;
 let penaltyMatches = 0;
+let totalSteps = 0;
+let heightDuels = 0;
 let longestClassic = { label: '', rounds: 0 };
 let longestPenalty = { label: '', rounds: 0 };
 
 for (let left = 0; left < clubs.length; left += 1) {
   for (let right = left + 1; right < clubs.length; right += 1) {
-    for (let seed = 1; seed <= 3; seed += 1) {
+    for (let seed = 1; seed <= 5; seed += 1) {
       const humanClub = clubs[left];
       const aiClub = clubs[right];
       const label = `${humanClub} – ${aiClub} · seed ${seed}`;
       const cards = tournamentLineup(humanClub, aiClub, seed);
-      const classic = playToCompletion(Game, cards, makeRng(seed * 101 + left * 17 + right), `${label} · klasszikus`);
+      const classic = playToCompletion(
+        Game,
+        cards,
+        makeRng(seed * 101 + left * 17 + right),
+        `${label} · klasszikus`,
+        { preferHeight: seed === 1 },
+      );
       classicMatches += 1;
+      totalSteps += classic.steps;
+      heightDuels += classic.heightDuels;
       if (classic.rounds > longestClassic.rounds) longestClassic = { label, rounds: classic.rounds };
 
-      const penalties = playToCompletion(PenaltyGame, cards, makeRng(seed * 211 + left * 23 + right), `${label} · büntető`);
+      const penalties = playToCompletion(
+        PenaltyGame,
+        cards,
+        makeRng(seed * 211 + left * 23 + right),
+        `${label} · büntető`,
+        { preferHeight: seed === 2 },
+      );
       penaltyMatches += 1;
+      totalSteps += penalties.steps;
+      heightDuels += penalties.heightDuels;
       if (penalties.rounds > longestPenalty.rounds) longestPenalty = { label, rounds: penalties.rounds };
     }
   }
 }
 
-console.log(`✓ Torna meccs liveness: ${classicMatches} klasszikus és ${penaltyMatches} büntető NB I párosítás végesen lefutott.`);
+assert.equal(classicMatches, 330, 'A Klasszikus stressztesztnek 66 klubpárt × 5 seedet kell lefednie.');
+assert.equal(penaltyMatches, 330, 'A Büntető stressztesztnek 66 klubpárt × 5 seedet kell lefednie.');
+assert.ok(totalSteps >= 5000, `A liveness stresszteszt túl kevés állapotátmenetet futtatott: ${totalSteps}.`);
+assert.ok(heightDuels > 0, 'A Magasabb játékos kategória egyetlen stresszelt mérkőzésben sem volt játszható.');
+
+console.log(`✓ Meccs-flow liveness: ${classicMatches} klasszikus és ${penaltyMatches} büntető NB I párosítás végesen lefutott.`);
+console.log(`  Automatikus állapotátmenetek: ${totalSteps} · Magasabb játékos párbajok: ${heightDuels}`);
 console.log(`  Leghosszabb klasszikus: ${longestClassic.rounds} kör · ${longestClassic.label}`);
 console.log(`  Leghosszabb büntető: ${longestPenalty.rounds} párbaj · ${longestPenalty.label}`);
