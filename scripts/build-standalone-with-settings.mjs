@@ -85,7 +85,8 @@ if (standaloneRecoveryPlayers.length) {
 }
 `;
 const tournamentInlineBundle = `
- /* ===== Torna mód + Beta Stabilization 1.2 recovery · önálló IIFE ===== */
+ /* ===== Torna mód · önálló IIFE ===== */
+ /* Beta Stabilization 1.2 session recovery ugyanebben a tranzakciós környezetben fut. */
  (() => {
  ${tournamentSource}
  ${sessionRecoveryBootstrap}
