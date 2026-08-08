@@ -24,6 +24,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Production dependency high-severity gate
+        run: npm audit --omit=dev --audit-level=high
       - name: Release metadata and clean diff
         run: |
           echo "HEAD=$(git rev-parse HEAD)"
@@ -93,11 +95,20 @@ jobs:
         run: |
           WEBVIEW=android/app/src/main/assets/public/index.html
           test -s "$WEBVIEW"
-          grep -q "Magasabb játékos" "$WEBVIEW"
-          grep -q "Tournament Lineup 1.1" "$WEBVIEW"
-          grep -q "android-startup" "$WEBVIEW"
-          ! grep -Eiq '<script[^>]+src=' "$WEBVIEW"
-          ! grep -Eiq '<script[^>]+type=["'"']module["'"']' "$WEBVIEW"
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          html = Path('android/app/src/main/assets/public/index.html').read_text(encoding='utf-8')
+          for marker in ('Magasabb játékos', 'Tournament Lineup 1.1', 'android-startup'):
+              if marker not in html:
+                  raise SystemExit(f'Hiányzó Android WebView marker: {marker}')
+          if re.search(r'<script\b[^>]*\bsrc=', html, re.IGNORECASE):
+              raise SystemExit('Külső script src maradt az Android standalone bundle-ben.')
+          if re.search(r'<script\b[^>]*\btype=["\']module["\']', html, re.IGNORECASE):
+              raise SystemExit('Module script maradt az Android standalone bundle-ben.')
+          print('Android WebView standalone asset smoke: OK')
+          PY
       - name: Gradle debug checks and APK
         working-directory: android
         run: |
