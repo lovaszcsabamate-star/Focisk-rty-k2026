@@ -200,16 +200,24 @@ export function createRoundController({
       if (state().busy) return;
       setBusy(true);
       ui.dom?.picker?.replaceChildren?.();
-      const { reshuffled } = runtime.advance();
-      const afterAdvance = state();
-      if (afterAdvance.mode === 'penalties') {
-        if (reshuffled) ui.say(getBanterLine('reshuffle'));
-      } else {
-        ui.say(getIdleLine());
+      try {
+        const { reshuffled } = runtime.advance();
+        const afterAdvance = state();
+        if (afterAdvance.mode === 'penalties') {
+          if (reshuffled) ui.say(getBanterLine('reshuffle'));
+        } else {
+          ui.say(getIdleLine());
+        }
+        setBusy(false);
+        if (afterAdvance.game?.isOver) actions.showGameOver();
+        else beginRound();
+      } catch (error) {
+        console.error('[round] A következő kör indítása megszakadt:', error);
+        setBusy(false);
+        ui.showToast('A következő kör indítása megakadt. A játéknézetet helyreállítottuk.', 'error', 3600);
+        actions.saveCurrentGame();
+        restoreSavedView();
       }
-      setBusy(false);
-      if (afterAdvance.game?.isOver) actions.showGameOver();
-      else beginRound();
     }, { once: true });
     ui.dom?.picker?.replaceChildren?.(button);
     actions.saveCurrentGame();

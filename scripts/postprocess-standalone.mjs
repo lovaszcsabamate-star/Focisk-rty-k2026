@@ -21,6 +21,7 @@ const experienceTournamentPaths = [
   path.join(ROOT, 'js/tournament/tournament-experience-v2-shared.js'),
   path.join(ROOT, 'js/tournament/tournament-experience-v2-wizard.js'),
   path.join(ROOT, 'js/tournament/tournament-experience-v2-runtime.js'),
+  path.join(ROOT, 'js/tournament/tournament-ui-improvement.js'),
   path.join(ROOT, 'js/tournament-experience-v2.js'),
   path.join(ROOT, 'js/tournament/tournament-experience-v2-presets.js'),
 ];
