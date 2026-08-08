@@ -1,0 +1,60 @@
+name: Tournament lineup PWA patch
+
+on:
+  push:
+    branches: [feature/tournament-lineup-1]
+    paths:
+      - '.github/workflows/lineup-pwa-patch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/tournament-lineup-1
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Add lineup modules to PWA CORE shell
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const path = 'sw.js';
+          let source = fs.readFileSync(path, 'utf8');
+          const statePath = "  './js/tournament/tournament-lineup-state.js',\n";
+          const controllerPath = "  './js/tournament/tournament-lineup-controller.js',\n";
+          if (!source.includes(statePath)) {
+            source = source.replace(
+              "  './js/tournament/tournament-domain.js',\n",
+              "  './js/tournament/tournament-domain.js',\n" + statePath,
+            );
+          }
+          if (!source.includes(controllerPath)) {
+            source = source.replace(
+              "  './js/tournament-mode.js',\n",
+              "  './js/tournament-mode.js',\n" + controllerPath,
+            );
+          }
+          fs.writeFileSync(path, source);
+          NODE
+          node --check sw.js
+          node scripts/audit-pwa-shell.mjs
+      - name: Commit PWA shell update
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sw.js
+          if git diff --cached --quiet; then
+            echo 'A lineup modulok már a PWA CORE shell részei.'
+          else
+            git commit -m 'Cache tournament lineup modules for offline play'
+            git push origin HEAD:feature/tournament-lineup-1
+          fi
