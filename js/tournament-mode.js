@@ -29,6 +29,7 @@ import {
   tournamentTeamById,
 } from './tournament/tournament-domain.js';
 import { tournamentStorageService } from './services/tournament-storage-service.js';
+import { storedTournamentLineup } from './tournament/tournament-lineup-state.js';
 import { UI } from './ui.js';
 
 const runtime = { observer: null, resultPanels: new WeakSet(), lastMenuPanel: null };
@@ -382,9 +383,12 @@ function showTournamentCenter(inputState = tournamentStorageService.read(), retu
   const opponent = tournamentTeamById(state, opponentId);
   const progress = tournamentProgress(state);
   const round = nextMatch ? state.rounds.find(item => item.matches?.some(match => match.id === nextMatch.id)) : null;
+  const nextMatchMode = nextMatch?.status === TOURNAMENT_MATCH_STATUS.TIEBREAK ? TOURNAMENT_MATCH_MODE.PENALTIES : state.matchMode;
+  const humanCards = human ? resolveQuickMatchSelection(players(), human.selection) : [];
+  const hasLastLineup = storedTournamentLineup(state, 'last', humanCards).length === 11;
   const node = panel('tournament-center');
   node.innerHTML = `<div class="tournament-heading"><div><p class="eyebrow">${escapeHtml(formatLabel(state.format))} · ${escapeHtml(matchModeLabel(state.matchMode))}</p><h1>${escapeHtml(state.name)}</h1></div><span class="tournament-phase">${escapeHtml(phaseLabel(state))}</span></div><div class="tournament-progress"><span style="width:${progress.percent}%"></span></div><p class="tournament-progress-label">${progress.completed} mérkőzés lejátszva · ${progress.percent}%</p>
-    ${nextMatch ? `<section class="tournament-next-match"><p>${escapeHtml(round?.label || 'Következő mérkőzés')}</p><div class="tournament-versus"><div>${teamMark(human)}<strong>${escapeHtml(human?.label)}</strong></div><b>VS</b><div>${teamMark(opponent)}<strong>${escapeHtml(opponent?.label)}</strong></div></div><button class="btn tournament-play" id="tournament-play">▶ Keret összeállítása</button></section>` : '<p class="tournament-warning">Nincs lejátszható saját mérkőzés.</p>'}
+    ${nextMatch ? `<section class="tournament-next-match"><p>${escapeHtml(round?.label || 'Következő mérkőzés')}</p><div class="tournament-versus"><div>${teamMark(human)}<strong>${escapeHtml(human?.label)}</strong></div><b>VS</b><div>${teamMark(opponent)}<strong>${escapeHtml(opponent?.label)}</strong></div></div><div class="tournament-next-match-meta" aria-label="Következő mérkőzés részletei"><span>${escapeHtml(matchModeLabel(nextMatchMode))}</span>${hasLastLineup ? '<span class="is-ready">✓ Legutóbbi keret elérhető</span>' : '<span>Új keret összeállítása</span>'}</div><button class="btn tournament-play" id="tournament-play">▶ Keret összeállítása</button></section>` : '<p class="tournament-warning">Nincs lejátszható saját mérkőzés.</p>'}
     <nav class="tournament-tabs"><button class="is-active" data-tab="overview">Áttekintés</button><button data-tab="results">Eredmények</button>${state.groups?.length || state.format === TOURNAMENT_FORMAT.LEAGUE ? '<button data-tab="table">Tabella</button>' : ''}${state.rounds.some(item => item.stage === 'knockout') ? '<button data-tab="bracket">Tornaág</button>' : ''}<button data-tab="players">Játékos statisztikák</button></nav>
     <div class="tournament-tab-content" data-content="overview"><h2>Saját csapat</h2><div class="tournament-selected-team">${teamMark(human)}<div><strong>${escapeHtml(human?.label)}</strong><small>${escapeHtml(phaseLabel(state))}</small></div></div><h2>Leszimulált és lejátszott mérkőzések</h2>${recentResults(state)}</div>
     <div class="tournament-tab-content" data-content="results" hidden>${recentResults(state)}</div><div class="tournament-tab-content" data-content="table" hidden>${tables(state)}</div><div class="tournament-tab-content" data-content="bracket" hidden>${bracket(state)}</div><div class="tournament-tab-content" data-content="players" hidden>${playerStatsView(state)}</div>

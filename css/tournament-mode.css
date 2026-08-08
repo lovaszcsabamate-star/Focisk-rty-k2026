@@ -668,3 +668,8 @@
     outline-offset: 2px;
   }
 }
+
+
+/* Tournament Lineup 1.1 — next match readiness */
+.tournament-next-match-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:12px 0 2px}.tournament-next-match-meta span{min-height:32px;display:inline-flex;align-items:center;padding:5px 9px;border:1px solid rgba(255,239,183,.16);border-radius:999px;background:rgba(255,255,255,.045);color:#d9c9a7;font-size:.78rem;font-weight:850}.tournament-next-match-meta .is-ready{border-color:rgba(93,217,123,.48);background:rgba(61,174,92,.16);color:#d4ffdc}
+@media(max-width:420px){.tournament-next-match-meta{display:grid;grid-template-columns:1fr}.tournament-next-match-meta span{justify-content:center}}
