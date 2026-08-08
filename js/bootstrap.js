@@ -10,6 +10,7 @@ import {
   readDeckSelection,
   readQuickMatchSetup,
 } from './deck-selection.js';
+import { reconcileSessionRecovery } from './services/session-recovery-service.js';
 import { installUiEnhancementPipeline } from './ui/ui-enhancement-pipeline.js';
 
 const LANGUAGE_STORAGE_KEY = 'fociskartyak:language:v1';
@@ -56,6 +57,16 @@ try {
     validation,
     statistics,
   } = loaded;
+
+  // A félbemaradt Torna → Quick Match indítás csak az adatbázis betöltése után
+  // validálható teljesen. Minden egyszer használatos staginget itt rendezünk még
+  // azelőtt, hogy a pakli- és mérkőzéspayload felépülne.
+  const recoveryReport = reconcileSessionRecovery(playablePayload.players);
+  globalThis.__FOCISKARTYAK_SESSION_RECOVERY__ = recoveryReport;
+  if (recoveryReport.changed || recoveryReport.issues.length) {
+    console.info('[recovery] Session reconciliation:', recoveryReport);
+  }
+
   const quickMatchSetup = readQuickMatchSetup(playablePayload.players);
   const deckSelection = quickMatchSetup?.playerSelection ?? readDeckSelection(playablePayload.players);
   const quickMatch = applyStagedTournamentLineup(buildQuickMatchPayload(
