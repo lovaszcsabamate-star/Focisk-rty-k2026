@@ -181,17 +181,17 @@
       "maxChoiceHeight": 250,
       "rects": {
         "felt": {
-          "top": 173,
+          "top": 169,
           "bottom": 458,
           "left": 8,
           "right": 382
         },
         "prompt": {
-          "top": 258,
-          "bottom": 305
+          "top": 254,
+          "bottom": 301
         },
         "duel": {
-          "top": 309,
+          "top": 305,
           "bottom": 449,
           "left": 17,
           "right": 373
@@ -229,17 +229,17 @@
       "maxChoiceHeight": 256,
       "rects": {
         "felt": {
-          "top": 169,
+          "top": 173,
           "bottom": 451,
           "left": 8,
           "right": 404
         },
         "prompt": {
-          "top": 254,
-          "bottom": 303
+          "top": 258,
+          "bottom": 307
         },
         "duel": {
-          "top": 307,
+          "top": 311,
           "bottom": 442,
           "left": 17,
           "right": 395
@@ -277,17 +277,17 @@
       "maxChoiceHeight": 256,
       "rects": {
         "felt": {
-          "top": 172,
+          "top": 169,
           "bottom": 451,
           "left": 8,
           "right": 472
         },
         "prompt": {
-          "top": 257,
-          "bottom": 290
+          "top": 254,
+          "bottom": 287
         },
         "duel": {
-          "top": 294,
+          "top": 291,
           "bottom": 442,
           "left": 17,
           "right": 463

@@ -1384,6 +1384,132 @@
         "season": "2025/26"
       },
       {
+        "id": "hlsz-manzanara-height-2026-08-08",
+        "clubId": "dvsc",
+        "clubName": "DVSC",
+        "name": "HLSZ – Debrecen keret / Manzanara Fran",
+        "url": "https://hlsz.hu/debrecen",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "hlsz-prosser-height-2026-08-08",
+        "clubId": "kolorcity-kazincbarcika-sc",
+        "clubName": "Kolorcity Kazincbarcika SC",
+        "name": "HLSZ – Prosser Dániel nyilvános játékosadat",
+        "url": "https://hlsz.hu/tatabanya",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-haroyan-height-2026-08-08",
+        "clubId": "kolorcity-kazincbarcika-sc",
+        "clubName": "Kolorcity Kazincbarcika SC",
+        "name": "Transfermarkt – Varazdat Haroyan",
+        "url": "https://www.transfermarkt.com/varazdat-haroyan/profil/spieler/155423",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-eleke-height-2026-08-08",
+        "clubId": "kolorcity-kazincbarcika-sc",
+        "clubName": "Kolorcity Kazincbarcika SC",
+        "name": "Transfermarkt – Blessing Eleke",
+        "url": "https://www.transfermarkt.com/blessing-eleke/leistungsdaten/spieler/348229/saison/sort/tore.desc",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-makreckis-height-2026-08-08",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "Transfermarkt – Cebrail Makreckis",
+        "url": "https://www.transfermarkt.com/cebrail-makreckis/leistungsdatenverein/spieler/363425",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-romao-height-2026-08-08",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "Transfermarkt – Júlio Romão",
+        "url": "https://www.transfermarkt.com/julio-romao/siege/spieler/645423",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-szalai-height-2026-08-08",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "Transfermarkt – Gábor Szalai",
+        "url": "https://www.transfermarkt.com/gabor-szalai/profil/spieler/830057",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-cirkovic-height-2026-08-08",
+        "clubId": "ferencvarosi-tc",
+        "clubName": "Ferencvárosi TC",
+        "name": "Transfermarkt – Aleksandar Cirkovic",
+        "url": "https://www.transfermarkt.com/aleksandar-cirkovic/rueckennummern/spieler/452218",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-kerezsi-height-2026-08-08",
+        "clubId": "mtk-budapest",
+        "clubName": "MTK Budapest",
+        "name": "Transfermarkt – Zalán Kerezsi",
+        "url": "https://www.transfermarkt.com/zalan-kerezsi/profil/spieler/831677",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-temesvari-height-2026-08-08",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "Transfermarkt – Attila Temesvári",
+        "url": "https://www.transfermarkt.com/attila-temesvari/profil/spieler/532857",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-kersak-height-2026-08-08",
+        "clubId": "nyiregyhaza-spartacus-fc",
+        "clubName": "Nyíregyháza Spartacus FC",
+        "name": "Transfermarkt – Roland Kersák",
+        "url": "https://www.transfermarkt.com/roland-kersak/profil/spieler/392737",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-ganea-height-2026-08-08",
+        "clubId": "ujpest-fc",
+        "clubName": "Újpest FC",
+        "name": "Transfermarkt – George Ganea",
+        "url": "https://www.transfermarkt.com/george-ganea/siege/spieler/335821",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-medeiros-height-2026-08-08",
+        "clubId": "ujpest-fc",
+        "clubName": "Újpest FC",
+        "name": "Transfermarkt – Iuri Medeiros",
+        "url": "https://www.transfermarkt.com/iuri-medeiros/nationalmannschaft/spieler/193830/verein_id/30503",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
+        "id": "tm-duarte-height-2026-08-08",
+        "clubId": "ujpest-fc",
+        "clubName": "Újpest FC",
+        "name": "Transfermarkt – André Duarte",
+        "url": "https://www.transfermarkt.com/andre-duarte/profil/spieler/588095",
+        "checkedAt": "2026-08-08",
+        "season": "2025/26"
+      },
+      {
         "id": "mlsz-player-1358618-abu-fani",
         "name": "MLSZ Adatbank – Abu Fani Mohammad játékosoldal",
         "url": "https://adatbank.mlsz.hu/player/1358618.html",
@@ -1980,9 +2106,9 @@
     "overallScore": 143,
     "position": 440,
     "nation": 440,
-    "heightCm": 285,
+    "heightCm": 299,
     "shirtNumber": 288,
-    "officialMetadata": 227,
+    "officialMetadata": 239,
     "minutes": 29,
     "substituteAppearances": 440,
     "assists": 29,
@@ -2054,9 +2180,9 @@
   "enrichment": {
     "schemaVersion": 1,
     "season": "2025/26",
-    "generatedAt": "2026-07-30T17:51:40.089Z",
-    "records": 993,
-    "matchedRecords": 977,
+    "generatedAt": "2026-08-08T00:00:00.000Z",
+    "records": 1007,
+    "matchedRecords": 991,
     "unmatchedRecords": 16,
     "excludedRecords": 24,
     "correctionsRequested": 1,
@@ -2087,7 +2213,7 @@
       "position": 439,
       "nation": 438,
       "birthDate": 318,
-      "heightCm": 285,
+      "heightCm": 299,
       "shirtNumber": 287,
       "meta.captain": 3,
       "meta.strongFoot": 32,
@@ -2134,8 +2260,8 @@
       "meta.loanEndedAt": 2,
       "meta.sourceNote": 1,
       "meta.sourcePosition": 1,
-      "meta.matchReason": 154,
-      "meta.sourcePlayerUrl": 48
+      "meta.matchReason": 168,
+      "meta.sourcePlayerUrl": 62
     },
     "coverageBefore": {
       "birthDate": 121,
@@ -2165,9 +2291,9 @@
       "overallScore": 143,
       "position": 440,
       "nation": 440,
-      "heightCm": 285,
+      "heightCm": 299,
       "shirtNumber": 288,
-      "officialMetadata": 227
+      "officialMetadata": 239
     },
     "fieldCoverage": [
       {
@@ -2239,8 +2365,8 @@
       {
         "field": "heightCm",
         "before": 0,
-        "after": 285,
-        "added": 285
+        "after": 299,
+        "added": 299
       },
       {
         "field": "shirtNumber",
@@ -2251,8 +2377,8 @@
       {
         "field": "officialMetadata",
         "before": 0,
-        "after": 227,
-        "added": 227
+        "after": 239,
+        "added": 239
       }
     ],
     "clubSummary": [
@@ -2260,9 +2386,9 @@
         "clubId": "dvsc",
         "clubName": "DVSC",
         "mlszCards": 38,
-        "officialRecords": 75,
-        "eligibleRecords": 68,
-        "matched": 64,
+        "officialRecords": 76,
+        "eligibleRecords": 69,
+        "matched": 65,
         "excluded": 7,
         "review": 4,
         "sourceStatus": "complete-38-of-38-player-review",
@@ -2296,9 +2422,9 @@
         "clubId": "ferencvarosi-tc",
         "clubName": "Ferencvárosi TC",
         "mlszCards": 42,
-        "officialRecords": 67,
-        "eligibleRecords": 66,
-        "matched": 66,
+        "officialRecords": 71,
+        "eligibleRecords": 70,
+        "matched": 70,
         "excluded": 1,
         "review": 0,
         "sourceStatus": "structured-season-roster-imported",
@@ -2320,9 +2446,9 @@
         "clubId": "kolorcity-kazincbarcika-sc",
         "clubName": "Kolorcity Kazincbarcika SC",
         "mlszCards": 40,
-        "officialRecords": 80,
-        "eligibleRecords": 77,
-        "matched": 77,
+        "officialRecords": 83,
+        "eligibleRecords": 80,
+        "matched": 80,
         "excluded": 3,
         "review": 0,
         "sourceStatus": "complete-40-of-40-player-review",
@@ -2332,9 +2458,9 @@
         "clubId": "mtk-budapest",
         "clubName": "MTK Budapest",
         "mlszCards": 36,
-        "officialRecords": 63,
-        "eligibleRecords": 63,
-        "matched": 61,
+        "officialRecords": 64,
+        "eligibleRecords": 64,
+        "matched": 62,
         "excluded": 0,
         "review": 2,
         "sourceStatus": "complete-36-of-36-player-review",
@@ -2344,9 +2470,9 @@
         "clubId": "nyiregyhaza-spartacus-fc",
         "clubName": "Nyíregyháza Spartacus FC",
         "mlszCards": 39,
-        "officialRecords": 139,
-        "eligibleRecords": 139,
-        "matched": 139,
+        "officialRecords": 141,
+        "eligibleRecords": 141,
+        "matched": 141,
         "excluded": 0,
         "review": 0,
         "sourceStatus": "complete-39-of-39-player-review",
@@ -2380,9 +2506,9 @@
         "clubId": "ujpest-fc",
         "clubName": "Újpest FC",
         "mlszCards": 41,
-        "officialRecords": 75,
-        "eligibleRecords": 70,
-        "matched": 70,
+        "officialRecords": 78,
+        "eligibleRecords": 73,
+        "matched": 73,
         "excluded": 5,
         "review": 0,
         "sourceStatus": "complete-41-of-41-player-review",
@@ -4621,6 +4747,7 @@
         "totalDismissals": 0,
         "overallScore": 41,
         "shirtNumber": 16,
+        "heightCm": 182,
         "substituteAppearances": 16
       },
       "meta": {
@@ -4647,12 +4774,18 @@
         "sourceNotes": "DVSC 2025/26 Fizz Liga személy- és szereplési adatok az MLSZ játékosoldal alapján ellenőrizve; perc, gólpassz, poszt és magasság nem elérhető.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://hlsz.hu/debrecen",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "dvsc": 16
         },
         "clubOfficialByClub": {
-          "dvsc": {}
+          "dvsc": {
+            "sourcePlayerUrl": "https://hlsz.hu/debrecen",
+            "matchReason": "club-birth-name-reviewed"
+          }
         },
         "clubOfficialSources": [
           {
@@ -4667,6 +4800,21 @@
               "position",
               "nation",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-manzanara-height-2026-08-08",
+            "sourceName": "HLSZ – Debrecen keret / Manzanara Fran",
+            "sourceUrl": "https://hlsz.hu/debrecen",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "dvsc",
+            "matchedName": "LOPEZ DE LA MANZANARA",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -17889,6 +18037,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 32,
+        "heightCm": 180,
         "substituteAppearances": 1
       },
       "meta": {
@@ -17907,7 +18056,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/aleksandar-cirkovic/rueckennummern/spieler/452218",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 32
         },
@@ -17927,9 +18079,30 @@
               "shirtNumber"
             ],
             "inactiveSince": "2025-09-09"
+          },
+          {
+            "sourceId": "tm-cirkovic-height-2026-08-08",
+            "sourceName": "Transfermarkt – Aleksandar Cirkovic",
+            "sourceUrl": "https://www.transfermarkt.com/aleksandar-cirkovic/rueckennummern/spieler/452218",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "CIRKOVIC ALEKSANDAR",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/aleksandar-cirkovic/rueckennummern/spieler/452218",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 1,
@@ -20064,6 +20237,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 25,
+        "heightCm": 181,
         "substituteAppearances": 7
       },
       "meta": {
@@ -20100,12 +20274,18 @@
           }
         ],
         "dataStatus": "verified",
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/cebrail-makreckis/leistungsdatenverein/spieler/363425",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 25
         },
         "clubOfficialByClub": {
-          "ferencvarosi-tc": {}
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/cebrail-makreckis/leistungsdatenverein/spieler/363425",
+            "matchReason": "club-birth-name-reviewed"
+          }
         },
         "clubOfficialSources": [
           {
@@ -20120,6 +20300,21 @@
               "position",
               "birthDate",
               "shirtNumber"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-makreckis-height-2026-08-08",
+            "sourceName": "Transfermarkt – Cebrail Makreckis",
+            "sourceUrl": "https://www.transfermarkt.com/cebrail-makreckis/leistungsdatenverein/spieler/363425",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "MAKRECKIS CEBRAILS",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -20901,6 +21096,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 66,
+        "heightCm": 183,
         "substituteAppearances": 10
       },
       "meta": {
@@ -20919,7 +21115,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/julio-romao/siege/spieler/645423",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 66
         },
@@ -20939,9 +21138,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-romao-height-2026-08-08",
+            "sourceName": "Transfermarkt – Júlio Romão",
+            "sourceUrl": "https://www.transfermarkt.com/julio-romao/siege/spieler/645423",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "RODRIGUES ROMAO JULIO",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/julio-romao/siege/spieler/645423",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 13,
@@ -21245,6 +21465,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 22,
+        "heightCm": 191,
         "substituteAppearances": 5
       },
       "meta": {
@@ -21263,7 +21484,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/gabor-szalai/profil/spieler/830057",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "ferencvarosi-tc": 22
         },
@@ -21283,9 +21507,30 @@
               "shirtNumber"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-szalai-height-2026-08-08",
+            "sourceName": "Transfermarkt – Gábor Szalai",
+            "sourceUrl": "https://www.transfermarkt.com/gabor-szalai/profil/spieler/830057",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ferencvarosi-tc",
+            "matchedName": "SZALAI GÁBOR SÁNDOR",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ferencvarosi-tc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/gabor-szalai/profil/spieler/830057",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ferencvarosi-tc": {
             "appearances": 32,
@@ -29913,6 +30158,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 190,
         "substituteAppearances": 4
       },
       "meta": {
@@ -29931,7 +30177,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/blessing-eleke/leistungsdaten/spieler/348229/saison/sort/tore.desc",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -29948,9 +30197,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-eleke-height-2026-08-08",
+            "sourceName": "Transfermarkt – Blessing Eleke",
+            "sourceUrl": "https://www.transfermarkt.com/blessing-eleke/leistungsdaten/spieler/348229/saison/sort/tore.desc",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "ELEKE BLESSING CHIBUIKE",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "kolorcity-kazincbarcika-sc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/blessing-eleke/leistungsdaten/spieler/348229/saison/sort/tore.desc",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "kolorcity-kazincbarcika-sc": {
             "appearances": 6,
@@ -30525,6 +30795,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 185,
         "substituteAppearances": 0
       },
       "meta": {
@@ -30545,13 +30816,17 @@
         "verifiedCorrections": [],
         "clubOfficial": {
           "previousClub": "Pyunik Yerevan",
-          "squadStatus": "arrived-2025-summer"
+          "squadStatus": "arrived-2025-summer",
+          "sourcePlayerUrl": "https://www.transfermarkt.com/varazdat-haroyan/profil/spieler/155423",
+          "matchReason": "club-birth-name-reviewed"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
           "kolorcity-kazincbarcika-sc": {
             "previousClub": "Pyunik Yerevan",
-            "squadStatus": "arrived-2025-summer"
+            "squadStatus": "arrived-2025-summer",
+            "sourcePlayerUrl": "https://www.transfermarkt.com/varazdat-haroyan/profil/spieler/155423",
+            "matchReason": "club-birth-name-reviewed"
           }
         },
         "clubOfficialSources": [
@@ -30581,6 +30856,21 @@
             "fieldsApplied": [
               "nation",
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-haroyan-height-2026-08-08",
+            "sourceName": "Transfermarkt – Varazdat Haroyan",
+            "sourceUrl": "https://www.transfermarkt.com/varazdat-haroyan/profil/spieler/155423",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "HAROYAN VARAZDAT",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -31993,6 +32283,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 175,
         "substituteAppearances": 2
       },
       "meta": {
@@ -32012,12 +32303,16 @@
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
         "clubOfficial": {
-          "squadStatus": "arrived-2025-summer"
+          "squadStatus": "arrived-2025-summer",
+          "sourcePlayerUrl": "https://hlsz.hu/tatabanya",
+          "matchReason": "club-birth-name-reviewed"
         },
         "clubShirtNumbers": {},
         "clubOfficialByClub": {
           "kolorcity-kazincbarcika-sc": {
-            "squadStatus": "arrived-2025-summer"
+            "squadStatus": "arrived-2025-summer",
+            "sourcePlayerUrl": "https://hlsz.hu/tatabanya",
+            "matchReason": "club-birth-name-reviewed"
           }
         },
         "clubOfficialSources": [
@@ -32046,6 +32341,21 @@
             "fieldsApplied": [
               "nation",
               "birthDate"
+            ],
+            "inactiveSince": null
+          },
+          {
+            "sourceId": "hlsz-prosser-height-2026-08-08",
+            "sourceName": "HLSZ – Prosser Dániel nyilvános játékosadat",
+            "sourceUrl": "https://hlsz.hu/tatabanya",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "kolorcity-kazincbarcika-sc",
+            "matchedName": "PROSSER DÁNIEL BÁLINT",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
             ],
             "inactiveSince": null
           }
@@ -40499,6 +40809,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 180,
         "substituteAppearances": 12
       },
       "meta": {
@@ -40518,7 +40829,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/zalan-kerezsi/profil/spieler/831677",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "mtk-budapest": 20
         },
@@ -40548,9 +40862,30 @@
             "matchedName": "KEREZSI ZALÁN MÁRK",
             "fieldsApplied": [],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-kerezsi-height-2026-08-08",
+            "sourceName": "Transfermarkt – Zalán Kerezsi",
+            "sourceUrl": "https://www.transfermarkt.com/zalan-kerezsi/profil/spieler/831677",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "mtk-budapest",
+            "matchedName": "KEREZSI ZALÁN MÁRK",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "mtk-budapest": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/zalan-kerezsi/profil/spieler/831677",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "mtk-budapest": {
             "appearances": 26,
@@ -43792,6 +44127,7 @@
         "totalDismissals": 0,
         "overallScore": null,
         "shirtNumber": 46,
+        "heightCm": 191,
         "substituteAppearances": 0
       },
       "meta": {
@@ -43810,7 +44146,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/roland-kersak/profil/spieler/392737",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 46
         },
@@ -43854,9 +44193,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-kersak-height-2026-08-08",
+            "sourceName": "Transfermarkt – Roland Kersák",
+            "sourceUrl": "https://www.transfermarkt.com/roland-kersak/profil/spieler/392737",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "KERSÁK ROLAND ATTILA",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/roland-kersak/profil/spieler/392737",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 3,
@@ -46108,6 +46468,7 @@
         "totalDismissals": 1,
         "overallScore": 52,
         "shirtNumber": 15,
+        "heightCm": 200,
         "substituteAppearances": 3
       },
       "meta": {
@@ -46128,7 +46489,10 @@
         "sourceNotes": "A teljes szezon gólszáma a klubrekordokból aggregálva; szereplési adatok csak a már feldolgozott kluboknál érhetők el.",
         "retainedFromPreviousDeck": true,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/attila-temesvari/profil/spieler/532857",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {
           "nyiregyhaza-spartacus-fc": 15
         },
@@ -46172,9 +46536,30 @@
               "nation"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-temesvari-height-2026-08-08",
+            "sourceName": "Transfermarkt – Attila Temesvári",
+            "sourceUrl": "https://www.transfermarkt.com/attila-temesvari/profil/spieler/532857",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "nyiregyhaza-spartacus-fc",
+            "matchedName": "Temesvári Attila",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "nyiregyhaza-spartacus-fc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/attila-temesvari/profil/spieler/532857",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "nyiregyhaza-spartacus-fc": {
             "appearances": 26,
@@ -57117,6 +57502,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 180,
         "substituteAppearances": 7
       },
       "meta": {
@@ -57135,7 +57521,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/george-ganea/siege/spieler/335821",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -57152,9 +57541,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-ganea-height-2026-08-08",
+            "sourceName": "Transfermarkt – George Ganea",
+            "sourceUrl": "https://www.transfermarkt.com/george-ganea/siege/spieler/335821",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "GANEA GEORGE DANUT",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/george-ganea/siege/spieler/335821",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 7,
@@ -58966,6 +59376,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 195,
         "substituteAppearances": 1
       },
       "meta": {
@@ -58984,7 +59395,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/andre-duarte/profil/spieler/588095",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -59001,9 +59415,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-duarte-height-2026-08-08",
+            "sourceName": "Transfermarkt – André Duarte",
+            "sourceUrl": "https://www.transfermarkt.com/andre-duarte/profil/spieler/588095",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "LOURENCO DUARTE ANDRÉ",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/andre-duarte/profil/spieler/588095",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 10,
@@ -59711,6 +60146,7 @@
         "secondYellowRedCards": null,
         "totalDismissals": 0,
         "overallScore": null,
+        "heightCm": 174,
         "substituteAppearances": 4
       },
       "meta": {
@@ -59729,7 +60165,10 @@
         "dismissalBreakdown": "unknown",
         "retainedFromPreviousDeck": false,
         "verifiedCorrections": [],
-        "clubOfficial": {},
+        "clubOfficial": {
+          "sourcePlayerUrl": "https://www.transfermarkt.com/iuri-medeiros/nationalmannschaft/spieler/193830/verein_id/30503",
+          "matchReason": "club-birth-name-reviewed"
+        },
         "clubShirtNumbers": {},
         "clubOfficialSources": [
           {
@@ -59746,9 +60185,30 @@
               "birthDate"
             ],
             "inactiveSince": null
+          },
+          {
+            "sourceId": "tm-medeiros-height-2026-08-08",
+            "sourceName": "Transfermarkt – Iuri Medeiros",
+            "sourceUrl": "https://www.transfermarkt.com/iuri-medeiros/nationalmannschaft/spieler/193830/verein_id/30503",
+            "checkedAt": "2026-08-08",
+            "season": "2025/26",
+            "clubId": "ujpest-fc",
+            "matchedName": "PICANCO MEDEIROS IÚRI JOSÉ",
+            "fieldsApplied": [
+              "heightCm",
+              "meta.sourcePlayerUrl",
+              "meta.matchReason"
+            ],
+            "inactiveSince": null
           }
         ],
         "dataStatus": "partially_verified",
+        "clubOfficialByClub": {
+          "ujpest-fc": {
+            "sourcePlayerUrl": "https://www.transfermarkt.com/iuri-medeiros/nationalmannschaft/spieler/193830/verein_id/30503",
+            "matchReason": "club-birth-name-reviewed"
+          }
+        },
         "clubOfficialStatsByClub": {
           "ujpest-fc": {
             "appearances": 14,

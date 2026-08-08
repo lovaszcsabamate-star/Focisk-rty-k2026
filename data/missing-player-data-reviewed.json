@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-07T21:05:19.304Z",
+  "generatedAt": "2026-08-08T00:57:09.873Z",
   "playerCount": 440,
   "missingCounts": {
     "birthDate": 0,
@@ -16,7 +16,7 @@
     "redCards": 0,
     "secondYellowRedCards": 403,
     "totalDismissals": 0,
-    "heightCm": 155,
+    "heightCm": 141,
     "shirtNumber": 152
   },
   "missingByField": {
@@ -1266,7 +1266,6 @@
       "2025-26-dvsc-bodnar-balazs",
       "2025-26-dvsc-egri-imre",
       "2025-26-dvsc-erdelyi-benedek-miklos",
-      "2025-26-dvsc-lopez-de-la-manzanara",
       "2025-26-dvsc-patai-david",
       "2025-26-dvsc-regenyei-gergo",
       "nb1-575a09ebf626",
@@ -1299,17 +1298,13 @@
       "2025-26-eto-fc-vitalis-milan",
       "nb1-2e55f246af3d",
       "nb1-2856e20f48e9",
-      "nb1-daf16f0ad982",
       "nb1-33695d632c16",
       "nb1-446bec57246f",
       "nb1-f71f93fef3da",
       "nb1-2156f3e78854",
       "nb1-c5521bb1a14a",
       "nb1-93c8afbdc1cc",
-      "nb1-26e52ef046d5",
       "nb1-2c70f5160a52",
-      "nb1-30a9d08f66f7",
-      "nb1-dd03b70e0766",
       "nb1-536b9ebba33d",
       "nb1-2c1a69d9470c",
       "nb1-8061aa670d1b",
@@ -1326,12 +1321,9 @@
       "nb1-a758aba5b918",
       "nb1-9772e714d434",
       "nb1-736ba85af5fb",
-      "nb1-eec90a375152",
       "nb1-e2549dc99594",
-      "nb1-76609d443f2b",
       "nb1-08ae611b5ae9",
       "nb1-908d035d3f88",
-      "nb1-e8aafa83a1d4",
       "nb1-1f4331f2f404",
       "nb1-b94ef8d79d9e",
       "nb1-b8d2e059092a",
@@ -1349,18 +1341,15 @@
       "nb1-d4fa529dd100",
       "nb1-12a8e538cdf0",
       "nb1-b5ef418f7436",
-      "nb1-a5450b3d3149",
       "nb1-f22144ab228e",
       "nb1-dd2ed7b40fbc",
       "nb1-cc0594a97935",
       "nb1-d76b694321c9",
       "nb1-d8374af7e29b",
-      "nb1-bebcf82353b9",
       "nb1-c8bdd5aad379",
       "nb1-13c97f8a0f73",
       "nb1-327eba464994",
       "nb1-489f67cd7bfb",
-      "nb1-9309e1184ef9",
       "nb1-17831da5b04f",
       "nb1-28243985aab9",
       "2025-26-paksi-fc-debreceni-akos",
@@ -1387,15 +1376,12 @@
       "nb1-dd6158c28a79",
       "nb1-c49fbf4d1b2c",
       "nb1-cdcee0a96afc",
-      "nb1-8e669f9e52b7",
       "nb1-f57fdf82fb45",
       "nb1-d8405b610920",
       "nb1-200dfa9d0293",
       "nb1-4cec72c1de53",
-      "nb1-10f362d76d3c",
       "nb1-00550a6ceaf3",
       "nb1-f29a34a866f4",
-      "nb1-bbb507993bcc",
       "nb1-cd7d6c0e968f",
       "nb1-8b6c6b082328",
       "nb1-793bb6e187b4",
@@ -1592,7 +1578,7 @@
         "redCards": 38,
         "secondYellowRedCards": 0,
         "totalDismissals": 38,
-        "heightCm": 27,
+        "heightCm": 28,
         "shirtNumber": 34
       },
       "missing": {
@@ -1609,7 +1595,7 @@
         "redCards": 0,
         "secondYellowRedCards": 38,
         "totalDismissals": 0,
-        "heightCm": 11,
+        "heightCm": 10,
         "shirtNumber": 4
       }
     },
@@ -1709,7 +1695,7 @@
         "redCards": 42,
         "secondYellowRedCards": 0,
         "totalDismissals": 42,
-        "heightCm": 28,
+        "heightCm": 32,
         "shirtNumber": 38
       },
       "missing": {
@@ -1726,7 +1712,7 @@
         "redCards": 0,
         "secondYellowRedCards": 42,
         "totalDismissals": 0,
-        "heightCm": 14,
+        "heightCm": 10,
         "shirtNumber": 4
       }
     },
@@ -1787,7 +1773,7 @@
         "redCards": 40,
         "secondYellowRedCards": 0,
         "totalDismissals": 40,
-        "heightCm": 22,
+        "heightCm": 25,
         "shirtNumber": 0
       },
       "missing": {
@@ -1804,7 +1790,7 @@
         "redCards": 0,
         "secondYellowRedCards": 40,
         "totalDismissals": 0,
-        "heightCm": 18,
+        "heightCm": 15,
         "shirtNumber": 40
       }
     },
@@ -1826,7 +1812,7 @@
         "redCards": 36,
         "secondYellowRedCards": 0,
         "totalDismissals": 36,
-        "heightCm": 26,
+        "heightCm": 27,
         "shirtNumber": 28
       },
       "missing": {
@@ -1843,7 +1829,7 @@
         "redCards": 0,
         "secondYellowRedCards": 36,
         "totalDismissals": 0,
-        "heightCm": 10,
+        "heightCm": 9,
         "shirtNumber": 8
       }
     },
@@ -1865,7 +1851,7 @@
         "redCards": 39,
         "secondYellowRedCards": 0,
         "totalDismissals": 39,
-        "heightCm": 26,
+        "heightCm": 28,
         "shirtNumber": 31
       },
       "missing": {
@@ -1882,7 +1868,7 @@
         "redCards": 0,
         "secondYellowRedCards": 39,
         "totalDismissals": 0,
-        "heightCm": 13,
+        "heightCm": 11,
         "shirtNumber": 8
       }
     },
@@ -1943,7 +1929,7 @@
         "redCards": 34,
         "secondYellowRedCards": 0,
         "totalDismissals": 34,
-        "heightCm": 21,
+        "heightCm": 22,
         "shirtNumber": 24
       },
       "missing": {
@@ -1960,7 +1946,7 @@
         "redCards": 0,
         "secondYellowRedCards": 34,
         "totalDismissals": 0,
-        "heightCm": 13,
+        "heightCm": 12,
         "shirtNumber": 10
       }
     },
@@ -1982,7 +1968,7 @@
         "redCards": 41,
         "secondYellowRedCards": 0,
         "totalDismissals": 41,
-        "heightCm": 27,
+        "heightCm": 30,
         "shirtNumber": 16
       },
       "missing": {
@@ -1999,7 +1985,7 @@
         "redCards": 0,
         "secondYellowRedCards": 41,
         "totalDismissals": 0,
-        "heightCm": 14,
+        "heightCm": 11,
         "shirtNumber": 25
       }
     },
