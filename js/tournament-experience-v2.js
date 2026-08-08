@@ -6,6 +6,7 @@ import {
   makePanel, showPanel, closeTournamentLayers, trophyMarkup, tournamentStorageService,
 } from './tournament/tournament-experience-v2-shared.js';
 import { showExperienceWizard } from './tournament/tournament-experience-v2-wizard.js';
+import { installTournamentUiImprovement } from './tournament/tournament-ui-improvement.js';
 
 if (!document.getElementById('tournament-experience-v2-compat-style')) {
   const style = document.createElement('style');
@@ -176,4 +177,5 @@ function installCupSelectorV3() {
 
 installTournamentExperienceV2();
 installCupSelectorV3();
+installTournamentUiImprovement();
 export { installTournamentExperienceV2, installCupSelectorV3, showCupSelectorV3 };

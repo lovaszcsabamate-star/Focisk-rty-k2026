@@ -116,6 +116,7 @@ const CORE_SHELL = Object.freeze([
   './js/tournament/tournament-flow-wizard.js',
   './js/tournament-experience-v2.js',
   './js/tournament/tournament-experience-v2-runtime.js',
+  './js/tournament/tournament-ui-improvement.js',
   './js/tournament/tournament-experience-v2-shared.js',
   './js/tournament/tournament-experience-v2-wizard.js',
   './js/tournament/tournament-experience-v2-presets.js',
