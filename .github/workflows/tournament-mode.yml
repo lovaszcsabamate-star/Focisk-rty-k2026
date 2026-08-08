@@ -11,6 +11,7 @@ on:
       - 'js/app/result-controller.js'
       - 'js/tournament-mode.js'
       - 'js/tournament-cup-experience.js'
+      - 'js/tournament-experience-v2.js'
       - 'js/tournament/**'
       - 'js/services/tournament-storage-service.js'
       - 'js/domain/quick-match-domain.js'
@@ -20,6 +21,7 @@ on:
       - 'test/tournament-mode.test.mjs'
       - 'test/tournament-statistics.test.mjs'
       - 'test/tournament-cup-experience.test.mjs'
+      - 'test/tournament-ui-improvement.test.mjs'
       - 'test/result-controller.test.mjs'
   pull_request:
     branches: [main]
@@ -31,6 +33,7 @@ on:
       - 'js/app/result-controller.js'
       - 'js/tournament-mode.js'
       - 'js/tournament-cup-experience.js'
+      - 'js/tournament-experience-v2.js'
       - 'js/tournament/**'
       - 'js/services/tournament-storage-service.js'
       - 'js/domain/quick-match-domain.js'
@@ -40,6 +43,7 @@ on:
       - 'test/tournament-mode.test.mjs'
       - 'test/tournament-statistics.test.mjs'
       - 'test/tournament-cup-experience.test.mjs'
+      - 'test/tournament-ui-improvement.test.mjs'
       - 'test/result-controller.test.mjs'
 
 permissions:
@@ -73,6 +77,8 @@ jobs:
           node --check js/tournament-mode.js
           node --check js/tournament-cup-experience.js
           node --check js/tournament/tournament-experience-v2-runtime.js
+          node --check js/tournament/tournament-ui-improvement.js
+          node --check js/tournament-experience-v2.js
           node --check js/app/result-controller.js
           node --check js/bootstrap.js
           node --check scripts/build-standalone-with-settings.mjs
@@ -80,6 +86,7 @@ jobs:
           node --check test/tournament-mode.test.mjs
           node --check test/tournament-statistics.test.mjs
           node --check test/tournament-cup-experience.test.mjs
+          node --check test/tournament-ui-improvement.test.mjs
           node --check test/result-controller.test.mjs
 
       - name: Torna domain regressziós teszt
@@ -93,6 +100,9 @@ jobs:
 
       - name: Kupaélmény integrációs teszt
         run: node test/tournament-cup-experience.test.mjs
+
+      - name: Klubcímer és Torna UI regresszió
+        run: node test/tournament-ui-improvement.test.mjs
 
       - name: Önálló játék összeállítása
         run: npm run build
@@ -108,6 +118,8 @@ jobs:
           grep -q 'TOURNAMENT_FORMAT' Fociskartyak2026.html
           grep -q 'TOURNAMENT_STATISTICS_VERSION' Fociskartyak2026.html
           grep -q 'Leggyakoribb kategóriák' Fociskartyak2026.html
+          grep -q 'TOURNAMENT_UI_IMPROVEMENT_VERSION' Fociskartyak2026.html
+          grep -q 'PAFC' Fociskartyak2026.html
 
       - name: Mobil webcsomag előkészítése
         run: node scripts/prepare-mobile.mjs
@@ -122,3 +134,4 @@ jobs:
           grep -q 'tournament-final-intro' mobile-www/index.html
           grep -q 'TOURNAMENT_STATISTICS_VERSION' mobile-www/index.html
           grep -q 'Leggyakoribb kategóriák' mobile-www/index.html
+          grep -q 'TOURNAMENT_UI_IMPROVEMENT_VERSION' mobile-www/index.html
