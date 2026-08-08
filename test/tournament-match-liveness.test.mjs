@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { AI, HUMAN, PHASE, Game } from '../js/engine.js';
 import { PenaltyGame } from '../js/penalties.js';
 import { buildQuickMatchPayload } from '../js/domain/quick-match-domain.js';
+import { ATTRIBUTE_BY_KEY, configureAttributes } from '../js/data/players.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
@@ -15,6 +16,13 @@ const database = JSON.parse(fs.readFileSync(path.join(
 ), 'utf8'));
 const players = Array.isArray(database?.players) ? database.players : [];
 assert.ok(players.length > 100, 'A normalizált játékosadatbázis nem tölthető be.');
+
+// A normál alkalmazásindítás a szezon betöltésekor a tényleges adatcoverage alapján
+// konfigurálja az opcionális kategóriákat. A stresszteszt ugyanazt az életciklust
+// reprodukálja, különben a Magasabb játékos mesterségesen inaktív maradna.
+const categoryAvailability = configureAttributes(players);
+assert.equal(categoryAvailability.heightCm?.enabled, true, 'A Magasabb játékos kategória coverage alapján nem aktiválható.');
+assert.equal(ATTRIBUTE_BY_KEY.heightCm?.enabled, true, 'A Magasabb játékos kategória nem került az aktív motorregiszterbe.');
 
 const number = value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
 const lineupScore = player => {
