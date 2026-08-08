@@ -49,6 +49,7 @@ try {
   await installUiEnhancementPipeline();
   await import('./gameplay-polish.js');
   await import('./playability-visual-upgrade.js');
+  await import('./match-experience-polish.js');
   const loaded = await loadDatabase();
   const {
     database,
