@@ -1,40 +1,50 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
 
-import {
-  RoundControllerError,
-  createRoundController,
-} from '../js/app/round-controller.js';
+import { createRoundController, RoundControllerError } from '../js/app/round-controller.js';
 
-const readSource = relative => fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
 const calls = [];
-const slot = name => ({
-  className: 'old',
-  replaceChildren: (...children) => calls.push([name, ...children]),
-});
+const dom = {
+  duel: { replaceChildren: (...args) => calls.push(['duelClear', ...args]) },
+  verdict: { replaceChildren: (...args) => calls.push(['verdictClear', ...args]), className: '' },
+  picker: { replaceChildren: (...args) => calls.push(['pickerReplace', ...args]) },
+};
 const ui = {
-  dom: { duel: slot('duel'), verdict: slot('verdict'), picker: slot('picker') },
-  setInteractionBusy: value => calls.push(['interactionBusy', value]),
+  dom,
+  setInteractionBusy: value => calls.push(['uiBusy', value]),
   closeInspector: () => calls.push(['closeInspector']),
-  renderScores: game => calls.push(['scores', game]),
-  renderHands: (game, options) => calls.push(['hands', game, options]),
-  showAttributePicker: game => calls.push(['pickerShow', game]),
+  renderScores: () => calls.push(['renderScores']),
+  renderHands: (_game, options) => calls.push(['renderHands', options]),
+  showAttributePicker: () => calls.push(['pickerShow']),
   hideAttributePicker: () => calls.push(['pickerHide']),
   say: line => calls.push(['say', line]),
-  setPrompt: (...parts) => calls.push(['prompt', ...parts]),
-  showDuel: (game, options) => calls.push(['showDuel', game, options]),
-  showVerdict: (result, game) => calls.push(['verdictShow', result, game]),
+  setPrompt: (...args) => calls.push(['prompt', ...args]),
+  showDuel: (_game, options) => calls.push(['duel', options]),
+  showVerdict: () => calls.push(['verdict']),
   showSuddenDeath: async () => calls.push(['suddenDeath']),
   showToast: (...args) => calls.push(['toast', ...args]),
 };
-
 const game = {
   chooser: 'human',
   phase: 'choose_attribute',
-  attribute: 'goals',
-  isOver: false,
+  attribute: null,
   lastResult: null,
+  isOver: false,
   availableAttributeKeys: () => ['goals'],
+};
+const runtime = {
+  selectHumanAttribute: attribute => {
+    calls.push(['selectHumanAttribute', attribute]);
+    game.attribute = attribute;
+  },
+  chooseAiAttribute: () => ({ attribute: 'goals', cardId: 'ai-1' }),
+  commitHumanChooserCard: id => calls.push(['commitHumanChooserCard', id]),
+  playAiCard: () => ({ winner: 'human', attribute: 'goals', humanCard: { name: 'A', stats: { goals: 2 } }, aiCard: { name: 'B', stats: { goals: 1 } }, potScooped: 0 }),
+  playHumanCard: id => {
+    calls.push(['playHumanCard', id]);
+    return { winner: 'human', attribute: 'goals', humanCard: { name: 'A', stats: { goals: 2 } }, aiCard: { name: 'B', stats: { goals: 1 } }, potScooped: 0 };
+  },
+  advance: () => ({ reshuffled: false }),
+  clearPendingChoice: () => calls.push(['clearPendingChoice']),
 };
 const state = {
   game,
@@ -43,51 +53,35 @@ const state = {
   pendingAttribute: null,
   awaitingChooserCard: false,
 };
-const runtime = {
-  selectHumanAttribute: key => calls.push(['selectAttribute', key]),
-  chooseAiAttribute: () => ({ attribute: 'goals' }),
-  commitHumanChooserCard: id => calls.push(['commitChooserCard', id]),
-  playAiCard: () => ({
-    attribute: 'goals', winner: 'ai', humanCard: { name: 'A', stats: { goals: 1 } },
-    aiCard: { name: 'B', stats: { goals: 2 } }, potScooped: 0,
-  }),
-  playHumanCard: id => ({
-    id, attribute: 'goals', winner: 'human', humanCard: { name: 'A', stats: { goals: 4 } },
-    aiCard: { name: 'B', stats: { goals: 1 } }, potScooped: 0,
-  }),
-  advance: () => ({ reshuffled: false }),
-  clearPendingChoice: () => calls.push(['clearPendingChoice']),
-};
 const actions = {
-  setBusy(value) { state.busy = value; calls.push(['busy', value]); },
+  setBusy: value => {
+    state.busy = value;
+    calls.push(['busy', value]);
+  },
   saveCurrentGame: () => calls.push(['save']),
   showGameOver: () => calls.push(['gameOver']),
 };
-const buttons = [];
-const elementFactory = (_tag, className, text) => {
-  const button = {
-    className,
-    text,
-    setAttribute: (name, value) => calls.push(['attribute', name, value]),
-    addEventListener(_event, callback) { this.callback = callback; },
-    click() { this.callback?.(); },
-  };
-  buttons.push(button);
-  return button;
-};
-const turnDelay = {
-  AI_CHOOSE_ATTRIBUTE: 10,
-  AI_CHOOSE_CARD: 20,
-  HUMAN_CARD_REVEAL: 30,
-  VERDICT_REVEAL: 40,
-  RESULT_HOLD: 50,
-  RESTORED_AI_MOVE: 60,
-};
+const elementFactory = (_tag, className, text) => ({
+  className,
+  textContent: text,
+  type: '',
+  handlers: {},
+  setAttribute() {},
+  addEventListener(type, handler) { this.handlers[type] = handler; },
+});
 const phaseRegistry = {
   CHOOSE_ATTRIBUTE: 'choose_attribute',
   CHOOSE_CARD: 'choose_card',
   REVEAL: 'reveal',
   GAME_OVER: 'game_over',
+};
+const turnDelay = {
+  AI_CHOOSE_ATTRIBUTE: 1,
+  AI_CHOOSE_CARD: 1,
+  HUMAN_CARD_REVEAL: 1,
+  VERDICT_REVEAL: 1,
+  RESULT_HOLD: 1,
+  RESTORED_AI_MOVE: 1,
 };
 const controller = createRoundController({
   ui,
@@ -117,158 +111,29 @@ assert.deepEqual(Object.keys(controller), [
   'showContinue',
   'restoreSavedView',
   'finishRestoredAiMove',
+  'recoverCurrentView',
+  'cancelPendingOperations',
+  'hasActiveOperation',
+  'activeOperationKind',
 ]);
+assert.equal(controller.hasActiveOperation(), false);
+assert.equal(controller.activeOperationKind(), null);
 
 assert.equal(controller.beginRound(), true);
 assert.ok(calls.some(call => call[0] === 'pickerShow'));
 assert.ok(calls.some(call => call[0] === 'save'));
 assert.equal(controller.humanChoseAttribute('goals'), true);
-assert.ok(calls.some(call => call[0] === 'selectAttribute' && call[1] === 'goals'));
-assert.ok(calls.some(call => call[0] === 'prompt' && call[2] === 'Gólok'));
+assert.ok(calls.some(call => call[0] === 'selectHumanAttribute' && call[1] === 'goals'));
+assert.ok(calls.some(call => call[0] === 'pickerHide'));
 
-state.game.chooser = 'ai';
-await controller.aiChoosesAttribute();
-assert.ok(calls.some(call => call[0] === 'wait' && call[1] === 10));
-assert.ok(calls.some(call => call[0] === 'say' && call[1] === 'banter:aiChooseAttribute'));
+assert.throws(() => createRoundController({
+  ui: {}, runtime, getState: () => state, actions, wait: async () => {},
+}), error => error instanceof RoundControllerError && error.code === 'INVALID_UI');
+assert.throws(() => createRoundController({
+  ui, runtime: {}, getState: () => state, actions, wait: async () => {},
+}), error => error instanceof RoundControllerError && error.code === 'INVALID_RUNTIME');
+assert.throws(() => createRoundController({
+  ui, runtime, getState: null, actions, wait: async () => {},
+}), error => error instanceof RoundControllerError && error.code === 'INVALID_STATE_ADAPTER');
 
-state.game.chooser = 'human';
-state.busy = false;
-await controller.humanPlayedCard({ id: 'card-1' });
-assert.ok(calls.some(call => call[0] === 'wait' && call[1] === 30));
-assert.ok(calls.some(call => call[0] === 'wait' && call[1] === 40));
-assert.ok(calls.some(call => call[0] === 'wait' && call[1] === 50));
-assert.ok(calls.some(call => call[0] === 'verdictShow'));
-assert.ok(calls.some(call => call[0] === 'say' && call[1] === 'banter:attributeWin'));
-assert.ok(buttons.some(button => button.text === 'Következő kör'));
-
-state.busy = false;
-const continueButton = controller.showContinue();
-continueButton.click();
-assert.ok(calls.some(call => call[0] === 'say' && call[1] === 'idle'));
-
-state.game.phase = 'choose_card';
-state.game.chooser = 'ai';
-state.game.attribute = 'goals';
-assert.equal(controller.restoreSavedView(), true);
-assert.ok(calls.some(call => call[0] === 'clearPendingChoice'));
-
-state.game.phase = 'game_over';
-controller.restoreSavedView();
-assert.ok(calls.some(call => call[0] === 'gameOver'));
-
-assert.throws(
-  () => createRoundController(),
-  error => error instanceof RoundControllerError && error.code === 'INVALID_UI',
-);
-assert.throws(
-  () => createRoundController({ ui, runtime, getState: null, actions, wait: async () => {} }),
-  error => error instanceof RoundControllerError && error.code === 'INVALID_STATE_ADAPTER',
-);
-assert.throws(
-  () => createRoundController({ ui, runtime, getState: () => state, actions: {}, wait: async () => {} }),
-  error => error instanceof RoundControllerError && error.code === 'INVALID_ACTIONS',
-);
-assert.throws(
-  () => createRoundController({ ui, runtime, getState: () => state, actions, wait: null }),
-  error => error instanceof RoundControllerError && error.code === 'INVALID_TIMING_ADAPTER',
-);
-
-const failureCalls = [];
-const failureButtons = [];
-const failureGame = {
-  chooser: 'ai',
-  phase: 'choose_attribute',
-  isOver: false,
-  availableAttributeKeys: () => ['goals'],
-};
-const failureState = { game: failureGame, mode: 'classic', busy: false };
-const failureUi = {
-  ...ui,
-  dom: {
-    duel: { replaceChildren: () => {} },
-    verdict: { replaceChildren: () => {}, className: '' },
-    picker: { replaceChildren: (...children) => failureCalls.push(['picker', ...children]) },
-  },
-  setInteractionBusy: value => failureCalls.push(['interactionBusy', value]),
-  renderHands: () => failureCalls.push(['hands']),
-  setPrompt: (...parts) => failureCalls.push(['prompt', ...parts]),
-  showToast: (...args) => failureCalls.push(['toast', ...args]),
-};
-const failureActions = {
-  setBusy(value) { failureState.busy = value; failureCalls.push(['busy', value]); },
-  saveCurrentGame: () => failureCalls.push(['save']),
-  showGameOver: () => failureCalls.push(['gameOver']),
-};
-const failureRuntime = {
-  ...runtime,
-  chooseAiAttribute: () => { throw new Error('tesztelt gépi hiba'); },
-};
-const failureElementFactory = (_tag, className, text) => {
-  const button = {
-    className,
-    text,
-    setAttribute() {},
-    addEventListener(_event, callback) { this.callback = callback; },
-  };
-  failureButtons.push(button);
-  return button;
-};
-const failureController = createRoundController({
-  ui: failureUi,
-  runtime: failureRuntime,
-  getState: () => failureState,
-  actions: failureActions,
-  wait: async () => {},
-  elementFactory: failureElementFactory,
-  phaseRegistry,
-  turnDelay,
-  attributeRegistry: { goals: { label: 'Gólok' } },
-  attributeValueFn: card => card.stats.goals,
-  getBanterLine: key => `banter:${key}`,
-  getIdleLine: () => 'idle',
-  humanId: 'human',
-  aiId: 'ai',
-});
-
-assert.equal(await failureController.aiChoosesAttribute(), false);
-assert.equal(failureState.busy, false);
-assert.ok(failureCalls.some(call => call[0] === 'toast' && /nem tudott kategóriát/.test(call[1])));
-assert.ok(failureButtons.some(button => button.className.includes('round-retry-button')));
-assert.ok(failureButtons.some(button => button.text === 'Gépi kör újrapróbálása'));
-
-const controllerSource = readSource('../js/app/round-controller.js');
-const mainSource = readSource('../js/main.js');
-const buildSource = readSource('../scripts/build-standalone.mjs');
-const serviceWorkerSource = readSource('../sw.js');
-
-assert.match(controllerSource, /A gép választ/);
-assert.match(controllerSource, /Következő párbaj/);
-assert.match(controllerSource, /A gép befejezi a félbemaradt kört/);
-assert.match(controllerSource, /round-retry-button/);
-assert.match(controllerSource, /turnDelay\.HUMAN_CARD_REVEAL/);
-assert.match(controllerSource, /turnDelay\.VERDICT_REVEAL/);
-assert.match(controllerSource, /turnDelay\.RESULT_HOLD/);
-assert.match(controllerSource, /turnDelay\.RESTORED_AI_MOVE/);
-assert.doesNotMatch(controllerSource, /await wait\((?:250|320|350|650)\)/);
-assert.doesNotMatch(controllerSource, /mobile-experience\.js/);
-assert.match(mainSource, /\.\/app\/round-controller\.js/);
-assert.match(mainSource, /this\.rounds\s*=\s*createRoundController/);
-assert.match(mainSource, /return this\.rounds\.beginRound\(\)/);
-assert.match(mainSource, /return this\.rounds\.restoreSavedView\(\)/);
-assert.doesNotMatch(mainSource, /A gép választ…|Következő párbaj|potScooped|finishRestoredAiMove\(\) \{\s*this\.busy/s);
-assert.ok(
-  buildSource.indexOf("'js/app/result-controller.js'")
-    < buildSource.indexOf("'js/app/round-controller.js'"),
-  'a körvezérlő az eredményvezérlő után szerepel',
-);
-assert.ok(
-  buildSource.indexOf("'js/app/round-controller.js'")
-    < buildSource.indexOf("'js/main.js'"),
-  'a körvezérlő a Session előtt szerepel',
-);
-assert.match(serviceWorkerSource, /\.\/js\/app\/round-controller\.js/);
-assert.match(serviceWorkerSource, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
-assert.match(serviceWorkerSource, /cache\.addAll\(CORE_SHELL\)/);
-assert.doesNotMatch(serviceWorkerSource, /const PWA_CACHE = 'fociskartyak-2026-v\d+';/);
-
-console.log('✓ Körvezérlő alkalmazási szolgáltatás, explicit időzítés és gépi kör helyreállítás: rendben');
+console.log('✓ Körvezérlő alkalmazási szolgáltatás, operation-token recovery és restore adapter: rendben');

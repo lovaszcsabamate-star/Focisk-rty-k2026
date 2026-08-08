@@ -59,6 +59,9 @@ const tournamentFiles = [
   'js/tournament/tournament-lineup-controller.js',
   'js/tournament-cup-experience.js',
   'js/tournament/cup-atmosphere.js',
+  'js/services/session-recovery-service.js',
+  'js/session-recovery-ui.js',
+  'js/match-experience-polish.js',
 ];
 const tournamentSource = tournamentFiles
   .map(file => {
@@ -70,10 +73,24 @@ const tournamentSource = tournamentFiles
   })
   .join('\n')
   .replace(/<\/script/gi, '<\\/script');
+const sessionRecoveryBootstrap = `
+const standaloneRecoveryPlayers = Array.isArray(globalThis.__EMBEDDED_PLAYER_DATA__?.players)
+  ? globalThis.__EMBEDDED_PLAYER_DATA__.players
+  : [];
+if (standaloneRecoveryPlayers.length) {
+  const standaloneRecoveryReport = reconcileSessionRecovery(standaloneRecoveryPlayers);
+  globalThis.__FOCISKARTYAK_SESSION_RECOVERY__ = standaloneRecoveryReport;
+  if (standaloneRecoveryReport.changed || standaloneRecoveryReport.issues.length) {
+    console.info('[recovery] Standalone session reconciliation:', standaloneRecoveryReport);
+  }
+}
+`;
 const tournamentInlineBundle = `
  /* ===== Torna mód · önálló IIFE ===== */
+ /* Beta Stabilization 1.2 session recovery és Match Experience ugyanebben a tranzakciós környezetben fut. */
  (() => {
  ${tournamentSource}
+ ${sessionRecoveryBootstrap}
  })();
  `;
 const federationAssets = [
@@ -219,6 +236,14 @@ if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('⚡ Automati
   || !output.includes('☆ Mentés kedvencként') || !output.includes('tournamentLineupOrder')) {
   throw new Error('A biztonságos keretválasztás vagy a büntetőrúgó-sorrend nem került be az önálló buildbe.');
 }
+if (!output.includes('Játék helyreállítása') || !output.includes('SESSION_RECOVERY_ISSUE')
+  || !output.includes('fociskartyak:quick-match-inflight:v1')) {
+  throw new Error('A Beta Stabilization 1.2 session recovery rétege nem került be az önálló buildbe.');
+}
+if (!output.includes('match-experience-hud') || !output.includes('MÉRKŐZÉS INDÍTÁSA')
+  || !output.includes('match-experience-duel__comparison')) {
+  throw new Error('A Match Experience Polish HUD, VS intro vagy párbajnézet nem került be az önálló buildbe.');
+}
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
@@ -233,4 +258,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, biztonságos Torna-keret, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, session recovery, Match Experience, biztonságos Torna-keret, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
