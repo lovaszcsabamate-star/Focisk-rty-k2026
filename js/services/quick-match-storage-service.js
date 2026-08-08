@@ -176,15 +176,24 @@ export function createQuickMatchStorageService({
       createdAt: quickMatchStorageText(launch.createdAt) || null,
     });
   };
+  const normaliseInflightLaunch = launch => {
+    const normalised = normaliseLaunch(launch);
+    if (!normalised) return null;
+    return Object.freeze({
+      ...normalised,
+      baselineSavedAt: quickMatchStorageText(launch.baselineSavedAt) || null,
+    });
+  };
 
   const peekLaunch = () => normaliseLaunch(storage.readJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, null));
-  const peekInflightLaunch = () => normaliseLaunch(storage.readJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null));
+  const peekInflightLaunch = () => normaliseInflightLaunch(storage.readJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null));
 
   /**
    * A launch marker csak akkor fogyhat el végleg, amikor az új Session már
-   * bizonyíthatóan létrejött. A consume ezért előbb tartós handoff-markert ír,
-   * majd törli az egyszeri launchot. Process-kill esetén a bootstrap ezt vissza
-   * tudja állítani, ha nincs a launchnál frissebb mérkőzés-snapshot.
+   * bizonyíthatóan létrejött. A consume ezért előbb elmenti az előző mérkőzés-
+   * snapshot azonosítóját, majd tartós handoff-markert ír és törli az egyszeri
+   * launchot. Process-kill esetén így egy régi mentés nem téveszthető össze az
+   * új mérkőzés sikeres kezdeti snapshotjával.
    */
   const acknowledgeLaunch = expectedLaunch => {
     const current = peekLaunch();
@@ -199,14 +208,24 @@ export function createQuickMatchStorageService({
   const restoreInflightLaunch = () => {
     const inflight = peekInflightLaunch();
     if (!inflight) return false;
-    if (!storage.writeJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, inflight)) return false;
+    const restored = {
+      mode: inflight.mode,
+      difficulty: inflight.difficulty,
+      createdAt: inflight.createdAt,
+    };
+    if (!storage.writeJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, restored)) return false;
     return clearInflightLaunch();
   };
 
   const consumeLaunch = () => {
     const launch = peekLaunch();
     if (!launch) return null;
-    if (!storage.writeJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, launch)) return null;
+    const saved = storage.readJson(APP_STORAGE_KEYS.savedMatch, null);
+    const inflight = {
+      ...launch,
+      baselineSavedAt: quickMatchStorageText(saved?.savedAt) || null,
+    };
+    if (!storage.writeJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, inflight)) return null;
     if (!acknowledgeLaunch(launch)) {
       storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
       return null;
@@ -243,4 +262,5 @@ export const peekQuickMatchLaunch = (...args) => quickMatchStorageService.peekLa
 export const peekInflightQuickMatchLaunch = (...args) => quickMatchStorageService.peekInflightLaunch(...args);
 export const acknowledgeQuickMatchLaunch = (...args) => quickMatchStorageService.acknowledgeLaunch(...args);
 export const clearQuickMatchLaunch = (...args) => quickMatchStorageService.clearLaunch(...args);
+export const clearInflightQuickMatchLaunch = (...args) => quickMatchStorageService.clearInflightLaunch(...args);
 export const consumeQuickMatchLaunch = (...args) => quickMatchStorageService.consumeLaunch(...args);
