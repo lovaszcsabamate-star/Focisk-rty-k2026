@@ -215,8 +215,8 @@ if (!output.includes('TOURNAMENT_FORMAT') || !output.includes('Torna mód')
   || !output.includes('cup-atmosphere-journey')) {
   throw new Error('A torna domain, mentés, kupaélmény, stadionhangulat, felület vagy stílus nem került be az önálló buildbe.');
 }
-if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('Automatikus összeállítás')
-  || !output.includes('Kedvenc összeállítás mentése') || !output.includes('tournamentLineupOrder')) {
+if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('⚡ Automatikus 11')
+  || !output.includes('☆ Mentés kedvencként') || !output.includes('tournamentLineupOrder')) {
   throw new Error('A biztonságos keretválasztás vagy a büntetőrúgó-sorrend nem került be az önálló buildbe.');
 }
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
