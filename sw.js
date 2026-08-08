@@ -106,6 +106,7 @@ const CORE_SHELL = Object.freeze([
   './js/recent-duels-experience.js',
   './js/gameplay-polish.js',
   './js/playability-visual-upgrade.js',
+  './js/match-experience-polish.js',
   './js/legal-ui.js',
   './js/tournament-mode.js',
   './js/tournament/tournament-lineup-controller.js',
