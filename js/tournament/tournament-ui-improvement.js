@@ -153,18 +153,20 @@ function decorateCupSelector(root) {
     const title = stage?.querySelector('.tx-cup-main h2');
     if (stage && title) {
       const presentation = resolveTournamentCupPresentation(title.textContent);
+      const identityKey = `${presentation.icon}|${presentation.tag}`;
       stage.dataset.cupTone = presentation.tone;
       const main = stage.querySelector('.tx-cup-main');
-      if (main && !main.querySelector('.tx-cup-identity')) {
-        const identity = root.ownerDocument?.createElement?.('div') ?? globalThis.document?.createElement?.('div');
+      let identity = main?.querySelector('.tx-cup-identity') ?? null;
+      if (main && !identity) {
+        identity = root.ownerDocument?.createElement?.('div') ?? globalThis.document?.createElement?.('div');
         if (identity) {
           identity.className = 'tx-cup-identity';
-          identity.innerHTML = `<span class="tx-cup-identity__icon" aria-hidden="true">${presentation.icon}</span><span>${presentation.tag}</span>`;
           title.before(identity);
         }
-      } else if (main) {
-        const identity = main.querySelector('.tx-cup-identity');
-        if (identity) identity.innerHTML = `<span class="tx-cup-identity__icon" aria-hidden="true">${presentation.icon}</span><span>${presentation.tag}</span>`;
+      }
+      if (identity && identity.dataset.cupIdentity !== identityKey) {
+        identity.dataset.cupIdentity = identityKey;
+        identity.innerHTML = `<span class="tx-cup-identity__icon" aria-hidden="true">${presentation.icon}</span><span>${presentation.tag}</span>`;
       }
     }
     selector.querySelectorAll('.tx-cup-types button').forEach(button => {
