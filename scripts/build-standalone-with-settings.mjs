@@ -61,6 +61,7 @@ const tournamentFiles = [
   'js/tournament/cup-atmosphere.js',
   'js/services/session-recovery-service.js',
   'js/session-recovery-ui.js',
+  'js/match-experience-polish.js',
 ];
 const tournamentSource = tournamentFiles
   .map(file => {
@@ -86,7 +87,7 @@ if (standaloneRecoveryPlayers.length) {
 `;
 const tournamentInlineBundle = `
  /* ===== Torna mód · önálló IIFE ===== */
- /* Beta Stabilization 1.2 session recovery ugyanebben a tranzakciós környezetben fut. */
+ /* Beta Stabilization 1.2 session recovery és Match Experience ugyanebben a tranzakciós környezetben fut. */
  (() => {
  ${tournamentSource}
  ${sessionRecoveryBootstrap}
@@ -239,6 +240,10 @@ if (!output.includes('Játék helyreállítása') || !output.includes('SESSION_R
   || !output.includes('fociskartyak:quick-match-inflight:v1')) {
   throw new Error('A Beta Stabilization 1.2 session recovery rétege nem került be az önálló buildbe.');
 }
+if (!output.includes('match-experience-hud') || !output.includes('MÉRKŐZÉS INDÍTÁSA')
+  || !output.includes('match-experience-duel__comparison')) {
+  throw new Error('A Match Experience Polish HUD, VS intro vagy párbajnézet nem került be az önálló buildbe.');
+}
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
@@ -253,4 +258,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, session recovery, biztonságos Torna-keret, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, session recovery, Match Experience, biztonságos Torna-keret, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
