@@ -20,6 +20,7 @@ on:
       - 'scripts/postprocess-standalone.mjs'
       - 'scripts/tournament-ui-mobile-smoke.mjs'
       - 'test/tournament-mode.test.mjs'
+      - 'test/tournament-match-liveness.test.mjs'
       - 'test/tournament-statistics.test.mjs'
       - 'test/tournament-cup-experience.test.mjs'
       - 'test/tournament-ui-improvement.test.mjs'
@@ -43,6 +44,7 @@ on:
       - 'scripts/postprocess-standalone.mjs'
       - 'scripts/tournament-ui-mobile-smoke.mjs'
       - 'test/tournament-mode.test.mjs'
+      - 'test/tournament-match-liveness.test.mjs'
       - 'test/tournament-statistics.test.mjs'
       - 'test/tournament-cup-experience.test.mjs'
       - 'test/tournament-ui-improvement.test.mjs'
@@ -87,6 +89,7 @@ jobs:
           node --check scripts/postprocess-standalone.mjs
           node --check scripts/tournament-ui-mobile-smoke.mjs
           node --check test/tournament-mode.test.mjs
+          node --check test/tournament-match-liveness.test.mjs
           node --check test/tournament-statistics.test.mjs
           node --check test/tournament-cup-experience.test.mjs
           node --check test/tournament-ui-improvement.test.mjs
@@ -94,6 +97,9 @@ jobs:
 
       - name: Torna domain regressziós teszt
         run: node test/tournament-mode.test.mjs
+
+      - name: Valódi NB I tornamérkőzések liveness stressztesztje
+        run: node test/tournament-match-liveness.test.mjs
 
       - name: Torna statisztikai regresszió
         run: node test/tournament-statistics.test.mjs
