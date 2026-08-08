@@ -34,10 +34,6 @@ export const SESSION_RECOVERY_ISSUE = Object.freeze({
 
 const recoveryText = value => String(value ?? '').trim();
 const recoveryRecord = value => value && typeof value === 'object' && !Array.isArray(value) ? value : null;
-const recoveryTime = value => {
-  const timestamp = Date.parse(recoveryText(value));
-  return Number.isFinite(timestamp) ? timestamp : null;
-};
 const recoveryFreeze = report => Object.freeze({
   ok: report.issues.length === 0 || !report.blocked,
   blocked: Boolean(report.blocked),
@@ -94,17 +90,21 @@ export function createSessionRecoveryService({
     const inflight = quickStorage?.peekInflightLaunch?.() ?? null;
     if (!inflight) return launch;
 
+    const rawInflight = recoveryRecord(storage?.readJson?.(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null));
+    const hasSavedBaseline = Boolean(
+      rawInflight && Object.prototype.hasOwnProperty.call(rawInflight, 'baselineSavedAt'),
+    );
     const savedMatch = recoveryRecord(storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null));
-    const savedAt = recoveryTime(savedMatch?.savedAt);
-    const launchedAt = recoveryTime(inflight.createdAt);
-    const sessionStartedAfterLaunch = savedAt != null && launchedAt != null && savedAt >= launchedAt;
+    const currentSavedAt = recoveryText(savedMatch?.savedAt) || null;
+    const baselineSavedAt = recoveryText(inflight.baselineSavedAt) || null;
+    const sessionCreatedNewSnapshot = hasSavedBaseline && currentSavedAt !== baselineSavedAt;
 
-    if (sessionStartedAfterLaunch || launch) {
+    if (sessionCreatedNewSnapshot || launch) {
       if (quickStorage?.clearInflightLaunch?.() === false) {
         report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
         report.blocked = true;
       } else {
-        report.actions.push(sessionStartedAfterLaunch ? 'completed-launch-handoff-cleared' : 'duplicate-launch-handoff-cleared');
+        report.actions.push(sessionCreatedNewSnapshot ? 'completed-launch-handoff-cleared' : 'duplicate-launch-handoff-cleared');
       }
       return launch;
     }
@@ -221,8 +221,8 @@ export function createSessionRecoveryService({
       report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_QUICK_LAUNCH);
       removeSafely(QUICK_MATCH_LAUNCH_STORAGE_KEY, report, 'malformed-quick-launch-cleared');
     }
-    const rawInflight = storage?.readString?.(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null);
-    if (rawInflight != null && !quickStorage?.peekInflightLaunch?.()) {
+    const rawInflightValue = storage?.readString?.(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null);
+    if (rawInflightValue != null && !quickStorage?.peekInflightLaunch?.()) {
       report.issues.push(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF);
       removeSafely(QUICK_MATCH_INFLIGHT_STORAGE_KEY, report, 'malformed-launch-handoff-cleared');
     }
