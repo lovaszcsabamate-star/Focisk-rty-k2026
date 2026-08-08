@@ -1,4 +1,5 @@
 import { initializeI18n } from './i18n.js';
+import './session-recovery-ui.js';
 import {
   loadActiveSeason as loadDatabase,
 } from './database/season-service.js';
