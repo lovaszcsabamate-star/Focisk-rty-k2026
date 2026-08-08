@@ -9,6 +9,7 @@ on:
       - 'css/tournament-mode.css'
       - 'js/bootstrap.js'
       - 'js/app/result-controller.js'
+      - 'js/app/round-controller.js'
       - 'js/tournament-mode.js'
       - 'js/tournament-cup-experience.js'
       - 'js/tournament-experience-v2.js'
@@ -21,6 +22,7 @@ on:
       - 'scripts/tournament-ui-mobile-smoke.mjs'
       - 'test/tournament-mode.test.mjs'
       - 'test/tournament-match-liveness.test.mjs'
+      - 'test/round-controller-freeze-recovery.test.mjs'
       - 'test/tournament-statistics.test.mjs'
       - 'test/tournament-cup-experience.test.mjs'
       - 'test/tournament-ui-improvement.test.mjs'
@@ -33,6 +35,7 @@ on:
       - 'css/tournament-mode.css'
       - 'js/bootstrap.js'
       - 'js/app/result-controller.js'
+      - 'js/app/round-controller.js'
       - 'js/tournament-mode.js'
       - 'js/tournament-cup-experience.js'
       - 'js/tournament-experience-v2.js'
@@ -45,6 +48,7 @@ on:
       - 'scripts/tournament-ui-mobile-smoke.mjs'
       - 'test/tournament-mode.test.mjs'
       - 'test/tournament-match-liveness.test.mjs'
+      - 'test/round-controller-freeze-recovery.test.mjs'
       - 'test/tournament-statistics.test.mjs'
       - 'test/tournament-cup-experience.test.mjs'
       - 'test/tournament-ui-improvement.test.mjs'
@@ -84,12 +88,14 @@ jobs:
           node --check js/tournament/tournament-ui-improvement.js
           node --check js/tournament-experience-v2.js
           node --check js/app/result-controller.js
+          node --check js/app/round-controller.js
           node --check js/bootstrap.js
           node --check scripts/build-standalone-with-settings.mjs
           node --check scripts/postprocess-standalone.mjs
           node --check scripts/tournament-ui-mobile-smoke.mjs
           node --check test/tournament-mode.test.mjs
           node --check test/tournament-match-liveness.test.mjs
+          node --check test/round-controller-freeze-recovery.test.mjs
           node --check test/tournament-statistics.test.mjs
           node --check test/tournament-cup-experience.test.mjs
           node --check test/tournament-ui-improvement.test.mjs
@@ -100,6 +106,9 @@ jobs:
 
       - name: Valódi NB I tornamérkőzések liveness stressztesztje
         run: node test/tournament-match-liveness.test.mjs
+
+      - name: Körátmenet kifagyás-helyreállítás regresszió
+        run: node test/round-controller-freeze-recovery.test.mjs
 
       - name: Torna statisztikai regresszió
         run: node test/tournament-statistics.test.mjs
