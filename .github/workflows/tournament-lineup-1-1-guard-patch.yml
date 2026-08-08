@@ -1,0 +1,49 @@
+name: Tournament Lineup 1.1 standalone guard patch
+
+on:
+  push:
+    branches: [feature/tournament-lineup-1-1]
+    paths:
+      - '.github/workflows/tournament-lineup-1-1-guard-patch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/tournament-lineup-1-1
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Refresh standalone lineup guard labels
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const path = 'scripts/build-standalone-with-settings.mjs';
+          let source = fs.readFileSync(path, 'utf8');
+          const old = "if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('Automatikus összeállítás')\n  || !output.includes('Kedvenc összeállítás mentése') || !output.includes('tournamentLineupOrder')) {";
+          const next = "if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('⚡ Automatikus 11')\n  || !output.includes('☆ Mentés kedvencként') || !output.includes('tournamentLineupOrder')) {";
+          if (!source.includes(next)) {
+            if (!source.includes(old)) throw new Error('Standalone lineup guard anchor missing');
+            source = source.replace(old, next);
+            fs.writeFileSync(path, source);
+          }
+          NODE
+          node --check scripts/build-standalone-with-settings.mjs
+      - name: Commit guard update
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/build-standalone-with-settings.mjs
+          if git diff --cached --quiet; then
+            echo 'Guard already current.'
+          else
+            git commit -m 'fix(build): update lineup 1.1 standalone guard'
+            git push origin HEAD:feature/tournament-lineup-1-1
+          fi
