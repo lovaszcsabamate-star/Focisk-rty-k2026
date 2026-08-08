@@ -6,9 +6,11 @@
  * már nem használható egyszeri lineup staginget rendez.
  */
 
+import { APP_STORAGE_KEYS } from '../app/configuration.js';
 import { storageService } from './storage-service.js';
 import {
   quickMatchStorageService,
+  QUICK_MATCH_INFLIGHT_STORAGE_KEY,
   QUICK_MATCH_LAUNCH_STORAGE_KEY,
 } from './quick-match-storage-service.js';
 import {
@@ -22,6 +24,7 @@ export const SESSION_RECOVERY_LINEUP_STORAGE_KEY = 'fociskartyak.tournament-line
 
 export const SESSION_RECOVERY_ISSUE = Object.freeze({
   INVALID_QUICK_LAUNCH: 'invalid-quick-launch',
+  INTERRUPTED_LAUNCH_HANDOFF: 'interrupted-launch-handoff',
   ORPHAN_TOURNAMENT_PENDING: 'orphan-tournament-pending',
   INVALID_TOURNAMENT_PENDING: 'invalid-tournament-pending',
   INVALID_CURRENT_MATCH: 'invalid-current-match',
@@ -31,6 +34,10 @@ export const SESSION_RECOVERY_ISSUE = Object.freeze({
 
 const recoveryText = value => String(value ?? '').trim();
 const recoveryRecord = value => value && typeof value === 'object' && !Array.isArray(value) ? value : null;
+const recoveryTime = value => {
+  const timestamp = Date.parse(recoveryText(value));
+  return Number.isFinite(timestamp) ? timestamp : null;
+};
 const recoveryFreeze = report => Object.freeze({
   ok: report.issues.length === 0 || !report.blocked,
   blocked: Boolean(report.blocked),
@@ -82,12 +89,42 @@ export function createSessionRecoveryService({
     return repaired;
   };
 
+  const reconcileInflightLaunch = report => {
+    let launch = quickStorage?.peekLaunch?.() ?? null;
+    const inflight = quickStorage?.peekInflightLaunch?.() ?? null;
+    if (!inflight) return launch;
+
+    const savedMatch = recoveryRecord(storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null));
+    const savedAt = recoveryTime(savedMatch?.savedAt);
+    const launchedAt = recoveryTime(inflight.createdAt);
+    const sessionStartedAfterLaunch = savedAt != null && launchedAt != null && savedAt >= launchedAt;
+
+    if (sessionStartedAfterLaunch || launch) {
+      if (quickStorage?.clearInflightLaunch?.() === false) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+        report.blocked = true;
+      } else {
+        report.actions.push(sessionStartedAfterLaunch ? 'completed-launch-handoff-cleared' : 'duplicate-launch-handoff-cleared');
+      }
+      return launch;
+    }
+
+    report.issues.push(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF);
+    if (quickStorage?.restoreInflightLaunch?.() === false) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+      report.blocked = true;
+      return null;
+    }
+    report.actions.push('interrupted-launch-restored');
+    return quickStorage?.peekLaunch?.() ?? inflight;
+  };
+
   const reconcile = (players = []) => {
     const report = { actions: [], issues: [], blocked: false };
     const rawPending = storage?.readJson?.(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, null) ?? null;
     let pending = tournamentStorage?.readPendingLaunch?.() ?? null;
-    let launch = quickStorage?.peekLaunch?.() ?? null;
-    let setup = quickStorage?.readSetup?.(players) ?? null;
+    let launch = reconcileInflightLaunch(report);
+    const setup = quickStorage?.readSetup?.(players) ?? null;
 
     if (rawPending && !pending) {
       report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_TOURNAMENT_PENDING);
@@ -110,6 +147,7 @@ export function createSessionRecoveryService({
       } else {
         report.actions.push('invalid-quick-launch-cleared');
       }
+      quickStorage?.clearInflightLaunch?.();
       if (pending) {
         if (tournamentStorage?.rollbackPendingLaunch?.() === false) {
           report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
@@ -182,6 +220,11 @@ export function createSessionRecoveryService({
     if (rawLaunch != null && !quickStorage?.peekLaunch?.()) {
       report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_QUICK_LAUNCH);
       removeSafely(QUICK_MATCH_LAUNCH_STORAGE_KEY, report, 'malformed-quick-launch-cleared');
+    }
+    const rawInflight = storage?.readString?.(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null);
+    if (rawInflight != null && !quickStorage?.peekInflightLaunch?.()) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF);
+      removeSafely(QUICK_MATCH_INFLIGHT_STORAGE_KEY, report, 'malformed-launch-handoff-cleared');
     }
     const rawLineup = storage?.readString?.(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null);
     if (rawLineup != null && !recoveryRecord(storage?.readJson?.(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null))) {
