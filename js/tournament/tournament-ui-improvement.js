@@ -9,7 +9,7 @@
 export const TOURNAMENT_UI_IMPROVEMENT_VERSION = 1;
 export const TOURNAMENT_UI_STYLE_ID = 'tournament-ui-improvement-v1-style';
 
-const CLUB_PRESENTATION = Object.freeze({
+const TOURNAMENT_UI_CLUB_PRESENTATION = Object.freeze({
   dvsc: Object.freeze({ short: 'DVSC', primary: '#c8192e', secondary: '#ffffff' }),
   dvtk: Object.freeze({ short: 'DVTK', primary: '#d71920', secondary: '#ffffff' }),
   'eto fc': Object.freeze({ short: 'ETO', primary: '#159447', secondary: '#ffffff' }),
@@ -24,7 +24,7 @@ const CLUB_PRESENTATION = Object.freeze({
   'zte fc': Object.freeze({ short: 'ZTE', primary: '#185ea9', secondary: '#ffffff' }),
 });
 
-const CUP_PRESENTATION = Object.freeze([
+const TOURNAMENT_UI_CUP_PRESENTATION = Object.freeze([
   Object.freeze({ test: /magyar bajnoksag/, icon: '🏟️', tag: 'Szezon', tone: 'league' }),
   Object.freeze({ test: /magyar kupa/, icon: '🏆', tag: 'Kieséses', tone: 'cup' }),
   Object.freeze({ test: /nemzetkozi bajnokok/, icon: '🌍', tag: 'Nemzetközi', tone: 'international' }),
@@ -32,15 +32,15 @@ const CUP_PRESENTATION = Object.freeze([
   Object.freeze({ test: /sajat|uj sajat|mentett sajat/, icon: '✨', tag: 'Saját', tone: 'custom' }),
 ]);
 
-const STEP_LABELS = Object.freeze({
+const TOURNAMENT_UI_STEP_LABELS = Object.freeze({
   tornavalasztas: 'Kupa',
   csapatvalasztas: 'Csapat',
   'torna beallitasai': 'Beállítások',
   osszefoglalo: 'Indítás',
 });
 
-const text = value => String(value ?? '').trim();
-export const foldTournamentUiText = value => text(value)
+const tournamentUiText = value => String(value ?? '').trim();
+export const foldTournamentUiText = value => tournamentUiText(value)
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '')
   .toLocaleLowerCase('hu-HU')
@@ -48,17 +48,17 @@ export const foldTournamentUiText = value => text(value)
   .trim();
 
 export function resolveTournamentClubPresentation(label) {
-  return CLUB_PRESENTATION[foldTournamentUiText(label)] ?? null;
+  return TOURNAMENT_UI_CLUB_PRESENTATION[foldTournamentUiText(label)] ?? null;
 }
 
 export function resolveTournamentCupPresentation(label) {
   const folded = foldTournamentUiText(label);
-  return CUP_PRESENTATION.find(item => item.test.test(folded)) ?? Object.freeze({
+  return TOURNAMENT_UI_CUP_PRESENTATION.find(item => item.test.test(folded)) ?? Object.freeze({
     icon: '🏆', tag: 'Torna', tone: 'neutral',
   });
 }
 
-const UI_CSS = `
+const TOURNAMENT_UI_CSS = `
 .tournament-experience-v2{--tx-ui-gap:12px;max-width:min(820px,calc(100vw - 18px));overflow-x:hidden}
 .tournament-experience-v2 .tx-header{gap:8px;padding-bottom:9px}.tournament-experience-v2 .tx-header__top{align-items:center}.tournament-experience-v2 .tx-header__top h1{line-height:1.05}.tournament-experience-v2 .tx-header__top [data-exit]{display:grid;place-items:center;min-width:44px;width:44px;min-height:44px;padding:0;border-radius:50%;font-size:1.15rem}
 .tournament-experience-v2 .tx-stepper{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;overflow:visible;padding:1px}.tournament-experience-v2 .tx-stepper.tx-stepper--four{grid-template-columns:repeat(4,minmax(0,1fr))}.tournament-experience-v2 .tx-step{min-width:0;min-height:48px;grid-template-columns:26px minmax(0,1fr);gap:5px;padding:6px 8px;font-size:.68rem}.tournament-experience-v2 .tx-step b{width:26px;height:26px}.tournament-experience-v2 .tx-step>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -77,7 +77,7 @@ function installTournamentUiStyles(documentRef) {
   if (!documentRef?.head || documentRef.getElementById?.(TOURNAMENT_UI_STYLE_ID)) return false;
   const style = documentRef.createElement('style');
   style.id = TOURNAMENT_UI_STYLE_ID;
-  style.textContent = UI_CSS;
+  style.textContent = TOURNAMENT_UI_CSS;
   documentRef.head.appendChild(style);
   return true;
 }
@@ -104,7 +104,7 @@ function applyGeneratedClubMark(mark, label) {
   const presentation = resolveTournamentClubPresentation(label);
   if (!presentation) return false;
   mark.dataset.tournamentClubVisual = 'true';
-  mark.dataset.clubLabel = text(label);
+  mark.dataset.clubLabel = tournamentUiText(label);
   mark.style?.setProperty?.('--team-primary', presentation.primary);
   mark.style?.setProperty?.('--team-secondary', presentation.secondary);
   mark.classList?.add?.('quick-team-mark', 'quick-team-mark--text', 'tx-team-mark--club');
@@ -131,7 +131,7 @@ function simplifyTournamentStepper(root) {
     for (const step of steps) {
       const label = step.querySelector('span');
       if (!label || label.dataset.shortTournamentLabel === 'true') continue;
-      const short = STEP_LABELS[foldTournamentUiText(label.textContent)];
+      const short = TOURNAMENT_UI_STEP_LABELS[foldTournamentUiText(label.textContent)];
       if (!short) continue;
       label.dataset.originalTournamentLabel = label.textContent;
       label.dataset.shortTournamentLabel = 'true';
@@ -142,7 +142,7 @@ function simplifyTournamentStepper(root) {
   root.querySelectorAll?.('.tournament-experience-v2 .tx-header__top [data-exit]').forEach(button => {
     if (button.dataset.compactTournamentExit === 'true') return;
     button.dataset.compactTournamentExit = 'true';
-    button.setAttribute('aria-label', text(button.textContent) || 'Kilépés');
+    button.setAttribute('aria-label', tournamentUiText(button.textContent) || 'Kilépés');
     button.textContent = '×';
   });
 }
