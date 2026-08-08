@@ -91,11 +91,13 @@ jobs:
           npx cap sync android
       - name: Android WebView asset smoke
         run: |
-          test -f android/app/src/main/assets/public/index.html
-          test -f android/app/src/main/assets/public/js/main.js
-          test -f android/app/src/main/assets/public/sw.js
-          grep -q "Magasabb játékos" android/app/src/main/assets/public/js/data/players.js
-          grep -q "tournament-lineup-controller" android/app/src/main/assets/public/sw.js
+          WEBVIEW=android/app/src/main/assets/public/index.html
+          test -s "$WEBVIEW"
+          grep -q "Magasabb játékos" "$WEBVIEW"
+          grep -q "Tournament Lineup 1.1" "$WEBVIEW"
+          grep -q "android-startup" "$WEBVIEW"
+          ! grep -Eiq '<script[^>]+src=' "$WEBVIEW"
+          ! grep -Eiq '<script[^>]+type=["'"']module["'"']' "$WEBVIEW"
       - name: Gradle debug checks and APK
         working-directory: android
         run: |
