@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+import { ATTRIBUTE_BY_KEY } from '../js/data/players.js';
 import {
   TOURNAMENT_STATISTICS_MIN_DUELS,
   mergeTournamentResultAnalytics,
@@ -60,6 +61,10 @@ const payload = {
       id: 'match-1:classic:3:p2:goals', round: 3, attribute: 'goals', outcome: 'loss',
       humanPlayerId: 'p2', humanPlayerName: 'Második Játékos', aiPlayerId: 'a3', aiPlayerName: 'Ellenfél 3',
     },
+    {
+      id: 'match-1:classic:4:p2:heightCm', round: 4, attribute: 'heightCm', outcome: 'win',
+      humanPlayerId: 'p2', humanPlayerName: 'Második Játékos', aiPlayerId: 'a5', aiPlayerName: 'Ellenfél 5',
+    },
   ],
 };
 
@@ -76,7 +81,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   { played: second.played, wins: second.wins, draws: second.draws, losses: second.losses, appearances: second.appearances },
-  { played: 1, wins: 0, draws: 0, losses: 1, appearances: 1 },
+  { played: 2, wins: 1, draws: 0, losses: 1, appearances: 1 },
 );
 assert.equal(merged.playerStats.p1.appearances, 1, 'A kompatibilitási játékosstatisztika is csak egyszer számolhatja a meccset.');
 assert.equal(merged.playerStats.p1.duels, 2);
@@ -85,6 +90,7 @@ assert.equal(merged.playerStats.p1.duelWins, 1);
 const categoryStats = tournamentCategoryStatistics(merged);
 const goals = categoryStats.find(row => row.attribute === 'goals');
 const yellowCards = categoryStats.find(row => row.attribute === 'yellowCards');
+const height = categoryStats.find(row => row.attribute === 'heightCm');
 assert.deepEqual(
   { played: goals.played, wins: goals.wins, draws: goals.draws, losses: goals.losses },
   { played: 2, wins: 1, draws: 0, losses: 1 },
@@ -93,6 +99,12 @@ assert.deepEqual(
   { played: yellowCards.played, wins: yellowCards.wins, draws: yellowCards.draws, losses: yellowCards.losses },
   { played: 1, wins: 0, draws: 1, losses: 0 },
 );
+assert.deepEqual(
+  { played: height.played, wins: height.wins, draws: height.draws, losses: height.losses },
+  { played: 1, wins: 1, draws: 0, losses: 0 },
+);
+assert.equal(ATTRIBUTE_BY_KEY[height.attribute].label, 'Magasabb játékos');
+assert.equal(ATTRIBUTE_BY_KEY[height.attribute].icon, '📏');
 
 const duplicate = mergeTournamentResultAnalytics(merged, payload);
 assert.equal(Object.keys(duplicate.tournamentAnalytics.segments).length, 1, 'Ugyanaz a result segment nem duplikálódhat.');
@@ -179,4 +191,4 @@ assert.match(runtimeSource, /renderTournamentStatistics\(state\)/);
 assert.match(runtimeSource, /TOURNAMENT_STATISTICS_MIN_DUELS = 3/);
 assert.doesNotMatch(runtimeSource, /playersButton\?\.remove\(\)/, 'A régi játékos tabot újra kell hasznosítani, nem eltávolítani.');
 
-console.log('✓ Tournament Statistics 1.0: derived csapat-, játékos- és kategóriastatisztikák, reload és idempotencia rendben.');
+console.log('✓ Tournament Statistics 1.0: derived csapat-, játékos- és heightCm kategóriastatisztikák, reload és idempotencia rendben.');

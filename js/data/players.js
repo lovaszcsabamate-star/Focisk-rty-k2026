@@ -7,6 +7,7 @@
  */
 
 import { CATEGORY_MINIMUM_COVERAGE, CATEGORY_RATE_MINUTES, createCategoryRegistry } from './categories.js';
+import { normaliseHeightCm } from './height.js';
 
 const PLACEHOLDER_VALUES = new Set([
   '', '-', '–', '—', 'n/a', 'n.a.', 'na', 'null', 'undefined', 'ismeretlen', 'nincs adat',
@@ -105,11 +106,23 @@ const categoryRegistry = createCategoryRegistry({
   calculateAge,
 });
 
+// Height 1.0 keeps the existing central category record but makes its value contract strict.
+// Invalid or unavailable values are `null`, so the shared availability logic excludes the
+// category for a duel rather than treating the player as 0 cm or as an automatic loser.
+const verifiedHeightValue = card => normaliseHeightCm(card?.stats?.heightCm, normaliseNumber);
+for (const id of ['heightCm', 'heightCmLower']) {
+  const category = categoryRegistry.byId[id];
+  if (!category) continue;
+  category.value = verifiedHeightValue;
+  category.getValue = verifiedHeightValue;
+  category.unit = 'cm';
+}
+
 /** Kanonikus kategóriaexportok. */
 export const CATEGORY_DEFINITIONS = categoryRegistry.definitions;
 export const CATEGORY_BY_ID = categoryRegistry.byId;
 export const ENABLED_CATEGORIES = categoryRegistry.enabledCategories;
-export const CARD_CATEGORY_IDS = categoryRegistry.cardCategoryIds;
+export const CARD_CATEGORY_IDS = Object.freeze([...categoryRegistry.cardCategoryIds, 'heightCm']);
 export const CATEGORY_AVAILABILITY = categoryRegistry.availability;
 export const categoryValue = categoryRegistry.value;
 export const hasCategoryData = categoryRegistry.hasValue;
@@ -152,7 +165,7 @@ export function normaliseCard(card = {}) {
     secondYellowRedCards: pickNumber(rawStats.secondYellowRedCards, rawStats.secondYellowReds),
     totalDismissals: pickNumber(rawStats.totalDismissals),
     overallScore: pickNumber(rawStats.overallScore),
-    heightCm: pickNumber(rawStats.heightCm, rawStats.height, card.heightCm, card.height),
+    heightCm: normaliseHeightCm(pickNumber(rawStats.heightCm, rawStats.height, card.heightCm, card.height)),
     marketValue: pickNumber(rawStats.marketValue, rawStats.marketValueEur, card.marketValue, card.marketValueEur),
     shirtNumber: pickNumber(rawStats.shirtNumber, rawStats.jerseyNumber, card.shirtNumber, card.jerseyNumber),
   };

@@ -141,7 +141,7 @@ assert.equal(databaseManifest.schemaVersion, 2);
 assert.equal(databaseManifest.competitionId, databaseEntry.competitionId);
 assert.equal(databaseManifest.seasonId, databaseEntry.seasonId);
 assert.equal(databaseManifest.seasonMeta.status, 'current');
-assert.equal(databaseManifest.files.enrichments.length, 25);
+assert.equal(databaseManifest.files.enrichments.length, 26);
 assert.equal(databaseManifest.files.corrections.length, 5);
 assert.equal(databaseManifest.files.statPatches.length, 13);
 

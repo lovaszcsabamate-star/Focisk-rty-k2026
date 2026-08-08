@@ -64,6 +64,15 @@ assert.equal(ATTRIBUTE_BY_KEY.goalsPer90.minimumMinutes, CATEGORY_RATE_MINUTES);
 assert.equal(ATTRIBUTE_BY_KEY.minutesPerGoal.direction, CATEGORY_DIRECTIONS.LOWER);
 assert.equal(ATTRIBUTE_BY_KEY.discipline.group, CATEGORY_GROUPS.DISCIPLINE);
 
+// Player Data Expansion – Height 1.0 a központi kategóriaregisztert használja.
+assert.equal(CATEGORY_BY_ID.heightCm.id, 'heightCm');
+assert.equal(CATEGORY_BY_ID.heightCm.label, 'Magasabb játékos');
+assert.equal(CATEGORY_BY_ID.heightCm.icon, '📏');
+assert.equal(CATEGORY_BY_ID.heightCm.direction, CATEGORY_DIRECTIONS.HIGHER);
+assert.equal(CATEGORY_BY_ID.heightCm.unit, 'cm');
+assert.deepEqual(CATEGORY_BY_ID.heightCm.requiredFields, ['stats.heightCm']);
+assert.ok(CARD_CATEGORY_IDS.includes('heightCm'));
+
 const card = normaliseCard({
   id: 'registry-test',
   name: 'Regiszter Teszt',
@@ -79,6 +88,7 @@ const card = normaliseCard({
     yellowCards: 2,
     redCards: 0,
     totalDismissals: 0,
+    heightCm: 187,
   },
 });
 
@@ -86,6 +96,19 @@ assert.equal(categoryValue(card, 'goalsPer90'), 1);
 assert.equal(formatCategoryValue(card, 'goalsPer90'), '1');
 assert.equal(hasCategoryData(card, 'assistsPer90'), true);
 assert.equal(categoryValue(card, 'startRate'), 75);
+assert.equal(categoryValue(card, 'heightCm'), 187);
+assert.equal(formatCategoryValue(card, 'heightCm'), '187 cm');
+
+for (const invalidHeight of [0, 235, 'magas']) {
+  const invalid = normaliseCard({
+    id: `invalid-height-${String(invalidHeight)}`,
+    name: 'Érvénytelen Magasság',
+    club: 'Teszt FC',
+    stats: { heightCm: invalidHeight },
+  });
+  assert.equal(hasCategoryData(invalid, 'heightCm'), false);
+  assert.equal(categoryValue(invalid, 'heightCm'), null);
+}
 
 const coverageCards = Array.from({ length: 20 }, (_, index) => normaliseCard({
   id: `coverage-${index}`,
@@ -111,4 +134,4 @@ assert.equal(CATEGORY_AVAILABILITY.heightCm.status, 'experimental');
 assert.equal(CATEGORY_AVAILABILITY.marketValue.status, 'disabled');
 assert.ok(ENABLED_CATEGORIES.includes(CATEGORY_BY_ID.goals));
 
-console.log('✓ Központi, verziózott és visszafelé kompatibilis kategóriaregiszter: rendben');
+console.log('✓ Központi, verziózott kategóriaregiszter + Height 1.0: rendben');

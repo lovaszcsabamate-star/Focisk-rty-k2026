@@ -9,16 +9,10 @@ on:
       - scripts/enrich-player-heights-from-hlsz-profiles.mjs
       - test/normalized-database-migration.test.mjs
       - .github/workflows/complete-player-heights.yml
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/enrich-player-heights.mjs
-      - scripts/run-height-enrichment.mjs
-      - scripts/enrich-player-heights-from-hlsz-profiles.mjs
-      - test/normalized-database-migration.test.mjs
-      - .github/workflows/complete-player-heights.yml
   workflow_dispatch:
 
+# A lassú, hálózati HLSZ-enrichment nem PR-validációs feladat. A PR-okhoz a
+# determinisztikus Player Heights 1.0 + Height 1.0 release gate tartozik.
 permissions:
   contents: write
 
@@ -34,13 +28,13 @@ jobs:
       - name: Forráskód letöltése
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: Node.js beállítása
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Függőségek telepítése
@@ -100,19 +94,28 @@ jobs:
 
       - name: Eredmények mentése az ágra
         env:
-          TARGET_BRANCH: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+          TARGET_BRANCH: ${{ github.ref_name }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # A height-enrichment-report időbélyege minden futásnál változhat.
+          # Csak akkor készül commit, ha tényleges adat-/manifest-/normalizált
+          # kimenet is változott; report-only változás nem mozgathatja a branch headet.
+          if git diff --quiet -- \
+            data/club-official-enrichment-25-all-club-heights.json \
+            data/databases/hungary-nb1-2025-26/manifest.json \
+            data/databases/hungary-nb1-2025-26/players.normalized.json \
+            data/databases/hungary-nb1-2025-26/normalization-report.json; then
+            echo "Nincs új hiteles magasság vagy normalizált adatváltozás; report-only commit kihagyva."
+            exit 0
+          fi
+
           git add \
             data/club-official-enrichment-25-all-club-heights.json \
             data/databases/hungary-nb1-2025-26/height-enrichment-report.json \
             data/databases/hungary-nb1-2025-26/manifest.json \
             data/databases/hungary-nb1-2025-26/players.normalized.json \
             data/databases/hungary-nb1-2025-26/normalization-report.json
-          if git diff --cached --quiet; then
-            echo "Nincs mentendő változás."
-          else
-            git commit -m "Complete verified player height data"
-            git push origin HEAD:"$TARGET_BRANCH"
-          fi
+          git commit -m "Complete verified player height data"
+          git push origin HEAD:"$TARGET_BRANCH"

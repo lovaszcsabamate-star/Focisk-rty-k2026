@@ -19,7 +19,7 @@ const standaloneSettingsBuilder = read('../scripts/build-standalone-with-setting
 const serviceWorker = read('../sw.js');
 
 assert.equal(manifest.schemaVersion, 2);
-assert.equal(manifest.version, '3.3.0');
+assert.equal(manifest.version, '3.4.0');
 assert.equal(manifest.competitionId, 'hungary-nb1');
 assert.equal(manifest.seasonId, '2025-26');
 assert.equal(manifest.season, '2025/26');
@@ -98,4 +98,4 @@ assert.match(serviceWorker, /federation-audit-report\.json/);
 assert.match(serviceWorker, /const CACHE_PREFIX = 'fociskartyak-2026-build-'/);
 assert.match(serviceWorker, /SHA-256/);
 
-console.log('✓ A v3.3-as 2025/26-os normalizált adatbázis modell v3-mal, teljes zászló- és föderációs audittal elsődleges forrás');
+console.log('✓ A v3.4-es 2025/26-os normalizált adatbázis Height 1.0-val, modell v3-mal, teljes zászló- és föderációs audittal elsődleges forrás');

@@ -1,0 +1,109 @@
+name: Height 1.0 release gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/complete-player-heights.yml'
+      - '.github/workflows/player-heights-release-gate.yml'
+      - '.github/workflows/player-heights.yml'
+      - 'data/**'
+      - 'docs/data/**'
+      - 'js/**'
+      - 'scripts/**'
+      - 'test/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'capacitor.config.*'
+      - 'android/**'
+      - 'sw.js'
+      - 'index.html'
+
+permissions:
+  contents: read
+
+jobs:
+  web-regression:
+    name: Full web, PWA and mobile regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Height source and coverage validation
+        run: |
+          node scripts/validate-height-enrichment.mjs
+          node scripts/audit-player-heights.mjs
+          node test/player-heights.test.mjs
+      - name: Lint
+        run: npm run lint
+      - name: Unit and standard regression
+        run: npm test
+      - name: Full test suite
+        run: npm run test:all
+      - name: Accessibility
+        run: npm run test:accessibility
+      - name: Build
+        run: npm run build
+      - name: Standalone build
+        run: npm run build:standalone
+      - name: Mobile prepare
+        run: npm run mobile:prepare
+      - name: Mobile layout regression
+        run: npm run test:mobile-layout
+      - name: Browser runtime smoke
+        run: npm run test:runtime
+      - name: PWA audit
+        run: npm run audit:pwa
+      - name: PWA cache regression
+        run: npm run test:pwa-cache
+      - name: Mode and category regressions
+        run: |
+          node test/category-registry.test.mjs
+          node test/player-model.test.mjs
+          node test/game-runtime.test.mjs
+          node test/standalone-game-runtime.test.mjs
+          node test/tournament-mode.test.mjs
+          node test/tournament-statistics.test.mjs
+
+  android-debug-apk:
+    name: Android Capacitor + Gradle debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Mobile prepare
+        run: npm run mobile:prepare
+      - name: Add Android platform
+        run: npx cap add android
+      - name: Capacitor sync Android
+        run: npx cap sync android
+      - name: Mobile and WebView runtime smoke
+        run: |
+          npm run test:mobile-layout
+          npm run test:runtime
+      - name: Gradle assembleDebug
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Height-1.0-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14

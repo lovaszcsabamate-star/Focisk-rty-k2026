@@ -1,0 +1,47 @@
+name: Player Heights 1.0
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/player-heights.yml'
+      - 'data/**'
+      - 'docs/data/**'
+      - 'js/data/categories.js'
+      - 'js/data/club-enrichment.js'
+      - 'js/data/height.js'
+      - 'js/data/players.js'
+      - 'js/models/player-model.js'
+      - 'scripts/audit-player-heights.mjs'
+      - 'scripts/validate-height-enrichment.mjs'
+      - 'scripts/migrate-normalized-database.mjs'
+      - 'test/player-heights.test.mjs'
+      - 'test/category-registry.test.mjs'
+      - 'test/player-model.test.mjs'
+      - 'test/tournament-statistics.test.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  height-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Strict Height 1.0 source identity validation
+        run: node scripts/validate-height-enrichment.mjs
+      - name: Height coverage audit
+        run: node scripts/audit-player-heights.mjs
+      - name: Player height regression
+        run: node test/player-heights.test.mjs
+      - name: Category registry regression
+        run: node test/category-registry.test.mjs
+      - name: Player model regression
+        run: node test/player-model.test.mjs
+      - name: Tournament statistics regression
+        run: node test/tournament-statistics.test.mjs

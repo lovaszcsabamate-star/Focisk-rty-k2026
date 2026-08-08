@@ -38,7 +38,7 @@ const manifest = validateDatabaseManifest(rawManifest, entry.manifest);
 assert.equal(manifest.schemaVersion, 2);
 assert.equal(manifest.id, entry.id);
 assert.equal(manifest.name, 'Magyar NB I 2025/26');
-assert.equal(manifest.version, '3.3.0');
+assert.equal(manifest.version, '3.4.0');
 assert.equal(manifest.competitionId, 'hungary-nb1');
 assert.equal(manifest.season, '2025/26');
 assert.equal(manifest.seasonId, '2025-26');
@@ -60,7 +60,7 @@ assert.equal(
   'data/databases/hungary-nb1-2025-26/normalization-report.json',
 );
 assert.equal(manifest.files.clubDirectory, 'data/club-official-sources.json');
-assert.equal(manifest.files.enrichments.length, 25);
+assert.equal(manifest.files.enrichments.length, 26);
 assert.equal(manifest.files.corrections.length, 5);
 assert.equal(manifest.files.statPatches.length, 13);
 assert.equal(manifest.normalization.schemaVersion, 1);
@@ -158,4 +158,4 @@ assert.throws(
   /hiányzó normalizált játékosadat-fájl/,
 );
 
-console.log('✓ Adatbázis-regiszter, szezonmanifest és v3 játékosmodell összhangban');
+console.log('✓ Adatbázis-regiszter v3.4, szezonmanifest, Height 1.0 és v3 játékosmodell összhangban');
