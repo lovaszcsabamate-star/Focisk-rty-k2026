@@ -34,6 +34,8 @@ jobs:
       - name: Syntax and full project regression
         run: |
           npm run lint
+          node --check js/match-experience-polish.js
+          node --check test/match-experience-polish.test.mjs
           npm test
           npm run test:all
       - name: Session recovery and liveness regressions
@@ -45,8 +47,9 @@ jobs:
           node test/storage-service.test.mjs
           node test/save-service.test.mjs
           node test/tournament-launch-transaction.test.mjs
-      - name: Tournament, lineup and Quick Match regressions
+      - name: Match Experience, tournament, lineup and Quick Match regressions
         run: |
+          node test/match-experience-polish.test.mjs
           node test/player-heights.test.mjs
           node test/tournament-mode.test.mjs
           node test/tournament-statistics.test.mjs
@@ -77,6 +80,8 @@ jobs:
           test -s Fociskartyak2026.html
           grep -q "Magasabb játékos" Fociskartyak2026.html
           grep -q "Játék helyreállítása" Fociskartyak2026.html
+          grep -q "match-experience-hud" Fociskartyak2026.html
+          grep -q "MÉRKŐZÉS INDÍTÁSA" Fociskartyak2026.html
 
   android-debug-apk:
     runs-on: ubuntu-latest
@@ -107,7 +112,7 @@ jobs:
           import re
 
           html = Path('android/app/src/main/assets/public/index.html').read_text(encoding='utf-8')
-          for marker in ('Magasabb játékos', 'Játék helyreállítása', 'android-startup'):
+          for marker in ('Magasabb játékos', 'Játék helyreállítása', 'match-experience-hud', 'MÉRKŐZÉS INDÍTÁSA', 'android-startup'):
               if marker not in html:
                   raise SystemExit(f'Hiányzó Android WebView marker: {marker}')
           if re.search(r'<script\b[^>]*\bsrc=', html, re.IGNORECASE):
