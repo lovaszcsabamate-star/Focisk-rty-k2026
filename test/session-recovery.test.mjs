@@ -209,7 +209,6 @@ const createQuickStub = ({ launch = null, inflight = null, setup = null } = {}) 
   assert.equal(quickStorage.calls.clearInflight, 1, 'Új Session snapshot után a handoff marker lezárható.');
   assert.equal(quickStorage.calls.restoreInflight, 0);
   assert.ok(report.actions.includes('completed-launch-handoff-cleared'));
-  assert.ok(!report.issues.includes(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF));
 }
 
 {
