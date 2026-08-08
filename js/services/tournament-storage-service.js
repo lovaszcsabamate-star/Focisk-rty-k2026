@@ -1,4 +1,4 @@
-/** Az aktív torna és a korábbi tornagyőzelmek helyi mentése. */
+/** Az aktív torna, a keretállapot és a korábbi tornagyőzelmek helyi mentése. */
 
 import { storageService } from './storage-service.js';
 import {
@@ -6,6 +6,11 @@ import {
   TOURNAMENT_STATUS,
   TOURNAMENT_VERSION,
 } from '../tournament/tournament-domain.js';
+import {
+  ensureTournamentLineupState,
+  normaliseTournamentLineupState,
+  tournamentLineupScope,
+} from '../tournament/tournament-lineup-state.js';
 
 export const TOURNAMENT_STORAGE_KEY = 'fociskartyak.tournament.v1';
 export const TOURNAMENT_HISTORY_STORAGE_KEY = 'fociskartyak.tournament-history.v1';
@@ -13,13 +18,14 @@ export const TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY = 'fociskartyak.tournament-pe
 const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
 const tournamentStorageText = value => String(value ?? '').trim();
+const tournamentStorageClone = value => JSON.parse(JSON.stringify(value));
 
-const migrateTournament = value => {
+export const migrateStoredTournament = value => {
   if (!value || typeof value !== 'object') return null;
   const version = Number(value.version) || 1;
   if (version > TOURNAMENT_VERSION) return null;
-  return {
-    ...value,
+  const migrated = {
+    ...tournamentStorageClone(value),
     version: TOURNAMENT_VERSION,
     matchMode: value.matchMode === TOURNAMENT_MATCH_MODE.PENALTIES
       ? TOURNAMENT_MATCH_MODE.PENALTIES
@@ -29,10 +35,20 @@ const migrateTournament = value => {
     lastLineupIds: Array.isArray(value.lastLineupIds) ? value.lastLineupIds : [],
     playerStats: value.playerStats && typeof value.playerStats === 'object' ? value.playerStats : {},
   };
+  const scope = tournamentLineupScope(migrated);
+  migrated.lineupState = normaliseTournamentLineupState({
+    ...(value.lineupState && typeof value.lineupState === 'object' ? value.lineupState : {}),
+    byMatchId: value.lineupState?.byMatchId ?? {},
+    lastLineupIds: value.lineupState?.lastLineupIds ?? migrated.lastLineupIds,
+    favoriteLineupIds: value.lineupState?.favoriteLineupIds ?? [],
+    penaltyOrders: value.lineupState?.penaltyOrders ?? {},
+  }, scope);
+  migrated.lastLineupIds = [...migrated.lineupState.lastLineupIds];
+  return ensureTournamentLineupState(migrated);
 };
 
 export function normaliseStoredTournament(value) {
-  const migrated = migrateTournament(value);
+  const migrated = migrateStoredTournament(value);
   if (!migrated) return null;
   if (!tournamentStorageText(migrated.id) || !tournamentStorageText(migrated.humanTeamId)) return null;
   if (!Array.isArray(migrated.participants) || migrated.participants.length < 4) return null;

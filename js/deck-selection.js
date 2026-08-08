@@ -101,6 +101,19 @@ const readStagedTournamentLineup = () => {
   }
 };
 
+const tournamentLineupCard = (player, side, order, lineup) => ({
+  ...player,
+  meta: {
+    ...(player?.meta ?? {}),
+    tournamentLineup: true,
+    tournamentLineupSide: side,
+    tournamentLineupOrder: order,
+    tournamentLineupMode: String(lineup?.mode ?? ''),
+    tournamentId: String(lineup?.tournamentId ?? ''),
+    tournamentMatchId: String(lineup?.matchId ?? ''),
+  },
+});
+
 export const applyStagedTournamentLineup = prepared => {
   const lineup = readStagedTournamentLineup();
   if (!lineup) return prepared;
@@ -112,11 +125,14 @@ export const applyStagedTournamentLineup = prepared => {
   const human = lineup.humanIds.map(id => byId.get(id)).filter(Boolean);
   if (human.length < 4 || aiPool.length < human.length) return prepared;
   const ai = [...aiPool].sort((a, b) => lineupScore(b) - lineupScore(a)).slice(0, human.length);
-  const selectedPlayers = [...human, ...ai];
+  const orderedHuman = human.map((player, index) => tournamentLineupCard(player, 'human', index, lineup));
+  const orderedAi = ai.map((player, index) => tournamentLineupCard(player, 'ai', index, lineup));
+  const selectedPlayers = [...orderedHuman, ...orderedAi];
   const lineupMeta = {
     active: true,
-    humanIds: human.map(player => player.id),
-    aiIds: ai.map(player => player.id),
+    mode: String(lineup.mode ?? ''),
+    humanIds: orderedHuman.map(player => player.id),
+    aiIds: orderedAi.map(player => player.id),
     tournamentId: String(lineup.tournamentId ?? ''),
     matchId: String(lineup.matchId ?? ''),
   };

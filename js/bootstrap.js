@@ -77,6 +77,7 @@ try {
   globalThis.__EMBEDDED_PLAYER_DATA__ = selectedPayload;
   installDeckSelectionMenu(playablePayload, deckSelection);
   await import('./tournament-mode.js');
+  await import('./tournament/tournament-lineup-controller.js');
   await import('./tournament-cup-experience.js');
   await import('./tournament/cup-atmosphere.js');
   await import('./tournament-rapid-upgrade.js');

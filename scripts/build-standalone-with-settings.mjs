@@ -53,15 +53,17 @@ const quickMatchInlineBundle = [
   .replace(/<\/script/gi, '<\\/script');
 const tournamentFiles = [
   'js/tournament/tournament-domain.js',
+  'js/tournament/tournament-lineup-state.js',
   'js/services/tournament-storage-service.js',
   'js/tournament-mode.js',
+  'js/tournament/tournament-lineup-controller.js',
   'js/tournament-cup-experience.js',
   'js/tournament/cup-atmosphere.js',
 ];
 const tournamentSource = tournamentFiles
   .map(file => {
     const source = flattenInlineModule(fs.readFileSync(path.join(ROOT, file), 'utf8'));
-    const isolatedSource = file === 'js/tournament/cup-atmosphere.js'
+    const isolatedSource = file === 'js/tournament/cup-atmosphere.js' || file === 'js/tournament/tournament-lineup-controller.js'
       ? `(() => {\n${source}\n})();`
       : source;
     return `\n/* ===== ${file} ===== */\n${isolatedSource}`;
@@ -213,6 +215,10 @@ if (!output.includes('TOURNAMENT_FORMAT') || !output.includes('Torna mód')
   || !output.includes('cup-atmosphere-journey')) {
   throw new Error('A torna domain, mentés, kupaélmény, stadionhangulat, felület vagy stílus nem került be az önálló buildbe.');
 }
+if (!output.includes('TOURNAMENT_LINEUP_SIZE') || !output.includes('Automatikus összeállítás')
+  || !output.includes('Kedvenc összeállítás mentése') || !output.includes('tournamentLineupOrder')) {
+  throw new Error('A biztonságos keretválasztás vagy a büntetőrúgó-sorrend nem került be az önálló buildbe.');
+}
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
@@ -227,4 +233,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, Torna mód, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, biztonságos Torna-keret, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
