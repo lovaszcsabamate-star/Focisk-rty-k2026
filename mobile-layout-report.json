@@ -1,5 +1,5 @@
 {
-  "chrome": "/usr/bin/google-chrome",
+  "chrome": "google-chrome-stable",
   "measurements": [
     {
       "width": 320,
