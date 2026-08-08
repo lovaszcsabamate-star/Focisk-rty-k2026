@@ -14,6 +14,7 @@ import { storageService } from './storage-service.js';
 export const QUICK_MATCH_SETUP_VERSION = 2;
 export const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
 export const QUICK_MATCH_LAUNCH_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchLaunch;
+export const QUICK_MATCH_INFLIGHT_STORAGE_KEY = 'fociskartyak:quick-match-inflight:v1';
 export const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
 export class QuickMatchStorageError extends Error {
@@ -158,13 +159,16 @@ export function createQuickMatchStorageService({
       return false;
     }
 
+    // Egy korábbi, már sikeresen elindult Session handoff-markerét az új staging
+    // felülírhatja; nem lehet hatással az új tranzakcióra.
+    storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
+
     // A meglévő mérkőzésmentést a staging soha nem törli. A teljesen
     // inicializált új Session snapshotja csak sikeres indulás után írhatja felül.
     return true;
   };
 
-  const peekLaunch = () => {
-    const launch = storage.readJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, null);
+  const normaliseLaunch = launch => {
     if (!launch || typeof launch !== 'object') return null;
     return Object.freeze({
       mode: quickMatchStorageMode(launch.mode),
@@ -173,10 +177,14 @@ export function createQuickMatchStorageService({
     });
   };
 
+  const peekLaunch = () => normaliseLaunch(storage.readJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, null));
+  const peekInflightLaunch = () => normaliseLaunch(storage.readJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null));
+
   /**
-   * A launch marker csak akkor fogyhat el, amikor az új Session már sikeresen
-   * létrehozta és elmentette a mérkőzést. Így process-kill vagy reload közben
-   * az indítás nem vész el félúton.
+   * A launch marker csak akkor fogyhat el végleg, amikor az új Session már
+   * bizonyíthatóan létrejött. A consume ezért előbb tartós handoff-markert ír,
+   * majd törli az egyszeri launchot. Process-kill esetén a bootstrap ezt vissza
+   * tudja állítani, ha nincs a launchnál frissebb mérkőzés-snapshot.
    */
   const acknowledgeLaunch = expectedLaunch => {
     const current = peekLaunch();
@@ -187,16 +195,29 @@ export function createQuickMatchStorageService({
   };
 
   const clearLaunch = () => Boolean(storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY));
+  const clearInflightLaunch = () => Boolean(storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY));
+  const restoreInflightLaunch = () => {
+    const inflight = peekInflightLaunch();
+    if (!inflight) return false;
+    if (!storage.writeJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, inflight)) return false;
+    return clearInflightLaunch();
+  };
 
   const consumeLaunch = () => {
     const launch = peekLaunch();
-    if (launch) acknowledgeLaunch(launch);
+    if (!launch) return null;
+    if (!storage.writeJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, launch)) return null;
+    if (!acknowledgeLaunch(launch)) {
+      storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
+      return null;
+    }
     return launch;
   };
 
   const clear = () => {
     storage.remove(QUICK_MATCH_SETUP_STORAGE_KEY);
     storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY);
+    storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
     return true;
   };
 
@@ -205,8 +226,11 @@ export function createQuickMatchStorageService({
     saveSetup,
     stage,
     peekLaunch,
+    peekInflightLaunch,
     acknowledgeLaunch,
     clearLaunch,
+    clearInflightLaunch,
+    restoreInflightLaunch,
     consumeLaunch,
     clear,
   });
@@ -216,6 +240,7 @@ export const quickMatchStorageService = createQuickMatchStorageService();
 export const readQuickMatchSetup = (...args) => quickMatchStorageService.readSetup(...args);
 export const stageQuickMatch = (...args) => quickMatchStorageService.stage(...args);
 export const peekQuickMatchLaunch = (...args) => quickMatchStorageService.peekLaunch(...args);
+export const peekInflightQuickMatchLaunch = (...args) => quickMatchStorageService.peekInflightLaunch(...args);
 export const acknowledgeQuickMatchLaunch = (...args) => quickMatchStorageService.acknowledgeLaunch(...args);
 export const clearQuickMatchLaunch = (...args) => quickMatchStorageService.clearLaunch(...args);
 export const consumeQuickMatchLaunch = (...args) => quickMatchStorageService.consumeLaunch(...args);
