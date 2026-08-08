@@ -47,14 +47,19 @@ const baseState = {
 }
 
 {
+  const allTwelve = availablePlayers.map(player => player.id);
+  assert.equal(validateTournamentLineup([], availablePlayers).valid, false, '0 játékos nem indíthat mérkőzést');
+  assert.equal(validateTournamentLineup([eleven[0]], availablePlayers).valid, false, '1 játékos nem indíthat mérkőzést');
+  assert.equal(validateTournamentLineup(eleven.slice(0, 10), availablePlayers).valid, false, '10 játékos nem indíthat mérkőzést');
+  assert.equal(validateTournamentLineup(eleven, availablePlayers).valid, true, 'pontosan 11 érvényes játékos indíthat mérkőzést');
+  assert.equal(validateTournamentLineup(allTwelve, availablePlayers).valid, false, '12 játékos nem indíthat mérkőzést');
+
   const duplicate = validateTournamentLineup([...eleven.slice(0, 10), eleven[0]], availablePlayers);
   assert.equal(duplicate.valid, false);
   assert.equal(duplicate.duplicateCount, 1);
   const foreign = validateTournamentLineup([...eleven.slice(0, 10), 'other-club-player'], availablePlayers);
   assert.equal(foreign.valid, false);
   assert.equal(foreign.missingOrForeignCount, 1);
-  assert.equal(validateTournamentLineup(eleven.slice(0, 10), availablePlayers).valid, false);
-  assert.equal(validateTournamentLineup(eleven, availablePlayers).valid, true);
 }
 
 {
@@ -174,4 +179,4 @@ const baseState = {
   assert.equal(new Set(normalGame.hands[HUMAN].map(card => card.id)).size, 11);
 }
 
-console.log('✓ Biztonságos torna-keret, mentésmigráció és determinisztikus büntetőrúgó-sorrend rendben.');
+console.log('✓ Biztonságos torna-keret, 0/1/10/11/12 határesetek, mentésmigráció és determinisztikus büntetőrúgó-sorrend rendben.');
