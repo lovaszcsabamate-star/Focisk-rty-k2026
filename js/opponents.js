@@ -46,6 +46,17 @@ export const OPPONENTS = [
   },
 ];
 
+/**
+ * UI-személyiség a már meglévő nehézségi paraméterek fölött. Nem módosítja a
+ * DIFFICULTY motort: kizárólag érthetőbb, kocsmai karaktert ad a szinteknek.
+ */
+export function opponentPersona(opponent) {
+  const level = Math.max(1, Number(opponent?.level) || 1);
+  if (level <= 3) return Object.freeze({ icon: '🍺', label: 'Kicsit spicces', detail: 'Lazábban, több hibával játszik.' });
+  if (level <= 6) return Object.freeze({ icon: '🧔', label: 'Törzsvendég', detail: 'Megfontoltabb, rutinos ellenfél.' });
+  return Object.freeze({ icon: '🦈', label: 'Kocsmai cápa', detail: 'Kevés hibát hagy, keményen büntet.' });
+}
+
 for (const opponent of OPPONENTS) {
   DIFFICULTY[opponent.id] = {
     noise: opponent.noise,
@@ -86,13 +97,14 @@ function applySprite(node, opponent) {
 }
 
 function buildOpponentCard(opponent) {
+  const persona = opponentPersona(opponent);
   const label = el('label', 'opponent-card');
   const input = document.createElement('input');
   input.type = 'radio';
   input.name = 'difficulty';
   input.value = opponent.id;
   input.checked = opponent.id === selectedOpponentId;
-  input.setAttribute('aria-label', `${opponent.level}. szint, ${opponent.name}, OVR ${opponent.overall}`);
+  input.setAttribute('aria-label', `${opponent.level}. szint, ${opponent.name}, ${persona.label}, OVR ${opponent.overall}`);
 
   const art = el('span', 'opponent-card__art');
   applySprite(art, opponent);
@@ -102,6 +114,7 @@ function buildOpponentCard(opponent) {
   body.append(
     el('b', 'opponent-card__name', opponent.name),
     el('span', 'opponent-card__rating', `OVR ${opponent.overall}`),
+    el('small', 'opponent-card__persona', `${persona.icon} ${persona.label}`),
     el('small', 'opponent-card__title', opponent.title),
   );
 
@@ -117,7 +130,7 @@ function enhanceTitleMenu(panel) {
   panel.dataset.opponentsReady = 'true';
 
   const intro = panel.querySelector('h1 + p');
-  if (intro) intro.textContent = 'Válassz ellenfelet és játékmódot. Minél magasabb a szint és az OVR, annál pontosabban játszik a gép.';
+  if (intro) intro.textContent = 'Válassz ellenfelet és játékmódot. A személyiség a meglévő nehézségi szintet teszi könnyebben érthetővé.';
 
   const oldDifficulty = panel.querySelector('.difficulty');
   if (!oldDifficulty) return;
@@ -142,6 +155,7 @@ function ensureOpponentProfile(ui) {
   if (!zone) return;
 
   const opponent = selectedOpponent();
+  const persona = opponentPersona(opponent);
   let profile = zone.querySelector('#opponent-profile');
   if (!profile) {
     profile = el('div', 'opponent-profile');
@@ -156,13 +170,15 @@ function ensureOpponentProfile(ui) {
   text.append(
     el('strong', 'opponent-profile__name', opponent.name),
     el('span', 'opponent-profile__level', `${opponent.level}. SZINT · OVR ${opponent.overall}`),
+    el('small', 'opponent-profile__persona', `${persona.icon} ${persona.label}`),
   );
   profile.append(portrait, text);
-  profile.title = opponent.title;
+  profile.title = `${opponent.title} · ${persona.detail}`;
 }
 
 function decorateScoreboard(board) {
   const opponent = selectedOpponent();
+  const persona = opponentPersona(opponent);
   const away = board?.querySelector('.match-team--away');
   const name = away?.querySelector('.match-team__name');
   const crest = away?.querySelector('.match-team__crest');
@@ -173,15 +189,16 @@ function decorateScoreboard(board) {
     crest.textContent = '';
     applySprite(crest, opponent);
     crest.classList.add('match-team__crest--opponent');
-    crest.title = `${opponent.level}. szint · OVR ${opponent.overall}`;
+    crest.title = `${opponent.level}. szint · ${persona.icon} ${persona.label} · OVR ${opponent.overall}`;
   }
-  if (competition) competition.textContent = `${opponent.level}. SZINT · OVR ${opponent.overall} · NB I KÁRTYAMECCS`;
+  if (competition) competition.textContent = `${persona.icon} ${persona.label} · ${opponent.level}. SZINT · OVR ${opponent.overall}`;
   return board;
 }
 
 function decorateResultPanel(panel) {
   if (!panel?.classList?.contains('result-panel') || panel.querySelector('.result-opponent')) return;
   const opponent = selectedOpponent();
+  const persona = opponentPersona(opponent);
   const summary = el('div', 'result-opponent');
   const portrait = el('div', 'result-opponent__portrait');
   applySprite(portrait, opponent);
@@ -189,7 +206,7 @@ function decorateResultPanel(panel) {
   text.append(
     el('span', null, 'ELLENFÉL'),
     el('strong', null, opponent.name),
-    el('small', null, `${opponent.level}. szint · OVR ${opponent.overall}`),
+    el('small', null, `${persona.icon} ${persona.label} · ${opponent.level}. szint · OVR ${opponent.overall}`),
   );
   summary.append(portrait, text);
   panel.prepend(summary);
