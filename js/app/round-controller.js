@@ -22,7 +22,7 @@ const roundControllerRequiredActions = Object.freeze([
 
 const roundControllerAssertMethod = (target, method, code) => {
   if (typeof target?.[method] !== 'function') {
-    throw new RoundControllerError(code, `Az eredményvezérlőből hiányzik a(z) ${method} művelet.`);
+    throw new RoundControllerError(code, `A körvezérlőből hiányzik a(z) ${method} művelet.`);
   }
 };
 
