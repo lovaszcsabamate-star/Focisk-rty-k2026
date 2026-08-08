@@ -1,6 +1,9 @@
 /** Beta Stabilization 1.2 – központi, felhasználó által indítható recovery panel. */
 
-import { clearQuickMatchLaunch } from './services/quick-match-storage-service.js';
+import {
+  QUICK_MATCH_INFLIGHT_STORAGE_KEY,
+  clearQuickMatchLaunch,
+} from './services/quick-match-storage-service.js';
 import { rollbackPendingTournamentLaunch } from './services/tournament-storage-service.js';
 import { SESSION_RECOVERY_LINEUP_STORAGE_KEY } from './services/session-recovery-service.js';
 import { storageService } from './services/storage-service.js';
@@ -28,6 +31,7 @@ const ensureRecoveryStyles = () => {
 const clearTransientLaunchState = () => {
   let ok = true;
   try { if (!clearQuickMatchLaunch()) ok = false; } catch { ok = false; }
+  try { if (!storageService.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY)) ok = false; } catch { ok = false; }
   try { if (!rollbackPendingTournamentLaunch()) ok = false; } catch { ok = false; }
   try { if (!storageService.remove(SESSION_RECOVERY_LINEUP_STORAGE_KEY)) ok = false; } catch { ok = false; }
   return ok;
