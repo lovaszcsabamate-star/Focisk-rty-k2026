@@ -1,0 +1,117 @@
+name: Beta Stabilization 1.1 release gate
+
+on:
+  push:
+    branches:
+      - fix/beta-stabilization-1-1
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  web-pwa-mobile-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Release metadata and clean diff
+        run: |
+          echo "HEAD=$(git rev-parse HEAD)"
+          node -e "const p=require('./package.json'); console.log('version='+p.version)"
+          git diff --check origin/main...HEAD
+      - name: Syntax and full project regression
+        run: |
+          npm run lint
+          npm test
+          npm run test:all
+      - name: Release-critical gameplay regressions
+        run: |
+          node test/player-heights.test.mjs
+          node test/tournament-mode.test.mjs
+          node test/tournament-statistics.test.mjs
+          node test/tournament-launch-transaction.test.mjs
+          node test/tournament-lineup-state.test.mjs
+          node test/tournament-lineup-ui.test.mjs
+          node test/tournament-lineup-matchday.test.mjs
+          node test/result-controller.test.mjs
+          node test/storage-service.test.mjs
+          node test/save-service.test.mjs
+          node test/session-lifecycle-service.test.mjs
+      - name: Accessibility and PWA offline integrity
+        run: |
+          npm run test:accessibility
+          npm run audit:pwa
+          npm run test:pwa-cache
+      - name: Production and standalone build
+        run: |
+          npm run build
+          npm run build:standalone
+          npm run test:standalone-game-runtime
+      - name: Browser and mobile runtime smoke
+        run: |
+          npm run test:runtime
+          npm run mobile:prepare
+          npm run test:mobile-layout
+          npm run test:runtime
+      - name: Standalone artifact sanity
+        run: |
+          test -s Fociskartyak2026.html
+          grep -q "Tournament Lineup 1.1" Fociskartyak2026.html
+          grep -q "Magasabb játékos" Fociskartyak2026.html
+
+  android-debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Prepare and sync Capacitor Android
+        run: |
+          npm run mobile:prepare
+          rm -rf android
+          npx cap add android
+          npx cap sync android
+      - name: Android WebView asset smoke
+        run: |
+          test -f android/app/src/main/assets/public/index.html
+          test -f android/app/src/main/assets/public/js/main.js
+          test -f android/app/src/main/assets/public/sw.js
+          grep -q "Magasabb játékos" android/app/src/main/assets/public/js/data/players.js
+          grep -q "tournament-lineup-controller" android/app/src/main/assets/public/sw.js
+      - name: Gradle debug checks and APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew lintDebug assembleDebug
+      - name: APK SHA-256
+        run: |
+          APK=$(find android/app/build/outputs/apk/debug -name '*.apk' -type f | head -n 1)
+          test -n "$APK"
+          sha256sum "$APK" | tee Fociskartyak2026-Beta-Stabilization-1.1-debug-apk.sha256
+          cp "$APK" Fociskartyak2026-Beta-Stabilization-1.1-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Beta-Stabilization-1.1-debug-apk
+          path: |
+            Fociskartyak2026-Beta-Stabilization-1.1-debug.apk
+            Fociskartyak2026-Beta-Stabilization-1.1-debug-apk.sha256
+          if-no-files-found: error
+          retention-days: 14
