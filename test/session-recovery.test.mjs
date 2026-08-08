@@ -6,6 +6,7 @@ import {
   createSessionRecoveryService,
 } from '../js/services/session-recovery-service.js';
 import {
+  QUICK_MATCH_INFLIGHT_STORAGE_KEY,
   QUICK_MATCH_LAUNCH_STORAGE_KEY,
 } from '../js/services/quick-match-storage-service.js';
 import {
@@ -71,14 +72,24 @@ const createTournamentStub = ({ active = tournament(), pending = null, saveFails
   };
 };
 
-const createQuickStub = ({ launch = null, setup = null } = {}) => {
+const createQuickStub = ({ launch = null, inflight = null, setup = null } = {}) => {
   let currentLaunch = launch;
-  const calls = { clear: 0 };
+  let currentInflight = inflight;
+  const calls = { clear: 0, clearInflight: 0, restoreInflight: 0 };
   return {
     calls,
     peekLaunch: () => currentLaunch,
+    peekInflightLaunch: () => currentInflight,
     readSetup: () => setup,
     clearLaunch: () => { calls.clear += 1; currentLaunch = null; return true; },
+    clearInflightLaunch: () => { calls.clearInflight += 1; currentInflight = null; return true; },
+    restoreInflightLaunch: () => {
+      calls.restoreInflight += 1;
+      if (!currentInflight) return false;
+      currentLaunch = currentInflight;
+      currentInflight = null;
+      return true;
+    },
   };
 };
 
@@ -133,6 +144,23 @@ const createQuickStub = ({ launch = null, setup = null } = {}) => {
 }
 
 {
+  const inflight = { mode: 'classic', difficulty: 'medium', createdAt: '2026-08-08T12:10:00.000Z' };
+  const storage = createMemoryStorage({ [QUICK_MATCH_INFLIGHT_STORAGE_KEY]: inflight });
+  const quickStorage = createQuickStub({ inflight, setup: { mode: 'classic' } });
+  const service = createSessionRecoveryService({
+    storage,
+    tournamentStorage: createTournamentStub(),
+    quickStorage,
+    matchById: () => null,
+  });
+  const report = service.reconcile([]);
+  assert.equal(quickStorage.calls.restoreInflight, 1, 'Process-kill után az el nem mentett launch handoffot vissza kell állítani.');
+  assert.deepEqual(quickStorage.peekLaunch(), inflight);
+  assert.ok(report.issues.includes(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF));
+  assert.ok(report.actions.includes('interrupted-launch-restored'));
+}
+
+{
   const active = tournament({ currentMatchId: 'deleted-match', currentMatchMode: 'classic', currentLineupIds: ['p1'] });
   const storage = createMemoryStorage({ [TOURNAMENT_STORAGE_KEY]: active });
   const tournamentStorage = createTournamentStub({ active });
@@ -168,4 +196,4 @@ const createQuickStub = ({ launch = null, setup = null } = {}) => {
   assert.equal(storage.readJson(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null), null);
 }
 
-console.log('✓ Session recovery: pending launch rollback/commit, hibás launch, currentMatch és stale lineup regresszió zöld.');
+console.log('✓ Session recovery: pending launch, process-kill handoff, hibás launch, currentMatch és stale lineup regresszió zöld.');
