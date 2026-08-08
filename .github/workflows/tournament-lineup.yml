@@ -1,0 +1,92 @@
+name: Tournament Lineup 1.0
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/tournament-lineup.yml'
+      - 'js/bootstrap.js'
+      - 'js/deck-selection.js'
+      - 'js/penalties.js'
+      - 'js/services/tournament-storage-service.js'
+      - 'js/tournament/tournament-lineup-state.js'
+      - 'js/tournament/tournament-lineup-controller.js'
+      - 'scripts/build-standalone-with-settings.mjs'
+      - 'sw.js'
+      - 'test/tournament-lineup-state.test.mjs'
+      - 'test/tournament-lineup-ui.test.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Lineup modules syntax
+        run: |
+          node --check js/tournament/tournament-lineup-state.js
+          node --check js/tournament/tournament-lineup-controller.js
+          node --check js/services/tournament-storage-service.js
+          node --check js/deck-selection.js
+          node --check js/penalties.js
+          node --check test/tournament-lineup-state.test.mjs
+          node --check test/tournament-lineup-ui.test.mjs
+      - name: Lineup state and UI regression
+        run: |
+          node test/tournament-lineup-state.test.mjs
+          node test/tournament-lineup-ui.test.mjs
+          node test/tournament-mode.test.mjs
+          node test/tournament-statistics.test.mjs
+      - name: Full project regression
+        run: |
+          npm run lint
+          npm test
+          npm run test:all
+      - name: Build and offline checks
+        run: |
+          npm run build
+          npm run build:standalone
+          npm run audit:pwa
+          npm run test:pwa-cache
+      - name: Mobile and runtime checks
+        run: |
+          npm run mobile:prepare
+          npm run test:mobile-layout
+          npm run test:runtime
+
+  android-debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - run: npm run mobile:prepare
+      - run: npx cap add android
+      - run: npx cap sync android
+      - name: Android build
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Tournament-Lineup-1.0-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
