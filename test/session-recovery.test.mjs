@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 
+import { APP_STORAGE_KEYS } from '../js/app/configuration.js';
 import {
   SESSION_RECOVERY_ISSUE,
   SESSION_RECOVERY_LINEUP_STORAGE_KEY,
@@ -161,6 +162,57 @@ const createQuickStub = ({ launch = null, inflight = null, setup = null } = {}) 
 }
 
 {
+  const baseline = '2026-08-08T11:55:00.000Z';
+  const inflight = {
+    mode: 'classic',
+    difficulty: 'medium',
+    createdAt: '2026-08-08T12:10:00.000Z',
+    baselineSavedAt: baseline,
+  };
+  const storage = createMemoryStorage({
+    [QUICK_MATCH_INFLIGHT_STORAGE_KEY]: inflight,
+    [APP_STORAGE_KEYS.savedMatch]: { savedAt: baseline, mode: 'classic' },
+  });
+  const quickStorage = createQuickStub({ inflight, setup: { mode: 'classic' } });
+  const service = createSessionRecoveryService({
+    storage,
+    tournamentStorage: createTournamentStub(),
+    quickStorage,
+    matchById: () => null,
+  });
+  const report = service.reconcile([]);
+  assert.equal(quickStorage.calls.restoreInflight, 1, 'A staging előtti, változatlan régi snapshot nem számíthat sikeres új Sessionnek.');
+  assert.equal(quickStorage.calls.clearInflight, 0);
+  assert.ok(report.actions.includes('interrupted-launch-restored'));
+}
+
+{
+  const baseline = '2026-08-08T11:55:00.000Z';
+  const inflight = {
+    mode: 'classic',
+    difficulty: 'medium',
+    createdAt: '2026-08-08T12:10:00.000Z',
+    baselineSavedAt: baseline,
+  };
+  const storage = createMemoryStorage({
+    [QUICK_MATCH_INFLIGHT_STORAGE_KEY]: inflight,
+    [APP_STORAGE_KEYS.savedMatch]: { savedAt: '2026-08-08T12:10:01.000Z', mode: 'classic' },
+  });
+  const quickStorage = createQuickStub({ inflight, setup: { mode: 'classic' } });
+  const service = createSessionRecoveryService({
+    storage,
+    tournamentStorage: createTournamentStub(),
+    quickStorage,
+    matchById: () => null,
+  });
+  const report = service.reconcile([]);
+  assert.equal(quickStorage.calls.clearInflight, 1, 'Új Session snapshot után a handoff marker lezárható.');
+  assert.equal(quickStorage.calls.restoreInflight, 0);
+  assert.ok(report.actions.includes('completed-launch-handoff-cleared'));
+  assert.ok(!report.issues.includes(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF));
+}
+
+{
   const active = tournament({ currentMatchId: 'deleted-match', currentMatchMode: 'classic', currentLineupIds: ['p1'] });
   const storage = createMemoryStorage({ [TOURNAMENT_STORAGE_KEY]: active });
   const tournamentStorage = createTournamentStub({ active });
@@ -196,4 +248,4 @@ const createQuickStub = ({ launch = null, inflight = null, setup = null } = {}) 
   assert.equal(storage.readJson(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null), null);
 }
 
-console.log('✓ Session recovery: pending launch, process-kill handoff, hibás launch, currentMatch és stale lineup regresszió zöld.');
+console.log('✓ Session recovery: pending launch, process-kill handoff, snapshot baseline, hibás launch, currentMatch és stale lineup regresszió zöld.');
