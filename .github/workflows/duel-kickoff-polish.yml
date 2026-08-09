@@ -6,7 +6,7 @@ on:
       - feat/duel-visual-kickoff-countdown-1
   pull_request:
     branches:
-      - fix/beta-stabilization-1-2-match-polish
+      - main
   workflow_dispatch:
 
 permissions:
@@ -65,9 +65,11 @@ jobs:
 
   android-debug-apk:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -75,39 +77,30 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: '17'
       - run: npm ci
       - name: Prepare Android WebView bundle
-        run: |
-          npm run mobile:prepare
-          rm -rf android
-          npx cap add android
-          npx cap sync android
+        run: npm run mobile:prepare
       - name: Android standalone asset contract
         run: |
-          WEBVIEW=android/app/src/main/assets/public/index.html
-          test -s "$WEBVIEW"
-          grep -q "kickoff-countdown-intro" "$WEBVIEW"
-          grep -q "Hajrá!" "$WEBVIEW"
-          grep -q "duel-visual-loser" "$WEBVIEW"
-          grep -q "data:image/svg+xml;base64," "$WEBVIEW"
-          ! grep -q "assets/ui/referee-whistle.svg" "$WEBVIEW"
+          node scripts/android-webview-smoke.mjs
+          grep -q "kickoff-countdown-intro" android/app/src/main/assets/Fociskartyak2026.html
+          grep -q "Hajrá!" android/app/src/main/assets/Fociskartyak2026.html
+          grep -q "duel-visual-loser" android/app/src/main/assets/Fociskartyak2026.html
+          grep -q "data:image/svg+xml;base64," android/app/src/main/assets/Fociskartyak2026.html
+          ! grep -q "assets/ui/referee-whistle.svg" android/app/src/main/assets/Fociskartyak2026.html
       - name: Android lint and debug APK
         working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew lintDebug assembleDebug
+        run: ./gradlew --no-daemon lintDebug assembleDebug
       - name: APK artifact
         run: |
-          APK=$(find android/app/build/outputs/apk/debug -name '*.apk' -type f | head -n 1)
-          test -n "$APK"
-          cp "$APK" Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
-          sha256sum Fociskartyak2026-Duel-Kickoff-1.0-debug.apk > Fociskartyak2026-Duel-Kickoff-1.0-debug.sha256
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
+          sha256sum dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk > dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk.sha256
       - uses: actions/upload-artifact@v4
         with:
           name: Fociskartyak2026-Duel-Kickoff-1.0-debug-apk
           path: |
-            Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
-            Fociskartyak2026-Duel-Kickoff-1.0-debug.sha256
+            dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
+            dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk.sha256
           if-no-files-found: error
-          retention-days: 14
