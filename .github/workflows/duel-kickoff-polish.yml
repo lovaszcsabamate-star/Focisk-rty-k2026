@@ -80,7 +80,7 @@ jobs:
           java-version: '17'
       - run: npm ci
       - name: Prepare Android WebView bundle
-        run: npm run mobile:prepare
+        run: npm run mobile:sync:android
       - name: Android standalone asset contract
         run: |
           test -s android/app/src/main/assets/Fociskartyak2026.html
