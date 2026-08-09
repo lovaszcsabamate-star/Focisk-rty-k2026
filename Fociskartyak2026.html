@@ -10471,6 +10471,7 @@ function buildQuickMatchPayload(payload, playerSelection, opponentSelection = nu
 const QUICK_MATCH_SETUP_VERSION = 2;
 const QUICK_MATCH_SETUP_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchSetup;
 const QUICK_MATCH_LAUNCH_STORAGE_KEY = APP_STORAGE_KEYS.quickMatchLaunch;
+const QUICK_MATCH_INFLIGHT_STORAGE_KEY = 'fociskartyak:quick-match-inflight:v1';
 const TOURNAMENT_LAUNCH_TRANSACTION_HOOK = '__FOCISKARTYAK_TOURNAMENT_LAUNCH_TRANSACTION__';
 
 class QuickMatchStorageError extends Error {
@@ -10615,38 +10616,110 @@ function createQuickMatchStorageService({
       return false;
     }
 
+    // Egy korábbi, már sikeresen elindult Session handoff-markerét az új staging
+    // felülírhatja; nem lehet hatással az új tranzakcióra.
+    storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
+
     // A meglévő mérkőzésmentést a staging soha nem törli. A teljesen
     // inicializált új Session snapshotja csak sikeres indulás után írhatja felül.
     return true;
   };
 
-  const peekLaunch = () => {
-    const launch = storage.readJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, null);
+  const normaliseLaunch = launch => {
     if (!launch || typeof launch !== 'object') return null;
     return Object.freeze({
       mode: quickMatchStorageMode(launch.mode),
       difficulty: quickMatchStorageDifficulty(launch.difficulty),
+      createdAt: quickMatchStorageText(launch.createdAt) || null,
     });
+  };
+  const normaliseInflightLaunch = launch => {
+    const normalised = normaliseLaunch(launch);
+    if (!normalised) return null;
+    return Object.freeze({
+      ...normalised,
+      baselineSavedAt: quickMatchStorageText(launch.baselineSavedAt) || null,
+    });
+  };
+
+  const peekLaunch = () => normaliseLaunch(storage.readJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, null));
+  const peekInflightLaunch = () => normaliseInflightLaunch(storage.readJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null));
+
+  /**
+   * A launch marker csak akkor fogyhat el végleg, amikor az új Session már
+   * bizonyíthatóan létrejött. A consume ezért előbb elmenti az előző mérkőzés-
+   * snapshot azonosítóját, majd tartós handoff-markert ír és törli az egyszeri
+   * launchot. Process-kill esetén így egy régi mentés nem téveszthető össze az
+   * új mérkőzés sikeres kezdeti snapshotjával.
+   */
+  const acknowledgeLaunch = expectedLaunch => {
+    const current = peekLaunch();
+    if (!current) return true;
+    const expectedCreatedAt = quickMatchStorageText(expectedLaunch?.createdAt);
+    if (expectedCreatedAt && current.createdAt && expectedCreatedAt !== current.createdAt) return false;
+    return Boolean(storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY));
+  };
+
+  const clearLaunch = () => Boolean(storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY));
+  const clearInflightLaunch = () => Boolean(storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY));
+  const restoreInflightLaunch = () => {
+    const inflight = peekInflightLaunch();
+    if (!inflight) return false;
+    const restored = {
+      mode: inflight.mode,
+      difficulty: inflight.difficulty,
+      createdAt: inflight.createdAt,
+    };
+    if (!storage.writeJson(QUICK_MATCH_LAUNCH_STORAGE_KEY, restored)) return false;
+    return clearInflightLaunch();
   };
 
   const consumeLaunch = () => {
     const launch = peekLaunch();
-    storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY);
+    if (!launch) return null;
+    const saved = storage.readJson(APP_STORAGE_KEYS.savedMatch, null);
+    const inflight = {
+      ...launch,
+      baselineSavedAt: quickMatchStorageText(saved?.savedAt) || null,
+    };
+    if (!storage.writeJson(QUICK_MATCH_INFLIGHT_STORAGE_KEY, inflight)) return null;
+    if (!acknowledgeLaunch(launch)) {
+      storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
+      return null;
+    }
     return launch;
   };
 
   const clear = () => {
     storage.remove(QUICK_MATCH_SETUP_STORAGE_KEY);
     storage.remove(QUICK_MATCH_LAUNCH_STORAGE_KEY);
+    storage.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY);
     return true;
   };
 
-  return Object.freeze({ readSetup, saveSetup, stage, peekLaunch, consumeLaunch, clear });
+  return Object.freeze({
+    readSetup,
+    saveSetup,
+    stage,
+    peekLaunch,
+    peekInflightLaunch,
+    acknowledgeLaunch,
+    clearLaunch,
+    clearInflightLaunch,
+    restoreInflightLaunch,
+    consumeLaunch,
+    clear,
+  });
 }
 
 const quickMatchStorageService = createQuickMatchStorageService();
 const readQuickMatchSetup = (...args) => quickMatchStorageService.readSetup(...args);
 const stageQuickMatch = (...args) => quickMatchStorageService.stage(...args);
+const peekQuickMatchLaunch = (...args) => quickMatchStorageService.peekLaunch(...args);
+const peekInflightQuickMatchLaunch = (...args) => quickMatchStorageService.peekInflightLaunch(...args);
+const acknowledgeQuickMatchLaunch = (...args) => quickMatchStorageService.acknowledgeLaunch(...args);
+const clearQuickMatchLaunch = (...args) => quickMatchStorageService.clearLaunch(...args);
+const clearInflightQuickMatchLaunch = (...args) => quickMatchStorageService.clearInflightLaunch(...args);
 const consumeQuickMatchLaunch = (...args) => quickMatchStorageService.consumeLaunch(...args);
 
 
@@ -11887,6 +11960,41 @@ if (Array.isArray(embeddedPayload?.players) && !globalThis.__FOCISKARTYAK_FULL_P
   const TEAM_LOGO_SELECTOR = '.quick-team-mark--text:not([data-generated-club-logo])';
   const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
+  const foldClubLabel = value => String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('hu-HU')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+  const clubInitials = value => String(value ?? '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .map(word => word[0])
+    .join('')
+    .toLocaleUpperCase('hu-HU');
+
+  /**
+   * Egyetlen központi, jogtiszta NB I prezentációs térkép. Nem hivatalos címereket,
+   * hanem kizárólag klubszínekből és rövid klubjelekből generált játékbeli badge-eket
+   * ír le. A Torna, Quick Match, HUD és VS intro ugyanennek a branding-rétegnek a
+   * `.quick-team-mark` komponensét használja.
+   */
+  const TEAM_CLUB_PRESENTATIONS = Object.freeze({
+    dvsc: Object.freeze({ short: 'DVSC', primary: '#c8192e', secondary: '#ffffff' }),
+    dvtk: Object.freeze({ short: 'DVTK', primary: '#d71920', secondary: '#ffffff' }),
+    'eto fc': Object.freeze({ short: 'ETO', primary: '#159447', secondary: '#ffffff' }),
+    'ferencvarosi tc': Object.freeze({ short: 'FTC', primary: '#16854a', secondary: '#ffffff' }),
+    'kisvarda master good': Object.freeze({ short: 'KISV', primary: '#d8222a', secondary: '#ffffff' }),
+    'kolorcity kazincbarcika sc': Object.freeze({ short: 'KBSC', primary: '#2468a9', secondary: '#f2cf2f' }),
+    'mtk budapest': Object.freeze({ short: 'MTK', primary: '#246eb9', secondary: '#ffffff' }),
+    'nyiregyhaza spartacus fc': Object.freeze({ short: 'NYÍR', primary: '#c61f30', secondary: '#254f9a' }),
+    'paksi fc': Object.freeze({ short: 'PAKS', primary: '#23864a', secondary: '#ffffff' }),
+    'puskas akademia fc': Object.freeze({ short: 'PAFC', primary: '#1f66ad', secondary: '#f0c640' }),
+    'ujpest fc': Object.freeze({ short: 'UTE', primary: '#6d3a93', secondary: '#ffffff' }),
+    'zte fc': Object.freeze({ short: 'ZTE', primary: '#185ea9', secondary: '#ffffff' }),
+  });
+
   /**
    * Kanonikus NB I-klubjelek. A bal oldali értékek a korábbi felületi rövidítések,
    * a jobb oldali értékek a pajzsokon és minden generált klubemblémán megjelenő jelek.
@@ -11914,10 +12022,26 @@ if (Array.isArray(embeddedPayload?.players) && !globalThis.__FOCISKARTYAK_FULL_P
     ZTE: 'ZTE',
   });
 
+  const resolveClubPresentation = value => {
+    const label = typeof value === 'object' ? value?.label ?? value?.name ?? value?.value : value;
+    const key = foldClubLabel(label);
+    const known = TEAM_CLUB_PRESENTATIONS[key];
+    if (known) return known;
+    const candidate = String(label ?? '').trim().toLocaleUpperCase('hu-HU');
+    const short = TEAM_LOGO_SHORT_LABELS[candidate]
+      ?? clubInitials(label).slice(0, 4)
+      ?? candidate.slice(0, 4)
+      ?? 'FC';
+    return Object.freeze({ short: short || 'FC', primary: '#6d4d2f', secondary: '#d5b45d' });
+  };
+
   const teamLogoShortLabel = value => {
     const candidate = String(value ?? '').trim().toLocaleUpperCase('hu-HU');
     if (!candidate) return 'FC';
-    return TEAM_LOGO_SHORT_LABELS[candidate] ?? candidate.slice(0, 4);
+    const direct = TEAM_LOGO_SHORT_LABELS[candidate];
+    if (direct) return direct;
+    const presentation = TEAM_CLUB_PRESENTATIONS[foldClubLabel(value)];
+    return presentation?.short ?? candidate.slice(0, 4);
   };
 
   const teamLogoColour = (value, fallback) => {
@@ -11936,12 +12060,20 @@ if (Array.isArray(embeddedPayload?.players) && !globalThis.__FOCISKARTYAK_FULL_P
    * rövid klubjelét használja, hivatalos címerből vagy külső képből nem vesz át elemet.
    */
   const createGeneratedClubLogo = (documentRef, mark) => {
-    const shortLabel = teamLogoShortLabel(mark.textContent);
+    const sourceLabel = mark?.dataset?.teamLabel || mark.textContent;
+    const presentation = resolveClubPresentation(sourceLabel);
+    const shortLabel = presentation.short || teamLogoShortLabel(mark.textContent);
     const computed = typeof globalThis.getComputedStyle === 'function'
       ? globalThis.getComputedStyle(mark)
       : null;
-    const primary = teamLogoColour(computed?.getPropertyValue('--team-primary'), '#6d4d2f');
-    const secondary = teamLogoColour(computed?.getPropertyValue('--team-secondary'), '#d5b45d');
+    const primary = teamLogoColour(
+      computed?.getPropertyValue('--team-primary'),
+      presentation.primary,
+    );
+    const secondary = teamLogoColour(
+      computed?.getPropertyValue('--team-secondary'),
+      presentation.secondary,
+    );
     const fontSize = shortLabel.length > 3 ? 27 : shortLabel.length > 2 ? 31 : 38;
 
     const svg = teamLogoSvgElement(documentRef, 'svg', {
@@ -12050,7 +12182,9 @@ if (Array.isArray(embeddedPayload?.players) && !globalThis.__FOCISKARTYAK_FULL_P
     isApprovedReleaseAsset,
     isProtectedUnapprovedArt,
     clubShortLabels: TEAM_LOGO_SHORT_LABELS,
+    clubPresentations: TEAM_CLUB_PRESENTATIONS,
     resolveClubShortLabel: teamLogoShortLabel,
+    resolveClubPresentation,
   });
 
   installImageRequestGuard();
@@ -16919,6 +17053,17 @@ const OPPONENTS = [
   },
 ];
 
+/**
+ * UI-személyiség a már meglévő nehézségi paraméterek fölött. Nem módosítja a
+ * DIFFICULTY motort: kizárólag érthetőbb, kocsmai karaktert ad a szinteknek.
+ */
+function opponentPersona(opponent) {
+  const level = Math.max(1, Number(opponent?.level) || 1);
+  if (level <= 3) return Object.freeze({ icon: '🍺', label: 'Kicsit spicces', detail: 'Lazábban, több hibával játszik.' });
+  if (level <= 6) return Object.freeze({ icon: '🧔', label: 'Törzsvendég', detail: 'Megfontoltabb, rutinos ellenfél.' });
+  return Object.freeze({ icon: '🦈', label: 'Kocsmai cápa', detail: 'Kevés hibát hagy, keményen büntet.' });
+}
+
 for (const opponent of OPPONENTS) {
   DIFFICULTY[opponent.id] = {
     noise: opponent.noise,
@@ -16959,13 +17104,14 @@ function applySprite(node, opponent) {
 }
 
 function buildOpponentCard(opponent) {
+  const persona = opponentPersona(opponent);
   const label = el('label', 'opponent-card');
   const input = document.createElement('input');
   input.type = 'radio';
   input.name = 'difficulty';
   input.value = opponent.id;
   input.checked = opponent.id === selectedOpponentId;
-  input.setAttribute('aria-label', `${opponent.level}. szint, ${opponent.name}, OVR ${opponent.overall}`);
+  input.setAttribute('aria-label', `${opponent.level}. szint, ${opponent.name}, ${persona.label}, OVR ${opponent.overall}`);
 
   const art = el('span', 'opponent-card__art');
   applySprite(art, opponent);
@@ -16975,6 +17121,7 @@ function buildOpponentCard(opponent) {
   body.append(
     el('b', 'opponent-card__name', opponent.name),
     el('span', 'opponent-card__rating', `OVR ${opponent.overall}`),
+    el('small', 'opponent-card__persona', `${persona.icon} ${persona.label}`),
     el('small', 'opponent-card__title', opponent.title),
   );
 
@@ -16990,7 +17137,7 @@ function enhanceTitleMenu(panel) {
   panel.dataset.opponentsReady = 'true';
 
   const intro = panel.querySelector('h1 + p');
-  if (intro) intro.textContent = 'Válassz ellenfelet és játékmódot. Minél magasabb a szint és az OVR, annál pontosabban játszik a gép.';
+  if (intro) intro.textContent = 'Válassz ellenfelet és játékmódot. A személyiség a meglévő nehézségi szintet teszi könnyebben érthetővé.';
 
   const oldDifficulty = panel.querySelector('.difficulty');
   if (!oldDifficulty) return;
@@ -17015,6 +17162,7 @@ function ensureOpponentProfile(ui) {
   if (!zone) return;
 
   const opponent = selectedOpponent();
+  const persona = opponentPersona(opponent);
   let profile = zone.querySelector('#opponent-profile');
   if (!profile) {
     profile = el('div', 'opponent-profile');
@@ -17029,13 +17177,15 @@ function ensureOpponentProfile(ui) {
   text.append(
     el('strong', 'opponent-profile__name', opponent.name),
     el('span', 'opponent-profile__level', `${opponent.level}. SZINT · OVR ${opponent.overall}`),
+    el('small', 'opponent-profile__persona', `${persona.icon} ${persona.label}`),
   );
   profile.append(portrait, text);
-  profile.title = opponent.title;
+  profile.title = `${opponent.title} · ${persona.detail}`;
 }
 
 function decorateScoreboard(board) {
   const opponent = selectedOpponent();
+  const persona = opponentPersona(opponent);
   const away = board?.querySelector('.match-team--away');
   const name = away?.querySelector('.match-team__name');
   const crest = away?.querySelector('.match-team__crest');
@@ -17046,15 +17196,16 @@ function decorateScoreboard(board) {
     crest.textContent = '';
     applySprite(crest, opponent);
     crest.classList.add('match-team__crest--opponent');
-    crest.title = `${opponent.level}. szint · OVR ${opponent.overall}`;
+    crest.title = `${opponent.level}. szint · ${persona.icon} ${persona.label} · OVR ${opponent.overall}`;
   }
-  if (competition) competition.textContent = `${opponent.level}. SZINT · OVR ${opponent.overall} · NB I KÁRTYAMECCS`;
+  if (competition) competition.textContent = `${persona.icon} ${persona.label} · ${opponent.level}. SZINT · OVR ${opponent.overall}`;
   return board;
 }
 
 function decorateResultPanel(panel) {
   if (!panel?.classList?.contains('result-panel') || panel.querySelector('.result-opponent')) return;
   const opponent = selectedOpponent();
+  const persona = opponentPersona(opponent);
   const summary = el('div', 'result-opponent');
   const portrait = el('div', 'result-opponent__portrait');
   applySprite(portrait, opponent);
@@ -17062,7 +17213,7 @@ function decorateResultPanel(panel) {
   text.append(
     el('span', null, 'ELLENFÉL'),
     el('strong', null, opponent.name),
-    el('small', null, `${opponent.level}. szint · OVR ${opponent.overall}`),
+    el('small', null, `${persona.icon} ${persona.label} · ${opponent.level}. szint · OVR ${opponent.overall}`),
   );
   summary.append(portrait, text);
   panel.prepend(summary);
@@ -17090,7 +17241,6 @@ if (typeof previousMatchScoreboard === 'function') {
     return decorateScoreboard(previousMatchScoreboard.apply(this, args));
   };
 }
-
 commitUiEnhancementLayer("js/opponents.js");
 
 /* ===== js/pwa.js ===== */
@@ -18499,14 +18649,46 @@ function createRoundController({
     ui.setInteractionBusy(value);
   };
 
-  const showRetryAction = ({ message, action, label = 'Gépi kör újrapróbálása' }) => {
+  // A token nem időalapú watchdog. Egy token pontosan egy aszinkron körtranzakció
+  // tulajdonjoga, ezért egy régi Promise nem oldhatja fel egy újabb művelet lockját,
+  // és nem hajthat végre késői AI-akciót új játékállapoton.
+  let operationSerial = 0;
+  let activeOperation = null;
+  const beginOperation = kind => {
+    const token = ++operationSerial;
+    activeOperation = Object.freeze({ token, kind: String(kind || 'round') });
+    setBusy(true);
+    return token;
+  };
+  const ownsOperation = token => activeOperation?.token === token;
+  const releaseOperation = token => {
+    if (!ownsOperation(token)) return false;
+    activeOperation = null;
     setBusy(false);
+    return true;
+  };
+  const cancelPendingOperations = () => {
+    operationSerial += 1;
+    activeOperation = null;
+    setBusy(false);
+    return true;
+  };
+  const operationStillCurrent = (token, game) => ownsOperation(token) && state().game === game;
+  const abandonStaleOperation = (token, game) => {
+    if (operationStillCurrent(token, game)) return false;
+    if (ownsOperation(token)) releaseOperation(token);
+    return true;
+  };
+
+  const showRetryAction = ({ message, action, label = 'Gépi kör újrapróbálása', token = null }) => {
+    if (token != null) releaseOperation(token);
+    else cancelPendingOperations();
     ui.showToast(message, 'error', 3400);
     const button = elementFactory('button', 'btn round-retry-button', label);
     button.type = 'button';
     button.setAttribute('aria-label', label);
     button.addEventListener('click', () => {
-      if (state().busy) return;
+      if (state().busy || activeOperation) return;
       ui.dom?.picker?.replaceChildren?.();
       void action();
     }, { once: true });
@@ -18519,7 +18701,7 @@ function createRoundController({
     const current = state();
     const game = current.game;
     if (!game) return false;
-    setBusy(false);
+    cancelPendingOperations();
     ui.closeInspector();
     ui.renderScores(game);
     ui.dom?.duel?.replaceChildren?.();
@@ -18551,7 +18733,7 @@ function createRoundController({
        Ha itt mégis foglalt maradt a munkamenet, az egy korábbi UI-átmenet
        beragadt jelzője, nem valódi párhuzamos kör. Helyreállítjuk, hogy a Tovább
        gomb megbízhatóan átváltson a kártyaválasztásra. */
-    if (current.busy) setBusy(false);
+    if (current.busy || activeOperation) cancelPendingOperations();
 
     runtime.selectHumanAttribute(attributeKey);
     ui.hideAttributePicker();
@@ -18564,36 +18746,38 @@ function createRoundController({
 
   const aiChoosesAttribute = async () => {
     const game = state().game;
-    if (!game) return false;
+    if (!game || activeOperation) return false;
+    const token = beginOperation('ai-choose-attribute');
 
     try {
-      setBusy(true);
       ui.renderHands(game, { selectable: false });
       ui.setPrompt('A gép választ…');
       await wait(turnDelay.AI_CHOOSE_ATTRIBUTE);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       const choice = runtime.chooseAiAttribute();
+      if (abandonStaleOperation(token, game)) return false;
       const label = attributeRegistry[choice.attribute]?.label;
       ui.say(getBanterLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
       ui.setPrompt('A gép ezt választotta:', label);
       ui.showDuel(game, { opponentHidden: true });
       ui.renderHands(game, { selectable: true });
-      setBusy(false);
+      releaseOperation(token);
       actions.saveCurrentGame();
       return true;
     } catch (error) {
       console.error('[round] A gép kategóriaválasztása megszakadt:', error);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       if (game.phase === phaseRegistry.CHOOSE_ATTRIBUTE && game.chooser === aiId) {
         return showRetryAction({
           message: 'A gép nem tudott kategóriát választani. Próbáld újra.',
           action: aiChoosesAttribute,
+          token,
         });
       }
 
-      setBusy(false);
+      releaseOperation(token);
       ui.showToast('A gépi kör megakadt, ezért a játéknézetet helyreállítottuk.', 'error', 3400);
       actions.saveCurrentGame();
       restoreSavedView();
@@ -18628,23 +18812,24 @@ function createRoundController({
     const button = elementFactory('button', 'btn next-round-button', label);
     button.setAttribute('aria-label', label);
     button.addEventListener('click', () => {
-      if (state().busy) return;
-      setBusy(true);
+      if (state().busy || activeOperation) return;
+      const token = beginOperation('advance-round');
       ui.dom?.picker?.replaceChildren?.();
       try {
         const { reshuffled } = runtime.advance();
+        if (abandonStaleOperation(token, state().game)) return;
         const afterAdvance = state();
         if (afterAdvance.mode === 'penalties') {
           if (reshuffled) ui.say(getBanterLine('reshuffle'));
         } else {
           ui.say(getIdleLine());
         }
-        setBusy(false);
+        releaseOperation(token);
         if (afterAdvance.game?.isOver) actions.showGameOver();
         else beginRound();
       } catch (error) {
         console.error('[round] A következő kör indítása megszakadt:', error);
-        setBusy(false);
+        releaseOperation(token);
         ui.showToast('A következő kör indítása megakadt. A játéknézetet helyreállítottuk.', 'error', 3600);
         actions.saveCurrentGame();
         restoreSavedView();
@@ -18655,38 +18840,54 @@ function createRoundController({
     return button;
   };
 
-  const revealAndScore = async result => {
+  const revealAndScore = async (result, existingToken = null) => {
     const game = state().game;
     if (!game) return false;
-    ui.showDuel(game, { result });
-    ui.setPrompt('Eredmény');
-    await wait(turnDelay.VERDICT_REVEAL);
-    ui.showVerdict(result, game);
-    ui.renderScores(game);
-    sayResultBanter(result);
-    actions.saveCurrentGame();
+    const token = existingToken ?? beginOperation('reveal-result');
+    if (!ownsOperation(token)) return false;
 
-    if (result.enteredSuddenDeath) {
-      ui.say(getBanterLine('suddenDeath'));
-      await ui.showSuddenDeath();
-    } else {
-      await wait(turnDelay.RESULT_HOLD);
-    }
+    try {
+      ui.showDuel(game, { result });
+      ui.setPrompt('Eredmény');
+      await wait(turnDelay.VERDICT_REVEAL);
+      if (abandonStaleOperation(token, game)) return false;
+      ui.showVerdict(result, game);
+      ui.renderScores(game);
+      sayResultBanter(result);
+      actions.saveCurrentGame();
 
-    if (state().game?.isOver) {
-      actions.showGameOver();
+      if (result.enteredSuddenDeath) {
+        ui.say(getBanterLine('suddenDeath'));
+        await ui.showSuddenDeath();
+      } else {
+        await wait(turnDelay.RESULT_HOLD);
+      }
+      if (abandonStaleOperation(token, game)) return false;
+
+      if (state().game?.isOver) {
+        releaseOperation(token);
+        actions.showGameOver();
+        return true;
+      }
+      releaseOperation(token);
+      showContinue();
       return true;
+    } catch (error) {
+      console.error('[round] Az eredmény megjelenítése megszakadt:', error);
+      if (abandonStaleOperation(token, game)) return false;
+      releaseOperation(token);
+      ui.showToast('Az eredménynézet megszakadt. A játéknézetet helyreállítottuk.', 'error', 3400);
+      actions.saveCurrentGame();
+      restoreSavedView();
+      return false;
     }
-    setBusy(false);
-    showContinue();
-    return true;
   };
 
   const humanPlayedCard = async card => {
     const current = state();
     const game = current.game;
-    if (current.busy || !game || game.phase === phaseRegistry.GAME_OVER) return false;
-    setBusy(true);
+    if (current.busy || activeOperation || !game || game.phase === phaseRegistry.GAME_OVER) return false;
+    const token = beginOperation('human-card');
     let result;
 
     try {
@@ -18696,26 +18897,28 @@ function createRoundController({
         ui.renderHands(game, { selectable: false });
         ui.setPrompt('A gép kártyát választ…');
         await wait(turnDelay.AI_CHOOSE_CARD);
+        if (abandonStaleOperation(token, game)) return false;
         result = runtime.playAiCard();
       } else {
         result = runtime.playHumanCard(card.id);
         ui.renderHands(game, { selectable: false });
         await wait(turnDelay.HUMAN_CARD_REVEAL);
+        if (abandonStaleOperation(token, game)) return false;
       }
-      await revealAndScore(result);
-      return true;
+      return await revealAndScore(result, token);
     } catch (error) {
       console.error('[round] A kör nem fejezhető be:', error);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       if (game.phase === phaseRegistry.CHOOSE_CARD && game.chooser === humanId) {
         return showRetryAction({
           message: 'A gép kártyaválasztása megszakadt. A kör biztonságosan folytatható.',
           action: finishRestoredAiMove,
+          token,
         });
       }
 
-      setBusy(false);
+      releaseOperation(token);
       ui.showToast('A kört nem sikerült lezárni. A játéknézetet helyreállítottuk.', 'error', 3400);
       actions.saveCurrentGame();
       restoreSavedView();
@@ -18725,26 +18928,27 @@ function createRoundController({
 
   const finishRestoredAiMove = async () => {
     const game = state().game;
-    if (!game) return false;
+    if (!game || activeOperation) return false;
+    const token = beginOperation('restore-ai-card');
 
     try {
-      setBusy(true);
       await wait(turnDelay.RESTORED_AI_MOVE);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
       const result = runtime.playAiCard();
-      return await revealAndScore(result);
+      return await revealAndScore(result, token);
     } catch (error) {
       console.error('[round] A félbemaradt gépi kör nem folytatható:', error);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       if (game.phase === phaseRegistry.CHOOSE_CARD && game.chooser === humanId) {
         return showRetryAction({
           message: 'A gép kártyaválasztása továbbra sem sikerült. Próbáld újra.',
           action: finishRestoredAiMove,
+          token,
         });
       }
 
-      setBusy(false);
+      releaseOperation(token);
       ui.showToast('A kör eredménynézetét helyreállítottuk.', 'error', 3200);
       actions.saveCurrentGame();
       restoreSavedView();
@@ -18756,6 +18960,8 @@ function createRoundController({
     const current = state();
     const game = current.game;
     if (!game) return false;
+    if (activeOperation) cancelPendingOperations();
+    else setBusy(false);
     ui.renderScores(game);
 
     if (game.phase === phaseRegistry.CHOOSE_ATTRIBUTE) {
@@ -18794,6 +19000,13 @@ function createRoundController({
     return true;
   };
 
+  const recoverCurrentView = () => {
+    cancelPendingOperations();
+    ui.closeInspector();
+    ui.dom?.picker?.replaceChildren?.();
+    return restoreSavedView();
+  };
+
   return Object.freeze({
     beginRound,
     humanChoseAttribute,
@@ -18804,8 +19017,13 @@ function createRoundController({
     showContinue,
     restoreSavedView,
     finishRestoredAiMove,
+    recoverCurrentView,
+    cancelPendingOperations,
+    hasActiveOperation: () => Boolean(activeOperation),
+    activeOperationKind: () => activeOperation?.kind ?? null,
   });
 }
+
 
 /* ===== js/player-profile.js · isolated UI class layer ===== */
 beginUiEnhancementLayer("js/player-profile.js");
@@ -22980,6 +23198,7 @@ const uiEnhancementPipeline = uiEnhancementDefaultPipeline;
 
 
  /* ===== Torna mód · önálló IIFE ===== */
+ /* Beta Stabilization 1.2 session recovery és Match Experience ugyanebben a tranzakciós környezetben fut. */
  (() => {
 
 /* ===== js/tournament/tournament-domain.js ===== */
@@ -25542,6 +25761,782 @@ function installTournamentCupAtmosphere() {
 installTournamentCupAtmosphere();
 
 })();
+
+/* ===== js/services/session-recovery-service.js ===== */
+/**
+ * Beta Stabilization 1.2 – induláskori session- és launch-helyreállítás.
+ *
+ * A szolgáltatás nem töröl érvényes tornát vagy mérkőzésmentést. Kizárólag
+ * félbemaradt staging tranzakciókat, érvénytelen currentMatch hivatkozásokat és
+ * már nem használható egyszeri lineup staginget rendez.
+ */
+
+
+
+
+
+
+const SESSION_RECOVERY_LINEUP_STORAGE_KEY = 'fociskartyak.tournament-lineup.v1';
+
+const SESSION_RECOVERY_ISSUE = Object.freeze({
+  INVALID_QUICK_LAUNCH: 'invalid-quick-launch',
+  INTERRUPTED_LAUNCH_HANDOFF: 'interrupted-launch-handoff',
+  ORPHAN_TOURNAMENT_PENDING: 'orphan-tournament-pending',
+  INVALID_TOURNAMENT_PENDING: 'invalid-tournament-pending',
+  INVALID_CURRENT_MATCH: 'invalid-current-match',
+  STALE_LINEUP: 'stale-lineup',
+  STORAGE_FAILURE: 'storage-failure',
+});
+
+const recoveryText = value => String(value ?? '').trim();
+const recoveryRecord = value => value && typeof value === 'object' && !Array.isArray(value) ? value : null;
+const recoveryFreeze = report => Object.freeze({
+  ok: report.issues.length === 0 || !report.blocked,
+  blocked: Boolean(report.blocked),
+  changed: report.actions.length > 0,
+  actions: Object.freeze(report.actions.slice()),
+  issues: Object.freeze(report.issues.slice()),
+});
+
+function createSessionRecoveryService({
+  storage = storageService,
+  quickStorage = quickMatchStorageService,
+  tournamentStorage = tournamentStorageService,
+  matchById = tournamentMatchById,
+  now = () => new Date(),
+} = {}) {
+  const removeSafely = (key, report, action) => {
+    if (storage?.remove?.(key)) {
+      if (action) report.actions.push(action);
+      return true;
+    }
+    report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+    report.blocked = true;
+    return false;
+  };
+
+  const clearTemporaryLineup = (report, action = 'stale-lineup-cleared') => (
+    removeSafely(SESSION_RECOVERY_LINEUP_STORAGE_KEY, report, action)
+  );
+
+  const repairInvalidCurrentMatch = (active, report) => {
+    if (!active?.currentMatchId) return active;
+    const current = matchById?.(active, active.currentMatchId) ?? null;
+    if (current) return active;
+
+    const repaired = {
+      ...active,
+      currentMatchId: null,
+      currentMatchMode: null,
+      currentLineupIds: [],
+      updatedAt: now().toISOString(),
+    };
+    if (!tournamentStorage?.save?.(repaired)) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+      report.blocked = true;
+      return active;
+    }
+    report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_CURRENT_MATCH);
+    report.actions.push('invalid-current-match-cleared');
+    return repaired;
+  };
+
+  const reconcileInflightLaunch = report => {
+    let launch = quickStorage?.peekLaunch?.() ?? null;
+    const inflight = quickStorage?.peekInflightLaunch?.() ?? null;
+    if (!inflight) return launch;
+
+    const rawInflight = recoveryRecord(storage?.readJson?.(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null));
+    const hasSavedBaseline = Boolean(
+      rawInflight && Object.prototype.hasOwnProperty.call(rawInflight, 'baselineSavedAt'),
+    );
+    const savedMatch = recoveryRecord(storage?.readJson?.(APP_STORAGE_KEYS.savedMatch, null));
+    const currentSavedAt = recoveryText(savedMatch?.savedAt) || null;
+    const baselineSavedAt = recoveryText(inflight.baselineSavedAt) || null;
+    const sessionCreatedNewSnapshot = hasSavedBaseline && currentSavedAt !== baselineSavedAt;
+
+    if (sessionCreatedNewSnapshot || launch) {
+      if (quickStorage?.clearInflightLaunch?.() === false) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+        report.blocked = true;
+      } else {
+        report.actions.push(sessionCreatedNewSnapshot ? 'completed-launch-handoff-cleared' : 'duplicate-launch-handoff-cleared');
+      }
+      return launch;
+    }
+
+    report.issues.push(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF);
+    if (quickStorage?.restoreInflightLaunch?.() === false) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+      report.blocked = true;
+      return null;
+    }
+    report.actions.push('interrupted-launch-restored');
+    return quickStorage?.peekLaunch?.() ?? inflight;
+  };
+
+  const reconcile = (players = []) => {
+    const report = { actions: [], issues: [], blocked: false };
+    const rawPending = storage?.readJson?.(TOURNAMENT_PENDING_LAUNCH_STORAGE_KEY, null) ?? null;
+    let pending = tournamentStorage?.readPendingLaunch?.() ?? null;
+    let launch = reconcileInflightLaunch(report);
+    const setup = quickStorage?.readSetup?.(players) ?? null;
+
+    if (rawPending && !pending) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_TOURNAMENT_PENDING);
+      if (tournamentStorage?.rollbackPendingLaunch?.() === false) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+        report.blocked = true;
+      } else {
+        report.actions.push('invalid-tournament-pending-cleared');
+      }
+      pending = null;
+    }
+
+    // Launch marker setup nélkül nem indítható biztonságosan. Ilyenkor az aktív
+    // torna előző konzisztens állapota marad az igazságforrás.
+    if (launch && !setup) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_QUICK_LAUNCH);
+      if (quickStorage?.clearLaunch?.() === false) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+        report.blocked = true;
+      } else {
+        report.actions.push('invalid-quick-launch-cleared');
+      }
+      quickStorage?.clearInflightLaunch?.();
+      if (pending) {
+        if (tournamentStorage?.rollbackPendingLaunch?.() === false) {
+          report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+          report.blocked = true;
+        } else {
+          report.actions.push('tournament-launch-rolled-back');
+        }
+      }
+      clearTemporaryLineup(report);
+      launch = null;
+      pending = null;
+    }
+
+    // Ha az app a torna next-state kiírása után, de a Quick Match staging előtt
+    // zárult be, nincs launch marker: visszaállunk a korábbi Torna Centerre.
+    if (pending && !launch) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.ORPHAN_TOURNAMENT_PENDING);
+      if (tournamentStorage?.rollbackPendingLaunch?.() === false) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+        report.blocked = true;
+      } else {
+        report.actions.push('orphan-tournament-launch-rolled-back');
+        clearTemporaryLineup(report);
+      }
+      pending = null;
+    }
+
+    // Ha mindkét staging fél megvan, az eredeti tranzakció determinisztikusan
+    // befejezhető. A Quick Match marker továbbra is megmarad a Session indulásáig.
+    if (pending && launch && setup) {
+      if (tournamentStorage?.commitPendingLaunch?.() === false) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STORAGE_FAILURE);
+        report.blocked = true;
+      } else {
+        report.actions.push('tournament-launch-committed');
+        pending = null;
+      }
+    }
+
+    let active = tournamentStorage?.read?.() ?? null;
+    const rawTournament = storage?.readJson?.(TOURNAMENT_STORAGE_KEY, null) ?? null;
+    if (rawTournament && !active) {
+      // Nem töröljük automatikusan: a Torna UI biztonságosan új torna indítását
+      // kínálhatja, miközben a hibás nyers adat diagnosztikai célra megmarad.
+      report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_CURRENT_MATCH);
+    }
+    if (active) active = repairInvalidCurrentMatch(active, report);
+
+    const stagedLineup = recoveryRecord(storage?.readJson?.(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null));
+    if (stagedLineup) {
+      const expectedTournamentId = recoveryText(active?.id || pending?.next?.id);
+      const expectedMatchId = recoveryText(active?.currentMatchId || pending?.next?.currentMatchId);
+      const lineupTournamentId = recoveryText(stagedLineup.tournamentId);
+      const lineupMatchId = recoveryText(stagedLineup.matchId);
+      const matchesActiveLaunch = Boolean(
+        expectedTournamentId
+        && expectedMatchId
+        && lineupTournamentId === expectedTournamentId
+        && lineupMatchId === expectedMatchId,
+      );
+      if (!matchesActiveLaunch) {
+        report.issues.push(SESSION_RECOVERY_ISSUE.STALE_LINEUP);
+        clearTemporaryLineup(report);
+      }
+    }
+
+    // Sérült JSON esetén readJson nullt ad. Ha nyers szöveg mégis létezik,
+    // eltávolítjuk kizárólag az egyszer használatos launch/lineup staginget.
+    const rawLaunch = storage?.readString?.(QUICK_MATCH_LAUNCH_STORAGE_KEY, null);
+    if (rawLaunch != null && !quickStorage?.peekLaunch?.()) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.INVALID_QUICK_LAUNCH);
+      removeSafely(QUICK_MATCH_LAUNCH_STORAGE_KEY, report, 'malformed-quick-launch-cleared');
+    }
+    const rawInflightValue = storage?.readString?.(QUICK_MATCH_INFLIGHT_STORAGE_KEY, null);
+    if (rawInflightValue != null && !quickStorage?.peekInflightLaunch?.()) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.INTERRUPTED_LAUNCH_HANDOFF);
+      removeSafely(QUICK_MATCH_INFLIGHT_STORAGE_KEY, report, 'malformed-launch-handoff-cleared');
+    }
+    const rawLineup = storage?.readString?.(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null);
+    if (rawLineup != null && !recoveryRecord(storage?.readJson?.(SESSION_RECOVERY_LINEUP_STORAGE_KEY, null))) {
+      report.issues.push(SESSION_RECOVERY_ISSUE.STALE_LINEUP);
+      clearTemporaryLineup(report, 'malformed-lineup-cleared');
+    }
+
+    return recoveryFreeze(report);
+  };
+
+  return Object.freeze({ reconcile });
+}
+
+const sessionRecoveryService = createSessionRecoveryService();
+const reconcileSessionRecovery = (...args) => sessionRecoveryService.reconcile(...args);
+
+
+/* ===== js/session-recovery-ui.js ===== */
+/** Beta Stabilization 1.2 – központi, felhasználó által indítható recovery panel. */
+
+
+
+
+
+const RECOVERY_PANEL_ID = 'session-recovery-panel-v1';
+const RECOVERY_STYLE_ID = 'session-recovery-style-v1';
+const RECOVERY_EVENT = 'fociskartyak:recovery-needed';
+
+const ensureRecoveryStyles = () => {
+  if (typeof document === 'undefined' || document.getElementById(RECOVERY_STYLE_ID)) return;
+  const style = document.createElement('style');
+  style.id = RECOVERY_STYLE_ID;
+  style.textContent = `
+    .session-recovery-layer{position:fixed;z-index:14000;inset:0;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(7,6,5,.86);backdrop-filter:blur(5px)}
+    .session-recovery-card{width:min(520px,100%);display:grid;gap:14px;padding:clamp(20px,5vw,32px);border:1px solid rgba(243,196,92,.45);border-radius:22px;background:linear-gradient(145deg,rgba(48,34,22,.99),rgba(16,13,10,.99));box-shadow:0 24px 72px rgba(0,0,0,.62);color:#fff7df;text-align:center}
+    .session-recovery-icon{font-size:2rem}.session-recovery-card h1{margin:0;font-size:clamp(1.35rem,5vw,1.85rem)}.session-recovery-card p{margin:0;color:#d8c9b0;line-height:1.5}
+    .session-recovery-actions{display:grid;gap:9px}.session-recovery-actions button{min-height:48px;width:100%}.session-recovery-actions .btn--ghost{opacity:.9}
+    .session-recovery-card:focus-visible,.session-recovery-actions button:focus-visible{outline:3px solid #fff3bd;outline-offset:3px}
+    @media(max-width:360px){.session-recovery-layer{padding:10px}.session-recovery-card{padding:18px 14px;border-radius:18px}}
+    @media(prefers-reduced-motion:reduce){.session-recovery-layer *{animation:none!important;transition:none!important}}
+  `;
+  document.head?.appendChild(style);
+};
+
+const clearTransientLaunchState = () => {
+  let ok = true;
+  try { if (!clearQuickMatchLaunch()) ok = false; } catch { ok = false; }
+  try { if (!storageService.remove(QUICK_MATCH_INFLIGHT_STORAGE_KEY)) ok = false; } catch { ok = false; }
+  try { if (!rollbackPendingTournamentLaunch()) ok = false; } catch { ok = false; }
+  try { if (!storageService.remove(SESSION_RECOVERY_LINEUP_STORAGE_KEY)) ok = false; } catch { ok = false; }
+  return ok;
+};
+
+const reloadSafely = () => {
+  try {
+    globalThis.location?.reload?.();
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const navigateHomeSafely = () => {
+  clearTransientLaunchState();
+  try {
+    const target = new URL('./index.html', globalThis.location?.href ?? document.baseURI).href;
+    globalThis.location?.assign?.(target);
+    return true;
+  } catch {
+    return reloadSafely();
+  }
+};
+
+const showRecoveryPanel = ({ detail = '', reason = 'runtime' } = {}) => {
+  if (typeof document === 'undefined') return false;
+  ensureRecoveryStyles();
+  const existing = document.getElementById(RECOVERY_PANEL_ID);
+  if (existing) {
+    existing.querySelector('#session-recovery-primary')?.focus?.({ preventScroll: true });
+    return false;
+  }
+
+  const layer = document.createElement('div');
+  layer.id = RECOVERY_PANEL_ID;
+  layer.className = 'session-recovery-layer';
+  layer.setAttribute('role', 'alertdialog');
+  layer.setAttribute('aria-modal', 'true');
+  layer.setAttribute('aria-labelledby', 'session-recovery-title');
+  layer.setAttribute('aria-describedby', 'session-recovery-copy');
+  layer.dataset.reason = String(reason || 'runtime');
+
+  const card = document.createElement('section');
+  card.className = 'session-recovery-card';
+  card.tabIndex = -1;
+
+  const icon = document.createElement('div');
+  icon.className = 'session-recovery-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = '⚠';
+
+  const title = document.createElement('h1');
+  title.id = 'session-recovery-title';
+  title.textContent = 'A játékfolyamat megszakadt';
+
+  const copy = document.createElement('p');
+  copy.id = 'session-recovery-copy';
+  copy.textContent = detail
+    ? `Az utolsó konzisztens játékállás megmaradt. ${detail}`
+    : 'Az utolsó konzisztens játékállás megmaradt. A játék biztonságosan helyreállítható.';
+
+  const actions = document.createElement('div');
+  actions.className = 'session-recovery-actions';
+  const recover = document.createElement('button');
+  recover.id = 'session-recovery-primary';
+  recover.type = 'button';
+  recover.className = 'btn';
+  recover.textContent = 'Játék helyreállítása';
+  recover.setAttribute('aria-label', 'Játék helyreállítása az utolsó mentett állapotból');
+  recover.addEventListener('click', () => {
+    recover.disabled = true;
+    recover.setAttribute('aria-disabled', 'true');
+    reloadSafely();
+  }, { once: true });
+
+  const home = document.createElement('button');
+  home.type = 'button';
+  home.className = 'btn btn--ghost';
+  home.textContent = 'Vissza a főmenübe';
+  home.addEventListener('click', () => {
+    home.disabled = true;
+    navigateHomeSafely();
+  }, { once: true });
+
+  actions.append(recover, home);
+  card.append(icon, title, copy, actions);
+  layer.appendChild(card);
+  document.body.appendChild(layer);
+  recover.focus?.({ preventScroll: true });
+  return true;
+};
+
+const hideRecoveryPanel = () => {
+  document.getElementById(RECOVERY_PANEL_ID)?.remove();
+  return true;
+};
+
+const runtimeErrorHandler = event => showRecoveryPanel({
+  reason: 'runtime-error',
+  detail: event?.message ? 'Egy váratlan kezelőfelületi hiba történt.' : '',
+});
+const rejectionHandler = () => showRecoveryPanel({
+  reason: 'async-error',
+  detail: 'Egy aszinkron játéklépés nem fejeződött be.',
+});
+const requestedRecoveryHandler = event => showRecoveryPanel({
+  reason: event?.detail?.reason ?? 'requested',
+  detail: event?.detail?.message ?? '',
+});
+
+if (typeof globalThis.addEventListener === 'function') {
+  globalThis.addEventListener('error', runtimeErrorHandler);
+  globalThis.addEventListener('unhandledrejection', rejectionHandler);
+  globalThis.addEventListener(RECOVERY_EVENT, requestedRecoveryHandler);
+}
+
+globalThis.__FOCISKARTYAK_RECOVERY_UI__ = Object.freeze({
+  show: showRecoveryPanel,
+  hide: hideRecoveryPanel,
+  recover: reloadSafely,
+  returnHome: navigateHomeSafely,
+  eventName: RECOVERY_EVENT,
+});
+
+
+
+/* ===== js/match-experience-polish.js ===== */
+/**
+ * Match Experience Polish 1.0
+ *
+ * Kizárólag prezentációs réteg. Nem módosít játékszabályt, pontszámot, AI-t vagy
+ * mentési sémát. A már meglévő matchday/gameplay-polish UI-ra épül, és a központi
+ * jogtiszta branding API-t használja.
+ */
+
+
+
+
+const MATCH_EXPERIENCE_LAYER = './match-experience-polish.js';
+const MATCH_EXPERIENCE_STYLE_ID = 'match-experience-polish-styles';
+
+const matchText = value => String(value ?? '').trim();
+const matchScore = game => ({
+  human: Number(game?.scores?.[HUMAN] ?? game?.result?.()?.human ?? 0) || 0,
+  ai: Number(game?.scores?.[AI] ?? game?.result?.()?.ai ?? 0) || 0,
+});
+
+const matchBranding = () => globalThis.__FOCISKARTYAK_BRANDING__ ?? null;
+const matchPresentation = label => {
+  const resolved = matchBranding()?.resolveClubPresentation?.(label);
+  if (resolved) return resolved;
+  const text = matchText(label);
+  return Object.freeze({
+    short: matchBranding()?.resolveClubShortLabel?.(text) || text.split(/\s+/).map(part => part[0]).join('').slice(0, 4).toUpperCase() || 'FC',
+    primary: '#6d4d2f',
+    secondary: '#d5b45d',
+  });
+};
+
+const matchTeams = game => ({
+  human: matchText(game?.quickMatch?.humanTeam) || 'Játékos',
+  ai: matchText(game?.quickMatch?.aiTeam) || 'Gép',
+});
+
+const matchTournamentContext = () => {
+  let state = null;
+  try { state = globalThis.FociskartyakTournament?.read?.() ?? null; } catch { state = null; }
+  if (!state?.currentMatchId) return null;
+  const rounds = Array.isArray(state.rounds) ? state.rounds : [];
+  let current = null;
+  let round = null;
+  for (const candidateRound of rounds) {
+    const match = candidateRound?.matches?.find?.(item => item?.id === state.currentMatchId);
+    if (!match) continue;
+    current = match;
+    round = candidateRound;
+    break;
+  }
+  if (!current) return null;
+  return Object.freeze({
+    name: matchText(state.name) || 'Torna',
+    stage: matchText(current.label) || matchText(round?.label) || 'Mérkőzés',
+    lineupCount: Array.isArray(state.currentLineupIds) ? state.currentLineupIds.length : 0,
+    matchId: current.id,
+  });
+};
+
+const matchCreateBadge = (label, className = '') => {
+  const presentation = matchPresentation(label);
+  const badge = el('span', `quick-team-mark quick-team-mark--text match-experience-badge ${className}`.trim(), presentation.short);
+  badge.dataset.teamLabel = matchText(label);
+  badge.style.setProperty('--team-primary', presentation.primary);
+  badge.style.setProperty('--team-secondary', presentation.secondary);
+  badge.setAttribute('aria-hidden', 'true');
+  return badge;
+};
+
+const matchExperienceSecondaryLabel = game => {
+  if (!game) return '';
+  const round = Math.max(1, Number(game.round) || 1);
+  if (game.mode === 'penalties') {
+    return `${round}. párbaj · ${game.suddenDeath ? 'Hirtelen halál' : 'Büntetőpárbaj'}`;
+  }
+  const attribute = ATTRIBUTE_BY_KEY[game.attribute];
+  if (attribute) return `${round}. kör · ${attribute.icon} ${attribute.label}`;
+  return `${round}. kör · ${game.chooser === HUMAN ? 'Te választasz' : 'A gép választ'}`;
+};
+
+const matchExperienceBestCategory = game => {
+  const wins = new Map();
+  for (const result of Array.isArray(game?.log) ? game.log : []) {
+    if (result?.winner !== HUMAN || !ATTRIBUTE_BY_KEY[result.attribute]) continue;
+    wins.set(result.attribute, (wins.get(result.attribute) ?? 0) + 1);
+  }
+  const ranked = [...wins.entries()].sort((left, right) => {
+    if (right[1] !== left[1]) return right[1] - left[1];
+    const leftLabel = ATTRIBUTE_BY_KEY[left[0]]?.label ?? left[0];
+    const rightLabel = ATTRIBUTE_BY_KEY[right[0]]?.label ?? right[0];
+    return leftLabel.localeCompare(rightLabel, 'hu-HU');
+  });
+  const best = ranked[0];
+  if (!best) return null;
+  const attribute = ATTRIBUTE_BY_KEY[best[0]];
+  return Object.freeze({ key: best[0], wins: best[1], icon: attribute.icon, label: attribute.label });
+};
+
+const matchEnsureStyles = () => {
+  if (typeof document === 'undefined' || document.getElementById(MATCH_EXPERIENCE_STYLE_ID)) return;
+  const style = document.createElement('style');
+  style.id = MATCH_EXPERIENCE_STYLE_ID;
+  style.textContent = `
+    .match-scoreboard.match-experience-hud{padding:7px 10px;gap:6px;border-radius:14px;min-height:66px}
+    .match-experience-hud .match-scoreboard__competition{font-size:8px;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .match-experience-hud .match-scoreboard__status{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:min(46vw,320px)}
+    .match-experience-hud .match-team{min-width:0;gap:5px}
+    .match-experience-hud .match-team__name{min-width:0;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(9px,2.4vw,12px)}
+    .match-experience-hud .match-team__crest{width:38px;height:38px;min-width:38px;padding:0;border:0;background:transparent;overflow:visible}
+    .match-experience-badge{display:grid;place-items:center;width:100%;height:100%;min-width:0;line-height:1}
+    .match-experience-badge .quick-team-mark__image{display:block;width:100%;height:100%;object-fit:contain}
+    .match-experience-hud .match-scoreboard__score{font-size:clamp(1.35rem,5vw,2rem);line-height:1;white-space:nowrap}
+    .match-experience-hud .match-scoreboard__clock{font-size:9px}
+
+    .gameplay-match-intro.match-experience-intro .gameplay-match-intro__card{width:min(660px,100%);padding:clamp(20px,5vw,34px)}
+    .match-experience-intro .gameplay-match-intro__team{display:grid;justify-items:center;gap:8px;min-width:0}
+    .match-experience-intro__badge{width:clamp(58px,15vw,92px);height:clamp(58px,15vw,92px)}
+    .match-experience-intro__name{display:block;width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:clamp(1rem,4vw,1.65rem);font-weight:950}
+    .match-experience-intro__cta{display:inline-grid;place-items:center;min-height:44px;margin-top:16px;padding:8px 18px;border:1px solid rgba(232,195,122,.55);border-radius:999px;background:rgba(232,195,122,.13);color:#fff3bd;font-size:11px;font-weight:950;letter-spacing:.08em}
+    .match-experience-intro__lineup{display:block;margin-top:7px;color:#bfb097;font-size:10px;font-weight:800}
+
+    .duel.match-experience-duel{position:relative;align-items:stretch;gap:10px}
+    .match-experience-duel > .versus{display:none}
+    .match-experience-duel__comparison{align-self:center;display:grid;place-items:center;gap:5px;min-width:112px;padding:10px 9px;border:1px solid rgba(232,195,122,.36);border-radius:15px;background:linear-gradient(180deg,rgba(34,25,17,.96),rgba(13,11,9,.96));box-shadow:0 12px 32px rgba(0,0,0,.3);animation:match-experience-pop .24s ease-out both;text-align:center}
+    .match-experience-duel__category{max-width:150px;color:#e8c37a;font-size:9px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;line-height:1.25}
+    .match-experience-duel__values{display:flex;align-items:center;justify-content:center;gap:7px;color:#fff7df;font-size:clamp(13px,3.5vw,18px);font-weight:950;white-space:nowrap}
+    .match-experience-duel__vs{color:#a99675;font-size:8px;font-weight:900}
+    .match-experience-round-summary{display:block;margin-top:6px;color:#f1d795;font-size:10px;font-weight:900;line-height:1.35}
+
+    .match-experience-result{display:grid;gap:10px;margin:10px 0;padding:12px;border:1px solid rgba(232,195,122,.3);border-radius:16px;background:rgba(0,0,0,.2)}
+    .match-experience-result__scoreline{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px}
+    .match-experience-result__team{display:grid;justify-items:center;gap:4px;min-width:0;text-align:center}
+    .match-experience-result__team .match-experience-badge{width:44px;height:44px}
+    .match-experience-result__team strong{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+    .match-experience-result__score{color:#fff7df;font-size:clamp(1.4rem,6vw,2.25rem);font-weight:950;white-space:nowrap}
+    .match-experience-result__best{padding-top:8px;border-top:1px solid rgba(255,255,255,.08);color:#d8c9b0;font-size:10px;text-align:center}
+    .match-experience-result__best strong{color:#fff3bd}
+
+    @keyframes match-experience-pop{from{opacity:0;transform:scale(.96) translateY(4px)}to{opacity:1;transform:none}}
+    @media(max-width:480px){
+      .match-scoreboard.match-experience-hud{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding:6px 7px}
+      .match-experience-hud .match-team__crest{width:32px;height:32px;min-width:32px}
+      .match-experience-hud .match-team__name{max-width:86px;font-size:9px}
+      .match-experience-hud .match-scoreboard__competition{max-width:42vw}
+      .match-experience-duel__comparison{min-width:86px;padding:8px 6px}
+      .match-experience-duel__category{max-width:100px;font-size:8px}
+    }
+    @media(max-width:360px){
+      .match-scoreboard.match-experience-hud{padding-inline:5px;gap:3px}
+      .match-experience-hud .match-team__crest{width:28px;height:28px;min-width:28px}
+      .match-experience-hud .match-team__name{max-width:66px;font-size:8px}
+      .match-experience-hud .match-scoreboard__status{max-width:44vw;font-size:8px}
+      .match-experience-duel__comparison{min-width:76px}
+    }
+    @media(orientation:landscape) and (max-height:520px){
+      .gameplay-match-intro.match-experience-intro .gameplay-match-intro__card{padding:12px 18px}
+      .match-experience-intro__badge{width:48px;height:48px}
+      .match-experience-intro__cta{min-height:40px;margin-top:8px}
+    }
+    @media(prefers-reduced-motion:reduce){.match-experience-duel__comparison{animation:none!important}}
+  `;
+  document.head?.appendChild(style);
+};
+
+const matchStates = new WeakMap();
+const matchState = ui => {
+  let state = matchStates.get(ui);
+  if (!state) {
+    state = { lastGame: null };
+    matchStates.set(ui, state);
+  }
+  return state;
+};
+
+const matchDecorateHud = (ui, game) => {
+  const board = ui.dom?.hudScores?.querySelector?.('.match-scoreboard');
+  if (!board || !game) return false;
+  matchState(ui).lastGame = game;
+  board.classList.add('match-experience-hud');
+  const teams = matchTeams(game);
+  const context = matchTournamentContext();
+  const home = board.querySelector('.match-team--home');
+  const away = board.querySelector('.match-team--away');
+  const homeName = home?.querySelector('.match-team__name');
+  const awayName = away?.querySelector('.match-team__name');
+  const homeCrest = home?.querySelector('.match-team__crest');
+  const awayCrest = away?.querySelector('.match-team__crest');
+  const competition = board.querySelector('.match-scoreboard__competition');
+  const status = board.querySelector('.match-scoreboard__status');
+
+  if (game.quickMatch) {
+    if (homeName) { homeName.textContent = matchPresentation(teams.human).short; homeName.title = teams.human; }
+    if (awayName) { awayName.textContent = matchPresentation(teams.ai).short; awayName.title = teams.ai; }
+    homeCrest?.replaceChildren(matchCreateBadge(teams.human));
+    awayCrest?.replaceChildren(matchCreateBadge(teams.ai));
+  }
+  if (competition && (context || game.quickMatch)) {
+    competition.textContent = context ? `${context.name} · ${context.stage}` : 'QUICK MATCH';
+    competition.title = competition.textContent;
+  }
+  if (status) {
+    status.textContent = matchExperienceSecondaryLabel(game);
+    status.setAttribute('aria-live', 'off');
+  }
+  return true;
+};
+
+const matchDecorateIntro = game => {
+  const overlay = document.querySelector('.gameplay-match-intro');
+  if (!overlay || overlay.dataset.matchExperienceReady === 'true' || !game) return false;
+  overlay.dataset.matchExperienceReady = 'true';
+  overlay.classList.add('match-experience-intro');
+  const teams = matchTeams(game);
+  const context = matchTournamentContext();
+  const eyebrow = overlay.querySelector('.gameplay-match-intro__eyebrow');
+  const teamNodes = [...overlay.querySelectorAll('.gameplay-match-intro__team')];
+  const labels = [teams.human, teams.ai];
+  teamNodes.forEach((node, index) => {
+    const label = labels[index];
+    if (!label) return;
+    node.replaceChildren(
+      matchCreateBadge(label, 'match-experience-intro__badge'),
+      el('span', 'match-experience-intro__name', label),
+    );
+    node.title = label;
+  });
+  if (eyebrow) eyebrow.textContent = context ? `${context.name} · ${context.stage}` : game.quickMatch ? 'QUICK MATCH' : 'KEZDŐDIK A MÉRKŐZÉS';
+  const card = overlay.querySelector('.gameplay-match-intro__card');
+  if (card && !card.querySelector('.match-experience-intro__cta')) {
+    card.appendChild(el('span', 'match-experience-intro__cta', 'MÉRKŐZÉS INDÍTÁSA'));
+    if (context?.lineupCount === 11) card.appendChild(el('span', 'match-experience-intro__lineup', 'Keret: 11/11 ✓'));
+  }
+  overlay.setAttribute('aria-label', `${teams.human} – ${teams.ai}. Mérkőzés indítása vagy az intro átugrása.`);
+  globalThis.__FOCISKARTYAK_TEAM_LOGO_RESTORATION__?.refresh?.();
+  return true;
+};
+
+const matchDecorateDuel = (ui, game, result) => {
+  if (!ui.dom?.duel || !game || !result?.attribute) return false;
+  const attribute = ATTRIBUTE_BY_KEY[result.attribute];
+  if (!attribute) return false;
+  ui.dom.duel.classList.add('match-experience-duel');
+  ui.dom.duel.querySelector('.match-experience-duel__comparison')?.remove();
+  const comparison = el('div', 'match-experience-duel__comparison');
+  comparison.setAttribute('aria-label', `${attribute.label}: ${formatAttribute(result.humanCard, result.attribute)} kontra ${formatAttribute(result.aiCard, result.attribute)}`);
+  comparison.append(
+    el('div', 'match-experience-duel__category', `${attribute.icon} ${attribute.label}`),
+  );
+  const values = el('div', 'match-experience-duel__values');
+  values.append(
+    el('span', null, formatAttribute(result.humanCard, result.attribute)),
+    el('span', 'match-experience-duel__vs', 'VS'),
+    el('span', null, formatAttribute(result.aiCard, result.attribute)),
+  );
+  comparison.appendChild(values);
+  const slots = [...ui.dom.duel.querySelectorAll(':scope > .duel-slot')];
+  if (slots[0] && slots[1]) slots[0].after(comparison);
+  else ui.dom.duel.appendChild(comparison);
+  return true;
+};
+
+const matchDecorateVerdict = (ui, result, game) => {
+  const node = ui.dom?.verdict;
+  if (!node || !result || !game) return false;
+  node.querySelector('.match-experience-round-summary')?.remove();
+  const teams = matchTeams(game);
+  const winner = result.winner === HUMAN ? teams.human : result.winner === AI ? teams.ai : 'Döntetlen';
+  const round = Math.max(1, Number(result.round ?? game.round) || 1);
+  const score = matchScore(game);
+  const summary = result.winner === 'tie'
+    ? `${round}. ${game.mode === 'penalties' ? 'párbaj' : 'kör'} · döntetlen · ${score.human}–${score.ai}`
+    : `${winner} nyerte a ${round}. ${game.mode === 'penalties' ? 'párbajt' : 'párbajt'} · ${score.human}–${score.ai}`;
+  node.appendChild(el('span', 'match-experience-round-summary', summary));
+  return true;
+};
+
+const matchDecorateResult = (ui, panel) => {
+  if (!panel?.classList?.contains('result-panel') || panel.querySelector('.match-experience-result')) return false;
+  const game = matchState(ui).lastGame;
+  if (!game) return false;
+  const teams = matchTeams(game);
+  const score = matchScore(game);
+  const summary = el('section', 'match-experience-result');
+  summary.setAttribute('aria-label', `Végeredmény: ${teams.human} ${score.human}, ${teams.ai} ${score.ai}`);
+  const scoreline = el('div', 'match-experience-result__scoreline');
+  const teamBlock = (label, side) => {
+    const block = el('div', `match-experience-result__team match-experience-result__team--${side}`);
+    block.append(matchCreateBadge(label), el('strong', null, label));
+    return block;
+  };
+  scoreline.append(
+    teamBlock(teams.human, 'human'),
+    el('div', 'match-experience-result__score', `${score.human}–${score.ai}`),
+    teamBlock(teams.ai, 'ai'),
+  );
+  summary.appendChild(scoreline);
+  const best = matchExperienceBestCategory(game);
+  if (best) {
+    const bestNode = el('div', 'match-experience-result__best');
+    bestNode.append('Legjobb kategória · ', el('strong', null, `${best.icon} ${best.label}`), ` · ${best.wins} győzelem`);
+    summary.appendChild(bestNode);
+  }
+  const heading = panel.querySelector('h1');
+  if (heading) heading.after(summary);
+  else panel.prepend(summary);
+  globalThis.__FOCISKARTYAK_TEAM_LOGO_RESTORATION__?.refresh?.();
+  return true;
+};
+
+beginUiEnhancementLayer(MATCH_EXPERIENCE_LAYER);
+try {
+  matchEnsureStyles();
+  const previous = Object.freeze({
+    renderScores: UI.prototype.renderScores,
+    renderHands: UI.prototype.renderHands,
+    showAttributePicker: UI.prototype.showAttributePicker,
+    showDuel: UI.prototype.showDuel,
+    showVerdict: UI.prototype.showVerdict,
+    showOverlay: UI.prototype.showOverlay,
+  });
+
+  UI.prototype.renderScores = function renderMatchExperienceScores(game) {
+    const output = previous.renderScores.call(this, game);
+    matchDecorateHud(this, game);
+    return output;
+  };
+
+  UI.prototype.renderHands = function renderMatchExperienceHands(game, options = {}) {
+    const output = previous.renderHands.call(this, game, options);
+    matchState(this).lastGame = game;
+    matchDecorateIntro(game);
+    return output;
+  };
+
+  UI.prototype.showAttributePicker = function showMatchExperienceAttributePicker(game) {
+    const output = previous.showAttributePicker.call(this, game);
+    matchState(this).lastGame = game;
+    matchDecorateIntro(game);
+    return output;
+  };
+
+  UI.prototype.showDuel = function showMatchExperienceDuel(game, options = {}) {
+    const output = previous.showDuel.call(this, game, options);
+    matchState(this).lastGame = game;
+    if (options.result) matchDecorateDuel(this, game, options.result);
+    return output;
+  };
+
+  UI.prototype.showVerdict = function showMatchExperienceVerdict(result, game) {
+    const output = previous.showVerdict.call(this, result, game);
+    matchState(this).lastGame = game;
+    matchDecorateVerdict(this, result, game);
+    return output;
+  };
+
+  UI.prototype.showOverlay = function showMatchExperienceOverlay(panel) {
+    const output = previous.showOverlay.call(this, panel);
+    matchDecorateResult(this, panel);
+    return output;
+  };
+
+  commitUiEnhancementLayer(MATCH_EXPERIENCE_LAYER);
+} catch (error) {
+  rollbackUiEnhancementLayer(MATCH_EXPERIENCE_LAYER);
+  throw error;
+}
+
+
+const standaloneRecoveryPlayers = Array.isArray(globalThis.__EMBEDDED_PLAYER_DATA__?.players)
+  ? globalThis.__EMBEDDED_PLAYER_DATA__.players
+  : [];
+if (standaloneRecoveryPlayers.length) {
+  const standaloneRecoveryReport = reconcileSessionRecovery(standaloneRecoveryPlayers);
+  globalThis.__FOCISKARTYAK_SESSION_RECOVERY__ = standaloneRecoveryReport;
+  if (standaloneRecoveryReport.changed || standaloneRecoveryReport.issues.length) {
+    console.info('[recovery] Standalone session reconciliation:', standaloneRecoveryReport);
+  }
+}
+
 /* ===== js/tournament-flow-upgrade.js ===== */
 {
 /** Többlépcsős tornaválasztás és megbízható tornaeredmény-navigáció. */
