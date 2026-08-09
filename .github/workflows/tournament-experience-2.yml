@@ -1,0 +1,147 @@
+name: Tournament Experience 2.0 release gate
+
+on:
+  push:
+    branches:
+      - feat/tournament-experience-2
+  pull_request:
+    branches:
+      - feat/duel-visual-kickoff-countdown-1
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tournament-experience-2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web-pwa-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Syntax and focused Tournament Experience contract
+        run: |
+          node --check js/tournament/tournament-ui-improvement.js
+          node --check js/tournament/tournament-experience-v2-runtime.js
+          node --check js/tournament/tournament-experience-v2-wizard.js
+          node --check js/tournament-experience-v2.js
+          node --check test/tournament-ui-improvement.test.mjs
+          node test/tournament-ui-improvement.test.mjs
+          node test/tournament-cup-experience.test.mjs
+          node test/tournament-statistics.test.mjs
+
+      - name: Tournament domain and matchday regression
+        run: |
+          node test/tournament-mode.test.mjs
+          node test/tournament-lineup-state.test.mjs
+          node test/tournament-lineup-ui.test.mjs
+          node test/tournament-lineup-matchday.test.mjs
+          node test/tournament-match-liveness.test.mjs
+          node test/round-controller-freeze-recovery.test.mjs
+          node test/result-controller.test.mjs
+
+      - name: Session and Quick Match safety regression
+        run: |
+          node test/session-recovery.test.mjs
+          node test/round-operation-liveness.test.mjs
+          node test/deck-selection.test.mjs
+
+      - name: Asset, PWA and accessibility gate
+        run: |
+          npm run audit:assets
+          npm run audit:pwa
+          npm run test:pwa-cache
+          npm run test:accessibility
+
+      - name: Full regression
+        run: npm test
+
+      - name: Production and standalone
+        run: |
+          npm run build
+          npm run build:standalone
+          npm run test:standalone-game-runtime
+
+      - name: Tournament Experience 2.0 standalone markers
+        run: |
+          test -s Fociskartyak2026.html
+          grep -q "TOURNAMENT_UI_IMPROVEMENT_VERSION" Fociskartyak2026.html
+          grep -q "tournamentExperience2" Fociskartyak2026.html
+          grep -q "Hatása a tornára" Fociskartyak2026.html
+          grep -q "MÉRKŐZÉS" Fociskartyak2026.html
+          grep -q "kickoff-countdown-intro" Fociskartyak2026.html
+
+      - name: Real browser and tournament mobile regression
+        run: |
+          npm run test:runtime
+          node scripts/tournament-ui-mobile-smoke.mjs
+          npm run mobile:prepare
+          npm run test:mobile-layout
+          npm run test:runtime
+
+  android-debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Android 16 SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - run: npm ci
+      - name: Prepare mobile web bundle
+        run: npm run mobile:prepare
+      - name: Create Android project
+        run: npx cap add android
+      - name: Sync Android WebView bundle
+        run: npx cap sync android
+      - name: Android Tournament Experience contract
+        run: |
+          test -s android/app/src/main/assets/public/index.html
+          grep -q "TOURNAMENT_UI_IMPROVEMENT_VERSION" android/app/src/main/assets/public/index.html
+          grep -q "tournamentExperience2" android/app/src/main/assets/public/index.html
+          grep -q "Hatása a tornára" android/app/src/main/assets/public/index.html
+          grep -q "MÉRKŐZÉS" android/app/src/main/assets/public/index.html
+          grep -q "kickoff-countdown-intro" android/app/src/main/assets/public/index.html
+      - name: Android app icon
+        run: node scripts/apply-android-icon.mjs
+      - name: Android lint and debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon lintDebug assembleDebug
+      - name: APK artifact
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-Tournament-Experience-2-debug.apk
+          sha256sum dist/Fociskartyak2026-Tournament-Experience-2-debug.apk > dist/Fociskartyak2026-Tournament-Experience-2-debug.apk.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Tournament-Experience-2-debug-apk
+          path: |
+            dist/Fociskartyak2026-Tournament-Experience-2-debug.apk
+            dist/Fociskartyak2026-Tournament-Experience-2-debug.apk.sha256
+          if-no-files-found: error
