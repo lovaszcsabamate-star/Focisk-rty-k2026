@@ -54,6 +54,10 @@ assert.match(source, /overviewButton && tournamentUiText\(overviewButton\.textCo
   'A center polish nem írhatja újra feltétel nélkül ugyanazt a tabfeliratot a MutationObserver alatt.');
 assert.doesNotMatch(source, /if \(overviewButton\) overviewButton\.textContent = 'Áttekintés'/,
   'A feltétel nélküli textContent-írás önfenntartó childList refresh ciklust okozhat.');
+assert.match(source, /\.tournament-table\{font-size:\.78rem;min-width:0!important\}/,
+  'A Tournament Experience mobilrétegének fel kell oldania a legacy 590px tabella-minimumot.');
+assert.match(source, /\.tournament-table-wrap\{min-width:0;overflow-x:visible\}/,
+  'A mobil tabella wrapper nem kényszeríthet belső vízszintes görgetést.');
 assert.match(source, /__FOCISKARTYAK_TEAM_LOGO_RESTORATION__/);
 assert.match(source, /min-height:44px/);
 assert.match(source, /@media\(max-width:390px\)/);
@@ -77,7 +81,13 @@ assert.match(entry, /grid-template-areas:"pos team team team team pts" "played w
 assert.match(entry, /td:nth-child\(8\)\{grid-area:pts/, 'A pontszám külön mobil gridterületen maradjon látható.');
 assert.match(entry, /td:nth-child\(8\)::before\{content:"P"\}/, 'A mobil pontszám kapjon olvasható P címkét.');
 assert.match(entry, /td:nth-child\(7\)::before\{content:"\+\/−"\}/, 'A gólkülönbség is maradjon látható mobilon.');
+assert.match(standalone, /const rapidTournamentDependencies =/,
+  'A standalone rapid Torna modul explicit domain-függőségi hidat kapjon.');
+assert.match(standalone, /TOURNAMENT_FORMAT, TOURNAMENT_MATCH_STATUS, TOURNAMENT_STATUS/,
+  'A standalone rapid híd tartalmazza a szükséges Torna enumokat.');
+assert.match(standalone, /\$\{rapidTournamentDependencies\}/,
+  'A rapid Torna függőségi híd ténylegesen kerüljön a flattenelt blokk elé.');
 assert.match(standalone, /tournament\/tournament-ui-improvement\.js/);
 assert.match(serviceWorker, /\.\/js\/tournament\/tournament-ui-improvement\.js/);
 
-console.log('✓ Tournament Experience 2.0: központi branding, idempotens center polish, teljes mobil tabella, next-match hero, mobil/a11y és offline bekötés rendben.');
+console.log('✓ Tournament Experience 2.0: központi branding, idempotens center polish, teljes overflowmentes mobil tabella, standalone rapid domain-híd, next-match hero, mobil/a11y és offline bekötés rendben.');
