@@ -1,4 +1,4 @@
-/** Valódi headless Chrome smoke a Torna kupa- és csapatválasztó mobilnézeteire. */
+/** Valódi headless Chrome smoke a Torna kupa-, csapatválasztó és center mobilnézeteire. */
 
 import fs from 'node:fs';
 import os from 'node:os';
@@ -28,6 +28,9 @@ const instrumentation = `<script>
     localStorage.setItem('fociskartyak:onboarding-complete', 'true');
     localStorage.setItem('fociskartyak:player-name:v1', 'Csabi');
     localStorage.removeItem('fociskartyak:tournament-draft:v2');
+    localStorage.removeItem('fociskartyak.tournament.v1');
+    localStorage.removeItem('fociskartyak.tournament-pending-launch.v1');
+    localStorage.removeItem('fociskartyak.tournament-lineup.v1');
   } catch {}
   window.__tournamentUiSmokeErrors = [];
   window.addEventListener('error', event => window.__tournamentUiSmokeErrors.push(String(event.error?.stack || event.message || 'window error')));
@@ -51,6 +54,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
   const win=frame.contentWindow;
   const rect=node=>{const r=node?.getBoundingClientRect?.();return r?{left:Math.round(r.left),right:Math.round(r.right),top:Math.round(r.top),bottom:Math.round(r.bottom),width:Math.round(r.width),height:Math.round(r.height)}:null};
   const targetHeight=node=>Math.round(node?.getBoundingClientRect?.().height||0);
+  const isVisible=node=>Boolean(node&&win.getComputedStyle(node).display!=='none'&&win.getComputedStyle(node).visibility!=='hidden'&&(node.getBoundingClientRect?.().width||0)>0&&(node.getBoundingClientRect?.().height||0)>0);
   const root=doc.documentElement;
   const body=doc.body;
   const result={requestedWidth:${width},viewport:win.innerWidth,errors:[]};
@@ -83,6 +87,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     const arrows=[...doc.querySelectorAll('.tx-team-arrow')];
     const teamPrimary=doc.querySelector('.tx-actions__primary');
     const teamName=hero?.querySelector('h2');
+    const quickWall=doc.querySelector('.tx-mini-teams');
     result.team={
       present:Boolean(team),
       rect:rect(team),
@@ -94,7 +99,41 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
       markRect:rect(heroMark),
       arrowHeights:arrows.map(targetHeight),
       primaryHeight:targetHeight(teamPrimary),
+      quickWallHidden:quickWall ? win.getComputedStyle(quickWall).display==='none' : true,
       documentWidth:Math.max(root.scrollWidth,body.scrollWidth),
+    };
+
+    teamPrimary?.click();
+    await sleep(180);
+    const start=doc.querySelector('[data-start]');
+    result.summary={present:Boolean(start),startEnabled:Boolean(start&&!start.disabled)};
+    start?.click();
+    await sleep(260);
+    doc.querySelector('[data-skip]')?.click();
+    await sleep(80);
+    doc.querySelector('[data-continue]')?.click();
+    await sleep(520);
+
+    const center=doc.querySelector('.tournament-center[data-experience-v2="true"]');
+    const tableButton=center?.querySelector('[data-tab="table"]');
+    tableButton?.click();
+    await sleep(160);
+    const tableContent=center?.querySelector('[data-content="table"]');
+    const tableWrap=tableContent?.querySelector('.tournament-table-wrap');
+    const row=tableContent?.querySelector('tbody tr');
+    const cells=[...row?.querySelectorAll?.('td')??[]];
+    const playButtons=[...center?.querySelectorAll?.('#tournament-play')??[]];
+    result.center={
+      present:Boolean(center),
+      documentWidth:Math.max(root.scrollWidth,body.scrollWidth),
+      tableTabPresent:Boolean(tableButton),
+      tableVisible:Boolean(tableContent&&!tableContent.hidden),
+      tableCellCount:cells.length,
+      visibleCellCount:cells.filter(isVisible).length,
+      pointsVisible:isVisible(cells[7]),
+      tableOverflow:Boolean(tableWrap&&tableWrap.scrollWidth>tableWrap.clientWidth+2),
+      playButtonCount:playButtons.length,
+      playLabel:playButtons[0]?.textContent?.replace(/\\s+/g,' ').trim()||'',
     };
     result.errors=win.__tournamentUiSmokeErrors||[];
   } catch(error) {
@@ -109,7 +148,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     const run = runChrome(chrome, [
       '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
       '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
-      '--virtual-time-budget=6500', '--dump-dom', `file://${harnessFile}`,
+      '--virtual-time-budget=8500', '--dump-dom', `file://${harnessFile}`,
     ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
     const match = run.stdout.match(/data-tournament-ui-smoke="([^"]+)"/);
@@ -134,8 +173,19 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
       [result.team?.name === 'Puskás Akadémia FC', `Puskás kiválasztás sikertelen: ${result.team?.name || 'nincs név'}`],
       [result.team?.crest, 'a generált klubpajzs nem jelent meg'],
       [result.team?.crestLabel === 'PAFC', `hibás Puskás klubjel: ${result.team?.crestLabel || 'nincs'}`],
+      [result.team?.quickWallHidden, 'a másodlagos mini-klubfal látható maradt'],
       [(result.team?.arrowHeights ?? []).length === 2 && result.team.arrowHeights.every(value => value >= 44), 'csapatlapozó touch target 44px-nél kisebb'],
       [(result.team?.primaryHeight ?? 0) >= 44, 'a csapat CTA 44px-nél kisebb'],
+      [result.summary?.present && result.summary?.startEnabled, 'a Magyar Bajnokság összefoglalója nem indítható'],
+      [result.center?.present, 'a Torna központ nem jelent meg'],
+      [result.center?.documentWidth <= width + 1, `Torna központ vízszintes overflow: ${result.center?.documentWidth}px`],
+      [result.center?.tableTabPresent && result.center?.tableVisible, 'a Tabella nézet nem nyitható meg'],
+      [result.center?.tableCellCount === 8, `a tabella nem tartalmazza mind a 8 oszlopot: ${result.center?.tableCellCount ?? 0}`],
+      [result.center?.visibleCellCount === 8, `mobilon rejtett tabellaadat maradt: ${result.center?.visibleCellCount ?? 0}/8`],
+      [result.center?.pointsVisible, 'a pontszám mobilon nem látható'],
+      [!result.center?.tableOverflow, 'a mobil tabella belső vízszintes görgetést igényel'],
+      [result.center?.playButtonCount === 1, `nem pontosan egy MÉRKŐZÉS CTA látható: ${result.center?.playButtonCount ?? 0}`],
+      [/MÉRKŐZÉS/.test(result.center?.playLabel ?? ''), `hibás meccs CTA: ${result.center?.playLabel || 'nincs'}`],
       [(result.errors ?? []).length === 0, `runtime hiba: ${(result.errors ?? []).join(' | ')}`],
     ];
     for (const [ok, message] of checks) if (!ok) failures.push(`${width}px: ${message}`);
@@ -146,4 +196,4 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
 
 fs.writeFileSync(REPORT, `${JSON.stringify({ widths: WIDTHS, measurements, failures }, null, 2)}\n`);
 if (failures.length) throw new Error(`Torna UI mobil regresszió:\n- ${failures.join('\n- ')}`);
-console.log(`✓ Torna kupa/csapat UI: ${WIDTHS.join('/')} px, PAFC generált címer, nincs overflow, touch target >=44 px.`);
+console.log(`✓ Torna teljes mobil flow: ${WIDTHS.join('/')} px, kupa → PAFC → Magyar Bajnokság center, 8/8 tabellaadat, nincs overflow, egy MÉRKŐZÉS CTA.`);
