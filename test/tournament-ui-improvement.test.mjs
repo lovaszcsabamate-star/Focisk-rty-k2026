@@ -63,7 +63,17 @@ const standalone = fs.readFileSync('scripts/postprocess-standalone.mjs', 'utf8')
 const serviceWorker = fs.readFileSync('sw.js', 'utf8');
 assert.match(entry, /tournament\/tournament-ui-improvement\.js/);
 assert.match(entry, /installTournamentUiImprovement\(\)/);
+assert.doesNotMatch(
+  entry,
+  /tournament-table\s+th:nth-child\(n\+4\)[^`]*display:none/,
+  'Mobilon nem rejthetők el a tabella GY/D/V/+/−/P oszlopai.',
+);
+assert.match(entry, /grid-template-areas:"pos team team team team pts" "played wins draws losses diff diff"/,
+  'A mobil tabella két soros, overflowmentes kompaktnézetet használjon.');
+assert.match(entry, /td:nth-child\(8\)\{grid-area:pts/, 'A pontszám külön mobil gridterületen maradjon látható.');
+assert.match(entry, /td:nth-child\(8\)::before\{content:"P"\}/, 'A mobil pontszám kapjon olvasható P címkét.');
+assert.match(entry, /td:nth-child\(7\)::before\{content:"\+\/−"\}/, 'A gólkülönbség is maradjon látható mobilon.');
 assert.match(standalone, /tournament\/tournament-ui-improvement\.js/);
 assert.match(serviceWorker, /\.\/js\/tournament\/tournament-ui-improvement\.js/);
 
-console.log('✓ Tournament Experience 2.0: központi branding, fókuszált csapatválasztás, next-match hero, mobil/a11y és offline bekötés rendben.');
+console.log('✓ Tournament Experience 2.0: központi branding, fókuszált csapatválasztás, teljes mobil tabella, next-match hero, mobil/a11y és offline bekötés rendben.');
