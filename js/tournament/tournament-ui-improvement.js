@@ -209,7 +209,9 @@ function polishTournamentCenter(root) {
     center.querySelector(':scope > .tournament-progress-label')?.remove();
 
     const overviewButton = center.querySelector('.tournament-tabs [data-tab="overview"]');
-    if (overviewButton) overviewButton.textContent = 'Áttekintés';
+    if (overviewButton && tournamentUiText(overviewButton.textContent) !== 'Áttekintés') {
+      overviewButton.textContent = 'Áttekintés';
+    }
 
     const next = center.querySelector('.tournament-next-match');
     if (next) {
