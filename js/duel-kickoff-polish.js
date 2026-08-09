@@ -412,12 +412,12 @@ const duelKickoffStart = (ui, game, { onComplete = () => {}, onError = () => {} 
   document.body.appendChild(nodes.overlay);
   globalThis.__FOCISKARTYAK_TEAM_LOGO_RESTORATION__?.refresh?.();
 
-  const finish = callback => {
-    if (state.game !== game) return;
+  const finalize = () => {
+    if (state.game !== game) return false;
     completedKickoffGames.add(game);
     duelKickoffCleanupOverlay(state);
     state.game = null;
-    callback();
+    return true;
   };
 
   const token = state.controller.start({
@@ -434,8 +434,14 @@ const duelKickoffStart = (ui, game, { onComplete = () => {}, onError = () => {} 
         nodes.overlay.setAttribute('aria-label', 'Síp. A mérkőzés indul.');
       }
     },
-    onComplete: () => finish(onComplete),
-    onError: error => finish(() => onError(error)),
+    onComplete: () => {
+      if (!finalize()) return;
+      try { onComplete(); } catch (error) { onError(error); }
+    },
+    onError: error => {
+      if (!finalize()) return;
+      onError(error);
+    },
   });
 
   return Boolean(token);
