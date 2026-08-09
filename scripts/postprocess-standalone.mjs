@@ -44,7 +44,7 @@ const flattenModule = source => source
 const flowBridge = `
 globalThis.${FLOW_BRIDGE_NAME} = Object.freeze({
   FLOW_VERSION, MINIMUM_CARDS, TOURNAMENT_CATEGORY, TOURNAMENT_FORMAT,
-  TOURNAMENT_MATCH_MODE, TOURNAMENT_STATUS, closeTournamentLayers,
+  TOURNAMENT_MATCH_MODE, TOURNAMENT_MATCH_STATUS, TOURNAMENT_STATUS, closeTournamentLayers,
   createTournament, deckRuntime, difficultyLabel, escapeHtml, formatLabel,
   makePanel, matchModeLabel, players, runtime, safeTournamentName,
   saveAndVerifyTournament, selectParticipants, showPanel, tournamentMatches,
@@ -53,10 +53,17 @@ globalThis.${FLOW_BRIDGE_NAME} = Object.freeze({
 });
 `;
 
+const rapidTournamentDependencies = `
+const {
+  TOURNAMENT_FORMAT, TOURNAMENT_MATCH_STATUS, TOURNAMENT_STATUS,
+  tournamentMatches, tournamentNextHumanMatch, tournamentProgress, tournamentTeamById,
+} = globalThis.${FLOW_BRIDGE_NAME};
+`;
+
 const experienceDependencies = `
 const {
   FLOW_VERSION, MINIMUM_CARDS, TOURNAMENT_CATEGORY, TOURNAMENT_FORMAT,
-  TOURNAMENT_MATCH_MODE, TOURNAMENT_STATUS, closeTournamentLayers,
+  TOURNAMENT_MATCH_MODE, TOURNAMENT_MATCH_STATUS, TOURNAMENT_STATUS, closeTournamentLayers,
   createTournament, deckRuntime, difficultyLabel, escapeHtml, formatLabel,
   makePanel, matchModeLabel, players, runtime, safeTournamentName,
   saveAndVerifyTournament, selectParticipants, showPanel, tournamentMatches,
@@ -146,7 +153,7 @@ if (!html.includes(RAPID_TOURNAMENT_MARKER)) {
     .replace(/<\/script/gi, '<\\/script');
   html = html.replace(
     MAIN_MARKER,
-    `${RAPID_TOURNAMENT_MARKER}\n{\n${rapidTournament}\n}\n${MAIN_MARKER}`,
+    `${RAPID_TOURNAMENT_MARKER}\n{\n${rapidTournamentDependencies}\n${rapidTournament}\n}\n${MAIN_MARKER}`,
   );
 }
 
@@ -186,10 +193,12 @@ assertFlowRuntimeScope(html);
 
 if (!html.includes(RAPID_TOURNAMENT_MARKER)
   || !html.includes(RAPID_TOURNAMENT_STYLE_MARKER)
+  || !html.includes(`} = globalThis.${FLOW_BRIDGE_NAME};`)
+  || !html.includes('TOURNAMENT_MATCH_STATUS')
   || !html.includes('globalThis.FociskartyakTournament?.read?.()')
   || !html.includes('tournament-match-intro-trigger')
   || !html.includes('tournament-match-summary')) {
-  throw new Error('A gyors tornaélmény-fejlesztés nem került be az önálló buildbe.');
+  throw new Error('A gyors tornaélmény-fejlesztés nem került be az önálló buildbe a szükséges domain-függőségekkel.');
 }
 
 if (!html.includes(FLOW_TOURNAMENT_MARKER)
