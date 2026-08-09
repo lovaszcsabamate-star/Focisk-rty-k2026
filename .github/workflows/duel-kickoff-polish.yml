@@ -77,21 +77,34 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Android 16 SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
       - run: npm ci
-      - name: Prepare Android WebView bundle
-        run: npm run mobile:sync:android
+      - name: Prepare mobile web bundle
+        run: npm run mobile:prepare
+      - name: Create Android project
+        run: npx cap add android
+      - name: Sync Android WebView bundle
+        run: npx cap sync android
       - name: Android standalone asset contract
         run: |
-          test -s android/app/src/main/assets/Fociskartyak2026.html
-          grep -q "kickoff-countdown-intro" android/app/src/main/assets/Fociskartyak2026.html
-          grep -q "Hajrá!" android/app/src/main/assets/Fociskartyak2026.html
-          grep -q "duel-visual-loser" android/app/src/main/assets/Fociskartyak2026.html
-          grep -q "data:image/svg+xml;base64," android/app/src/main/assets/Fociskartyak2026.html
-          ! grep -q "assets/ui/referee-whistle.svg" android/app/src/main/assets/Fociskartyak2026.html
+          test -s android/app/src/main/assets/public/index.html
+          grep -q "kickoff-countdown-intro" android/app/src/main/assets/public/index.html
+          grep -q "Hajrá!" android/app/src/main/assets/public/index.html
+          grep -q "duel-visual-loser" android/app/src/main/assets/public/index.html
+          grep -q "data:image/svg+xml;base64," android/app/src/main/assets/public/index.html
+          ! grep -q "assets/ui/referee-whistle.svg" android/app/src/main/assets/public/index.html
+      - name: Android app icon
+        run: node scripts/apply-android-icon.mjs
       - name: Android lint and debug APK
         working-directory: android
-        run: ./gradlew --no-daemon lintDebug assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon lintDebug assembleDebug
       - name: APK artifact
         run: |
           mkdir -p dist
