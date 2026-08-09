@@ -46,6 +46,7 @@ jobs:
           node test/tournament-lineup-ui.test.mjs
           node test/tournament-lineup-matchday.test.mjs
           node test/tournament-match-liveness.test.mjs
+          node test/tournament-pending-launch-verification.test.mjs
           node test/session-recovery.test.mjs
           node test/round-operation-liveness.test.mjs
           node test/result-controller.test.mjs
