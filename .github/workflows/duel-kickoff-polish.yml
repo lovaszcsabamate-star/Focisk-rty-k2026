@@ -1,0 +1,113 @@
+name: Duel Visual + Kickoff Countdown 1.0
+
+on:
+  push:
+    branches:
+      - feat/duel-visual-kickoff-countdown-1
+  pull_request:
+    branches:
+      - fix/beta-stabilization-1-2-match-polish
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  web-pwa-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Syntax and focused contract
+        run: |
+          node --check js/duel-kickoff-polish.js
+          node --check test/duel-kickoff-polish.test.mjs
+          node test/duel-kickoff-polish.test.mjs
+          node test/match-experience-polish.test.mjs
+      - name: Asset rights and PWA shell
+        run: |
+          npm run audit:assets
+          npm run audit:pwa
+          npm run test:pwa-cache
+      - name: Full regression
+        run: |
+          npm test
+          node test/session-recovery.test.mjs
+          node test/round-operation-liveness.test.mjs
+          node test/tournament-match-liveness.test.mjs
+          node test/tournament-lineup-matchday.test.mjs
+      - name: Production and standalone
+        run: |
+          npm run build
+          npm run build:standalone
+          npm run test:standalone-game-runtime
+      - name: Standalone kickoff and duel markers
+        run: |
+          test -s Fociskartyak2026.html
+          grep -q "kickoff-countdown-intro" Fociskartyak2026.html
+          grep -q "Hajrá!" Fociskartyak2026.html
+          grep -q "duel-visual-loser" Fociskartyak2026.html
+          grep -q "data:image/svg+xml;base64," Fociskartyak2026.html
+          ! grep -q "assets/ui/referee-whistle.svg" Fociskartyak2026.html
+      - name: Real browser and mobile regression
+        run: |
+          npm run test:runtime
+          npm run mobile:prepare
+          npm run test:mobile-layout
+          npm run test:runtime
+
+  android-debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: Prepare Android WebView bundle
+        run: |
+          npm run mobile:prepare
+          rm -rf android
+          npx cap add android
+          npx cap sync android
+      - name: Android standalone asset contract
+        run: |
+          WEBVIEW=android/app/src/main/assets/public/index.html
+          test -s "$WEBVIEW"
+          grep -q "kickoff-countdown-intro" "$WEBVIEW"
+          grep -q "Hajrá!" "$WEBVIEW"
+          grep -q "duel-visual-loser" "$WEBVIEW"
+          grep -q "data:image/svg+xml;base64," "$WEBVIEW"
+          ! grep -q "assets/ui/referee-whistle.svg" "$WEBVIEW"
+      - name: Android lint and debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew lintDebug assembleDebug
+      - name: APK artifact
+        run: |
+          APK=$(find android/app/build/outputs/apk/debug -name '*.apk' -type f | head -n 1)
+          test -n "$APK"
+          cp "$APK" Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
+          sha256sum Fociskartyak2026-Duel-Kickoff-1.0-debug.apk > Fociskartyak2026-Duel-Kickoff-1.0-debug.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Duel-Kickoff-1.0-debug-apk
+          path: |
+            Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
+            Fociskartyak2026-Duel-Kickoff-1.0-debug.sha256
+          if-no-files-found: error
+          retention-days: 14
