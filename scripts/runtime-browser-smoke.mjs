@@ -74,12 +74,29 @@ for (const mode of MODES) {
       const doc = frame.contentDocument;
       const win = frame.contentWindow;
       const titleText = doc.querySelector('#penalties-btn')?.textContent || '';
+      const waitUntil = (predicate, callback, { interval = 80, attempts = 50 } = {}) => {
+        let count = 0;
+        const probe = () => {
+          if (predicate() || count >= attempts) {
+            callback({ timedOut: count >= attempts });
+            return;
+          }
+          count += 1;
+          setTimeout(probe, interval);
+        };
+        probe();
+      };
       doc.querySelector('${mode.button}')?.click();
 
       setTimeout(() => {
         doc.querySelector('#kickoff-btn')?.click();
 
-        setTimeout(() => {
+        // A mérkőzés most szándékosan csak a 3–2–1–Hajrá!–síp kapu után
+        // hozza létre az első valódi kezet/kategóriát. Nem fix timeoutot várunk:
+        // a teszt a tényleges kickoff overlay lezárását figyeli.
+        waitUntil(
+          () => !doc.querySelector('.kickoff-countdown-intro'),
+          kickoffWait => setTimeout(() => {
           const category = doc.querySelector('#attribute-picker .attr-btn:not(:disabled)');
           const categoryBefore = category ? {
             text: category.textContent,
@@ -162,6 +179,7 @@ for (const mode of MODES) {
                     loadingError: Boolean(doc.querySelector('.app-loading__error')),
                     overlayHidden: Boolean(doc.querySelector('#overlay')?.hidden),
                     modeClassPresent: expectedClass ? Boolean(pub?.classList.contains(expectedClass)) : true,
+                    kickoffWaitTimedOut: Boolean(kickoffWait?.timedOut),
                     visibleCards,
                     minimumCards: ${mode.minimumCards},
                     savedNameVisible: /Csabi/i.test(scoreText),
@@ -209,7 +227,9 @@ for (const mode of MODES) {
               }, 360);
             }, 220);
           }, 700);
-        }, 850);
+        }, 120),
+          { interval: 80, attempts: 50 },
+        );
       }, 280);
     }, 1300));
   </script></body></html>`;
@@ -219,7 +239,7 @@ for (const mode of MODES) {
   const run = runChrome(chrome, [
     '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
     '--allow-file-access-from-files', '--window-size=1300,940', '--force-device-scale-factor=1',
-    '--virtual-time-budget=9000', '--dump-dom', `file://${harnessFile}`,
+    '--virtual-time-budget=12000', '--dump-dom', `file://${harnessFile}`,
   ], { encoding: 'utf8', timeoutMs: 45_000, maxBuffer: 30 * 1024 * 1024 });
 
   if (!run.ok) {
@@ -243,6 +263,7 @@ for (const mode of MODES) {
   if (!result.loadingHidden || result.loadingError) modeFailures.push('betöltési hibaképernyő vagy látható betöltőréteg');
   if (!result.overlayHidden) modeFailures.push('a kezdőmenü nem zárult be');
   if (!result.modeClassPresent) modeFailures.push('a kiválasztott játékmód osztálya nem aktív');
+  if (result.kickoffWaitTimedOut) modeFailures.push('a kickoff overlay nem zárult le a megengedett időn belül');
   if (result.visibleCards < result.minimumCards) modeFailures.push(`csak ${result.visibleCards} kártya jelent meg a várt ${result.minimumCards} helyett`);
   if (!result.savedNameVisible) modeFailures.push('a mentett játékosnév nem jelent meg az eredményjelzőn');
   if (!result.categoryDiagnostics.categoryBefore) modeFailures.push('nem található aktív kategóriagomb');
