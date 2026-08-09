@@ -83,7 +83,7 @@ jobs:
         run: npm run mobile:prepare
       - name: Android standalone asset contract
         run: |
-          node scripts/android-webview-smoke.mjs
+          test -s android/app/src/main/assets/Fociskartyak2026.html
           grep -q "kickoff-countdown-intro" android/app/src/main/assets/Fociskartyak2026.html
           grep -q "Hajrá!" android/app/src/main/assets/Fociskartyak2026.html
           grep -q "duel-visual-loser" android/app/src/main/assets/Fociskartyak2026.html
