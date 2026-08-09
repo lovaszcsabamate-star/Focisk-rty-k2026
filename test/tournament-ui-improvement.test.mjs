@@ -8,7 +8,7 @@ import {
   resolveTournamentCupPresentation,
 } from '../js/tournament/tournament-ui-improvement.js';
 
-assert.equal(TOURNAMENT_UI_IMPROVEMENT_VERSION, 1);
+assert.equal(TOURNAMENT_UI_IMPROVEMENT_VERSION, 2);
 assert.equal(foldTournamentUiText('Puskás Akadémia FC'), 'puskas akademia fc');
 
 const clubs = [
@@ -27,7 +27,7 @@ const clubs = [
 ];
 for (const [label, short] of clubs) {
   const presentation = resolveTournamentClubPresentation(label);
-  assert.ok(presentation, `${label}: hiányzó klubprezentáció`);
+  assert.ok(presentation, `${label}: hiányzó központi klubprezentáció`);
   assert.equal(presentation.short, short, `${label}: kanonikus rövid klubjel`);
   assert.match(presentation.primary, /^#[0-9a-f]{6}$/i);
   assert.match(presentation.secondary, /^#[0-9a-f]{6}$/i);
@@ -36,19 +36,27 @@ assert.equal(resolveTournamentClubPresentation('Magyar válogatott'), null);
 assert.equal(resolveTournamentClubPresentation('Ismeretlen Teszt FC'), null);
 
 assert.equal(resolveTournamentCupPresentation('Magyar Bajnokság').tone, 'league');
-assert.equal(resolveTournamentCupPresentation('Magyar Bajnokság').tag, 'Szezon');
+assert.equal(resolveTournamentCupPresentation('Magyar Bajnokság').tag, 'Bajnokság');
 assert.equal(resolveTournamentCupPresentation('Magyar Kupa').tone, 'cup');
 assert.equal(resolveTournamentCupPresentation('Nemzetközi Bajnokok Kupája').tone, 'international');
 assert.equal(resolveTournamentCupPresentation('Nemzetek Kupája').tone, 'international');
 assert.equal(resolveTournamentCupPresentation('Új saját kupa létrehozása').tone, 'custom');
 
 const source = fs.readFileSync('js/tournament/tournament-ui-improvement.js', 'utf8');
-assert.match(source, /quick-team-mark--text/);
+assert.match(source, /import '\.\.\/branding\.js'/, 'A Torna megjelenítés a központi branding réteget használja.');
+assert.match(source, /clubPresentations/, 'A klubpaletta a branding API-ból származik.');
+assert.doesNotMatch(source, /TOURNAMENT_UI_CLUB_PRESENTATION/, 'Nem maradhat külön Torna klubpaletta.');
+assert.match(source, /\.tx-mini-teams\{display:none!important\}/, 'A normál csapatválasztó ne jelenítsen második klubfalat.');
+assert.match(source, /tournament-center\[data-experience-v2=/, 'A futó torna kapjon külön 2.0 vizuális hierarchiát.');
+assert.match(source, /MÉRKŐZÉS/, 'A következő meccs egyetlen domináns CTA-ja legyen egyértelmű.');
+assert.match(source, /Hatása a tornára/, 'A meccs utáni tournament impact legyen explicit.');
 assert.match(source, /__FOCISKARTYAK_TEAM_LOGO_RESTORATION__/);
 assert.match(source, /min-height:44px/);
 assert.match(source, /@media\(max-width:390px\)/);
 assert.match(source, /@media\(max-width:340px\)/);
-assert.doesNotMatch(source, /https?:\/\//, 'A Torna UI nem hozhat be távoli klubcímer URL-t.');
+assert.match(source, /prefers-reduced-motion:reduce/);
+assert.match(source, /forced-colors:active/);
+assert.doesNotMatch(source, /https?:\/\//, 'A Torna UI nem hozhat be távoli asset URL-t.');
 
 const entry = fs.readFileSync('js/tournament-experience-v2.js', 'utf8');
 const standalone = fs.readFileSync('scripts/postprocess-standalone.mjs', 'utf8');
@@ -58,4 +66,4 @@ assert.match(entry, /installTournamentUiImprovement\(\)/);
 assert.match(standalone, /tournament\/tournament-ui-improvement\.js/);
 assert.match(serviceWorker, /\.\/js\/tournament\/tournament-ui-improvement\.js/);
 
-console.log('✓ Torna UI: 12 klub generált címerpalettája, kupa-karakterek, mobil touch target és offline/standalone bekötés rendben.');
+console.log('✓ Tournament Experience 2.0: központi branding, fókuszált csapatválasztás, next-match hero, mobil/a11y és offline bekötés rendben.');
