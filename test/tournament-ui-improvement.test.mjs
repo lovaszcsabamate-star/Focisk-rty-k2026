@@ -50,6 +50,10 @@ assert.match(source, /\.tx-mini-teams\{display:none!important\}/, 'A normál csa
 assert.match(source, /tournament-center\[data-experience-v2=/, 'A futó torna kapjon külön 2.0 vizuális hierarchiát.');
 assert.match(source, /MÉRKŐZÉS/, 'A következő meccs egyetlen domináns CTA-ja legyen egyértelmű.');
 assert.match(source, /Hatása a tornára/, 'A meccs utáni tournament impact legyen explicit.');
+assert.match(source, /overviewButton && tournamentUiText\(overviewButton\.textContent\) !== 'Áttekintés'/,
+  'A center polish nem írhatja újra feltétel nélkül ugyanazt a tabfeliratot a MutationObserver alatt.');
+assert.doesNotMatch(source, /if \(overviewButton\) overviewButton\.textContent = 'Áttekintés'/,
+  'A feltétel nélküli textContent-írás önfenntartó childList refresh ciklust okozhat.');
 assert.match(source, /__FOCISKARTYAK_TEAM_LOGO_RESTORATION__/);
 assert.match(source, /min-height:44px/);
 assert.match(source, /@media\(max-width:390px\)/);
@@ -76,4 +80,4 @@ assert.match(entry, /td:nth-child\(7\)::before\{content:"\+\/−"\}/, 'A gólkü
 assert.match(standalone, /tournament\/tournament-ui-improvement\.js/);
 assert.match(serviceWorker, /\.\/js\/tournament\/tournament-ui-improvement\.js/);
 
-console.log('✓ Tournament Experience 2.0: központi branding, fókuszált csapatválasztás, teljes mobil tabella, next-match hero, mobil/a11y és offline bekötés rendben.');
+console.log('✓ Tournament Experience 2.0: központi branding, idempotens center polish, teljes mobil tabella, next-match hero, mobil/a11y és offline bekötés rendben.');
