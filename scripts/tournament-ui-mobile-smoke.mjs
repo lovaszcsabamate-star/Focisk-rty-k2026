@@ -62,11 +62,11 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     win.FociskartyakCupSelector?.show?.();
     await sleep(260);
     const cup=doc.querySelector('.tx-cup-selector-v3');
-    const locations=[...doc.querySelectorAll('.tx-cup-locations button')];
     const cupStage=doc.querySelector('.tx-cup-stage');
     const leagueSeries=doc.querySelector('[data-series="hungarian-league"]');
     leagueSeries?.click();
     await sleep(120);
+    const locations=[...doc.querySelectorAll('.tx-cup-locations button')];
     const cupPrimary=doc.querySelector('.tx-cup-primary');
     result.cup={
       present:Boolean(cup),
@@ -124,6 +124,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     await sleep(100);
     const tableContent=center?.querySelector('[data-content="table"]');
     const tableWrap=tableContent?.querySelector('.tournament-table-wrap');
+    const table=tableContent?.querySelector('.tournament-table');
     const row=tableContent?.querySelector('tbody tr');
     const cells=[...row?.querySelectorAll?.('td')??[]];
     const playButtons=[...center?.querySelectorAll?.('#tournament-play')??[]];
@@ -136,6 +137,11 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
       visibleCellCount:cells.filter(isVisible).length,
       pointsVisible:isVisible(cells[7]),
       tableOverflow:Boolean(tableWrap&&tableWrap.scrollWidth>tableWrap.clientWidth+2),
+      tableWrapScrollWidth:tableWrap?.scrollWidth??0,
+      tableWrapClientWidth:tableWrap?.clientWidth??0,
+      tableScrollWidth:table?.scrollWidth??0,
+      tableClientWidth:table?.clientWidth??0,
+      tableMinWidth:table?win.getComputedStyle(table).minWidth:'',
       playButtonCount:playButtons.length,
       playLabel:playButtons[0]?.textContent?.replace(/\\s+/g,' ').trim()||'',
     };
@@ -188,7 +194,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
       [result.center?.tableCellCount === 8, `a tabella nem tartalmazza mind a 8 oszlopot: ${result.center?.tableCellCount ?? 0}`],
       [result.center?.visibleCellCount === 8, `mobilon rejtett tabellaadat maradt: ${result.center?.visibleCellCount ?? 0}/8`],
       [result.center?.pointsVisible, 'a pontszám mobilon nem látható'],
-      [!result.center?.tableOverflow, 'a mobil tabella belső vízszintes görgetést igényel'],
+      [!result.center?.tableOverflow, `a mobil tabella belső vízszintes görgetést igényel (${result.center?.tableWrapScrollWidth ?? 0}/${result.center?.tableWrapClientWidth ?? 0}px, min-width ${result.center?.tableMinWidth || '?'})`],
       [result.center?.playButtonCount === 1, `nem pontosan egy MÉRKŐZÉS CTA látható: ${result.center?.playButtonCount ?? 0}`],
       [/MÉRKŐZÉS/.test(result.center?.playLabel ?? ''), `hibás meccs CTA: ${result.center?.playLabel || 'nincs'}`],
       [(result.errors ?? []).length === 0, `runtime hiba: ${(result.errors ?? []).join(' | ')}`],
