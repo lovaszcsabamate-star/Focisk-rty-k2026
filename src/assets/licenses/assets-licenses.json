@@ -95,6 +95,20 @@
     "brandingStatus": "neutral"
   },
   {
+    "assetId": "ui-referee-whistle-original",
+    "filePath": "assets/ui/referee-whistle.svg",
+    "assetType": "icon",
+    "sourceType": "original",
+    "rightsHolder": "Fociskártyák 2026 projekt",
+    "licenseName": "Projektben létrehozott eredeti UI ikon",
+    "proofOfPermission": "Saját SVG-kóddal létrehozott stilizált játékvezetői síp; nem másol márka-, liga-, klub- vagy gyártói arculatot.",
+    "commercialUseAllowed": true,
+    "modificationAllowed": true,
+    "attributionRequired": false,
+    "approvedForRelease": true,
+    "brandingStatus": "neutral"
+  },
+  {
     "assetId": "existing-project-icon",
     "filePath": "assets/icons/icon.svg",
     "assetType": "icon",
