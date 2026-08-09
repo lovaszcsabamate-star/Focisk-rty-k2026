@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 110" role="img" aria-labelledby="title desc">
+  <title id="title">Játékvezetői síp</title>
+  <desc id="desc">Saját készítésű, stilizált aranyszínű síp ikon a mérkőzés kezdéséhez.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 42h57l18-15h42c18 0 31 13 31 30s-13 30-31 30H82L64 68H18c-8 0-14-6-14-13s6-13 14-13Z" fill="#e8c37a" stroke="#5a3d1d" stroke-width="6"/>
+    <path d="M17 48h52l13 12H17c-4 0-7-3-7-6s3-6 7-6Z" fill="#fff2c4" opacity=".72"/>
+    <circle cx="131" cy="57" r="15" fill="#2a1c12" stroke="#fff2c4" stroke-width="5"/>
+    <circle cx="131" cy="57" r="5" fill="#e8c37a"/>
+    <path d="M89 28c4-10 13-16 25-16h21" stroke="#e8c37a" stroke-width="8"/>
+    <path d="M156 78c12 3 18 9 20 19" stroke="#e8c37a" stroke-width="7"/>
+  </g>
+</svg>
