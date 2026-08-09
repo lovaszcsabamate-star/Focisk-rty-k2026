@@ -60,26 +60,30 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
   const result={requestedWidth:${width},viewport:win.innerWidth,errors:[]};
   try {
     win.FociskartyakCupSelector?.show?.();
-    await sleep(320);
+    await sleep(260);
     const cup=doc.querySelector('.tx-cup-selector-v3');
     const locations=[...doc.querySelectorAll('.tx-cup-locations button')];
-    const cupPrimary=doc.querySelector('.tx-cup-primary');
     const cupStage=doc.querySelector('.tx-cup-stage');
+    const leagueSeries=doc.querySelector('[data-series="hungarian-league"]');
+    leagueSeries?.click();
+    await sleep(120);
+    const cupPrimary=doc.querySelector('.tx-cup-primary');
     result.cup={
       present:Boolean(cup),
       rect:rect(cup),
       stage:rect(cupStage),
+      leagueSelected:Boolean(doc.querySelector('[data-series="hungarian-league"].is-selected')),
       primaryHeight:targetHeight(cupPrimary),
       locationHeights:locations.map(targetHeight),
       locationOverflow:locations.map(button=>button.scrollWidth>button.clientWidth+2),
       documentWidth:Math.max(root.scrollWidth,body.scrollWidth),
     };
     cupPrimary?.click();
-    await sleep(360);
+    await sleep(260);
     let team=doc.querySelector('.tournament-experience-v2:not(.tx-cup-selector-v3)');
     const puskas=[...doc.querySelectorAll('[data-mini-team]')].find(button=>/Puskás Akadémia FC/i.test(button.getAttribute('aria-label')||''));
     puskas?.click();
-    await sleep(360);
+    await sleep(220);
     team=doc.querySelector('.tournament-experience-v2:not(.tx-cup-selector-v3)');
     const hero=doc.querySelector('.tx-team-hero');
     const heroMark=hero?.querySelector('.tx-team-mark');
@@ -104,20 +108,20 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     };
 
     teamPrimary?.click();
-    await sleep(180);
+    await sleep(140);
     const start=doc.querySelector('[data-start]');
     result.summary={present:Boolean(start),startEnabled:Boolean(start&&!start.disabled)};
     start?.click();
-    await sleep(260);
+    await sleep(180);
     doc.querySelector('[data-skip]')?.click();
-    await sleep(80);
+    await sleep(60);
     doc.querySelector('[data-continue]')?.click();
-    await sleep(520);
+    await sleep(360);
 
     const center=doc.querySelector('.tournament-center[data-experience-v2="true"]');
     const tableButton=center?.querySelector('[data-tab="table"]');
     tableButton?.click();
-    await sleep(160);
+    await sleep(100);
     const tableContent=center?.querySelector('[data-content="table"]');
     const tableWrap=tableContent?.querySelector('.tournament-table-wrap');
     const row=tableContent?.querySelector('tbody tr');
@@ -140,7 +144,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     result.errors=[...(win.__tournamentUiSmokeErrors||[]),String(error?.stack||error)];
   }
   document.documentElement.setAttribute('data-tournament-ui-smoke',encodeURIComponent(JSON.stringify(result)));
-},1500));
+},1250));
 </script></body></html>`;
     const harnessFile = path.join(temporaryDirectory, `tournament-harness-${width}.html`);
     fs.writeFileSync(harnessFile, harness);
@@ -148,7 +152,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     const run = runChrome(chrome, [
       '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
       '--allow-file-access-from-files', '--window-size=700,1000', '--force-device-scale-factor=1',
-      '--virtual-time-budget=8500', '--dump-dom', `file://${harnessFile}`,
+      '--virtual-time-budget=6000', '--dump-dom', `file://${harnessFile}`,
     ], { encoding: 'utf8', maxBuffer: 30 * 1024 * 1024 });
 
     const match = run.stdout.match(/data-tournament-ui-smoke="([^"]+)"/);
@@ -164,6 +168,7 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
     const checks = [
       [result.viewport === width, `viewport ${result.viewport}px a kért ${width}px helyett`],
       [result.cup?.present, 'a kupaválasztó nem jelent meg'],
+      [result.cup?.leagueSelected, 'a Magyar Bajnokság explicit kiválasztása sikertelen'],
       [result.cup?.documentWidth <= width + 1, `kupaválasztó vízszintes overflow: ${result.cup?.documentWidth}px`],
       [(result.cup?.primaryHeight ?? 0) >= 44, 'a kupa CTA 44px-nél kisebb'],
       [(result.cup?.locationHeights ?? []).every(value => value >= 44), 'helyszín touch target 44px-nél kisebb'],
@@ -196,4 +201,4 @@ frame.addEventListener('load',()=>setTimeout(async()=>{
 
 fs.writeFileSync(REPORT, `${JSON.stringify({ widths: WIDTHS, measurements, failures }, null, 2)}\n`);
 if (failures.length) throw new Error(`Torna UI mobil regresszió:\n- ${failures.join('\n- ')}`);
-console.log(`✓ Torna teljes mobil flow: ${WIDTHS.join('/')} px, kupa → PAFC → Magyar Bajnokság center, 8/8 tabellaadat, nincs overflow, egy MÉRKŐZÉS CTA.`);
+console.log(`✓ Torna teljes mobil flow: ${WIDTHS.join('/')} px, Magyar Bajnokság → PAFC → center, 8/8 tabellaadat, nincs overflow, egy MÉRKŐZÉS CTA.`);
