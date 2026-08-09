@@ -68,14 +68,46 @@ export function createRoundController({
     ui.setInteractionBusy(value);
   };
 
-  const showRetryAction = ({ message, action, label = 'Gépi kör újrapróbálása' }) => {
+  // A token nem időalapú watchdog. Egy token pontosan egy aszinkron körtranzakció
+  // tulajdonjoga, ezért egy régi Promise nem oldhatja fel egy újabb művelet lockját,
+  // és nem hajthat végre késői AI-akciót új játékállapoton.
+  let operationSerial = 0;
+  let activeOperation = null;
+  const beginOperation = kind => {
+    const token = ++operationSerial;
+    activeOperation = Object.freeze({ token, kind: String(kind || 'round') });
+    setBusy(true);
+    return token;
+  };
+  const ownsOperation = token => activeOperation?.token === token;
+  const releaseOperation = token => {
+    if (!ownsOperation(token)) return false;
+    activeOperation = null;
     setBusy(false);
+    return true;
+  };
+  const cancelPendingOperations = () => {
+    operationSerial += 1;
+    activeOperation = null;
+    setBusy(false);
+    return true;
+  };
+  const operationStillCurrent = (token, game) => ownsOperation(token) && state().game === game;
+  const abandonStaleOperation = (token, game) => {
+    if (operationStillCurrent(token, game)) return false;
+    if (ownsOperation(token)) releaseOperation(token);
+    return true;
+  };
+
+  const showRetryAction = ({ message, action, label = 'Gépi kör újrapróbálása', token = null }) => {
+    if (token != null) releaseOperation(token);
+    else cancelPendingOperations();
     ui.showToast(message, 'error', 3400);
     const button = elementFactory('button', 'btn round-retry-button', label);
     button.type = 'button';
     button.setAttribute('aria-label', label);
     button.addEventListener('click', () => {
-      if (state().busy) return;
+      if (state().busy || activeOperation) return;
       ui.dom?.picker?.replaceChildren?.();
       void action();
     }, { once: true });
@@ -88,7 +120,7 @@ export function createRoundController({
     const current = state();
     const game = current.game;
     if (!game) return false;
-    setBusy(false);
+    cancelPendingOperations();
     ui.closeInspector();
     ui.renderScores(game);
     ui.dom?.duel?.replaceChildren?.();
@@ -120,7 +152,7 @@ export function createRoundController({
        Ha itt mégis foglalt maradt a munkamenet, az egy korábbi UI-átmenet
        beragadt jelzője, nem valódi párhuzamos kör. Helyreállítjuk, hogy a Tovább
        gomb megbízhatóan átváltson a kártyaválasztásra. */
-    if (current.busy) setBusy(false);
+    if (current.busy || activeOperation) cancelPendingOperations();
 
     runtime.selectHumanAttribute(attributeKey);
     ui.hideAttributePicker();
@@ -133,36 +165,38 @@ export function createRoundController({
 
   const aiChoosesAttribute = async () => {
     const game = state().game;
-    if (!game) return false;
+    if (!game || activeOperation) return false;
+    const token = beginOperation('ai-choose-attribute');
 
     try {
-      setBusy(true);
       ui.renderHands(game, { selectable: false });
       ui.setPrompt('A gép választ…');
       await wait(turnDelay.AI_CHOOSE_ATTRIBUTE);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       const choice = runtime.chooseAiAttribute();
+      if (abandonStaleOperation(token, game)) return false;
       const label = attributeRegistry[choice.attribute]?.label;
       ui.say(getBanterLine('aiChooseAttribute', { attr: label, attributeKey: choice.attribute }));
       ui.setPrompt('A gép ezt választotta:', label);
       ui.showDuel(game, { opponentHidden: true });
       ui.renderHands(game, { selectable: true });
-      setBusy(false);
+      releaseOperation(token);
       actions.saveCurrentGame();
       return true;
     } catch (error) {
       console.error('[round] A gép kategóriaválasztása megszakadt:', error);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       if (game.phase === phaseRegistry.CHOOSE_ATTRIBUTE && game.chooser === aiId) {
         return showRetryAction({
           message: 'A gép nem tudott kategóriát választani. Próbáld újra.',
           action: aiChoosesAttribute,
+          token,
         });
       }
 
-      setBusy(false);
+      releaseOperation(token);
       ui.showToast('A gépi kör megakadt, ezért a játéknézetet helyreállítottuk.', 'error', 3400);
       actions.saveCurrentGame();
       restoreSavedView();
@@ -197,23 +231,24 @@ export function createRoundController({
     const button = elementFactory('button', 'btn next-round-button', label);
     button.setAttribute('aria-label', label);
     button.addEventListener('click', () => {
-      if (state().busy) return;
-      setBusy(true);
+      if (state().busy || activeOperation) return;
+      const token = beginOperation('advance-round');
       ui.dom?.picker?.replaceChildren?.();
       try {
         const { reshuffled } = runtime.advance();
+        if (abandonStaleOperation(token, state().game)) return;
         const afterAdvance = state();
         if (afterAdvance.mode === 'penalties') {
           if (reshuffled) ui.say(getBanterLine('reshuffle'));
         } else {
           ui.say(getIdleLine());
         }
-        setBusy(false);
+        releaseOperation(token);
         if (afterAdvance.game?.isOver) actions.showGameOver();
         else beginRound();
       } catch (error) {
         console.error('[round] A következő kör indítása megszakadt:', error);
-        setBusy(false);
+        releaseOperation(token);
         ui.showToast('A következő kör indítása megakadt. A játéknézetet helyreállítottuk.', 'error', 3600);
         actions.saveCurrentGame();
         restoreSavedView();
@@ -224,38 +259,54 @@ export function createRoundController({
     return button;
   };
 
-  const revealAndScore = async result => {
+  const revealAndScore = async (result, existingToken = null) => {
     const game = state().game;
     if (!game) return false;
-    ui.showDuel(game, { result });
-    ui.setPrompt('Eredmény');
-    await wait(turnDelay.VERDICT_REVEAL);
-    ui.showVerdict(result, game);
-    ui.renderScores(game);
-    sayResultBanter(result);
-    actions.saveCurrentGame();
+    const token = existingToken ?? beginOperation('reveal-result');
+    if (!ownsOperation(token)) return false;
 
-    if (result.enteredSuddenDeath) {
-      ui.say(getBanterLine('suddenDeath'));
-      await ui.showSuddenDeath();
-    } else {
-      await wait(turnDelay.RESULT_HOLD);
-    }
+    try {
+      ui.showDuel(game, { result });
+      ui.setPrompt('Eredmény');
+      await wait(turnDelay.VERDICT_REVEAL);
+      if (abandonStaleOperation(token, game)) return false;
+      ui.showVerdict(result, game);
+      ui.renderScores(game);
+      sayResultBanter(result);
+      actions.saveCurrentGame();
 
-    if (state().game?.isOver) {
-      actions.showGameOver();
+      if (result.enteredSuddenDeath) {
+        ui.say(getBanterLine('suddenDeath'));
+        await ui.showSuddenDeath();
+      } else {
+        await wait(turnDelay.RESULT_HOLD);
+      }
+      if (abandonStaleOperation(token, game)) return false;
+
+      if (state().game?.isOver) {
+        releaseOperation(token);
+        actions.showGameOver();
+        return true;
+      }
+      releaseOperation(token);
+      showContinue();
       return true;
+    } catch (error) {
+      console.error('[round] Az eredmény megjelenítése megszakadt:', error);
+      if (abandonStaleOperation(token, game)) return false;
+      releaseOperation(token);
+      ui.showToast('Az eredménynézet megszakadt. A játéknézetet helyreállítottuk.', 'error', 3400);
+      actions.saveCurrentGame();
+      restoreSavedView();
+      return false;
     }
-    setBusy(false);
-    showContinue();
-    return true;
   };
 
   const humanPlayedCard = async card => {
     const current = state();
     const game = current.game;
-    if (current.busy || !game || game.phase === phaseRegistry.GAME_OVER) return false;
-    setBusy(true);
+    if (current.busy || activeOperation || !game || game.phase === phaseRegistry.GAME_OVER) return false;
+    const token = beginOperation('human-card');
     let result;
 
     try {
@@ -265,26 +316,28 @@ export function createRoundController({
         ui.renderHands(game, { selectable: false });
         ui.setPrompt('A gép kártyát választ…');
         await wait(turnDelay.AI_CHOOSE_CARD);
+        if (abandonStaleOperation(token, game)) return false;
         result = runtime.playAiCard();
       } else {
         result = runtime.playHumanCard(card.id);
         ui.renderHands(game, { selectable: false });
         await wait(turnDelay.HUMAN_CARD_REVEAL);
+        if (abandonStaleOperation(token, game)) return false;
       }
-      await revealAndScore(result);
-      return true;
+      return await revealAndScore(result, token);
     } catch (error) {
       console.error('[round] A kör nem fejezhető be:', error);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       if (game.phase === phaseRegistry.CHOOSE_CARD && game.chooser === humanId) {
         return showRetryAction({
           message: 'A gép kártyaválasztása megszakadt. A kör biztonságosan folytatható.',
           action: finishRestoredAiMove,
+          token,
         });
       }
 
-      setBusy(false);
+      releaseOperation(token);
       ui.showToast('A kört nem sikerült lezárni. A játéknézetet helyreállítottuk.', 'error', 3400);
       actions.saveCurrentGame();
       restoreSavedView();
@@ -294,26 +347,27 @@ export function createRoundController({
 
   const finishRestoredAiMove = async () => {
     const game = state().game;
-    if (!game) return false;
+    if (!game || activeOperation) return false;
+    const token = beginOperation('restore-ai-card');
 
     try {
-      setBusy(true);
       await wait(turnDelay.RESTORED_AI_MOVE);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
       const result = runtime.playAiCard();
-      return await revealAndScore(result);
+      return await revealAndScore(result, token);
     } catch (error) {
       console.error('[round] A félbemaradt gépi kör nem folytatható:', error);
-      if (state().game !== game) return false;
+      if (abandonStaleOperation(token, game)) return false;
 
       if (game.phase === phaseRegistry.CHOOSE_CARD && game.chooser === humanId) {
         return showRetryAction({
           message: 'A gép kártyaválasztása továbbra sem sikerült. Próbáld újra.',
           action: finishRestoredAiMove,
+          token,
         });
       }
 
-      setBusy(false);
+      releaseOperation(token);
       ui.showToast('A kör eredménynézetét helyreállítottuk.', 'error', 3200);
       actions.saveCurrentGame();
       restoreSavedView();
@@ -325,6 +379,8 @@ export function createRoundController({
     const current = state();
     const game = current.game;
     if (!game) return false;
+    if (activeOperation) cancelPendingOperations();
+    else setBusy(false);
     ui.renderScores(game);
 
     if (game.phase === phaseRegistry.CHOOSE_ATTRIBUTE) {
@@ -363,6 +419,13 @@ export function createRoundController({
     return true;
   };
 
+  const recoverCurrentView = () => {
+    cancelPendingOperations();
+    ui.closeInspector();
+    ui.dom?.picker?.replaceChildren?.();
+    return restoreSavedView();
+  };
+
   return Object.freeze({
     beginRound,
     humanChoseAttribute,
@@ -373,5 +436,9 @@ export function createRoundController({
     showContinue,
     restoreSavedView,
     finishRestoredAiMove,
+    recoverCurrentView,
+    cancelPendingOperations,
+    hasActiveOperation: () => Boolean(activeOperation),
+    activeOperationKind: () => activeOperation?.kind ?? null,
   });
 }

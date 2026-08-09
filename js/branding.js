@@ -61,6 +61,41 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
   const TEAM_LOGO_SELECTOR = '.quick-team-mark--text:not([data-generated-club-logo])';
   const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
+  const foldClubLabel = value => String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('hu-HU')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+  const clubInitials = value => String(value ?? '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .map(word => word[0])
+    .join('')
+    .toLocaleUpperCase('hu-HU');
+
+  /**
+   * Egyetlen központi, jogtiszta NB I prezentációs térkép. Nem hivatalos címereket,
+   * hanem kizárólag klubszínekből és rövid klubjelekből generált játékbeli badge-eket
+   * ír le. A Torna, Quick Match, HUD és VS intro ugyanennek a branding-rétegnek a
+   * `.quick-team-mark` komponensét használja.
+   */
+  const TEAM_CLUB_PRESENTATIONS = Object.freeze({
+    dvsc: Object.freeze({ short: 'DVSC', primary: '#c8192e', secondary: '#ffffff' }),
+    dvtk: Object.freeze({ short: 'DVTK', primary: '#d71920', secondary: '#ffffff' }),
+    'eto fc': Object.freeze({ short: 'ETO', primary: '#159447', secondary: '#ffffff' }),
+    'ferencvarosi tc': Object.freeze({ short: 'FTC', primary: '#16854a', secondary: '#ffffff' }),
+    'kisvarda master good': Object.freeze({ short: 'KISV', primary: '#d8222a', secondary: '#ffffff' }),
+    'kolorcity kazincbarcika sc': Object.freeze({ short: 'KBSC', primary: '#2468a9', secondary: '#f2cf2f' }),
+    'mtk budapest': Object.freeze({ short: 'MTK', primary: '#246eb9', secondary: '#ffffff' }),
+    'nyiregyhaza spartacus fc': Object.freeze({ short: 'NYÍR', primary: '#c61f30', secondary: '#254f9a' }),
+    'paksi fc': Object.freeze({ short: 'PAKS', primary: '#23864a', secondary: '#ffffff' }),
+    'puskas akademia fc': Object.freeze({ short: 'PAFC', primary: '#1f66ad', secondary: '#f0c640' }),
+    'ujpest fc': Object.freeze({ short: 'UTE', primary: '#6d3a93', secondary: '#ffffff' }),
+    'zte fc': Object.freeze({ short: 'ZTE', primary: '#185ea9', secondary: '#ffffff' }),
+  });
+
   /**
    * Kanonikus NB I-klubjelek. A bal oldali értékek a korábbi felületi rövidítések,
    * a jobb oldali értékek a pajzsokon és minden generált klubemblémán megjelenő jelek.
@@ -88,10 +123,26 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
     ZTE: 'ZTE',
   });
 
+  const resolveClubPresentation = value => {
+    const label = typeof value === 'object' ? value?.label ?? value?.name ?? value?.value : value;
+    const key = foldClubLabel(label);
+    const known = TEAM_CLUB_PRESENTATIONS[key];
+    if (known) return known;
+    const candidate = String(label ?? '').trim().toLocaleUpperCase('hu-HU');
+    const short = TEAM_LOGO_SHORT_LABELS[candidate]
+      ?? clubInitials(label).slice(0, 4)
+      ?? candidate.slice(0, 4)
+      ?? 'FC';
+    return Object.freeze({ short: short || 'FC', primary: '#6d4d2f', secondary: '#d5b45d' });
+  };
+
   const teamLogoShortLabel = value => {
     const candidate = String(value ?? '').trim().toLocaleUpperCase('hu-HU');
     if (!candidate) return 'FC';
-    return TEAM_LOGO_SHORT_LABELS[candidate] ?? candidate.slice(0, 4);
+    const direct = TEAM_LOGO_SHORT_LABELS[candidate];
+    if (direct) return direct;
+    const presentation = TEAM_CLUB_PRESENTATIONS[foldClubLabel(value)];
+    return presentation?.short ?? candidate.slice(0, 4);
   };
 
   const teamLogoColour = (value, fallback) => {
@@ -110,12 +161,20 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
    * rövid klubjelét használja, hivatalos címerből vagy külső képből nem vesz át elemet.
    */
   const createGeneratedClubLogo = (documentRef, mark) => {
-    const shortLabel = teamLogoShortLabel(mark.textContent);
+    const sourceLabel = mark?.dataset?.teamLabel || mark.textContent;
+    const presentation = resolveClubPresentation(sourceLabel);
+    const shortLabel = presentation.short || teamLogoShortLabel(mark.textContent);
     const computed = typeof globalThis.getComputedStyle === 'function'
       ? globalThis.getComputedStyle(mark)
       : null;
-    const primary = teamLogoColour(computed?.getPropertyValue('--team-primary'), '#6d4d2f');
-    const secondary = teamLogoColour(computed?.getPropertyValue('--team-secondary'), '#d5b45d');
+    const primary = teamLogoColour(
+      computed?.getPropertyValue('--team-primary'),
+      presentation.primary,
+    );
+    const secondary = teamLogoColour(
+      computed?.getPropertyValue('--team-secondary'),
+      presentation.secondary,
+    );
     const fontSize = shortLabel.length > 3 ? 27 : shortLabel.length > 2 ? 31 : 38;
 
     const svg = teamLogoSvgElement(documentRef, 'svg', {
@@ -224,7 +283,9 @@ import { ASSET_PLACEHOLDERS, assetService } from './services/asset-service.js';
     isApprovedReleaseAsset,
     isProtectedUnapprovedArt,
     clubShortLabels: TEAM_LOGO_SHORT_LABELS,
+    clubPresentations: TEAM_CLUB_PRESENTATIONS,
     resolveClubShortLabel: teamLogoShortLabel,
+    resolveClubPresentation,
   });
 
   installImageRequestGuard();
