@@ -1,0 +1,119 @@
+name: Duel Visual + Kickoff Countdown 1.0
+
+on:
+  push:
+    branches:
+      - feat/duel-visual-kickoff-countdown-1
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  web-pwa-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Syntax and focused contract
+        run: |
+          node --check js/duel-kickoff-polish.js
+          node --check test/duel-kickoff-polish.test.mjs
+          node test/duel-kickoff-polish.test.mjs
+          node test/match-experience-polish.test.mjs
+      - name: Asset rights and PWA shell
+        run: |
+          npm run audit:assets
+          npm run audit:pwa
+          npm run test:pwa-cache
+      - name: Full regression
+        run: |
+          npm test
+          node test/session-recovery.test.mjs
+          node test/round-operation-liveness.test.mjs
+          node test/tournament-match-liveness.test.mjs
+          node test/tournament-lineup-matchday.test.mjs
+      - name: Production and standalone
+        run: |
+          npm run build
+          npm run build:standalone
+          npm run test:standalone-game-runtime
+      - name: Standalone kickoff and duel markers
+        run: |
+          test -s Fociskartyak2026.html
+          grep -q "kickoff-countdown-intro" Fociskartyak2026.html
+          grep -q "Hajrá!" Fociskartyak2026.html
+          grep -q "duel-visual-loser" Fociskartyak2026.html
+          grep -q "data:image/svg+xml;base64," Fociskartyak2026.html
+          ! grep -q "assets/ui/referee-whistle.svg" Fociskartyak2026.html
+      - name: Real browser and mobile regression
+        run: |
+          npm run test:runtime
+          npm run mobile:prepare
+          npm run test:mobile-layout
+          npm run test:runtime
+
+  android-debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Android 16 SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - run: npm ci
+      - name: Prepare mobile web bundle
+        run: npm run mobile:prepare
+      - name: Create Android project
+        run: npx cap add android
+      - name: Sync Android WebView bundle
+        run: npx cap sync android
+      - name: Android standalone asset contract
+        run: |
+          test -s android/app/src/main/assets/public/index.html
+          grep -q "kickoff-countdown-intro" android/app/src/main/assets/public/index.html
+          grep -q "Hajrá!" android/app/src/main/assets/public/index.html
+          grep -q "duel-visual-loser" android/app/src/main/assets/public/index.html
+          grep -q "data:image/svg+xml;base64," android/app/src/main/assets/public/index.html
+          ! grep -q "assets/ui/referee-whistle.svg" android/app/src/main/assets/public/index.html
+      - name: Android app icon
+        run: node scripts/apply-android-icon.mjs
+      - name: Android lint and debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon lintDebug assembleDebug
+      - name: APK artifact
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
+          sha256sum dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk > dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Fociskartyak2026-Duel-Kickoff-1.0-debug-apk
+          path: |
+            dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk
+            dist/Fociskartyak2026-Duel-Kickoff-1.0-debug.apk.sha256
+          if-no-files-found: error

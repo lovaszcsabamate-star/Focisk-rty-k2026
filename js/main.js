@@ -33,6 +33,7 @@ const selectedOpponentDifficulty = () => {
   const id = globalThis.__FOCISKARTYAK_OPPONENT__?.id;
   return validDifficulty(id) ? id : (validDifficulty('medium') ? 'medium' : Object.keys(DIFFICULTY)[0]);
 };
+const duelKickoffExperience = () => globalThis.__FOCISKARTYAK_DUEL_KICKOFF__ ?? null;
 
 const saveProblemMessage = inspection => {
   switch (inspection?.code) {
@@ -85,6 +86,7 @@ class Session {
       actions: {
         saveCurrentGame: () => this.saveCurrentGame(),
         prepareTitleScreen: () => {
+          duelKickoffExperience()?.cancel?.(this.ui);
           this.busy = false;
           this.ui.setInteractionBusy(false);
           this.runtime.reset();
@@ -181,6 +183,9 @@ class Session {
       this.ui.closeInspector();
       return;
     }
+    // A rövid kickoff-kapu alatt a rendszer-vissza nem nyithat a countdown mögé
+    // egy párhuzamos pause overlayt. A következő back már normálisan működik.
+    if (duelKickoffExperience()?.isRunning?.(this.ui)) return;
     if (this.menu.handleBackAction()) return;
     if (this.game && !this.game.isOver) {
       this.showPauseMenu();
@@ -223,6 +228,7 @@ class Session {
 
   _restoreRuntimeViewAfterFailure() {
     try {
+      duelKickoffExperience()?.cancel?.(this.ui);
       this.busy = false;
       this.ui.setInteractionBusy(false);
       this.ui.resetTable();
@@ -394,7 +400,41 @@ class Session {
   _beginMatch() {
     this._hidePanel();
     this.ui.say(getLine('gameStart'));
-    this.beginRound();
+    const game = this.game;
+    if (!game) return false;
+
+    const kickoff = duelKickoffExperience();
+    const beginAfterKickoff = () => {
+      if (this.game !== game || game.isOver) return false;
+      return this.beginRound();
+    };
+
+    // Standalone vagy régi kompatibilitási útvonalon a kickoff-réteg hiánya nem
+    // blokkolhatja a mérkőzést: ilyenkor a korábbi közvetlen indítás marad.
+    if (typeof kickoff?.start !== 'function') {
+      this.busy = false;
+      this.ui.setInteractionBusy(false);
+      return beginAfterKickoff();
+    }
+    if (kickoff.isRunning?.(this.ui)) return false;
+
+    // A launch busy-lock a teljes 3–2–1–Hajrá!–síp kapu alatt megmarad. A
+    // RoundController csak a callback után kaphatja meg a valódi első kört.
+    this.busy = true;
+    this.ui.setInteractionBusy(true);
+    const started = kickoff.start(this.ui, game, {
+      onComplete: () => beginAfterKickoff(),
+      onError: error => {
+        console.error('[kickoff] A kezdő visszaszámlálás megszakadt:', error);
+        this.ui.showToast('A kezdőanimáció kimaradt, a mérkőzés biztonságosan elindul.', 'info', 2600);
+        beginAfterKickoff();
+      },
+    });
+
+    if (started) return true;
+    this.busy = false;
+    this.ui.setInteractionBusy(false);
+    return beginAfterKickoff();
   }
 
   beginRound() {

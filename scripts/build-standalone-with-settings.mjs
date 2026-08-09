@@ -22,6 +22,7 @@ const QUICK_MATCH_CONTROLS_BUNDLE_MARKER = '/* ===== js/quick-match-card-control
 const UX_BUNDLE_MARKER = '/* ===== js/ux.js · isolated UI class layer ===== */';
 const LEGAL_LAYER_MARKER = '/* ===== js/legal-ui.js · isolated UI class layer ===== */';
 const MAIN_BUNDLE_MARKER = '/* ===== js/main.js ===== */';
+const WHISTLE_ASSET_PATH = 'assets/ui/referee-whistle.svg';
 const DEFAULT_LANGUAGE_BOOTSTRAP = `<script>
 try {
   const languageKey = 'fociskartyak:language:v1';
@@ -61,6 +62,7 @@ const tournamentFiles = [
   'js/tournament/cup-atmosphere.js',
   'js/services/session-recovery-service.js',
   'js/session-recovery-ui.js',
+  'js/duel-kickoff-polish.js',
   'js/match-experience-polish.js',
 ];
 const tournamentSource = tournamentFiles
@@ -87,21 +89,22 @@ if (standaloneRecoveryPlayers.length) {
 `;
 const tournamentInlineBundle = `
  /* ===== Torna mód · önálló IIFE ===== */
- /* Beta Stabilization 1.2 session recovery és Match Experience ugyanebben a tranzakciós környezetben fut. */
+ /* Beta Stabilization 1.2 recovery, kickoff és Match Experience ugyanebben a kompatibilitási környezetben fut. */
  (() => {
  ${tournamentSource}
  ${sessionRecoveryBootstrap}
  })();
  `;
-const federationAssets = [
+const inlineSvgAssets = [
   'assets/federations/federation-europe.svg',
   'assets/federations/federation-africa.svg',
   'assets/federations/federation-south-america.svg',
   'assets/federations/federation-concacaf.svg',
   'assets/federations/federation-asia.svg',
   'assets/federations/federation-oceania.svg',
+  WHISTLE_ASSET_PATH,
 ];
-const federationAssetDataUris = Object.fromEntries(federationAssets.map(relative => [
+const inlineSvgAssetDataUris = Object.fromEntries(inlineSvgAssets.map(relative => [
   relative,
   `data:image/svg+xml;base64,${fs.readFileSync(path.join(ROOT, relative)).toString('base64')}`,
 ]));
@@ -195,7 +198,7 @@ output = moveIsolatedLayerBefore(
 );
 assertUiLayerRuntimeOrder(output);
 
-for (const [assetPath, dataUri] of Object.entries(federationAssetDataUris)) {
+for (const [assetPath, dataUri] of Object.entries(inlineSvgAssetDataUris)) {
   output = output.replaceAll(assetPath, dataUri);
 }
 
@@ -244,6 +247,10 @@ if (!output.includes('match-experience-hud') || !output.includes('MÉRKŐZÉS IN
   || !output.includes('match-experience-duel__comparison')) {
   throw new Error('A Match Experience Polish HUD, VS intro vagy párbajnézet nem került be az önálló buildbe.');
 }
+if (!output.includes('kickoff-countdown-intro') || !output.includes('Hajrá!')
+  || !output.includes('duel-visual-loser') || output.includes(WHISTLE_ASSET_PATH)) {
+  throw new Error('A Duel Visual Polish, kickoff countdown vagy beágyazott síp asset nem került helyesen az önálló buildbe.');
+}
 if (!output.includes('Kártyaalbum') || !output.includes('MATCH_LENGTHS')) {
   throw new Error('A játszhatósági és vizuális fejlesztési réteg nem került be az önálló buildbe.');
 }
@@ -258,4 +265,4 @@ if (!output.includes('resolvePlayerNationality') || !output.includes('createPlay
 }
 
 fs.writeFileSync(OUTPUT, output);
-console.log('Méretezésmentés, Gyors meccs, session recovery, Match Experience, biztonságos Torna-keret, kupaélmény, stadionhangulat, kérdőjeles súgó, focilabdás véletlengomb, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
+console.log('Méretezésmentés, Gyors meccs, session recovery, Match Experience, Duel Visual + kickoff, biztonságos Torna-keret, kupaélmény, stadionhangulat, föderációs emblémák, párbajelőzmény, nemzetiségi zászlók és játszhatósági fejlesztések beágyazva az önálló buildbe.');
