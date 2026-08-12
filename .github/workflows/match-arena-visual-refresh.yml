@@ -47,6 +47,7 @@ jobs:
           node test/tournament-lineup-matchday.test.mjs
           node test/tournament-match-liveness.test.mjs
           node test/tournament-pending-launch-verification.test.mjs
+          node test/tournament-match-launch-transaction.test.mjs
           node test/session-recovery.test.mjs
           node test/round-operation-liveness.test.mjs
           node test/result-controller.test.mjs
@@ -78,11 +79,14 @@ jobs:
           grep -q "tournamentExperience2" Fociskartyak2026.html
           grep -q "Hatása a tornára" Fociskartyak2026.html
           grep -q "kickoff-countdown-intro" Fociskartyak2026.html
+          grep -q "tournamentStorageService.save(next)" Fociskartyak2026.html
+          grep -q "rollbackPendingLaunch" Fociskartyak2026.html
 
       - name: Real browser and mobile regression
         run: |
           npm run test:runtime
           node scripts/tournament-ui-mobile-smoke.mjs
+          node scripts/tournament-match-start-smoke.mjs
           npm run mobile:prepare
           npm run test:mobile-layout
           npm run test:runtime
@@ -124,6 +128,8 @@ jobs:
           grep -q "TOURNAMENT_UI_IMPROVEMENT_VERSION" android/app/src/main/assets/public/index.html
           grep -q "tournamentExperience2" android/app/src/main/assets/public/index.html
           grep -q "kickoff-countdown-intro" android/app/src/main/assets/public/index.html
+          grep -q "tournamentStorageService.save(next)" android/app/src/main/assets/public/index.html
+          grep -q "rollbackPendingLaunch" android/app/src/main/assets/public/index.html
       - name: Android app icon
         run: node scripts/apply-android-icon.mjs
       - name: Android lint and debug APK
