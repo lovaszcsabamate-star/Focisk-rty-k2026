@@ -171,16 +171,27 @@ function closeTournamentLayers() {
   document.querySelectorAll('#pub[aria-hidden="true"],#table[aria-hidden="true"]').forEach(node => node.removeAttribute('aria-hidden'));
 }
 
-function saveAndVerifyTournament(state) {
-  if (!state || !tournamentStorageService.save(state)) throw new Error('A tornaállapot mentése nem sikerült.');
-  const restored = tournamentStorageService.read();
+function saveAndVerifyTournament(state, storage = tournamentStorageService) {
+  if (!state || !storage.save(state)) throw new Error('A tornaállapot mentése nem sikerült.');
   const expectedUpdatedAt = text(state.updatedAt);
-  if (!restored || restored.id !== state.id || restored.status !== state.status
-    || restored.currentMatchId !== state.currentMatchId
-    || (expectedUpdatedAt && text(restored.updatedAt) !== expectedUpdatedAt)) {
-    throw new Error('A mentett tornaállapot nem olvasható vissza.');
-  }
-  return restored;
+  const matchesExpectedState = candidate => Boolean(
+    candidate
+    && candidate.id === state.id
+    && candidate.status === state.status
+    && candidate.currentMatchId === state.currentMatchId
+    && (!expectedUpdatedAt || text(candidate.updatedAt) === expectedUpdatedAt),
+  );
+  const restored = storage.read();
+  if (matchesExpectedState(restored)) return restored;
+
+  // Új mérkőzés indításakor a tranzakciós storage először csak a pending launch
+  // rekordba ír. Ez szándékos: a fő tornaállapot csak a Quick Match staging
+  // sikeres commitja után frissülhet. A visszaellenőrzés ezért a pending.next
+  // snapshotot is elfogadja, különben minden új torna-meccs téves hibát dobna.
+  const pending = storage.readPendingLaunch?.();
+  if (matchesExpectedState(pending?.next)) return pending.next;
+
+  throw new Error('A mentett tornaállapot nem olvasható vissza.');
 }
 
 function selectParticipants(pool, count, humanId, requestedIds = []) {
