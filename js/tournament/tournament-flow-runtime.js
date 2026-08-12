@@ -115,14 +115,21 @@ function launchPreparedMatch(state, match, lineupIds, trigger = null) {
   const mode = match.status === TOURNAMENT_MATCH_STATUS.TIEBREAK
     ? TOURNAMENT_MATCH_MODE.PENALTIES
     : (state.currentMatchMode || state.matchMode);
-  const next = saveAndVerifyTournament({
+  const next = {
     ...state,
     currentMatchId: match.id,
     currentMatchMode: mode,
     currentLineupIds: uniqueLineupIds,
     lastLineupIds: uniqueLineupIds,
     updatedAt: new Date().toISOString(),
-  });
+  };
+
+  // A Tournament storage új mérkőzésnél szándékosan pending snapshotot ír.
+  // Ezt nem szabad a Quick Match staging előtt aktív mentésként visszaolvasni:
+  // a stageQuickMatch() tranzakciója commitolja vagy rollbackeli a pending állapotot.
+  if (!tournamentStorageService.save(next)) {
+    throw new Error('A tornaállapot mentése nem sikerült.');
+  }
 
   try {
     localStorage.setItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY, JSON.stringify({
@@ -132,23 +139,31 @@ function launchPreparedMatch(state, match, lineupIds, trigger = null) {
     }));
   } catch { /* A tárolási korlátozás nem blokkolhatja a meccset. */ }
 
-  const staged = deckRuntime.stageQuickMatch({
-    playerTeamId: human.id,
-    opponentTeamId: opponent.id,
-    playerSelection: human.selection,
-    opponentSelection: opponent.selection,
-    mode,
-    difficulty: state.difficulty,
-    createdAt: new Date().toISOString(),
-  });
+  let staged = false;
+  try {
+    staged = deckRuntime.stageQuickMatch({
+      playerTeamId: human.id,
+      opponentTeamId: opponent.id,
+      playerSelection: human.selection,
+      opponentSelection: opponent.selection,
+      mode,
+      difficulty: state.difficulty,
+      createdAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    try { localStorage.removeItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY); } catch { /* best effort */ }
+    try { tournamentStorageService.rollbackPendingLaunch?.(); } catch { /* best effort */ }
+    throw error;
+  }
+
   if (!staged) {
-    try {
-      localStorage.removeItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY);
-      saveAndVerifyTournament(state);
-    } catch { /* Az eredeti tornaállapot visszaállítása best effort. */ }
+    try { localStorage.removeItem(deckRuntime.TOURNAMENT_LINEUP_STORAGE_KEY); } catch { /* best effort */ }
+    try { tournamentStorageService.rollbackPendingLaunch?.(); } catch { /* best effort */ }
     return false;
   }
 
+  // A stageQuickMatch csak sikeres Tournament commit után ad true-t.
+  // Itt már nincs köztes pending állapot, ezért biztonságosan navigálhatunk a meccsre.
   navigateToStagedMatch(trigger);
   return true;
 }
